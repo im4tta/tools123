@@ -1,0 +1,253 @@
+@import "tailwindcss";
+
+:root,
+[data-theme="dark"] {
+  --ink: #edeae2;
+  --ink-dim: #9a9d9f;
+  --ink-faint: #5c6063;
+  --ground: #0a0c0d;
+  --ground-raised: #121517;
+  --ground-raised-hi: #181c1f;
+  --ground-line: #23282b;
+  --gold: #c9a24b;
+  --gold-dim: #8a7238;
+  --teal: #3ea08c;
+  --teal-dim: #2a6d5f;
+  --slate-accent: #7089c9;
+  --slate-accent-dim: #4c5c8a;
+  --danger: #c96a4b;
+  --success: #5fa87a;
+  --shadow-elev: 0 8px 30px rgba(0, 0, 0, 0.35);
+}
+
+[data-theme="light"] {
+  --ink: #1c1a15;
+  --ink-dim: #5a5751;
+  --ink-faint: #918d84;
+  --ground: #faf8f3;
+  --ground-raised: #f0ede4;
+  --ground-raised-hi: #e8e4d8;
+  --ground-line: #ddd7c8;
+  --gold: #a5792a;
+  --gold-dim: #c9a24b;
+  --teal: #2a7d69;
+  --teal-dim: #3ea08c;
+  --slate-accent: #4c5c8a;
+  --slate-accent-dim: #7089c9;
+  --danger: #b1502f;
+  --success: #3d7a56;
+  --shadow-elev: 0 8px 30px rgba(28, 26, 21, 0.08);
+}
+
+* {
+  border-color: var(--ground-line);
+}
+
+html {
+  color-scheme: dark;
+}
+
+html {
+  font-family: "Noto Sans Khmer", "Khmer OS", ui-sans-serif, system-ui, sans-serif;
+}
+
+body,
+button,
+input,
+textarea,
+select {
+  font-family: inherit;
+}
+
+body {
+  background: var(--ground);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.font-display {
+  font-family: "Noto Sans Khmer", "Khmer OS", "Space Grotesk", ui-sans-serif, sans-serif;
+}
+
+.font-mono-ui {
+  font-family: "Noto Sans Khmer", "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+
+.font-khmer {
+  font-family: "Noto Sans Khmer", "Khmer OS", ui-sans-serif, sans-serif;
+}
+
+/* subtle cadastral grid backdrop */
+.grid-veil {
+  background-image:
+    linear-gradient(to right, var(--ground-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--ground-line) 1px, transparent 1px);
+  background-size: 56px 56px;
+  opacity: 0.35;
+  -webkit-mask-image: radial-gradient(ellipse 70% 55% at 50% 0%, black 0%, transparent 75%);
+  mask-image: radial-gradient(ellipse 70% 55% at 50% 0%, black 0%, transparent 75%);
+}
+
+::selection {
+  background: var(--gold);
+  color: #0a0c0d;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--ground-line);
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--ink-faint);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+[cmdk-root] {
+  width: 100%;
+}
+[cmdk-list] {
+  scroll-padding-block: 8px;
+}
+[cmdk-item][data-selected="true"] {
+  background: var(--ground-raised);
+}
+
+/* fast, low-motion entrance for tool views */
+.fade-rise {
+  animation: fade-rise 0.22s ease both;
+}
+@keyframes fade-rise {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border-radius: 999px;
+  border: 1px solid var(--ground-line);
+  padding: 0.35rem 0.75rem;
+  font-size: 0.75rem;
+  color: var(--ink-dim);
+  background: var(--ground-raised);
+  white-space: nowrap;
+  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+}
+.chip:hover {
+  border-color: var(--gold-dim);
+  color: var(--ink);
+}
+.chip[data-active="true"] {
+  border-color: var(--gold);
+  color: var(--ink);
+  background: var(--ground-raised-hi);
+}
+
+/* Category chips auto-flow like a news ticker so the brand mark and the
+   view/search/theme buttons on either side stay put and stay easy to hit —
+   the chips are the only thing that moves. */
+.category-ticker {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to right, transparent, black 28px, black calc(100% - 28px), transparent);
+  mask-image: linear-gradient(to right, transparent, black 28px, black calc(100% - 28px), transparent);
+}
+.category-ticker-track {
+  display: flex;
+  width: max-content;
+  gap: 0.5rem;
+  animation: category-ticker-scroll 38s linear infinite;
+}
+/* Pause on hover/focus so a click actually lands on the chip you meant to hit. */
+.category-ticker:hover .category-ticker-track,
+.category-ticker-track:focus-within {
+  animation-play-state: paused;
+}
+@keyframes category-ticker-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    /* exactly one of the two duplicated chip sets — loops seamlessly */
+    transform: translateX(-50%);
+  }
+}
+/* This ticker is a deliberate exception to the site-wide reduced-motion
+   reset above: it's treated as branding/navigation chrome, not content
+   motion, so it keeps flowing continuously for every visitor regardless of
+   their OS-level "reduce motion" setting. */
+@media (prefers-reduced-motion: reduce) {
+  .category-ticker-track {
+    animation-duration: 38s !important;
+    animation-iteration-count: infinite !important;
+  }
+}
+/* Touch/no-hover users can't pause the ticker with a hover, but it keeps
+   auto-flowing for them too — they can still tap a chip while it moves. */
+
+.sticky-nav {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  backdrop-filter: blur(10px);
+  background: color-mix(in srgb, var(--ground) 88%, transparent);
+  border-bottom: 1px solid var(--ground-line);
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.sticky-nav[data-scrolled="true"] {
+  border-bottom-color: var(--ground-line);
+  box-shadow: 0 8px 24px -12px rgba(0, 0, 0, 0.45);
+}
+
+.tool-list-scroll {
+  max-height: 15rem;
+  overflow-y: auto;
+  scroll-padding-block: 4px;
+}
+@media (min-width: 640px) {
+  .tool-list-scroll {
+    max-height: 13.5rem;
+  }
+}
+
+/* Global enhancement for file-input drop targets. */
+[data-file-drag="true"] {
+  position: relative;
+  border-color: var(--gold) !important;
+  background: var(--ground-raised-hi) !important;
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--gold) 35%, transparent);
+}
+[data-file-drag="true"]:not(input)::after {
+  content: "Drop files here / ទម្លាក់ឯកសារនៅទីនេះ";
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  border-radius: inherit;
+  background: color-mix(in srgb, var(--ground-raised) 88%, transparent);
+  color: var(--gold);
+  font-size: 0.875rem;
+  font-weight: 600;
+  pointer-events: none;
+}

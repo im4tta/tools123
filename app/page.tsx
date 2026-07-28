@@ -1,0 +1,423 @@
+"use client";
+
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
+import { Search, ArrowLeft, Command as CommandIcon, Star, Waypoints, LayoutGrid } from "lucide-react";
+import { CommandPalette } from "@/components/CommandPalette";
+import { LanguageToggle } from "@/components/LanguageToggle";
+import { useLanguage } from "@/components/LanguageProvider";
+import { ThemeToggle } from "@/components/ThemeToggle";
+import { ObsidianGraph } from "@/components/ObsidianGraph";
+import { TOOLS, CATEGORY_META, CATEGORY_ORDER, Category } from "@/lib/tools";
+import { toolHref } from "@/lib/toolRoutes";
+import { useLocalStorage, STORAGE_KEYS } from "@/lib/storage";
+
+const KH_DIGITS = "០១២៣៤៥៦៧៨៩";
+const toKh = (n: number) => String(n).split("").map((d) => KH_DIGITS[Number(d)]).join("");
+const TOTAL = TOOLS.length;
+
+// A small, hand-picked set of broadly useful tools shown to first-time visitors
+// who have no favorites or recents yet — gives an immediate sense of what the
+// workbench can do instead of a cold wall of 13 categories.
+const STARTER_TOOL_IDS = [
+  "pdf-merge",
+  "background-remover",
+  "digit-converter",
+  "qr-generator",
+  "image-optimizer",
+  "file-compressor",
+];
+
+interface Viewpoint {
+  activeId: string | null;
+  scrollY: number;
+}
+
+export default function Home() {
+  const { text: t } = useLanguage();
+  const router = useRouter();
+  const [paletteOpen, setPaletteOpen] = useState(false);
+  const [activeId, setActiveIdRaw] = useState<string | null>(null);
+  const [filter, setFilter] = useState("");
+  const [graphFocusCategory, setGraphFocusCategory] = useState<Category | null>(null);
+  const { value: viewMode, setValue: setViewMode } = useLocalStorage<"grid" | "graph">(
+    STORAGE_KEYS.viewMode,
+    "grid"
+  );
+  const [restored, setRestored] = useState(false);
+  const [navScrolled, setNavScrolled] = useState(false);
+  const scrollRestoreRef = useRef<number | null>(null);
+  const lastGridScrollRef = useRef(0);
+
+  const { value: favorites, setValue: setFavorites } = useLocalStorage<string[]>(STORAGE_KEYS.favorites, []);
+  const { value: recents, setValue: setRecents } = useLocalStorage<string[]>(STORAGE_KEYS.recents, []);
+  const { value: viewpoint, setValue: setViewpoint, hydrated } = useLocalStorage<Viewpoint>(STORAGE_KEYS.viewpoint, {
+    activeId: null,
+    scrollY: 0,
+  });
+
+  // Keep a ref mirror of the last known grid scroll position so the restore
+  // effect below can read it without re-running on every scroll tick.
+  useEffect(() => {
+    lastGridScrollRef.current = viewpoint.scrollY;
+  }, [viewpoint.scrollY]);
+
+  // Restore only the home-grid scroll position. Open tools now have canonical
+  // URLs, so an old persisted activeId must not redirect users away from `/`.
+  useEffect(() => {
+    if (!hydrated || restored) return;
+    if (viewpoint.scrollY) scrollRestoreRef.current = viewpoint.scrollY;
+    // Intentional one-time hydration completion after localStorage is ready.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setRestored(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hydrated, restored]);
+
+  // Restore the saved scroll position every time we land back on the grid —
+  // both the initial-load case above and every subsequent "back to all
+  // instruments" click while the tab stays open.
+  useEffect(() => {
+    if (!restored || activeId !== null) return;
+    const y = scrollRestoreRef.current ?? lastGridScrollRef.current;
+    scrollRestoreRef.current = null;
+    if (y) requestAnimationFrame(() => window.scrollTo({ top: y }));
+  }, [restored, activeId]);
+
+  // Persist scroll position on the home (grid) view for "viewpoint" save.
+  useEffect(() => {
+    if (activeId !== null) return;
+    let frame = 0;
+    function onScroll() {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        setViewpoint((v) => ({ ...v, scrollY: window.scrollY }));
+      });
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      cancelAnimationFrame(frame);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeId]);
+
+  // Toggle a "frozen" shadow on the sticky header once the page has scrolled past it.
+  useEffect(() => {
+    if (activeId !== null) return;
+    function onScroll() {
+      setNavScrolled(window.scrollY > 4);
+    }
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [activeId]);
+
+  const setActiveId = useCallback(
+    (id: string | null) => {
+      if (!id) {
+        setActiveIdRaw(null);
+        setViewpoint((v) => ({ ...v, activeId: null }));
+        return;
+      }
+      setViewpoint((v) => ({ ...v, activeId: id }));
+      setRecents((prev) => [id, ...prev.filter((x) => x !== id)].slice(0, 8));
+      router.push(toolHref(id));
+    },
+    [router, setViewpoint, setRecents]
+  );
+
+  const toggleFavorite = useCallback(
+    (id: string) => {
+      setFavorites((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [id, ...prev]));
+    },
+    [setFavorites]
+  );
+
+  const active = useMemo(() => TOOLS.find((t) => t.id === activeId) ?? null, [activeId]);
+
+  const filteredByCategory = useMemo(() => {
+    const q = filter.trim().toLowerCase();
+    const map = new Map<Category, typeof TOOLS>();
+    for (const cat of CATEGORY_ORDER) {
+      const list = TOOLS.filter(
+        (t) => t.category === cat && (q === "" || t.title.toLowerCase().includes(q) || t.khmerTitle?.toLowerCase().includes(q) || t.keywords.some((k) => k.includes(q)))
+      );
+      if (list.length) map.set(cat, list);
+    }
+    return map;
+  }, [filter]);
+
+  const favoriteTools = useMemo(() => favorites.map((id) => TOOLS.find((t) => t.id === id)).filter(Boolean) as typeof TOOLS, [favorites]);
+  const recentTools = useMemo(() => recents.map((id) => TOOLS.find((t) => t.id === id)).filter(Boolean) as typeof TOOLS, [recents]);
+  const starterTools = useMemo(
+    () => STARTER_TOOL_IDS.map((id) => TOOLS.find((t) => t.id === id)).filter(Boolean) as typeof TOOLS,
+    []
+  );
+  const isColdStart = favoriteTools.length === 0 && recentTools.length === 0;
+
+  function scrollToCategory(cat: Category) {
+    document.getElementById(`cat-${cat}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  function handleCategoryChipClick(cat: Category) {
+    if (viewMode === "graph") {
+      setGraphFocusCategory((prev) => (prev === cat ? null : cat));
+    } else {
+      scrollToCategory(cat);
+    }
+  }
+
+  if (active) {
+    const ActiveComponent = active.Component;
+    const isFav = favorites.includes(active.id);
+    return (
+      <main className="min-h-screen px-5 py-10 sm:px-10">
+        <div className="mx-auto mb-8 flex max-w-3xl items-center justify-between">
+          <button
+            onClick={() => setActiveId(null)}
+            className="flex items-center gap-1.5 text-sm text-[var(--ink-dim)] transition hover:text-[var(--ink)]"
+          >
+            <ArrowLeft size={15} /> {t("All tools", "ឧបករណ៍ទាំងអស់")}
+          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => toggleFavorite(active.id)}
+              aria-label={isFav ? t("Remove from favorites", "ដកចេញពីចំណូលចិត្ត") : t("Add to favorites", "បន្ថែមទៅចំណូលចិត្ត")}
+              className={`flex h-8 w-8 items-center justify-center rounded-md border transition ${
+                isFav
+                  ? "border-[var(--gold)] text-[var(--gold)]"
+                  : "border-[var(--ground-line)] bg-[var(--ground-raised)] text-[var(--ink-faint)] hover:text-[var(--ink)]"
+              }`}
+            >
+              <Star size={14} fill={isFav ? "currentColor" : "none"} />
+            </button>
+            <button
+              onClick={() => setPaletteOpen(true)}
+              className="flex items-center gap-2 rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-1.5 text-xs text-[var(--ink-dim)] hover:border-[var(--gold-dim)]"
+            >
+              <Search size={13} /> {t("Find a tool…", "ស្វែងរកឧបករណ៍…")}
+              <kbd className="ml-1 rounded border border-[var(--ground-line)] px-1 text-[10px]">⌘K</kbd>
+            </button>
+            <LanguageToggle />
+            <ThemeToggle />
+          </div>
+        </div>
+        <div key={active.id} className="fade-rise">
+          <ActiveComponent />
+        </div>
+        <CommandPalette open={paletteOpen} onOpenChange={setPaletteOpen} onSelect={setActiveId} />
+      </main>
+    );
+  }
+
+  return (
+    <main className="relative min-h-screen pb-16">
+      <div className="grid-veil pointer-events-none absolute inset-0 top-0" />
+
+      <div className="sticky-nav relative" data-scrolled={navScrolled}>
+        <div className="mx-auto flex max-w-5xl items-center gap-3 px-5 py-3 sm:px-10">
+          <span className="shrink-0 font-display text-sm font-semibold text-[var(--gold)]">១២៣</span>
+
+          <div className="category-ticker min-w-0 flex-1">
+            <div className="category-ticker-track">
+              {[...CATEGORY_ORDER, ...CATEGORY_ORDER].map((cat, i) => {
+                const active = viewMode === "graph" && graphFocusCategory === cat;
+                const isClone = i >= CATEGORY_ORDER.length;
+                return (
+                  <button
+                    key={`${cat}-${i}`}
+                    onClick={() => handleCategoryChipClick(cat)}
+                    className="chip shrink-0"
+                    aria-hidden={isClone || undefined}
+                    tabIndex={isClone ? -1 : undefined}
+                    style={
+                      active
+                        ? { borderColor: CATEGORY_META[cat].color, background: "var(--ground-raised-hi)", color: "var(--ink)" }
+                        : { borderColor: "var(--ground-line)" }
+                    }
+                  >
+                    <span className="h-1.5 w-1.5 rounded-full" style={{ background: CATEGORY_META[cat].color }} />
+                    {t(CATEGORY_META[cat].label, CATEGORY_META[cat].khmer)}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="flex shrink-0 items-center gap-2">
+            <button
+              onClick={() => {
+                setGraphFocusCategory(null);
+                setViewMode(viewMode === "grid" ? "graph" : "grid");
+              }}
+              className="flex items-center gap-1.5 rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-1.5 text-xs text-[var(--ink-dim)] transition hover:border-[var(--gold-dim)] hover:text-[var(--ink)]"
+              title={viewMode === "grid" ? t("Switch to graph view", "ប្តូរទៅទិដ្ឋភាពក្រាហ្វ") : t("Switch to grid view", "ប្តូរទៅទិដ្ឋភាពក្រឡា")}
+            >
+              {viewMode === "grid" ? <Waypoints size={13} /> : <LayoutGrid size={13} />}
+              {viewMode === "grid" ? t("Graph", "ក្រាហ្វ") : t("Grid", "ក្រឡា")}
+            </button>
+            <button
+              onClick={() => setPaletteOpen(true)}
+              className="flex items-center gap-2 rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-1.5 text-xs text-[var(--ink-dim)] hover:border-[var(--gold-dim)]"
+            >
+              <Search size={13} /> {t("Search", "ស្វែងរក")}
+              <kbd className="ml-1 rounded border border-[var(--ground-line)] px-1 text-[10px]">⌘K</kbd>
+            </button>
+            <LanguageToggle />
+            <ThemeToggle />
+          </div>
+        </div>
+      </div>
+
+      {viewMode === "graph" && (
+        <div className="relative mx-auto mt-4 h-[80vh] max-w-6xl px-5 sm:px-10">
+          <ObsidianGraph
+            onOpenTool={setActiveId}
+            favorites={favorites}
+            onToggleFavorite={toggleFavorite}
+            onClose={() => setViewMode("grid")}
+            focusCategory={graphFocusCategory}
+            onClearFocusCategory={() => setGraphFocusCategory(null)}
+          />
+        </div>
+      )}
+
+      {viewMode === "grid" && (
+      <>
+      <div className="relative mx-auto mt-14 max-w-3xl px-5 text-center sm:px-10">
+        <div className="mb-5 flex items-center justify-center gap-2 text-xs tracking-[0.1em] text-[var(--ink-faint)]">
+          <span>{t("one workbench", "កន្លែងធ្វើការតែមួយ")}</span>
+          <span className="text-[var(--gold)]">·</span>
+          <span>{t("123 tools", "ឧបករណ៍ ១២៣")}</span>
+        </div>
+        <h1 className="font-display text-4xl font-semibold leading-tight text-[var(--ink)] sm:text-5xl">
+          {t(`${TOTAL} tools`, `ឧបករណ៍ ${toKh(TOTAL)} មុខ`)}
+          <br /> {t("in one workbench", "ប្រើបានក្នុងកន្លែងតែមួយ")}
+        </h1>
+        <p className="mx-auto mt-4 max-w-lg text-sm leading-relaxed text-[var(--ink-dim)]">
+          {t("Office, development, text, math, Khmer language, geospatial, network, security, design, and time utilities — all searchable in one place.", "ឧបករណ៍សម្រាប់ការិយាល័យ អ្នកអភិវឌ្ឍន៍ អត្ថបទ គណិតវិទ្យា ភាសាខ្មែរ ភូមិសាស្ត្រ បណ្តាញ សុវត្ថិភាព ការរចនា និងពេលវេលា — ស្វែងរក និងប្រើប្រាស់បានយ៉ាងងាយស្រួល។")}
+        </p>
+        <p className="mx-auto mt-2 max-w-lg text-xs leading-relaxed text-[var(--ink-faint)]">
+          {t(`Merge and compress PDFs, remove image backgrounds, convert Khmer digits, generate QR codes, and ${TOTAL - 4} more — free in your browser.`, `បញ្ចូល និងបង្រួម PDF លុបផ្ទៃខាងក្រោយរូបភាព បម្លែងលេខខ្មែរ បង្កើតកូដ QR និងឧបករណ៍ ${toKh(TOTAL - 4)} មុខទៀត — ឥតគិតថ្លៃ និងដំណើរការក្នុងកម្មវិធីរុករករបស់អ្នក។`)}
+        </p>
+
+        <div className="mx-auto mt-10 flex w-full max-w-md items-center gap-2 rounded-lg border border-[var(--ground-line)] bg-[var(--ground-raised)] px-4 py-3 text-left text-sm text-[var(--ink-faint)] transition focus-within:border-[var(--gold-dim)]">
+          <Search size={16} />
+          <input
+            value={filter}
+            onChange={(e) => setFilter(e.target.value)}
+            placeholder={t(`Filter ${TOTAL} tools…`, `ស្វែងរកក្នុងចំណោមឧបករណ៍ ${toKh(TOTAL)} មុខ…`)}
+            className="w-full bg-transparent text-[var(--ink)] outline-none placeholder:text-[var(--ink-faint)]"
+          />
+          <span className="flex shrink-0 items-center gap-1 rounded border border-[var(--ground-line)] px-1.5 py-0.5 text-[10px]">
+            <CommandIcon size={10} />K
+          </span>
+        </div>
+      </div>
+
+      {isColdStart && filter === "" && (
+        <div className="relative mx-auto mt-12 max-w-5xl px-5 sm:px-10">
+          <div className="mb-3 flex items-baseline gap-2 border-b border-[var(--ground-line)] pb-2">
+            <h2 className="font-display text-sm font-medium text-[var(--ink)]">{t("Start here", "ចាប់ផ្តើមនៅទីនេះ")}</h2>
+            <span className="text-xs text-[var(--ink-faint)]">{t("a few useful tools to try", "ឧបករណ៍ណែនាំសម្រាប់សាកល្បង")}</span>
+          </div>
+          <div className="tool-list-scroll">
+            <ToolGrid tools={starterTools} onSelect={setActiveId} favorites={favorites} onToggleFavorite={toggleFavorite} />
+          </div>
+        </div>
+      )}
+
+      {favoriteTools.length > 0 && filter === "" && (
+        <div className="relative mx-auto mt-12 max-w-5xl px-5 sm:px-10">
+          <div className="mb-3 flex items-baseline gap-2 border-b border-[var(--ground-line)] pb-2">
+            <Star size={13} className="text-[var(--gold)]" fill="currentColor" />
+            <h2 className="font-display text-sm font-medium text-[var(--ink)]">{t("Favorites", "ចំណូលចិត្ត")}</h2>
+          </div>
+          <div className="tool-list-scroll">
+            <ToolGrid tools={favoriteTools} onSelect={setActiveId} favorites={favorites} onToggleFavorite={toggleFavorite} />
+          </div>
+        </div>
+      )}
+
+      {recentTools.length > 0 && filter === "" && (
+        <div className="relative mx-auto mt-10 max-w-5xl px-5 sm:px-10">
+          <div className="mb-3 flex items-baseline gap-2 border-b border-[var(--ground-line)] pb-2">
+            <h2 className="font-display text-sm font-medium text-[var(--ink)]">{t("Recently used", "បានប្រើថ្មីៗ")}</h2>
+          </div>
+          <div className="tool-list-scroll">
+            <ToolGrid tools={recentTools} onSelect={setActiveId} favorites={favorites} onToggleFavorite={toggleFavorite} />
+          </div>
+        </div>
+      )}
+
+      <div className="relative mx-auto mt-12 max-w-5xl px-5 sm:px-10">
+        {CATEGORY_ORDER.map((cat) => {
+          const tools = filteredByCategory.get(cat);
+          if (!tools) return null;
+          const meta = CATEGORY_META[cat];
+          return (
+            <div key={cat} id={`cat-${cat}`} className="mb-10 scroll-mt-20">
+              <div className="mb-3 flex items-baseline gap-3 border-b border-[var(--ground-line)] pb-2">
+                <span className="h-1.5 w-1.5 rounded-full" style={{ background: meta.color }} />
+                <h2 className="font-display text-sm font-medium text-[var(--ink)]">{t(meta.label, meta.khmer)}</h2>
+                <span className="ml-auto text-xs text-[var(--ink-faint)]">
+                  {t(`${tools.length} tools`, `${toKh(tools.length)} ឧបករណ៍`)}
+                </span>
+              </div>
+              <div className="tool-list-scroll">
+                <ToolGrid tools={tools} onSelect={setActiveId} favorites={favorites} onToggleFavorite={toggleFavorite} />
+              </div>
+            </div>
+          );
+        })}
+        {filteredByCategory.size === 0 && (
+          <p className="py-16 text-center text-sm text-[var(--ink-faint)]">{t(`No tool matches “${filter}”.`, `រកមិនឃើញឧបករណ៍ដែលត្រូវនឹង “${filter}” ទេ។`)}</p>
+        )}
+      </div>
+      </>
+      )}
+
+      <CommandPalette open={paletteOpen} onOpenChange={setPaletteOpen} onSelect={setActiveId} />
+    </main>
+  );
+}
+
+function ToolGrid({
+  tools,
+  onSelect,
+  favorites,
+  onToggleFavorite,
+}: {
+  tools: typeof TOOLS;
+  onSelect: (id: string) => void;
+  favorites: string[];
+  onToggleFavorite: (id: string) => void;
+}) {
+  const { text: t } = useLanguage();
+  return (
+    <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
+      {tools.map((tool) => {
+        const isFav = favorites.includes(tool.id);
+        return (
+          <div
+            key={tool.id}
+            className="group flex items-center gap-1 rounded-md border border-transparent pr-1 text-left text-sm text-[var(--ink-dim)] transition hover:border-[var(--ground-line)] hover:bg-[var(--ground-raised)] hover:text-[var(--ink)]"
+          >
+            <button onClick={() => onSelect(tool.id)} className="flex-1 px-3 py-2 text-left">
+              {t(tool.title, tool.khmerTitle ?? tool.title)}
+            </button>
+            <button
+              onClick={() => onToggleFavorite(tool.id)}
+              aria-label={isFav ? t("Remove from favorites", "ដកចេញពីចំណូលចិត្ត") : t("Add to favorites", "បន្ថែមទៅចំណូលចិត្ត")}
+              className={`shrink-0 rounded p-1 transition ${
+                isFav ? "text-[var(--gold)] opacity-100" : "text-[var(--ink-faint)] opacity-0 group-hover:opacity-100"
+              }`}
+            >
+              <Star size={13} fill={isFav ? "currentColor" : "none"} />
+            </button>
+          </div>
+        );
+      })}
+    </div>
+  );
+}

@@ -1,0 +1,235 @@
+// English → Khmer tool descriptions, keyed by the exact English description
+// passed to <ToolShell>. Tools that already declare `descriptionKm` keep their
+// own wording; this file covers the rest so every tool page reads naturally in
+// Khmer. Tuples are used so duplicate English keys can never break the build.
+
+type Entry = [string, string];
+
+const DESIGN: Entry[] = [
+  ["Simplify a width/height ratio and scale to a new width.", "សម្រួលសមាមាត្រទទឹង/កម្ពស់ ហើយគណនាទំហំថ្មីតាមទទឹងដែលអ្នកកំណត់។"],
+  ["Preview and copy an independent-corner border-radius value.", "មើលជាមុន និងចម្លងតម្លៃ border-radius ដែលកំណត់ដោយឡែកសម្រាប់ជ្រុងនីមួយៗ។"],
+  ["Compose a CSS box-shadow visually.", "បង្កើតស្រមោល box-shadow របស់ CSS ដោយមើលឃើញផ្ទាល់។"],
+  ["Enter a hex color and find the closest matching CSS named color by Euclidean RGB distance.", "បញ្ចូលពណ៌ជាកូដ Hex ហើយប្រព័ន្ធរកឈ្មោះពណ៌ CSS ដែលជិតបំផុត តាមចម្ងាយ RGB។"],
+  ["Generates complementary and analogous swatches from a base hex color.", "បង្កើតពណ៌បំពេញគ្នា និងពណ៌ជិតគ្នា ចេញពីពណ៌មូលដ្ឋានដែលអ្នកជ្រើសរើស។"],
+  ["Mixes a base color toward white (tints) and black (shades).", "លាយពណ៌មូលដ្ឋានទៅរកពណ៌ស (ពណ៌ស្រាល) និងពណ៌ខ្មៅ (ពណ៌ងងឹត)។"],
+  ["Computes the contrast ratio between two colors and checks against WCAG AA/AAA thresholds.", "គណនាសមាមាត្រផ្ទុយពណ៌រវាងពណ៌ពីរ ហើយផ្ទៀងផ្ទាត់នឹងកម្រិត WCAG AA/AAA។"],
+  ["Generate a fluid font-size using clamp() that scales linearly between two viewport widths.", "បង្កើតទំហំអក្សរបែបបត់បែនដោយ clamp() ដែលប្រែប្រួលរវាងទទឹងអេក្រង់ពីរ។"],
+  ["Build a two-color linear gradient and copy the CSS.", "បង្កើតជម្រាលពណ៌ពីរជាបន្ទាត់ ហើយចម្លងកូដ CSS។"],
+  ["Convert pixels to rem/em (and points) given a base font size.", "បម្លែងភីកសែលទៅជា rem/em និងចំណុច (pt) ដោយផ្អែកលើទំហំអក្សរគោល។"],
+  ["Upload a logo or square image and get every favicon size a modern site needs — browser tab, Apple touch icon, and Android/PWA icons — plus the HTML snippet to wire them up. All rendered locally.", "បញ្ចូលរូបសញ្ញា ឬរូបភាពការ៉េ ហើយទទួលបានទំហំ favicon គ្រប់ប្រភេទដែលគេហទំព័រសម័យថ្មីត្រូវការ — ផ្ទាំងកម្មវិធីរុករក រូបតំណាង Apple និង Android/PWA — ព្រមទាំងកូដ HTML សម្រាប់ភ្ជាប់។ ដំណើរការទាំងស្រុងក្នុងកម្មវិធីរុករករបស់អ្នក។"],
+  ["Standard icon sizes to export for browsers, iOS, Android, and PWAs.", "ទំហំរូបតំណាងស្តង់ដារដែលត្រូវនាំចេញសម្រាប់កម្មវិធីរុករក iOS Android និង PWA។"],
+  ["Given one dimension, find the complementary side that keeps a golden ratio (≈1.618:1) proportion — handy for layouts, crops, and grids.", "ដោយដឹងទំហំមួយជ្រុង ឧបករណ៍រកជ្រុងមួយទៀតដែលរក្សាសមាមាត្រមាស (≈១.៦១៨:១) — មានប្រយោជន៍សម្រាប់ប្លង់ ការកាត់រូប និងក្រឡាចត្រង្គ។"],
+  ["Compose a 1200×630 Open Graph image for link previews on X, LinkedIn, Slack, and iMessage — live preview, rendered locally, exported as PNG.", "បង្កើតរូបភាព Open Graph ទំហំ ១២០០×៦៣០ សម្រាប់បង្ហាញតំណនៅលើ X, LinkedIn, Slack និង iMessage — មើលឃើញផ្ទាល់ បង្កើតក្នុងកម្មវិធីរុករក និងនាំចេញជា PNG។"],
+  ["Generate a geometric spacing scale for consistent margins and padding.", "បង្កើតមាត្រដ្ឋានគម្លាតបែបធរណីមាត្រ ដើម្បីឱ្យរឹម និងចន្លោះខាងក្នុងមានលក្ខណៈស៊ីសង្វាក់គ្នា។"],
+  ["Paste an Android VectorDrawable XML resource and convert it to a plain SVG — handles nested <group> transforms (translate/rotate/scale) and multiple <path> elements. Runs entirely in your browser.", "បិទភ្ជាប់កូដ XML របស់ VectorDrawable លើ Android ហើយបម្លែងទៅជា SVG ធម្មតា — គាំទ្រការបំប្លែង <group> ជាន់គ្នា (ផ្លាស់ទី/បង្វិល/ពង្រីក) និង <path> ច្រើន។ ដំណើរការទាំងស្រុងក្នុងកម្មវិធីរុករក។"],
+];
+
+const DEV: Entry[] = [
+  ["Convert text to Base64 or decode a Base64 string back to text, fully client-side.", "បម្លែងអត្ថបទទៅជា Base64 ឬឌិកូដ Base64 ត្រឡប់ជាអត្ថបទវិញ ដោយដំណើរការក្នុងកម្មវិធីរុករកទាំងស្រុង។"],
+  ["Convert identifiers between camelCase, snake_case, kebab-case and more.", "បម្លែងឈ្មោះអថេររវាង camelCase, snake_case, kebab-case និងទម្រង់ផ្សេងៗទៀត។"],
+  ["Convert a HEX color into RGB and HSL, with a live swatch.", "បម្លែងពណ៌ HEX ទៅជា RGB និង HSL ព្រមទាំងបង្ហាញគំរូពណ៌ផ្ទាល់។"],
+  ["Paste a standard 5-field cron expression and get a plain-language breakdown.", "បិទភ្ជាប់កន្សោម cron ស្តង់ដារ ៥ ផ្នែក ហើយទទួលបានការពន្យល់ជាភាសាធម្មតា។"],
+  ["Paste comma-separated values with a header row and get an array of JSON objects.", "បិទភ្ជាប់ទិន្នន័យ CSV ដែលមានជួរក្បាល ហើយទទួលបានទិន្នន័យ JSON ជាបញ្ជីវត្ថុ។"],
+  ["Paste CSV data and get a ready-to-paste Markdown table, handling quoted fields and commas inside cells.", "បិទភ្ជាប់ទិន្នន័យ CSV ហើយទទួលបានតារាង Markdown ដែលអាចប្រើបានភ្លាម ដោយគាំទ្រតម្លៃក្នុងសញ្ញាសម្រង់ និងសញ្ញាក្បៀសក្នុងក្រឡា។"],
+  ["Compare two blocks of text line by line and see what changed, was added, or removed.", "ប្រៀបធៀបអត្ថបទពីរតាមបន្ទាត់ ដើម្បីមើលអ្វីដែលបានផ្លាស់ប្តូរ បន្ថែម ឬលុបចេញ។"],
+  ["Browse any public GitHub repo's file tree and grab individual files without cloning the whole thing — calls the public GitHub API directly from your browser.", "រុករករចនាសម្ព័ន្ធឯកសាររបស់ឃ្លាំងកូដ GitHub សាធារណៈ ហើយទាញយកឯកសារជាបំណែក ដោយមិនចាំបាច់ចម្លងឃ្លាំងទាំងមូល — ហៅ GitHub API ដោយផ្ទាល់ពីកម្មវិធីរុករក។"],
+  ["Compute SHA-1 / SHA-256 / SHA-384 / SHA-512 digests via the Web Crypto API. Nothing leaves the browser.", "គណនា Hash SHA-1 / SHA-256 / SHA-384 / SHA-512 ដោយប្រើ Web Crypto API។ ទិន្នន័យមិនចេញពីកម្មវិធីរុករកទេ។"],
+  ["Validate and pretty-print JSON, or collapse it to a single line.", "ផ្ទៀងផ្ទាត់ និងរៀបចំ JSON ឱ្យអានងាយ ឬបង្រួមឱ្យនៅក្នុងបន្ទាត់តែមួយ។"],
+  ["Decode a JSON Web Token's header and payload locally. Signature is not verified.", "ឌិកូដក្បាល និងខ្លឹមសាររបស់ JSON Web Token ក្នុងកម្មវិធីរុករក។ ឧបករណ៍នេះមិនផ្ទៀងផ្ទាត់ហត្ថលេខាទេ។"],
+  ["Generate filler text for mockups — sized by paragraph or sentence count.", "បង្កើតអត្ថបទគំរូសម្រាប់ការរចនា — កំណត់ចំនួនកថាខណ្ឌ ឬចំនួនប្រយោគ។"],
+  ["A lightweight local Markdown renderer — headings, bold, italic, inline code, lists and links.", "ឧបករណ៍បង្ហាញ Markdown ស្រាល — គាំទ្រចំណងជើង អក្សរដឹង អក្សរទ្រេត កូដក្នុងបន្ទាត់ បញ្ជី និងតំណ។"],
+  ["Paste a page's HTML and pull out just the article text — strips nav, ads, and boilerplate the way readability-style extractors do, entirely in your browser.", "បិទភ្ជាប់កូដ HTML របស់ទំព័រ ហើយដកស្រង់តែអត្ថបទសំខាន់ — លុបម៉ឺនុយ ការផ្សាយពាណិជ្ជកម្ម និងផ្នែកមិនចាំបាច់ ដំណើរការក្នុងកម្មវិធីរុករក។"],
+  ["Test a JavaScript regular expression against sample text and see every match with its position.", "សាកល្បងកន្សោមធម្មតា JavaScript លើអត្ថបទគំរូ ហើយមើលរាល់ការផ្គូផ្គងជាមួយទីតាំង។"],
+  ["Turn a title into a clean, URL-safe slug.", "បម្លែងចំណងជើងទៅជា slug ស្អាត និងសុវត្ថិភាពសម្រាប់ URL។"],
+  ["Convert text to and from a JS/JSON string literal — escaping newlines, tabs, quotes, and backslashes.", "បម្លែងអត្ថបទទៅ និងមកពីខ្សែអក្សរ JS/JSON — គ្រប់គ្រងបន្ទាត់ថ្មី ថេប សញ្ញាសម្រង់ និងសញ្ញា backslash។"],
+  ["Convert between Unix time and ISO 8601 / local date-time, both directions live.", "បម្លែងរវាងពេលវេលា Unix និង ISO 8601 ឬពេលវេលាមូលដ្ឋាន បានទាំងសងខាងភ្លាមៗ។"],
+  ["Percent-encode text for safe use in URLs, or decode a percent-encoded string.", "អ៊ិនកូដអត្ថបទជាទម្រង់ភាគរយសម្រាប់ប្រើក្នុង URL ដោយសុវត្ថិភាព ឬឌិកូដត្រឡប់វិញ។"],
+  ["Generate RFC 4122 v4 UUIDs using the browser's cryptographically secure random source.", "បង្កើត UUID ស្តង់ដារ RFC 4122 v4 ដោយប្រើប្រភពលេខចៃដន្យសុវត្ថិភាពរបស់កម្មវិធីរុករក។"],
+  ["Count words, characters, lines and sentences as you type — Unicode aware, so Khmer text counts correctly too.", "រាប់ពាក្យ តួអក្សរ បន្ទាត់ និងប្រយោគពេលអ្នកបញ្ចូល — គាំទ្រយូនីកូដ ដូច្នេះអត្ថបទខ្មែរក៏រាប់បានត្រឹមត្រូវ។"],
+];
+
+const GEO: Entry[] = [
+  ["Convert between square meters, hectares, km², acres, and rai — mixed units seen across Cambodian land documents.", "បម្លែងរវាងម៉ែត្រការ៉េ ហិកតា គីឡូម៉ែត្រការ៉េ អេក និងរ៉ៃ — ឯកតាចម្រុះដែលឃើញក្នុងឯកសារដីធ្លីនៅកម្ពុជា។"],
+  ["Compute the initial compass bearing from point A to point B — defaults run Phnom Penh to Siem Reap.", "គណនាទិសដៅត្រីវិស័យដំបូងពីចំណុច A ទៅចំណុច B — តម្លៃលំនាំដើមគឺពីភ្នំពេញទៅសៀមរាប។"],
+  ["Compute a lat/lng bounding box around a center point for a given radius, ready to paste into a map API bbox parameter.", "គណនាប្រអប់ព្រំដែនរយៈទទឹង/បណ្តោយជុំវិញចំណុចកណ្តាលតាមកាំដែលកំណត់ ដើម្បីដាក់ក្នុងប៉ារ៉ាម៉ែត្រ bbox របស់ API ផែនទី។"],
+  ["Paste messy coordinate strings from spreadsheets, field notes, or old KMLs and get clean 'lat,lng' pairs.", "បិទភ្ជាប់កូអរដោនេមិនរៀបរយពីតារាង កំណត់ចំណាំពីវាលការ ឬឯកសារ KML ចាស់ ហើយទទួលបានគូ 'រយៈទទឹង,រយៈបណ្តោយ' ស្អាត។"],
+  ["Given a start point, bearing, and distance, compute the resulting coordinate — useful for laying out survey or canal alignment points.", "ដោយដឹងចំណុចចាប់ផ្តើម ទិសដៅ និងចម្ងាយ ឧបករណ៍គណនាកូអរដោនេគោលដៅ — មានប្រយោជន៍សម្រាប់កំណត់ចំណុចវាស់វែង ឬទីតាំងប្រឡាយ។"],
+  ["Convert latitude/longitude between decimal degrees and degrees-minutes-seconds. Defaults are Phnom Penh.", "បម្លែងរយៈទទឹង/រយៈបណ្តោយរវាងដឺក្រេទសភាគ និងដឺក្រេ-នាទី-វិនាទី។ តម្លៃលំនាំដើមគឺភ្នំពេញ។"],
+  ["Convert rise and run into a percent grade and angle — for canal, road, or drainage slope checks.", "បម្លែងកម្ពស់ឡើង និងចម្ងាយផ្តេកទៅជាកម្រិតជម្រាលភាគរយ និងមុំ — សម្រាប់ពិនិត្យជម្រាលប្រឡាយ ផ្លូវ ឬប្រព័ន្ធបង្ហូរទឹក។"],
+  ["Convert lat/lng to a geohash string and back — useful for compact location keys and proximity bucketing.", "បម្លែងរយៈទទឹង/បណ្តោយទៅជា geohash និងត្រឡប់វិញ — មានប្រយោជន៍សម្រាប់សោទីតាំងខ្លី និងការដាក់ជាក្រុមតាមភាពជិតគ្នា។"],
+  ["Validate and pretty-print a GeoJSON Feature, FeatureCollection, or bare geometry, with a quick structural summary.", "ផ្ទៀងផ្ទាត់ និងរៀបចំ GeoJSON ប្រភេទ Feature, FeatureCollection ឬធរណីមាត្រធម្មតា ព្រមទាំងបង្ហាញសេចក្តីសង្ខេបរចនាសម្ព័ន្ធ។"],
+  ["Check whether a latitude/longitude pair is within valid range and see which hemisphere it falls in.", "ពិនិត្យថាតើគូរយៈទទឹង/រយៈបណ្តោយស្ថិតក្នុងចន្លោះត្រឹមត្រូវ ហើយបង្ហាញថាវាស្ថិតក្នុងអឌ្ឌគោលណា។"],
+  ["Great-circle distance between two lat/lng points — defaults are Phnom Penh to Takhmau.", "ចម្ងាយតាមរង្វង់ធំរវាងចំណុចពីរ — តម្លៃលំនាំដើមគឺពីភ្នំពេញទៅតាខ្មៅ។"],
+  ["Paste raw KML and list every Placemark's name and coordinates — a quick way to sanity-check exports before converting to GeoJSON.", "បិទភ្ជាប់កូដ KML ហើយបង្ហាញឈ្មោះ និងកូអរដោនេរបស់ Placemark ទាំងអស់ — សម្រាប់ពិនិត្យទិន្នន័យមុនបម្លែងទៅ GeoJSON។"],
+  ["Given a map scale (e.g. 1:10,000) and a measured distance on the map, find the real-world ground distance.", "ដោយដឹងមាត្រដ្ឋានផែនទី (ឧ. ១:១០,០០០) និងចម្ងាយវាស់លើផែនទី ឧបករណ៍គណនាចម្ងាយពិតលើដី។"],
+  ["Find the geographic midpoint along the great-circle path between two coordinates.", "រកចំណុចកណ្តាលភូមិសាស្ត្រតាមផ្លូវរង្វង់ធំរវាងកូអរដោនេពីរ។"],
+  ["Given a GPS coordinate, ranks Cambodia's provinces/municipalities by straight-line distance from their provincial-town point. This uses a single reference point per province, not true boundary polygons, so it's a quick approximation — useful for a rough guess, not authoritative for points near a border.", "ដោយផ្តល់កូអរដោនេ GPS ឧបករណ៍តម្រៀបរាជធានី-ខេត្តតាមចម្ងាយបន្ទាត់ត្រង់ពីទីរួមខេត្ត។ វាប្រើចំណុចយោងតែមួយក្នុងមួយខេត្ត មិនមែនព្រំដែនពិតទេ ដូច្នេះជាការប៉ាន់ស្មានប៉ុណ្ណោះ ហើយមិនគួរប្រើសម្រាប់ចំណុចនៅជិតព្រំដែនឡើយ។"],
+  ["Paste polygon vertices as one 'lat,lng' pair per line and get the enclosed area — handy for parcel or canal-easement footprints.", "បិទភ្ជាប់កំពូលពហុកោណមួយគូ 'រយៈទទឹង,រយៈបណ្តោយ' ក្នុងមួយជួរ ហើយទទួលបានផ្ទៃក្រឡាខាងក្នុង — មានប្រយោជន៍សម្រាប់ក្បាលដី ឬដីរបងប្រឡាយ។"],
+  ["Quick reference for Cambodia's 25 provinces/municipalities, their Khmer names, and capitals.", "ឯកសារយោងរហ័សអំពីរាជធានី-ខេត្តទាំង ២៥ របស់កម្ពុជា ឈ្មោះជាភាសាខ្មែរ និងទីរួមខេត្ត។"],
+  ["Pick which value to solve for, then fill in the other two — handles km and miles interchangeably.", "ជ្រើសរើសតម្លៃដែលត្រូវរក បន្ទាប់មកបំពេញតម្លៃពីរផ្សេងទៀត — គាំទ្រទាំងគីឡូម៉ែត្រ និងម៉ាយល៍។"],
+  ["Approximate spherical conversion to Universal Transverse Mercator — Cambodia falls mostly in zone 48N. Good for quick reference, not survey-grade.", "ការបម្លែងប្រហាក់ប្រហែលទៅប្រព័ន្ធ UTM — កម្ពុជាស្ថិតក្នុងតំបន់ 48N ជាភាគច្រើន។ សម្រាប់ជាឯកសារយោងរហ័ស មិនសម្រាប់ការវាស់វែងបច្ចេកទេសទេ។"],
+];
+
+const MEDIA: Entry[] = [
+  ["Trim, fade, and adjust the volume of an audio clip, then export as WAV — decoded, edited, and re-encoded entirely in your browser. Accepts MP3, WAV, OGG, and M4A.", "កាត់ត បន្ថយ-បង្កើនសំឡេងបន្តិចម្តងៗ និងកែកម្រិតសំឡេងរបស់ឯកសារសំឡេង ហើយនាំចេញជា WAV — ដំណើរការទាំងស្រុងក្នុងកម្មវិធីរុករក។ គាំទ្រ MP3, WAV, OGG និង M4A។"],
+  ["Drop in an audio file to see its duration, sample rate, and channel count, plus a quick waveform preview — decoded entirely in your browser.", "ទម្លាក់ឯកសារសំឡេងចូល ដើម្បីមើលថិរវេលា អត្រាគំរូ ចំនួនឆានែល និងរូបរាងរលកសំឡេង — ដំណើរការទាំងស្រុងក្នុងកម្មវិធីរុករក។"],
+  ["Cut a subject out from its background automatically — powered by a local AI segmentation model that runs entirely in your browser via WebAssembly. Nothing is uploaded; the first run downloads the model (cached after that).", "កាត់វត្ថុចេញពីផ្ទៃខាងក្រោយដោយស្វ័យប្រវត្តិ — ប្រើម៉ូដែល AI ដែលដំណើរការក្នុងកម្មវិធីរុករករបស់អ្នកតាម WebAssembly។ គ្មានការបញ្ជូនឯកសារឡើងទេ ហើយការប្រើលើកដំបូងនឹងទាញយកម៉ូដែល (ក្រោយមកទុកក្នុងឃ្លាំងសម្ងាត់)។"],
+  ["Crop, rotate, flip, adjust color, and export — a full editing pass in your browser, no upload, no watermark.", "កាត់រូប បង្វិល ត្រឡប់ កែពណ៌ និងនាំចេញ — កែសម្រួលពេញលេញក្នុងកម្មវិធីរុករក ដោយគ្មានការបញ្ជូនឯកសារ និងគ្មាន Watermark។"],
+  ["See the camera, exposure, and timestamp data embedded in a JPEG, and download a clean copy with all of it removed — useful before sharing photos publicly. Everything runs locally.", "មើលទិន្នន័យកាមេរ៉ា ការបញ្ចេញពន្លឺ និងពេលវេលាដែលភ្ជាប់មកជាមួយឯកសារ JPEG ហើយទាញយករូបភាពស្អាតដែលបានលុបទិន្នន័យទាំងនោះ — មានប្រយោជន៍មុនចែករំលែករូបជាសាធារណៈ។ ដំណើរការទាំងស្រុងក្នុងឧបករណ៍អ្នក។"],
+  ["Resize and re-compress an image entirely in your browser — pick a max width, quality, and output format, then download the result.", "ប្តូរទំហំ និងបង្រួមរូបភាពទាំងស្រុងក្នុងកម្មវិធីរុករក — ជ្រើសរើសទទឹងធំបំផុត គុណភាព និងទម្រង់លទ្ធផល បន្ទាប់មកទាញយក។"],
+  ["Convert an image file into a Base64 data URL you can paste directly into CSS, HTML, or JSON — done fully client-side.", "បម្លែងឯកសាររូបភាពទៅជា Base64 data URL ដែលអាចបិទភ្ជាប់ក្នុង CSS, HTML ឬ JSON ដោយផ្ទាល់ — ដំណើរការក្នុងកម្មវិធីរុករកទាំងស្រុង។"],
+  ["Scale an image up 2×, 3×, or 4× using progressive high-quality resampling with edge-sharpening — all done locally. This uses advanced interpolation, not a neural super-resolution model, so it works best on photos that aren't already heavily compressed or blurry.", "ពង្រីករូបភាព ២×, ៣× ឬ ៤× ដោយប្រើការគណនាគុណភាពខ្ពស់ជាដំណាក់កាល រួមនឹងការបន្ថែមភាពច្បាស់នៅគែម — ដំណើរការក្នុងឧបករណ៍អ្នក។ វាប្រើវិធីអន្តរប៉ូឡាស្យុង មិនមែនម៉ូដែល AI ទេ ដូច្នេះវាដំណើរការល្អបំផុតលើរូបដែលមិនទាន់បង្រួមខ្លាំង ឬព្រិលពេក។"],
+  ["Overlay a text watermark — a signature, copyright notice, or brand mark — on a photo, tiled or positioned, entirely in your browser.", "ដាក់អត្ថបទ Watermark ដូចជាហត្ថលេខា សេចក្តីជូនដំណឹងកម្មសិទ្ធិ ឬឈ្មោះម៉ាក លើរូបភាព ដោយដាក់ជាឆ្នូត ឬតាមទីតាំងជាក់លាក់ — ដំណើរការក្នុងកម្មវិធីរុករក។"],
+  ["Draw a box over a small logo or watermark — like the corner mark some AI image generators stamp onto exports — and blend it away with an in-browser content-aware fill. Nothing leaves your device. Works best on small marks over relatively plain or gradient backgrounds; busy/detailed backgrounds behind the mark won't be reconstructed perfectly.", "គូសប្រអប់លើរូបសញ្ញា ឬ Watermark តូច ដូចជាសញ្ញានៅជ្រុងដែលកម្មវិធីបង្កើតរូបភាព AI ដាក់លើរូប ហើយឧបករណ៍នឹងបំពេញផ្ទៃនោះឱ្យសមស្របនឹងបរិបទ។ ទិន្នន័យមិនចេញពីឧបករណ៍អ្នកទេ។ វាដំណើរការល្អបំផុតលើសញ្ញាតូចនៅលើផ្ទៃរាបស្មើ ឬជម្រាលពណ៌ ចំណែកផ្ទៃខាងក្រោយស្មុគស្មាញនឹងមិនអាចសង់ឡើងវិញបានល្អឥតខ្ចោះទេ។"],
+  ["Check a video file's duration, resolution, frame aspect ratio, and file size before uploading it anywhere — read locally, nothing leaves your browser.", "ពិនិត្យថិរវេលា គុណភាពបង្ហាញ សមាមាត្រហ្វ្រេម និងទំហំឯកសារវីដេអូ មុននឹងបញ្ជូនទៅកន្លែងណាមួយ — អានក្នុងឧបករណ៍អ្នក ដោយទិន្នន័យមិនចេញទៅក្រៅទេ។"],
+  ["Pick a video file, choose a timestamp, and capture that frame as a downloadable PNG — all done locally in your browser.", "ជ្រើសរើសឯកសារវីដេអូ កំណត់ពេលវេលា ហើយថតហ្វ្រេមនោះជារូបភាព PNG សម្រាប់ទាញយក — ដំណើរការទាំងស្រុងក្នុងកម្មវិធីរុករក។"],
+  ["Turn a clip of a video into a looping animated GIF — trim the range, pick a frame rate and size, and export. Rendered entirely in your browser.", "បម្លែងចំណែកវីដេអូទៅជា GIF ជីវចលដែលរត់ជារង្វិល — កាត់ចន្លោះពេល ជ្រើសរើសអត្រាហ្វ្រេម និងទំហំ បន្ទាប់មកនាំចេញ។ ដំណើរការក្នុងកម្មវិធីរុករក។"],
+  ["Cut a video down to the segment you need, right in your browser — no upload, re-encoded locally using your browser's native video pipeline and exported as WebM.", "កាត់វីដេអូឱ្យនៅត្រឹមចំណែកដែលអ្នកត្រូវការ ដោយធ្វើក្នុងកម្មវិធីរុករក — គ្មានការបញ្ជូនឯកសារ អ៊ិនកូដឡើងវិញក្នុងឧបករណ៍អ្នក និងនាំចេញជា WebM។"],
+];
+
+const KHMER: Entry[] = [
+  ["Convert a Gregorian (Common Era) year to the Buddhist Era year used in Cambodian civic and religious contexts (CE + 543).", "បម្លែងឆ្នាំគ្រិស្តសករាជទៅជាឆ្នាំពុទ្ធសករាជ ដែលប្រើក្នុងឯកសាររដ្ឋបាល និងសាសនានៅកម្ពុជា (គ.ស + ៥៤៣)។"],
+  ["Sorts a list of Khmer words two ways — a plain JS .sort() (raw UTF-16 order) and Intl.Collator('km') (locale-aware order) — side by side, so you can see whether the difference actually matters for your data before shipping a sorted list.", "តម្រៀបបញ្ជីពាក្យខ្មែរតាមវិធីពីរ — .sort() ធម្មតា (លំដាប់ UTF-16) និង Intl.Collator('km') (លំដាប់តាមភាសាខ្មែរ) — ដាក់ក្បែរគ្នា ដើម្បីឱ្យអ្នកឃើញថាភាពខុសគ្នានេះមានឥទ្ធិពលលើទិន្នន័យរបស់អ្នកឬអត់។"],
+  ["Every Khmer consonant belongs to the 1st series (â-register) or 2nd series (ô-register), which determines how dependent vowels are pronounced.", "ព្យញ្ជនៈខ្មែរនីមួយៗស្ថិតក្នុងស៊េរីទី ១ (សំឡេង អ) ឬស៊េរីទី ២ (សំឡេង អូ) ដែលកំណត់របៀបអានស្រៈនិស្ស័យ។"],
+  ["Khmer-English terminology for construction contracts, procurement/BOQ documents, irrigation infrastructure, and environmental & social safeguards — the everyday vocabulary of correspondence registers, contract admin, and canal works. Aimed at practical project documents, not a legal translation authority.", "វាក្យស័ព្ទខ្មែរ-អង់គ្លេសសម្រាប់កិច្ចសន្យាសំណង់ ឯកសារលទ្ធកម្ម/BOQ ប្រព័ន្ធធារាសាស្ត្រ និងការការពារបរិស្ថាន និងសង្គម — ជាវាក្យស័ព្ទប្រើប្រាស់ប្រចាំថ្ងៃក្នុងសៀវភៅលិខិត ការគ្រប់គ្រងកិច្ចសន្យា និងការងារប្រឡាយ។ សម្រាប់ឯកសារគម្រោងជាក់ស្តែង មិនមែនជាការបកប្រែផ្លូវការតាមច្បាប់ទេ។"],
+  ["Khmer script has no spaces between words, so a long run of Khmer text just overflows its box instead of wrapping — pick a strategy and preview it against a fixed-width container before shipping the CSS.", "អក្សរខ្មែរមិនមានចន្លោះរវាងពាក្យ ដូច្នេះអត្ថបទវែងអាចលើសប្រអប់ជំនួសឱ្យការចុះបន្ទាត់ — សូមជ្រើសរើសវិធីសាស្ត្រ ហើយមើលលទ្ធផលក្នុងប្រអប់ទទឹងកំណត់មុនប្រើកូដ CSS។"],
+  ["Render a Gregorian calendar date with Khmer day names, month names, and Khmer numerals.", "បង្ហាញកាលបរិច្ឆេទគ្រិស្តសករាជជាមួយឈ្មោះថ្ងៃ ឈ្មោះខែ និងលេខខ្មែរ។"],
+  ["A browsable directory of open-source tools and libraries built by Cambodian developers — scraping, civic/public data, payments, and infrastructure. Not exhaustive; a starting map of the local ecosystem.", "បញ្ជីឧបករណ៍ និងបណ្ណាល័យកូដចំហដែលបង្កើតដោយអ្នកអភិវឌ្ឍន៍កម្ពុជា — ការទាញទិន្នន័យ ទិន្នន័យសាធារណៈ ការទូទាត់ និងហេដ្ឋារចនាសម្ព័ន្ធ។ បញ្ជីនេះមិនពេញលេញទេ គ្រាន់តែជាចំណុចចាប់ផ្តើមប៉ុណ្ណោះ។"],
+  ["Convert Khmer numerals (០–៩) to Arabic digits and back, leaving the rest of the text untouched.", "បម្លែងលេខខ្មែរ (០–៩) ទៅជាលេខអារ៉ាប់ និងត្រឡប់វិញ ដោយមិនប៉ះពាល់អត្ថបទផ្សេងទៀត។"],
+  ["Preview a string of Khmer text across weights and sizes using Noto Sans Khmer, useful for checking glyph stacking before shipping UI copy.", "មើលអត្ថបទខ្មែរតាមទម្ងន់ និងទំហំផ្សេងៗដោយប្រើពុម្ពអក្សរ Noto Sans Khmer — មានប្រយោជន៍សម្រាប់ពិនិត្យការជាន់គ្នានៃតួអក្សរមុនប្រើក្នុងកម្មវិធី។"],
+  ["Convert a Gregorian date to the full traditional Khmer lunisolar calendar date — lunar day and moon phase (កើត/រោច), lunar month, animal year, ស័ក cycle, and ពុទ្ធសករាជ (Buddhist Era) year. Uses the same astronomical algorithm (Moha Songkran / lunar month tables) as the traditional Khmer calendar, computed entirely in your browser — no data leaves your device.", "បម្លែងកាលបរិច្ឆេទគ្រិស្តសករាជទៅជាកាលបរិច្ឆេទចន្ទគតិខ្មែរពេញលេញ — ថ្ងៃ និងដំណាក់កាលព្រះចន្ទ (កើត/រោច) ខែចន្ទគតិ ឆ្នាំសត្វ ស័ក និងឆ្នាំពុទ្ធសករាជ។ ប្រើក្បួនតារាសាស្ត្រដូចប្រតិទិនខ្មែរប្រពៃណី (មហាសង្ក្រាន្ត និងតារាងខែចន្ទគតិ) គណនាទាំងស្រុងក្នុងកម្មវិធីរុករក។"],
+  ["Checks that a value matches the 9-digit shape of a Cambodian national ID number. This is a format check only — it does not verify the ID against any registry.", "ពិនិត្យថាតើតម្លៃត្រូវនឹងទម្រង់លេខអត្តសញ្ញាណប័ណ្ណកម្ពុជា ៩ ខ្ទង់ឬអត់។ នេះជាការពិនិត្យទម្រង់ប៉ុណ្ណោះ មិនមែនការផ្ទៀងផ្ទាត់ជាមួយបញ្ជីផ្លូវការទេ។"],
+  ["Khmer syllables are built from stacked codepoints, so a naive .length is wrong. This counts visible grapheme clusters using Intl.Segmenter.", "ព្យាង្គខ្មែរផ្សំឡើងពីតួអក្សរជាន់គ្នា ដូច្នេះការប្រើ .length គឺមិនត្រឹមត្រូវ។ ឧបករណ៍នេះរាប់ចំនួនតួអក្សរដែលមើលឃើញដោយប្រើ Intl.Segmenter។"],
+  ["Curated jumping-off points for Khmer NLP, fonts, and open datasets — useful when starting a new Khmer-language project. Not exhaustive; treat it as a starting map rather than a full directory.", "បញ្ជីធនធានសម្រាប់ NLP ខ្មែរ ពុម្ពអក្សរ និងទិន្នន័យចំហ — មានប្រយោជន៍ពេលចាប់ផ្តើមគម្រោងភាសាខ្មែរថ្មី។ បញ្ជីនេះមិនពេញលេញទេ សូមចាត់ទុកជាចំណុចចាប់ផ្តើម។"],
+  ["Khmer script has no spaces between words, which breaks web text wrapping. This inserts zero-width spaces at likely syllable boundaries so long strings can wrap in narrow layouts. Heuristic — proofread before using in production.", "អក្សរខ្មែរមិនមានចន្លោះរវាងពាក្យ ដែលធ្វើឱ្យការចុះបន្ទាត់លើវេបមានបញ្ហា។ ឧបករណ៍នេះបញ្ចូលចន្លោះគ្មានទទឹងនៅព្រំដែនព្យាង្គ ដើម្បីឱ្យអត្ថបទវែងអាចចុះបន្ទាត់បាន។ វាប្រើវិធីប៉ាន់ស្មាន ដូច្នេះសូមពិនិត្យមុនប្រើជាផ្លូវការ។"],
+  ["Lorem-ipsum-style filler text, but built from real everyday Khmer vocabulary so it fills mockups and layout tests without the odd look of Latin placeholder text next to Khmer UI.", "អត្ថបទគំរូបែប Lorem Ipsum ប៉ុន្តែផ្សំពីវាក្យស័ព្ទខ្មែរប្រើប្រាស់ប្រចាំថ្ងៃ ដើម្បីឱ្យការរចនា និងការសាកល្បងប្លង់មើលទៅធម្មជាតិ ជាងការប្រើអក្សរឡាតាំងក្បែរអក្សរខ្មែរ។"],
+  ["Generate plausible Khmer full names (family name + given name) for placeholder data, sample forms, or character names. Names are combined from a small representative syllable bank — not drawn from any real-person registry.", "បង្កើតឈ្មោះខ្មែរពេញ (នាមត្រកូល + នាមខ្លួន) សម្រាប់ទិន្នន័យគំរូ សំណុំបែបបទសាកល្បង ឬឈ្មោះតួអង្គ។ ឈ្មោះផ្សំពីធនាគារព្យាង្គតូចមួយ មិនបានយកពីបញ្ជីបុគ្គលពិតទេ។"],
+  ["A browsable directory of open Khmer AI models — ASR, TTS, translation, OCR, and language models — pulled from active Cambodian ML developers. Not exhaustive; a starting map for anyone building Khmer-language AI.", "បញ្ជីម៉ូដែល AI ខ្មែរចំហ — ការស្គាល់សំឡេង (ASR) ការបំប្លែងអត្ថបទជាសំឡេង (TTS) ការបកប្រែ OCR និងម៉ូដែលភាសា — ប្រមូលពីអ្នកអភិវឌ្ឍន៍កម្ពុជា។ បញ្ជីនេះមិនពេញលេញទេ គ្រាន់តែជាចំណុចចាប់ផ្តើម។"],
+  ["Spell a number out in Khmer words, following the standard ដប់ / រយ / ពាន់ / ម៉ឺន / សែន / លាន place-value system. Supports negative numbers (ដក) and decimals, read digit-by-digit after ចុច — up to 999,999,999,999.", "សរសេរលេខជាពាក្យខ្មែរតាមប្រព័ន្ធតម្លៃខ្ទង់ ដប់ / រយ / ពាន់ / ម៉ឺន / សែន / លាន។ គាំទ្រលេខអវិជ្ជមាន (ដក) និងលេខទសភាគ ដែលអានតាមខ្ទង់បន្ទាប់ពី ចុច — រហូតដល់ ៩៩៩,៩៩៩,៩៩៩,៩៩៩។"],
+  ["Convert cardinal numbers into Khmer ordinal form (ទី១, ទី២, ទី៣…). Enter one or more numbers separated by commas or new lines.", "បម្លែងលេខធម្មតាទៅជាលេខលំដាប់ខ្មែរ (ទី១, ទី២, ទី៣…)។ បញ្ចូលលេខមួយ ឬច្រើនដោយបំបែកដោយសញ្ញាក្បៀស ឬបន្ទាត់ថ្មី។"],
+  ["Format an 8- or 9-digit Cambodian mobile number into local and +855 international styles.", "រៀបចំលេខទូរសព្ទចល័តកម្ពុជា ៨ ឬ ៩ ខ្ទង់ ជាទម្រង់ក្នុងស្រុក និងទម្រង់អន្តរជាតិ +៨៥៥។"],
+  ["Khmer picks pronouns based on the relative age, status, and closeness of speaker and listener rather than grammatical rules. This is a quick-reference sketch for translators and content writers — treat it as a starting point, not a substitute for a native reviewer on anything sensitive or official.", "ភាសាខ្មែរជ្រើសរើសសព្វនាមតាមអាយុ ឋានៈ និងភាពជិតស្និទ្ធរវាងអ្នកនិយាយ និងអ្នកស្តាប់ ជាងតាមក្បួនវេយ្យាករណ៍។ នេះជាឯកសារយោងរហ័សសម្រាប់អ្នកបកប្រែ និងអ្នកសរសេរ — សូមចាត់ទុកជាចំណុចចាប់ផ្តើម មិនអាចជំនួសការពិនិត្យដោយអ្នកជំនាញភាសាកំណើតសម្រាប់ឯកសារផ្លូវការទេ។"],
+  ["A quick reference for traditional Khmer punctuation and diacritic marks and what they're used for.", "ឯកសារយោងរហ័សអំពីសញ្ញាវណ្ណយុត្តិ និងសញ្ញាសម្គាល់ខ្មែរប្រពៃណី និងរបៀបប្រើប្រាស់។"],
+  ["Format a raw number as Cambodian Riel, in both Arabic and Khmer numeral styles.", "រៀបចំលេខធម្មតាជាទម្រង់ប្រាក់រៀលកម្ពុជា ទាំងជាលេខអារ៉ាប់ និងលេខខ្មែរ។"],
+  ["Convert between Riel and USD using a rate you set — Cambodia has no single fixed peg, so enter today's rate from your bank or NBC.", "បម្លែងរវាងប្រាក់រៀល និងដុល្លារតាមអត្រាដែលអ្នកកំណត់ — កម្ពុជាមិនមានអត្រាថេរតែមួយទេ ដូច្នេះសូមបញ្ចូលអត្រាបច្ចុប្បន្នពីធនាគាររបស់អ្នក ឬធនាគារជាតិ។"],
+  ["A simple character-by-character Latin transliteration for quick reference. It's approximate — it does not apply full UNGEGN rules for clusters, coeng stacking, or series-2 vowel shifts.", "ការបម្លែងអក្សរខ្មែរទៅអក្សរឡាតាំងតាមតួអក្សរម្តងមួយ សម្រាប់ជាឯកសារយោងរហ័ស។ វាប្រហាក់ប្រហែលប៉ុណ្ណោះ ហើយមិនអនុវត្តក្បួន UNGEGN ពេញលេញសម្រាប់ព្យញ្ជនៈផ្សំ អក្សរជើង ឬការប្រែសំឡេងស្រៈស៊េរីទី ២ ទេ។"],
+  ["Turns a Khmer title into an ASCII-safe URL slug via approximate transliteration — handy for Next.js dynamic routes / static params where Khmer characters would otherwise need percent-encoding.", "បម្លែងចំណងជើងខ្មែរទៅជា URL slug អក្សរឡាតាំង តាមការបម្លែងអក្សរប្រហាក់ប្រហែល — មានប្រយោជន៍សម្រាប់ផ្លូវថាមវន្តក្នុង Next.js ដែលអក្សរខ្មែរត្រូវការការអ៊ិនកូដជាភាគរយ។"],
+  ["Split Khmer text into orthographic clusters — base consonant plus any coeng (subscript) stack, vowel signs, and diacritics grouped together. Uses your browser's Unicode grapheme-cluster segmenter, so results are approximate for edge cases rather than a full dictionary-based word segmenter.", "បំបែកអត្ថបទខ្មែរជាក្រុមអក្សរ — ព្យញ្ជនៈមូលដ្ឋាន បូករួមអក្សរជើង ស្រៈ និងសញ្ញាសម្គាល់ ដែលដាក់ជាក្រុមតែមួយ។ ប្រើមុខងារបំបែកតួអក្សរយូនីកូដរបស់កម្មវិធីរុករក ដូច្នេះលទ្ធផលអាចប្រហាក់ប្រហែលក្នុងករណីពិសេស ហើយវាមិនមែនជាការបំបែកពាក្យតាមវចនានុក្រមទេ។"],
+  ["See every codepoint in a Khmer string — spot stray zero-width characters and confirm normalization at a glance.", "មើលរាល់តួអក្សរក្នុងអត្ថបទខ្មែរ — រកឃើញតួអក្សរគ្មានទទឹងដែលលាក់ខ្លួន និងផ្ទៀងផ្ទាត់ការសម្អាតទម្រង់។"],
+  ["Checks a value against the common Cambodian civilian plate shape (1–2 digit prefix + 1–2 letters + 3–5 digits, e.g. 2KA-1234) and inserts the hyphen for you. This is a format check only — plate systems vary by vehicle type and era, and this doesn't decode province codes or verify against any registry.", "ពិនិត្យតម្លៃធៀបនឹងទម្រង់ស្លាកលេខរថយន្តឯកជនកម្ពុជាទូទៅ (លេខ ១–២ ខ្ទង់ + អក្សរ ១–២ + លេខ ៣–៥ ខ្ទង់ ឧ. 2KA-1234) ហើយបញ្ចូលសញ្ញាដកជំនួសអ្នក។ នេះជាការពិនិត្យទម្រង់ប៉ុណ្ណោះ — ប្រព័ន្ធស្លាកលេខខុសគ្នាតាមប្រភេទយានយន្ត និងសម័យកាល ហើយឧបករណ៍នេះមិនអានលេខកូដខេត្ត ឬផ្ទៀងផ្ទាត់ជាមួយបញ្ជីផ្លូវការទេ។"],
+  ["Dependent vowel signs are pronounced differently depending on whether the base consonant is 1st series or 2nd series. Quick reference table.", "ស្រៈនិស្ស័យអានខុសគ្នា អាស្រ័យលើថាព្យញ្ជនៈមូលដ្ឋានស្ថិតក្នុងស៊េរីទី ១ ឬស៊េរីទី ២។ នេះជាតារាងយោងរហ័ស។"],
+  ["Find the animal sign for a Gregorian year in the Khmer 12-year zodiac cycle (នាំ​ចន្លោះ​ត្រូវ​គ្នា​ជាមួយ​ចិន).", "រកឆ្នាំសត្វសម្រាប់ឆ្នាំគ្រិស្តសករាជ ក្នុងវដ្តឆ្នាំសត្វខ្មែរទាំង ១២ (ត្រូវគ្នាជាមួយវដ្តចិន)។"],
+];
+
+const MATH: Entry[] = [
+  ["Convert whole numbers between decimal, binary, octal, and hexadecimal.", "បម្លែងលេខគត់រវាងគោលដប់ គោលពីរ គោលប្រាំបី និងគោលដប់ប្រាំមួយ។"],
+  ["Add a tip percentage to a bill and split the total evenly across a group.", "បន្ថែមភាគរយប្រាក់ធីបលើវិក្កយបត្រ ហើយចែកចំនួនសរុបស្មើៗគ្នាតាមចំនួនមនុស្ស។"],
+  ["Project how a principal (plus optional recurring contributions) grows over time at a given interest rate.", "គណនាការរីកចម្រើននៃប្រាក់ដើម (និងការបញ្ចូលបន្ថែមទៀងទាត់ បើមាន) តាមកាលកំណត់ ដោយផ្អែកលើអត្រាការប្រាក់។"],
+  ["Generates the first N Fibonacci numbers using exact big-integer arithmetic.", "បង្កើតលេខ Fibonacci ចំនួន N ដំបូង ដោយប្រើការគណនាចំនួនគត់ធំយ៉ាងជាក់លាក់។"],
+  ["Greatest common divisor and least common multiple of two integers.", "តួចែកធំបំផុតរួម និងពហុគុណតូចបំផុតរួមនៃចំនួនគត់ពីរ។"],
+  ["Type LaTeX math and see it typeset live using KaTeX — no server round-trip, useful for previewing formulas before dropping them into a paper, README, or note.", "សរសេររូបមន្តគណិត LaTeX ហើយមើលលទ្ធផលភ្លាមៗដោយ KaTeX — មិនត្រូវការម៉ាស៊ីនបម្រើទេ ស័ក្តិសមសម្រាប់មើលរូបមន្តជាមុនមុនដាក់ក្នុងឯកសារ README ឬកំណត់ចំណាំ។"],
+  ["Enter a square matrix (2×2 or 3×3), one row per line, values comma or space separated.", "បញ្ចូលម៉ាទ្រីសការ៉េ (២×២ ឬ ៣×៣) មួយជួរដេកក្នុងមួយបន្ទាត់ ដោយបំបែកតម្លៃដោយសញ្ញាក្បៀស ឬចន្លោះ។"],
+  ["Three common percentage questions in one tool.", "សំណួរភាគរយទូទៅបីប្រភេទ ក្នុងឧបករណ៍តែមួយ។"],
+  ["Checks primality and shows the full prime factorization.", "ពិនិត្យថាតើលេខជាចំនួនបឋមឬអត់ ហើយបង្ហាញការបំបែកកត្តាបឋមពេញលេញ។"],
+  ["Solves ax² + bx + c = 0, including complex roots.", "ដោះស្រាយសមីការ ax² + bx + c = 0 រួមទាំងឬសកុំផ្លិច។"],
+  ["Generate random integers in a range, with optional uniqueness.", "បង្កើតចំនួនគត់ចៃដន្យក្នុងចន្លោះកំណត់ ដោយអាចជ្រើសរើសមិនឱ្យស្ទួន។"],
+  ["Reduces a ratio to its simplest whole-number form.", "សម្រួលសមាមាត្រទៅជាទម្រង់ចំនួនគត់សាមញ្ញបំផុត។"],
+  ["Convert between Arabic numbers (1–3999) and Roman numerals.", "បម្លែងរវាងលេខអារ៉ាប់ (១–៣៩៩៩) និងលេខរ៉ូម៉ាំង។"],
+  ["Enter numbers separated by commas or spaces.", "បញ្ចូលលេខដោយបំបែកដោយសញ្ញាក្បៀស ឬចន្លោះ។"],
+  ["Convert between Celsius, Fahrenheit, and Kelvin.", "បម្លែងរវាងសែលស្យុស ហ្វារិនហៃ និងកែលវិន។"],
+  ["Given the two legs, finds the hypotenuse and both acute angles.", "ដោយដឹងជ្រុងកែងទាំងពីរ ឧបករណ៍រកអ៊ីប៉ូតេនុស និងមុំស្រួចទាំងពីរ។"],
+  ["Convert between common units of length, weight, and volume.", "បម្លែងរវាងឯកតាប្រវែង ទម្ងន់ និងមាឌទូទៅ។"],
+];
+
+const NETWORK: Entry[] = [
+  ["Enter an address in CIDR notation (e.g. 192.168.1.0/24) to see network details.", "បញ្ចូលអាសយដ្ឋានជាទម្រង់ CIDR (ឧ. 192.168.1.0/24) ដើម្បីមើលព័ត៌មានលម្អិតរបស់បណ្តាញ។"],
+  ["Quick lookup of common DNS record types and what they do.", "ឯកសារយោងរហ័សអំពីប្រភេទកំណត់ត្រា DNS ទូទៅ និងតួនាទីរបស់វា។"],
+  ["Escape or unescape HTML special characters.", "បម្លែងតួអក្សរពិសេស HTML ទៅជាទម្រង់សុវត្ថិភាព ឬបម្លែងត្រឡប់វិញ។"],
+  ["Search HTTP status codes by number or name.", "ស្វែងរកកូដស្ថានភាព HTTP តាមលេខ ឬឈ្មោះ។"],
+  ["Classifies an IPv4 address and shows its binary form.", "ចាត់ថ្នាក់អាសយដ្ឋាន IPv4 និងបង្ហាញទម្រង់គោលពីររបស់វា។"],
+  ["Convert an IPv6 address between its fully expanded form and its shortest compressed (::) representation.", "បម្លែងអាសយដ្ឋាន IPv6 រវាងទម្រង់ពេញលេញ និងទម្រង់បង្រួមខ្លីបំផុត (::)។"],
+  ["Normalize a MAC address into colon, hyphen, dot, or plain notation.", "សម្រួលអាសយដ្ឋាន MAC ទៅជាទម្រង់សញ្ញាចុចពីរ សញ្ញាដក សញ្ញាចុច ឬទម្រង់ធម្មតា។"],
+  ["Search common file extensions and their MIME types.", "ស្វែងរកកន្ទុយឈ្មោះឯកសារទូទៅ និងប្រភេទ MIME របស់វា។"],
+  ["Search well-known TCP/UDP ports by number or service name.", "ស្វែងរក Port TCP/UDP ដែលគេស្គាល់ទូទៅ តាមលេខ ឬឈ្មោះសេវា។"],
+  ["Generate random addresses from the RFC 1918 private ranges (or the link-local block) for test fixtures and documentation.", "បង្កើតអាសយដ្ឋានចៃដន្យពីចន្លោះឯកជន RFC 1918 (ឬប្លុក link-local) សម្រាប់ការសាកល្បង និងឯកសារ។"],
+  ["Checks whether a string is a well-formed URL slug.", "ពិនិត្យថាតើខ្សែអក្សរជា URL slug ដែលមានទម្រង់ត្រឹមត្រូវឬអត់។"],
+  ["Breaks a URL into its components and lists query parameters.", "បំបែក URL ជាផ្នែកៗ និងបង្ហាញបញ្ជីប៉ារ៉ាម៉ែត្រ query។"],
+  ["Roughly identifies browser, operating system, and device type from a UA string.", "កំណត់ប្រហាក់ប្រហែលនូវកម្មវិធីរុករក ប្រព័ន្ធប្រតិបត្តិការ និងប្រភេទឧបករណ៍ ពីខ្សែអក្សរ User-Agent។"],
+];
+
+const SECURITY: Entry[] = [
+  ["RFC 4648 Base32, commonly used for TOTP secrets and case-insensitive identifiers.", "Base32 តាមស្តង់ដារ RFC 4648 ដែលប្រើជាទូទៅសម្រាប់សោ TOTP និងអត្តសញ្ញាណដែលមិនប្រកាន់អក្សរធំតូច។"],
+  ["Mask all but the last few digits of a card number — for screenshots, docs, or support tickets. Nothing here is sent anywhere; it all stays in your browser.", "បិទបាំងលេខប័ណ្ណទាំងអស់ លើកលែងតែខ្ទង់ចុងក្រោយ — សម្រាប់រូបថតអេក្រង់ ឯកសារ ឬសំណើជំនួយ។ ទិន្នន័យមិនត្រូវបានបញ្ជូនទៅណាទេ វានៅតែក្នុងកម្មវិធីរុករករបស់អ្នក។"],
+  ["Renders text as a classic offset / hex / ASCII hex dump.", "បង្ហាញអត្ថបទជាទម្រង់ hex dump បុរាណ ដែលមានទីតាំង លេខគោលដប់ប្រាំមួយ និង ASCII។"],
+  ["Builds and signs a JWT client-side with the Web Crypto API. For testing only — never share real secrets.", "បង្កើត និងចុះហត្ថលេខា JWT ក្នុងកម្មវិធីរុករកដោយ Web Crypto API។ សម្រាប់ការសាកល្បងប៉ុណ្ណោះ — សូមកុំចែករំលែកសោសម្ងាត់ពិតប្រាកដ។"],
+  ["Checks the Luhn (mod 10) checksum used by credit card, IMEI, and other identifier numbers. Does not verify a real card is active.", "ពិនិត្យផលបូកត្រួតពិនិត្យ Luhn (mod 10) ដែលប្រើដោយប័ណ្ណឥណទាន លេខ IMEI និងលេខអត្តសញ្ញាណផ្សេងទៀត។ វាមិនផ្ទៀងផ្ទាត់ថាប័ណ្ណនោះកំពុងដំណើរការពិតទេ។"],
+  ["Generate memorable word-based passphrases (diceware-style) as a friendlier alternative to random character passwords.", "បង្កើតឃ្លាសម្ងាត់ដែលផ្សំពីពាក្យ និងងាយចងចាំ (បែប diceware) ជាជម្រើសងាយស្រួលជាងពាក្យសម្ងាត់តួអក្សរចៃដន្យ។"],
+  ["Cryptographically random passwords, ambiguous-looking characters (0/O, 1/l) excluded by default.", "ពាក្យសម្ងាត់ចៃដន្យតាមបទដ្ឋានគ្រីបតូក្រាហ្វិក ដោយលុបតួអក្សរដែលមើលទៅច្រឡំគ្នា (0/O, 1/l) តាមលំនាំដើម។"],
+  ["Estimates strength from length, character variety, and entropy. Nothing is sent anywhere.", "ប៉ាន់ស្មានកម្រិតរឹងមាំតាមប្រវែង ភាពចម្រុះនៃតួអក្សរ និងកម្រិតចៃដន្យ។ ទិន្នន័យមិនត្រូវបានបញ្ជូនទៅណាទេ។"],
+  ["Cryptographically random bytes for keys, tokens, or nonces.", "បៃចៃដន្យតាមបទដ្ឋានគ្រីបតូក្រាហ្វិក សម្រាប់សោ ថូខិន ឬលេខប្រើតែម្តង។"],
+  ["Cryptographically random numeric PIN of any length.", "លេខ PIN ចៃដន្យតាមបទដ្ឋានគ្រីបតូក្រាហ្វិក ក្នុងប្រវែងណាមួយក៏បាន។"],
+  ["Shift letters by a fixed amount. ROT13 is shift 13; try any shift for a general Caesar cipher.", "រំកិលអក្សរតាមចំនួនកំណត់។ ROT13 គឺរំកិល ១៣ តួ ហើយអ្នកអាចប្រើចំនួនរំកិលណាមួយសម្រាប់ស៊ីហ្វ័រ Caesar ទូទៅ។"],
+  ["Deterministic SHA-1-based UUID from a namespace and name — same inputs always give the same UUID.", "UUID ដែលបង្កើតតាម SHA-1 ពី namespace និងឈ្មោះ — ការបញ្ចូលដូចគ្នាផ្តល់ UUID ដូចគ្នាជានិច្ច។"],
+  ["Classic polyalphabetic cipher using a repeating keyword.", "ស៊ីហ្វ័របុរាណបែបពហុអក្ខរក្រម ដែលប្រើពាក្យគន្លឹះដដែលៗ។"],
+];
+
+const TEXT: Entry[] = [
+  ["Builds an acronym from the first letter of each word.", "បង្កើតពាក្យកាត់ពីអក្សរដំបូងនៃពាក្យនីមួយៗ។"],
+  ["Check whether two phrases are anagrams of each other, ignoring case, spaces, and punctuation.", "ពិនិត្យថាតើឃ្លាពីរជាអាណាក្រាមរបស់គ្នាឬអត់ ដោយមិនគិតអក្សរធំតូច ចន្លោះ និងវណ្ណយុត្តិ។"],
+  ["Counts how often each character appears, sorted by frequency.", "រាប់ចំនួនដងដែលតួអក្សរនីមួយៗលេចឡើង ហើយតម្រៀបតាមប្រេកង់។"],
+  ["Replace all matches of plain text or a regular expression.", "ជំនួសរាល់ការផ្គូផ្គងនៃអត្ថបទធម្មតា ឬកន្សោមធម្មតា។"],
+  ["Prefix each line of text with a sequential number — useful for code snippets, scripts, or numbered lists.", "ដាក់លេខរៀងនៅខាងដើមបន្ទាត់នីមួយៗ — មានប្រយោជន៍សម្រាប់កូដ ស្គ្រីប ឬបញ្ជីមានលេខ។"],
+  ["Sort lines alphabetically, numerically, or by length.", "តម្រៀបបន្ទាត់តាមអក្ខរក្រម តាមលេខ ឬតាមប្រវែង។"],
+  ["Checks if text reads the same forwards and backwards, ignoring case, spaces, and punctuation.", "ពិនិត្យថាតើអត្ថបទអានពីមុខទៅក្រោយ និងពីក្រោយទៅមុខដូចគ្នាឬអត់ ដោយមិនគិតអក្សរធំតូច ចន្លោះ និងវណ្ណយុត្តិ។"],
+  ["Cryptographically random strings from a custom character set.", "ខ្សែអក្សរចៃដន្យតាមបទដ្ឋានគ្រីបតូក្រាហ្វិក ពីសំណុំតួអក្សរដែលអ្នកកំណត់។"],
+  ["Strips repeated lines while keeping the first occurrence's order.", "លុបបន្ទាត់ស្ទួន ដោយរក្សាលំដាប់នៃការលេចឡើងលើកដំបូង។"],
+  ["Generate ready-to-edit paragraphs for common email and administrative writing — pick a category and tone, fill in the topic, and get a natural-sounding draft to start from. Purely template-based and offline, not AI-generated.", "បង្កើតកថាខណ្ឌព្រាងសម្រាប់អ៊ីមែល និងការសរសេរឯកសាររដ្ឋបាល — ជ្រើសរើសប្រភេទ និងសំនៀង បំពេញប្រធានបទ ហើយទទួលបានអត្ថបទព្រាងដែលអានទៅធម្មជាតិ។ ប្រើគំរូសរសេរជាមូលដ្ឋាន និងដំណើរការក្រៅបណ្តាញ មិនមែនបង្កើតដោយ AI ទេ។"],
+  ["Split delimited text into columns and pull out one by its position.", "បំបែកអត្ថបទដែលមានសញ្ញាបំបែកជាជួរឈរ ហើយដកស្រង់ជួរឈរមួយតាមទីតាំង។"],
+  ["Reverse text by character, word, or line.", "បញ្ច្រាសអត្ថបទតាមតួអក្សរ តាមពាក្យ ឬតាមបន្ទាត់។"],
+  ["Word, sentence, and character counts, plus an estimated reading time at 200 wpm.", "ចំនួនពាក្យ ប្រយោគ និងតួអក្សរ ព្រមទាំងពេលវេលាអានប៉ាន់ស្មានតាមអត្រា ២០០ ពាក្យក្នុងមួយនាទី។"],
+  ["Convert text to space-separated 8-bit binary and back, via UTF-8 bytes.", "បម្លែងអត្ថបទទៅជាលេខគោលពីរ ៨ ប៊ីតបំបែកដោយចន្លោះ និងត្រឡប់វិញ តាមបៃ UTF-8។"],
+  ["Encode text to International Morse Code (words separated by /) or decode it back.", "អ៊ិនកូដអត្ថបទទៅជាកូដ Morse អន្តរជាតិ (បំបែកពាក្យដោយ /) ឬឌិកូដត្រឡប់វិញ។"],
+  ["Shorten text to a maximum length with a custom ellipsis/suffix.", "កាត់អត្ថបទឱ្យខ្លីតាមប្រវែងអតិបរមា ដោយបន្ថែមសញ្ញា ឬបច្ច័យតាមការកំណត់។"],
+  ["AP-style title casing: capitalizes major words, lowercases short articles and conjunctions mid-title.", "ការសរសេរអក្សរធំតាមរចនាបថ AP៖ ធ្វើអក្សរធំលើពាក្យសំខាន់ៗ និងអក្សរតូចលើពាក្យភ្ជាប់ខ្លីនៅកណ្តាលចំណងជើង។"],
+  ["Trim trailing spaces, collapse repeated spaces, or drop blank lines.", "កាត់ចន្លោះនៅចុងបន្ទាត់ បង្រួមចន្លោះស្ទួន ឬលុបបន្ទាត់ទំនេរ។"],
+];
+
+const TIME_OFFICE: Entry[] = [
+  ["Exact age in years, months, and days from a birth date.", "អាយុពិតប្រាកដជាឆ្នាំ ខែ និងថ្ងៃ ដោយគិតពីថ្ងៃកំណើត។"],
+  ["Renders a plain calendar grid for any month.", "បង្ហាញប្រតិទិនជាក្រឡាចត្រង្គធម្មតាសម្រាប់ខែណាមួយ។"],
+  ["Live countdown to a target date and time, updated every second.", "រាប់ថយក្រោយទៅកាលបរិច្ឆេទ និងពេលគោលដៅ ដោយធ្វើបច្ចុប្បន្នភាពរាល់វិនាទី។"],
+  ["Number of days, weeks, and years between two dates.", "ចំនួនថ្ងៃ សប្តាហ៍ និងឆ្នាំរវាងកាលបរិច្ឆេទពីរ។"],
+  ["Add or subtract a list of HH:MM:SS durations to get a running total — useful for timesheets or stacked timers.", "បូក ឬដករយៈពេលជាទម្រង់ ម៉ោង:នាទី:វិនាទី ដើម្បីទទួលបានផលបូកសរុប — មានប្រយោជន៍សម្រាប់តារាងម៉ោងធ្វើការ។"],
+  ["Approximate moon phase and illumination for a given date, using a fixed synodic month.", "ដំណាក់កាលព្រះចន្ទ និងកម្រិតបំភ្លឺប្រហាក់ប្រហែលសម្រាប់កាលបរិច្ឆេទដែលកំណត់ ដោយប្រើខែច័ន្ទថេរ។"],
+  ["Alternating work/break intervals for focused sessions.", "វគ្គធ្វើការ និងវគ្គសម្រាកជំនួសគ្នា សម្រាប់ការផ្តោតអារម្មណ៍។"],
+  ["Formats a date/time as a human relative phrase, like 'in 3 days' or '5 hours ago'.", "បង្ហាញកាលបរិច្ឆេទ ឬពេលវេលាជាឃ្លាធៀបនឹងពេលបច្ចុប្បន្ន ដូចជា 'ក្នុងរយៈពេល ៣ ថ្ងៃ' ឬ '៥ ម៉ោងមុន'។"],
+  ["Work out how long a shift lasts, including shifts that cross midnight, minus an unpaid break.", "គណនារយៈពេលវេនការងារ រួមទាំងវេនដែលឆ្លងកាត់អធ្រាត្រ ដោយដកពេលសម្រាកគ្មានប្រាក់។"],
+  ["Simple stopwatch with lap tracking, running in your browser.", "នាឡិកាកំណត់ពេលសាមញ្ញ ដែលអាចកត់ត្រាជុំ ហើយដំណើរការក្នុងកម្មវិធីរុករក។"],
+  ["Convert a date and time from one timezone to another.", "បម្លែងកាលបរិច្ឆេទ និងពេលវេលាពីតំបន់ពេលវេលាមួយទៅមួយទៀត។"],
+  ["Finds the ISO-8601 week number for a given date.", "រកលេខសប្តាហ៍តាមស្តង់ដារ ISO-8601 សម្រាប់កាលបរិច្ឆេទដែលកំណត់។"],
+  ["Counts weekdays (Mon–Fri) between two dates, inclusive.", "រាប់ថ្ងៃធ្វើការ (ចន្ទ–សុក្រ) រវាងកាលបរិច្ឆេទពីរ រួមបញ្ចូលទាំងថ្ងៃទាំងសង។"],
+  ["Spell out a dollar-and-cents amount in English — cheque-style ('…and 45/100') or plain prose — for invoices, cheques, and contracts.", "សរសេរចំនួនទឹកប្រាក់ដុល្លារ និងសេនជាពាក្យអង់គ្លេស — បែបមូលប្បទានប័ត្រ ('…and 45/100') ឬបែបអត្ថបទធម្មតា — សម្រាប់វិក្កយបត្រ មូលប្បទានប័ត្រ និងកិច្ចសន្យា។"],
+  ["Generate a sequential run of formatted reference numbers — invoices, purchase orders, contract addenda, site memos — with a consistent prefix and year.", "បង្កើតលេខយោងជាលំដាប់តាមទម្រង់កំណត់ — វិក្កយបត្រ បញ្ជាទិញ ឧបសម្ព័ន្ធកិច្ចសន្យា និងលិខិតការដ្ឋាន — ដោយប្រើបុព្វបទ និងឆ្នាំដូចគ្នា។"],
+  ["A minimalist expense log — add entries, tag a category, and see totals. Kept entirely in this browser's local storage, nothing is sent anywhere.", "សៀវភៅកត់ត្រាចំណាយសាមញ្ញ — បន្ថែមធាតុ ដាក់ប្រភេទ និងមើលចំនួនសរុប។ ទិន្នន័យរក្សាទុកក្នុងកម្មវិធីរុករករបស់អ្នកទាំងស្រុង ដោយមិនបញ្ជូនទៅណាទេ។"],
+  ["Shrink PDFs and images — batch, in your browser, nothing uploaded. Ported from the author's standalone tool, Sralify (ស្រាល, Khmer for 'light').", "បង្រួមទំហំឯកសារ PDF និងរូបភាព — ធ្វើបានច្រើនក្នុងពេលតែមួយ ក្នុងកម្មវិធីរុករក ដោយគ្មានការបញ្ជូនឯកសារឡើង។ ផ្អែកលើឧបករណ៍ Sralify (ស្រាល) របស់អ្នកនិពន្ធ។"],
+  ["Combine JPG, PNG, or WebP images into a single PDF — reorder them first, choose a page size, then export. Built entirely in your browser.", "បញ្ចូលរូបភាព JPG, PNG ឬ WebP ទៅជាឯកសារ PDF តែមួយ — រៀបលំដាប់ ជ្រើសរើសទំហំទំព័រ បន្ទាប់មកនាំចេញ។ ដំណើរការទាំងស្រុងក្នុងកម្មវិធីរុករក។"],
+  ["Drop in a PDF to see its exact page count, metadata, and a first-page thumbnail — parsed entirely in your browser with pdf.js, nothing is uploaded.", "ទម្លាក់ឯកសារ PDF ចូល ដើម្បីមើលចំនួនទំព័រពិតប្រាកដ ទិន្នន័យមេតា និងរូបតូចនៃទំព័រទីមួយ — វិភាគទាំងស្រុងក្នុងកម្មវិធីរុករកដោយ pdf.js ដោយគ្មានការបញ្ជូនឯកសារឡើង។"],
+  ["Combine multiple PDFs into a single file, in any order you choose — merged entirely in your browser, nothing is uploaded. First-page thumbnails let you confirm the order before merging.", "បញ្ចូលឯកសារ PDF ច្រើនទៅជាឯកសារតែមួយ តាមលំដាប់ដែលអ្នកជ្រើសរើស — ដំណើរការទាំងស្រុងក្នុងកម្មវិធីរុករក ដោយគ្មានការបញ្ជូនឯកសារឡើង។ រូបតូចនៃទំព័រទីមួយជួយឱ្យអ្នកផ្ទៀងផ្ទាត់លំដាប់មុនបញ្ចូលគ្នា។"],
+  ["Reorder pages by dragging, rotate or remove individual pages, then export exactly the document you need — all rendered and rebuilt locally in your browser.", "រៀបលំដាប់ទំព័រដោយអូស បង្វិល ឬលុបទំព័រនីមួយៗ បន្ទាប់មកនាំចេញឯកសារតាមតម្រូវការ — ដំណើរការ និងសង់ឡើងវិញទាំងស្រុងក្នុងកម្មវិធីរុករក។"],
+  ["Render every page of a PDF as a PNG or JPEG at a resolution you choose, and download them all as a zip — all done locally with pdf.js.", "បម្លែងរាល់ទំព័ររបស់ PDF ទៅជារូបភាព PNG ឬ JPEG តាមគុណភាពដែលអ្នកជ្រើសរើស ហើយទាញយកទាំងអស់ជាឯកសារ zip — ដំណើរការក្នុងកម្មវិធីរុករកដោយ pdf.js។"],
+  ["Stamp a text watermark — like CONFIDENTIAL or a company name — across every page of a PDF, entirely in your browser. The preview below updates live as you adjust the settings.", "ដាក់អត្ថបទ Watermark ដូចជា CONFIDENTIAL ឬឈ្មោះក្រុមហ៊ុន លើគ្រប់ទំព័ររបស់ឯកសារ PDF ទាំងស្រុងក្នុងកម្មវិធីរុករក។ ការមើលជាមុនខាងក្រោមនឹងផ្លាស់ប្តូរភ្លាមៗពេលអ្នកកែការកំណត់។"],
+  ["Upload an image, drag a file in, or scan live with your camera to read a QR code's content — decoded entirely in your browser, nothing leaves your device.", "បញ្ចូលរូបភាព ទម្លាក់ឯកសារ ឬស្កេនផ្ទាល់ដោយកាមេរ៉ា ដើម្បីអានខ្លឹមសារកូដ QR — ឌិកូដទាំងស្រុងក្នុងកម្មវិធីរុករក ដោយទិន្នន័យមិនចេញពីឧបករណ៍អ្នកទេ។"],
+  ["Generate a scannable QR code for a link, Wi-Fi network, contact card, email, SMS, or phone number — rendered locally, with custom colors, a center logo, and PNG/SVG export.", "បង្កើតកូដ QR ដែលអាចស្កេនបានសម្រាប់តំណ បណ្តាញ Wi-Fi កាតទំនាក់ទំនង អ៊ីមែល សារ SMS ឬលេខទូរសព្ទ — បង្កើតក្នុងកម្មវិធីរុករក ដោយអាចកំណត់ពណ៌ ដាក់រូបសញ្ញាកណ្តាល និងនាំចេញជា PNG/SVG។"],
+];
+
+const ENTRIES: Entry[] = [
+  ...DESIGN, ...DEV, ...GEO, ...MEDIA, ...KHMER, ...MATH, ...NETWORK, ...SECURITY, ...TEXT, ...TIME_OFFICE,
+];
+
+const EXACT = new Map<string, string>();
+for (const [en, km] of ENTRIES) if (!EXACT.has(en)) EXACT.set(en, km);
+
+/** Khmer form of a tool description, or undefined when untranslated. */
+export function descriptionKmFor(description: string): string | undefined {
+  return EXACT.get(description) ?? EXACT.get(description.replace(/\s+/g, " ").trim());
+}
