@@ -76,7 +76,7 @@ export default function PronounRegister() {
         </Field>
       </div>
 
-      <div className="overflow-hidden rounded-md border border-[var(--ground-line)]">
+      <div className="rounded-md border border-[var(--ground-line)]">
         <table className="w-full text-left text-sm">
           <thead className="bg-[var(--ground-raised)] text-xs uppercase tracking-wide text-[var(--ink-dim)]">
             <tr>

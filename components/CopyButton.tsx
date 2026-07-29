@@ -33,7 +33,7 @@ export function CopyButton({ text, compact = false, className = "", dropdown, fi
   }
 
   return (
-    <div className="relative inline-flex">
+    <div className={`inline-flex${hasMenu ? " relative" : ""}`}>
       <button
         type="button"
         disabled={!text.trim()}

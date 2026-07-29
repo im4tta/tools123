@@ -133,6 +133,8 @@ export default function Home() {
     const badge = badgeRef.current;
     const dot = dotRef.current;
     if (!badge || !dot) return;
+    const b: HTMLSpanElement = badge;
+    const d: HTMLSpanElement = dot;
     let raf: number;
     const start = performance.now();
     function tick(now: number) {
@@ -150,10 +152,10 @@ export default function Home() {
         scale = 1;
         glow = 0;
       }
-      badge.style.transform = `scale(${scale})`;
-      badge.style.boxShadow = `0 0 ${4 + glow * 24}px ${glow * 7}px rgba(201,162,75,${0.1 + glow * 0.5})`;
+      b.style.transform = `scale(${scale})`;
+      b.style.boxShadow = `0 0 ${4 + glow * 24}px ${glow * 7}px rgba(201,162,75,${0.1 + glow * 0.5})`;
       const dotPulse = 0.15 + 0.85 * (0.5 + 0.5 * Math.sin(t * Math.PI * 2));
-      dot.style.opacity = String(dotPulse);
+      d.style.opacity = String(dotPulse);
       raf = requestAnimationFrame(tick);
     }
     raf = requestAnimationFrame(tick);

@@ -73,7 +73,7 @@ export default function ProvincesReference() {
           <TextInput value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Province or capital name…" />
         </Field>
       </div>
-      <div className="overflow-hidden rounded-md border border-[var(--ground-line)]">
+      <div className="rounded-md border border-[var(--ground-line)]">
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b border-[var(--ground-line)] bg-[var(--ground-raised)] text-left text-xs uppercase tracking-wide text-[var(--ink-faint)]">

@@ -33,7 +33,7 @@ export default function PunctuationReferenceTool() {
       <Field label="Filter">
         <TextInput value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search by name or usage…" />
       </Field>
-      <div className="overflow-hidden rounded-md border border-[var(--ground-line)]">
+      <div className="rounded-md border border-[var(--ground-line)]">
         <table className="w-full text-left text-sm">
           <thead>
             <tr className="border-b border-[var(--ground-line)] bg-[var(--ground-raised)] text-xs uppercase tracking-wide text-[var(--ink-dim)]">
