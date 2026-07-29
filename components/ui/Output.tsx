@@ -40,7 +40,7 @@ export function Output({
         }`}
       >
         <pre
-          className={`max-h-72 overflow-auto whitespace-pre-wrap break-all ${mono ? "font-mono-ui" : ""}`}
+          className={`max-h-72 overflow-auto whitespace-pre-wrap ${mono ? "break-all font-mono-ui" : "break-words font-khmer leading-relaxed"}`}
         >
           {value || " "}
         </pre>

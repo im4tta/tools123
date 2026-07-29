@@ -4,14 +4,15 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ChevronRight, Menu, Search, Star, X, ZoomIn, ZoomOut, Maximize2 } from "lucide-react";
 import { TOOLS, CATEGORY_META, CATEGORY_ORDER, Category } from "@/lib/tools";
 import { useLanguage } from "@/components/LanguageProvider";
+import { useTheme } from "@/components/ThemeProvider";
 
 /**
  * ObsidianGraph — a note-graph style view of the whole toolbox.
  *
  * - Category nodes act as hubs, tool nodes orbit them (mirrors Obsidian's
  *   note/tag graph, where clusters form organically from link structure).
- * - Pure canvas + rAF force simulation, no dependency, tuned for ~170 nodes
- *   so it stays smooth on a mid-range laptop.
+ * - Pure canvas + a settled layout, no dependency, tuned for hundreds of
+ *   nodes so it stays smooth on a mid-range laptop.
  * - Left sidebar mirrors Obsidian's file explorer: collapsible category
  *   tree, search, click-to-focus-or-open.
  */
@@ -25,8 +26,6 @@ interface GNode {
   y: number;
   vx: number;
   vy: number;
-  fx: number | null; // pinned position while dragging
-  fy: number | null;
   r: number;
 }
 
@@ -53,40 +52,47 @@ export function ObsidianGraph({
   onClearFocusCategory?: () => void;
 }) {
   const { mode, text: t } = useLanguage();
+  const { theme } = useTheme();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const wrapRef = useRef<HTMLDivElement>(null);
   const nodesRef = useRef<GNode[]>([]);
   const linksRef = useRef<GLink[]>([]);
   const nodeById = useRef<Map<string, GNode>>(new Map());
   const cameraRef = useRef({ x: 0, y: 0, scale: 1 });
-  const dragRef = useRef<{ id: string | null; panning: boolean; lastX: number; lastY: number; moved: boolean }>({
+  const dragRef = useRef<{
+    id: string | null;
+    panning: boolean;
+    lastX: number;
+    lastY: number;
+    originX: number;
+    originY: number;
+    lastAt: number;
+    moved: boolean;
+  }>({
     id: null,
     panning: false,
     lastX: 0,
     lastY: 0,
+    originX: 0,
+    originY: 0,
+    lastAt: 0,
     moved: false,
   });
+  const clusterFollowRef = useRef<{
+    parentId: string;
+    offsets: Map<string, { x: number; y: number }>;
+    active: boolean;
+    frames: number;
+  } | null>(null);
   const hoverRef = useRef<string | null>(null);
   const focusCategoryRef = useRef<Category | null>(null);
   const velRef = useRef({ vx: 0, vy: 0 });
   const inertiaRef = useRef(false);
   const rafRef = useRef<number | null>(null);
+  const scheduleFrameRef = useRef<() => void>(() => {});
   const pulseRef = useRef<{ id: string | null; startedAt: number }>({ id: null, startedAt: 0 });
-  const settleRef = useRef(0);
-  // Backstop for the velocity-based settle check below: with enough nodes,
-  // the repulsion/spring/center forces can reach a low-amplitude oscillation
-  // that never actually dips under the settle threshold, so settleRef would
-  // sit at 0 forever and the full physics pass (plus the per-node label
-  // draw) would run every single frame for as long as the graph stays open
-  // — which is what was pinning the tab. This counts consecutive "still
-  // moving" frames and force-settles once the layout has clearly had enough
-  // time to find a reasonable shape, regardless of whether it ever fully
-  // stops jittering.
-  const unsettledTicksRef = useRef(0);
-  const wasSettledRef = useRef(true);
-  const MAX_UNSETTLED_TICKS = 240; // ~4s at 60fps
   const didFitRef = useRef(false);
-  const didSettleFitRef = useRef(false);
+  const viewportSizeRef = useRef({ width: 0, height: 0 });
 
   const [sidebarFilter, setSidebarFilter] = useState("");
   const [collapsed, setCollapsed] = useState<Set<Category>>(new Set());
@@ -125,8 +131,6 @@ export function ObsidianGraph({
         y: Math.sin(angle) * ringR,
         vx: 0,
         vy: 0,
-        fx: null,
-        fy: null,
         r: 12,
       });
     });
@@ -153,8 +157,6 @@ export function ObsidianGraph({
         y: parent.y + Math.sin(jitterAngle) * jitterR,
         vx: 0,
         vy: 0,
-        fx: null,
-        fy: null,
         r: 4,
       });
       links.push({ a: `cat:${t.category}`, b: t.id });
@@ -163,8 +165,16 @@ export function ObsidianGraph({
     nodesRef.current = nodes;
     linksRef.current = links;
     nodeById.current = new Map(nodes.map((n) => [n.id, n]));
-    settleRef.current = 0;
+    clusterFollowRef.current = null;
+    didFitRef.current = false;
+    if (canvasRef.current) delete canvasRef.current.dataset.graphRenderKey;
+    scheduleFrameRef.current();
   }, [mode]);
+
+  const invalidateCanvas = useCallback(() => {
+    if (canvasRef.current) delete canvasRef.current.dataset.graphRenderKey;
+    scheduleFrameRef.current();
+  }, []);
 
   // ---- resize + camera fit ----
   const resize = useCallback(() => {
@@ -175,17 +185,25 @@ export function ObsidianGraph({
     const w = wrap.clientWidth;
     const h = wrap.clientHeight;
     // Sidebar drawer / mobile layout toggles can momentarily report a
-    // 0-size wrapper mid-reflow. Sizing the canvas backing store to 0 makes
-    // it (and everything drawn to it) disappear until another resize fires
-    // — skip and keep whatever the canvas already had.
+    // 0-size wrapper mid-reflow. Keep the existing backing store until the
+    // wrapper has a usable size again.
     if (w === 0 || h === 0) return;
+
+    const previous = viewportSizeRef.current;
+    const materiallyChanged = Math.abs(previous.width - w) > 1 || Math.abs(previous.height - h) > 1;
+    if (!materiallyChanged && canvas.width === Math.floor(w * dpr) && canvas.height === Math.floor(h * dpr)) return;
+
+    viewportSizeRef.current = { width: w, height: h };
     canvas.width = Math.floor(w * dpr);
     canvas.height = Math.floor(h * dpr);
     canvas.style.width = `${w}px`;
     canvas.style.height = `${h}px`;
     const ctx = canvas.getContext("2d");
     ctx?.setTransform(dpr, 0, 0, dpr, 0, 0);
-  }, []);
+
+    if (materiallyChanged) didFitRef.current = false;
+    invalidateCanvas();
+  }, [invalidateCanvas]);
 
   useEffect(() => {
     resize();
@@ -196,10 +214,42 @@ export function ObsidianGraph({
 
   // ---- colors ----
   const catColor = useMemo(() => {
-    const m = new Map<Category, string>();
-    CATEGORY_ORDER.forEach((c) => m.set(c, CATEGORY_META[c].color));
-    return m;
-  }, []);
+    const styles = typeof document === "undefined" ? null : getComputedStyle(document.documentElement);
+    const colors = new Map<Category, string>();
+    CATEGORY_ORDER.forEach((category) => {
+      const configured = CATEGORY_META[category].color;
+      const variable = configured.match(/^var\((--[^)]+)\)$/)?.[1];
+      const resolved = variable && styles ? styles.getPropertyValue(variable).trim() : configured;
+      colors.set(category, resolved || (theme === "dark" ? "#c9a24b" : "#9a7728"));
+    });
+    return colors;
+  }, [theme]);
+
+  const canvasPalette = useMemo(
+    () =>
+      theme === "dark"
+        ? {
+            edge: "rgba(224, 229, 239, 0.34)",
+            edgeDim: "rgba(224, 229, 239, 0.10)",
+            labelPrimary: "#f2f4f8",
+            labelSecondary: "#bdc3ce",
+            categoryOutline: "rgba(255, 255, 255, 0.58)",
+            labelHalo: "rgba(8, 11, 17, 0.98)",
+            labelBackground: "rgba(8, 11, 17, 0.72)",
+            selectedLabel: "#fff9e8",
+          }
+        : {
+            edge: "rgba(36, 43, 56, 0.38)",
+            edgeDim: "rgba(36, 43, 56, 0.13)",
+            labelPrimary: "#171a21",
+            labelSecondary: "#4c5360",
+            categoryOutline: "rgba(20, 24, 32, 0.58)",
+            labelHalo: "rgba(255, 255, 255, 0.98)",
+            labelBackground: "rgba(250, 249, 246, 0.82)",
+            selectedLabel: "#101319",
+          },
+    [theme]
+  );
 
   // ---- simulation + render loop ----
   useEffect(() => {
@@ -215,166 +265,90 @@ export function ObsidianGraph({
     delete canvas.dataset.graphRenderKey;
     let running = true;
 
+    const requestRender = () => {
+      if (running && rafRef.current === null) rafRef.current = requestAnimationFrame(step);
+    };
+    scheduleFrameRef.current = requestRender;
+
     function step(now: number) {
-      const nodes = nodesRef.current;
-      const links = linksRef.current;
-      const n = nodes.length;
+      rafRef.current = null;
+      let animationActive = false;
 
-      // The graph is laid out when data is built. Re-running force physics for
-      // hundreds of nodes on mount or click was the remaining source of tab
-      // freezes, so interactions now move nodes directly without waking it.
-      settleRef.current = 1;
-
-      // A wake is any transition from settled back to unsettled (drag,
-      // category focus, reset view, ...) — give it a fresh tick budget
-      // rather than carrying over an already-exhausted counter.
-      const isSettledNow = settleRef.current >= 1;
-      if (isSettledNow && !wasSettledRef.current) {
-        // just settled — nothing to reset yet, next unsettle will reset below
+      // Move only the children of the actively dragged category. This keeps
+      // Obsidian-style spring following at O(cluster size) and avoids the
+      // all-node force pass that previously monopolized the main thread.
+      const clusterFollow = clusterFollowRef.current;
+      if (clusterFollow) {
+        const parent = nodeById.current.get(clusterFollow.parentId);
+        if (!parent) {
+          clusterFollowRef.current = null;
+        } else {
+          let maxDistance = 0;
+          for (const [childId, offset] of clusterFollow.offsets) {
+            const child = nodeById.current.get(childId);
+            if (!child) continue;
+            const dx = parent.x + offset.x - child.x;
+            const dy = parent.y + offset.y - child.y;
+            maxDistance = Math.max(maxDistance, Math.hypot(dx, dy));
+            child.vx = (child.vx + dx * 0.18) * 0.68;
+            child.vy = (child.vy + dy * 0.18) * 0.68;
+            child.x += child.vx;
+            child.y += child.vy;
+          }
+          if (clusterFollow.active) {
+            clusterFollow.frames = 0;
+            animationActive = maxDistance >= 0.12;
+          } else {
+            clusterFollow.frames += 1;
+            if (clusterFollow.frames >= 36 || maxDistance < 0.12) {
+              for (const childId of clusterFollow.offsets.keys()) {
+                const child = nodeById.current.get(childId);
+                if (child) { child.vx = 0; child.vy = 0; }
+              }
+              clusterFollowRef.current = null;
+            } else {
+              animationActive = true;
+            }
+          }
+        }
       }
-      if (!isSettledNow && wasSettledRef.current) {
-        unsettledTicksRef.current = 0;
-      }
-      wasSettledRef.current = isSettledNow;
 
       // Momentum: after a released pan/swipe, keep drifting and decay each
       // frame — this is what makes touch panning feel "thrown" instead of
       // stopping the instant a finger lifts.
       if (inertiaRef.current) {
         const cam = cameraRef.current;
-        cam.x += velRef.current.vx;
-        cam.y += velRef.current.vy;
-        velRef.current.vx *= 0.91;
-        velRef.current.vy *= 0.91;
+        canvas!.style.cursor = "grabbing";
+        if (Number.isFinite(velRef.current.vx) && Number.isFinite(velRef.current.vy)) {
+          cam.x += velRef.current.vx;
+          cam.y += velRef.current.vy;
+          velRef.current.vx *= 0.91;
+          velRef.current.vy *= 0.91;
+        } else {
+          velRef.current.vx = 0;
+          velRef.current.vy = 0;
+        }
         if (Math.abs(velRef.current.vx) < 0.03 && Math.abs(velRef.current.vy) < 0.03) {
           inertiaRef.current = false;
           velRef.current.vx = 0;
           velRef.current.vy = 0;
-        }
-      }
-
-      // Only run physics while not settled, so idle panning/hover stays cheap.
-      if (settleRef.current < 1) {
-        const REPULSION = 2600;
-        const SPRING = 0.02;
-        const SPRING_LEN = 70;
-        const CENTER = 0.0012;
-        const DAMP = 0.82;
-        // Repulsion only meaningfully matters between nearby nodes (force
-        // decays with 1/d²), so instead of the naive all-pairs O(n²) scan —
-        // which is fine at ~170 nodes but starts costing real milliseconds
-        // per frame once the toolbox grows into the hundreds — bucket nodes
-        // into a coarse grid and only compare each node against neighbors in
-        // its own and the 8 surrounding cells. This keeps the simulation at
-        // roughly O(n) and is what stops the whole graph from stalling (and
-        // visually "disappearing" for a beat) the moment a drag/pinch wakes
-        // the physics back up on a large node set.
-        const CELL = 160;
-        const grid = new Map<string, GNode[]>();
-        for (let i = 0; i < n; i++) {
-          const nd = nodes[i];
-          const key = `${Math.floor(nd.x / CELL)}:${Math.floor(nd.y / CELL)}`;
-          const bucket = grid.get(key);
-          if (bucket) bucket.push(nd);
-          else grid.set(key, [nd]);
-        }
-
-        for (let i = 0; i < n; i++) {
-          const a = nodes[i];
-          if (a.fx !== null) continue;
-          let fx = -a.x * CENTER;
-          let fy = -a.y * CENTER;
-          if (a.kind === "category") {
-            // Keep category hubs distributed around their original ring.
-            // Without an anchor, the global center force eventually pulls
-            // every disconnected category star into the same central pile.
-            const categoryIndex = CATEGORY_ORDER.indexOf(a.category);
-            const anchorAngle = (categoryIndex / CATEGORY_ORDER.length) * TAU;
-            const anchorX = Math.cos(anchorAngle) * 520;
-            const anchorY = Math.sin(anchorAngle) * 520;
-            const ANCHOR = 0.008;
-            fx += (anchorX - a.x) * ANCHOR;
-            fy += (anchorY - a.y) * ANCHOR;
-          }
-          const cx = Math.floor(a.x / CELL);
-          const cy = Math.floor(a.y / CELL);
-          for (let gx = cx - 1; gx <= cx + 1; gx++) {
-            for (let gy = cy - 1; gy <= cy + 1; gy++) {
-              const bucket = grid.get(`${gx}:${gy}`);
-              if (!bucket) continue;
-              for (const b of bucket) {
-                if (b === a) continue;
-                const dx = a.x - b.x;
-                const dy = a.y - b.y;
-                let d2 = dx * dx + dy * dy;
-                if (d2 < 1) d2 = 1;
-                const force = REPULSION / d2;
-                const d = Math.sqrt(d2);
-                fx += (dx / d) * force;
-                fy += (dy / d) * force;
-              }
-            }
-          }
-          a.vx = (a.vx + fx) * DAMP;
-          a.vy = (a.vy + fy) * DAMP;
-        }
-
-        for (const l of links) {
-          const a = nodeById.current.get(l.a);
-          const b = nodeById.current.get(l.b);
-          if (!a || !b) continue;
-          const dx = b.x - a.x;
-          const dy = b.y - a.y;
-          const d = Math.max(Math.sqrt(dx * dx + dy * dy), 0.01);
-          const stretch = d - SPRING_LEN;
-          const fx = (dx / d) * stretch * SPRING;
-          const fy = (dy / d) * stretch * SPRING;
-          if (a.fx === null) {
-            a.vx += fx;
-            a.vy += fy;
-          }
-          if (b.fx === null) {
-            b.vx -= fx;
-            b.vy -= fy;
-          }
-        }
-
-        let totalV = 0;
-        for (const nd of nodes) {
-          if (nd.fx !== null) {
-            nd.x = nd.fx;
-            nd.y = nd.fy!;
-            continue;
-          }
-          nd.x += nd.vx;
-          nd.y += nd.vy;
-          totalV += Math.abs(nd.vx) + Math.abs(nd.vy);
-        }
-        if (totalV / n < 0.05) {
-          settleRef.current += 1;
+          canvas!.style.cursor = hoverRef.current ? "pointer" : "grab";
         } else {
-          unsettledTicksRef.current += 1;
-          if (unsettledTicksRef.current > MAX_UNSETTLED_TICKS) {
-            // Layout has had its fair shot — accept it as-is rather than
-            // burning CPU on an oscillation that will never fully die out.
-            settleRef.current = 1;
-          } else {
-            settleRef.current = 0;
-          }
+          animationActive = true;
         }
       }
 
-      // If a single frame throws (bad input, transient DOM state, etc.) the
-      // uncaught error would otherwise abort this callback before it
-      // re-schedules itself, silently ending the rAF chain for good — the
-      // graph would just stay frozen/blank with no way to recover short of
-      // a reload. Keep the loop alive regardless.
+      // Contain any bad transient frame without leaving a runaway callback or
+      // permanently stopping future interaction-driven renders.
       try {
         draw(now);
       } catch (err) {
-        console.error("ObsidianGraph draw error", err);
+        console.error("ObsidianGraph frame error", err);
       }
-      if (running) rafRef.current = requestAnimationFrame(step);
+
+      const pulse = pulseRef.current;
+      const pulseElapsed = pulse.id === selected && selected ? now - pulse.startedAt : Number.POSITIVE_INFINITY;
+      if (animationActive || (pulseElapsed >= 0 && pulseElapsed < 2400)) requestRender();
     }
 
     function fitToView(w: number, h: number) {
@@ -390,7 +364,7 @@ export function ObsidianGraph({
       const graphW = Math.max(1, maxX - minX);
       const graphH = Math.max(1, maxY - minY);
       const fitScale = Math.min((w * 0.85) / graphW, (h * 0.85) / graphH, 1.2);
-      cameraRef.current.scale = Math.max(0.2, fitScale);
+      cameraRef.current.scale = Math.max(0.25, fitScale);
       cameraRef.current.x = -((minX + maxX) / 2) * cameraRef.current.scale;
       cameraRef.current.y = -((minY + maxY) / 2) * cameraRef.current.scale;
     }
@@ -409,7 +383,6 @@ export function ObsidianGraph({
         cam0.y = 0;
         cam0.scale = 1;
         didFitRef.current = false;
-        didSettleFitRef.current = false;
         inertiaRef.current = false;
         velRef.current.vx = 0;
         velRef.current.vy = 0;
@@ -418,10 +391,6 @@ export function ObsidianGraph({
       if (!didFitRef.current && w > 0 && nodesRef.current.length > 0) {
         fitToView(w, h);
         didFitRef.current = true;
-      }
-      if (!didSettleFitRef.current && didFitRef.current && settleRef.current >= 1 && w > 0) {
-        fitToView(w, h);
-        didSettleFitRef.current = true;
       }
 
       const cam = cameraRef.current;
@@ -432,7 +401,8 @@ export function ObsidianGraph({
       const firstBeat = Math.exp(-Math.pow((pulseCycle - 0.14) / 0.055, 2));
       const secondBeat = 0.68 * Math.exp(-Math.pow((pulseCycle - 0.31) / 0.075, 2));
       const pulseBeat = Math.min(1, firstBeat + secondBeat);
-      const layoutActive = inertiaRef.current || dragRef.current.id !== null || pulseActive;
+      const nodeDragActive = dragRef.current.id !== null;
+      const layoutActive = inertiaRef.current || nodeDragActive || clusterFollowRef.current !== null || pulseActive;
       const renderKey = [
         canvas!.width,
         canvas!.height,
@@ -444,13 +414,13 @@ export function ObsidianGraph({
         selected ?? "",
         pulse.startedAt,
         didFitRef.current ? 1 : 0,
-        didSettleFitRef.current ? 1 : 0,
         favorites.join(","),
+        theme,
       ].join("|");
 
-      // Keep the lightweight rAF heartbeat for responsive interactions, but
-      // avoid clearing and rebuilding the entire canvas while nothing has
-      // changed. Physics and inertia still redraw every active frame.
+      // Skip duplicate interaction requests, but do not keep an idle 60 Hz
+      // callback alive. Active motion and pulses explicitly request the next
+      // bounded frame from step().
       if (!layoutActive && canvas!.dataset.graphRenderKey === renderKey) return;
       canvas!.dataset.graphRenderKey = renderKey;
 
@@ -479,7 +449,7 @@ export function ObsidianGraph({
         const b = nodeById.current.get(l.b);
         if (!a || !b) continue;
         const dim = fc ? a.category !== fc : Boolean(hovered && a.id !== hovered.id && b.id !== hovered.id);
-        ctx!.strokeStyle = dim ? "rgba(120,120,120,0.06)" : "rgba(150,150,150,0.22)";
+        ctx!.strokeStyle = dim ? canvasPalette.edgeDim : canvasPalette.edge;
         ctx!.beginPath();
         ctx!.moveTo(a.x, a.y);
         ctx!.lineTo(b.x, b.y);
@@ -503,19 +473,19 @@ export function ObsidianGraph({
         ctx!.fill();
         if (nd.kind === "category") {
           ctx!.lineWidth = 1.5 / cam.scale;
-          ctx!.strokeStyle = "rgba(255,255,255,0.35)";
+          ctx!.strokeStyle = canvasPalette.categoryOutline;
           ctx!.stroke();
         }
 
         // At overview scale, rendering every tool name creates a dense text
         // pile and spends most of each frame rasterizing labels. Categories
-        // remain visible; tool labels appear when zoomed in or directly
-        // hovered. A hovered tool also reveals its connected category label.
+        // remain visible; culling plus a useful zoom threshold keep the full
+        // tool set from being labelled at fit scale.
         const showToolLabel =
           nd.kind === "category" ||
           isHovered ||
           (hovered?.kind === "tool" && isConnected) ||
-          cam.scale >= 1.4;
+          (!nodeDragActive && cam.scale >= 1.15);
         if (outOfFocus || !showToolLabel) continue;
 
         // Do not rasterize labels that are outside the visible viewport.
@@ -525,10 +495,23 @@ export function ObsidianGraph({
 
         ctx!.globalAlpha = dim ? 0.4 : 1;
         const screenPx = nd.kind === "category" ? 12 : 9.5;
+        const labelY = nd.y - r - 6 / cam.scale;
+        const emphasizeLabel = nd.kind === "category" || isHovered || isConnected;
         ctx!.font = `${nd.kind === "category" ? "600 " : ""}${screenPx / cam.scale}px "Noto Sans Khmer", sans-serif`;
-        ctx!.fillStyle = nd.kind === "category" ? "#e8e6df" : isHovered || isConnected ? "#e8e6df" : "#a9a69d";
         ctx!.textAlign = "center";
-        ctx!.fillText(nd.label, nd.x, nd.y - r - 6 / cam.scale);
+        ctx!.lineJoin = "round";
+        if (emphasizeLabel) {
+          ctx!.strokeStyle = canvasPalette.labelBackground;
+          ctx!.lineWidth = 4 / cam.scale;
+          ctx!.strokeText(nd.label, nd.x, labelY);
+          ctx!.strokeStyle = canvasPalette.labelHalo;
+          ctx!.lineWidth = 2 / cam.scale;
+          ctx!.strokeText(nd.label, nd.x, labelY);
+        }
+        ctx!.fillStyle = nd.kind === "category" || isHovered || isConnected
+          ? canvasPalette.labelPrimary
+          : canvasPalette.labelSecondary;
+        ctx!.fillText(nd.label, nd.x, labelY);
         ctx!.globalAlpha = 1;
       }
 
@@ -568,8 +551,15 @@ export function ObsidianGraph({
           ctx!.arc(tool.x, tool.y, tool.r + 3 / cam.scale + pulseBeat * 3 / cam.scale, 0, TAU);
           ctx!.fill();
           ctx!.font = `${600} ${11 / cam.scale}px "Noto Sans Khmer", sans-serif`;
-          ctx!.fillStyle = "#f5f2e9";
           ctx!.textAlign = "center";
+          ctx!.lineJoin = "round";
+          ctx!.strokeStyle = canvasPalette.labelBackground;
+          ctx!.lineWidth = 5 / cam.scale;
+          ctx!.strokeText(tool.label, tool.x, tool.y + tool.r + 22 / cam.scale);
+          ctx!.strokeStyle = canvasPalette.labelHalo;
+          ctx!.lineWidth = 2 / cam.scale;
+          ctx!.strokeText(tool.label, tool.x, tool.y + tool.r + 22 / cam.scale);
+          ctx!.fillStyle = canvasPalette.selectedLabel;
           ctx!.fillText(tool.label, tool.x, tool.y + tool.r + 22 / cam.scale);
         }
       }
@@ -579,12 +569,14 @@ export function ObsidianGraph({
       ctx!.restore();
     }
 
-    rafRef.current = requestAnimationFrame(step);
+    requestRender();
     return () => {
       running = false;
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+      if (scheduleFrameRef.current === requestRender) scheduleFrameRef.current = () => {};
     };
-  }, [catColor, favorites, selected]);
+  }, [canvasPalette, catColor, favorites, selected, theme]);
 
   // ---- pointer interaction: pan, zoom, drag node, click ----
   const screenToWorld = useCallback((clientX: number, clientY: number) => {
@@ -598,14 +590,28 @@ export function ObsidianGraph({
 
   const nodeAt = useCallback((wx: number, wy: number) => {
     const nodes = nodesRef.current;
-    for (let i = nodes.length - 1; i >= 0; i--) {
-      const nd = nodes[i];
-      const dx = nd.x - wx;
-      const dy = nd.y - wy;
-      const hitR = nd.r + 4;
-      if (dx * dx + dy * dy <= hitR * hitR) return nd;
+    const scale = Math.max(0.25, Number.isFinite(cameraRef.current.scale) ? cameraRef.current.scale : 1);
+
+    function closest(kind: GNode["kind"], screenPadding: number) {
+      let best: GNode | null = null;
+      let bestScore = Number.POSITIVE_INFINITY;
+      for (const nd of nodes) {
+        if (nd.kind !== kind) continue;
+        const dx = nd.x - wx;
+        const dy = nd.y - wy;
+        const hitR = nd.r + screenPadding / scale;
+        const score = (dx * dx + dy * dy) / (hitR * hitR);
+        if (score <= 1 && score < bestScore) {
+          best = nd;
+          bestScore = score;
+        }
+      }
+      return best;
     }
-    return null;
+
+    // Hubs are drawn larger and should win inside their visible circle even
+    // when a small child overlaps them at overview zoom.
+    return closest("category", 8) ?? closest("tool", 12);
   }, []);
 
   const openOrFocus = useCallback(
@@ -624,16 +630,16 @@ export function ObsidianGraph({
           else next.add(nd.category);
           return next;
         });
+        invalidateCanvas();
       }
     },
-    [onOpenTool, isMobile]
+    [onOpenTool, isMobile, invalidateCanvas]
   );
 
   useEffect(() => {
+    const canvas = canvasRef.current;
     const wrap = wrapRef.current;
-    if (!wrap) return;
-
-    // Every active touch/pen/mouse pointer, keyed by pointerId — this is
+    if (!canvas || !wrap) return;
     // what makes two-finger pinch/pan possible: each finger is a separate
     // pointer event stream that we track independently.
     const pointers = new Map<number, { x: number; y: number }>();
@@ -674,7 +680,7 @@ export function ObsidianGraph({
     }
 
     function onPointerDown(e: PointerEvent) {
-      wrap!.setPointerCapture(e.pointerId);
+      canvas!.setPointerCapture(e.pointerId);
       pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
       inertiaRef.current = false;
       velRef.current.vx = 0;
@@ -683,28 +689,45 @@ export function ObsidianGraph({
       if (pointers.size === 1) {
         const { x, y } = screenToWorld(e.clientX, e.clientY);
         const hit = nodeAt(x, y);
-        dragRef.current.lastX = e.clientX;
-        dragRef.current.lastY = e.clientY;
-        dragRef.current.moved = false;
+        const drag = dragRef.current;
+        drag.lastX = e.clientX;
+        drag.lastY = e.clientY;
+        drag.originX = e.clientX;
+        drag.originY = e.clientY;
+        drag.lastAt = e.timeStamp;
+        drag.moved = false;
+        drag.id = hit?.id ?? null;
+        drag.panning = !hit;
+        canvas!.style.cursor = "grabbing";
         if (hit) {
-          dragRef.current.id = hit.id;
-          hit.fx = hit.x;
-          hit.fy = hit.y;
-          settleRef.current = 0;
-        } else {
-          dragRef.current.panning = true;
+          hit.vx = 0;
+          hit.vy = 0;
+          clusterFollowRef.current = hit.kind === "category"
+            ? {
+                parentId: hit.id,
+                offsets: new Map(nodesRef.current
+                  .filter((node) => node.kind === "tool" && node.category === hit.category)
+                  .map((node) => [node.id, { x: node.x - hit.x, y: node.y - hit.y }])),
+                active: true,
+                frames: 0,
+              }
+            : null;
         }
       } else if (pointers.size === 2) {
-        // A second finger landed — a single-finger node-drag or pan in
-        // progress is superseded by the pinch gesture.
-        if (dragRef.current.id) {
-          const nd = nodeById.current.get(dragRef.current.id);
-          if (nd) { nd.fx = null; nd.fy = null; }
-        }
+        // A second finger supersedes a single-finger node drag or pan. Mobile
+        // intentionally keeps a fixed graph scale; two fingers are ignored
+        // until one lifts, preventing accidental pinch zoom while typing or
+        // navigating on touch devices.
         dragRef.current.id = null;
         dragRef.current.panning = false;
-        startPinch();
+        dragRef.current.moved = true;
+        if (clusterFollowRef.current) {
+          clusterFollowRef.current.active = false;
+          clusterFollowRef.current.frames = 0;
+        }
+        if (!isMobile) startPinch();
       }
+      invalidateCanvas();
     }
 
     function onPointerMove(e: PointerEvent) {
@@ -717,14 +740,15 @@ export function ObsidianGraph({
         const newId = hit?.id ?? null;
         if (newId !== hoverRef.current) {
           hoverRef.current = newId;
-          wrap!.style.cursor = newId ? "pointer" : "grab";
-          if (canvasRef.current) delete canvasRef.current.dataset.graphRenderKey;
+          canvas!.style.cursor = newId ? "pointer" : "grab";
+          invalidateCanvas();
         }
         return;
       }
       pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
 
-      if (pointers.size >= 2 && pinch) {
+      if (pointers.size >= 2) {
+        if (isMobile || !pinch) return;
         const pts = activePoints();
         const mid = midpoint(pts);
         const dist = Math.max(1, distance(pts));
@@ -743,41 +767,59 @@ export function ObsidianGraph({
         const curSx = mid.x - rect.left - wrap!.clientWidth / 2;
         const curSy = mid.y - rect.top - wrap!.clientHeight / 2;
 
-        cam.scale = newScale;
-        cam.x = curSx - worldX * newScale;
-        cam.y = curSy - worldY * newScale;
+        if (
+          Number.isFinite(newScale) &&
+          Number.isFinite(worldX) &&
+          Number.isFinite(worldY) &&
+          Number.isFinite(curSx) &&
+          Number.isFinite(curSy)
+        ) {
+          cam.scale = newScale;
+          cam.x = curSx - worldX * newScale;
+          cam.y = curSy - worldY * newScale;
+          invalidateCanvas();
+        }
         return;
       }
 
-      const dx = e.clientX - dragRef.current.lastX;
-      const dy = e.clientY - dragRef.current.lastY;
-      if (Math.abs(dx) + Math.abs(dy) > 2) dragRef.current.moved = true;
-      dragRef.current.lastX = e.clientX;
-      dragRef.current.lastY = e.clientY;
+      const drag = dragRef.current;
+      const dx = e.clientX - drag.lastX;
+      const dy = e.clientY - drag.lastY;
+      const elapsed = Math.max(1, e.timeStamp - drag.lastAt);
+      if (Math.hypot(e.clientX - drag.originX, e.clientY - drag.originY) >= 6) drag.moved = true;
+      drag.lastX = e.clientX;
+      drag.lastY = e.clientY;
+      drag.lastAt = e.timeStamp;
 
-      if (dragRef.current.id) {
-        const nd = nodeById.current.get(dragRef.current.id);
+      if (drag.id && drag.moved) {
+        const nd = nodeById.current.get(drag.id);
         if (nd) {
           const { x, y } = screenToWorld(e.clientX, e.clientY);
-          nd.fx = x;
-          nd.fy = y;
-          settleRef.current = 0;
+          if (Number.isFinite(x) && Number.isFinite(y)) {
+            // Keep the dragged node exactly under the pointer. Only a
+            // category's local children receive spring updates.
+            nd.x = x;
+            nd.y = y;
+            nd.vx = 0;
+            nd.vy = 0;
+            invalidateCanvas();
+          }
         }
-      } else if (dragRef.current.panning) {
+      } else if (drag.panning && drag.moved && Number.isFinite(dx) && Number.isFinite(dy)) {
         cameraRef.current.x += dx;
         cameraRef.current.y += dy;
-        // Track velocity each move so a release can carry momentum.
-        velRef.current.vx = dx;
-        velRef.current.vy = dy;
-      } else {
-        // hover detection
-        const { x, y } = screenToWorld(e.clientX, e.clientY);
-        const hit = nodeAt(x, y);
-        const newId = hit?.id ?? null;
-        if (newId !== hoverRef.current) {
-          hoverRef.current = newId;
-          wrap!.style.cursor = newId ? "pointer" : "grab";
+        // Convert event velocity to pixels per animation frame and lightly
+        // smooth it so irregular pointer-event timing does not make a flick
+        // jump when inertia takes over.
+        const frameScale = 1000 / 60;
+        const sampleVx = (dx / elapsed) * frameScale;
+        const sampleVy = (dy / elapsed) * frameScale;
+        if (Number.isFinite(sampleVx) && Number.isFinite(sampleVy)) {
+          velRef.current.vx = velRef.current.vx * 0.65 + sampleVx * 0.35;
+          velRef.current.vy = velRef.current.vy * 0.65 + sampleVy * 0.35;
         }
+        canvas!.style.cursor = "grabbing";
+        invalidateCanvas();
       }
     }
 
@@ -787,7 +829,7 @@ export function ObsidianGraph({
       const moved = dragRef.current.moved;
 
       pointers.delete(e.pointerId);
-      try { wrap!.releasePointerCapture(e.pointerId); } catch { /* already released */ }
+      try { canvas!.releasePointerCapture(e.pointerId); } catch { /* already released */ }
 
       if (pointers.size >= 2) {
         // Still pinching with the remaining fingers — re-baseline so the
@@ -797,19 +839,22 @@ export function ObsidianGraph({
       }
 
       if (pointers.size === 1) {
-        // One finger lifted out of a pinch/pan — resume single-finger pan
-        // from the remaining finger's current position, no jump.
+        // One finger lifted out of a pinch — resume a single-finger pan from
+        // its current position without a jump or accidental click.
         const [remaining] = activePoints();
         pinch = null;
         dragRef.current.lastX = remaining.x;
         dragRef.current.lastY = remaining.y;
+        dragRef.current.originX = remaining.x;
+        dragRef.current.originY = remaining.y;
+        dragRef.current.lastAt = e.timeStamp;
         dragRef.current.panning = true;
         dragRef.current.id = null;
         dragRef.current.moved = true;
+        canvas!.style.cursor = "grabbing";
         return;
       }
 
-      // Last pointer lifted.
       pinch = null;
       if (wasDragId) {
         const nd = nodeById.current.get(wasDragId);
@@ -818,50 +863,106 @@ export function ObsidianGraph({
             openOrFocus(nd);
             setSelected(nd.id);
           }
-          // release pin shortly after so it eases back into the layout
-          nd.fx = null;
-          nd.fy = null;
-          settleRef.current = 0;
+          nd.vx = 0;
+          nd.vy = 0;
+          if (clusterFollowRef.current?.parentId === nd.id) {
+            clusterFollowRef.current.active = false;
+            clusterFollowRef.current.frames = 0;
+          }
         }
       } else if (wasPanning && moved) {
-        // Hand off to inertia so a flick keeps drifting and eases out.
-        inertiaRef.current = true;
+        const speed = Math.hypot(velRef.current.vx, velRef.current.vy);
+        inertiaRef.current = Number.isFinite(speed) && speed > 0.03;
       }
       dragRef.current.id = null;
       dragRef.current.panning = false;
+      canvas!.style.cursor = inertiaRef.current ? "grabbing" : hoverRef.current ? "pointer" : "grab";
+      invalidateCanvas();
+    }
+
+    function cancelActiveGesture() {
+      const dragId = dragRef.current.id;
+      if (dragId) {
+        const nd = nodeById.current.get(dragId);
+        if (nd) { nd.vx = 0; nd.vy = 0; }
+      }
+      pointers.clear();
+      pinch = null;
+      dragRef.current.id = null;
+      dragRef.current.panning = false;
+      dragRef.current.moved = true;
+      if (clusterFollowRef.current) {
+        clusterFollowRef.current.active = false;
+        clusterFollowRef.current.frames = 0;
+      }
+      inertiaRef.current = false;
+      velRef.current.vx = 0;
+      velRef.current.vy = 0;
+      canvas!.style.cursor = "grab";
+      invalidateCanvas();
+    }
+
+    function cancelPointer(e: PointerEvent) {
+      pointers.delete(e.pointerId);
+      try { canvas!.releasePointerCapture(e.pointerId); } catch { /* already released */ }
+      cancelActiveGesture();
+    }
+
+    function onLostPointerCapture(e: PointerEvent) {
+      if (pointers.has(e.pointerId)) cancelActiveGesture();
+    }
+
+    function onWindowBlur() {
+      if (pointers.size > 0 || dragRef.current.id || dragRef.current.panning) cancelActiveGesture();
     }
 
     function onWheel(e: WheelEvent) {
       e.preventDefault();
       inertiaRef.current = false;
+      velRef.current.vx = 0;
+      velRef.current.vy = 0;
       const cam = cameraRef.current;
       const factor = Math.exp(-e.deltaY * 0.001);
       const newScale = Math.min(4, Math.max(0.25, cam.scale * factor));
 
       // Zoom toward the cursor rather than the canvas center.
-      const rect = wrap!.getBoundingClientRect();
-      const sx = e.clientX - rect.left - wrap!.clientWidth / 2;
-      const sy = e.clientY - rect.top - wrap!.clientHeight / 2;
+      const rect = canvas!.getBoundingClientRect();
+      const sx = e.clientX - rect.left - rect.width / 2;
+      const sy = e.clientY - rect.top - rect.height / 2;
       const worldX = (sx - cam.x) / cam.scale;
       const worldY = (sy - cam.y) / cam.scale;
-      cam.scale = newScale;
-      cam.x = sx - worldX * newScale;
-      cam.y = sy - worldY * newScale;
+      if (
+        Number.isFinite(newScale) &&
+        Number.isFinite(worldX) &&
+        Number.isFinite(worldY) &&
+        Number.isFinite(sx) &&
+        Number.isFinite(sy)
+      ) {
+        cam.scale = newScale;
+        cam.x = sx - worldX * newScale;
+        cam.y = sy - worldY * newScale;
+        invalidateCanvas();
+      }
     }
 
-    wrap.addEventListener("pointerdown", onPointerDown);
-    window.addEventListener("pointermove", onPointerMove);
-    window.addEventListener("pointerup", endPointer);
-    window.addEventListener("pointercancel", endPointer);
-    wrap.addEventListener("wheel", onWheel, { passive: false });
+    canvas.addEventListener("pointerdown", onPointerDown);
+    canvas.addEventListener("pointermove", onPointerMove);
+    canvas.addEventListener("pointerup", endPointer);
+    canvas.addEventListener("pointercancel", cancelPointer);
+    canvas.addEventListener("lostpointercapture", onLostPointerCapture);
+    canvas.addEventListener("wheel", onWheel, { passive: false });
+    window.addEventListener("blur", onWindowBlur);
     return () => {
-      wrap.removeEventListener("pointerdown", onPointerDown);
-      window.removeEventListener("pointermove", onPointerMove);
-      window.removeEventListener("pointerup", endPointer);
-      window.removeEventListener("pointercancel", endPointer);
-      wrap.removeEventListener("wheel", onWheel);
+      cancelActiveGesture();
+      canvas.removeEventListener("pointerdown", onPointerDown);
+      canvas.removeEventListener("pointermove", onPointerMove);
+      canvas.removeEventListener("pointerup", endPointer);
+      canvas.removeEventListener("pointercancel", cancelPointer);
+      canvas.removeEventListener("lostpointercapture", onLostPointerCapture);
+      canvas.removeEventListener("wheel", onWheel);
+      window.removeEventListener("blur", onWindowBlur);
     };
-  }, [screenToWorld, nodeAt, openOrFocus]);
+  }, [invalidateCanvas, isMobile, screenToWorld, nodeAt, openOrFocus]);
 
   // ---- sidebar tree data ----
   const tree = useMemo(() => {
@@ -909,11 +1010,11 @@ export function ObsidianGraph({
     } else {
       // Cleared — zoom back out to the whole graph, same as the fit button.
       didFitRef.current = false;
-      didSettleFitRef.current = false;
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setCollapsed(new Set());
     }
-  }, [focusCategory]);
+    invalidateCanvas();
+  }, [focusCategory, invalidateCanvas]);
 
   function focusNode(id: string, startedAt: number) {
     const tool = nodeById.current.get(id);
@@ -923,13 +1024,11 @@ export function ObsidianGraph({
 
     // Present the selected tool directly beneath its main category node. This
     // is a deliberate, local placement—not a force-simulation wake—so sidebar
-    // clicks remain instant even in the 387-node graph.
+    // clicks remain instant even with hundreds of graph nodes.
     tool.x = parent.x;
     tool.y = parent.y + 82;
     tool.vx = 0;
     tool.vy = 0;
-    tool.fx = null;
-    tool.fy = null;
 
     if (focusCategoryRef.current) {
       focusCategoryRef.current = null;
@@ -946,17 +1045,42 @@ export function ObsidianGraph({
 
     hoverRef.current = id;
     pulseRef.current = { id, startedAt };
-    if (canvasRef.current) delete canvasRef.current.dataset.graphRenderKey;
+    invalidateCanvas();
     setSelected(id);
   }
 
-  function resetView() {
+  const zoomAtViewportCenter = useCallback((factor: number) => {
+    const wrap = wrapRef.current;
+    const cam = cameraRef.current;
+    if (!wrap || !Number.isFinite(factor) || factor <= 0) return;
+    if (!Number.isFinite(cam.x) || !Number.isFinite(cam.y) || !Number.isFinite(cam.scale) || cam.scale <= 0) {
+      cam.x = 0;
+      cam.y = 0;
+      cam.scale = 1;
+    }
+    const nextScale = Math.min(4, Math.max(0.25, cam.scale * factor));
+    const worldCenterX = -cam.x / cam.scale;
+    const worldCenterY = -cam.y / cam.scale;
+    if (!Number.isFinite(nextScale) || !Number.isFinite(worldCenterX) || !Number.isFinite(worldCenterY)) return;
+    cam.scale = nextScale;
+    cam.x = -worldCenterX * nextScale;
+    cam.y = -worldCenterY * nextScale;
+    inertiaRef.current = false;
+    velRef.current.vx = 0;
+    velRef.current.vy = 0;
+    invalidateCanvas();
+  }, [invalidateCanvas]);
+
+  const resetView = useCallback(() => {
+    inertiaRef.current = false;
+    velRef.current.vx = 0;
+    velRef.current.vy = 0;
     didFitRef.current = false;
-    didSettleFitRef.current = false;
-  }
+    invalidateCanvas();
+  }, [invalidateCanvas]);
 
   return (
-    <div className="relative flex h-[calc(100vh-0px)] w-full overflow-hidden rounded-lg border border-[var(--ground-line)]">
+    <div className="relative flex h-full min-h-0 w-full overflow-hidden rounded-lg border border-[var(--ground-line)]">
       {/* Sidebar — static column on desktop, slide-in overlay drawer on mobile so the graph always gets the full viewport */}
       {isMobile && sidebarOpen && (
         <div
@@ -982,7 +1106,12 @@ export function ObsidianGraph({
             className="w-full bg-transparent text-xs text-[var(--ink)] outline-none placeholder:text-[var(--ink-faint)]"
           />
           {isMobile && (
-            <button onClick={() => setSidebarOpen(false)} className="shrink-0 rounded p-1 text-[var(--ink-faint)] hover:text-[var(--ink)]">
+            <button
+              onClick={() => setSidebarOpen(false)}
+              className="flex h-9 w-9 shrink-0 items-center justify-center rounded text-[var(--ink-faint)] hover:text-[var(--ink)]"
+              aria-label={t("Close graph menu", "បិទម៉ឺនុយក្រាហ្វ")}
+              title={t("Close graph menu", "បិទម៉ឺនុយក្រាហ្វ")}
+            >
               <X size={14} />
             </button>
           )}
@@ -1062,7 +1191,9 @@ export function ObsidianGraph({
             {isMobile && (
               <button
                 onClick={() => setSidebarOpen(true)}
-                className="flex h-7 w-7 items-center justify-center rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)]/90 text-[var(--ink-dim)] backdrop-blur hover:text-[var(--ink)]"
+                className="flex h-9 w-9 items-center justify-center rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)]/90 text-[var(--ink-dim)] backdrop-blur hover:text-[var(--ink)]"
+                aria-label={t("Open graph menu", "បើកម៉ឺនុយក្រាហ្វ")}
+                title={t("Open graph menu", "បើកម៉ឺនុយក្រាហ្វ")}
               >
                 <Menu size={13} />
               </button>
@@ -1088,33 +1219,41 @@ export function ObsidianGraph({
             )}
           </div>
           <div className="pointer-events-auto flex items-center gap-1">
-            <button
-              onClick={() => {
-                cameraRef.current.scale = Math.min(4, cameraRef.current.scale * 1.25);
-              }}
-              className="flex h-7 w-7 items-center justify-center rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)]/90 text-[var(--ink-dim)] backdrop-blur hover:text-[var(--ink)]"
-            >
-              <ZoomIn size={13} />
-            </button>
-            <button
-              onClick={() => {
-                cameraRef.current.scale = Math.max(0.25, cameraRef.current.scale * 0.8);
-              }}
-              className="flex h-7 w-7 items-center justify-center rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)]/90 text-[var(--ink-dim)] backdrop-blur hover:text-[var(--ink)]"
-            >
-              <ZoomOut size={13} />
-            </button>
+            {!isMobile && (
+              <>
+                <button
+                  onClick={() => zoomAtViewportCenter(1.25)}
+                  className="flex h-9 w-9 items-center justify-center rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)]/90 text-[var(--ink-dim)] backdrop-blur hover:text-[var(--ink)]"
+                  aria-label={t("Zoom in", "ពង្រីក")}
+                  title={t("Zoom in", "ពង្រីក")}
+                >
+                  <ZoomIn size={15} />
+                </button>
+                <button
+                  onClick={() => zoomAtViewportCenter(0.8)}
+                  className="flex h-9 w-9 items-center justify-center rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)]/90 text-[var(--ink-dim)] backdrop-blur hover:text-[var(--ink)]"
+                  aria-label={t("Zoom out", "បង្រួម")}
+                  title={t("Zoom out", "បង្រួម")}
+                >
+                  <ZoomOut size={15} />
+                </button>
+              </>
+            )}
             <button
               onClick={resetView}
-              className="flex h-7 w-7 items-center justify-center rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)]/90 text-[var(--ink-dim)] backdrop-blur hover:text-[var(--ink)]"
+              className="flex h-9 w-9 items-center justify-center rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)]/90 text-[var(--ink-dim)] backdrop-blur hover:text-[var(--ink)]"
+              aria-label={t("Fit graph to view", "សម្រួលក្រាហ្វឱ្យពេញផ្ទៃ")}
+              title={t("Fit graph to view", "សម្រួលក្រាហ្វឱ្យពេញផ្ទៃ")}
             >
-              <Maximize2 size={13} />
+              <Maximize2 size={15} />
             </button>
             <button
               onClick={onClose}
-              className="flex h-7 w-7 items-center justify-center rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)]/90 text-[var(--ink-dim)] backdrop-blur hover:text-[var(--ink)]"
+              className="flex h-9 w-9 items-center justify-center rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)]/90 text-[var(--ink-dim)] backdrop-blur hover:text-[var(--ink)]"
+              aria-label={t("Close graph view", "បិទទិដ្ឋភាពក្រាហ្វ")}
+              title={t("Close graph view", "បិទទិដ្ឋភាពក្រាហ្វ")}
             >
-              <X size={13} />
+              <X size={15} />
             </button>
           </div>
         </div>

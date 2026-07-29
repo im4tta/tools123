@@ -48,7 +48,7 @@ html {
 }
 
 html {
-  font-family: "Noto Sans Khmer", "Khmer OS", ui-sans-serif, system-ui, sans-serif;
+  font-family: var(--font-kantumruy-pro), var(--font-siemreap), "Khmer OS", ui-sans-serif, system-ui, sans-serif;
 }
 
 body,
@@ -67,15 +67,23 @@ body {
 }
 
 .font-display {
-  font-family: "Noto Sans Khmer", "Khmer OS", "Space Grotesk", ui-sans-serif, sans-serif;
+  font-family: var(--font-kantumruy-pro), var(--font-space-grotesk), var(--font-siemreap), ui-sans-serif, sans-serif;
 }
 
 .font-mono-ui {
-  font-family: "Noto Sans Khmer", "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  font-family: var(--font-jetbrains-mono), var(--font-kantumruy-pro), ui-monospace, "SF Mono", Menlo, monospace;
 }
 
 .font-khmer {
-  font-family: "Noto Sans Khmer", "Khmer OS", ui-sans-serif, sans-serif;
+  font-family: var(--font-kantumruy-pro), var(--font-siemreap), "Khmer OS", ui-sans-serif, sans-serif;
+}
+
+.font-moul {
+  font-family: var(--font-moul), var(--font-kantumruy-pro), "Khmer OS Muol", serif;
+}
+
+.font-siemreap {
+  font-family: var(--font-siemreap), var(--font-kantumruy-pro), "Khmer OS Siemreap", sans-serif;
 }
 
 /* subtle cadastral grid backdrop */

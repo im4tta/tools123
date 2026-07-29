@@ -1,0 +1,20 @@
+Date,Day of Week,Holiday Name
+2027-01-07,Thursday,Victory over Genocide Day
+2027-03-08,Monday,International Women's Day
+2027-04-14,Wednesday,Khmer New Year (Day 1)
+2027-04-15,Thursday,Khmer New Year (Day 2)
+2027-04-16,Friday,Khmer New Year (Day 3)
+2027-05-01,Saturday,International Labor Day
+2027-05-14,Friday,King Norodom Sihamoni's Birthday
+2027-05-20,Thursday,Visak Bochea Day
+2027-05-24,Monday,Royal Ploughing Ceremony
+2027-06-18,Friday,Queen Mother's Birthday
+2027-10-05,Tuesday,Pchum Ben (Day 1)
+2027-10-06,Wednesday,Pchum Ben (Day 2)
+2027-10-07,Thursday,Pchum Ben (Day 3)
+2027-10-15,Friday,Commemoration Day of King Father Norodom Sihanouk
+2027-10-29,Friday,King Norodom Sihamoni's Coronation Day
+2027-11-09,Tuesday,Independence Day
+2027-11-22,Monday,Water Festival (Day 1)
+2027-11-23,Tuesday,Water Festival (Day 2)
+2027-11-24,Wednesday,Water Festival (Day 3)

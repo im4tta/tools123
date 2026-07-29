@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { ArrowLeft, Search, Star } from "lucide-react";
 import { CommandPalette } from "@/components/CommandPalette";
+import { HeaderInfo } from "@/components/HeaderInfo";
 import { LanguageToggle } from "@/components/LanguageToggle";
 import { useLanguage } from "@/components/LanguageProvider";
 import { ThemeToggle } from "@/components/ThemeToggle";
@@ -35,15 +36,18 @@ export function ToolRouteClient({ toolId }: { toolId: string }) {
   if (!tool) return null;
   const ToolComponent = tool.Component;
   const isFavorite = favorites.includes(tool.id);
+  const khmerTitle = tool.khmerTitle ?? tool.title;
+  const localizedTitle = mode === "en" ? tool.title : mode === "km" ? khmerTitle : `${tool.title} — ${khmerTitle}`;
 
   return (
     <main className="min-h-screen px-5 pb-16 pt-24 sm:px-10">
       <header className="fixed inset-x-0 top-0 z-40 border-b border-[var(--ground-line)] bg-[color:color-mix(in_srgb,var(--ground)_90%,transparent)] backdrop-blur-xl">
-        <div className="mx-auto flex h-14 max-w-5xl items-center justify-between gap-3 px-5 sm:px-10">
-          <Link href="/" className="flex items-center gap-1.5 text-sm text-[var(--ink-dim)] hover:text-[var(--ink)]">
-            <ArrowLeft size={15} /> {t("All tools", "ឧបករណ៍ទាំងអស់")}
+        <div className="tool-route-header-inner mx-auto flex h-14 max-w-[77rem] items-center gap-3 px-5 sm:px-10">
+          <Link href="/" className="flex shrink-0 items-center gap-1.5 text-sm text-[var(--ink-dim)] hover:text-[var(--ink)]">
+            <ArrowLeft size={15} /><span className="tool-route-back-label">{t("All tools", "ឧបករណ៍ទាំងអស់")}</span>
           </Link>
-          <div className="flex items-center gap-2">
+          <span className="tool-route-title min-w-0 flex-1 truncate text-xs font-medium text-[var(--ink-dim)]" title={localizedTitle}>{localizedTitle}</span>
+          <div className="tool-route-actions flex shrink-0 items-center gap-2">
             <button
               type="button"
               onClick={() => setFavorites((items) => isFavorite ? items.filter((id) => id !== tool.id) : [tool.id, ...items])}
@@ -55,10 +59,12 @@ export function ToolRouteClient({ toolId }: { toolId: string }) {
             <button
               type="button"
               onClick={() => setPaletteOpen(true)}
+              aria-label={t("Find a tool", "ស្វែងរកឧបករណ៍")}
               className="flex items-center gap-2 rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-1.5 text-xs text-[var(--ink-dim)]"
             >
               <Search size={13} /><span className="hidden sm:inline">{t("Find a tool…", "ស្វែងរកឧបករណ៍…")}</span>
             </button>
+            <HeaderInfo />
             <LanguageToggle />
             <ThemeToggle />
           </div>

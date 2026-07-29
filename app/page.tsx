@@ -2,8 +2,9 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Search, ArrowLeft, Command as CommandIcon, Star, Waypoints, LayoutGrid } from "lucide-react";
+import { Search, ArrowLeft, Star, Waypoints, LayoutGrid } from "lucide-react";
 import { CommandPalette } from "@/components/CommandPalette";
+import { HeaderInfo } from "@/components/HeaderInfo";
 import { LanguageToggle } from "@/components/LanguageToggle";
 import { useLanguage } from "@/components/LanguageProvider";
 import { ThemeToggle } from "@/components/ThemeToggle";
@@ -112,6 +113,19 @@ export default function Home() {
     return () => window.removeEventListener("scroll", onScroll);
   }, [activeId]);
 
+  useEffect(() => {
+    function onKeyDown(event: KeyboardEvent) {
+      const target = event.target;
+      const isEditing = target instanceof HTMLElement && (target.isContentEditable || Boolean(target.closest("input, textarea, select, [contenteditable='true']")));
+      if (event.repeat || event.ctrlKey || event.metaKey || event.altKey || isEditing || event.key.toLowerCase() !== "g") return;
+      event.preventDefault();
+      setGraphFocusCategory(null);
+      setViewMode(viewMode === "grid" ? "graph" : "grid");
+    }
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [setViewMode, viewMode]);
+
   const setActiveId = useCallback(
     (id: string | null) => {
       if (!id) {
@@ -149,6 +163,20 @@ export default function Home() {
 
   const favoriteTools = useMemo(() => favorites.map((id) => TOOLS.find((t) => t.id === id)).filter(Boolean) as typeof TOOLS, [favorites]);
   const recentTools = useMemo(() => recents.map((id) => TOOLS.find((t) => t.id === id)).filter(Boolean) as typeof TOOLS, [recents]);
+  const dailyAddition = useMemo(() => {
+    const datedTools = TOOLS.filter(
+      (tool): tool is typeof tool & { addedOn: string } =>
+        typeof tool.addedOn === "string" && /^\d{4}-\d{2}-\d{2}$/.test(tool.addedOn) && !Number.isNaN(Date.parse(`${tool.addedOn}T00:00:00Z`))
+    );
+    const latestDate = datedTools.reduce<string | null>(
+      (latest, tool) => latest === null || tool.addedOn > latest ? tool.addedOn : latest,
+      null
+    );
+    return {
+      date: latestDate,
+      tools: latestDate ? datedTools.filter((tool) => tool.addedOn === latestDate) : [],
+    };
+  }, []);
   const starterTools = useMemo(
     () => STARTER_TOOL_IDS.map((id) => TOOLS.find((t) => t.id === id)).filter(Boolean) as typeof TOOLS,
     []
@@ -172,7 +200,7 @@ export default function Home() {
     const isFav = favorites.includes(active.id);
     return (
       <main className="min-h-screen px-5 py-10 sm:px-10">
-        <div className="mx-auto mb-8 flex max-w-3xl items-center justify-between">
+        <div className="mx-auto mb-8 flex max-w-6xl items-center justify-between">
           <button
             onClick={() => setActiveId(null)}
             className="flex items-center gap-1.5 text-sm text-[var(--ink-dim)] transition hover:text-[var(--ink)]"
@@ -215,8 +243,8 @@ export default function Home() {
       <div className="grid-veil pointer-events-none absolute inset-0 top-0" />
 
       <div className="sticky-nav relative" data-scrolled={navScrolled}>
-        <div className="mx-auto flex max-w-5xl items-center gap-3 px-5 py-3 sm:px-10">
-          <span className="shrink-0 font-display text-sm font-semibold text-[var(--gold)]">១២៣</span>
+        <div className="home-nav-inner mx-auto flex max-w-[77rem] items-center gap-3 px-5 py-3 sm:px-10">
+          <span className="home-brand shrink-0 font-display text-sm font-semibold text-[var(--gold)]">១២៣</span>
 
           <div className="category-ticker min-w-0 flex-1">
             <div className="category-ticker-track">
@@ -244,25 +272,21 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="flex shrink-0 items-center gap-2">
+          <div className="home-nav-actions flex shrink-0 items-center gap-2">
             <button
               onClick={() => {
                 setGraphFocusCategory(null);
                 setViewMode(viewMode === "grid" ? "graph" : "grid");
               }}
-              className="flex items-center gap-1.5 rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-1.5 text-xs text-[var(--ink-dim)] transition hover:border-[var(--gold-dim)] hover:text-[var(--ink)]"
-              title={viewMode === "grid" ? t("Switch to graph view", "ប្តូរទៅទិដ្ឋភាពក្រាហ្វ") : t("Switch to grid view", "ប្តូរទៅទិដ្ឋភាពក្រឡា")}
+              className="home-view-toggle flex items-center gap-1.5 rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-1.5 text-xs text-[var(--ink-dim)] transition hover:border-[var(--gold-dim)] hover:text-[var(--ink)]"
+              title={`${viewMode === "grid" ? t("Switch to graph view", "ប្តូរទៅទិដ្ឋភាពក្រាហ្វ") : t("Switch to grid view", "ប្តូរទៅទិដ្ឋភាពក្រឡា")} (G)`}
             >
               {viewMode === "grid" ? <Waypoints size={13} /> : <LayoutGrid size={13} />}
-              {viewMode === "grid" ? t("Graph", "ក្រាហ្វ") : t("Grid", "ក្រឡា")}
+              <span className="home-view-label">
+                {viewMode === "grid" ? t("Graph", "ក្រាហ្វ") : t("Grid", "ក្រឡា")}
+              </span>
             </button>
-            <button
-              onClick={() => setPaletteOpen(true)}
-              className="flex items-center gap-2 rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-1.5 text-xs text-[var(--ink-dim)] hover:border-[var(--gold-dim)]"
-            >
-              <Search size={13} /> {t("Search", "ស្វែងរក")}
-              <kbd className="ml-1 rounded border border-[var(--ground-line)] px-1 text-[10px]">⌘K</kbd>
-            </button>
+            <HeaderInfo />
             <LanguageToggle />
             <ThemeToggle />
           </div>
@@ -270,7 +294,7 @@ export default function Home() {
       </div>
 
       {viewMode === "graph" && (
-        <div className="relative mx-auto mt-4 h-[80vh] max-w-6xl px-5 sm:px-10">
+        <div className="relative mx-auto mt-4 h-[calc(100dvh-5rem)] min-h-[28rem] max-w-[77rem] px-5 sm:px-10">
           <ObsidianGraph
             onOpenTool={setActiveId}
             favorites={favorites}
@@ -284,7 +308,7 @@ export default function Home() {
 
       {viewMode === "grid" && (
       <>
-      <div className="relative mx-auto mt-14 max-w-3xl px-5 text-center sm:px-10">
+      <div className="home-hero relative mx-auto mt-14 max-w-3xl px-5 text-center sm:px-10">
         <div className="mb-5 flex items-center justify-center gap-2 text-xs tracking-[0.1em] text-[var(--ink-faint)]">
           <span>{t("one workbench", "កន្លែងធ្វើការតែមួយ")}</span>
           <span className="text-[var(--gold)]">·</span>
@@ -309,14 +333,37 @@ export default function Home() {
             placeholder={t(`Filter ${TOTAL} tools…`, `ស្វែងរកក្នុងចំណោមឧបករណ៍ ${toKh(TOTAL)} មុខ…`)}
             className="w-full bg-transparent text-[var(--ink)] outline-none placeholder:text-[var(--ink-faint)]"
           />
-          <span className="flex shrink-0 items-center gap-1 rounded border border-[var(--ground-line)] px-1.5 py-0.5 text-[10px]">
-            <CommandIcon size={10} />K
+          <span title={t("Press / to search", "ចុច / ដើម្បីស្វែងរក")} className="flex shrink-0 items-center rounded border border-[var(--ground-line)] px-1.5 py-0.5 font-mono-ui text-[10px]">
+            /
           </span>
         </div>
       </div>
 
+      {filter === "" && dailyAddition.date && dailyAddition.tools.length > 0 && (
+        <div className="recently-added relative mx-auto mt-12 max-w-[77rem] px-5 sm:px-10">
+          <div className="mb-3 flex flex-wrap items-baseline gap-2 border-b border-[var(--ground-line)] pb-2">
+            <h2 className="font-display text-sm font-medium text-[var(--ink)]">
+              {t(`Added on ${dailyAddition.date}`, `បានបន្ថែមនៅថ្ងៃទី ${dailyAddition.date}`)}
+            </h2>
+            <span className="text-xs text-[var(--ink-faint)]">
+              {t(
+                `${dailyAddition.tools.length} tools in this daily batch`,
+                `ឧបករណ៍ ${toKh(dailyAddition.tools.length)} មុខក្នុងការបន្ថែមប្រចាំថ្ងៃនេះ`
+              )}
+            </span>
+          </div>
+          <ToolGrid
+            tools={dailyAddition.tools}
+            onSelect={setActiveId}
+            favorites={favorites}
+            onToggleFavorite={toggleFavorite}
+            showNewBadge
+          />
+        </div>
+      )}
+
       {isColdStart && filter === "" && (
-        <div className="relative mx-auto mt-12 max-w-5xl px-5 sm:px-10">
+        <div className="relative mx-auto mt-12 max-w-[77rem] px-5 sm:px-10">
           <div className="mb-3 flex items-baseline gap-2 border-b border-[var(--ground-line)] pb-2">
             <h2 className="font-display text-sm font-medium text-[var(--ink)]">{t("Start here", "ចាប់ផ្តើមនៅទីនេះ")}</h2>
             <span className="text-xs text-[var(--ink-faint)]">{t("a few useful tools to try", "ឧបករណ៍ណែនាំសម្រាប់សាកល្បង")}</span>
@@ -328,7 +375,7 @@ export default function Home() {
       )}
 
       {favoriteTools.length > 0 && filter === "" && (
-        <div className="relative mx-auto mt-12 max-w-5xl px-5 sm:px-10">
+        <div className="relative mx-auto mt-12 max-w-[77rem] px-5 sm:px-10">
           <div className="mb-3 flex items-baseline gap-2 border-b border-[var(--ground-line)] pb-2">
             <Star size={13} className="text-[var(--gold)]" fill="currentColor" />
             <h2 className="font-display text-sm font-medium text-[var(--ink)]">{t("Favorites", "ចំណូលចិត្ត")}</h2>
@@ -340,7 +387,7 @@ export default function Home() {
       )}
 
       {recentTools.length > 0 && filter === "" && (
-        <div className="relative mx-auto mt-10 max-w-5xl px-5 sm:px-10">
+        <div className="relative mx-auto mt-10 max-w-[77rem] px-5 sm:px-10">
           <div className="mb-3 flex items-baseline gap-2 border-b border-[var(--ground-line)] pb-2">
             <h2 className="font-display text-sm font-medium text-[var(--ink)]">{t("Recently used", "បានប្រើថ្មីៗ")}</h2>
           </div>
@@ -350,7 +397,7 @@ export default function Home() {
         </div>
       )}
 
-      <div className="relative mx-auto mt-12 max-w-5xl px-5 sm:px-10">
+      <div className="relative mx-auto mt-12 max-w-[77rem] px-5 sm:px-10">
         {CATEGORY_ORDER.map((cat) => {
           const tools = filteredByCategory.get(cat);
           if (!tools) return null;
@@ -387,11 +434,13 @@ function ToolGrid({
   onSelect,
   favorites,
   onToggleFavorite,
+  showNewBadge = false,
 }: {
   tools: typeof TOOLS;
   onSelect: (id: string) => void;
   favorites: string[];
   onToggleFavorite: (id: string) => void;
+  showNewBadge?: boolean;
 }) {
   const { text: t } = useLanguage();
   return (
@@ -401,10 +450,15 @@ function ToolGrid({
         return (
           <div
             key={tool.id}
-            className="group flex items-center gap-1 rounded-md border border-transparent pr-1 text-left text-sm text-[var(--ink-dim)] transition hover:border-[var(--ground-line)] hover:bg-[var(--ground-raised)] hover:text-[var(--ink)]"
+            className="tool-card group flex items-center gap-1 rounded-md border border-transparent pr-1 text-left text-sm text-[var(--ink-dim)] transition hover:border-[var(--ground-line)] hover:bg-[var(--ground-raised)] hover:text-[var(--ink)]"
           >
-            <button onClick={() => onSelect(tool.id)} className="flex-1 px-3 py-2 text-left">
-              {t(tool.title, tool.khmerTitle ?? tool.title)}
+            <button onClick={() => onSelect(tool.id)} className="flex flex-1 items-center gap-2 px-3 py-2 text-left">
+              <span>{t(tool.title, tool.khmerTitle ?? tool.title)}</span>
+              {showNewBadge && (
+                <span className="new-tool-badge shrink-0 rounded border border-[var(--gold-dim)] px-1 py-0.5 text-[9px] font-semibold leading-none text-[var(--gold)]">
+                  {t("NEW", "ថ្មី")}
+                </span>
+              )}
             </button>
             <button
               onClick={() => onToggleFavorite(tool.id)}
