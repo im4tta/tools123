@@ -45,6 +45,8 @@ export default function Home() {
     STORAGE_KEYS.viewMode,
     "grid"
   );
+  const badgeRef = useRef<HTMLSpanElement>(null);
+  const dotRef = useRef<HTMLSpanElement>(null);
   const [restored, setRestored] = useState(false);
   const [navScrolled, setNavScrolled] = useState(false);
   const scrollRestoreRef = useRef<number | null>(null);
@@ -125,6 +127,38 @@ export default function Home() {
     document.addEventListener("keydown", onKeyDown);
     return () => document.removeEventListener("keydown", onKeyDown);
   }, [setViewMode, viewMode]);
+
+  // Smooth heartbeat via requestAnimationFrame (avoids CSS keyframe & jank)
+  useEffect(() => {
+    const badge = badgeRef.current;
+    const dot = dotRef.current;
+    if (!badge || !dot) return;
+    let raf: number;
+    const start = performance.now();
+    function tick(now: number) {
+      const t = ((now - start) / 1000) % 2.4 / 2.4;
+      let scale: number, glow: number;
+      if (t < 0.12) {
+        const p = t / 0.12;
+        scale = 1 + 0.2 * Math.sin(p * Math.PI);
+        glow = Math.sin(p * Math.PI);
+      } else if (t < 0.30) {
+        const p = (t - 0.12) / 0.18;
+        scale = 1 + 0.14 * Math.sin(p * Math.PI);
+        glow = Math.sin(p * Math.PI) * 0.9;
+      } else {
+        scale = 1;
+        glow = 0;
+      }
+      badge.style.transform = `scale(${scale})`;
+      badge.style.boxShadow = `0 0 ${4 + glow * 24}px ${glow * 7}px rgba(201,162,75,${0.1 + glow * 0.5})`;
+      const dotPulse = 0.15 + 0.85 * (0.5 + 0.5 * Math.sin(t * Math.PI * 2));
+      dot.style.opacity = String(dotPulse);
+      raf = requestAnimationFrame(tick);
+    }
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, []);
 
   const setActiveId = useCallback(
     (id: string | null) => {
@@ -312,11 +346,21 @@ export default function Home() {
         <div className="mb-5 flex items-center justify-center gap-2 text-xs tracking-[0.1em] text-[var(--ink-faint)]">
           <span>{t("one workbench", "កន្លែងធ្វើការតែមួយ")}</span>
           <span className="text-[var(--gold)]">·</span>
-          <span>{t("123 tools", "ឧបករណ៍ ១២៣")}</span>
+          <span>{t("one toolbox", "ប្រអប់ឧបករណ៍តែមួយ")}</span>
+          <span className="text-[var(--gold)]">·</span>
+          <span>{t(`${TOTAL} tools`, `ឧបករណ៍ ${toKh(TOTAL)} មុខ`)}</span>
+          <span className="text-[var(--gold-dim)]">·</span>
+          <span
+            ref={badgeRef}
+            className="inline-flex items-center gap-1.5 rounded-full border border-[var(--gold)] px-2.5 py-0.5 text-[10px] font-semibold tracking-wide text-[var(--gold)]"
+          >
+            <span ref={dotRef} className="inline-block h-1.5 w-1.5 rounded-full bg-[var(--gold)]" />
+            {t("adding more tools everyday", "បន្ថែមឧបករណ៍រាល់ថ្ងៃ")}
+          </span>
         </div>
         <h1 className="font-display text-4xl font-semibold leading-tight text-[var(--ink)] sm:text-5xl">
-          {t(`${TOTAL} tools`, `ឧបករណ៍ ${toKh(TOTAL)} មុខ`)}
-          <br /> {t("in one workbench", "ប្រើបានក្នុងកន្លែងតែមួយ")}
+          {t("one workbench", "កន្លែងធ្វើការតែមួយ")}
+          <br /> {t("one toolbox", "ប្រអប់ឧបករណ៍តែមួយ")}
         </h1>
         <p className="mx-auto mt-4 max-w-lg text-sm leading-relaxed text-[var(--ink-dim)]">
           {t("Office, development, text, math, Khmer language, geospatial, network, security, design, and time utilities — all searchable in one place.", "ឧបករណ៍សម្រាប់ការិយាល័យ អ្នកអភិវឌ្ឍន៍ អត្ថបទ គណិតវិទ្យា ភាសាខ្មែរ ភូមិសាស្ត្រ បណ្តាញ សុវត្ថិភាព ការរចនា និងពេលវេលា — ស្វែងរក និងប្រើប្រាស់បានយ៉ាងងាយស្រួល។")}

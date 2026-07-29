@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import Link from "next/link";
 import { JetBrains_Mono, Kantumruy_Pro, Moul, Siemreap, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import "./mobile.css";
@@ -44,7 +45,27 @@ export default function RootLayout({
       </head>
       <body className="antialiased">
         <AppProviders>
-          {children}
+          <div className="flex min-h-screen flex-col">
+            <div className="flex-1">{children}</div>
+            <footer className="border-t border-[var(--ground-line)] px-5 py-6 text-center text-xs text-[var(--ink-faint)] sm:px-10">
+              <div className="mx-auto flex max-w-[77rem] flex-col items-center gap-2 sm:flex-row sm:justify-between">
+                <span>{new Date().getFullYear()} — 123 Toolbox</span>
+                <div className="flex items-center gap-4">
+                  <Link href="/acknowledgement" className="transition hover:text-[var(--gold)]">
+                    Acknowledgements
+                  </Link>
+                  <a
+                    href="https://github.com/im4tta/tools123"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="transition hover:text-[var(--gold)]"
+                  >
+                    GitHub
+                  </a>
+                </div>
+              </div>
+            </footer>
+          </div>
           <ScrollToTopButton />
         </AppProviders>
       </body>
