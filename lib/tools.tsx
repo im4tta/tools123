@@ -354,7 +354,8 @@ export const TOOLS: ToolDef[] = [
   { id: "images-to-pdf", title: "Images → PDF", category: "office", keywords: ["image", "jpg", "png", "pdf", "convert"], Component: load("office", "images-to-pdf") },
   { id: "pdf-to-images", title: "PDF → Images", category: "office", keywords: ["pdf", "png", "jpg", "export", "render"], Component: load("office", "pdf-to-images") },
 
-  // ---- Office (15) ----
+  // ---- Office (16) ----
+  { id: "rfa-generator", title: "Request for Approval (RFA)", khmerTitle: "សំណើសុំការអនុម័ត (RFA)", addedOn: "2026-07-29", category: "office", keywords: ["rfa", "request for approval", "construction", "submittal", "contractor"], Component: load("office", "rfa-generator") },
   { id: "business-calculators", title: "Business Calculators", khmerTitle: "ម៉ាស៊ីនគណនាអាជីវកម្ម", addedOn: "2026-07-29", category: "office", keywords: ["loan", "amortization", "vat", "discount", "date add", "salary tax", "nssf", "ប្រាក់កម្ចី", "ពន្ធ", "បសស"], Component: load("office", "business-calculators") },
   { id: "staff-directory", title: "Staff Directory", khmerTitle: "បញ្ជីបុគ្គលិក", addedOn: "2026-07-29", category: "office", keywords: ["staff", "employee", "directory", "department", "csv", "បុគ្គលិក"], Component: load("office", "staff-directory") },
   { id: "qr-decoder", title: "QR Code Decoder", category: "office", keywords: ["qr code", "scan", "decode"], Component: load("office", "qr-decoder") },

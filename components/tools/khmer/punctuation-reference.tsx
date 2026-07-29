@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { CopyButton, type CopyField } from "@/components/CopyButton";
 import { ToolShell, Field, TextInput } from "@/components/ui/Shell";
 
 const ENTRIES = [
@@ -39,6 +40,7 @@ export default function PunctuationReferenceTool() {
               <th className="px-3 py-2 font-medium">Mark</th>
               <th className="px-3 py-2 font-medium">Name</th>
               <th className="px-3 py-2 font-medium">Usage</th>
+              <th className="px-3 py-2 w-10" />
             </tr>
           </thead>
           <tbody>
@@ -47,11 +49,20 @@ export default function PunctuationReferenceTool() {
                 <td className="px-3 py-2 font-khmer text-lg text-[var(--gold)]">{e.mark}</td>
                 <td className="px-3 py-2 text-[var(--ink)]">{e.name}</td>
                 <td className="px-3 py-2 text-[var(--ink-dim)]">{e.usage}</td>
+                <td className="px-3 py-2">
+                  <CopyButton compact text={`${e.mark} ${e.name}\n${e.usage}`}
+                    fields={[
+                      { id: "mark", label: "Mark", getValue: e.mark },
+                      { id: "name", label: "Name", getValue: e.name },
+                      { id: "usage", label: "Usage", getValue: e.usage },
+                    ]}
+                  />
+                </td>
               </tr>
             ))}
             {filtered.length === 0 && (
               <tr>
-                <td colSpan={3} className="px-3 py-6 text-center text-[var(--ink-faint)]">
+                <td colSpan={4} className="px-3 py-6 text-center text-[var(--ink-faint)]">
                   No matches.
                 </td>
               </tr>
