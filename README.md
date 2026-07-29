@@ -16,7 +16,7 @@
 
 ## Overview
 
-១២៣ Toolbox is a responsive collection of **408 registered tools** across **13 categories**. That total includes 212 explicitly registered tools, 193 generated unit-conversion pairs, and 3 temperature-conversion pairs. Tools are accessible from the searchable list, an interactive graph, the command palette, or direct URLs.
+១២៣ Toolbox is a responsive collection of **422 registered tools** across **13 categories**. That total includes 226 explicitly registered tools, 193 generated unit-conversion pairs, and 3 temperature-conversion pairs. Tools are accessible from the searchable list, an interactive graph, the command palette, or direct URLs.
 
 The Khmer numerology calculator provides local-only plate, name, birth-date, daily-aura, and four-digit-number calculations with saved number favorites. Numerology interpretations are for entertainment only, have no scientific or predictive validity, and should never guide consequential decisions; personal inputs are not saved by the tool.
 
