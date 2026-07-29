@@ -16,7 +16,9 @@
 
 ## Overview
 
-១២៣ Toolbox is a responsive collection of **396 registered tools** across **13 categories**. That total includes 200 explicitly registered tools, 193 generated unit-conversion pairs, and 3 temperature-conversion pairs. Tools are accessible from the searchable list, an interactive graph, the command palette, or direct URLs.
+១២៣ Toolbox is a responsive collection of **408 registered tools** across **13 categories**. That total includes 212 explicitly registered tools, 193 generated unit-conversion pairs, and 3 temperature-conversion pairs. Tools are accessible from the searchable list, an interactive graph, the command palette, or direct URLs.
+
+The Khmer numerology calculator provides local-only plate, name, birth-date, daily-aura, and four-digit-number calculations with saved number favorites. Numerology interpretations are for entertainment only, have no scientific or predictive validity, and should never guide consequential decisions; personal inputs are not saved by the tool.
 
 The interface supports three persistent language modes:
 
@@ -77,7 +79,7 @@ The **Sample Paragraph Generator** illustrates the common UI pattern: choose a *
 | Text | អត្ថបទ | Sorting, counting, cleanup, find/replace, Morse code, title case |
 | Time & Date | ពេលវេលា | Age, countdown, date difference, timezone, ISO week, workdays |
 | Math | គណិតវិទ្យា | Percentages, equations, matrices, statistics, unit conversion |
-| Geospatial | ភូមិសាស្ត្រ | Coordinates, distance, bearing, GeoJSON, KML, UTM, polygon area |
+| Geospatial | ភូមិសាស្ត្រ | Coordinates, distance, bearing, GeoJSON, KML, UTM, polygon area, EV stations |
 | Development | អភិវឌ្ឍន៍ | JSON, Base64, URL encoding, UUID, hashing, regex, Markdown |
 | Network | បណ្តាញ | CIDR, IP/MAC parsing, DNS, HTTP codes, MIME types, ports |
 | Security | សុវត្ថិភាព | Passwords, PINs, Base32, JWT, ciphers, random keys |
@@ -94,11 +96,13 @@ The project includes locally bundled reference data and utilities for Cambodian 
 - Khmer/English address formatter with CSV export
 - Government institution directory
 - Government plate-prefix lookup and parser
+- Cambodia EV charging-station finder with province, connector, rating, and distance filters
 - Province lookup and nearest-province approximation
 - Khmer Unicode normalization and punctuation-based sentence segmentation
-- Riel formatting and configurable Riel/USD conversion
+- Riel formatting and official MEF multi-currency conversion with a manual-rate fallback
+- Direct-browser MEF weather, UV-index, and air-quality views for Cambodian locations
 
-Some Cambodia datasets may become outdated as administrative boundaries, institutions, assignments, postal codes, or public records change. Verify formal use against current official sources.
+Some Cambodia datasets may become outdated as administrative boundaries, institutions, assignments, postal codes, charging stations, or public records change. Verify formal use against current official sources.
 
 ### Friendly direct routes
 
@@ -112,6 +116,7 @@ Some Cambodia datasets may become outdated as administrative boundaries, institu
 | `/ministries` | Government institution directory |
 | `/plates` | Government plate lookup |
 | `/parse-plate` | Government plate parser |
+| `/evskh` | Cambodia EV charging-station finder |
 | `/khmer-unicode` | Khmer Unicode normalizer |
 | `/khmer-sentences` | Khmer sentence segmenter |
 
@@ -125,6 +130,8 @@ The project is built with a browser-first approach:
 - Clipboard operations use the browser Clipboard API with a compatibility fallback.
 - Persistent preferences and selected tool state use local browser storage.
 - File-drop enhancement does not upload files by itself.
+- EV-station geolocation is requested only after the user selects **Use my location** and is used locally for straight-line distance calculations; coordinates are not stored by the tool.
+- The EV finder omits remote station thumbnails, but its Google Maps and review links navigate to third-party services when selected.
 - The background-removal tool downloads its AI model on first use and then uses the browser cache where available.
 - The GitHub file browser calls the public GitHub API from the browser.
 - Directory/reference tools may open external websites, maps, repositories, images, or contact links.
@@ -141,6 +148,7 @@ This is an experimental community toolbox, not an authoritative professional ser
 - Format checkers validate shape or syntax; they usually do not verify data against an official registry.
 - Geographic calculations may be approximations and must not replace survey-grade software.
 - Government, postal, institutional, plate, and administrative data may not reflect the latest official changes.
+- EV-station records are reference data only: they do not provide live charger availability, and connector, power, hours, fee, payment, rating, or contact details may be missing or outdated.
 - Currency conversions use user-provided rates and are not financial advice.
 - Security utilities are intended for learning, formatting, and testing—not for auditing production security.
 - Output should be reviewed by a qualified person before critical or official use.

@@ -1,0 +1,22 @@
+Date,Day of Week,Holiday Name
+2026-01-01,Thursday,International New Year's Day
+2026-01-07,Wednesday,Victory over Genocide Day
+2026-03-08,Sunday,International Women's Day
+2026-04-14,Tuesday,Khmer New Year (Day 1)
+2026-04-15,Wednesday,Khmer New Year (Day 2)
+2026-04-16,Thursday,Khmer New Year (Day 3)
+2026-05-01,Friday,International Labor Day and Visak Bochea Day
+2026-05-05,Tuesday,Royal Ploughing Ceremony
+2026-05-14,Thursday,King Norodom Sihamoni's Birthday
+2026-06-18,Thursday,Queen Mother's Birthday
+2026-09-24,Thursday,Constitutional Day
+2026-10-10,Saturday,Pchum Ben (Day 1)
+2026-10-11,Sunday,Pchum Ben (Day 2)
+2026-10-12,Monday,Pchum Ben (Day 3)
+2026-10-15,Thursday,Commemoration Day of King Father Norodom Sihanouk
+2026-10-29,Thursday,King Norodom Sihamoni's Coronation Day
+2026-11-09,Monday,Independence Day
+2026-11-23,Monday,Water Festival (Day 1)
+2026-11-24,Tuesday,Water Festival (Day 2)
+2026-11-25,Wednesday,Water Festival (Day 3)
+2026-12-29,Tuesday,Peace Day in Cambodia

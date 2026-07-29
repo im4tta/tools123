@@ -95,6 +95,8 @@ const KHMER_LABELS: Entry[] = [
   ["Khmer title", "ចំណងជើងខ្មែរ"], ["Word separator", "សញ្ញាបំបែកពាក្យ"],
   ["Mixed slug (keeps existing Latin words as-is)", "Slug លាយ (រក្សាពាក្យឡាតាំងដើម)"], ["NFC normalized", "បានសម្អាតជាទម្រង់ NFC"],
   ["Khmer number words", "ពាក្យលេខខ្មែរ"], ["Year", "ឆ្នាំ"], ["Zodiac animal", "ឆ្នាំសត្វ"],
+  ["Character total", "ផលបូកតួអក្សរ"], ["Reduced number", "លេខក្រោយបូកបង្រួម"],
+  ["Life-path number", "លេខខ្សែជីវិត"], ["Traditional interpretation", "ការបកស្រាយតាមបែបប្រពៃណី"],
 ];
 
 const MATH_LABELS: Entry[] = [

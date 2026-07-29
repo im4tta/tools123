@@ -21,6 +21,8 @@ export interface ToolDef {
   id: string;
   title: string;
   khmerTitle?: string;
+  /** ISO date for homepage daily-addition grouping; omit when provenance is unknown. */
+  addedOn?: string;
   category: Category;
   keywords: string[];
   Component: ComponentType;
@@ -166,15 +168,16 @@ export const TOOLS: ToolDef[] = [
   { id: "riel-formatter", title: "Riel Currency Formatter", category: "khmer", keywords: ["riel", "khr", "currency", "រៀល"], Component: load("khmer", "riel-formatter") },
   { id: "buddhist-era", title: "Buddhist Era Year Converter", category: "khmer", keywords: ["buddhist era", "ពុទ្ធសករាជ", "calendar"], Component: load("khmer", "buddhist-era") },
   { id: "zodiac-year", title: "12-Year Zodiac Cycle", category: "khmer", keywords: ["zodiac", "ឆ្នាំសត្វ", "animal year"], Component: load("khmer", "zodiac-year") },
+  { id: "khmer-numerology", title: "Khmer Numerology Calculator", khmerTitle: "ឧបករណ៍គណនាលេខវិទ្យាខ្មែរ", category: "khmer", keywords: ["numerology", "lucky number", "digital root", "vehicle plate", "name number", "life path", "khmer", "លេខវិទ្យា", "លេខហុងស៊ុយ", "ស្លាកលេខ"], Component: load("khmer", "khmer-numerology") },
   { id: "date-formatter", title: "Khmer Date Formatter", category: "khmer", keywords: ["khmer date", "កាលបរិច្ឆេទ"], Component: load("khmer", "date-formatter") },
   { id: "consonant-classifier", title: "Consonant Series Classifier", category: "khmer", keywords: ["consonant", "series", "អក្សរជើង"], Component: load("khmer", "consonant-classifier") },
-  { id: "number-spellout", title: "Khmer Number Spell-out", category: "khmer", keywords: ["spell", "cardinal", "words"], Component: load("khmer", "number-spellout") },
+  { id: "number-spellout", title: "Khmer Number Spell-out", category: "khmer", keywords: ["spell", "cardinal", "words", "number to words", "currency text", "khmerscribe", "សរសេរលេខជាអក្សរ", "ទឹកប្រាក់ជាអក្សរ"], Component: load("khmer", "number-spellout") },
   { id: "phone-formatter", title: "Phone Number Formatter", category: "khmer", keywords: ["phone", "mobile", "+855"], Component: load("khmer", "phone-formatter") },
   { id: "id-pattern", title: "National ID Shape Checker", category: "khmer", keywords: ["national id", "format check"], Component: load("khmer", "id-pattern") },
   { id: "romanization", title: "Khmer Romanization", category: "khmer", keywords: ["romanize", "transliterate", "latin"], Component: load("khmer", "romanization") },
-  { id: "line-break-helper", title: "Soft Line-break Helper", category: "khmer", keywords: ["zwsp", "word wrap", "line break"], Component: load("khmer", "line-break-helper") },
+  { id: "line-break-helper", title: "Soft Line-break Helper", category: "khmer", keywords: ["zwsp", "word wrap", "line break", "khmerscribe", "khmer break", "ចន្លោះសូន្យ", "បំបែកបន្ទាត់"], Component: load("khmer", "line-break-helper") },
   { id: "font-preview", title: "Khmer Web Font Preview", category: "khmer", keywords: ["font", "noto sans khmer", "typography"], Component: load("khmer", "font-preview") },
-  { id: "riel-usd", title: "Riel ⟷ USD Converter", category: "khmer", keywords: ["exchange rate", "usd", "riel"], Component: load("khmer", "riel-usd") },
+  { id: "riel-usd", title: "KHR Currency Converter", khmerTitle: "កម្មវិធីប្តូរប្រាក់រៀល", category: "khmer", keywords: ["exchange rate", "currency", "mef", "usd", "riel"], Component: load("khmer", "riel-usd") },
   { id: "vowel-chart", title: "Dependent Vowel Reference", category: "khmer", keywords: ["vowel", "ស្រៈ", "pronunciation"], Component: load("khmer", "vowel-chart") },
   { id: "punctuation-reference", title: "Khmer Punctuation Reference", category: "khmer", keywords: ["khan", "bariyoosan", "punctuation"], Component: load("khmer", "punctuation-reference") },
   { id: "ordinal-formatter", title: "Khmer Ordinal Number Formatter", category: "khmer", keywords: ["ordinal", "ទី", "number"], Component: load("khmer", "ordinal-formatter") },
@@ -193,8 +196,10 @@ export const TOOLS: ToolDef[] = [
   { id: "collation-sorter", title: "Khmer Collation Sorter", category: "khmer", keywords: ["sort", "alphabetical", "collator", "intl"], Component: load("khmer", "collation-sorter") },
   { id: "khmer-slug-generator", title: "Khmer → URL Slug Generator", category: "khmer", keywords: ["slug", "url", "next.js", "route", "transliterate"], Component: load("khmer", "slug-generator") },
   { id: "pronoun-register", title: "Khmer Pronoun & Register Reference", category: "khmer", keywords: ["pronoun", "register", "politeness", "សព្វនាម", "translation"], Component: load("khmer", "pronoun-register") },
+  { id: "administrative-letter-builder", title: "Khmer Administrative Letter Builder", khmerTitle: "កម្មវិធីបង្កើតលិខិតរដ្ឋបាលខ្មែរ", addedOn: "2026-07-29", category: "khmer", keywords: ["administrative letter", "official letter", "100 templates", "solar date", "lunar date", "province", "microsoft word", "docx", "a4", "khmerscribe", "លិខិតរដ្ឋបាល", "លិខិតស្នើសុំ", "លិខិតអញ្ជើញ"], Component: load("khmer", "administrative-letter-builder") },
+  { id: "honorific-guide", title: "Khmer Official Honorific Guide", khmerTitle: "មគ្គុទ្ទេសក៍គោរមងារផ្លូវការខ្មែរ", addedOn: "2026-07-29", category: "khmer", keywords: ["honorific", "protocol", "salutation", "title", "khmerscribe", "គោរមងារ", "ពិធីការ", "ពាក្យគោរព"], Component: load("khmer", "honorific-guide") },
   { id: "css-wrap-fix", title: "Khmer Line-Wrap CSS Fix", category: "khmer", keywords: ["css", "word-break", "overflow-wrap", "zwsp", "line wrap"], Component: load("khmer", "css-wrap-fix") },
-  { id: "khmer-lorem-ipsum", title: "Khmer Placeholder Text Generator", category: "khmer", keywords: ["lorem ipsum", "filler", "placeholder", "mockup"], Component: load("khmer", "khmer-lorem-ipsum") },
+  { id: "khmer-lorem-ipsum", title: "Khmer Placeholder Text Generator", category: "khmer", keywords: ["lorem ipsum", "filler", "placeholder", "mockup"], Component: load("khmer", "lorem-ipsum") },
   { id: "postal-code-finder", title: "Cambodia Postal Code Finder", khmerTitle: "ស្វែងរកលេខកូដប្រៃសណីយ៍កម្ពុជា", category: "khmer", keywords: ["postal", "postcode", "zip", "address", "ប្រៃសណីយ៍"], Component: load("khmer", "postal-code-finder") },
   { id: "administrative-hierarchy", title: "Cambodia Administrative Hierarchy", khmerTitle: "ឋានានុក្រមរដ្ឋបាលកម្ពុជា", category: "khmer", keywords: ["province", "district", "commune", "village", "address", "ភូមិ", "ឃុំ"], Component: load("khmer", "administrative-hierarchy") },
   { id: "ministry-directory", title: "Cambodia Government Institution Directory", khmerTitle: "បញ្ជីក្រសួង និងស្ថាប័នរាជរដ្ឋាភិបាល", category: "khmer", keywords: ["ministry", "government", "institution", "contact", "ក្រសួង"], Component: load("khmer", "ministry-directory") },
@@ -205,7 +210,12 @@ export const TOOLS: ToolDef[] = [
   { id: "address-formatter", title: "Cambodia Bilingual Address Formatter", khmerTitle: "រៀបចំទម្រង់អាសយដ្ឋានកម្ពុជាពីរភាសា", category: "khmer", keywords: ["address", "format", "bilingual", "csv", "អាសយដ្ឋាន"], Component: load("khmer", "address-formatter") },
   { id: "government-plate-parser", title: "Cambodia Government Plate Parser", khmerTitle: "ឧបករណ៍វិភាគស្លាកលេខរដ្ឋកម្ពុជា", category: "khmer", keywords: ["plate", "parse", "normalize", "state", "police", "military", "ស្លាកលេខ"], Component: load("khmer", "government-plate-parser") },
 
-  // ---- Geospatial (18) ----
+  // ---- Geospatial (24) ----
+  { id: "evskh", title: "Cambodia EV Charging Station Finder", khmerTitle: "ស្វែងរកស្ថានីយសាករថយន្តអគ្គិសនីនៅកម្ពុជា", category: "geo", keywords: ["ev", "electric vehicle", "charging station", "charger", "cambodia", "gps", "map", "ccs2", "gb/t", "ស្ថានីយសាក", "រថយន្តអគ្គិសនី"], Component: load("geo", "ev-station-finder") },
+  { id: "cambodia-environment", title: "Cambodia Environment Dashboard", khmerTitle: "ផ្ទាំងព័ត៌មានបរិស្ថានកម្ពុជា", addedOn: "2026-07-29", category: "geo", keywords: ["environment", "weather", "uv", "aqi", "air quality", "dashboard", "mef", "បរិស្ថាន"], Component: load("geo", "environment-dashboard") },
+  { id: "cambodia-weather", title: "Cambodia Live Weather", khmerTitle: "អាកាសធាតុបច្ចុប្បន្ននៅកម្ពុជា", addedOn: "2026-07-29", category: "geo", keywords: ["weather", "temperature", "rain", "humidity", "wind", "mef", "អាកាសធាតុ"], Component: load("geo", "weather") },
+  { id: "cambodia-uv-index", title: "Cambodia UV Index", khmerTitle: "សន្ទស្សន៍កាំរស្មី UV នៅកម្ពុជា", addedOn: "2026-07-29", category: "geo", keywords: ["uv", "ultraviolet", "sun", "exposure", "mef", "កាំរស្មី"], Component: load("geo", "uv-index") },
+  { id: "cambodia-air-quality", title: "Cambodia Air Quality", khmerTitle: "គុណភាពខ្យល់នៅកម្ពុជា", addedOn: "2026-07-29", category: "geo", keywords: ["aqi", "air quality", "pm2.5", "pm10", "pollution", "mef", "គុណភាពខ្យល់"], Component: load("geo", "air-quality") },
   { id: "dms-converter", title: "Decimal Degrees ⟷ DMS", category: "geo", keywords: ["dms", "degrees minutes seconds"], Component: load("geo", "dms-converter") },
   { id: "haversine", title: "Haversine Distance", category: "geo", keywords: ["distance", "great circle"], Component: load("geo", "haversine") },
   { id: "bounding-box", title: "Bounding Box Calculator", category: "geo", keywords: ["bbox", "extent"], Component: load("geo", "bounding-box") },
@@ -295,7 +305,11 @@ export const TOOLS: ToolDef[] = [
   { id: "passphrase-generator", title: "Passphrase Generator", category: "security", keywords: ["passphrase", "diceware", "words"], Component: load("security", "passphrase-generator") },
   { id: "card-masker", title: "Credit Card Number Masker", category: "security", keywords: ["credit card", "mask", "pci"], Component: load("security", "card-masker") },
 
-  // ---- Design (15) ----
+  // ---- Design (19) ----
+  { id: "whiteboard", title: "Whiteboard", khmerTitle: "ផ្ទាំងគំនូរ", addedOn: "2026-07-29", category: "design", keywords: ["whiteboard", "draw", "sketch", "canvas", "png", "ផ្ទាំងគំនូរ"], Component: load("design", "whiteboard") },
+  { id: "business-card-generator", title: "Business Card Generator", khmerTitle: "កម្មវិធីបង្កើតនាមប័ណ្ណ", addedOn: "2026-07-29", category: "design", keywords: ["business card", "name card", "contact", "svg", "នាមប័ណ្ណ"], Component: load("design", "business-card-generator") },
+  { id: "chart-maker", title: "Chart Maker", khmerTitle: "កម្មវិធីបង្កើតក្រាហ្វ", addedOn: "2026-07-29", category: "design", keywords: ["chart", "bar", "line", "graph", "svg", "ក្រាហ្វ"], Component: load("design", "chart-maker") },
+  { id: "diagram-editor", title: "Diagram & Structure Editor", khmerTitle: "កម្មវិធីកែសម្រួលដ្យាក្រាម និងរចនាសម្ព័ន្ធ", addedOn: "2026-07-29", category: "design", keywords: ["diagram", "nodes", "flow", "svg", "mind map", "organization chart", "org chart", "wbs", "work breakdown structure", "hierarchy", "ដ្យាក្រាម", "ផែនទីគំនិត", "តារាងអង្គការ", "រចនាសម្ព័ន្ធការងារ"], Component: load("design", "structured-diagram-editor") },
   { id: "favicon-generator", title: "Favicon Generator", category: "design", keywords: ["favicon", "icon", "apple touch icon", "pwa"], Component: load("design", "favicon-generator") },
   { id: "og-image-generator", title: "Social Preview (OG) Image Generator", category: "design", keywords: ["og image", "open graph", "social preview", "twitter card"], Component: load("design", "og-image-generator") },
   { id: "color-palette-generator", title: "Color Palette Generator", category: "design", keywords: ["palette", "color scheme"], Component: load("design", "color-palette-generator") },
@@ -313,7 +327,8 @@ export const TOOLS: ToolDef[] = [
   { id: "color-name-finder", title: "Nearest CSS Color Name Finder", category: "design", keywords: ["color name", "css colors", "nearest"], Component: load("design", "color-name-finder") },
   { id: "vector-drawable-to-svg", title: "VectorDrawable → SVG", category: "design", keywords: ["android", "vector drawable", "svg", "icon convert"], Component: load("design", "vector-drawable-to-svg") },
 
-  // ---- Time & Date (13) ----
+  // ---- Time & Date (14) ----
+  { id: "daily-feng-shui-calendar", title: "Daily Feng Shui Calendar", khmerTitle: "ប្រតិទិនហុងស៊ុយប្រចាំថ្ងៃ", addedOn: "2026-07-29", category: "time", keywords: ["feng shui", "calendar", "cultural reference", "daily planning", "ហុងស៊ុយ"], Component: load("time", "daily-feng-shui-calendar") },
   { id: "age-calculator", title: "Age Calculator", category: "time", keywords: ["age", "birthday"], Component: load("time", "age-calculator") },
   { id: "date-difference-calculator", title: "Date Difference Calculator", category: "time", keywords: ["days between", "date diff"], Component: load("time", "date-difference-calculator") },
   { id: "countdown-timer", title: "Countdown Timer", category: "time", keywords: ["countdown", "timer"], Component: load("time", "countdown-timer") },
@@ -339,12 +354,25 @@ export const TOOLS: ToolDef[] = [
   { id: "images-to-pdf", title: "Images → PDF", category: "office", keywords: ["image", "jpg", "png", "pdf", "convert"], Component: load("office", "images-to-pdf") },
   { id: "pdf-to-images", title: "PDF → Images", category: "office", keywords: ["pdf", "png", "jpg", "export", "render"], Component: load("office", "pdf-to-images") },
 
-  // ---- Office (3) ----
+  // ---- Office (15) ----
+  { id: "business-calculators", title: "Business Calculators", khmerTitle: "ម៉ាស៊ីនគណនាអាជីវកម្ម", addedOn: "2026-07-29", category: "office", keywords: ["loan", "amortization", "vat", "discount", "date add", "salary tax", "nssf", "ប្រាក់កម្ចី", "ពន្ធ", "បសស"], Component: load("office", "business-calculators") },
+  { id: "staff-directory", title: "Staff Directory", khmerTitle: "បញ្ជីបុគ្គលិក", addedOn: "2026-07-29", category: "office", keywords: ["staff", "employee", "directory", "department", "csv", "បុគ្គលិក"], Component: load("office", "staff-directory") },
   { id: "qr-decoder", title: "QR Code Decoder", category: "office", keywords: ["qr code", "scan", "decode"], Component: load("office", "qr-decoder") },
   { id: "qr-generator", title: "QR Code Generator", category: "office", keywords: ["qr", "code", "barcode"], Component: load("office", "qr-generator") },
   { id: "expense-tracker", title: "Expense Tracker", category: "office", keywords: ["expenses", "budget", "mint", "spending", "money log"], Component: load("office", "expense-tracker") },
+  { id: "task-manager", title: "Task Manager", khmerTitle: "កម្មវិធីគ្រប់គ្រងកិច្ចការ", addedOn: "2026-07-29", category: "office", keywords: ["task", "todo", "deadline", "priority", "កិច្ចការ"], Component: load("office", "task-manager") },
+  { id: "time-tracker", title: "Time Tracker", khmerTitle: "កម្មវិធីតាមដានពេលវេលា", addedOn: "2026-07-29", category: "office", keywords: ["time", "tracker", "work log", "timesheet", "ពេលវេលា"], Component: load("office", "time-tracker") },
+  { id: "sticky-notes", title: "Sticky Notes", khmerTitle: "កំណត់ត្រារហ័ស", addedOn: "2026-07-29", category: "office", keywords: ["notes", "sticky", "reminder", "memo", "កំណត់ត្រា"], Component: load("office", "sticky-notes") },
+  { id: "email-signature-generator", title: "Email Signature Generator", khmerTitle: "កម្មវិធីបង្កើតហត្ថលេខាអ៊ីមែល", addedOn: "2026-07-29", category: "office", keywords: ["email", "signature", "html", "contact", "ហត្ថលេខាអ៊ីមែល"], Component: load("office", "email-signature-generator") },
+  { id: "cambodia-public-holidays", title: "Cambodia Public Holidays", khmerTitle: "ថ្ងៃឈប់សម្រាកសាធារណៈកម្ពុជា", addedOn: "2026-07-29", category: "office", keywords: ["cambodia", "holiday", "calendar", "public holiday", "ថ្ងៃឈប់សម្រាក"], Component: load("office", "cambodia-public-holidays") },
+  { id: "attendance-sheet", title: "Attendance Sheet", khmerTitle: "បញ្ជីវត្តមាន", addedOn: "2026-07-29", category: "office", keywords: ["attendance", "timesheet", "staff", "check in", "check out", "វត្តមាន"], Component: load("office", "attendance-sheet") },
+  { id: "meeting-agenda-minutes", title: "Meeting Agenda & Minutes", khmerTitle: "របៀបវារៈ និងកំណត់ហេតុប្រជុំ", addedOn: "2026-07-29", category: "office", keywords: ["meeting", "agenda", "minutes", "decisions", "action items", "ប្រជុំ"], Component: load("office", "meeting-agenda-minutes") },
+  { id: "team-generator", title: "Team Generator", khmerTitle: "កម្មវិធីបែងចែកក្រុម", addedOn: "2026-07-29", category: "office", keywords: ["team", "group", "random", "shuffle", "ក្រុម"], Component: load("office", "team-generator") },
+  { id: "signature-pad", title: "Signature Pad", khmerTitle: "ផ្ទាំងហត្ថលេខា", addedOn: "2026-07-29", category: "office", keywords: ["signature", "sign", "draw", "png", "ហត្ថលេខា"], Component: load("office", "signature-pad") },
+  { id: "asset-register", title: "Asset Register", khmerTitle: "បញ្ជីសម្ភារៈ", addedOn: "2026-07-29", category: "office", keywords: ["asset", "inventory", "equipment", "register", "សម្ភារៈ"], Component: load("office", "asset-register") },
 
-  // ---- Images (7) ----
+  // ---- Images (8) ----
+  { id: "document-scanner", title: "Document Scanner", khmerTitle: "ម៉ាស៊ីនស្កេនឯកសារ", addedOn: "2026-07-29", category: "images", keywords: ["document", "scanner", "camera", "capture", "grayscale", "ឯកសារ", "ស្កេន"], Component: load("images", "document-scanner") },
   { id: "image-optimizer", title: "Image Resizer & Compressor", category: "images", keywords: ["compress", "resize", "convert", "webp", "jpeg"], Component: load("images", "image-optimizer") },
   { id: "image-editor", title: "Image Editor", category: "images", keywords: ["crop", "rotate", "flip", "filters", "brightness", "contrast"], Component: load("images", "image-editor") },
   { id: "background-remover", title: "Background Remover", category: "images", keywords: ["remove bg", "background", "cutout", "transparent", "ai"], Component: load("images", "background-remover") },

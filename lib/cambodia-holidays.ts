@@ -1,0 +1,77 @@
+export type HolidayKind = "fixed" | "variable";
+export type CambodiaHoliday = { id: string; year: 2026 | 2027; name: string; nameKm: string; date: string; kind: HolidayKind };
+
+const km: Record<string, string> = {
+  "International New Year's Day": "ទិវាចូលឆ្នាំសកល",
+  "Victory over Genocide Day": "ទិវាជ័យជម្នះលើរបបប្រល័យពូជសាសន៍",
+  "International Women's Day": "ទិវាអន្តរជាតិនារី",
+  "Khmer New Year (Day 1)": "ពិធីបុណ្យចូលឆ្នាំថ្មីប្រពៃណីជាតិ (ថ្ងៃទី១)",
+  "Khmer New Year (Day 2)": "ពិធីបុណ្យចូលឆ្នាំថ្មីប្រពៃណីជាតិ (ថ្ងៃទី២)",
+  "Khmer New Year (Day 3)": "ពិធីបុណ្យចូលឆ្នាំថ្មីប្រពៃណីជាតិ (ថ្ងៃទី៣)",
+  "International Labor Day and Visak Bochea Day": "ទិវាពលកម្មអន្តរជាតិ និងបុណ្យវិសាខបូជា",
+  "International Labor Day": "ទិវាពលកម្មអន្តរជាតិ",
+  "Visak Bochea Day": "បុណ្យវិសាខបូជា",
+  "Royal Ploughing Ceremony": "ព្រះរាជពិធីច្រត់ព្រះនង្គ័ល",
+  "King Norodom Sihamoni's Birthday": "ព្រះរាជពិធីបុណ្យចម្រើនព្រះជន្មព្រះមហាក្សត្រ នរោត្តម សីហមុនី",
+  "Queen Mother's Birthday": "ព្រះរាជពិធីបុណ្យចម្រើនព្រះជន្មព្រះវររាជមាតា",
+  "Constitutional Day": "ទិវាប្រកាសរដ្ឋធម្មនុញ្ញ",
+  "Pchum Ben (Day 1)": "ពិធីបុណ្យភ្ជុំបិណ្ឌ (ថ្ងៃទី១)",
+  "Pchum Ben (Day 2)": "ពិធីបុណ្យភ្ជុំបិណ្ឌ (ថ្ងៃទី២)",
+  "Pchum Ben (Day 3)": "ពិធីបុណ្យភ្ជុំបិណ្ឌ (ថ្ងៃទី៣)",
+  "Commemoration Day of King Father Norodom Sihanouk": "ទិវាប្រារព្ធព្រះរាជពិធីគោរពព្រះវិញ្ញាណក្ខន្ធព្រះបរមរតនកោដ្ឋ",
+  "King Norodom Sihamoni's Coronation Day": "ព្រះរាជពិធីគ្រងព្រះបរមរាជសម្បត្តិរបស់ព្រះមហាក្សត្រ នរោត្តម សីហមុនី",
+  "Independence Day": "ទិវាបុណ្យឯករាជ្យជាតិ",
+  "Water Festival (Day 1)": "ព្រះរាជពិធីបុណ្យអុំទូក (ថ្ងៃទី១)",
+  "Water Festival (Day 2)": "ព្រះរាជពិធីបុណ្យអុំទូក (ថ្ងៃទី២)",
+  "Water Festival (Day 3)": "ព្រះរាជពិធីបុណ្យអុំទូក (ថ្ងៃទី៣)",
+  "Peace Day in Cambodia": "ទិវាសន្តិភាពនៅកម្ពុជា",
+};
+
+const fixedNames = new Set(["International New Year's Day", "Victory over Genocide Day", "International Women's Day", "International Labor Day", "King Norodom Sihamoni's Birthday", "Queen Mother's Birthday", "Constitutional Day", "Commemoration Day of King Father Norodom Sihanouk", "King Norodom Sihamoni's Coronation Day", "Independence Day", "Peace Day in Cambodia"]);
+const row = (year: 2026 | 2027, date: string, name: string): CambodiaHoliday => ({ id: `${year}-${date}-${name}`, year, name, nameKm: km[name] ?? name, date, kind: fixedNames.has(name) ? "fixed" : "variable" });
+
+export const CAMBODIA_HOLIDAYS: CambodiaHoliday[] = [
+  row(2026, "2026-01-01", "International New Year's Day"),
+  row(2026, "2026-01-07", "Victory over Genocide Day"),
+  row(2026, "2026-03-08", "International Women's Day"),
+  row(2026, "2026-04-14", "Khmer New Year (Day 1)"),
+  row(2026, "2026-04-15", "Khmer New Year (Day 2)"),
+  row(2026, "2026-04-16", "Khmer New Year (Day 3)"),
+
+  row(2026, "2026-05-01", "International Labor Day and Visak Bochea Day"),
+  row(2026, "2026-05-05", "Royal Ploughing Ceremony"),
+  row(2026, "2026-05-14", "King Norodom Sihamoni's Birthday"),
+  row(2026, "2026-06-18", "Queen Mother's Birthday"),
+  row(2026, "2026-09-24", "Constitutional Day"),
+  row(2026, "2026-10-10", "Pchum Ben (Day 1)"),
+  row(2026, "2026-10-11", "Pchum Ben (Day 2)"),
+  row(2026, "2026-10-12", "Pchum Ben (Day 3)"),
+  row(2026, "2026-10-15", "Commemoration Day of King Father Norodom Sihanouk"),
+  row(2026, "2026-10-29", "King Norodom Sihamoni's Coronation Day"),
+  row(2026, "2026-11-09", "Independence Day"),
+  row(2026, "2026-11-23", "Water Festival (Day 1)"),
+  row(2026, "2026-11-24", "Water Festival (Day 2)"),
+  row(2026, "2026-11-25", "Water Festival (Day 3)"),
+  row(2026, "2026-12-29", "Peace Day in Cambodia"),
+  row(2027, "2027-01-07", "Victory over Genocide Day"),
+  row(2027, "2027-03-08", "International Women's Day"),
+  row(2027, "2027-04-14", "Khmer New Year (Day 1)"),
+  row(2027, "2027-04-15", "Khmer New Year (Day 2)"),
+  row(2027, "2027-04-16", "Khmer New Year (Day 3)"),
+  row(2027, "2027-05-01", "International Labor Day"),
+  row(2027, "2027-05-14", "King Norodom Sihamoni's Birthday"),
+  row(2027, "2027-05-20", "Visak Bochea Day"),
+  row(2027, "2027-05-24", "Royal Ploughing Ceremony"),
+  row(2027, "2027-06-18", "Queen Mother's Birthday"),
+  row(2027, "2027-10-05", "Pchum Ben (Day 1)"),
+  row(2027, "2027-10-06", "Pchum Ben (Day 2)"),
+  row(2027, "2027-10-07", "Pchum Ben (Day 3)"),
+  row(2027, "2027-10-15", "Commemoration Day of King Father Norodom Sihanouk"),
+  row(2027, "2027-10-29", "King Norodom Sihamoni's Coronation Day"),
+  row(2027, "2027-11-09", "Independence Day"),
+  row(2027, "2027-11-22", "Water Festival (Day 1)"),
+  row(2027, "2027-11-23", "Water Festival (Day 2)"),
+  row(2027, "2027-11-24", "Water Festival (Day 3)"),
+];
+
+export const HOLIDAY_YEARS = [2026, 2027] as const;

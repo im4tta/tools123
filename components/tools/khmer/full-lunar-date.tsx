@@ -3,13 +3,14 @@ import { useMemo } from "react";
 import { ToolShell, TextInput, Field } from "@/components/ui/Shell";
 import { Output } from "@/components/ui/Output";
 import { useToolState } from "@/lib/storage";
+import { localIsoToday } from "@/lib/khmer-date";
 import momentkh from "@thyrith/momentkh";
 
 const KH = "០១២៣៤៥៦៧៨៩";
 const toKh = (n: number) => String(n).split("").map((d) => (KH[Number(d)] ?? d)).join("");
 
 export default function FullLunarDate() {
-  const [date, setDate] = useToolState("full-lunar-date:date", new Date().toISOString().slice(0, 10));
+  const [date, setDate] = useToolState("full-lunar-date:date", localIsoToday());
 
   const result = useMemo(() => {
     if (!date) return null;
@@ -73,7 +74,7 @@ export default function FullLunarDate() {
       <p className="text-xs text-[var(--ink-faint)]">
         Buddhist Era year advances at midnight on the first waning day of ខែពិសាខ (Pisakh); animal year advances at the
         exact moment of Moha Songkran; ស័ក advances at midnight on Lerng Sak — so the three counters can briefly disagree
-        with a naive "add 543 / add one animal" expectation around New Year. That's expected traditional-calendar behavior,
+        with a naive &quot;add 543 / add one animal&quot; expectation around New Year. That is expected traditional-calendar behavior,
         not a bug.
       </p>
     </ToolShell>

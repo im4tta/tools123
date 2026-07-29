@@ -34,7 +34,7 @@ export function ToolShell({
   const localizedTitle = mode === "km" ? resolvedKhmerTitle : title;
   const resolvedDescriptionKm = descriptionKm ?? descriptionKmFor(description);
   return (
-    <div className="mx-auto max-w-3xl">
+    <div className="mx-auto w-full max-w-6xl">
       <header className="mb-8">
         <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
           <h1 className="font-display text-2xl font-semibold text-[var(--ink)]">{localizedTitle}</h1>
