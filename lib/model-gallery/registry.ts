@@ -189,7 +189,55 @@ export const MODEL_GALLERY: ModelEntry[] = [
       import("./models/createVolcanoModel").then((m) => ({
         createModel: (opts) => m.createVolcanoModel(opts),
         createLights: m.createVolcanoLookDevLights,
-        background: m.makeVolcanoBackground,
+background: m.makeVolcanoBackground,
       })),
-  },
-];
+    },
+    {
+      id: "apple-watch",
+      title: "Apple Watch",
+      description:
+        "Rounded-square titanium Apple Watch with sapphire-glass display, a live watch face, knurled Digital Crown, side button, and a sport band curving from the top and bottom lugs. Looping ~8s animation: second hand sweeps in real time, screen brightens on 'raise to wake', Digital Crown gives a small idle turn, band sways gently.",
+      load: () =>
+        import("./models/createAppleWatchModel").then((m) => ({
+          createModel: (opts) => m.createAppleWatchModel(opts),
+          createLights: m.createAppleWatchLookDevLights,
+          background: m.makeAppleWatchBackground,
+        })),
+    },
+    {
+      id: "apple-vision-pro",
+      title: "Apple Vision Pro",
+      description:
+        "Apple Vision Pro with curved 3D laminated-glass front wrapped in a light aluminum-alloy frame, dark foam Light Seal, Dual Loop Band, knurled Digital Crown + top button, and a separate battery pack tethered by a braided cable. Looping ~9s animation: slow turntable sway, EyeSight glass brightens on approach and fades to mirror, Digital Crown idles, battery pack bobs.",
+      load: () =>
+        import("./models/createAppleVisionProModel").then((m) => ({
+          createModel: (opts) => m.createAppleVisionProModel(opts),
+          createLights: m.createAppleVisionProLookDevLights,
+          background: m.makeAppleVisionProBackground,
+        })),
+    },
+    {
+      id: "imac",
+      title: "iMac (24-inch)",
+      description:
+        "24-inch iMac all-in-one with thin white forehead/chin bezel, edge-to-edge glass, saturated color-matched aluminum back shell, slim chrome foot arm and round base, plus a wallpaper desktop with a dock row. Looping ~10s animation: slow turntable, wallpaper hue drifts through its gradient, soft specular sweep crosses the glass, dock icons bounce gently one at a time.",
+      load: () =>
+        import("./models/createImacModel").then((m) => ({
+          createModel: (opts) => m.createImacModel(opts),
+          createLights: m.createImacLookDevLights,
+          background: m.makeImacBackground,
+        })),
+    },
+    {
+      id: "ipad",
+      title: "iPad",
+      description:
+        "Thin aluminum unibody iPad with edge-to-edge display, front camera dot, single back camera lens, volume rocker + top button, USB-C slot, and an Apple Pencil magnetically docked to the side edge with a soft charge-ring pulse. Looping ~9s animation: slow turntable, screen wallpaper glow breathes, Pencil lifts, hovers, and snaps back onto its magnetic edge.",
+      load: () =>
+        import("./models/createIpadModel").then((m) => ({
+          createModel: (opts) => m.createIpadModel(opts),
+          createLights: m.createIpadLookDevLights,
+          background: m.makeIpadBackground,
+        })),
+    },
+  ];
