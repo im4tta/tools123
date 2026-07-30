@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Search, ArrowLeft, Star, Waypoints, LayoutGrid } from "lucide-react";
+import { Search, ArrowLeft, Star, Waypoints, LayoutGrid, ArrowUpDown, Layers } from "lucide-react";
 import { CommandPalette } from "@/components/CommandPalette";
 import { HeaderInfo } from "@/components/HeaderInfo";
 import { LanguageToggle } from "@/components/LanguageToggle";
@@ -200,19 +200,27 @@ export default function Home() {
   const favoriteTools = useMemo(() => favorites.map((id) => TOOLS.find((t) => t.id === id)).filter(Boolean) as typeof TOOLS, [favorites]);
   const recentTools = useMemo(() => recents.map((id) => TOOLS.find((t) => t.id === id)).filter(Boolean) as typeof TOOLS, [recents]);
   const dailyAddition = useMemo(() => {
-    const datedTools = TOOLS.filter(
-      (tool): tool is typeof tool & { addedOn: string } =>
-        typeof tool.addedOn === "string" && /^\d{4}-\d{2}-\d{2}$/.test(tool.addedOn) && !Number.isNaN(Date.parse(`${tool.addedOn}T00:00:00Z`))
-    );
-    const latestDate = datedTools.reduce<string | null>(
-      (latest, tool) => latest === null || tool.addedOn > latest ? tool.addedOn : latest,
-      null
-    );
-    return {
-      date: latestDate,
-      tools: latestDate ? datedTools.filter((tool) => tool.addedOn === latestDate) : [],
+    const now = new Date();
+    const dow = now.getDay();
+    const mon = new Date(now);
+    mon.setDate(now.getDate() + (dow === 0 ? -6 : 1 - dow));
+    const sun = new Date(mon);
+    sun.setDate(mon.getDate() + 6);
+    const fmt = (d: Date) => {
+      const mm = String(d.getMonth() + 1).padStart(2, "0");
+      const dd = String(d.getDate()).padStart(2, "0");
+      return `${d.getFullYear()}-${mm}-${dd}`;
     };
+    const monStr = fmt(mon), sunStr = fmt(sun);
+    const tools = TOOLS.filter(
+      (t): t is typeof t & { addedOn: string } =>
+        typeof t.addedOn === "string" && t.addedOn >= monStr && t.addedOn <= sunStr
+    ).sort((a, b) => b.addedOn.localeCompare(a.addedOn));
+    return { date: `${monStr} – ${sunStr}`, tools };
   }, []);
+  const [catSort, setCatSort] = useState<Record<string, "asc" | "desc" | "function">>({});
+  const [catFilter, setCatFilter] = useState<Record<string, string>>({});
+  const [catSearchOpen, setCatSearchOpen] = useState<Record<string, boolean>>({});
   const starterTools = useMemo(
     () => STARTER_TOOL_IDS.map((id) => TOOLS.find((t) => t.id === id)).filter(Boolean) as typeof TOOLS,
     []
@@ -389,12 +397,12 @@ export default function Home() {
         <div className="recently-added relative mx-auto mt-12 max-w-[77rem] px-5 sm:px-10">
           <div className="mb-3 flex flex-wrap items-baseline gap-2 border-b border-[var(--ground-line)] pb-2">
             <h2 className="font-display text-sm font-medium text-[var(--ink)]">
-              {t(`Added on ${dailyAddition.date}`, `បានបន្ថែមនៅថ្ងៃទី ${dailyAddition.date}`)}
+              {t("Added this week", "បានបន្ថែមសប្តាហ៍នេះ")}
             </h2>
             <span className="text-xs text-[var(--ink-faint)]">
               {t(
-                `${dailyAddition.tools.length} tools in this daily batch`,
-                `ឧបករណ៍ ${toKh(dailyAddition.tools.length)} មុខក្នុងការបន្ថែមប្រចាំថ្ងៃនេះ`
+                `${dailyAddition.tools.length} tools (${dailyAddition.date})`,
+                `ឧបករណ៍ ${toKh(dailyAddition.tools.length)} មុខ (${dailyAddition.date})`
               )}
             </span>
           </div>
@@ -448,17 +456,66 @@ export default function Home() {
           const tools = filteredByCategory.get(cat);
           if (!tools) return null;
           const meta = CATEGORY_META[cat];
+          const sortMode = catSort[cat] || "function";
+          const query = catFilter[cat] || "";
+          const filtered = tools.filter(
+            (t) => query === "" || t.title.toLowerCase().includes(query) || t.khmerTitle?.toLowerCase().includes(query)
+          );
+          const sorted =
+            sortMode === "function"
+              ? filtered
+              : [...filtered].sort((a, b) => {
+                  const ta = a.khmerTitle ?? a.title;
+                  const tb = b.khmerTitle ?? b.title;
+                  return sortMode === "asc" ? ta.localeCompare(tb) : tb.localeCompare(ta);
+                });
           return (
             <div key={cat} id={`cat-${cat}`} className="mb-10 scroll-mt-20">
               <div className="mb-3 flex items-baseline gap-3 border-b border-[var(--ground-line)] pb-2">
                 <span className="h-1.5 w-1.5 rounded-full" style={{ background: meta.color }} />
                 <h2 className="font-display text-sm font-medium text-[var(--ink)]">{t(meta.label, meta.khmer)}</h2>
-                <span className="ml-auto text-xs text-[var(--ink-faint)]">
-                  {t(`${tools.length} tools`, `${toKh(tools.length)} ឧបករណ៍`)}
+                {catSearchOpen[cat] && (
+                  <input
+                    value={query}
+                    onChange={(e) => setCatFilter((p) => ({ ...p, [cat]: e.target.value }))}
+                    placeholder={t("Filter…", "តម្រង…")}
+                    className="h-6 w-32 rounded border border-[var(--ground-line)] bg-[var(--ground-raised)] px-2 text-[11px] text-[var(--ink)] outline-none placeholder:text-[var(--ink-faint)]"
+                  />
+                )}
+                <button
+                  onClick={() => setCatSearchOpen((p) => ({ ...p, [cat]: !p[cat] }))}
+                  className="ml-auto flex items-center gap-1 rounded p-1 text-[var(--ink-faint)] transition hover:text-[var(--ink)]"
+                  title={t("Search in category", "ស្វែងរកក្នុងប្រភេទ")}
+                >
+                  <Search size={12} />
+                </button>
+                <button
+                  onClick={() =>
+                    setCatSort((p) => ({
+                      ...p,
+                      [cat]: sortMode === "asc" ? "desc" : sortMode === "desc" ? "function" : "asc",
+                    }))
+                  }
+                  className="flex items-center gap-1 rounded p-1 text-[var(--ink-faint)] transition hover:text-[var(--ink)]"
+                  title={
+                    sortMode === "asc"
+                      ? t("A–Z", "ក–អ")
+                      : sortMode === "desc"
+                        ? t("Z–A", "អ–ក")
+                        : t("By function", "តាមមុខងារ")
+                  }
+                >
+                  {sortMode === "function" ? <Layers size={12} /> : <ArrowUpDown size={12} />}
+                  <span className="text-[10px] font-semibold">
+                    {sortMode === "asc" ? "A–Z" : sortMode === "desc" ? "Z–A" : t("Fn", "មុខងារ")}
+                  </span>
+                </button>
+                <span className="text-xs text-[var(--ink-faint)]">
+                  {t(`${filtered.length} tools`, `${toKh(filtered.length)} ឧបករណ៍`)}
                 </span>
               </div>
               <div className="tool-list-scroll">
-                <ToolGrid tools={tools} onSelect={setActiveId} favorites={favorites} onToggleFavorite={toggleFavorite} />
+                <ToolGrid tools={sorted} onSelect={setActiveId} favorites={favorites} onToggleFavorite={toggleFavorite} />
               </div>
             </div>
           );

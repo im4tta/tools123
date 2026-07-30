@@ -1,0 +1,18 @@
+Γû▓ Next.js 16.2.12 (Turbopack)
+
+  Creating an optimized production build ...
+Γ£ô Compiled successfully in 5.8s
+  Running TypeScript ...
+Failed to type check.
+
+./components/tools/science/materials.tsx:1318:23
+Type error: Parameter 'text' implicitly has an 'any' type.
+
+  1316 |   };
+  1317 |
+> 1318 |   const handleCopy = (text, id) => {
+       |                       ^
+  1319 |     soundFx.playClick();
+  1320 |     navigator.clipboard.writeText(text);
+  1321 |     setCopiedId(id);
+Next.js build worker exited with code: 1 and signal: null
