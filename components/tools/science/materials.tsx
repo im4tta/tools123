@@ -4,10 +4,10 @@ import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { 
   Search, Globe, X, Layers, Shield, Sparkles, Zap, 
   Droplet, Flame, Wind, Mountain, Bookmark,
-  Moon, Sun, Copy, Check, Grid, List, Scale, Cpu, Leaf, ArrowRight,
+  Copy, Check, Grid, List, Scale, Cpu, Leaf, ArrowRight,
   FlaskConical, Atom, RefreshCw, ChevronRight, Eye, Maximize2, RotateCcw,
   Volume2, VolumeX, Award, HelpCircle, Play, Sliders, Activity, Box, Plus, Hammer,
-  Wrench, Thermometer, Info, FileText
+  Wrench, Thermometer, Info, FileText, BookOpen
 } from 'lucide-react';
 import { useLanguage } from "@/components/LanguageProvider";
 
@@ -64,7 +64,9 @@ const uiTranslations: Record<string, Record<string, string>> = {
     craftBtn: 'ផ្សំសារធាតុ (Synthesize)',
     clearCraft: 'សម្អាត',
     craftResult: 'លទ្ធផលនៃការផ្សំ',
-    quizTitle: 'តេស្តប្រឡងចំណេះដឹងវិទ្យាសាស្ត្រ',
+    guideTitle: 'មន្ទីរយោបាយ Science Guide',
+    guideDesc: 'ស្វែងយល់និងជួយបានពេលផ្សំសារធាតុ',
+    funFacts: 'លំនាំកំណត់ចំណាយថ្ងៃ',
     quizScore: 'ពិន្ទុរបស់អ្នក',
     nextQuestion: 'សំណួរដកពិសោធន៍បន្ទាប់',
     soundEffects: 'សំឡេង (Sound)',
@@ -125,6 +127,9 @@ const uiTranslations: Record<string, Record<string, string>> = {
     craftBtn: 'Synthesize Material',
     clearCraft: 'Clear All',
     craftResult: 'Synthesis Output',
+    guideTitle: 'Science Guide Lab',
+    guideDesc: 'Learn while you synthesize materials',
+    funFacts: 'Fun Facts',
     quizTitle: 'Earth Science & Materials Trivia Challenge',
     quizScore: 'Your Score',
     nextQuestion: 'Next Question',
@@ -884,20 +889,43 @@ function MaterialCraftingLab({ lang }: { lang: "km" | "en" }) {
   const [slot1, setSlot1] = useState<any>(null);
   const [slot2, setSlot2] = useState<any>(null);
   const [result, setResult] = useState<any>(null);
+  const [factIndex, setFactIndex] = useState(0);
 
   const recipes: { in: string[]; out: { name: { km: string; en: string }; desc: string } }[] = [
-    { in: ['Cu', 'Zn'], out: { name: { km: 'លង្ហិន (Brass)', en: 'Brass Alloy' }, desc: 'Copper + Zinc = Brass (Non-sparking acoustic metal)' } },
-    { in: ['Fe', 'C'], out: { name: { km: 'ដែកថែប (Steel)', en: 'Steel Alloy' }, desc: 'Iron + Carbon = Structural High-Tensile Steel' } },
-    { in: ['Cu', 'Sn'], out: { name: { km: 'សំរឹទ្ធ (Bronze)', en: 'Bronze Alloy' }, desc: 'Copper + Tin = Marine Seawater Resistant Bronze' } },
-    { in: ['C', 'C'], out: { name: { km: 'ក្រាហ្វែន ឬ ពេជ្រ (Diamond/Graphene)', en: 'Graphene / Diamond' }, desc: 'Pure Carbon under extreme synthesis' } },
-    { in: ['Si', 'O'], out: { name: { km: 'កញ្ចក់ស៊ីលីកា (Silica Glass)', en: 'Silica Glass / Quartz' }, desc: 'Silicon + Oxygen = High-purity Glass' } },
+    // Alloys
+    { in: ['Cu', 'Zn'], out: { name: { km: 'លង្ហិន (Brass)', en: 'Brass Alloy' }, desc: 'Copper + Zinc = Brass — Non-sparking acoustic metal used in instruments and decorative hardware.' } },
+    { in: ['Fe', 'C'], out: { name: { km: 'ដែកថែប (Steel)', en: 'Steel Alloy' }, desc: 'Iron + Carbon = Steel — The backbone of modern construction and tooling.' } },
+    { in: ['Cu', 'Sn'], out: { name: { km: 'សំរឹទ្ធ (Bronze)', en: 'Bronze Alloy' }, desc: 'Copper + Tin = Bronze — The age-defining alloy of ancient civilizations.' } },
+    { in: ['Fe', 'Cr', 'Ni'], out: { name: { km: 'ស្តេលេស (Stainless Steel)', en: 'Stainless Steel' }, desc: 'Iron + Chromium + Nickel = Rust-resistant steel for kitchenware and medicine.' } },
+    { in: ['Al', 'Cu'], out: { name: { km: 'អ៊ីឡូមីយូម (Duralumin)', en: 'Duralumin' }, desc: 'Aluminum + Copper = Lightweight aerospace alloy stronger than pure aluminum.' } },
+    { in: ['Ti', 'Al'], out: { name: { km: 'ធីតានីយូម (Titanium Aluminide)', en: 'Titanium Aluminide' }, desc: 'Titanium + Aluminum = High-temperature aerospace metallurgy marvel.' } },
+    // Compounds
+    { in: ['C', 'C'], out: { name: { km: 'ក្រាហ្វែន ឬ ពេជ្រ (Diamond/Graphene)', en: 'Graphene / Diamond' }, desc: 'Pure Carbon under extreme synthesis — Diamond for cutting, Graphene for next-gen electronics.' } },
+    { in: ['Si', 'O'], out: { name: { km: 'កញ្ចក់ស៊ីលីកា (Silica Glass)', en: 'Silica Glass / Quartz' }, desc: 'Silicon + Oxygen = Glass — Transforming sand into windows, fiber optics, and timekeeping.' } },
+    { in: ['Na', 'Cl'], out: { name: { km: 'ផ្សំស្រូវ (Table Salt)', en: 'Sodium Chloride' }, desc: 'Sodium + Chlorine = Salt — Essential for life and food preservation since antiquity.' } },
+    { in: ['Fe', 'O'], out: { name: { km: 'ឱសថទេស (Rust/Iron Oxide)', en: 'Iron Oxide (Rust)' }, desc: 'Iron + Oxygen = Rust — The slow corrosion that shapes metallurgy history.' } },
+    { in: ['Ca', 'C', 'O'], out: { name: { km: 'ថ្មុយ (Limestone/Calcium Carbonate)', en: 'Calcium Carbonate' }, desc: 'Calcium + Carbon + Oxygen = Limestone — The building block of shells and chalk.' } },
+    { in: ['N', 'H'], out: { name: { km: 'អាម៉ូន៊ីយ៉ា (Ammonia)', en: 'Ammonia' }, desc: 'Nitrogen + Hydrogen = Ammonia — The foundation of fertilizers feeding billions.' } },
+    { in: ['S', 'O'], out: { name: { km: 'អូរ (Sulfur Dioxide)', en: 'Sulfur Dioxide' }, desc: 'Sulfur + Oxygen = SO₂ — Industrial chemical with both useful and environmental impacts.' } },
+  ];
+
+  // Guide fun facts for learning
+  const funFacts = [
+    { km: 'រុងរាយជាងគេលើផែនដីគឺជា Diamond ដែលផ្អែកតាមបច្ចេកទេស Mohs ទី ១០', en: 'Diamond is the hardest natural substance, ranking 10 on the Mohs scale.' },
+    { km: 'អាតូម ទ្រីជម្រាន (Ag) ជាឧស្សនណរដូវគ្រាន់ឯកតាចម្លងអគ្គិសនីខ្ពស់ជាងគេ', en: 'Silver (Ag) is the most electrically conductive element on the periodic table.' },
+    { km: 'សារធាតុ Aerogel មានអត្ថនេយ៍ ៩៩.៨% ជាបន្ទំ — ធម្មជាតិស្មែរពីភាពក្រសួង', en: 'Aerogel is 99.8% air — the lightest solid known to humanity.' },
+    { km: 'ទឹកហ្សេង (Hg) ជាឯកតាសូលីតដែលរលាយនៅសហភាពធ្លាក់ (STP)', en: 'Mercury (Hg) is the only metal that is liquid at standard room temperature.' },
+    { km: 'អាតូមបរិមាណ ៧០ (Yb) មានគ្រប់បរិមាណអេឡិចត្រុង 7s² ដែលគ្មានឱសថ 4f', en: 'Ytterbium (Yb) has a full 4f shell, making it unique among rare earths.' },
+    { km: 'បាលុយ (U) ជាអត្ថនេយ៍ដែលប្រើប្រាស់បំផុតក្នុងបច្ចេកទេសអត្ថនេយ៍សហរដ្ឋ', en: 'Uranium is the heaviest naturally occurring element used in nuclear energy.' },
+    { km: 'បារាមិត្ត (W) មានសមត្ថ-ភាពរលាយខ្ពស់ជាងឯកតាគេទាំងអស់ ~3,422°C', en: 'Tungsten (W) has the highest melting point of all elements at ~3,422°C.' },
+    { km: 'អាតូមបន្តិចបំផុត (H) មានគ្រប់បរិមាណពុលត្រឹម 1s¹', en: 'Hydrogen (H), the simplest atom, has just one proton and one electron.' },
   ];
 
   const handleSynthesize = () => {
     soundFx.playSynthCraft();
     if (!slot1 || !slot2) return;
 
-    const match = recipes.find(r => 
+    const match = recipes.find(r =>
       (r.in[0] === slot1.symbol && r.in[1] === slot2.symbol) ||
       (r.in[1] === slot1.symbol && r.in[0] === slot2.symbol)
     );
@@ -905,8 +933,13 @@ function MaterialCraftingLab({ lang }: { lang: "km" | "en" }) {
     if (match) {
       setResult(match.out);
     } else {
-      setResult({ name: { km: 'សារធាតុផ្សំមិនស្គាល់ (Unknown Reaction)', en: 'Unknown Synthetic Mixture' }, desc: 'No stable compound formed for this combination.' });
+      setResult({ name: { km: 'សារធាតុផ្សំមិនស្គាល់ (Unknown Reaction)', en: 'Unknown Synthetic Mixture' }, desc: 'No stable compound formed for this combination. Try different elements!' });
     }
+  };
+
+  const handleShowFact = () => {
+    soundFx.playSynthCraft();
+    setFactIndex((prev) => (prev + 1) % funFacts.length);
   };
 
   return (
@@ -950,7 +983,7 @@ function MaterialCraftingLab({ lang }: { lang: "km" | "en" }) {
       <div>
         <div className="text-xs text-[var(--ink-dim)] font-medium mb-2">Select Base Ingredients:</div>
         <div className="flex flex-wrap gap-2">
-          {periodicElementsData.slice(0, 10).map(el => (
+          {periodicElementsData.slice(0, 20).map(el => (
             <button
               key={el.number}
               onClick={() => {
@@ -993,6 +1026,25 @@ function MaterialCraftingLab({ lang }: { lang: "km" | "en" }) {
           <div className="text-xs text-[var(--ink-dim)] mt-1">{result.desc}</div>
         </div>
       )}
+
+      {/* GUIDE SECTION */}
+      <div className="p-4 rounded-2xl bg-[var(--ground)]/60 border border-[var(--ground-line)] space-y-3">
+        <div className="flex items-center gap-2 mb-2">
+          <BookOpen className="w-4 h-4 text-amber-400" />
+          <h4 className="font-bold text-xs text-amber-300">{uiTranslations[lang].guideTitle}</h4>
+        </div>
+        <p className="text-[11px] text-[var(--ink-dim)] leading-relaxed">{uiTranslations[lang].guideDesc}</p>
+        <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30">
+          <div className="text-[10px] text-amber-400 font-bold mb-1">{uiTranslations[lang].funFacts}</div>
+          <p className="text-xs leading-relaxed text-[var(--ink)]">{funFacts[factIndex][lang]}</p>
+        </div>
+        <button
+          onClick={handleShowFact}
+          className="w-full py-2 rounded-xl bg-amber-600/20 hover:bg-amber-600/30 text-amber-300 text-xs font-bold transition-all active:scale-95"
+        >
+          {lang === 'km' ? 'មើលច្រើនទេព' : 'More Facts'}
+        </button>
+      </div>
     </div>
   );
 }
@@ -1229,7 +1281,6 @@ function GooglePeriodicGrid({ elements, lang, onSelectElement, searchQuery }: { 
 export default function MaterialsApp() {
   const { mode } = useLanguage();
   const lang: "km" | "en" = mode === "bi" ? "en" : mode;
-  const [darkMode, setDarkMode] = useState(true);
   const [activeTab, setActiveTab] = useState('materials'); // 'materials' | 'periodic' | 'crafting' | 'quiz'
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState('all');
@@ -1404,19 +1455,6 @@ export default function MaterialsApp() {
               className="p-2 rounded-xl border transition-all active:scale-95 bg-[var(--ground-raised)] border-[var(--ground-line)] text-cyan-400 hover:bg-[var(--ground-raised-hi)]"
             >
               {soundEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
-            </button>
-
-            <span
-              className="p-2 rounded-xl text-xs font-bold border bg-[var(--ground-raised)] border-[var(--ground-line)] text-cyan-400"
-            >
-              {lang === 'km' ? 'KM' : 'EN'}
-            </span>
-
-            <button
-              onClick={() => { soundFx.playClick(); setDarkMode(!darkMode); }}
-              className="p-2 rounded-xl border transition-all active:scale-95 bg-[var(--ground-raised)] border-[var(--ground-line)] text-amber-400 hover:bg-[var(--ground-raised-hi)]"
-            >
-              {darkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
             </button>
           </div>
         </div>
