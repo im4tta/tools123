@@ -467,7 +467,7 @@ const periodicElementsData = [
   // Period 6
   { number: 55, symbol: 'Cs', name: { km: 'សេស្យូម', en: 'Cesium' }, mass: '132.91', group: 1, period: 6, category: 'alkali', config: '[Xe] 6s¹', phase: 'Solid', discovered: '1860', latticeType: 'BCC' },
   { number: 56, symbol: 'Ba', name: { km: 'បារ្យូម', en: 'Barium' }, mass: '137.33', group: 2, period: 6, category: 'alkaline', config: '[Xe] 6s²', phase: 'Solid', discovered: '1808', latticeType: 'BCC' },
-  { number: 57, symbol: 'La', name: { km: 'ឡង់តាន', en: 'Lanthanum' }, mass: '138.91', group: 3, period: 8, category: 'lanthanide', config: '[Xe] 5d¹ 6s²', phase: 'Solid', discovered: '1839', latticeType: 'DHCP' },
+  { number: 57, symbol: 'La', name: { km: 'ឡង់តាន', en: 'Lanthanum' }, mass: '138.91', group: 3, period: 6, category: 'lanthanide', config: '[Xe] 5d¹ 6s²', phase: 'Solid', discovered: '1839', latticeType: 'DHCP' },
   { number: 58, symbol: 'Ce', name: { km: 'សេរ្យូម', en: 'Cerium' }, mass: '140.12', group: 4, period: 8, category: 'lanthanide', config: '[Xe] 4f¹ 5d¹ 6s²', phase: 'Solid', discovered: '1803', latticeType: 'FCC' },
   { number: 59, symbol: 'Pr', name: { km: 'ប្រាសេអូឌីម', en: 'Praseodymium' }, mass: '140.91', group: 5, period: 8, category: 'lanthanide', config: '[Xe] 4f³ 6s²', phase: 'Solid', discovered: '1885', latticeType: 'DHCP' },
   { number: 60, symbol: 'Nd', name: { km: 'នេអូឌីម', en: 'Neodymium' }, mass: '144.24', group: 6, period: 8, category: 'lanthanide', config: '[Xe] 4f⁴ 6s²', phase: 'Solid', discovered: '1885', latticeType: 'DHCP' },
@@ -501,7 +501,7 @@ const periodicElementsData = [
   // Period 7
   { number: 87, symbol: 'Fr', name: { km: 'ហ្វ្រង់ស្យូម', en: 'Francium' }, mass: '223', group: 1, period: 7, category: 'alkali', config: '[Rn] 7s¹', phase: 'Solid', discovered: '1939', latticeType: 'BCC' },
   { number: 88, symbol: 'Ra', name: { km: 'រ៉ាដ្យូម', en: 'Radium' }, mass: '226', group: 2, period: 7, category: 'alkaline', config: '[Rn] 7s²', phase: 'Solid', discovered: '1898', latticeType: 'BCC' },
-  { number: 89, symbol: 'Ac', name: { km: 'អាទីញ៉ូម', en: 'Actinium' }, mass: '227', group: 3, period: 9, category: 'actinide', config: '[Rn] 6d¹ 7s²', phase: 'Solid', discovered: '1899', latticeType: 'FCC' },
+  { number: 89, symbol: 'Ac', name: { km: 'អាទីញ៉ូម', en: 'Actinium' }, mass: '227', group: 3, period: 7, category: 'actinide', config: '[Rn] 6d¹ 7s²', phase: 'Solid', discovered: '1899', latticeType: 'FCC' },
   { number: 90, symbol: 'Th', name: { km: 'ថូរ្យូម', en: 'Thorium' }, mass: '232.04', group: 4, period: 9, category: 'actinide', config: '[Rn] 6d² 7s²', phase: 'Solid', discovered: '1829', latticeType: 'FCC' },
   { number: 91, symbol: 'Pa', name: { km: 'ប្រូតាកទីញ៉ូម', en: 'Protactinium' }, mass: '231.04', group: 5, period: 9, category: 'actinide', config: '[Rn] 5f² 6d¹ 7s²', phase: 'Solid', discovered: '1913', latticeType: 'TETRAGONAL' },
   { number: 92, symbol: 'U', name: { km: 'អ៊ុយរ៉ាន្យូម', en: 'Uranium' }, mass: '238.03', group: 6, period: 9, category: 'actinide', config: '[Rn] 5f³ 6d¹ 7s²', phase: 'Solid', discovered: '1789', latticeType: 'ORTHORHOMBIC' },
@@ -650,7 +650,7 @@ function Visualizer3DCanvas({ element, mode = 'atom' }: { element: any; mode?: s
         const nMesh = new THREE.Mesh(nGeo, nMat);
         mainGroup.add(nMesh);
 
-        const shellCounts = getShellsForElement(element.number, element.shells);
+        const shellCounts = getShellsForElement(element.number);
         const shellObjects: any[] = [];
 
         shellCounts.forEach((count, sIdx) => {
@@ -1615,7 +1615,7 @@ export default function MaterialsApp() {
                 <GooglePeriodicGrid 
                   elements={periodicElementsData} 
                   lang={lang} 
-                  onSelectElement={(el) => setSelectedElement({ ...el, shells: getShellsForElement(el.number, el.shells) })}
+                  onSelectElement={(el) => setSelectedElement({ ...el, shells: getShellsForElement(el.number) })}
                   searchQuery={searchQuery}
                 />
               ) : (
@@ -1629,7 +1629,7 @@ export default function MaterialsApp() {
                           soundFx.playClick(); 
                           setSelectedElement({
                             ...el,
-                            shells: getShellsForElement(el.number, el.shells)
+                            shells: getShellsForElement(el.number)
                           }); 
                         }}
                         className={`p-2 rounded-xl border transition-all cursor-pointer hover:scale-105 active:scale-95 flex flex-col justify-between h-28 relative overflow-hidden group ${catStyle} hover:bg-[var(--ground-raised-hi)]`}
@@ -1775,7 +1775,7 @@ export default function MaterialsApp() {
                   {t.properties}
                 </h4>
                 <div className="flex flex-wrap gap-1.5">
-                  {selectedMaterial.properties[lang].map((p, idx) => (
+                  {selectedMaterial.properties[lang].map((p: string, idx: number) => (
                     <span 
                       key={idx}
                       className="px-2.5 py-1 rounded-xl text-xs font-semibold border bg-[var(--ground-raised-hi)] text-cyan-300 border-[var(--ground-line)]"
@@ -1792,7 +1792,7 @@ export default function MaterialsApp() {
                   {t.applications}
                 </h4>
                 <ul className="space-y-1.5 pl-1">
-                  {selectedMaterial.applications[lang].map((a, idx) => (
+                  {selectedMaterial.applications[lang].map((a: string, idx: number) => (
                     <li key={idx} className="flex items-center gap-2">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
                       <span className="text-[var(--ink)]">{a}</span>
