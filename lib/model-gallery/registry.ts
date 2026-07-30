@@ -240,4 +240,100 @@ background: m.makeVolcanoBackground,
           background: m.makeIpadBackground,
         })),
     },
+    {
+      id: "angkor-wat",
+      title: "Angkor Wat Miniature",
+      description:
+        "Stylised low-poly miniature of Angkor Wat — tiered sandstone terraces, a quincunx of prasat towers, causeway and moat, with looping ambient animation (circling egrets, water shimmer, warm light pulse).",
+      load: () =>
+        import("./models/createAngkorWatModel").then((m) => ({
+          createModel: (opts) => m.createAngkorWatModel(opts),
+          createLights: m.createAngkorWatLookDevLights,
+          background: m.makeAngkorWatBackground,
+        })),
+    },
+    {
+      id: "bayon",
+      title: "Bayon Temple",
+      description:
+        "Stylised Bayon temple with clustered face-towers, colonnaded galleries, flickering braziers and drifting smoke — procedural face decals and a slow warm pulse animation.",
+      load: () =>
+        import("./models/createBayonModel").then((m) => ({
+          createModel: (opts) => m.createBayonModel(opts),
+          createLights: m.createBayonLookDevLights,
+          background: m.makeBayonBackground,
+        })),
+    },
+    {
+      id: "wat-phnom",
+      title: "Wat Phnom",
+      description:
+        "Wat Phnom miniature — grassy mound with a bell-stupa at the summit, winding stair, flanking vihara and circling birds; gentle looping ambient motion and gold-spire glint.",
+      load: () =>
+        import("./models/createWatPhnomModel").then((m) => ({
+          createModel: (opts) => m.createWatPhnomModel(opts),
+          createLights: m.createWatPhnomLookDevLights,
+          background: m.makeWatPhnomBackground,
+        })),
+    },
+    {
+      id: "ta-prohm",
+      title: "Ta Prohm Ruins",
+      description:
+        "Ta Prohm jungle-ruin diorama — crumbling sandstone gallery entwined with a giant tree, drifting leaves and a slow canopy sway; atmospheric look-dev.",
+      load: () =>
+        import("./models/createTaProhmModel").then((m) => ({
+          createModel: (opts) => m.createTaProhmModel(opts),
+          createLights: m.createTaProhmLookDevLights,
+          background: m.makeTaProhmBackground,
+        })),
+    },
+    {
+      id: "banteay-srei",
+      title: "Banteay Srei",
+      description:
+        "Banteay Srei miniature — delicate pink sandstone temple with ornate carved panels and stepped terraces; warm morning light and subtle idle animation.",
+      load: () =>
+        import("./models/createBanteaySreiModel").then((m) => ({
+          createModel: (opts) => m.createBanteaySreiModel(opts),
+          createLights: m.createBanteaySreiLookDevLights,
+          background: m.makeBanteaySreiBackground,
+        })),
+    },
+    {
+      id: "preah-vihear",
+      title: "Preah Vihear Temple",
+      description:
+        "Preah Vihear cliff-top temple miniature — long colonnaded approach, pronounced axial composition and sunlit stone surfaces with soft atmospheric haze.",
+      load: () =>
+        import("./models/createPreahVihearModel").then((m) => ({
+          createModel: (opts) => m.createPreahVihearModel(opts),
+          createLights: m.createPreahVihearLookDevLights,
+          background: m.makePreahVihearBackground,
+        })),
+    },
+    {
+      id: "koh-ker",
+      title: "Koh Ker Temple",
+      description:
+        "Koh Ker stepped pyramid miniature — bold stepped terraces and a central prasat tower rising above a compact ceremonial plaza, with dry-season lighting.",
+      load: () =>
+        import("./models/createKohKerModel").then((m) => ({
+          createModel: (opts) => m.createKohKerModel(opts),
+          createLights: m.createKohKerLookDevLights,
+          background: m.makeKohKerBackground,
+        })),
+    },
+    {
+      id: "sambor-prei-kuk",
+      title: "Sambor Prei Kuk",
+      description:
+        "Sambor Prei Kuk temple cluster miniature — group of early brick prasats, ruined courtyards and tropical undergrowth; soft warm tones and subtle idle motion.",
+      load: () =>
+        import("./models/createSamborPreiKukModel").then((m) => ({
+          createModel: (opts) => m.createSamborPreiKukModel(opts),
+          createLights: m.createSamborPreiKukLookDevLights,
+          background: m.makeSamborPreiKukBackground,
+        })),
+    },
   ];

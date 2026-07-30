@@ -681,7 +681,7 @@ export default function App() {
         {/* Dashboard Stat Metric Cards */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
           
-          <div className="p-4 rounded-2xl bg-gradient-to-br from-slate-900/90 to-indigo-950/40 border border-[var(--slate-accent)]/20 shadow-md space-y-1">
+          <div className="p-4 rounded-2xl bg-gradient-to-br from-[var(--ground-raised)]/90 to-[var(--slate-accent)]/40 border border-[var(--slate-accent)]/20 shadow-md space-y-1">
             <div className="flex items-center justify-between text-xs text-[var(--slate-accent)] font-medium">
               <span>{t.statTotalRead}</span>
               <Layers className="w-4 h-4 opacity-70" />
@@ -691,7 +691,7 @@ export default function App() {
             </div>
           </div>
 
-          <div className="p-4 rounded-2xl bg-gradient-to-br from-slate-900/90 to-emerald-950/40 border border-[var(--teal)]/30 shadow-md space-y-1">
+          <div className="p-4 rounded-2xl bg-gradient-to-br from-[var(--ground-raised)]/90 to-[var(--teal)]/40 border border-[var(--teal)]/30 shadow-md space-y-1">
             <div className="flex items-center justify-between text-xs text-[var(--teal)] font-medium">
               <span>{t.statValid}</span>
               <CheckCircle2 className="w-4 h-4 opacity-70" />
@@ -701,7 +701,7 @@ export default function App() {
             </div>
           </div>
 
-          <div className="p-4 rounded-2xl bg-gradient-to-br from-slate-900/90 to-rose-950/40 border border-[var(--danger)]/30 shadow-md space-y-1">
+          <div className="p-4 rounded-2xl bg-gradient-to-br from-[var(--ground-raised)]/90 to-[var(--danger)]/40 border border-[var(--danger)]/30 shadow-md space-y-1">
             <div className="flex items-center justify-between text-xs text-[var(--danger)] font-medium">
               <span>{t.statInvalid}</span>
               <XCircle className="w-4 h-4 opacity-70" />
@@ -711,7 +711,7 @@ export default function App() {
             </div>
           </div>
 
-          <div className="p-4 rounded-2xl bg-gradient-to-br from-slate-900/90 to-amber-950/40 border border-[var(--gold)]/30 shadow-md space-y-1">
+          <div className="p-4 rounded-2xl bg-gradient-to-br from-[var(--ground-raised)]/90 to-[var(--gold)]/40 border border-[var(--gold)]/30 shadow-md space-y-1">
             <div className="flex items-center justify-between text-xs text-[var(--gold)] font-medium">
               <span>{t.statDuplicates}</span>
               <Copy className="w-4 h-4 opacity-70" />

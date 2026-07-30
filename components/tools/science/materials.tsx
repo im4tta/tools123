@@ -911,14 +911,14 @@ function MaterialCraftingLab({ lang }: { lang: "km" | "en" }) {
 
   // Guide fun facts for learning
   const funFacts = [
-    { km: 'រុងរាយជាងគេលើផែនដីគឺជា Diamond ដែលផ្អែកតាមបច្ចេកទេស Mohs ទី ១០', en: 'Diamond is the hardest natural substance, ranking 10 on the Mohs scale.' },
-    { km: 'អាតូម ទ្រីជម្រាន (Ag) ជាឧស្សនណរដូវគ្រាន់ឯកតាចម្លងអគ្គិសនីខ្ពស់ជាងគេ', en: 'Silver (Ag) is the most electrically conductive element on the periodic table.' },
-    { km: 'សារធាតុ Aerogel មានអត្ថនេយ៍ ៩៩.៨% ជាបន្ទំ — ធម្មជាតិស្មែរពីភាពក្រសួង', en: 'Aerogel is 99.8% air — the lightest solid known to humanity.' },
-    { km: 'ទឹកហ្សេង (Hg) ជាឯកតាសូលីតដែលរលាយនៅសហភាពធ្លាក់ (STP)', en: 'Mercury (Hg) is the only metal that is liquid at standard room temperature.' },
-    { km: 'អាតូមបរិមាណ ៧០ (Yb) មានគ្រប់បរិមាណអេឡិចត្រុង 7s² ដែលគ្មានឱសថ 4f', en: 'Ytterbium (Yb) has a full 4f shell, making it unique among rare earths.' },
-    { km: 'បាលុយ (U) ជាអត្ថនេយ៍ដែលប្រើប្រាស់បំផុតក្នុងបច្ចេកទេសអត្ថនេយ៍សហរដ្ឋ', en: 'Uranium is the heaviest naturally occurring element used in nuclear energy.' },
-    { km: 'បារាមិត្ត (W) មានសមត្ថ-ភាពរលាយខ្ពស់ជាងឯកតាគេទាំងអស់ ~3,422°C', en: 'Tungsten (W) has the highest melting point of all elements at ~3,422°C.' },
-    { km: 'អាតូមបន្តិចបំផុត (H) មានគ្រប់បរិមាណពុលត្រឹម 1s¹', en: 'Hydrogen (H), the simplest atom, has just one proton and one electron.' },
+    { km: 'ពេជ្រគឺជាសារធាតុធម្មជាតិបំផុតដែលរឹងមាំ ឈរលំដាប់ ១០ លើស្កែក Mohs', en: 'Diamond is the hardest natural substance, ranking 10 on the Mohs scale.' },
+    { km: 'ប្រាក់ (Ag) គឺជាធាតុដែលចម្លងអគ្គិសនីបានល្អបំផុត', en: 'Silver (Ag) is the most electrically conductive element on the periodic table.' },
+    { km: 'Aerogel ប្រហែល ៩៩.៨% ជាខ្យល់ — ជាវត្ថុរឹងដែលស្រាលបំផុតដែលយើងបានស្គាល់', en: 'Aerogel is 99.8% air — the lightest solid known to humanity.' },
+    { km: 'ធាតុ Mercury (Hg) ជាធាតុដែក​តែ​មួយ​ដែលមានសភាពរាវនៅសីតុណ្ហភាពបន្ទប់', en: 'Mercury (Hg) is the only metal that is liquid at standard room temperature.' },
+    { km: 'Ytterbium (Yb) មានសំបុកអេឡិចត្រុន 4f ដែលពេញលេញ ធ្វើឱ្យវាមានលក្ខណៈពិសេសចំពោះធាតុ rare-earth', en: 'Ytterbium (Yb) has a full 4f shell, making it unique among rare earths.' },
+    { km: 'អ៊ុយរ៉ានូម (U) ជាធាតុធ្ងន់​បំផុត​ដែលមាននៅក្នុងធម្មជាតិ ដែលប្រើក្នុងវិស័យថាមពលនុយក្លេអ៊ែរ', en: 'Uranium is the heaviest naturally occurring element used in nuclear energy.' },
+    { km: 'ទុងស្តែន (W) មានចំណុះដុតខ្ពស់បំផុតប្រហែល ~3,422°C', en: 'Tungsten (W) has the highest melting point of all elements at ~3,422°C.' },
+    { km: 'អ៊ីដ្រូសែន (H) ជាធាតុដែលសាមញ្ញបំផុត មានគ្រាប់ប្រូតុង ១ និងអេឡិចត្រុង ១', en: 'Hydrogen (H), the simplest atom, has just one proton and one electron.' },
   ];
 
   const handleSynthesize = () => {
@@ -941,6 +941,31 @@ function MaterialCraftingLab({ lang }: { lang: "km" | "en" }) {
     soundFx.playSynthCraft();
     setFactIndex((prev) => (prev + 1) % funFacts.length);
   };
+
+  // Hints / suggestions for crafting combinations
+  const twoInputSuggestions = useMemo(() => {
+    if (!slot1) return [] as string[];
+    const s = new Set<string>();
+    recipes.forEach(r => {
+      if (r.in.length === 2 && r.in.includes(slot1.symbol)) {
+        const other = r.in.find(sym => sym !== slot1.symbol);
+        if (other) s.add(other);
+      }
+    });
+    return Array.from(s);
+  }, [slot1, recipes]);
+
+  const threeInputMatches = useMemo(() => {
+    if (!slot1) return [] as { required: string[]; out: any }[];
+    const res: { required: string[]; out: any }[] = [];
+    recipes.forEach(r => {
+      if (r.in.length === 3 && r.in.includes(slot1.symbol)) {
+        const others = r.in.filter(sym => sym !== slot1.symbol);
+        res.push({ required: others, out: r.out });
+      }
+    });
+    return res;
+  }, [slot1, recipes]);
 
   return (
     <div className="p-5 rounded-3xl bg-[var(--ground-raised)] border border-[var(--ground-line)] text-[var(--ink)] max-w-2xl mx-auto space-y-5 shadow-2xl">
@@ -982,8 +1007,37 @@ function MaterialCraftingLab({ lang }: { lang: "km" | "en" }) {
 
       <div>
         <div className="text-xs text-[var(--ink-dim)] font-medium mb-2">Select Base Ingredients:</div>
+
+        {slot1 && !slot2 && (
+          <div className="mb-3">
+            <div className="text-xs text-[var(--ink-dim)] font-medium mb-1">Hints for {slot1.symbol}:</div>
+            <div className="flex flex-wrap gap-2 mb-2">
+              {twoInputSuggestions.length > 0 ? twoInputSuggestions.map(sym => {
+                const el = periodicElementsData.find(e => e.symbol === sym);
+                return el ? (
+                  <button
+                    key={sym}
+                    onClick={() => setSlot2(el)}
+                    className="px-3 py-1.5 rounded-xl bg-[var(--ground-raised-hi)] border border-[var(--ground-line)] text-xs font-mono text-cyan-300 font-bold active:scale-95"
+                  >
+                    {sym} ({el.name[lang]})
+                  </button>
+                ) : null;
+              }) : (
+                <div className="text-xs text-[var(--ink-dim)]">No two-ingredient hints available.</div>
+              )}
+            </div>
+
+            {threeInputMatches.length > 0 && (
+              <div className="text-xs text-[var(--ink-dim)]">Also known 3-input recipes: {threeInputMatches.map((m, i) => (
+                <span key={i} className="mr-2">{slot1.symbol} + {m.required.join(' + ')} → {m.out.en}</span>
+              ))}</div>
+            )}
+          </div>
+        )}
+
         <div className="flex flex-wrap gap-2">
-          {periodicElementsData.slice(0, 20).map(el => (
+          {periodicElementsData.map(el => (
             <button
               key={el.number}
               onClick={() => {
@@ -1042,7 +1096,7 @@ function MaterialCraftingLab({ lang }: { lang: "km" | "en" }) {
           onClick={handleShowFact}
           className="w-full py-2 rounded-xl bg-amber-600/20 hover:bg-amber-600/30 text-amber-300 text-xs font-bold transition-all active:scale-95"
         >
-          {lang === 'km' ? 'មើលច្រើនទេព' : 'More Facts'}
+          {lang === 'km' ? 'មើលច្រើនទៀត' : 'More Facts'}
         </button>
       </div>
     </div>
@@ -1374,8 +1428,8 @@ export default function MaterialsApp() {
         <div className="absolute top-1/2 -right-24 w-96 h-96 rounded-full blur-3xl opacity-15 bg-[var(--teal)]"></div>
       </div>
 
-      <header className="sticky top-0 z-30 backdrop-blur-md border-b transition-colors bg-[var(--ground-raised)]/85 border-[var(--ground-line)]/80">
-        <div className="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+      <header className="sticky top-0 z-30 backdrop-blur-md transition-colors">
+        <div className="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3 bg-[var(--ground-raised)]/85 border border-[var(--ground-line)]/80 rounded-2xl border-b-0">
           
           <div className="flex items-center gap-2.5">
             <div className="p-2 rounded-xl bg-gradient-to-tr from-blue-600 to-cyan-500 text-white shadow-md shadow-blue-500/20">
