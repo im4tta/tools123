@@ -1138,22 +1138,6 @@ function GooglePeriodicGrid({ elements, lang, onSelectElement, searchQuery }: { 
             return Array.from({ length: 18 }).map((_, gIdx) => {
               const groupNum = gIdx + 1;
 
-              // Handle Lanthanide / Actinide placeholder slots in Group 3
-              if (periodNum === 6 && groupNum === 3) {
-                return (
-                  <div key={`placeholder-6-3`} className="p-1 rounded-xl border border-pink-500/40 bg-pink-500/10 flex flex-col items-center justify-center text-[9px] font-bold text-[var(--ink)] text-center leading-tight h-16">
-                    57-71 La-Lu
-                  </div>
-                );
-              }
-              if (periodNum === 7 && groupNum === 3) {
-                return (
-                  <div key={`placeholder-7-3`} className="p-1 rounded-xl border border-fuchsia-500/40 bg-fuchsia-500/10 flex flex-col items-center justify-center text-[9px] font-bold text-[var(--ink)] text-center leading-tight h-16">
-                    89-103 Ac-Lr
-                  </div>
-                );
-              }
-
               const el = filtered.find(e => e.period === periodNum && e.group === groupNum);
 
               if (!el) {
