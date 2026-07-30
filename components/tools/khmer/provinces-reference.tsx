@@ -1,5 +1,7 @@
 "use client";
 import { useMemo } from "react";
+import { CopyButton, type CopyField } from "@/components/CopyButton";
+import { useLanguage } from "@/components/LanguageProvider";
 import { ToolShell, Field, Select, TextInput } from "@/components/ui/Shell";
 import { useToolState } from "@/lib/storage";
 
@@ -42,6 +44,7 @@ const PROVINCES: Province[] = [
 const REGIONS = ["All", "Capital", "Central Plain", "Tonlé Sap Basin", "Northeast Plateau", "Cardamom & Southwest", "Coastal", "Northwest Border", "Mekong Corridor"] as const;
 
 export default function ProvincesReference() {
+  const { text } = useLanguage();
   const [region, setRegion] = useToolState<(typeof REGIONS)[number]>("provinces-reference:region", "All");
   const [query, setQuery] = useToolState("provinces-reference:query", "");
 
@@ -70,7 +73,7 @@ export default function ProvincesReference() {
           <TextInput value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Province or capital name…" />
         </Field>
       </div>
-      <div className="overflow-hidden rounded-md border border-[var(--ground-line)]">
+      <div className="rounded-md border border-[var(--ground-line)]">
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b border-[var(--ground-line)] bg-[var(--ground-raised)] text-left text-xs uppercase tracking-wide text-[var(--ink-faint)]">
@@ -78,6 +81,7 @@ export default function ProvincesReference() {
               <th className="px-3 py-2">Khmer</th>
               <th className="px-3 py-2">Capital</th>
               <th className="px-3 py-2">Region</th>
+              <th className="px-3 py-2 w-10" />
             </tr>
           </thead>
           <tbody>
@@ -87,10 +91,21 @@ export default function ProvincesReference() {
                 <td className="px-3 py-2 text-[var(--ink-dim)]">{p.km}</td>
                 <td className="px-3 py-2 text-[var(--ink-dim)]">{p.capitalEn} <span className="text-[var(--ink-faint)]">({p.capitalKm})</span></td>
                 <td className="px-3 py-2 text-[10px] uppercase tracking-wide text-[var(--ink-faint)]">{p.region}</td>
+                <td className="px-3 py-2">
+                  <CopyButton
+                    compact
+                    text={`${p.en} (${p.km})\n${text("Capital", "រាជធានី")}: ${p.capitalEn} (${p.capitalKm})\n${p.region}`}
+                    fields={[
+                      { id: "name", label: text("Province", "ខេត្ត"), getValue: `${p.en} (${p.km})` },
+                      { id: "capital", label: text("Capital", "រាជធានី"), getValue: `${p.capitalEn} (${p.capitalKm})` },
+                      { id: "region", label: text("Region", "តំបន់"), getValue: p.region },
+                    ]}
+                  />
+                </td>
               </tr>
             ))}
             {results.length === 0 && (
-              <tr><td colSpan={4} className="px-3 py-8 text-center text-[var(--ink-faint)]">No provinces match that filter.</td></tr>
+              <tr><td colSpan={5} className="px-3 py-8 text-center text-[var(--ink-faint)]">No provinces match that filter.</td></tr>
             )}
           </tbody>
         </table>

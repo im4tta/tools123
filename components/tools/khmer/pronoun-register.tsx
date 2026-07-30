@@ -1,5 +1,6 @@
 "use client";
 import { useMemo } from "react";
+import { CopyButton, type CopyField } from "@/components/CopyButton";
 import { ToolShell, Field, Select, TextInput } from "@/components/ui/Shell";
 import { useToolState } from "@/lib/storage";
 
@@ -75,7 +76,7 @@ export default function PronounRegister() {
         </Field>
       </div>
 
-      <div className="overflow-hidden rounded-md border border-[var(--ground-line)]">
+      <div className="rounded-md border border-[var(--ground-line)]">
         <table className="w-full text-left text-sm">
           <thead className="bg-[var(--ground-raised)] text-xs uppercase tracking-wide text-[var(--ink-dim)]">
             <tr>
@@ -84,6 +85,7 @@ export default function PronounRegister() {
               <th className="px-3 py-2">Person</th>
               <th className="px-3 py-2">Register</th>
               <th className="px-3 py-2">Note</th>
+              <th className="px-3 py-2 w-10" />
             </tr>
           </thead>
           <tbody>
@@ -94,10 +96,21 @@ export default function PronounRegister() {
                 <td className="px-3 py-2 text-[var(--ink-dim)]">{r.person}</td>
                 <td className="px-3 py-2 text-[var(--ink-dim)]">{r.register}</td>
                 <td className="px-3 py-2 text-[var(--ink-faint)]">{r.note}</td>
+                <td className="px-3 py-2">
+                  <CopyButton compact text={`${r.km} (${r.latin})\n${r.person} · ${r.register}\n${r.note}`}
+                    fields={[
+                      { id: "km", label: "Khmer", getValue: r.km },
+                      { id: "latin", label: "Latin", getValue: r.latin },
+                      { id: "person", label: "Person", getValue: r.person },
+                      { id: "register", label: "Register", getValue: r.register },
+                      { id: "note", label: "Note", getValue: r.note },
+                    ]}
+                  />
+                </td>
               </tr>
             ))}
             {rows.length === 0 && (
-              <tr><td colSpan={5} className="px-3 py-6 text-center text-[var(--ink-faint)]">No matches</td></tr>
+              <tr><td colSpan={6} className="px-3 py-6 text-center text-[var(--ink-faint)]">No matches</td></tr>
             )}
           </tbody>
         </table>

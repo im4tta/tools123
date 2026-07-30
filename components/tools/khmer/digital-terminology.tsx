@@ -1,5 +1,6 @@
 "use client";
 import { Fragment, useMemo, useState } from "react";
+import { CopyButton, type CopyField } from "@/components/CopyButton";
 import { ToolShell, Field, TextInput } from "@/components/ui/Shell";
 import { useToolState } from "@/lib/storage";
 import { MPTC_TERMS } from "@/lib/data/mptc-lexicon";
@@ -33,13 +34,14 @@ export default function DigitalTerminology() {
           placeholder="Search English, French, or Khmer..."
         />
       </Field>
-      <div className="overflow-hidden rounded-md border border-[var(--ground-line)]">
+      <div className="rounded-md border border-[var(--ground-line)]">
         <table className="w-full text-sm">
           <thead className="bg-[var(--ground-raised)] text-xs uppercase tracking-wide text-[var(--ink-dim)]">
             <tr>
               <th className="px-3 py-2 text-left">English</th>
               <th className="px-3 py-2 text-left">Khmer</th>
               <th className="hidden px-3 py-2 text-left sm:table-cell">French</th>
+              <th className="w-10 px-3 py-2" />
             </tr>
           </thead>
           <tbody>
@@ -55,10 +57,20 @@ export default function DigitalTerminology() {
                     <td className="px-3 py-2">{t.en}</td>
                     <td className="px-3 py-2 font-khmer">{t.km}</td>
                     <td className="hidden px-3 py-2 text-[var(--ink-dim)] sm:table-cell">{t.fr}</td>
+                    <td className="px-3 py-2" onClick={(e) => e.stopPropagation()}>
+                      <CopyButton compact text={`${t.en}\n${t.km}\n${t.fr}`}
+                        fields={[
+                          { id: "en", label: "English", getValue: t.en },
+                          { id: "km", label: "Khmer", getValue: t.km },
+                          { id: "fr", label: "French", getValue: t.fr },
+                          ...(t.def ? [{ id: "def", label: "Definition", getValue: t.def }] : []),
+                        ]}
+                      />
+                    </td>
                   </tr>
                   {isOpen && t.def && (
                     <tr className="border-t border-[var(--ground-line)] bg-[var(--ground-raised)]">
-                      <td colSpan={3} className="px-3 py-3">
+                      <td colSpan={4} className="px-3 py-3">
                         <div className="font-khmer text-sm leading-relaxed text-[var(--ink)]">{t.def}</div>
                         {t.fr && (
                           <div className="mt-1 text-xs text-[var(--ink-faint)] sm:hidden">
@@ -73,7 +85,7 @@ export default function DigitalTerminology() {
             })}
             {results.length === 0 && (
               <tr>
-                <td colSpan={3} className="px-3 py-4 text-center text-[var(--ink-faint)]">
+                <td colSpan={4} className="px-3 py-4 text-center text-[var(--ink-faint)]">
                   No matches
                 </td>
               </tr>

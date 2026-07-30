@@ -11,6 +11,7 @@ export type Category =
   | "network"
   | "security"
   | "design"
+  | "science"
   | "time"
   | "office"
   | "images"
@@ -37,6 +38,7 @@ export const CATEGORY_ORDER: Category[] = [
   "time",
   "math",
   "geo",
+  "science",
   "dev",
   "network",
   "security",
@@ -48,6 +50,7 @@ export const CATEGORY_META: Record<Category, { label: string; khmer: string; col
   dev: { label: "Development", khmer: "អភិវឌ្ឍន៍", color: "var(--slate-accent)" },
   khmer: { label: "Khmer Language", khmer: "ភាសាខ្មែរ", color: "var(--gold)" },
   geo: { label: "Geospatial", khmer: "ភូមិសាស្ត្រ", color: "var(--teal)" },
+  science: { label: "Science", khmer: "វិទ្យាសាស្ត្រ", color: "#5b9bd5" },
   text: { label: "Text", khmer: "អត្ថបទ", color: "#c97ea0" },
   math: { label: "Math", khmer: "គណិតវិទ្យា", color: "#7ec9a0" },
   network: { label: "Network", khmer: "បណ្តាញ", color: "#7ea0c9" },
@@ -236,6 +239,9 @@ export const TOOLS: ToolDef[] = [
   { id: "speed-distance-time", title: "Speed / Distance / Time Calculator", category: "geo", keywords: ["speed", "distance", "time", "travel"], Component: load("geo", "speed-distance-time") },
   { id: "nearest-province", title: "Nearest Province Finder", category: "geo", keywords: ["cambodia-address", "reverse geocode", "province", "gps"], Component: load("geo", "nearest-province") },
 
+  // ---- Science (1) ----
+  { id: "materials", title: "Earth Materials & 3D Atom Pro", khmerTitle: "សារធាតុផែនដី & អាតូម 3D Pro", addedOn: "2026-07-30", category: "science", keywords: ["elements", "periodic table", "materials", "chemistry", "3d atom", "isotopes", "science", "វិទ្យាសាស្រ្ត", "ធាតុគីមី", "តារាងខួប", "សារធាតុ"], Component: load("science", "materials") },
+
   // ---- Text (18) ----
   { id: "sample-paragraph-generator", title: "Sample Paragraph Generator", category: "text", keywords: ["email template", "boilerplate", "administrative", "draft", "sample text"], Component: load("text", "sample-paragraph-generator") },
   { id: "text-reverse", title: "Text Reverse", category: "text", keywords: ["reverse", "flip text"], Component: load("text", "text-reverse") },
@@ -305,7 +311,8 @@ export const TOOLS: ToolDef[] = [
   { id: "passphrase-generator", title: "Passphrase Generator", category: "security", keywords: ["passphrase", "diceware", "words"], Component: load("security", "passphrase-generator") },
   { id: "card-masker", title: "Credit Card Number Masker", category: "security", keywords: ["credit card", "mask", "pci"], Component: load("security", "card-masker") },
 
-  // ---- Design (19) ----
+  // ---- Design (20) ----
+  { id: "frame-studio", title: "Frame Studio", khmerTitle: "ស្ទូឌីយោស៊ុម", addedOn: "2026-07-30", category: "design", keywords: ["frame studio", "mockup", "device", "iphone mockup", "macbook mockup", "app store screenshot", "hardware", "presentation", "ស្ទូឌីយោស៊ុម"], Component: load("design", "frame-studio") },
   { id: "whiteboard", title: "Whiteboard", khmerTitle: "ផ្ទាំងគំនូរ", addedOn: "2026-07-29", category: "design", keywords: ["whiteboard", "draw", "sketch", "canvas", "png", "ផ្ទាំងគំនូរ"], Component: load("design", "whiteboard") },
   { id: "business-card-generator", title: "Business Card Generator", khmerTitle: "កម្មវិធីបង្កើតនាមប័ណ្ណ", addedOn: "2026-07-29", category: "design", keywords: ["business card", "name card", "contact", "svg", "នាមប័ណ្ណ"], Component: load("design", "business-card-generator") },
   { id: "chart-maker", title: "Chart Maker", khmerTitle: "កម្មវិធីបង្កើតក្រាហ្វ", addedOn: "2026-07-29", category: "design", keywords: ["chart", "bar", "line", "graph", "svg", "ក្រាហ្វ"], Component: load("design", "chart-maker") },
@@ -354,7 +361,8 @@ export const TOOLS: ToolDef[] = [
   { id: "images-to-pdf", title: "Images → PDF", category: "office", keywords: ["image", "jpg", "png", "pdf", "convert"], Component: load("office", "images-to-pdf") },
   { id: "pdf-to-images", title: "PDF → Images", category: "office", keywords: ["pdf", "png", "jpg", "export", "render"], Component: load("office", "pdf-to-images") },
 
-  // ---- Office (15) ----
+  // ---- Office (16) ----
+  { id: "rfa-generator", title: "Request for Approval (RFA)", khmerTitle: "សំណើសុំការអនុម័ត (RFA)", addedOn: "2026-07-29", category: "office", keywords: ["rfa", "request for approval", "construction", "submittal", "contractor"], Component: load("office", "rfa-generator") },
   { id: "business-calculators", title: "Business Calculators", khmerTitle: "ម៉ាស៊ីនគណនាអាជីវកម្ម", addedOn: "2026-07-29", category: "office", keywords: ["loan", "amortization", "vat", "discount", "date add", "salary tax", "nssf", "ប្រាក់កម្ចី", "ពន្ធ", "បសស"], Component: load("office", "business-calculators") },
   { id: "staff-directory", title: "Staff Directory", khmerTitle: "បញ្ជីបុគ្គលិក", addedOn: "2026-07-29", category: "office", keywords: ["staff", "employee", "directory", "department", "csv", "បុគ្គលិក"], Component: load("office", "staff-directory") },
   { id: "qr-decoder", title: "QR Code Decoder", category: "office", keywords: ["qr code", "scan", "decode"], Component: load("office", "qr-decoder") },
@@ -381,6 +389,7 @@ export const TOOLS: ToolDef[] = [
   { id: "logo-remover", title: "Logo / Watermark Remover", category: "images", keywords: ["remove logo", "remove watermark", "gemini", "inpaint", "content aware fill", "clean"], Component: load("images", "logo-remover") },
   { id: "image-exif", title: "Image Metadata (EXIF) Viewer & Stripper", category: "images", keywords: ["exif", "metadata", "gps", "privacy", "strip"], Component: load("images", "image-exif") },
   { id: "image-to-base64", title: "Image ⇄ Base64 Converter", category: "images", keywords: ["base64", "data url", "image"], Component: load("images", "image-to-base64") },
+  { id: "3d-model-gallery", title: "3D Model Gallery", khmerTitle: "វិចិត្រសាល គំរូ 3D", addedOn: "2026-07-30", category: "images", keywords: ["3d", "gallery", "viewer", "three.js", "procedural", "img2threejs", "glb", "model", "showcase"], Component: load("images", "model-gallery") },
 
   // ---- Audio (1) ----
   { id: "audio-editor", title: "Audio Editor", category: "audio", keywords: ["trim", "cut", "fade", "gain", "wav", "waveform"], Component: load("audio", "audio-editor") },

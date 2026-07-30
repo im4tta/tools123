@@ -1,0 +1,195 @@
+import type { Group, Color } from "three";
+
+export interface ModelEntry {
+  id: string;
+  title: string;
+  description: string;
+  load: () => Promise<{
+    createModel: (opts?: { shadows?: boolean }) => Group;
+    createLights?: () => Group;
+    background?: () => Color;
+  }>;
+}
+
+export const MODEL_GALLERY: ModelEntry[] = [
+  {
+    id: "sony-wf-1000xm3",
+    title: "Sony WF-1000XM3",
+    description:
+      "True-wireless earbuds and charging case, rebuilt from primitives — extruded stadium body with pierced oval wells, copper lid with engraved SONY wordmark, satin-graphite earbuds with copper accents, gold pogo pins. Looping ~11s animation: lid opens, buds rise and spin, settle back, lid closes.",
+    load: () =>
+      import("./models/sony-wf-1000xm3").then((m) => ({
+        createModel: (opts) => m.createSonyWf1000xm3Model(opts),
+        createLights: m.createSonyWf1000xm3LookDevLights,
+        background: m.makeSonyBackground,
+      })),
+  },
+  {
+    id: "cambodia-fuel-tracker-badge",
+    title: "Cambodia Fuel Tracker Badge",
+    description:
+      "A commemorative badge-coin with Cambodia flag colours — gold-rimmed circular body, blue face with red band, stylised Cambodia map silhouette, fuel-drop motif with emissive pulse, and encircling Khmer/English text. Looping ~8s animation: gentle breathing scale pulse, fuel-drop emissive glow oscillates.",
+    load: () =>
+      import("./models/createCambodiaFuelTrackerBadgeModel").then((m) => ({
+        createModel: (opts) => m.createCambodiaFuelTrackerBadgeModel(opts),
+        createLights: m.createFuelTrackerLookDevLights,
+        background: m.makeFuelTrackerBackground,
+      })),
+  },
+  {
+    id: "coffee-mug",
+    title: "Coffee Mug",
+    description:
+      "Ceramic coffee mug on a saucer — glossy body with rolled rim and looped handle, dark coffee surface with faint crema swirl. Three steam wisps rise and dissipate on staggered ~4s cycles with a gentle idle sway.",
+    load: () =>
+      import("./models/createCoffeeMugModel").then((m) => ({
+        createModel: (opts) => m.createCoffeeMugModel(opts),
+        createLights: m.createCoffeeMugLookDevLights,
+        background: m.makeCoffeeMugBackground,
+      })),
+  },
+  {
+    id: "padlock",
+    title: "Brushed-Steel Padlock",
+    description:
+      "Brushed-steel padlock with rounded body, engraved keyhole, status LED window, and a pivoting shackle. Looping ~5s animation: shackle unlatches and swings open, LED flips green→amber, holds, then swings shut and LED resets.",
+    load: () =>
+      import("./models/createPadlockModel").then((m) => ({
+        createModel: (opts) => m.createPadlockModel(opts),
+        createLights: m.createPadlockLookDevLights,
+        background: m.makePadlockBackground,
+      })),
+  },
+  {
+    id: "mechanical-watch",
+    title: "Mechanical Watch",
+    description:
+      "Brushed-steel wristwatch with fluted bezel, sunburst dial with applied hour markers, blued sweeping hands, knurled crown, and stitched leather strap. Continuous animation: second hand sweeps in real time, minute/hour hands advance, case has a faint wrist-tilt idle.",
+    load: () =>
+      import("./models/createMechanicalWatchModel").then((m) => ({
+        createModel: (opts) => m.createMechanicalWatchModel(opts),
+        createLights: m.createMechanicalWatchLookDevLights,
+        background: m.makeMechanicalWatchBackground,
+      })),
+  },
+  {
+    id: "potted-succulent",
+    title: "Potted Succulent",
+    description:
+      "Echeveria-style succulent in a lathed terracotta pot with rolled rim and drainage saucer — soil cap, rosette of tapered leaves in three staggered rings around a central bud, plus small offset pups at the base.",
+    load: () =>
+      import("./models/createPottedSucculentModel").then((m) => ({
+        createModel: (opts) => m.createPottedSucculentModel(opts),
+        createLights: m.createPottedSucculentLookDevLights,
+        background: m.makePottedSucculentBackground,
+      })),
+  },
+  {
+    id: "desk-lamp",
+    title: "Articulated Desk Lamp",
+    description:
+      "Balanced-arm desk lamp — weighted disc base, two pivoting arm segments with visible spring coils, tilting head with warm emissive bulb and soft light cone. Looping ~9s animation: lamp nods down, clicks on, holds, lifts back up and clicks off.",
+    load: () =>
+      import("./models/createDeskLampModel").then((m) => ({
+        createModel: (opts) => m.createDeskLampModel(opts),
+        createLights: m.createDeskLampLookDevLights,
+        background: m.makeDeskLampBackground,
+      })),
+  },
+  {
+    id: "drone",
+    title: "Quadcopter Drone",
+    description:
+      "Consumer quadcopter — matte carbon-fibre body with gimbal camera, four arms ending in motor nacelles with spinning props (additive double-blades at speed), red/green alternating nav lights, and landing skids.",
+    load: () =>
+      import("./models/createDroneModel").then((m) => ({
+        createModel: (opts) => m.createDroneModel(opts),
+        createLights: m.createDroneLookDevLights,
+        background: m.makeDroneBackground,
+      })),
+  },
+  {
+    id: "turntable",
+    title: "Vinyl Turntable",
+    description:
+      "Belt-drive turntable — walnut-veneer plinth, aluminium platter with spinning record, etched label and groove rings, counterweighted tonearm that swings from rest to record edge and lowers the stylus, backlit power LED. Looping ~10s animation: platter spins, tonearm lifts, swings in, drops, plays, then returns to rest.",
+    load: () =>
+      import("./models/createTurntableModel").then((m) => ({
+        createModel: (opts) => m.createTurntableModel(opts),
+        createLights: m.createTurntableLookDevLights,
+        background: m.makeTurntableBackground,
+      })),
+  },
+  {
+    id: "treasure-chest",
+    title: "Treasure Chest",
+    description:
+      "Pirate-style treasure chest — plank-textured wooden body with riveted iron straps, domed lid on rear hinge, front latch, jumbled pile of gold coins and gems inside. Looping ~7s animation: latch flips, lid swings up, holds as gold glints, swings shut, latch re-engages.",
+    load: () =>
+      import("./models/createTreasureChestModel").then((m) => ({
+        createModel: (opts) => m.createTreasureChestModel(opts),
+        createLights: m.createTreasureChestLookDevLights,
+        background: m.makeTreasureChestBackground,
+      })),
+  },
+  {
+    id: "hot-air-balloon",
+    title: "Hot Air Balloon",
+    description:
+      "Gore-panelled envelope with alternating colour wedges, rigging net and load lines to a wicker-textured basket, burner with flaring flame (scale + emissive pulse) on a firing cycle. Looping ~8s animation: burner fires twice with bright flare, balloon rocks and drifts with slow turn as if airborne.",
+    load: () =>
+      import("./models/createHotAirBalloonModel").then((m) => ({
+        createModel: (opts) => m.createHotAirBalloonModel(opts),
+        createLights: m.createHotAirBalloonLookDevLights,
+        background: m.makeHotAirBalloonBackground,
+      })),
+  },
+  {
+    id: "dna-helix",
+    title: "DNA Double Helix",
+    description:
+      "Double-helix DNA strand — two intertwined sugar-phosphate backbone tubes (cyan and terracotta), evenly spaced base-pair rungs coloured by nucleotide type (adenine-thymine, cytosine-guanine), and a travelling scan highlight that sweeps up and down the strand like a replication scan. Looping ~12s animation: helix rotates steadily, bobs gently, and a bright band of rungs travels back and forth along the strand.",
+    load: () =>
+      import("./models/createDnaHelixModel").then((m) => ({
+        createModel: (opts) => m.createDnaHelixModel(opts),
+        createLights: m.createDnaHelixLookDevLights,
+        background: m.makeDnaHelixBackground,
+      })),
+  },
+  {
+    id: "globe",
+    title: "Desktop World Globe",
+    description:
+      "Desktop world globe on a brass meridian stand — textured ocean with stylised continents, a semi-transparent cloud layer drifting past, a fixed brass meridian ring and turned-wood base with brass trim. Looping animation: globe spins steadily on its 23.5° tilted axis while clouds drift at a slightly different rate, and the whole assembly rocks gently as if resting on a desk.",
+    load: () =>
+      import("./models/createGlobeModel").then((m) => ({
+        createModel: (opts) => m.createGlobeModel(opts),
+        createLights: m.createGlobeLookDevLights,
+        background: m.makeGlobeBackground,
+      })),
+  },
+  {
+    id: "solar-system",
+    title: "Solar System Model",
+    description:
+      "Simplified tabletop solar system — an emissive sun with gentle glow pulse, six orbiting planets each spinning on their own axis, thin orbit-path rings, a banded gas-giant texture for Jupiter and Saturn, a moon circling Earth, and Saturn's tilted ring system. Looping animation: every planet orbits at speed roughly proportional to its real relative period (inner planets faster) and spins on its own axis.",
+    load: () =>
+      import("./models/createSolarSystemModel").then((m) => ({
+        createModel: (opts) => m.createSolarSystemModel(opts),
+        createLights: m.createSolarSystemLookDevLights,
+        background: m.makeSolarSystemBackground,
+      })),
+  },
+  {
+    id: "volcano",
+    title: "Erupting Volcano",
+    description:
+      "Erupting volcano diorama — noise-textured rock cone rising from a mossy ground disc, a glowing lava lake in the crater with a lava-flow streak down one flank, a drifting smoke plume built from soft layered spheres, and embers that pop and arc up out of the crater. Looping ~9s animation: crater glow pulses steadily, smoke puffs rise and fade, and every cycle a stronger eruption burst sends embers higher and briefly brightens the crater.",
+    load: () =>
+      import("./models/createVolcanoModel").then((m) => ({
+        createModel: (opts) => m.createVolcanoModel(opts),
+        createLights: m.createVolcanoLookDevLights,
+        background: m.makeVolcanoBackground,
+      })),
+  },
+];

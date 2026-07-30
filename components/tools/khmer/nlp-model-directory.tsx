@@ -1,6 +1,7 @@
 "use client";
 import { useMemo } from "react";
 import { ExternalLink } from "lucide-react";
+import { CopyButton, type CopyField } from "@/components/CopyButton";
 import { ToolShell, Field, Select, TextInput } from "@/components/ui/Shell";
 import { useToolState } from "@/lib/storage";
 
@@ -83,20 +84,25 @@ export default function NlpModelDirectory() {
           <div className="py-8 text-center text-sm text-[var(--ink-faint)]">No models match that filter.</div>
         )}
         {results.map((m) => (
-          <a
-            key={m.name}
-            href={m.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-start justify-between gap-3 rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2.5 text-sm transition hover:border-[var(--gold-dim)]"
-          >
-            <div>
+          <div key={m.name} className="flex items-start gap-3 rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2.5 text-sm transition hover:border-[var(--gold-dim)]">
+            <a href={m.url} target="_blank" rel="noopener noreferrer" className="flex-1">
               <div className="font-medium text-[var(--ink)]">{m.name}</div>
               <div className="mt-0.5 text-xs text-[var(--ink-dim)]">{m.desc}</div>
               <div className="mt-1 text-[10px] uppercase tracking-wide text-[var(--ink-faint)]">{m.task} · @{m.author}</div>
+            </a>
+            <div className="mt-0.5 flex shrink-0 items-center gap-1.5">
+              <CopyButton compact text={`${m.name}\n${m.desc}\n${m.url}`}
+                fields={[
+                  { id: "name", label: "Name", getValue: m.name },
+                  { id: "desc", label: "Description", getValue: m.desc },
+                  { id: "url", label: "URL", getValue: m.url },
+                  { id: "task", label: "Task", getValue: m.task },
+                  { id: "author", label: "Author", getValue: m.author },
+                ]}
+              />
+              <ExternalLink size={14} className="text-[var(--ink-faint)]" />
             </div>
-            <ExternalLink size={14} className="mt-0.5 shrink-0 text-[var(--ink-faint)]" />
-          </a>
+          </div>
         ))}
       </div>
     </ToolShell>

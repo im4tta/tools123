@@ -1,6 +1,7 @@
 "use client";
 import { useMemo } from "react";
 import { ExternalLink } from "lucide-react";
+import { CopyButton, type CopyField } from "@/components/CopyButton";
 import { ToolShell, Field, Select } from "@/components/ui/Shell";
 import { useToolState } from "@/lib/storage";
 
@@ -46,20 +47,24 @@ export default function LanguageResources() {
       </Field>
       <div className="space-y-2">
         {results.map((r) => (
-          <a
-            key={r.name}
-            href={r.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-start justify-between gap-3 rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2.5 text-sm transition hover:border-[var(--gold-dim)]"
-          >
-            <div>
+          <div key={r.name} className="flex items-start gap-3 rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2.5 text-sm transition hover:border-[var(--gold-dim)]">
+            <a href={r.url} target="_blank" rel="noopener noreferrer" className="flex-1">
               <div className="font-medium text-[var(--ink)]">{r.name}</div>
               <div className="mt-0.5 text-xs text-[var(--ink-dim)]">{r.desc}</div>
               <div className="mt-1 text-[10px] uppercase tracking-wide text-[var(--ink-faint)]">{r.category}</div>
+            </a>
+            <div className="mt-0.5 flex shrink-0 items-center gap-1.5">
+              <CopyButton compact text={`${r.name}\n${r.desc}\n${r.url}`}
+                fields={[
+                  { id: "name", label: "Name", getValue: r.name },
+                  { id: "desc", label: "Description", getValue: r.desc },
+                  { id: "url", label: "URL", getValue: r.url },
+                  { id: "category", label: "Category", getValue: r.category },
+                ]}
+              />
+              <ExternalLink size={14} className="text-[var(--ink-faint)]" />
             </div>
-            <ExternalLink size={14} className="mt-0.5 shrink-0 text-[var(--ink-faint)]" />
-          </a>
+          </div>
         ))}
       </div>
     </ToolShell>

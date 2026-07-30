@@ -1,9 +1,8 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { useClipboard } from "@/components/ClipboardProvider";
+import { CopyButton, type CopyField } from "@/components/CopyButton";
 import { useLanguage } from "@/components/LanguageProvider";
-import { Button } from "@/components/ui/Output";
 import { Field, TextInput, ToolShell } from "@/components/ui/Shell";
 
 type Honorific = {
@@ -27,7 +26,6 @@ const HONORIFICS: Honorific[] = [
 
 export default function HonorificGuide() {
   const { text } = useLanguage();
-  const { copyText } = useClipboard();
   const [query, setQuery] = useState("");
 
   const rows = useMemo(() => {
@@ -60,7 +58,15 @@ export default function HonorificGuide() {
             </div>
             <p className="font-khmer rounded-md bg-[var(--ground)] p-3 text-base text-[var(--ink)]">{row.salutation}</p>
             <p className="font-khmer text-sm leading-relaxed text-[var(--ink-dim)]">{row.usage}</p>
-            <Button type="button" onClick={() => copyText(row.salutation)}>{text("Copy salutation", "ចម្លងពាក្យគោរព")}</Button>
+            <CopyButton
+              text={row.salutation}
+              fields={[
+                { id: "role", label: text("Role", "តួនាទី"), getValue: row.role },
+                { id: "title", label: text("Title", "គោរមងារ"), getValue: row.title },
+                { id: "salutation", label: text("Salutation", "ពាក្យគោរព"), getValue: row.salutation },
+                { id: "usage", label: text("Usage", "ការប្រើប្រាស់"), getValue: row.usage },
+              ]}
+            />
           </article>
         ))}
       </div>

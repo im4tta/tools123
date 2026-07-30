@@ -1,19 +1,51 @@
 "use client";
 import { useMemo } from "react";
 import data from "@/data/institutions_data.json";
-import { CopyButton } from "@/components/CopyButton";
+import { CopyButton, type CopyField } from "@/components/CopyButton";
+import { useClipboard } from "@/components/ClipboardProvider";
 import { useLanguage } from "@/components/LanguageProvider";
 import { Field, Row, Select, TextInput, ToolShell } from "@/components/ui/Shell";
 import { useToolState } from "@/lib/storage";
 
+function buildFields(item: (typeof data.institutions)[number], mode: string, t: (en: string, km: string) => string): CopyField[] {
+  const leader = t(`${item.leader} · ${item.position}`, `${item.leader_km} · ${item.position_km}`);
+  return [
+    { id: "name", label: t("Name", "ឈ្មោះ"), getValue: t(item.name_en, item.name_km) },
+    { id: "acronym", label: t("Acronym", "អក្សរកាត់"), getValue: item.acronym },
+    ...(mode !== "km" ? [{ id: "responsibility", label: t("Responsibility", "ទំនួលខុសត្រូវ"), getValue: item.responsibility }] : []),
+    { id: "leader", label: t("Leader", "ថ្នាក់ដឹកនាំ"), getValue: leader },
+    { id: "address", label: t("Address", "អាសយដ្ឋាន"), getValue: t(item.address_en, item.address_km) },
+    ...(item.website ? [{ id: "website", label: t("Website", "គេហទំព័រ"), getValue: item.website }] : []),
+    ...(item.phone ? [{ id: "phone", label: t("Phone", "ទូរស័ព្ទ"), getValue: item.phone }] : []),
+    ...(item.email ? [{ id: "email", label: t("Email", "អ៊ីមែល"), getValue: item.email }] : []),
+  ];
+}
+
 export default function MinistryDirectory() {
   const { mode, text: t } = useLanguage();
+  const { copyText } = useClipboard();
   const [query, setQuery] = useToolState("ministry-directory:query", "");
   const [category, setCategory] = useToolState("ministry-directory:category", "all");
   const results = useMemo(() => {
     const q = query.trim().toLocaleLowerCase("km");
     return data.institutions.filter((item) => (category === "all" || item.category_km === category) && (!q || [item.acronym, item.name_en, item.name_km, item.responsibility, item.leader, item.leader_km, item.position, item.position_km, item.address_en, item.address_km].some((value) => value.toLocaleLowerCase("km").includes(q))));
   }, [category, query]);
+
+  function formatAll() {
+    return results.map((item) => {
+      const name = t(item.name_en, item.name_km);
+      const leader = t(`${item.leader} · ${item.position}`, `${item.leader_km} · ${item.position_km}`);
+      return [name, item.acronym, `${t("Leader", "ថ្នាក់ដឹកនាំ")}: ${leader}`, `${t("Address", "អាសយដ្ឋាន")}: ${t(item.address_en, item.address_km)}`, mode !== "km" ? item.responsibility : "", item.website, item.phone, item.email].filter(Boolean).join("\n");
+    }).join("\n\n---\n\n");
+  }
+
+  function formatSingle(item: (typeof data.institutions)[number]) {
+    const name = t(item.name_en, item.name_km);
+    const leader = t(`${item.leader} · ${item.position}`, `${item.leader_km} · ${item.position_km}`);
+    const address = t(item.address_en, item.address_km);
+    return [name, item.acronym, `${t("Leader", "ថ្នាក់ដឹកនាំ")}: ${leader}`, `${t("Address", "អាសយដ្ឋាន")}: ${address}`, mode !== "km" ? item.responsibility : "", item.website, item.phone, item.email].filter(Boolean).join("\n");
+  }
+
   return <ToolShell title="Cambodia Government Institution Directory" khmerTitle="បញ្ជីក្រសួង និងស្ថាប័នរាជរដ្ឋាភិបាលកម្ពុជា" description="Search 32 Cambodian ministries and public institutions by name, acronym, category, leadership, or address." descriptionKm="ស្វែងរកក្រសួង និងស្ថាប័នសាធារណៈទាំង ៣២ តាមឈ្មោះ អក្សរកាត់ ប្រភេទ ថ្នាក់ដឹកនាំ ឬអាសយដ្ឋាន។">
     <Row>
       <Field label="Institution category" labelKm="ប្រភេទស្ថាប័ន"><Select value={category} onChange={(e) => setCategory(e.target.value)}>{data.categories.map((item) => <option key={item.id} value={item.id}>{t(item.name_en, item.name_km)}</option>)}</Select></Field>
@@ -22,12 +54,18 @@ export default function MinistryDirectory() {
     <p className="text-xs text-[var(--ink-faint)]">{t(`${results.length} institutions found. Leadership and contact details can change; verify on the official website.`, `រកឃើញស្ថាប័នចំនួន ${results.length}។ ព័ត៌មានថ្នាក់ដឹកនាំ និងទំនាក់ទំនងអាចផ្លាស់ប្តូរ សូមផ្ទៀងផ្ទាត់ជាមួយគេហទំព័រផ្លូវការ។`)}</p>
     {!results.length && <p className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-6 text-center text-sm text-[var(--ink-faint)]">{t("No matching institution found.", "រកមិនឃើញស្ថាប័នដែលត្រូវនឹងការស្វែងរកនេះទេ។")}</p>}
     <div className="grid gap-3 sm:grid-cols-2">{results.map((item) => {
-      const name = t(item.name_en, item.name_km), leader = t(`${item.leader} · ${item.position}`, `${item.leader_km} · ${item.position_km}`), address = t(item.address_en, item.address_km);
-      const copy = [name, item.acronym, `${t("Leader", "ថ្នាក់ដឹកនាំ")}: ${leader}`, `${t("Address", "អាសយដ្ឋាន")}: ${address}`, mode !== "km" ? item.responsibility : "", item.website, item.phone, item.email].filter(Boolean).join("\n");
+      const name = t(item.name_en, item.name_km), leaderTxt = t(`${item.leader} · ${item.position}`, `${item.leader_km} · ${item.position_km}`), address = t(item.address_en, item.address_km);
       return <article key={item.id} className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4">
-        <div className="flex items-start justify-between gap-3"><div><h2 className="font-medium leading-7 text-[var(--ink)]">{name}</h2><span className="text-[10px] text-[var(--ink-faint)]">{item.acronym}</span></div><CopyButton text={copy} compact /></div>
+        <div className="flex items-start justify-between gap-3"><div><h2 className="font-medium leading-7 text-[var(--ink)]">{name}</h2><span className="text-[10px] text-[var(--ink-faint)]">{item.acronym}</span></div>
+          <CopyButton
+            text={formatSingle(item)}
+            compact
+            dropdown={[{ label: "Copy all results", labelKm: "ចម្លងលទ្ធផលទាំងអស់", action: () => void copyText(formatAll()) }]}
+            fields={buildFields(item, mode, t)}
+          />
+        </div>
         {mode !== "km" && <p className="mt-3 text-xs leading-5 text-[var(--ink-dim)]">{item.responsibility}</p>}
-        <dl className="mt-3 space-y-2 text-xs leading-6"><div><dt className="inline text-[var(--ink-faint)]">{t("Leader", "ថ្នាក់ដឹកនាំ")}៖ </dt><dd className="inline text-[var(--ink-dim)]">{leader}</dd></div><div><dt className="inline text-[var(--ink-faint)]">{t("Address", "អាសយដ្ឋាន")}៖ </dt><dd className="inline text-[var(--ink-dim)]">{address}</dd></div></dl>
+        <dl className="mt-3 space-y-2 text-xs leading-6"><div><dt className="inline text-[var(--ink-faint)]">{t("Leader", "ថ្នាក់ដឹកនាំ")}៖ </dt><dd className="inline text-[var(--ink-dim)]">{leaderTxt}</dd></div><div><dt className="inline text-[var(--ink-faint)]">{t("Address", "អាសយដ្ឋាន")}៖ </dt><dd className="inline text-[var(--ink-dim)]">{address}</dd></div></dl>
         <div className="mt-3 flex flex-wrap gap-x-3 gap-y-2 text-xs">{item.website && <a href={item.website} target="_blank" rel="noreferrer" className="text-[var(--gold)]">{t("Website", "គេហទំព័រ")} ↗</a>}{item.phone && <a href={`tel:${item.phone}`} className="text-[var(--ink-dim)]">{t("Phone", "ទូរស័ព្ទ")}៖ {item.phone}</a>}{item.email && <a href={`mailto:${item.email}`} className="text-[var(--ink-dim)]">{t("Email", "អ៊ីមែល")}</a>}</div>
       </article>;
     })}</div>

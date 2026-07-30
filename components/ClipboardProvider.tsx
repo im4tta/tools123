@@ -38,9 +38,9 @@ export function ClipboardProvider({ children }: { children: ReactNode }) {
       if (navigator.clipboard?.writeText && window.isSecureContext) await navigator.clipboard.writeText(text);
       else if (!fallbackCopy(text)) throw new Error("Copy unavailable");
       lastCopy.current = { text, at: Date.now() };
-      show(localize("Copied to clipboard", "បានចម្លងទៅក្ដារតម្បៀតខ្ទាស់")); return true;
+      show(localize("Copied to clipboard", "បានចម្លងរួចរាល់")); return true;
     } catch {
-      try { if (!fallbackCopy(text)) throw new Error("Copy failed"); lastCopy.current = { text, at: Date.now() }; show(localize("Copied to clipboard", "បានចម្លងទៅក្ដារតម្បៀតខ្ទាស់")); return true; }
+      try { if (!fallbackCopy(text)) throw new Error("Copy failed"); lastCopy.current = { text, at: Date.now() }; show(localize("Copied to clipboard", "បានចម្លងរួចរាល់")); return true; }
       catch { show(localize("Could not copy", "មិនអាចចម្លងបានទេ"), true); return false; }
     }
   }, [localize, show]);
