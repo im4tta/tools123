@@ -241,6 +241,7 @@ export const TOOLS: ToolDef[] = [
 
   // ---- Science (1) ----
   { id: "materials", title: "Earth Materials & 3D Atom Pro", khmerTitle: "សារធាតុផែនដី & អាតូម 3D Pro", addedOn: "2026-07-30", category: "science", keywords: ["elements", "periodic table", "materials", "chemistry", "3d atom", "isotopes", "science", "វិទ្យាសាស្រ្ត", "ធាតុគីមី", "តារាងខួប", "សារធាតុ"], Component: load("science", "materials") },
+  { id: "phone-number-cleaner", title: "Phone Number Cleaner Pro", khmerTitle: "កម្មវិធីសម្អាត និងបំប្លែងលេខទូរស័ព្ទខ្មែរ", addedOn: "2026-07-30", category: "science", keywords: ["phone", "number", "cleaner", "parser", "format", "Cambodia", "cellcard", "smart", "metfone", "telegram", "whatsapp"], Component: load("science", "phone-number-cleaner") },
 
   // ---- Text (18) ----
   { id: "sample-paragraph-generator", title: "Sample Paragraph Generator", category: "text", keywords: ["email template", "boilerplate", "administrative", "draft", "sample text"], Component: load("text", "sample-paragraph-generator") },

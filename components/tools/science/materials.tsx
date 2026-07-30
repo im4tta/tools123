@@ -4,10 +4,10 @@ import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { 
   Search, Globe, X, Layers, Shield, Sparkles, Zap, 
   Droplet, Flame, Wind, Mountain, Bookmark,
-  Moon, Sun, Copy, Check, Grid, List, Scale, Cpu, Leaf, ArrowRight,
+  Copy, Check, Grid, List, Scale, Cpu, Leaf, ArrowRight,
   FlaskConical, Atom, RefreshCw, ChevronRight, Eye, Maximize2, RotateCcw,
   Volume2, VolumeX, Award, HelpCircle, Play, Sliders, Activity, Box, Plus, Hammer,
-  Wrench, Thermometer, Info, FileText
+  Wrench, Thermometer, Info, FileText, BookOpen
 } from 'lucide-react';
 import { useLanguage } from "@/components/LanguageProvider";
 
@@ -64,7 +64,9 @@ const uiTranslations: Record<string, Record<string, string>> = {
     craftBtn: 'ផ្សំសារធាតុ (Synthesize)',
     clearCraft: 'សម្អាត',
     craftResult: 'លទ្ធផលនៃការផ្សំ',
-    quizTitle: 'តេស្តប្រឡងចំណេះដឹងវិទ្យាសាស្ត្រ',
+    guideTitle: 'មន្ទីរយោបាយ Science Guide',
+    guideDesc: 'ស្វែងយល់និងជួយបានពេលផ្សំសារធាតុ',
+    funFacts: 'លំនាំកំណត់ចំណាយថ្ងៃ',
     quizScore: 'ពិន្ទុរបស់អ្នក',
     nextQuestion: 'សំណួរដកពិសោធន៍បន្ទាប់',
     soundEffects: 'សំឡេង (Sound)',
@@ -125,6 +127,9 @@ const uiTranslations: Record<string, Record<string, string>> = {
     craftBtn: 'Synthesize Material',
     clearCraft: 'Clear All',
     craftResult: 'Synthesis Output',
+    guideTitle: 'Science Guide Lab',
+    guideDesc: 'Learn while you synthesize materials',
+    funFacts: 'Fun Facts',
     quizTitle: 'Earth Science & Materials Trivia Challenge',
     quizScore: 'Your Score',
     nextQuestion: 'Next Question',
@@ -467,7 +472,7 @@ const periodicElementsData = [
   // Period 6
   { number: 55, symbol: 'Cs', name: { km: 'សេស្យូម', en: 'Cesium' }, mass: '132.91', group: 1, period: 6, category: 'alkali', config: '[Xe] 6s¹', phase: 'Solid', discovered: '1860', latticeType: 'BCC' },
   { number: 56, symbol: 'Ba', name: { km: 'បារ្យូម', en: 'Barium' }, mass: '137.33', group: 2, period: 6, category: 'alkaline', config: '[Xe] 6s²', phase: 'Solid', discovered: '1808', latticeType: 'BCC' },
-  { number: 57, symbol: 'La', name: { km: 'ឡង់តាន', en: 'Lanthanum' }, mass: '138.91', group: 3, period: 8, category: 'lanthanide', config: '[Xe] 5d¹ 6s²', phase: 'Solid', discovered: '1839', latticeType: 'DHCP' },
+  { number: 57, symbol: 'La', name: { km: 'ឡង់តាន', en: 'Lanthanum' }, mass: '138.91', group: 3, period: 6, category: 'lanthanide', config: '[Xe] 5d¹ 6s²', phase: 'Solid', discovered: '1839', latticeType: 'DHCP' },
   { number: 58, symbol: 'Ce', name: { km: 'សេរ្យូម', en: 'Cerium' }, mass: '140.12', group: 4, period: 8, category: 'lanthanide', config: '[Xe] 4f¹ 5d¹ 6s²', phase: 'Solid', discovered: '1803', latticeType: 'FCC' },
   { number: 59, symbol: 'Pr', name: { km: 'ប្រាសេអូឌីម', en: 'Praseodymium' }, mass: '140.91', group: 5, period: 8, category: 'lanthanide', config: '[Xe] 4f³ 6s²', phase: 'Solid', discovered: '1885', latticeType: 'DHCP' },
   { number: 60, symbol: 'Nd', name: { km: 'នេអូឌីម', en: 'Neodymium' }, mass: '144.24', group: 6, period: 8, category: 'lanthanide', config: '[Xe] 4f⁴ 6s²', phase: 'Solid', discovered: '1885', latticeType: 'DHCP' },
@@ -501,7 +506,7 @@ const periodicElementsData = [
   // Period 7
   { number: 87, symbol: 'Fr', name: { km: 'ហ្វ្រង់ស្យូម', en: 'Francium' }, mass: '223', group: 1, period: 7, category: 'alkali', config: '[Rn] 7s¹', phase: 'Solid', discovered: '1939', latticeType: 'BCC' },
   { number: 88, symbol: 'Ra', name: { km: 'រ៉ាដ្យូម', en: 'Radium' }, mass: '226', group: 2, period: 7, category: 'alkaline', config: '[Rn] 7s²', phase: 'Solid', discovered: '1898', latticeType: 'BCC' },
-  { number: 89, symbol: 'Ac', name: { km: 'អាទីញ៉ូម', en: 'Actinium' }, mass: '227', group: 3, period: 9, category: 'actinide', config: '[Rn] 6d¹ 7s²', phase: 'Solid', discovered: '1899', latticeType: 'FCC' },
+  { number: 89, symbol: 'Ac', name: { km: 'អាទីញ៉ូម', en: 'Actinium' }, mass: '227', group: 3, period: 7, category: 'actinide', config: '[Rn] 6d¹ 7s²', phase: 'Solid', discovered: '1899', latticeType: 'FCC' },
   { number: 90, symbol: 'Th', name: { km: 'ថូរ្យូម', en: 'Thorium' }, mass: '232.04', group: 4, period: 9, category: 'actinide', config: '[Rn] 6d² 7s²', phase: 'Solid', discovered: '1829', latticeType: 'FCC' },
   { number: 91, symbol: 'Pa', name: { km: 'ប្រូតាកទីញ៉ូម', en: 'Protactinium' }, mass: '231.04', group: 5, period: 9, category: 'actinide', config: '[Rn] 5f² 6d¹ 7s²', phase: 'Solid', discovered: '1913', latticeType: 'TETRAGONAL' },
   { number: 92, symbol: 'U', name: { km: 'អ៊ុយរ៉ាន្យូម', en: 'Uranium' }, mass: '238.03', group: 6, period: 9, category: 'actinide', config: '[Rn] 5f³ 6d¹ 7s²', phase: 'Solid', discovered: '1789', latticeType: 'ORTHORHOMBIC' },
@@ -650,7 +655,7 @@ function Visualizer3DCanvas({ element, mode = 'atom' }: { element: any; mode?: s
         const nMesh = new THREE.Mesh(nGeo, nMat);
         mainGroup.add(nMesh);
 
-        const shellCounts = getShellsForElement(element.number, element.shells);
+        const shellCounts = getShellsForElement(element.number);
         const shellObjects: any[] = [];
 
         shellCounts.forEach((count, sIdx) => {
@@ -884,20 +889,43 @@ function MaterialCraftingLab({ lang }: { lang: "km" | "en" }) {
   const [slot1, setSlot1] = useState<any>(null);
   const [slot2, setSlot2] = useState<any>(null);
   const [result, setResult] = useState<any>(null);
+  const [factIndex, setFactIndex] = useState(0);
 
   const recipes: { in: string[]; out: { name: { km: string; en: string }; desc: string } }[] = [
-    { in: ['Cu', 'Zn'], out: { name: { km: 'លង្ហិន (Brass)', en: 'Brass Alloy' }, desc: 'Copper + Zinc = Brass (Non-sparking acoustic metal)' } },
-    { in: ['Fe', 'C'], out: { name: { km: 'ដែកថែប (Steel)', en: 'Steel Alloy' }, desc: 'Iron + Carbon = Structural High-Tensile Steel' } },
-    { in: ['Cu', 'Sn'], out: { name: { km: 'សំរឹទ្ធ (Bronze)', en: 'Bronze Alloy' }, desc: 'Copper + Tin = Marine Seawater Resistant Bronze' } },
-    { in: ['C', 'C'], out: { name: { km: 'ក្រាហ្វែន ឬ ពេជ្រ (Diamond/Graphene)', en: 'Graphene / Diamond' }, desc: 'Pure Carbon under extreme synthesis' } },
-    { in: ['Si', 'O'], out: { name: { km: 'កញ្ចក់ស៊ីលីកា (Silica Glass)', en: 'Silica Glass / Quartz' }, desc: 'Silicon + Oxygen = High-purity Glass' } },
+    // Alloys
+    { in: ['Cu', 'Zn'], out: { name: { km: 'លង្ហិន (Brass)', en: 'Brass Alloy' }, desc: 'Copper + Zinc = Brass — Non-sparking acoustic metal used in instruments and decorative hardware.' } },
+    { in: ['Fe', 'C'], out: { name: { km: 'ដែកថែប (Steel)', en: 'Steel Alloy' }, desc: 'Iron + Carbon = Steel — The backbone of modern construction and tooling.' } },
+    { in: ['Cu', 'Sn'], out: { name: { km: 'សំរឹទ្ធ (Bronze)', en: 'Bronze Alloy' }, desc: 'Copper + Tin = Bronze — The age-defining alloy of ancient civilizations.' } },
+    { in: ['Fe', 'Cr', 'Ni'], out: { name: { km: 'ស្តេលេស (Stainless Steel)', en: 'Stainless Steel' }, desc: 'Iron + Chromium + Nickel = Rust-resistant steel for kitchenware and medicine.' } },
+    { in: ['Al', 'Cu'], out: { name: { km: 'អ៊ីឡូមីយូម (Duralumin)', en: 'Duralumin' }, desc: 'Aluminum + Copper = Lightweight aerospace alloy stronger than pure aluminum.' } },
+    { in: ['Ti', 'Al'], out: { name: { km: 'ធីតានីយូម (Titanium Aluminide)', en: 'Titanium Aluminide' }, desc: 'Titanium + Aluminum = High-temperature aerospace metallurgy marvel.' } },
+    // Compounds
+    { in: ['C', 'C'], out: { name: { km: 'ក្រាហ្វែន ឬ ពេជ្រ (Diamond/Graphene)', en: 'Graphene / Diamond' }, desc: 'Pure Carbon under extreme synthesis — Diamond for cutting, Graphene for next-gen electronics.' } },
+    { in: ['Si', 'O'], out: { name: { km: 'កញ្ចក់ស៊ីលីកា (Silica Glass)', en: 'Silica Glass / Quartz' }, desc: 'Silicon + Oxygen = Glass — Transforming sand into windows, fiber optics, and timekeeping.' } },
+    { in: ['Na', 'Cl'], out: { name: { km: 'ផ្សំស្រូវ (Table Salt)', en: 'Sodium Chloride' }, desc: 'Sodium + Chlorine = Salt — Essential for life and food preservation since antiquity.' } },
+    { in: ['Fe', 'O'], out: { name: { km: 'ឱសថទេស (Rust/Iron Oxide)', en: 'Iron Oxide (Rust)' }, desc: 'Iron + Oxygen = Rust — The slow corrosion that shapes metallurgy history.' } },
+    { in: ['Ca', 'C', 'O'], out: { name: { km: 'ថ្មុយ (Limestone/Calcium Carbonate)', en: 'Calcium Carbonate' }, desc: 'Calcium + Carbon + Oxygen = Limestone — The building block of shells and chalk.' } },
+    { in: ['N', 'H'], out: { name: { km: 'អាម៉ូន៊ីយ៉ា (Ammonia)', en: 'Ammonia' }, desc: 'Nitrogen + Hydrogen = Ammonia — The foundation of fertilizers feeding billions.' } },
+    { in: ['S', 'O'], out: { name: { km: 'អូរ (Sulfur Dioxide)', en: 'Sulfur Dioxide' }, desc: 'Sulfur + Oxygen = SO₂ — Industrial chemical with both useful and environmental impacts.' } },
+  ];
+
+  // Guide fun facts for learning
+  const funFacts = [
+    { km: 'ពេជ្រគឺជាសារធាតុធម្មជាតិបំផុតដែលរឹងមាំ ឈរលំដាប់ ១០ លើស្កែក Mohs', en: 'Diamond is the hardest natural substance, ranking 10 on the Mohs scale.' },
+    { km: 'ប្រាក់ (Ag) គឺជាធាតុដែលចម្លងអគ្គិសនីបានល្អបំផុត', en: 'Silver (Ag) is the most electrically conductive element on the periodic table.' },
+    { km: 'Aerogel ប្រហែល ៩៩.៨% ជាខ្យល់ — ជាវត្ថុរឹងដែលស្រាលបំផុតដែលយើងបានស្គាល់', en: 'Aerogel is 99.8% air — the lightest solid known to humanity.' },
+    { km: 'ធាតុ Mercury (Hg) ជាធាតុដែក​តែ​មួយ​ដែលមានសភាពរាវនៅសីតុណ្ហភាពបន្ទប់', en: 'Mercury (Hg) is the only metal that is liquid at standard room temperature.' },
+    { km: 'Ytterbium (Yb) មានសំបុកអេឡិចត្រុន 4f ដែលពេញលេញ ធ្វើឱ្យវាមានលក្ខណៈពិសេសចំពោះធាតុ rare-earth', en: 'Ytterbium (Yb) has a full 4f shell, making it unique among rare earths.' },
+    { km: 'អ៊ុយរ៉ានូម (U) ជាធាតុធ្ងន់​បំផុត​ដែលមាននៅក្នុងធម្មជាតិ ដែលប្រើក្នុងវិស័យថាមពលនុយក្លេអ៊ែរ', en: 'Uranium is the heaviest naturally occurring element used in nuclear energy.' },
+    { km: 'ទុងស្តែន (W) មានចំណុះដុតខ្ពស់បំផុតប្រហែល ~3,422°C', en: 'Tungsten (W) has the highest melting point of all elements at ~3,422°C.' },
+    { km: 'អ៊ីដ្រូសែន (H) ជាធាតុដែលសាមញ្ញបំផុត មានគ្រាប់ប្រូតុង ១ និងអេឡិចត្រុង ១', en: 'Hydrogen (H), the simplest atom, has just one proton and one electron.' },
   ];
 
   const handleSynthesize = () => {
     soundFx.playSynthCraft();
     if (!slot1 || !slot2) return;
 
-    const match = recipes.find(r => 
+    const match = recipes.find(r =>
       (r.in[0] === slot1.symbol && r.in[1] === slot2.symbol) ||
       (r.in[1] === slot1.symbol && r.in[0] === slot2.symbol)
     );
@@ -905,9 +933,39 @@ function MaterialCraftingLab({ lang }: { lang: "km" | "en" }) {
     if (match) {
       setResult(match.out);
     } else {
-      setResult({ name: { km: 'សារធាតុផ្សំមិនស្គាល់ (Unknown Reaction)', en: 'Unknown Synthetic Mixture' }, desc: 'No stable compound formed for this combination.' });
+      setResult({ name: { km: 'សារធាតុផ្សំមិនស្គាល់ (Unknown Reaction)', en: 'Unknown Synthetic Mixture' }, desc: 'No stable compound formed for this combination. Try different elements!' });
     }
   };
+
+  const handleShowFact = () => {
+    soundFx.playSynthCraft();
+    setFactIndex((prev) => (prev + 1) % funFacts.length);
+  };
+
+  // Hints / suggestions for crafting combinations
+  const twoInputSuggestions = useMemo(() => {
+    if (!slot1) return [] as string[];
+    const s = new Set<string>();
+    recipes.forEach(r => {
+      if (r.in.length === 2 && r.in.includes(slot1.symbol)) {
+        const other = r.in.find(sym => sym !== slot1.symbol);
+        if (other) s.add(other);
+      }
+    });
+    return Array.from(s);
+  }, [slot1, recipes]);
+
+  const threeInputMatches = useMemo(() => {
+    if (!slot1) return [] as { required: string[]; out: any }[];
+    const res: { required: string[]; out: any }[] = [];
+    recipes.forEach(r => {
+      if (r.in.length === 3 && r.in.includes(slot1.symbol)) {
+        const others = r.in.filter(sym => sym !== slot1.symbol);
+        res.push({ required: others, out: r.out });
+      }
+    });
+    return res;
+  }, [slot1, recipes]);
 
   return (
     <div className="p-5 rounded-3xl bg-[var(--ground-raised)] border border-[var(--ground-line)] text-[var(--ink)] max-w-2xl mx-auto space-y-5 shadow-2xl">
@@ -949,8 +1007,37 @@ function MaterialCraftingLab({ lang }: { lang: "km" | "en" }) {
 
       <div>
         <div className="text-xs text-[var(--ink-dim)] font-medium mb-2">Select Base Ingredients:</div>
+
+        {slot1 && !slot2 && (
+          <div className="mb-3">
+            <div className="text-xs text-[var(--ink-dim)] font-medium mb-1">Hints for {slot1.symbol}:</div>
+            <div className="flex flex-wrap gap-2 mb-2">
+              {twoInputSuggestions.length > 0 ? twoInputSuggestions.map(sym => {
+                const el = periodicElementsData.find(e => e.symbol === sym);
+                return el ? (
+                  <button
+                    key={sym}
+                    onClick={() => setSlot2(el)}
+                    className="px-3 py-1.5 rounded-xl bg-[var(--ground-raised-hi)] border border-[var(--ground-line)] text-xs font-mono text-cyan-300 font-bold active:scale-95"
+                  >
+                    {sym} ({el.name[lang]})
+                  </button>
+                ) : null;
+              }) : (
+                <div className="text-xs text-[var(--ink-dim)]">No two-ingredient hints available.</div>
+              )}
+            </div>
+
+            {threeInputMatches.length > 0 && (
+              <div className="text-xs text-[var(--ink-dim)]">Also known 3-input recipes: {threeInputMatches.map((m, i) => (
+                <span key={i} className="mr-2">{slot1.symbol} + {m.required.join(' + ')} → {m.out.en}</span>
+              ))}</div>
+            )}
+          </div>
+        )}
+
         <div className="flex flex-wrap gap-2">
-          {periodicElementsData.slice(0, 10).map(el => (
+          {periodicElementsData.map(el => (
             <button
               key={el.number}
               onClick={() => {
@@ -993,6 +1080,25 @@ function MaterialCraftingLab({ lang }: { lang: "km" | "en" }) {
           <div className="text-xs text-[var(--ink-dim)] mt-1">{result.desc}</div>
         </div>
       )}
+
+      {/* GUIDE SECTION */}
+      <div className="p-4 rounded-2xl bg-[var(--ground)]/60 border border-[var(--ground-line)] space-y-3">
+        <div className="flex items-center gap-2 mb-2">
+          <BookOpen className="w-4 h-4 text-amber-400" />
+          <h4 className="font-bold text-xs text-amber-300">{uiTranslations[lang].guideTitle}</h4>
+        </div>
+        <p className="text-[11px] text-[var(--ink-dim)] leading-relaxed">{uiTranslations[lang].guideDesc}</p>
+        <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30">
+          <div className="text-[10px] text-amber-400 font-bold mb-1">{uiTranslations[lang].funFacts}</div>
+          <p className="text-xs leading-relaxed text-[var(--ink)]">{funFacts[factIndex][lang]}</p>
+        </div>
+        <button
+          onClick={handleShowFact}
+          className="w-full py-2 rounded-xl bg-amber-600/20 hover:bg-amber-600/30 text-amber-300 text-xs font-bold transition-all active:scale-95"
+        >
+          {lang === 'km' ? 'មើលច្រើនទៀត' : 'More Facts'}
+        </button>
+      </div>
     </div>
   );
 }
@@ -1138,22 +1244,6 @@ function GooglePeriodicGrid({ elements, lang, onSelectElement, searchQuery }: { 
             return Array.from({ length: 18 }).map((_, gIdx) => {
               const groupNum = gIdx + 1;
 
-              // Handle Lanthanide / Actinide placeholder slots in Group 3
-              if (periodNum === 6 && groupNum === 3) {
-                return (
-                  <div key={`placeholder-6-3`} className="p-1 rounded-xl border border-pink-500/40 bg-pink-500/10 flex flex-col items-center justify-center text-[9px] font-bold text-[var(--ink)] text-center leading-tight h-16">
-                    57-71 La-Lu
-                  </div>
-                );
-              }
-              if (periodNum === 7 && groupNum === 3) {
-                return (
-                  <div key={`placeholder-7-3`} className="p-1 rounded-xl border border-fuchsia-500/40 bg-fuchsia-500/10 flex flex-col items-center justify-center text-[9px] font-bold text-[var(--ink)] text-center leading-tight h-16">
-                    89-103 Ac-Lr
-                  </div>
-                );
-              }
-
               const el = filtered.find(e => e.period === periodNum && e.group === groupNum);
 
               if (!el) {
@@ -1245,7 +1335,6 @@ function GooglePeriodicGrid({ elements, lang, onSelectElement, searchQuery }: { 
 export default function MaterialsApp() {
   const { mode } = useLanguage();
   const lang: "km" | "en" = mode === "bi" ? "en" : mode;
-  const [darkMode, setDarkMode] = useState(true);
   const [activeTab, setActiveTab] = useState('materials'); // 'materials' | 'periodic' | 'crafting' | 'quiz'
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState('all');
@@ -1339,8 +1428,8 @@ export default function MaterialsApp() {
         <div className="absolute top-1/2 -right-24 w-96 h-96 rounded-full blur-3xl opacity-15 bg-[var(--teal)]"></div>
       </div>
 
-      <header className="sticky top-0 z-30 backdrop-blur-md border-b transition-colors bg-[var(--ground-raised)]/85 border-[var(--ground-line)]/80">
-        <div className="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+      <header className="sticky top-0 z-30 backdrop-blur-md transition-colors">
+        <div className="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3 bg-[var(--ground-raised)]/85 border border-[var(--ground-line)]/80 rounded-2xl border-b-0">
           
           <div className="flex items-center gap-2.5">
             <div className="p-2 rounded-xl bg-gradient-to-tr from-blue-600 to-cyan-500 text-white shadow-md shadow-blue-500/20">
@@ -1420,19 +1509,6 @@ export default function MaterialsApp() {
               className="p-2 rounded-xl border transition-all active:scale-95 bg-[var(--ground-raised)] border-[var(--ground-line)] text-cyan-400 hover:bg-[var(--ground-raised-hi)]"
             >
               {soundEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
-            </button>
-
-            <span
-              className="p-2 rounded-xl text-xs font-bold border bg-[var(--ground-raised)] border-[var(--ground-line)] text-cyan-400"
-            >
-              {lang === 'km' ? 'KM' : 'EN'}
-            </span>
-
-            <button
-              onClick={() => { soundFx.playClick(); setDarkMode(!darkMode); }}
-              className="p-2 rounded-xl border transition-all active:scale-95 bg-[var(--ground-raised)] border-[var(--ground-line)] text-amber-400 hover:bg-[var(--ground-raised-hi)]"
-            >
-              {darkMode ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
             </button>
           </div>
         </div>
@@ -1615,7 +1691,7 @@ export default function MaterialsApp() {
                 <GooglePeriodicGrid 
                   elements={periodicElementsData} 
                   lang={lang} 
-                  onSelectElement={(el) => setSelectedElement({ ...el, shells: getShellsForElement(el.number, el.shells) })}
+                  onSelectElement={(el) => setSelectedElement({ ...el, shells: getShellsForElement(el.number) })}
                   searchQuery={searchQuery}
                 />
               ) : (
@@ -1629,7 +1705,7 @@ export default function MaterialsApp() {
                           soundFx.playClick(); 
                           setSelectedElement({
                             ...el,
-                            shells: getShellsForElement(el.number, el.shells)
+                            shells: getShellsForElement(el.number)
                           }); 
                         }}
                         className={`p-2 rounded-xl border transition-all cursor-pointer hover:scale-105 active:scale-95 flex flex-col justify-between h-28 relative overflow-hidden group ${catStyle} hover:bg-[var(--ground-raised-hi)]`}
@@ -1775,7 +1851,7 @@ export default function MaterialsApp() {
                   {t.properties}
                 </h4>
                 <div className="flex flex-wrap gap-1.5">
-                  {selectedMaterial.properties[lang].map((p, idx) => (
+                  {selectedMaterial.properties[lang].map((p: string, idx: number) => (
                     <span 
                       key={idx}
                       className="px-2.5 py-1 rounded-xl text-xs font-semibold border bg-[var(--ground-raised-hi)] text-cyan-300 border-[var(--ground-line)]"
@@ -1792,7 +1868,7 @@ export default function MaterialsApp() {
                   {t.applications}
                 </h4>
                 <ul className="space-y-1.5 pl-1">
-                  {selectedMaterial.applications[lang].map((a, idx) => (
+                  {selectedMaterial.applications[lang].map((a: string, idx: number) => (
                     <li key={idx} className="flex items-center gap-2">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
                       <span className="text-[var(--ink)]">{a}</span>
