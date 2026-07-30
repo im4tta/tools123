@@ -31,13 +31,13 @@ const COL = {
 };
 
 /* ---- dimensions ---- */
-const VISOR_W = 2.7;
-const VISOR_H = 1.0;
-const FRAME_R = 0.46;
-const GLASS_INSET = 0.12;
-const FRAME_T = 0.14;
-const GLASS_T = 0.05;
-const CURVE_R = 1.7; // wraparound radius for the visor
+const VISOR_W = 2.6;
+const VISOR_H = 0.95;
+const FRAME_R = 0.38;
+const GLASS_INSET = 0.1;
+const FRAME_T = 0.12;
+const GLASS_T = 0.045;
+const CURVE_R = 1.5; // wraparound radius for the visor
 
 /* ============================================================ */
 /* texture helpers                                               */
@@ -314,7 +314,7 @@ export function createAppleVisionProModel(options: AppleVisionProOptions = {}): 
     const body = new THREE.Mesh(bodyGeo, matFrame);
     body.castShadow = shadows;
     g.add(body);
-    g.position.set(sign * (VISOR_W / 2 + 0.02), -0.02, -0.12);
+    g.position.set(sign * (VISOR_W / 2 + 0.015), -0.02, -0.08);
     return g;
   }
   const hingeL = hingePod(-1);
@@ -324,14 +324,14 @@ export function createAppleVisionProModel(options: AppleVisionProOptions = {}): 
   /* ---- Digital Crown + top button, on the right hinge ---- */
   const crown = new THREE.Mesh(new THREE.CylinderGeometry(0.075, 0.075, 0.05, 28), matCrown);
   crown.rotation.z = Math.PI / 2;
-  crown.position.set(VISOR_W / 2 + 0.08, -0.16, 0.1);
+  crown.position.set(VISOR_W / 2 + 0.06, -0.16, 0.08);
   crown.castShadow = shadows;
   visorGroup.add(crown);
 
   const topButtonGeo = new THREE.SphereGeometry(0.045, 20, 16);
   topButtonGeo.scale(1, 0.6, 1.4);
   const topButton = new THREE.Mesh(topButtonGeo, matFrame);
-  topButton.position.set(VISOR_W / 2 + 0.02, 0.02, 0.14);
+  topButton.position.set(VISOR_W / 2 + 0.02, 0.02, 0.1);
   topButton.castShadow = shadows;
   visorGroup.add(topButton);
 

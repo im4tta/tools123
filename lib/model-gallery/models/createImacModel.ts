@@ -193,12 +193,26 @@ export function createImacModel(options: ImacOptions = {}): THREE.Group {
   glass.position.set(0, CHIN_H / 2 - 0.01, 0.026);
   displayGroup.add(glass);
 
-  /* ---- back shell (colour-matched aluminum, gently domed) ---- */
-  const backGeo = new THREE.SphereGeometry(2.2, 48, 32, 0, Math.PI * 2, 0, Math.PI * 0.5);
-  backGeo.scale(1.0, 0.62, SHELL_T / 2.2);
+  /* ---- back shell (thin, flat aluminum panel with rounded edges) ---- */
+  const backGeo = new THREE.BoxGeometry(SCREEN_W + 0.3, SCREEN_H + CHIN_H + 0.15, SHELL_T, 4, 4, 2);
+  const backPos = backGeo.attributes.position;
+  for (let i = 0; i < backPos.count; i++) {
+    const x = backPos.getX(i);
+    const y = backPos.getY(i);
+    const z = backPos.getZ(i);
+    const cx = Math.abs(x) / ((SCREEN_W + 0.3) / 2);
+    const cy = Math.abs(y) / ((SCREEN_H + CHIN_H + 0.15) / 2);
+    const dist = Math.sqrt(cx * cx + cy * cy);
+    if (dist > 0.5) {
+      const factor = Math.min(1, (dist - 0.5) * 2);
+      const round = factor * 0.02;
+      backPos.setZ(i, z + round * Math.sign(z || 0.001));
+    }
+  }
+  backGeo.computeVertexNormals();
   const back = new THREE.Mesh(backGeo, matShell);
   back.rotation.x = Math.PI / 2;
-  back.position.set(0, -CHIN_H / 2, -0.02);
+  back.position.set(0, -CHIN_H / 2 - 0.01, -SHELL_T / 2 - 0.01);
   back.castShadow = shadows;
   back.receiveShadow = shadows;
   displayGroup.add(back);

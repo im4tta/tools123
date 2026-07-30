@@ -28,7 +28,7 @@ const COL = {
 const CASE_W = 0.72;
 const CASE_H = 0.86;
 const CASE_R = 0.24;
-const CASE_T = 0.2;
+const CASE_T = 0.04;
 
 /* ---- texture helpers ---- */
 function makeCanvasTexture(w: number, h: number): { canvas: HTMLCanvasElement; ctx: CanvasRenderingContext2D; tex: THREE.CanvasTexture } {
@@ -164,14 +164,15 @@ export function createAppleWatchModel(options: AppleWatchOptions = {}): THREE.Gr
   const caseMesh = slab(CASE_W, CASE_H, CASE_T, CASE_R, matCase, 0.02, shadows);
   root.add(caseMesh);
 
-  /* ---- screen bezel + glass ---- */
-  const bezel = slab(CASE_W - 0.05, CASE_H - 0.05, 0.02, CASE_R - 0.02, matBezel, 0.004, shadows);
-  bezel.position.y = CASE_T - 0.01;
+  /* ---- screen bezel + curved glass ---- */
+  const bezel = slab(CASE_W - 0.05, CASE_H - 0.05, 0.015, CASE_R - 0.02, matBezel, 0.003, shadows);
+  bezel.position.y = CASE_T - 0.005;
   root.add(bezel);
 
-  const glass = new THREE.Mesh(new THREE.PlaneGeometry(CASE_W - 0.09, CASE_H - 0.09), matGlass);
-  glass.rotation.x = -Math.PI / 2;
-  glass.position.y = CASE_T + 0.006;
+  const glassGeo = new THREE.CylinderGeometry(CASE_W / 2 - 0.04, CASE_W / 2 - 0.04, CASE_H - 0.08, 64, 16, true);
+  const glass = new THREE.Mesh(glassGeo, matGlass);
+  glass.rotation.z = Math.PI / 2;
+  glass.position.set(0, CASE_T + 0.002, 0);
   root.add(glass);
 
   /* ---- watch face (redrawn each frame) ---- */
