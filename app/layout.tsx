@@ -6,6 +6,8 @@ import "./mobile.css";
 import { AppProviders } from "@/components/AppProviders";
 import { themeInitScript } from "@/components/ThemeProvider";
 import { ScrollToTopButton } from "@/components/ScrollToTopButton";
+import { ScrollToBottomButton } from "@/components/ScrollToBottomButton";
+import { BASE_URL } from "@/lib/site";
 
 const kantumruyPro = Kantumruy_Pro({
   subsets: ["khmer", "latin"],
@@ -25,9 +27,10 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
+  metadataBase: new URL(BASE_URL),
   title: "123 Toolbox — ប្រអប់ឧបករណ៍ ១២៣",
   description:
-    "400+ free browser-based tools for PDF, images, developers, designers, Khmer language, and everyday work. ឧបករណ៍អនឡាញឥតគិតថ្លៃជាង ៤០០ មុខ។",
+    "430+ free browser-based tools for PDF, images, developers, designers, Khmer language, and everyday work. ឧបករណ៍អនឡាញឥតគិតថ្លៃជាង ៤០០ មុខ។",
 };
 
 export default function RootLayout({
@@ -54,6 +57,9 @@ export default function RootLayout({
                   <Link href="/acknowledgement" className="transition hover:text-[var(--gold)]">
                     Acknowledgements
                   </Link>
+                  <Link href="/changelog" className="transition hover:text-[var(--gold)]">
+                    Changelog
+                  </Link>
                   <a
                     href="https://github.com/im4tta/tools123"
                     target="_blank"
@@ -66,6 +72,7 @@ export default function RootLayout({
               </div>
             </footer>
           </div>
+          <ScrollToBottomButton />
           <ScrollToTopButton />
         </AppProviders>
       </body>
