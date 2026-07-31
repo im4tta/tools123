@@ -4,12 +4,13 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { ArrowLeft, Search, ShieldCheck, Star } from "lucide-react";
+import { CollectionsPicker } from "@/components/CollectionsPicker";
 import { CommandPalette } from "@/components/CommandPalette";
 import { HeaderInfo } from "@/components/HeaderInfo";
 import { LanguageToggle } from "@/components/LanguageToggle";
 import { useLanguage } from "@/components/LanguageProvider";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import { STORAGE_KEYS, useLocalStorage } from "@/lib/storage";
+import { STORAGE_KEYS, useLocalStorage, type ToolCollection } from "@/lib/storage";
 import { TOOLS } from "@/lib/tools";
 import { toolHref } from "@/lib/toolRoutes";
 
@@ -18,6 +19,7 @@ export function ToolRouteClient({ toolId }: { toolId: string }) {
   const router = useRouter();
   const [paletteOpen, setPaletteOpen] = useState(false);
   const { value: favorites, setValue: setFavorites } = useLocalStorage<string[]>(STORAGE_KEYS.favorites, []);
+  const { value: collections, setValue: setCollections } = useLocalStorage<ToolCollection[]>(STORAGE_KEYS.collections, []);
   const { setValue: setRecents } = useLocalStorage<string[]>(STORAGE_KEYS.recents, []);
   const tool = TOOLS.find((item) => item.id === toolId);
 
@@ -66,6 +68,13 @@ export function ToolRouteClient({ toolId }: { toolId: string }) {
             >
               <Star size={14} fill={isFavorite ? "currentColor" : "none"} />
             </button>
+            <CollectionsPicker
+              toolId={tool.id}
+              favorites={favorites}
+              onToggleFavorite={(id) => setFavorites((items) => items.includes(id) ? items.filter((x) => x !== id) : [id, ...items])}
+              collections={collections}
+              setCollections={setCollections}
+            />
             <button
               type="button"
               onClick={() => setPaletteOpen(true)}

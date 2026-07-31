@@ -110,10 +110,10 @@ export function createDeskLampModel(options: DeskLampOptions = {}): THREE.Group 
   baseRing.position.y = 0.1;
   root.add(baseRing);
 
-  /* light pool on the desk, in front of the lamp */
+  /* light pool on the desk, in front of the lamp (just above the table plane) */
   const pool = decal(lightPoolTex(), 1.6, 1.6);
   pool.rotation.x = -Math.PI / 2;
-  pool.position.set(0.9, 0.11, 0);
+  pool.position.set(0.9, 0.002, 0);
   root.add(pool);
   const poolMat = pool.material as THREE.MeshBasicMaterial;
   poolMat.opacity = 0;
@@ -164,17 +164,17 @@ export function createDeskLampModel(options: DeskLampOptions = {}): THREE.Group 
   upperPivot.add(headPivot);
 
   const shade = new THREE.Mesh(new THREE.ConeGeometry(0.28, 0.4, 32, 1, true), matBody);
-  shade.rotation.x = Math.PI; // opening faces down
+  // default cone: apex up (toward the arm), wide opening down toward the desk
   shade.position.y = -0.2;
   shade.castShadow = shadows;
   headPivot.add(shade);
 
   const bulb = new THREE.Mesh(new THREE.SphereGeometry(0.09, 20, 16), matBulb);
-  bulb.position.y = -0.28;
+  bulb.position.y = -0.16;
   headPivot.add(bulb);
 
   const bulbLight = new THREE.PointLight(COL.bulbWarm, 0, 3.5, 2);
-  bulbLight.position.y = -0.28;
+  bulbLight.position.y = -0.16;
   bulbLight.castShadow = shadows;
   headPivot.add(bulbLight);
 
@@ -200,7 +200,8 @@ export function createDeskLampModel(options: DeskLampOptions = {}): THREE.Group 
 
     lowerPivot.rotation.z = -THREE.MathUtils.lerp(REST.lower, LEAN.lower, lean);
     upperPivot.rotation.z = -THREE.MathUtils.lerp(REST.upper, LEAN.upper, lean);
-    headPivot.rotation.z = -THREE.MathUtils.lerp(REST.head, LEAN.head, lean);
+    // positive Z-tilt swings the hanging shade forward, toward the light pool on the desk
+    headPivot.rotation.z = THREE.MathUtils.lerp(REST.head, LEAN.head, lean);
 
     const onT = smooth(t, 1.6, 2.2) * (1 - smooth(t, 6.2, 6.8));
     matBulb.emissiveIntensity = onT * 1.8;

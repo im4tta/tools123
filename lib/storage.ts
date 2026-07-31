@@ -93,8 +93,33 @@ export const STORAGE_KEYS = {
   viewpoint: "viewpoint",
   viewMode: "viewMode",
   language: "language",
+  collections: "collections",
   toolState: (id: string) => `tool:${id}`,
 } as const;
+
+/** A named user-created collection of tool IDs (favorites remain the built-in collection). */
+export interface ToolCollection {
+  id: string;
+  name: string;
+  toolIds: string[];
+}
+
+export function createCollectionId() {
+  if (typeof crypto !== "undefined" && "randomUUID" in crypto) return crypto.randomUUID();
+  return `coll-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+}
+
+/** Add a tool to a collection (no-op if already present). */
+export function addToolToCollection(collection: ToolCollection, toolId: string): ToolCollection {
+  if (collection.toolIds.includes(toolId)) return collection;
+  return { ...collection, toolIds: [...collection.toolIds, toolId] };
+}
+
+/** Remove a tool from a collection. */
+export function removeToolFromCollection(collection: ToolCollection, toolId: string): ToolCollection {
+  if (!collection.toolIds.includes(toolId)) return collection;
+  return { ...collection, toolIds: collection.toolIds.filter((id) => id !== toolId) };
+}
 
 /**
  * Per-tool persisted state. Each tool keeps a single state object under its

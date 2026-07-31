@@ -102,7 +102,8 @@ export function createCambodiaFuelTrackerBadgeModel(
 ): THREE.Group {
   const shadows = options.shadows ?? true;
   const root = new THREE.Group();
-  root.position.y = 0.1;
+  root.position.y = 0;
+  root.scale.setScalar(0.5);
 
   /* ---- materials ---- */
   const matRim = new THREE.MeshPhysicalMaterial({
@@ -164,6 +165,10 @@ export function createCambodiaFuelTrackerBadgeModel(
 
   /* ---- badge body ---- */
   const badgeGroup = new THREE.Group();
+  // Stand the coin upright on its edge, face toward the camera, so it clearly
+  // sits ON the desk instead of lying flat against it. Bottom edge = table.
+  badgeGroup.rotation.x = Math.PI / 2;
+  badgeGroup.position.y = BADGE_RADIUS;
   root.add(badgeGroup);
 
   // Back face

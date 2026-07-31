@@ -205,15 +205,15 @@ background: m.makeVolcanoBackground,
         })),
     },
     {
-      id: "apple-vision-pro",
-      title: "Apple Vision Pro",
+      id: "smartphone",
+      title: "Smartphone",
       description:
-        "Apple Vision Pro with curved 3D laminated-glass front wrapped in a light aluminum-alloy frame, dark foam Light Seal, Dual Loop Band, knurled Digital Crown + top button, and a separate battery pack tethered by a braided cable. Looping ~9s animation: slow turntable sway, EyeSight glass brightens on approach and fades to mirror, Digital Crown idles, battery pack bobs.",
+        "Generic modern flagship smartphone — extruded squircle aluminum frame, glass back with a raised triple-camera module, lock-screen display, side buttons and a USB-C bottom deck. Looping ~7s animation: the phone rests face-up, lifts and tilts as if picked up while the screen wakes from black to the lock screen, holds at a hero angle, then lowers and sleeps again.",
       load: () =>
-        import("./models/createAppleVisionProModel").then((m) => ({
-          createModel: (opts) => m.createAppleVisionProModel(opts),
-          createLights: m.createAppleVisionProLookDevLights,
-          background: m.makeAppleVisionProBackground,
+        import("./models/smartphone").then((m) => ({
+          createModel: (opts) => m.createSmartphoneModel(opts),
+          createLights: m.createSmartphoneLookDevLights,
+          background: m.makeSmartphoneBackground,
         })),
     },
     {

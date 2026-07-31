@@ -126,7 +126,9 @@ function roundedRectShape(w: number, h: number, r: number): THREE.Shape {
   return s;
 }
 
-function slab(
+/** Vertical slab: the rounded-rect is extruded along +Z (toward the viewer) so the
+ * panel stands upright with width along X, height along Y, and depth along Z. */
+function vslab(
   w: number,
   h: number,
   depth: number,
@@ -143,8 +145,7 @@ function slab(
     bevelSegments: 4,
     curveSegments: 32,
   });
-  geo.rotateX(-Math.PI / 2);
-  geo.translate(0, bevel, 0);
+  geo.translate(0, 0, -depth / 2);
   const m = new THREE.Mesh(geo, mat);
   m.castShadow = shadows;
   m.receiveShadow = shadows;
@@ -184,37 +185,17 @@ export function createImacModel(options: ImacOptions = {}): THREE.Group {
   const displayGroup = new THREE.Group();
   root.add(displayGroup);
 
-  /* ---- front bezel + glass ---- */
-  const bezelMesh = slab(SCREEN_W, SCREEN_H + CHIN_H, 0.05, 0.14, matBezel, 0.01, shadows);
-  bezelMesh.position.y = -CHIN_H / 2;
+  /* ---- front bezel + glass (vertical screen facing the camera) ---- */
+  const bezelMesh = vslab(SCREEN_W, SCREEN_H + CHIN_H, 0.05, 0.14, matBezel, 0.01, shadows);
   displayGroup.add(bezelMesh);
 
   const glass = new THREE.Mesh(new THREE.PlaneGeometry(SCREEN_W - BEZEL * 2, SCREEN_H - BEZEL * 2), matScreenGlass);
-  glass.position.set(0, CHIN_H / 2 - 0.01, 0.026);
+  glass.position.set(0, 0, 0.028);
   displayGroup.add(glass);
 
-  /* ---- back shell (thin, flat aluminum panel with rounded edges) ---- */
-  const backGeo = new THREE.BoxGeometry(SCREEN_W + 0.3, SCREEN_H + CHIN_H + 0.15, SHELL_T, 4, 4, 2);
-  const backPos = backGeo.attributes.position;
-  for (let i = 0; i < backPos.count; i++) {
-    const x = backPos.getX(i);
-    const y = backPos.getY(i);
-    const z = backPos.getZ(i);
-    const cx = Math.abs(x) / ((SCREEN_W + 0.3) / 2);
-    const cy = Math.abs(y) / ((SCREEN_H + CHIN_H + 0.15) / 2);
-    const dist = Math.sqrt(cx * cx + cy * cy);
-    if (dist > 0.5) {
-      const factor = Math.min(1, (dist - 0.5) * 2);
-      const round = factor * 0.02;
-      backPos.setZ(i, z + round * Math.sign(z || 0.001));
-    }
-  }
-  backGeo.computeVertexNormals();
-  const back = new THREE.Mesh(backGeo, matShell);
-  back.rotation.x = Math.PI / 2;
-  back.position.set(0, -CHIN_H / 2 - 0.01, -SHELL_T / 2 - 0.01);
-  back.castShadow = shadows;
-  back.receiveShadow = shadows;
+  /* ---- back shell (thin, flat aluminum panel behind the glass) ---- */
+  const back = vslab(SCREEN_W + 0.3, SCREEN_H + CHIN_H + 0.15, SHELL_T, 0.22, matShell, 0.02, shadows);
+  back.position.z = -0.14;
   displayGroup.add(back);
 
   /* ---- desktop wallpaper + dock, on the glass (redrawn in place each frame) ---- */
@@ -222,14 +203,14 @@ export function createImacModel(options: ImacOptions = {}): THREE.Group {
   drawWallpaper(wallSurface.ctx, 1024, 640, 0);
   wallSurface.tex.needsUpdate = true;
   const wallpaper = decal(wallSurface.tex, SCREEN_W - BEZEL * 2.6, SCREEN_H - BEZEL * 2.6);
-  wallpaper.position.set(0, CHIN_H / 2, 0.028);
+  wallpaper.position.set(0, 0, 0.03);
   displayGroup.add(wallpaper);
 
   const dockSurface = makeCanvasTexture(1024, 160);
   drawDock(dockSurface.ctx, 1024, 160, -1, 0);
   dockSurface.tex.needsUpdate = true;
   const dock = decal(dockSurface.tex, 1.6, 0.24, 0.95);
-  dock.position.set(0, CHIN_H / 2 - SCREEN_H / 2 + 0.32, 0.029);
+  dock.position.set(0, -SCREEN_H / 2 + 0.32, 0.031);
   displayGroup.add(dock);
 
   /* ---- specular sweep on the glass ---- */
@@ -242,24 +223,28 @@ export function createImacModel(options: ImacOptions = {}): THREE.Group {
     ctx.fillRect(0, 0, w, h);
   }, 256, 512);
   const sweep = decal(sweepTex, 0.9, SCREEN_H - BEZEL * 2, 0.5);
-  sweep.position.set(0, CHIN_H / 2, 0.03);
+  sweep.position.set(0, 0, 0.032);
   displayGroup.add(sweep);
 
-  /* ---- foot arm + round base ---- */
+  /* ---- foot arm + round base (world frame: root sits at y=0, scaled by 0.6) ----
+   * Layout (before the 0.6 scale): base 0..0.03, arm 0.03..0.33, screen bottom 0.33,
+   * so the base rests exactly on the table and the arm reaches the chin. */
   const arm = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.09, 0.5, 24), matChrome);
   arm.rotation.z = 0.06;
-  arm.position.set(0, -SCREEN_H / 2 - CHIN_H / 2 - 0.18, -0.15);
+  arm.position.set(0, 0.3, -0.12);
   arm.castShadow = shadows;
   root.add(arm);
 
   const base = new THREE.Mesh(new THREE.CylinderGeometry(0.62, 0.65, 0.05, 48), matBase);
-  base.position.set(0, -SCREEN_H / 2 - CHIN_H / 2 - 0.42, -0.05);
+  base.position.set(0, 0.025, -0.05);
   base.castShadow = shadows;
   base.receiveShadow = shadows;
   root.add(base);
 
-  displayGroup.position.y = -SCREEN_H / 2 - CHIN_H / 2 - 0.4 + 1.0;
-  root.position.y = 0.4;
+  // Screen bottom (world) = 0.6 * (1.73 - 1.18) = 0.33, exactly on the arm top.
+  displayGroup.position.y = 1.73;
+  root.position.y = 0;
+  root.scale.setScalar(0.6);
   root.rotation.x = -0.02;
 
   /* ---- animation ---- */

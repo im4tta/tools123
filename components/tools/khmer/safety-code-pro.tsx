@@ -633,11 +633,11 @@ export default function SafetyCodeProTool() {
   return (
     <ToolShell
       title="SafetyCodePro Cambodia"
-      khmerTitle="ប្រព័ន្ធសុវត្ថិភាពកម្ពុជា"
+      khmerTitle="ស្តង់ដារសុវត្ថិភាពសំណង់"
       description="Construction Safety Standards Identifier"
       descriptionKm="ស្តង់ដារសុវត្ថិភាពសំណង់"
     >
-      <div className="mx-auto max-w-4xl">
+      <div>
         <div className="mb-8 flex w-full snap-x gap-2 overflow-x-auto rounded-2xl border border-[var(--ground-line)] bg-[var(--ground-raised)] p-1.5 no-scrollbar">
           {[
             { id: "hardhats" as TabType, label: t.hardhats, icon: HardHat },
@@ -671,13 +671,13 @@ export default function SafetyCodeProTool() {
           {activeTab === "sources" && renderSources()}
         </div>
 
-        <div className="mx-auto mt-12 max-w-2xl text-center text-sm text-[var(--ink-faint)]">
-          <p className="flex items-center justify-center gap-1">
-            <Info size={14} />
-            Standards shown represent common practices and current regulatory frameworks in Cambodia.
-          </p>
-        </div>
+      <div className="mx-auto mt-12 max-w-2xl text-center text-sm text-[var(--ink-faint)]">
+        <p className="flex items-center justify-center gap-1">
+          <Info size={14} />
+          Standards shown represent common practices and current regulatory frameworks in Cambodia.
+        </p>
       </div>
-    </ToolShell>
+    </div>
+  </ToolShell>
   );
 }

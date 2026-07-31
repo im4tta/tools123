@@ -21,6 +21,7 @@ const DESIGN: Entry[] = [
   ["Given one dimension, find the complementary side that keeps a golden ratio (≈1.618:1) proportion — handy for layouts, crops, and grids.", "ដោយដឹងទំហំមួយជ្រុង ឧបករណ៍រកជ្រុងមួយទៀតដែលរក្សាសមាមាត្រមាស (≈១.៦១៨:១) — មានប្រយោជន៍សម្រាប់ប្លង់ ការកាត់រូប និងក្រឡាចត្រង្គ។"],
   ["Compose a 1200×630 Open Graph image for link previews on X, LinkedIn, Slack, and iMessage — live preview, rendered locally, exported as PNG.", "បង្កើតរូបភាព Open Graph ទំហំ ១២០០×៦៣០ សម្រាប់បង្ហាញតំណនៅលើ X, LinkedIn, Slack និង iMessage — មើលឃើញផ្ទាល់ បង្កើតក្នុងកម្មវិធីរុករក និងនាំចេញជា PNG។"],
   ["Generate a geometric spacing scale for consistent margins and padding.", "បង្កើតមាត្រដ្ឋានគម្លាតបែបធរណីមាត្រ ដើម្បីឱ្យរឹម និងចន្លោះខាងក្នុងមានលក្ខណៈស៊ីសង្វាក់គ្នា។"],
+  ["Forge a complete favicon pack — browser icons, Apple touch icon, Android/PWA icons, maskable variants, an adaptive favicon.svg, a Windows tile, a 1200×630 Open Graph card, and the manifest — from a logo or initials, all in your browser.", "បង្កើតឈុត favicon ពេញលេញ — រូបតំណាងកម្មវិធីរុករក រូបតំណាង Apple រូបតំណាង Android/PWA បំរែបំរួល maskable favicon.svg ដែលប្រែប្រួលតាមពន្លឺងងឹត Windows tile កាត Open Graph ១២០០×៦៣០ និង manifest — ពីរូបសញ្ញា ឬអក្សរកាត់ ដំណើរការទាំងស្រុងក្នុងកម្មវិធីរុករករបស់អ្នក។"],
   ["Paste an Android VectorDrawable XML resource and convert it to a plain SVG — handles nested <group> transforms (translate/rotate/scale) and multiple <path> elements. Runs entirely in your browser.", "បិទភ្ជាប់កូដ XML របស់ VectorDrawable លើ Android ហើយបម្លែងទៅជា SVG ធម្មតា — គាំទ្រការបំប្លែង <group> ជាន់គ្នា (ផ្លាស់ទី/បង្វិល/ពង្រីក) និង <path> ច្រើន។ ដំណើរការទាំងស្រុងក្នុងកម្មវិធីរុករក។"],
 ];
 
@@ -171,6 +172,7 @@ const SECURITY: Entry[] = [
   ["Shift letters by a fixed amount. ROT13 is shift 13; try any shift for a general Caesar cipher.", "រំកិលអក្សរតាមចំនួនកំណត់។ ROT13 គឺរំកិល ១៣ តួ ហើយអ្នកអាចប្រើចំនួនរំកិលណាមួយសម្រាប់ស៊ីហ្វ័រ Caesar ទូទៅ។"],
   ["Deterministic SHA-1-based UUID from a namespace and name — same inputs always give the same UUID.", "UUID ដែលបង្កើតតាម SHA-1 ពី namespace និងឈ្មោះ — ការបញ្ចូលដូចគ្នាផ្តល់ UUID ដូចគ្នាជានិច្ច។"],
   ["Classic polyalphabetic cipher using a repeating keyword.", "ស៊ីហ្វ័របុរាណបែបពហុអក្ខរក្រម ដែលប្រើពាក្យគន្លឹះដដែលៗ។"],
+  ["Interactive guide comparing 13 authentication and identity mechanisms — passkeys, biometrics, Meta/Google AI selfie liveness, API keys, JWT, OAuth 2.0, OIDC, SAML, HMAC, and mTLS — with a trust-boundary map, live request inspector, comparison matrix, and architecture decision wizard.", "មគ្គុទ្ទេសក៍អន្តរកម្មប្រៀបធៀបយន្តការផ្ទៀងផ្ទាត់អត្តសញ្ញាណ និងសន្តិសុខទាំង ១៣ — passkeys, ជីវមាត្រ, Meta/Google AI selfie liveness, API keys, JWT, OAuth 2.0, OIDC, SAML, HMAC និង mTLS — ជាមួយផែនទីដែនកំណត់ទំនុកចិត្ត កម្មវិធីពិនិត្យកូដ Request តារាងប្រៀបធៀប និងឧបករណ៍ជួយសម្រេចចិត្តស្ថាបត្យកម្មប្រព័ន្ធ។"],
 ];
 
 const TEXT: Entry[] = [

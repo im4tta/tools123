@@ -16,7 +16,8 @@ export type Category =
   | "office"
   | "images"
   | "audio"
-  | "video";
+  | "video"
+  | "meta";
 
 export interface ToolDef {
   id: string;
@@ -44,6 +45,7 @@ export const CATEGORY_ORDER: Category[] = [
   "security",
   "audio",
   "video",
+  "meta",
 ];
 
 export const CATEGORY_META: Record<Category, { label: string; khmer: string; color: string }> = {
@@ -62,6 +64,7 @@ export const CATEGORY_META: Record<Category, { label: string; khmer: string; col
   images: { label: "Images", khmer: "រូបភាព", color: "#7ec9c0" },
   audio: { label: "Audio", khmer: "សំឡេង", color: "#c97ec0" },
   video: { label: "Video", khmer: "វីដេអូ", color: "#9a7ec9" },
+  meta: { label: "Meta", khmer: "មេតា", color: "#7ea0a9" },
 };
 
 function load(category: Category, file: string) {
@@ -150,6 +153,7 @@ export const TOOLS: ToolDef[] = [
   { id: "jwt-decoder", title: "JWT Decoder", category: "dev", keywords: ["jwt", "token", "auth"], Component: load("dev", "jwt-decoder") },
   { id: "regex-tester", title: "Regex Tester", category: "dev", keywords: ["regex", "regexp", "pattern"], Component: load("dev", "regex-tester") },
   { id: "markdown-preview", title: "Markdown Previewer", category: "dev", keywords: ["markdown", "md", "preview"], Component: load("dev", "markdown-preview") },
+  { id: "tsx-portal", title: "TSX Portal", addedOn: "2026-07-31", category: "dev", keywords: ["tsx", "jsx", "playground", "sandbox", "live preview", "babel", "repl", "react", "markdown", "bbcode"], Component: load("dev", "tsx-portal") },
   { id: "diff-checker", title: "Text Diff Checker", category: "dev", keywords: ["diff", "compare", "changes"], Component: load("dev", "diff-checker") },
   { id: "word-counter", title: "Word & Character Counter", category: "dev", keywords: ["word count", "character count"], Component: load("dev", "word-counter") },
   { id: "lorem-ipsum", title: "Placeholder Text Generator", category: "dev", keywords: ["lorem ipsum", "filler", "placeholder"], Component: load("dev", "lorem-ipsum") },
@@ -196,10 +200,11 @@ export const TOOLS: ToolDef[] = [
   { id: "dev-project-directory", title: "Cambodia Open-Source Project Directory", category: "khmer", keywords: ["github", "cambodia", "open source", "scraper", "payway", "civic data"], Component: load("khmer", "dev-project-directory") },
   { id: "provinces-reference", title: "Cambodia Provinces Reference", category: "khmer", keywords: ["province", "khet", "capital", "address", "dropdown", "administrative"], Component: load("khmer", "provinces-reference") },
   { id: "construction-water-glossary", title: "Construction & Water Resources Glossary", category: "khmer", keywords: ["mowram", "boq", "canal", "irrigation", "contract", "esmp", "construction"], Component: load("khmer", "construction-water-glossary") },
-  { id: "safety-code-pro", title: "SafetyCodePro Cambodia", khmerTitle: "ប្រព័ន្ធសុវត្ថិភាពកម្ពុជា", addedOn: "2026-07-31", category: "khmer", keywords: ["safety", "ppe", "hard hat", "high-vis vest", "construction", "osha", "prakas", "សុវត្ថិភាព", "មួក", "អាវចំណាំងផ្លាត"], Component: load("khmer", "safety-code-pro") },
+  { id: "safety-code-pro", title: "SafetyCodePro Cambodia", khmerTitle: "ស្តង់ដារសុវត្ថិភាពសំណង់", addedOn: "2026-07-31", category: "khmer", keywords: ["safety", "ppe", "hard hat", "high-vis vest", "construction", "osha", "prakas", "សុវត្ថិភាព", "មួក", "អាវចំណាំងផ្លាត"], Component: load("khmer", "safety-code-pro") },
   { id: "collation-sorter", title: "Khmer Collation Sorter", category: "khmer", keywords: ["sort", "alphabetical", "collator", "intl"], Component: load("khmer", "collation-sorter") },
   { id: "khmer-slug-generator", title: "Khmer → URL Slug Generator", category: "khmer", keywords: ["slug", "url", "next.js", "route", "transliterate"], Component: load("khmer", "slug-generator") },
   { id: "pronoun-register", title: "Khmer Pronoun & Register Reference", category: "khmer", keywords: ["pronoun", "register", "politeness", "សព្វនាម", "translation"], Component: load("khmer", "pronoun-register") },
+  { id: "loanword-explorer", title: "Khmer Loanword Explorer", addedOn: "2026-07-31", category: "khmer", keywords: ["loanword", "etymology", "sanskrit", "pali", "french", "portuguese", "chinese", "thai", "language history", "linguistics", "កម្ចី", "និរុត្តិសាស្ត្រ"], Component: load("khmer", "loanword-explorer") },
   { id: "administrative-letter-builder", title: "Khmer Administrative Letter Builder", khmerTitle: "កម្មវិធីបង្កើតលិខិតរដ្ឋបាលខ្មែរ", addedOn: "2026-07-29", category: "khmer", keywords: ["administrative letter", "official letter", "100 templates", "solar date", "lunar date", "province", "microsoft word", "docx", "a4", "khmerscribe", "លិខិតរដ្ឋបាល", "លិខិតស្នើសុំ", "លិខិតអញ្ជើញ"], Component: load("khmer", "administrative-letter-builder") },
   { id: "honorific-guide", title: "Khmer Official Honorific Guide", khmerTitle: "មគ្គុទ្ទេសក៍គោរមងារផ្លូវការខ្មែរ", addedOn: "2026-07-29", category: "khmer", keywords: ["honorific", "protocol", "salutation", "title", "khmerscribe", "គោរមងារ", "ពិធីការ", "ពាក្យគោរព"], Component: load("khmer", "honorific-guide") },
   { id: "css-wrap-fix", title: "Khmer Line-Wrap CSS Fix", category: "khmer", keywords: ["css", "word-break", "overflow-wrap", "zwsp", "line wrap"], Component: load("khmer", "css-wrap-fix") },
@@ -314,6 +319,7 @@ export const TOOLS: ToolDef[] = [
   { id: "random-bytes", title: "Random Bytes / Key Generator", category: "security", keywords: ["random bytes", "key", "token"], Component: load("security", "random-bytes") },
   { id: "passphrase-generator", title: "Passphrase Generator", category: "security", keywords: ["passphrase", "diceware", "words"], Component: load("security", "passphrase-generator") },
   { id: "card-masker", title: "Credit Card Number Masker", category: "security", keywords: ["credit card", "mask", "pci"], Component: load("security", "card-masker") },
+  { id: "auth-architecture-lab", title: "Auth Architecture Lab", addedOn: "2026-07-31", category: "security", keywords: ["auth", "authentication", "authorization", "passkeys", "webauthn", "biometric", "selfie", "liveness", "ekyc", "jwt", "oauth", "oidc", "saml", "hmac", "mtls", "api key", "bearer token", "session cookie", "trust boundary", "security architecture", "khmerscribe"], Component: load("security", "auth-architecture-lab") },
 
   // ---- Design (20) ----
   { id: "frame-studio", title: "Frame Studio", khmerTitle: "ស្ទូឌីយោស៊ុម", addedOn: "2026-07-30", category: "design", keywords: ["frame studio", "mockup", "device", "iphone mockup", "macbook mockup", "app store screenshot", "hardware", "presentation", "ស្ទូឌីយោស៊ុម"], Component: load("design", "frame-studio") },
@@ -322,6 +328,7 @@ export const TOOLS: ToolDef[] = [
   { id: "chart-maker", title: "Chart Maker", khmerTitle: "កម្មវិធីបង្កើតក្រាហ្វ", addedOn: "2026-07-29", category: "design", keywords: ["chart", "bar", "line", "graph", "svg", "ក្រាហ្វ"], Component: load("design", "chart-maker") },
   { id: "diagram-editor", title: "Diagram & Structure Editor", khmerTitle: "កម្មវិធីកែសម្រួលដ្យាក្រាម និងរចនាសម្ព័ន្ធ", addedOn: "2026-07-29", category: "design", keywords: ["diagram", "nodes", "flow", "svg", "mind map", "organization chart", "org chart", "wbs", "work breakdown structure", "hierarchy", "ដ្យាក្រាម", "ផែនទីគំនិត", "តារាងអង្គការ", "រចនាសម្ព័ន្ធការងារ"], Component: load("design", "structured-diagram-editor") },
   { id: "favicon-generator", title: "Favicon Generator", category: "design", keywords: ["favicon", "icon", "apple touch icon", "pwa"], Component: load("design", "favicon-generator") },
+  { id: "iconsmith", title: "Iconsmith", addedOn: "2026-07-31", category: "design", keywords: ["favicon", "pwa", "og image", "open graph", "icon pack", "maskable", "apple touch icon", "adaptive favicon", "iconsmith"], Component: load("design", "iconsmith") },
   { id: "og-image-generator", title: "Social Preview (OG) Image Generator", category: "design", keywords: ["og image", "open graph", "social preview", "twitter card"], Component: load("design", "og-image-generator") },
   { id: "color-palette-generator", title: "Color Palette Generator", category: "design", keywords: ["palette", "color scheme"], Component: load("design", "color-palette-generator") },
   { id: "contrast-checker", title: "WCAG Contrast Checker", category: "design", keywords: ["contrast", "accessibility", "wcag"], Component: load("design", "contrast-checker") },
@@ -365,11 +372,12 @@ export const TOOLS: ToolDef[] = [
   { id: "images-to-pdf", title: "Images → PDF", category: "office", keywords: ["image", "jpg", "png", "pdf", "convert"], Component: load("office", "images-to-pdf") },
   { id: "pdf-to-images", title: "PDF → Images", category: "office", keywords: ["pdf", "png", "jpg", "export", "render"], Component: load("office", "pdf-to-images") },
 
-  // ---- Office (18) ----
+  // ---- Office (19) ----
   { id: "rfa-generator", title: "Request for Approval (RFA)", khmerTitle: "សំណើសុំការអនុម័ត (RFA)", addedOn: "2026-07-29", category: "office", keywords: ["rfa", "request for approval", "construction", "submittal", "contractor"], Component: load("office", "rfa-generator") },
   { id: "business-calculators", title: "Business Calculators", khmerTitle: "ម៉ាស៊ីនគណនាអាជីវកម្ម", addedOn: "2026-07-29", category: "office", keywords: ["loan", "amortization", "vat", "discount", "date add", "salary tax", "nssf", "ប្រាក់កម្ចី", "ពន្ធ", "បសស"], Component: load("office", "business-calculators") },
   { id: "bid-timeline-calculator", title: "Bid Timeline Calculator", khmerTitle: "ម៉ាស៊ីនគណនាកាលវិភាគដេញថ្លៃ", addedOn: "2026-07-31", category: "office", keywords: ["bid", "tender", "ifb", "pre-bid", "submission deadline", "bid validity", "bid security"], Component: load("office", "bid-timeline-calculator") },
   { id: "retention-ld-tracker", title: "Retention & Liquidated Damages Tracker", khmerTitle: "តាមដានប្រាក់តម្កល់ទុក និងសំណងការយឺតយ៉ាវ", addedOn: "2026-07-31", category: "office", keywords: ["retention", "liquidated damages", "ld", "delay", "withholding", "dlp", "construction"], Component: load("office", "retention-ld-tracker") },
+  { id: "edc-electricity-calculator", title: "EDC Electricity Calculator", khmerTitle: "គណនាថ្លៃអគ្គិសនី EDC កម្ពុជា", addedOn: "2026-07-31", category: "office", keywords: ["edc", "electricity", "electric bill", "kwh", "tariff", "tier", "utility", "cambodia", "khr", "riel", "អគ្គិសនី", "វិក្កយបត្រ", "ថ្លៃភ្លើង"], Component: load("office", "edc-electricity-calculator") },
   { id: "staff-directory", title: "Staff Directory", khmerTitle: "បញ្ជីបុគ្គលិក", addedOn: "2026-07-29", category: "office", keywords: ["staff", "employee", "directory", "department", "csv", "បុគ្គលិក"], Component: load("office", "staff-directory") },
   { id: "qr-decoder", title: "QR Code Decoder", category: "office", keywords: ["qr code", "scan", "decode"], Component: load("office", "qr-decoder") },
   { id: "qr-generator", title: "QR Code Generator", category: "office", keywords: ["qr", "code", "barcode"], Component: load("office", "qr-generator") },
@@ -407,6 +415,9 @@ export const TOOLS: ToolDef[] = [
   { id: "video-trimmer", title: "Video Trimmer", category: "video", keywords: ["trim", "cut", "clip", "webm"], Component: load("video", "video-trimmer") },
   { id: "video-to-gif", title: "Video → GIF", category: "video", keywords: ["gif", "animated", "clip", "convert"], Component: load("video", "video-to-gif") },
   { id: "video-inspector", title: "Video File Inspector", category: "video", keywords: ["resolution", "duration", "aspect ratio"], Component: load("video", "video-inspector") },
+
+  // ---- Meta (1) ----
+  { id: "data-residency-map", title: "Data Residency Map", addedOn: "2026-07-31", category: "meta", keywords: ["data residency", "network audit", "local", "privacy", "offline"], Component: load("meta", "data-residency-map") },
 
   // ---- Data-driven unit-pair converters (generated, Batch 1) ----
   ...UNIT_PAIR_TOOLS,

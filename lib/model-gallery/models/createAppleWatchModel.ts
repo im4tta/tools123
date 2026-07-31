@@ -164,15 +164,15 @@ export function createAppleWatchModel(options: AppleWatchOptions = {}): THREE.Gr
   const caseMesh = slab(CASE_W, CASE_H, CASE_T, CASE_R, matCase, 0.02, shadows);
   root.add(caseMesh);
 
-  /* ---- screen bezel + curved glass ---- */
-  const bezel = slab(CASE_W - 0.05, CASE_H - 0.05, 0.015, CASE_R - 0.02, matBezel, 0.003, shadows);
-  bezel.position.y = CASE_T - 0.005;
+  /* ---- screen bezel + curved glass (rounded-square slabs stacked on the case top) ----
+   * The case spans y 0..CASE_T; the bezel sits on its top and the glass on the bezel,
+   * both following the rounded-square silhouette instead of a cylinder barrel. */
+  const bezel = slab(CASE_W - 0.05, CASE_H - 0.05, 0.008, CASE_R - 0.03, matBezel, 0.004, shadows);
+  bezel.position.y = CASE_T;
   root.add(bezel);
 
-  const glassGeo = new THREE.CylinderGeometry(CASE_W / 2 - 0.04, CASE_W / 2 - 0.04, CASE_H - 0.08, 64, 16, true);
-  const glass = new THREE.Mesh(glassGeo, matGlass);
-  glass.rotation.z = Math.PI / 2;
-  glass.position.set(0, CASE_T + 0.002, 0);
+  const glass = slab(CASE_W - 0.1, CASE_H - 0.1, 0.004, CASE_R - 0.06, matGlass, 0.003, shadows);
+  glass.position.y = CASE_T + 0.016;
   root.add(glass);
 
   /* ---- watch face (redrawn each frame) ---- */
@@ -182,7 +182,7 @@ export function createAppleWatchModel(options: AppleWatchOptions = {}): THREE.Gr
   const faceMat = new THREE.MeshBasicMaterial({ map: faceSurface.tex, transparent: true });
   const face = new THREE.Mesh(new THREE.PlaneGeometry(CASE_W - 0.1, CASE_H - 0.1), faceMat);
   face.rotation.x = -Math.PI / 2;
-  face.position.y = CASE_T + 0.008;
+  face.position.y = CASE_T + 0.027;
   root.add(face);
   const faceGlow = new THREE.PointLight(0xffffff, 0.5, 1);
   faceGlow.position.y = CASE_T + 0.1;
@@ -196,40 +196,37 @@ export function createAppleWatchModel(options: AppleWatchOptions = {}): THREE.Gr
   root.add(crown);
 
   const sideButton = new THREE.Mesh(new THREE.BoxGeometry(0.03, 0.14, 0.05), matCase);
-  sideButton.position.set(CASE_W / 2 + 0.014, -0.12, 0);
+  sideButton.position.set(CASE_W / 2 + 0.014, 0, 0);
   root.add(sideButton);
 
-  /* ---- lugs ---- */
+  /* ---- lugs, at the top and bottom of the case along its length (Z), not its thickness ---- */
   function lug(sign: number): THREE.Mesh {
-    const geo = roundedRectShape(0.3, 0.14, 0.05);
-    const m = slab(0.3, 0.14, 0.06, 0.05, matCase, 0.008, shadows);
-    void geo;
-    m.position.set(0, sign * (CASE_H / 2 + 0.06), 0);
-    m.rotation.z = Math.PI / 2;
+    const m = slab(0.32, 0.14, 0.06, 0.05, matCase, 0.008, shadows);
+    m.position.set(0, -0.01, sign * (CASE_H / 2 + 0.06));
     return m;
   }
   root.add(lug(1));
   root.add(lug(-1));
 
-  /* ---- sport band, curving away top and bottom ---- */
+  /* ---- sport band, curving away from the top and bottom lugs along Z ---- */
   const topBand = tubeAlong(
     [
-      new THREE.Vector3(0, CASE_H / 2 + 0.1, 0.02),
-      new THREE.Vector3(0.05, CASE_H / 2 + 0.7, -0.15),
-      new THREE.Vector3(0.02, CASE_H / 2 + 1.3, -0.5),
+      new THREE.Vector3(0, CASE_T / 2 + 0.01, CASE_H / 2 + 0.14),
+      new THREE.Vector3(0.04, CASE_T / 2 + 0.01, CASE_H / 2 + 0.7),
+      new THREE.Vector3(0, CASE_T / 2 + 0.02, CASE_H / 2 + 1.3),
     ],
-    0.28,
+    0.1,
     matBand,
     shadows,
   );
   root.add(topBand);
   const bottomBand = tubeAlong(
     [
-      new THREE.Vector3(0, -CASE_H / 2 - 0.1, 0.02),
-      new THREE.Vector3(-0.05, -CASE_H / 2 - 0.7, -0.15),
-      new THREE.Vector3(-0.02, -CASE_H / 2 - 1.3, -0.5),
+      new THREE.Vector3(0, CASE_T / 2 + 0.01, -(CASE_H / 2 + 0.14)),
+      new THREE.Vector3(-0.04, CASE_T / 2 + 0.01, -(CASE_H / 2 + 0.7)),
+      new THREE.Vector3(0, CASE_T / 2 + 0.02, -(CASE_H / 2 + 1.3)),
     ],
-    0.28,
+    0.1,
     matBand,
     shadows,
   );
