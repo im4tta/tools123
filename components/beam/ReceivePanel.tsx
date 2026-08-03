@@ -53,6 +53,9 @@ export function ReceivePanel({ lang }: { lang: BeamLang }) {
       streamRef.current = stream;
       if (videoRef.current) {
         videoRef.current.srcObject = stream;
+        videoRef.current.setAttribute('playsinline', '');
+        videoRef.current.setAttribute('autoplay', '');
+        videoRef.current.muted = true;
         await videoRef.current.play();
       }
     } catch {
@@ -206,7 +209,7 @@ export function ReceivePanel({ lang }: { lang: BeamLang }) {
 
           <div className="aspect-square w-full overflow-hidden rounded-lg border border-neutral-700 bg-black">
             {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
-            <video ref={videoRef} playsInline muted className="h-full w-full object-contain" />
+            <video ref={videoRef} autoPlay playsInline muted className="h-full w-full object-cover" />
             <canvas ref={hiddenCanvasRef} style={{ display: 'none' }} />
           </div>
 
