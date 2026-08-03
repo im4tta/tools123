@@ -12,13 +12,16 @@ export const metadata: Metadata = {
 };
 
 function formatDate(date: string) {
-  return new Intl.DateTimeFormat("en", { dateStyle: "long", timeZone: "UTC" }).format(new Date(`${date}T00:00:00.000Z`));
+  const d = date.includes("T") ? new Date(date) : new Date(`${date}T00:00:00.000Z`);
+  return new Intl.DateTimeFormat("en", { dateStyle: "long", timeZone: "UTC" }).format(d);
 }
 
 const toolsByDate = new Map<string, ToolDef[]>();
 for (const tool of TOOLS) {
   if (!tool.addedOn) continue;
-  toolsByDate.set(tool.addedOn, [...(toolsByDate.get(tool.addedOn) ?? []), tool]);
+  // Group by date only, regardless of timestamp precision
+  const dateKey = tool.addedOn.slice(0, 10);
+  toolsByDate.set(dateKey, [...(toolsByDate.get(dateKey) ?? []), tool]);
 }
 const changelogGroups = [...toolsByDate.entries()].sort(([a], [b]) => b.localeCompare(a));
 

@@ -9,7 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE_URL}/acknowledgement`, changeFrequency: "yearly", priority: 0.2 },
     ...TOOLS.map((tool) => ({
       url: toolUrl(tool.id),
-      ...(tool.addedOn ? { lastModified: new Date(`${tool.addedOn}T00:00:00.000Z`) } : {}),
+      ...(tool.addedOn ? { lastModified: new Date(tool.addedOn.includes("T") ? tool.addedOn : `${tool.addedOn}T00:00:00.000Z`) } : {}),
       changeFrequency: "monthly" as const,
       priority: 0.7,
     })),

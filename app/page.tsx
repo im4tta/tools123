@@ -211,22 +211,30 @@ export default function Home() {
     const sun = new Date(mon);
     sun.setDate(mon.getDate() + 6);
 
-    const fmt = (d: Date) => {
+    const fmt = (d: Date, isEnd: boolean) => {
       const y = d.getFullYear();
       const m = String(d.getMonth() + 1).padStart(2, "0");
       const dd = String(d.getDate()).padStart(2, "0");
-      return `${y}-${m}-${dd}`;
+      return `${y}-${m}-${dd}${isEnd ? "T23:59:59+07:00" : "T00:00:00+07:00"}`;
     };
-    const monStr = fmt(mon), sunStr = fmt(sun);
+    const monStr = fmt(mon, false), sunStr = fmt(sun, true);
+
+    // Parse addedOn — supports both "2026-08-03" (date-only → midnight PP)
+    // and "2026-08-03T10:30:00+07:00" (full ISO timestamp).
+    const parseTs = (s: string) =>
+      new Date(s.includes("T") ? s : s + "T00:00:00+07:00").getTime();
+
+    const weekStart = parseTs(monStr);
+    const weekEnd = parseTs(sunStr);
+
     const tools = TOOLS.filter(
-      (t): t is typeof t & { addedOn: string } =>
-        typeof t.addedOn === "string" && t.addedOn >= monStr && t.addedOn <= sunStr
-    ).sort((a, b) => {
-      const day = b.addedOn.localeCompare(a.addedOn);
-      if (day !== 0) return day;
-      return TOOLS.indexOf(b) - TOOLS.indexOf(a);
-    });
-    return { date: `${monStr} – ${sunStr}`, tools };
+      (t): t is typeof t & { addedOn: string } => {
+        if (typeof t.addedOn !== "string") return false;
+        const ts = parseTs(t.addedOn);
+        return ts >= weekStart && ts <= weekEnd;
+      }
+    ).sort((a, b) => parseTs(b.addedOn) - parseTs(a.addedOn));
+    return { date: `${fmt(mon, false).slice(0, 10)} – ${fmt(sun, false).slice(0, 10)}`, tools };
   }, []);
   const [catSort, setCatSort] = useState<Record<string, "asc" | "desc" | "function">>({});
   const [catFilter, setCatFilter] = useState<Record<string, string>>({});

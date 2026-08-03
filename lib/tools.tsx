@@ -17,7 +17,9 @@ export type Category =
   | "images"
   | "audio"
   | "video"
-  | "meta";
+  | "meta"
+  | "family"
+  | "fun";
 
 export interface ToolDef {
   id: string;
@@ -40,6 +42,8 @@ export const CATEGORY_ORDER: Category[] = [
   "math",
   "geo",
   "science",
+  "family",
+  "fun",
   "dev",
   "network",
   "security",
@@ -65,6 +69,8 @@ export const CATEGORY_META: Record<Category, { label: string; khmer: string; col
   audio: { label: "Audio", khmer: "សំឡេង", color: "#c97ec0" },
   video: { label: "Video", khmer: "វីដេអូ", color: "#9a7ec9" },
   meta: { label: "Meta", khmer: "មេតា", color: "#7ea0a9" },
+  family: { label: "Family", khmer: "គ្រួសារ", color: "#c97eb8" },
+  fun: { label: "Fun", khmer: "កំសាន្ត", color: "#e8a840" },
 };
 
 function load(category: Category, file: string) {
@@ -153,7 +159,7 @@ export const TOOLS: ToolDef[] = [
   { id: "jwt-decoder", title: "JWT Decoder", category: "dev", keywords: ["jwt", "token", "auth"], Component: load("dev", "jwt-decoder") },
   { id: "regex-tester", title: "Regex Tester", category: "dev", keywords: ["regex", "regexp", "pattern"], Component: load("dev", "regex-tester") },
   { id: "markdown-preview", title: "Markdown Previewer", category: "dev", keywords: ["markdown", "md", "preview"], Component: load("dev", "markdown-preview") },
-  { id: "tsx-portal", title: "TSX Portal", addedOn: "2026-07-31", category: "dev", keywords: ["tsx", "jsx", "playground", "sandbox", "live preview", "babel", "repl", "react", "markdown", "bbcode"], Component: load("dev", "tsx-portal") },
+  { id: "tsx-portal", title: "TSX Portal", addedOn: "2026-08-03T10:00:00+07:00", category: "dev", keywords: ["tsx", "jsx", "playground", "sandbox", "live preview", "babel", "repl", "react", "markdown", "bbcode"], Component: load("dev", "tsx-portal") },
   { id: "diff-checker", title: "Text Diff Checker", category: "dev", keywords: ["diff", "compare", "changes"], Component: load("dev", "diff-checker") },
   { id: "word-counter", title: "Word & Character Counter", category: "dev", keywords: ["word count", "character count"], Component: load("dev", "word-counter") },
   { id: "lorem-ipsum", title: "Placeholder Text Generator", category: "dev", keywords: ["lorem ipsum", "filler", "placeholder"], Component: load("dev", "lorem-ipsum") },
@@ -201,10 +207,11 @@ export const TOOLS: ToolDef[] = [
   { id: "provinces-reference", title: "Cambodia Provinces Reference", category: "khmer", keywords: ["province", "khet", "capital", "address", "dropdown", "administrative"], Component: load("khmer", "provinces-reference") },
   { id: "construction-water-glossary", title: "Construction & Water Resources Glossary", category: "khmer", keywords: ["mowram", "boq", "canal", "irrigation", "contract", "esmp", "construction"], Component: load("khmer", "construction-water-glossary") },
   { id: "safety-code-pro", title: "SafetyCodePro Cambodia", khmerTitle: "ស្តង់ដារសុវត្ថិភាពសំណង់", addedOn: "2026-07-31", category: "khmer", keywords: ["safety", "ppe", "hard hat", "high-vis vest", "construction", "osha", "prakas", "សុវត្ថិភាព", "មួក", "អាវចំណាំងផ្លាត"], Component: load("khmer", "safety-code-pro") },
+  { id: "khmer-lexicon", title: "Somtosor", khmerTitle: "សទិសសូរ", addedOn: "2026-08-03T10:25:00+07:00", category: "khmer", keywords: ["dictionary", "homophone", "synonym", "antonym", "lexicon", "vocabulary", "khmer word", "chuon nath", "សទានុក្រម", "សទិសសូរ", "ពាក្យ"], Component: load("khmer", "khmer-lexicon") },
   { id: "collation-sorter", title: "Khmer Collation Sorter", category: "khmer", keywords: ["sort", "alphabetical", "collator", "intl"], Component: load("khmer", "collation-sorter") },
   { id: "khmer-slug-generator", title: "Khmer → URL Slug Generator", category: "khmer", keywords: ["slug", "url", "next.js", "route", "transliterate"], Component: load("khmer", "slug-generator") },
   { id: "pronoun-register", title: "Khmer Pronoun & Register Reference", category: "khmer", keywords: ["pronoun", "register", "politeness", "សព្វនាម", "translation"], Component: load("khmer", "pronoun-register") },
-  { id: "loanword-explorer", title: "Khmer Loanword Explorer", addedOn: "2026-07-31", category: "khmer", keywords: ["loanword", "etymology", "sanskrit", "pali", "french", "portuguese", "chinese", "thai", "language history", "linguistics", "កម្ចី", "និរុត្តិសាស្ត្រ"], Component: load("khmer", "loanword-explorer") },
+  { id: "loanword-explorer", title: "Khmer Loanword Explorer", addedOn: "2026-08-03T10:05:00+07:00", category: "khmer", keywords: ["loanword", "etymology", "sanskrit", "pali", "french", "portuguese", "chinese", "thai", "language history", "linguistics", "កម្ចី", "និរុត្តិសាស្ត្រ"], Component: load("khmer", "loanword-explorer") },
   { id: "administrative-letter-builder", title: "Khmer Administrative Letter Builder", khmerTitle: "កម្មវិធីបង្កើតលិខិតរដ្ឋបាលខ្មែរ", addedOn: "2026-07-29", category: "khmer", keywords: ["administrative letter", "official letter", "100 templates", "solar date", "lunar date", "province", "microsoft word", "docx", "a4", "khmerscribe", "លិខិតរដ្ឋបាល", "លិខិតស្នើសុំ", "លិខិតអញ្ជើញ"], Component: load("khmer", "administrative-letter-builder") },
   { id: "honorific-guide", title: "Khmer Official Honorific Guide", khmerTitle: "មគ្គុទ្ទេសក៍គោរមងារផ្លូវការខ្មែរ", addedOn: "2026-07-29", category: "khmer", keywords: ["honorific", "protocol", "salutation", "title", "khmerscribe", "គោរមងារ", "ពិធីការ", "ពាក្យគោរព"], Component: load("khmer", "honorific-guide") },
   { id: "css-wrap-fix", title: "Khmer Line-Wrap CSS Fix", category: "khmer", keywords: ["css", "word-break", "overflow-wrap", "zwsp", "line wrap"], Component: load("khmer", "css-wrap-fix") },
@@ -302,6 +309,7 @@ export const TOOLS: ToolDef[] = [
   { id: "port-lookup", title: "Common Port Number Reference", category: "network", keywords: ["port", "tcp", "udp"], Component: load("network", "port-lookup") },
   { id: "mime-type-lookup", title: "MIME Type Lookup", category: "network", keywords: ["mime", "content type", "file extension"], Component: load("network", "mime-type-lookup") },
   { id: "slug-checker", title: "Domain / Slug Validity Checker", category: "network", keywords: ["slug", "domain", "validate"], Component: load("network", "slug-checker") },
+  { id: "optical-transfer", title: "Decimen Optical Transfer", addedOn: "2026-08-03T10:30:00+07:00", category: "network", keywords: ["file transfer", "qr code", "optical", "camera", "airgap", "offline", "send", "receive", "light", "fountain code", "QR"], Component: load("network", "optical-transfer") },
   { id: "ipv6-compressor", title: "IPv6 Address Compressor / Expander", category: "network", keywords: ["ipv6", "compress", "expand"], Component: load("network", "ipv6-compressor") },
   { id: "private-ip-generator", title: "Random Private IP Generator", category: "network", keywords: ["ip generator", "rfc1918", "test data"], Component: load("network", "private-ip-generator") },
 
@@ -418,6 +426,13 @@ export const TOOLS: ToolDef[] = [
 
   // ---- Meta (1) ----
   { id: "data-residency-map", title: "Data Residency Map", addedOn: "2026-07-31", category: "meta", keywords: ["data residency", "network audit", "local", "privacy", "offline"], Component: load("meta", "data-residency-map") },
+
+  // ---- Family (1) ----
+  { id: "yellow-card-tracker", title: "Yellow Card Tracker", addedOn: "2026-08-03T10:10:00+07:00", category: "family", keywords: ["child health", "immunization", "vaccine", "growth chart", "who", "yellow card", "baby", "kids", "cambodia", "សុខភាព", "កុមារ", "ថ្នាំបង្ការ"], Component: load("family", "yellow-card-tracker") },
+
+  // ---- Fun (1) ----
+  { id: "khmer-sentence-builder", title: "Khmer Sentence Builder", addedOn: "2026-08-03T10:15:00+07:00", category: "fun", keywords: ["game", "sentence", "builder", "quiz", "khmer language", "learning", "drag", "interactive", "kids", "fun", "ល្បែង", "ផ្គុំ", "ល្បះ"], Component: load("fun", "khmer-sentence-builder") },
+  { id: "chhmoh-astrology", title: "Chhmoh Astrology Portal", addedOn: "2026-08-03T10:20:00+07:00", category: "fun", keywords: ["astrology", "khmer name", "naming", "borit", "destiny", "horoscope", "chhmoh", "baby name", "ឈ្មោះ", "ហោរាសាស្ត្រ", "មហាទក្សា"], Component: load("fun", "chhmoh-astrology") },
 
   // ---- Data-driven unit-pair converters (generated, Batch 1) ----
   ...UNIT_PAIR_TOOLS,

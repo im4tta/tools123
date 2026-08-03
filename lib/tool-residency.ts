@@ -129,6 +129,7 @@ export const TOOL_RESIDENCY: Record<string, ToolResidency> = {
   "khmer-font-encoding-inspector": { kind: "local", reasons: [], file: "khmer/font-encoding-inspector" },
   "khmer-lorem-ipsum": { kind: "local", reasons: [], file: "khmer/lorem-ipsum" },
   "khmer-numerology": { kind: "local", reasons: [], file: "khmer/khmer-numerology" },
+  "khmer-sentence-builder": { kind: "local", reasons: [], file: "fun/khmer-sentence-builder" },
   "khmer-sentence-segmenter": { kind: "local", reasons: [], file: "khmer/khmer-sentence-segmenter" },
   "khmer-slug-generator": { kind: "local", reasons: [], file: "khmer/slug-generator" },
   "khmer-unicode-normalizer": { kind: "local", reasons: [], file: "khmer/khmer-unicode-normalizer" },
@@ -449,5 +450,6 @@ export const TOOL_RESIDENCY: Record<string, ToolResidency> = {
   "word-counter": { kind: "local", reasons: [], file: "dev/word-counter" },
   "word-to-number": { kind: "local", reasons: [], file: "khmer/word-to-number" },
   "workdays-calculator": { kind: "local", reasons: [], file: "time/workdays-calculator" },
+  "yellow-card-tracker": { kind: "local", reasons: [], file: "family/yellow-card-tracker" },
   "zodiac-year": { kind: "local", reasons: [], file: "khmer/zodiac-year" },
 };
