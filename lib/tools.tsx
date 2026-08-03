@@ -310,6 +310,7 @@ export const TOOLS: ToolDef[] = [
   { id: "mime-type-lookup", title: "MIME Type Lookup", category: "network", keywords: ["mime", "content type", "file extension"], Component: load("network", "mime-type-lookup") },
   { id: "slug-checker", title: "Domain / Slug Validity Checker", category: "network", keywords: ["slug", "domain", "validate"], Component: load("network", "slug-checker") },
   { id: "optical-transfer", title: "Decimen Optical Transfer", addedOn: "2026-08-03T10:30:00+07:00", category: "network", keywords: ["file transfer", "qr code", "optical", "camera", "airgap", "offline", "send", "receive", "light", "fountain code", "QR"], Component: load("network", "optical-transfer") },
+  { id: "webrtc-transfer", title: "WebRTC File Transfer", addedOn: "2026-08-03T10:40:00+07:00", category: "network", keywords: ["webrtc", "p2p", "peer to peer", "file transfer", "fast", "direct", "clipboard signaling", "local network"], Component: load("network", "webrtc-transfer") },
   { id: "ipv6-compressor", title: "IPv6 Address Compressor / Expander", category: "network", keywords: ["ipv6", "compress", "expand"], Component: load("network", "ipv6-compressor") },
   { id: "private-ip-generator", title: "Random Private IP Generator", category: "network", keywords: ["ip generator", "rfc1918", "test data"], Component: load("network", "private-ip-generator") },
 
