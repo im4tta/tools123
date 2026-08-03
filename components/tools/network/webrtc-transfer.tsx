@@ -33,58 +33,27 @@ export default function WebRTCTransfer() {
     const pc = new RTCPeerConnection({ iceServers: [{ urls: "stun:stun.l.google.com:19302" }] });
     pcRef.current = pc;
 
-    // Collect ICE candidates
     const candidates: RTCIceCandidateInit[] = [];
-    pc.onicecandidate = (e) => {
-      if (e.candidate) candidates.push(e.candidate.toJSON());
-      // When ICE gathering completes, show the final offer
-    };
-    pc.onicegatheringstatechange = () => {
-      if (pc.iceGatheringState === "complete") {
-        const data = JSON.stringify({ offer: pc.localDescription, candidates });
-        setOfferText(data);
-        setStatusText(t("Share this connection code with the receiver", "ចែករំលែកកូដតភ្ជាប់នេះទៅអ្នកទទួល"));
-      }
-    };
-
-    pc.oniceconnectionstatechange = () => {
-      if (pc.iceConnectionState === "connected") {
-        setStep("connected");
-        setStatusText(t("Connected! Waiting for file transfer…", "បានតភ្ជាប់! កំពុងរង់ចាំ…"));
-      } else if (pc.iceConnectionState === "disconnected" || pc.iceConnectionState === "failed") {
-        setStatusText(t("Connection lost", "ការតភ្ជាប់បានបាត់បង់"));
-      }
-    };
-
-    pc.ondatachannel = (e) => {
-      const ch = e.channel;
-      ch.binaryType = "arraybuffer";
-      ch.onopen = () => {
-        setStep("transferring");
-        setStatusText(t("Sending file…", "កំពុងផ្ញើឯកសារ…"));
-        const total = file.data.length;
-        const chunkSize = 65536;
-        let sent = 0;
-        function sendChunk() {
-          if (sent >= total) {
-            ch.send(JSON.stringify({ type: "done", name: file!.name, mime: file!.mime, size: total }));
-            setStep("done");
-            setStatusText(t("Transfer complete!", "បញ្ជូនរួចរាល់!"));
-            return;
-          }
-          const end = Math.min(sent + chunkSize, total);
-          ch.send(file!.data.slice(sent, end));
-          sent = end;
-          setProgress(Math.round((sent / total) * 100));
-          if (ch.bufferedAmount < chunkSize * 4) sendChunk();
-          else setTimeout(sendChunk, 20);
-        }
-        sendChunk();
-      };
-    };
+    // Collect ICE candidates and show offer after gathering (with 4s timeout fallback)
+    pc.onicecandidate = (e) => { if (e.candidate) candidates.push(e.candidate.toJSON()); };
 
     const offer = await pc.createOffer();
     await pc.setLocalDescription(offer);
+
+    let timeout: ReturnType<typeof setTimeout>;
+    let finalized = false;
+    const showOffer = () => {
+      if (finalized) return;
+      finalized = true;
+      setOfferText(JSON.stringify({ offer: pc.localDescription, candidates }));
+      setStatusText(t("Share this connection code with the receiver", "ចែករំលែកកូដតភ្ជាប់នេះទៅអ្នកទទួល"));
+    };
+
+    timeout = setTimeout(showOffer, 4000);
+
+    pc.onicegatheringstatechange = () => {
+      if (pc.iceGatheringState === "complete") { clearTimeout(timeout); showOffer(); }
+    };
   }
 
   async function acceptAnswer() {
