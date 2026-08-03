@@ -51,28 +51,41 @@ export function ReceivePanel({ lang }: { lang: BeamLang }) {
         audio: false,
       });
       streamRef.current = stream;
-      if (videoRef.current) {
-        videoRef.current.srcObject = stream;
-        videoRef.current.setAttribute('playsinline', '');
-        videoRef.current.setAttribute('autoplay', '');
-        videoRef.current.muted = true;
-        await videoRef.current.play();
-      }
+      // Set active FIRST so the <video> element mounts, then useEffect hooks the stream to it.
+      decoderRef.current = null;
+      metaRef.current = null;
+      sessionRef.current = null;
+      setFramesCaptured(0);
+      setBlocksLine('0 / 0');
+      setProgress(0);
+      setLive(false);
+      setResult(null);
+      setActive(true);
     } catch {
       alert(bt(lang, 'cameraError'));
-      return;
     }
+  }
 
-    decoderRef.current = null;
-    metaRef.current = null;
-    sessionRef.current = null;
-    setFramesCaptured(0);
-    setBlocksLine('0 / 0');
-    setProgress(0);
-    setLive(false);
-    setResult(null);
-    setActive(true);
+  // When the video element mounts (active becomes true), attach the waiting stream.
+  useEffect(() => {
+    if (!active || !streamRef.current) return;
+    const video = videoRef.current;
+    if (!video) return;
+    video.srcObject = streamRef.current;
+    video.setAttribute('playsinline', '');
+    video.setAttribute('autoplay', '');
+    video.muted = true;
+    let cancelled = false;
+    video.play().then(() => {
+      if (cancelled) return;
+      startScan();
+    }).catch(() => {
+      if (!cancelled) alert(bt(lang, 'cameraError'));
+    });
+    return () => { cancelled = true; };
+  }, [active]);
 
+  function startScan() {
     rafGenRef.current++;
     const myGen = rafGenRef.current;
     const loop = () => {
