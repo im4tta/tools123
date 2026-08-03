@@ -8,21 +8,17 @@ export default function FindReplace() {
   const [find, setFind] = useToolState("find-replace:find", "fox");
   const [replace, setReplace] = useToolState("find-replace:replace", "dog");
   const [useRegex, setUseRegex] = useToolState("find-replace:useRegex", false);
-  const [error, setError] = useToolState("find-replace:error", "");
 
-  function result() {
-    if (!find) return input;
+  let output = input;
+  let error = "";
+  if (find) {
     try {
-      setError("");
       const pattern = useRegex ? new RegExp(find, "g") : new RegExp(find.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "g");
-      return input.replace(pattern, replace);
+      output = input.replace(pattern, replace);
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Invalid pattern");
-      return input;
+      error = e instanceof Error ? e.message : "Invalid pattern";
     }
   }
-
-  const output = result();
 
   return (
     <ToolShell title="Find & Replace" description="Replace all matches of plain text or a regular expression.">

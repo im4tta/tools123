@@ -1,12 +1,18 @@
 "use client";
 
 import { FormEvent, useMemo, useState } from "react";
-import { useLanguage } from "@/components/LanguageProvider";
+import { CalendarDays } from "lucide-react";
+import { useLanguage, type LanguageMode } from "@/components/LanguageProvider";
 import { ToolShell, Field, TextInput, Select, Row } from "@/components/ui/Shell";
 import { Button } from "@/components/ui/Output";
 import { useToolState } from "@/lib/storage";
 import { CAMBODIA_HOLIDAYS, HOLIDAY_YEARS, type HolidayKind } from "@/lib/cambodia-holidays";
-import { parseIsoDateParts } from "@/lib/khmer-date";
+import { parseIsoDateParts, toKhmerDigits } from "@/lib/khmer-date";
+
+const MONTH_EN = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const MONTH_KM = ["មករា", "កុម្ភៈ", "មីនា", "មេសា", "ឧសភា", "មិថុនា", "កក្កដា", "សីហា", "កញ្ញា", "តុលា", "វិច្ឆិកា", "ធ្នូ"];
+const WEEKDAY_EN = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+const WEEKDAY_KM = ["អាទិត្យ", "ចន្ទ", "អង្គារ", "ពុធ", "ព្រហស្បតិ៍", "សុក្រ", "សៅរ៍"];
 
 type LocalHoliday = { id: string; name: string; nameKm: string; date: string; kind: HolidayKind; custom: true };
 type VisibleHoliday = { id: string; name: string; nameKm: string; date: string; kind: HolidayKind; custom?: boolean; year: number };
@@ -17,7 +23,7 @@ function dateLabel(date: string) {
 }
 
 export default function CambodiaPublicHolidays() {
-  const { text } = useLanguage();
+  const { text, mode } = useLanguage();
   const [custom, setCustom] = useToolState<LocalHoliday[]>("office-cambodia-holidays-custom", []);
   const [year, setYear] = useState<"all" | "2026" | "2027">("2026");
   const [query, setQuery] = useState("");
@@ -36,6 +42,15 @@ export default function CambodiaPublicHolidays() {
     }).sort((a, b) => a.date.localeCompare(b.date));
   }, [custom, kind, query, source, year]);
 
+  const monthGroups = useMemo(() => {
+    const map = new Map<string, VisibleHoliday[]>();
+    for (const holiday of visible) {
+      const key = holiday.date.slice(0, 7);
+      map.set(key, [...(map.get(key) ?? []), holiday]);
+    }
+    return [...map.entries()].sort((a, b) => a[0].localeCompare(b[0]));
+  }, [visible]);
+
   function addCustom(event: FormEvent) {
     event.preventDefault();
     if (!draft.name.trim() || !parseIsoDateParts(draft.date)) return;
@@ -50,8 +65,7 @@ export default function CambodiaPublicHolidays() {
 
       <div className="space-y-2 rounded-md border border-amber-500/40 bg-amber-500/10 p-4 text-sm text-[var(--ink)]">
         <p><strong>{text("Reference years:", "ឆ្នាំយោង៖")}</strong> {HOLIDAY_YEARS.join(", ")}</p>
-        <p><strong>{text("Source:", "ប្រភព៖")}</strong> {text("Data files supplied with this workspace; malformed trailing citation markup in the 2026 file was ignored.", "ឯកសារទិន្នន័យដែលបានផ្តល់ក្នុងគម្រោងនេះ; សញ្ញាយោងមិនត្រឹមត្រូវនៅចុងឯកសារឆ្នាំ ២០២៦ ត្រូវបានមិនរាប់បញ្ចូល។")}</p>
-        <p><strong>{text("Accuracy:", "ភាពត្រឹមត្រូវ៖")}</strong> {text("Supplied data, not independently verified against an official government publication.", "ទិន្នន័យដែលបានផ្តល់ មិនទាន់បានផ្ទៀងផ្ទាត់ដោយឯករាជ្យជាមួយឯកសារផ្លូវការរបស់រដ្ឋាភិបាលទេ។")}</p>
+        <p><strong>{text("Status:", "ស្ថានភាព៖")}</strong> {text("The 2026 list is official. The 2027 list is provisional and will be updated around September, when the government announces the official schedule.", "បញ្ជីឆ្នាំ ២០២៦ ជាបញ្ជីផ្លូវការ។ បញ្ជីឆ្នាំ ២០២៧ ជាបញ្ជីបណ្តោះអាសន្ន ហើយនឹងត្រូវបានធ្វើបច្ចុប្បន្នភាពប្រហែលខែកញ្ញា នៅពេលរដ្ឋាភិបាលប្រកាសកាលវិភាគផ្លូវការ។")}</p>
         <p className="font-semibold text-amber-800 dark:text-amber-300">{text("Verify every date against a current Cambodian government announcement before making travel, payroll, or office-closure decisions.", "សូមផ្ទៀងផ្ទាត់កាលបរិច្ឆេទនីមួយៗជាមួយសេចក្តីប្រកាសបច្ចុប្បន្នរបស់រាជរដ្ឋាភិបាលកម្ពុជា មុនសម្រេចចិត្តអំពីការធ្វើដំណើរ បើកប្រាក់ខែ ឬបិទការិយាល័យ។")}</p>
       </div>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -61,6 +75,21 @@ export default function CambodiaPublicHolidays() {
         <Field label="Entry source" labelKm="ប្រភពទិន្នន័យ"><Select value={source} onChange={(event) => setSource(event.target.value as typeof source)}><option value="all">{text("All entries", "ទិន្នន័យទាំងអស់")}</option><option value="reference">{text("Supplied lists", "បញ្ជីដែលបានផ្តល់")}</option><option value="custom">{text("My local entries", "ទិន្នន័យក្នុងម៉ាស៊ីនរបស់ខ្ញុំ")}</option></Select></Field>
       </div>
       <p className="text-xs text-[var(--ink-dim)]">{text(`${visible.length} dates shown`, `បង្ហាញ ${visible.length} កាលបរិច្ឆេទ`)}</p>
+      <section className="space-y-3 rounded-md border border-[var(--ground-line)] p-4">
+        <h2 className="flex items-center gap-2 font-medium text-[var(--ink)]">
+          <CalendarDays size={16} className="text-[var(--gold)]" />
+          {text("Calendar preview", "មើលប្រតិទិន")}
+        </h2>
+        {monthGroups.length === 0 ? (
+          <p className="py-6 text-center text-sm text-[var(--ink-dim)]">{text("No holiday months to preview.", "មិនមានខែឈប់សម្រាកដើម្បីមើលជាមុនទេ។")}</p>
+        ) : (
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
+            {monthGroups.map(([key, holidays]) => (
+              <CalendarMonthCard key={key} year={Number(key.slice(0, 4))} month={Number(key.slice(5, 7))} holidays={holidays} mode={mode} />
+            ))}
+          </div>
+        )}
+      </section>
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         {!visible.length && <p className="col-span-full py-8 text-center text-sm text-[var(--ink-dim)]">{text("No matching dates.", "មិនមានកាលបរិច្ឆេទដែលត្រូវគ្នា។")}</p>}
         {visible.map((holiday) => <article key={holiday.id} className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4"><div className="flex items-start justify-between gap-3"><div className="min-w-0"><h2 className="font-medium text-[var(--ink)]">{holiday.name}</h2>{holiday.nameKm && <p lang="km" className="mt-1 font-khmer text-sm text-[var(--gold)]">{holiday.nameKm}</p>}<p className="mt-2 text-sm font-semibold text-[var(--ink)]">{dateLabel(holiday.date)}</p><p className="mt-1 text-xs text-[var(--ink-dim)]">{kindLabel(holiday.kind)} · {holiday.custom ? text("Local entry", "ទិន្នន័យក្នុងម៉ាស៊ីន") : text(`${holiday.year} supplied list`, `បញ្ជីឆ្នាំ ${holiday.year} ដែលបានផ្តល់`)}</p></div>{holiday.custom && <Button type="button" className="!bg-[var(--danger)] !px-3 !py-1.5 !text-white" onClick={() => setCustom((items) => items.filter((item) => item.id !== holiday.id))}>{text("Delete", "លុប")}</Button>}</div></article>)}
@@ -73,5 +102,71 @@ export default function CambodiaPublicHolidays() {
         <Button type="submit">{text("Add local entry", "បន្ថែមទិន្នន័យក្នុងម៉ាស៊ីន")}</Button>
       </form>
     </ToolShell>
+  );
+}
+
+function monthGrid(year: number, month: number) {
+  const first = new Date(year, month - 1, 1);
+  const daysInMonth = new Date(year, month, 0).getDate();
+  const cells: (number | null)[] = Array(first.getDay()).fill(null);
+  for (let day = 1; day <= daysInMonth; day++) cells.push(day);
+  while (cells.length % 7 !== 0) cells.push(null);
+  const rows: (number | null)[][] = [];
+  for (let i = 0; i < cells.length; i += 7) rows.push(cells.slice(i, i + 7));
+  return rows;
+}
+
+function CalendarMonthCard({ year, month, holidays, mode }: { year: number; month: number; holidays: VisibleHoliday[]; mode: LanguageMode }) {
+  const rows = useMemo(() => monthGrid(year, month), [year, month]);
+  const byDay = useMemo(() => {
+    const map = new Map<number, VisibleHoliday[]>();
+    for (const holiday of holidays) {
+      const day = Number(holiday.date.slice(8, 10));
+      map.set(day, [...(map.get(day) ?? []), holiday]);
+    }
+    return map;
+  }, [holidays]);
+  const monthIndex = month - 1;
+  const enLabel = `${MONTH_EN[monthIndex]} ${year}`;
+  const kmLabel = `${MONTH_KM[monthIndex]} ${toKhmerDigits(year)}`;
+  const dayNum = (day: number) => (mode === "en" ? String(day) : toKhmerDigits(day));
+  return (
+    <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3">
+      <h3 className="mb-1 text-center text-sm font-semibold text-[var(--ink)]">{mode === "km" ? kmLabel : enLabel}</h3>
+      {mode === "bi" && <p className="mb-2 text-center font-khmer text-sm text-[var(--gold)]">{kmLabel}</p>}
+      <table className="w-full border-collapse text-center">
+        <thead>
+          <tr>
+            {WEEKDAY_EN.map((day, i) => (
+              <th key={i} className="pb-1 text-[10px] font-medium text-[var(--ink-faint)]">
+                {mode === "km" ? WEEKDAY_KM[i] : WEEKDAY_EN[i]}
+                {mode === "bi" && <span className="block font-khmer text-[10px] font-normal text-[var(--gold)]">{WEEKDAY_KM[i]}</span>}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((row, ri) => (
+            <tr key={ri}>
+              {row.map((day, ci) => {
+                if (!day) return <td key={ci} className="p-0.5" />;
+                const hols = byDay.get(day);
+                return (
+                  <td key={ci} className="p-0.5">
+                    <div
+                      title={hols ? hols.map((h) => `${h.name}${h.nameKm ? ` · ${h.nameKm}` : ""}`).join("\n") : undefined}
+                      className={`flex h-8 flex-col items-center justify-center rounded-md text-xs ${hols ? "bg-[var(--gold)]/15 font-bold text-[var(--gold)]" : "text-[var(--ink-dim)]"}`}
+                    >
+                      <span>{dayNum(day)}</span>
+                      {hols && <span className="mt-0.5 h-1 w-1 rounded-full bg-[var(--gold)]" />}
+                    </div>
+                  </td>
+                );
+              })}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 }

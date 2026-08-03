@@ -3,6 +3,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Search, ArrowLeft, Star, Waypoints, LayoutGrid, ArrowUpDown, Layers } from "lucide-react";
+import { CollectionsPicker } from "@/components/CollectionsPicker";
+import { CollectionsSection } from "@/components/CollectionsSection";
 import { CommandPalette } from "@/components/CommandPalette";
 import { HeaderInfo } from "@/components/HeaderInfo";
 import { LanguageToggle } from "@/components/LanguageToggle";
@@ -11,7 +13,7 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 import { ObsidianGraph } from "@/components/ObsidianGraph";
 import { TOOLS, CATEGORY_META, CATEGORY_ORDER, Category } from "@/lib/tools";
 import { toolHref } from "@/lib/toolRoutes";
-import { useLocalStorage, STORAGE_KEYS } from "@/lib/storage";
+import { useLocalStorage, STORAGE_KEYS, type ToolCollection } from "@/lib/storage";
 
 const KH_DIGITS = "០១២៣៤៥៦៧៨៩";
 const toKh = (n: number) => String(n).split("").map((d) => KH_DIGITS[Number(d)]).join("");
@@ -54,6 +56,7 @@ export default function Home() {
 
   const { value: favorites, setValue: setFavorites } = useLocalStorage<string[]>(STORAGE_KEYS.favorites, []);
   const { value: recents, setValue: setRecents } = useLocalStorage<string[]>(STORAGE_KEYS.recents, []);
+  const { value: collections, setValue: setCollections } = useLocalStorage<ToolCollection[]>(STORAGE_KEYS.collections, []);
   const { value: viewpoint, setValue: setViewpoint, hydrated } = useLocalStorage<Viewpoint>(STORAGE_KEYS.viewpoint, {
     activeId: null,
     scrollY: 0,
@@ -200,23 +203,38 @@ export default function Home() {
   const favoriteTools = useMemo(() => favorites.map((id) => TOOLS.find((t) => t.id === id)).filter(Boolean) as typeof TOOLS, [favorites]);
   const recentTools = useMemo(() => recents.map((id) => TOOLS.find((t) => t.id === id)).filter(Boolean) as typeof TOOLS, [recents]);
   const dailyAddition = useMemo(() => {
-    const now = new Date();
-    const dow = now.getDay();
-    const mon = new Date(now);
-    mon.setDate(now.getDate() + (dow === 0 ? -6 : 1 - dow));
+    // Current Monday–Sunday week in Asia/Phnom_Penh (UTC+7).
+    const ppNow = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Phnom_Penh" }));
+    const dow = ppNow.getDay();
+    const mon = new Date(ppNow);
+    mon.setDate(ppNow.getDate() + (dow === 0 ? -6 : 1 - dow));
     const sun = new Date(mon);
     sun.setDate(mon.getDate() + 6);
-    const fmt = (d: Date) => {
-      const mm = String(d.getMonth() + 1).padStart(2, "0");
+
+    const fmt = (d: Date, isEnd: boolean) => {
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, "0");
       const dd = String(d.getDate()).padStart(2, "0");
-      return `${d.getFullYear()}-${mm}-${dd}`;
+      return `${y}-${m}-${dd}${isEnd ? "T23:59:59+07:00" : "T00:00:00+07:00"}`;
     };
-    const monStr = fmt(mon), sunStr = fmt(sun);
+    const monStr = fmt(mon, false), sunStr = fmt(sun, true);
+
+    // Parse addedOn — supports both "2026-08-03" (date-only → midnight PP)
+    // and "2026-08-03T10:30:00+07:00" (full ISO timestamp).
+    const parseTs = (s: string) =>
+      new Date(s.includes("T") ? s : s + "T00:00:00+07:00").getTime();
+
+    const weekStart = parseTs(monStr);
+    const weekEnd = parseTs(sunStr);
+
     const tools = TOOLS.filter(
-      (t): t is typeof t & { addedOn: string } =>
-        typeof t.addedOn === "string" && t.addedOn >= monStr && t.addedOn <= sunStr
-    ).sort((a, b) => b.addedOn.localeCompare(a.addedOn));
-    return { date: `${monStr} – ${sunStr}`, tools };
+      (t): t is typeof t & { addedOn: string } => {
+        if (typeof t.addedOn !== "string") return false;
+        const ts = parseTs(t.addedOn);
+        return ts >= weekStart && ts <= weekEnd;
+      }
+    ).sort((a, b) => parseTs(b.addedOn) - parseTs(a.addedOn));
+    return { date: `${fmt(mon, false).slice(0, 10)} – ${fmt(sun, false).slice(0, 10)}`, tools };
   }, []);
   const [catSort, setCatSort] = useState<Record<string, "asc" | "desc" | "function">>({});
   const [catFilter, setCatFilter] = useState<Record<string, string>>({});
@@ -263,6 +281,13 @@ export default function Home() {
             >
               <Star size={14} fill={isFav ? "currentColor" : "none"} />
             </button>
+            <CollectionsPicker
+              toolId={active.id}
+              favorites={favorites}
+              onToggleFavorite={toggleFavorite}
+              collections={collections}
+              setCollections={setCollections}
+            />
             <button
               onClick={() => setPaletteOpen(true)}
               className="flex items-center gap-2 rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-1.5 text-xs text-[var(--ink-dim)] hover:border-[var(--gold-dim)]"
@@ -438,6 +463,16 @@ export default function Home() {
             <ToolGrid tools={favoriteTools} onSelect={setActiveId} favorites={favorites} onToggleFavorite={toggleFavorite} />
           </div>
         </div>
+      )}
+
+      {collections.length > 0 && filter === "" && (
+        <CollectionsSection
+          collections={collections}
+          setCollections={setCollections}
+          favorites={favorites}
+          onToggleFavorite={toggleFavorite}
+          onSelect={setActiveId}
+        />
       )}
 
       {recentTools.length > 0 && filter === "" && (

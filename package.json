@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "audit:network": "node scripts/audit-network.mjs"
   },
   "dependencies": {
     "@imgly/background-removal": "^1.7.0",
@@ -24,6 +25,7 @@
     "qrcode.react": "^4.2.0",
     "react": "19.2.4",
     "react-dom": "19.2.4",
+    "recharts": "^3.10.1",
     "three": "^0.185.1"
   },
   "devDependencies": {

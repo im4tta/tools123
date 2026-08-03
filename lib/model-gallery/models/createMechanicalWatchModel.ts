@@ -193,6 +193,14 @@ export function createMechanicalWatchModel(options: MechanicalWatchOptions = {})
   root.add(lug(1));
 
   /* ---- strap: tapered leather bands top and bottom ---- */
+  const stitchTex = textTexture((ctx, w, h) => {
+    ctx.clearRect(0, 0, w, h);
+    ctx.strokeStyle = '#e4d3b8';
+    ctx.lineWidth = 3;
+    ctx.setLineDash([10, 8]);
+    ctx.strokeRect(w * 0.12, h * 0.06, w * 0.76, h * 0.88);
+  }, 128, 512);
+
   function strapBand(sign: number): THREE.Mesh {
     const shape = new THREE.Shape();
     shape.moveTo(-0.34, 0);
@@ -212,26 +220,18 @@ export function createMechanicalWatchModel(options: MechanicalWatchOptions = {})
     geo.translate(0, 0.05, 0);
     const m = new THREE.Mesh(geo, matLeather);
     m.position.set(0, -0.14, sign * (CASE_R + 0.32));
-    m.rotation.x = sign * 0.5;
+    // both straps extend outward from the lugs and droop gently toward the desk
+    m.rotation.x = sign * 0.08;
+    m.rotation.y = sign > 0 ? Math.PI : 0;
     m.castShadow = shadows;
+    const stitch = decal(stitchTex, 0.5, 1.05);
+    stitch.rotation.x = -Math.PI / 2;
+    stitch.position.set(0, 0.175, -0.55);
+    m.add(stitch);
     return m;
   }
   root.add(strapBand(-1));
   root.add(strapBand(1));
-
-  const stitchTex = textTexture((ctx, w, h) => {
-    ctx.clearRect(0, 0, w, h);
-    ctx.strokeStyle = '#e4d3b8';
-    ctx.lineWidth = 3;
-    ctx.setLineDash([10, 8]);
-    ctx.strokeRect(w * 0.12, h * 0.06, w * 0.76, h * 0.88);
-  }, 128, 512);
-  for (const sign of [-1, 1]) {
-    const stitch = decal(stitchTex, 0.5, 1.05);
-    stitch.rotation.x = -Math.PI / 2 + sign * 0.5;
-    stitch.position.set(0, -0.09, sign * (CASE_R + 0.32 + 0.02 * sign));
-    root.add(stitch);
-  }
 
   /* ---- hands ---- */
   function hand(len: number, width: number, tailLen: number, mat: THREE.Material): THREE.Group {
@@ -277,9 +277,10 @@ export function createMechanicalWatchModel(options: MechanicalWatchOptions = {})
     const seconds = time % 60;
     const minutes = (time / 60) % 60;
     const hours = (time / 3600) % 12;
-    secondHand.rotation.y = (seconds / 60) * Math.PI * 2;
-    minuteHand.rotation.y = (minutes / 60) * Math.PI * 2;
-    hourHand.rotation.y = (hours / 12) * Math.PI * 2;
+    // Hands point toward -Z (12 o'clock); negative Y-rotation makes them sweep clockwise.
+    secondHand.rotation.y = -(seconds / 60) * Math.PI * 2;
+    minuteHand.rotation.y = -(minutes / 60) * Math.PI * 2;
+    hourHand.rotation.y = -(hours / 12) * Math.PI * 2;
     root.rotation.z = Math.sin(time * 0.2) * 0.05;
     root.rotation.x = 0.08 + Math.sin(time * 0.13) * 0.03;
   }

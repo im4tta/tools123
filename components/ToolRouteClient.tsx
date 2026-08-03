@@ -3,13 +3,14 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
-import { ArrowLeft, Search, Star } from "lucide-react";
+import { ArrowLeft, Search, ShieldCheck, Star } from "lucide-react";
+import { CollectionsPicker } from "@/components/CollectionsPicker";
 import { CommandPalette } from "@/components/CommandPalette";
 import { HeaderInfo } from "@/components/HeaderInfo";
 import { LanguageToggle } from "@/components/LanguageToggle";
 import { useLanguage } from "@/components/LanguageProvider";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import { STORAGE_KEYS, useLocalStorage } from "@/lib/storage";
+import { STORAGE_KEYS, useLocalStorage, type ToolCollection } from "@/lib/storage";
 import { TOOLS } from "@/lib/tools";
 import { toolHref } from "@/lib/toolRoutes";
 
@@ -18,6 +19,7 @@ export function ToolRouteClient({ toolId }: { toolId: string }) {
   const router = useRouter();
   const [paletteOpen, setPaletteOpen] = useState(false);
   const { value: favorites, setValue: setFavorites } = useLocalStorage<string[]>(STORAGE_KEYS.favorites, []);
+  const { value: collections, setValue: setCollections } = useLocalStorage<ToolCollection[]>(STORAGE_KEYS.collections, []);
   const { setValue: setRecents } = useLocalStorage<string[]>(STORAGE_KEYS.recents, []);
   const tool = TOOLS.find((item) => item.id === toolId);
 
@@ -38,6 +40,16 @@ export function ToolRouteClient({ toolId }: { toolId: string }) {
   const isFavorite = favorites.includes(tool.id);
   const khmerTitle = tool.khmerTitle ?? tool.title;
   const localizedTitle = mode === "en" ? tool.title : mode === "km" ? khmerTitle : `${tool.title} — ${khmerTitle}`;
+  const relatedTools = TOOLS
+    .filter((candidate) => candidate.id !== tool.id)
+    .map((candidate) => {
+      const sharedKeywords = candidate.keywords.filter((keyword) => tool.keywords.includes(keyword)).length;
+      return { tool: candidate, score: (candidate.category === tool.category ? 3 : 0) + sharedKeywords * 2 };
+    })
+    .filter(({ score }) => score > 0)
+    .sort((a, b) => b.score - a.score || a.tool.title.localeCompare(b.tool.title))
+    .slice(0, 6)
+    .map(({ tool: related }) => related);
 
   return (
     <main className="min-h-screen px-5 pb-16 pt-24 sm:px-10">
@@ -56,6 +68,13 @@ export function ToolRouteClient({ toolId }: { toolId: string }) {
             >
               <Star size={14} fill={isFavorite ? "currentColor" : "none"} />
             </button>
+            <CollectionsPicker
+              toolId={tool.id}
+              favorites={favorites}
+              onToggleFavorite={(id) => setFavorites((items) => items.includes(id) ? items.filter((x) => x !== id) : [id, ...items])}
+              collections={collections}
+              setCollections={setCollections}
+            />
             <button
               type="button"
               onClick={() => setPaletteOpen(true)}
@@ -71,6 +90,36 @@ export function ToolRouteClient({ toolId }: { toolId: string }) {
         </div>
       </header>
       <div className="fade-rise"><ToolComponent /></div>
+      {relatedTools.length > 0 && (
+        <section className="mx-auto mt-10 max-w-6xl">
+          <h2 className="font-display text-lg font-medium text-[var(--ink)]">{t("Related tools", "ឧបករណ៍ពាក់ព័ន្ធ")}</h2>
+          <div className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+            {relatedTools.map((related) => {
+              const relatedKhmerTitle = related.khmerTitle ?? related.title;
+              const relatedTitle = mode === "en" ? related.title : mode === "km" ? relatedKhmerTitle : `${related.title} — ${relatedKhmerTitle}`;
+              return (
+                <Link
+                  key={related.id}
+                  href={toolHref(related.id)}
+                  className="rounded-lg border border-[var(--ground-line)] bg-[var(--ground-raised)] px-4 py-3 text-sm text-[var(--ink)] transition hover:border-[var(--gold-dim)] hover:bg-[var(--ground-raised-hi)]"
+                >
+                  {relatedTitle}
+                </Link>
+              );
+            })}
+          </div>
+        </section>
+      )}
+      <aside className="mx-auto mt-6 flex max-w-6xl items-start gap-3 rounded-lg border border-[var(--teal)]/30 bg-[var(--teal)]/10 px-4 py-3 text-sm text-[var(--ink-dim)]">
+        <ShieldCheck className="mt-0.5 shrink-0 text-[var(--teal)]" size={17} aria-hidden="true" />
+        <p>
+          <span className="font-medium text-[var(--ink)]">{t("Private by design.", "ឯកជនភាពជាចម្បង។")}</span>{" "}
+          {t(
+            "Files you select are processed in your browser and are never uploaded by 123 Toolbox.",
+            "ឯកសារដែលអ្នកជ្រើសរើសត្រូវបានដំណើរការក្នុងកម្មវិធីរុករករបស់អ្នក ហើយមិនត្រូវបានផ្ញើឡើងដោយ 123 Toolbox ឡើយ។"
+          )}
+        </p>
+      </aside>
       <CommandPalette open={paletteOpen} onOpenChange={setPaletteOpen} onSelect={openTool} />
     </main>
   );
