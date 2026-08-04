@@ -62,6 +62,48 @@ export default function Home() {
     scrollY: 0,
   });
 
+  const smartSuggestions = useMemo(() => {
+    const value = filter.trim();
+    if (!value) return [] as typeof TOOLS;
+    const ids: string[] = [];
+    const lower = value.toLowerCase();
+    const push = (...toolIds: string[]) => ids.push(...toolIds);
+    if (/^eyJ[a-z0-9_-]+\./i.test(value)) push("jwt-decoder", "base64");
+    if (/^\s*[-\w]+\s*,\s*[-\w]+(?:\s*\n|$)/.test(value)) push("csv-json", "csv-to-markdown");
+    if (/^-?\d+\.\d+\s*,\s*-?\d+\.\d+$/.test(value)) push("dms-converter", "geojson-formatter", "utm-converter");
+    if (/\b(ភូមិ|ឃុំ|សង្កាត់|ស្រុក|ខណ្ឌ|ខេត្ត|ក្រុង|village|commune|district|province|address|street)\b/i.test(value)) push("address-formatter", "province-lookup", "postal-code-finder");
+    if (/\b(state|government|police|military|រដ្ឋ|ប៉ូលិស|យោធា)\b/i.test(value)) push("government-plate-parser", "government-plate-lookup", "vehicle-plate");
+    if (/\b(bcg|hepb?|opv|ipv|dpt|hib|pcv|mr|measles|rubella|je|japanese encephalitis|vitamin\s*a|deworming|vaccine|vaccination|ថ្នាំបង្ការ|វីតាមីន)\b/i.test(value)) push("yellow-card-tracker");
+    if (/(?:^|\s)(?:\+?855|0[1-9]\d{7,8})(?:\s|$)/.test(value)) push("phone-formatter", "phone-number-cleaner");
+    if (/^\d{6}$/.test(value)) push("administrative-code-decoder", "postal-code-finder", "province-lookup");
+    if (/\b(plate|license|number plate|ស្លាកលេខ)\b/i.test(value) || /\d{1,2}[A-Z]{1,3}[- ]?\d{3,5}/i.test(value)) push("government-plate-parser", "government-plate-lookup", "vehicle-plate", "khmer-numerology");
+    if (/[\u1780-\u17ff]/.test(value)) push("khmer-unicode-normalizer", "somtosor", "khmer-word-counter");
+    try { JSON.parse(value); push("json-formatter", "json-to-typescript", "json-data-converter"); } catch { /* not JSON */ }
+    if (/^\s*[{[]/.test(value) && /\}\s*$|\]\s*$/.test(value)) push("json-formatter", "jsonl-validator");
+
+    // Every registered tool participates in ranked suggestions. This makes
+    // Smart Input useful beyond the hand-written detectors above.
+    const tokens = lower.split(/[^a-z0-9\u1780-\u17ff]+/).filter((token) => token.length >= 2);
+    if (tokens.length) {
+      TOOLS.map((tool) => {
+        const fields = [tool.id, tool.title, tool.khmerTitle ?? "", ...tool.keywords].map((field) => field.toLowerCase());
+        let score = 0;
+        if (fields.some((field) => field === lower)) score += 20;
+        if (fields.some((field) => field.includes(lower))) score += 10;
+        for (const token of tokens) {
+          if (fields.some((field) => field === token)) score += 8;
+          else if (fields.some((field) => field.includes(token))) score += 2;
+        }
+        return { tool, score };
+      })
+        .filter(({ score }) => score > 0)
+        .sort((a, b) => b.score - a.score || a.tool.title.localeCompare(b.tool.title))
+        .slice(0, 5)
+        .forEach(({ tool }) => push(tool.id));
+    }
+    return [...new Set(ids)].map((id) => TOOLS.find((tool) => tool.id === id)).filter(Boolean) as typeof TOOLS;
+  }, [filter]);
+
   // Keep a ref mirror of the last known grid scroll position so the restore
   // effect below can read it without re-running on every scroll tick.
   useEffect(() => {
@@ -416,6 +458,26 @@ export default function Home() {
             /
           </span>
         </div>
+        {smartSuggestions.length > 0 && (
+          <div className="mx-auto mt-2 flex w-full max-w-md flex-wrap items-center justify-center gap-1.5 text-left">
+            <span className="text-[10px] font-semibold uppercase tracking-wide text-[var(--ink-faint)]">
+              {t("Looks like…", "ប្រហែលជា…")}
+            </span>
+            {smartSuggestions.slice(0, 4).map((suggestion) => {
+              const suggestionKm = suggestion.khmerTitle ?? suggestion.title;
+              return (
+                <button
+                  key={suggestion.id}
+                  type="button"
+                  onClick={() => setActiveId(suggestion.id)}
+                  className="rounded-full border border-[var(--gold)]/30 bg-[var(--gold)]/5 px-2.5 py-1 text-[11px] font-semibold text-[var(--gold)] transition hover:bg-[var(--gold)]/15"
+                >
+                  {t(suggestion.title, suggestionKm)}
+                </button>
+              );
+            })}
+          </div>
+        )}
       </div>
 
       {filter === "" && dailyAddition.date && dailyAddition.tools.length > 0 && (

@@ -3,14 +3,14 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
-import { ArrowLeft, Search, ShieldCheck, Star } from "lucide-react";
+import { ArrowLeft, Search, ShieldCheck, Star, Trash2 } from "lucide-react";
 import { CollectionsPicker } from "@/components/CollectionsPicker";
 import { CommandPalette } from "@/components/CommandPalette";
 import { HeaderInfo } from "@/components/HeaderInfo";
 import { LanguageToggle } from "@/components/LanguageToggle";
 import { useLanguage } from "@/components/LanguageProvider";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import { STORAGE_KEYS, useLocalStorage, type ToolCollection } from "@/lib/storage";
+import { STORAGE_KEYS, storage, useLocalStorage, type ToolCollection } from "@/lib/storage";
 import { TOOLS } from "@/lib/tools";
 import { toolHref } from "@/lib/toolRoutes";
 
@@ -36,6 +36,12 @@ export function ToolRouteClient({ toolId }: { toolId: string }) {
 
   const openTool = useCallback((id: string) => router.push(toolHref(id)), [router]);
   if (!tool) return null;
+  const currentToolId = tool.id;
+  function clearSavedToolData() {
+    if (!window.confirm(t("Clear this tool's saved data?", "លុបទិន្នន័យដែលបានរក្សាទុករបស់ឧបករណ៍នេះ?"))) return;
+    storage.remove(STORAGE_KEYS.toolState(currentToolId));
+    window.location.reload();
+  }
   const ToolComponent = tool.Component;
   const isFavorite = favorites.includes(tool.id);
   const khmerTitle = tool.khmerTitle ?? tool.title;
@@ -75,6 +81,15 @@ export function ToolRouteClient({ toolId }: { toolId: string }) {
               collections={collections}
               setCollections={setCollections}
             />
+            <button
+              type="button"
+              onClick={clearSavedToolData}
+              aria-label={t("Clear saved data", "លុបទិន្នន័យដែលបានរក្សាទុក")}
+              title={t("Clear saved data", "លុបទិន្នន័យដែលបានរក្សាទុក")}
+              className="flex h-8 w-8 items-center justify-center rounded-md border border-[var(--ground-line)] text-[var(--ink-faint)] transition hover:border-[var(--danger)]/50 hover:text-[var(--danger)]"
+            >
+              <Trash2 size={14} />
+            </button>
             <button
               type="button"
               onClick={() => setPaletteOpen(true)}
