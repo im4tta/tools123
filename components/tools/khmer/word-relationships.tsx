@@ -8,21 +8,45 @@ import { ToolShell } from "@/components/ui/Shell";
 import { useToolState } from "@/lib/storage";
 import { STATIC_DATABASE, type KhmerWordData } from "@/lib/khmer-lexicon-db";
 
-type LinkType = "homophone" | "synonym" | "antonym" | "related";
-interface LexicalNode extends d3.SimulationNodeDatum { id: string; en: string; definition: string; group: "root" | LinkType; radius: number; }
+type LinkType = "homophone" | "compound" | "synonym" | "antonym" | "phrase" | "related";
+type NodeGroup = "root" | LinkType;
+interface LexicalNode extends d3.SimulationNodeDatum { id: string; en: string; definition: string; base: NodeGroup; group: NodeGroup; radius: number; }
 interface LexicalLink extends d3.SimulationLinkDatum<LexicalNode> { source: string | LexicalNode; target: string | LexicalNode; type: LinkType; }
 
-const COLORS: Record<LexicalNode["group"], string> = { root: "#d4a24c", homophone: "#d4a24c", synonym: "#3f9d63", antonym: "#d9534f", related: "#4a9db5" };
-const LABELS: Record<LinkType, [string, string]> = { homophone: ["Homophones", "សទិសសូរ"], synonym: ["Synonyms", "សទិសន័យ"], antonym: ["Antonyms", "ពាក្យផ្ទុយ"], related: ["Related", "ពាក់ព័ន្ធ"] };
+const LINK_ORDER: LinkType[] = ["homophone", "compound", "synonym", "antonym", "phrase", "related"];
+const COLORS: Record<NodeGroup, string> = { root: "#d4a24c", homophone: "#d4a24c", compound: "#9b59b6", synonym: "#3f9d63", antonym: "#d9534f", phrase: "#e8874a", related: "#4a9db5" };
+const LABELS: Record<LinkType, [string, string]> = { homophone: ["Homophones", "សទិសសូរ"], compound: ["Compounds", "ពាក្យផ្សំ"], synonym: ["Synonyms", "សទិសន័យ"], antonym: ["Antonyms", "ពាក្យផ្ទុយ"], phrase: ["Phrases", "ឃ្លា"], related: ["Related", "ពាក់ព័ន្ធ"] };
+
+/** Classify a relatedWords entry: multi-word → phrase, shares the base morpheme → compound, else related. */
+function classifyRelated(target: string, base: string): LinkType {
+  if (/[\s()\->]/.test(target)) return "phrase";
+  if (target.includes(base) || base.includes(target)) return "compound";
+  return "related";
+}
 
 function linksFor(word: KhmerWordData): { target: string; type: LinkType }[] {
-  return [...word.homophones.map((x) => ({ target: x.word, type: "homophone" as const })), ...word.synonyms.map((target) => ({ target, type: "synonym" as const })), ...word.antonyms.map((target) => ({ target, type: "antonym" as const })), ...word.relatedWords.map((target) => ({ target, type: "related" as const }))].filter((link, i, all) => all.findIndex((x) => x.target === link.target && x.type === link.type) === i);
+  return [
+    ...word.homophones.map((x) => ({ target: x.word, type: "homophone" as const })),
+    ...word.synonyms.map((target) => ({ target, type: "synonym" as const })),
+    ...word.antonyms.map((target) => ({ target, type: "antonym" as const })),
+    ...word.relatedWords.map((target) => ({ target, type: classifyRelated(target, word.word) })),
+  ].filter((link, i, all) => all.findIndex((x) => x.target === link.target && x.type === link.type) === i);
 }
 
 function makeGraph() {
   const all = Object.keys(STATIC_DATABASE).map((id) => ({ id, links: linksFor(STATIC_DATABASE[id]).filter((link) => STATIC_DATABASE[link.target]) })).filter((item) => item.links.length > 0).sort((a, b) => b.links.length - a.links.length).slice(0, 180);
   const ids = new Set(all.map((item) => item.id));
-  const nodes: LexicalNode[] = all.map((item) => ({ id: item.id, en: STATIC_DATABASE[item.id].definition, definition: STATIC_DATABASE[item.id].definition, group: "related", radius: Math.max(16, Math.min(30, 14 + item.links.length * 3)) }));
+  const nodes: LexicalNode[] = all.map((item) => {
+    const counts = new Map<LinkType, number>();
+    item.links.forEach((link) => counts.set(link.type, (counts.get(link.type) ?? 0) + 1));
+    let base: NodeGroup = "related";
+    let best = -1;
+    counts.forEach((count, type) => {
+      const rank = LINK_ORDER.indexOf(type);
+      if (rank > best) { best = rank; base = type; }
+    });
+    return { id: item.id, en: STATIC_DATABASE[item.id].definition, definition: STATIC_DATABASE[item.id].definition, base, group: base, radius: Math.max(16, Math.min(30, 14 + item.links.length * 3)) };
+  });
   const links: LexicalLink[] = [];
   all.forEach((item) => item.links.forEach((link) => { if (ids.has(link.target)) links.push({ source: item.id, target: link.target, type: link.type }); }));
   return { nodes, links };
@@ -80,7 +104,7 @@ export default function WordRelationships() {
     const svgElement = svgRef.current;
     const container = containerRef.current;
     if (!selectedId) {
-      graph.nodes.forEach((item) => { item.group = "related"; });
+      graph.nodes.forEach((item) => { item.group = item.base; });
       nodeSelection.current?.attr("fill", (item) => COLORS[item.group]).attr("fill-opacity", 1).attr("stroke-width", 1.5);
       linkSelection.current?.attr("stroke-opacity", .35).attr("stroke-width", 1.5);
       textSelection.current?.attr("fill-opacity", 1);
@@ -88,9 +112,21 @@ export default function WordRelationships() {
     }
     const node = graph.nodes.find((item) => item.id === selectedId);
     if (!node) return;
-    graph.nodes.forEach((item) => { item.group = item.id === selectedId ? "root" : "related"; });
-    const connected = new Set([selectedId]);
-    graph.links.forEach((link) => { const source = typeof link.source === "string" ? link.source : link.source.id; const target = typeof link.target === "string" ? link.target : link.target.id; if (source === selectedId) connected.add(target); if (target === selectedId) connected.add(source); });
+    const neighborType = new Map<string, LinkType>();
+    graph.links.forEach((link) => {
+      const source = typeof link.source === "string" ? link.source : link.source.id;
+      const target = typeof link.target === "string" ? link.target : link.target.id;
+      if (source === selectedId) {
+        const prev = neighborType.get(target);
+        if (prev === undefined || LINK_ORDER.indexOf(link.type) < LINK_ORDER.indexOf(prev)) neighborType.set(target, link.type);
+      }
+      if (target === selectedId) {
+        const prev = neighborType.get(source);
+        if (prev === undefined || LINK_ORDER.indexOf(link.type) < LINK_ORDER.indexOf(prev)) neighborType.set(source, link.type);
+      }
+    });
+    graph.nodes.forEach((item) => { item.group = item.id === selectedId ? "root" : neighborType.get(item.id) ?? item.base; });
+    const connected = new Set([selectedId, ...neighborType.keys()]);
     nodeSelection.current?.attr("fill", (item) => COLORS[item.group]).attr("fill-opacity", (item) => connected.has(item.id) ? 1 : .08).attr("stroke-width", (item) => item.id === selectedId ? 3 : 1.5);
     linkSelection.current?.attr("stroke-opacity", (link) => { const source = typeof link.source === "string" ? link.source : link.source.id; const target = typeof link.target === "string" ? link.target : link.target.id; return source === selectedId || target === selectedId ? 1 : .08; }).attr("stroke-width", (link) => { const source = typeof link.source === "string" ? link.source : link.source.id; const target = typeof link.target === "string" ? link.target : link.target.id; return source === selectedId || target === selectedId ? 3 : 1.5; });
     textSelection.current?.attr("fill-opacity", (item) => connected.has(item.id) ? 1 : .08);
