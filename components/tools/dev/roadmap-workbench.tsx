@@ -43,7 +43,7 @@ function detectInput(input: string) {
   if (/^\s*[{[]/.test(value) && /\}\s*$|\]\s*$/.test(value)) suggestions.push("JSON Validator");
   if (/^\s*[-\w]+\s*,\s*[-\w]+(?:\s*\n|$)/.test(value)) suggestions.push("CSV Cleaner", "CSV → JSON");
   if (/^-?\d+\.\d+\s*,\s*-?\d+\.\d+$/.test(value)) suggestions.push("Coordinate Converter", "GeoJSON Generator");
-  if (/[\u1780-\u17ff]/.test(value)) suggestions.push("Khmer Unicode Normalizer", "Khmer OCR Cleaner", "Somtosor");
+  if (/[\u1780-\u17ff]/.test(value)) suggestions.push("Khmer Unicode Normalizer", "Khmer OCR Cleaner", "Homophone");
   if (/^\s*\{\s*".*"\s*:\s*/.test(value)) suggestions.push("JSON Schema Generator");
   return [...new Set(suggestions)];
 }

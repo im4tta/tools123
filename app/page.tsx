@@ -77,7 +77,7 @@ export default function Home() {
     if (/(?:^|\s)(?:\+?855|0[1-9]\d{7,8})(?:\s|$)/.test(value)) push("phone-formatter", "phone-number-cleaner");
     if (/^\d{6}$/.test(value)) push("administrative-code-decoder", "postal-code-finder", "province-lookup");
     if (/\b(plate|license|number plate|ស្លាកលេខ)\b/i.test(value) || /\d{1,2}[A-Z]{1,3}[- ]?\d{3,5}/i.test(value)) push("government-plate-parser", "government-plate-lookup", "vehicle-plate", "khmer-numerology");
-    if (/[\u1780-\u17ff]/.test(value)) push("khmer-unicode-normalizer", "somtosor", "khmer-word-counter");
+    if (/[\u1780-\u17ff]/.test(value)) push("khmer-unicode-normalizer", "khmer-lexicon", "khmer-word-counter");
     try { JSON.parse(value); push("json-formatter", "json-to-typescript", "json-data-converter"); } catch { /* not JSON */ }
     if (/^\s*[{[]/.test(value) && /\}\s*$|\]\s*$/.test(value)) push("json-formatter", "jsonl-validator");
 

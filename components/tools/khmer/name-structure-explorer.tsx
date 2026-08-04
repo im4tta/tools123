@@ -210,7 +210,7 @@ export default function KhmerNameStructureExplorer() {
                 { id: "name-generator", title: t("Khmer Name Generator", "បង្កើតឈ្មោះខ្មែរ") },
                 { id: "romanization", title: t("Khmer Romanization", "បម្លែងអក្សរខ្មែរជាអក្សរឡាតាំង") },
                 { id: "loanword-explorer", title: t("Khmer Loanword Explorer", "កម្មវិធីស្រាវជ្រាវពាក្យកម្ចីក្នុងភាសាខ្មែរ") },
-                { id: "khmer-lexicon", title: t("Somtosor (Homophones)", "សទិសសូរ (សូរសៀង)") },
+                { id: "khmer-lexicon", title: t("Homophone", "សទិសសូរ") },
                 { id: "phone-formatter", title: t("Khmer Phone Formatter", "រៀបចំទម្រង់លេខទូរស័ព្ទ") },
                 { id: "address-formatter", title: t("Cambodia Bilingual Address Formatter", "រៀបចំទម្រង់អាសយដ្ឋានកម្ពុជាពីរភាសា") },
               ] as const).map((related) => (
