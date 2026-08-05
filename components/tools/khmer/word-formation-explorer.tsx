@@ -82,12 +82,12 @@ export default function WordFormationExplorer() {
 
   const infixBlocks = useMemo(() => {
     const forms: { term: string; demo: string }[] = [
-      { term: "[-អន-] (ពួក 'អ')", demo: "កើត ➔ ក + [-អន-] + ើត ➔ កំណើត" },
-      { term: "[-អ៊ន-] (ពួក 'អ៊')", demo: "ជឿ ➔ ជ + [-អ៊ន-] + ឿ ➔ ជំនឿ" },
-      { term: "[-អម-] (ពួក 'អ')", demo: "ចាយ ➔ ច + [-អម-] + ើម ➔ ចំណាយ" },
-      { term: "[-អ៊ម-] (ពួក 'អ៊')", demo: "ឈឺ ➔ ឈ + [-អ៊ម-] + ឺ ➔ ជំងឺ" },
-      { term: "[-អំណ-] (ផ្នត់លាយ)", demo: "ដើរ ➔ ដ + [-អំណ-] + ើរ ➔ ដំណើរ" },
-      { term: "[-អំ-] (និគ្គហិត)", demo: "ធំ ➔ ធ + [-អំ-] + ំ ➔ ទំហំ" },
+      { term: "[-អន-] (ពួក 'អ')", demo: "កើត ➔ ក + ំណ + ើត ➔ កំណើត" },
+      { term: "[-អ៊ន-] (ពួក 'អ៊')", demo: "ជឿ ➔ ជ + ំន + ឿ ➔ ជំនឿ" },
+      { term: "[-អម-] (ពួក 'អ')", demo: "ចាយ ➔ ច + ំណ + ាយ ➔ ចំណាយ" },
+      { term: "[-អ៊ម-] (ពួក 'អ៊')", demo: "ឈឺ ➔ ឈ + ឺម + ឺ ➔ ជំងឺ" },
+      { term: "[-អំណ-] (ផ្នត់លាយបង្កើតនាម)", demo: "ដើរ ➔ ដ + ំណ + ើរ ➔ ដំណើរ" },
+      { term: "[-អំ-]", demo: "ធំ ➔ ទំហំ" },
     ];
     return forms;
   }, []);
@@ -227,8 +227,8 @@ export default function WordFormationExplorer() {
               <div className="flex items-center gap-3">
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--gold)]/15 text-[var(--gold)]"><Layers size={18} /></div>
                 <div>
-                  <h2 className="font-khmer text-lg font-bold text-[var(--ink)]">កម្លាយផ្នត់ដើម និង ផ្នត់ជែក</h2>
-                  <p className="text-xs text-[var(--ink-faint)]">ប្រព័ន្ធកម្លាយពាក្យខ្មែរ (Khmer Morphological Derivation)</p>
+                  <h2 className="font-khmer text-lg font-bold text-[var(--ink)]">វេយ្យាករណ៍ និង បញ្ញត្តិ</h2>
+                  <p className="text-xs text-[var(--ink-faint)]">សង្ខេបមេរៀនអក្សរសាស្ត្រខ្មែរ ថ្នាក់ទី១១ — កម្លាយពាក្យ ព្យាង្គ និងសូរ (Khmer Morphological Derivation)</p>
                 </div>
               </div>
               <button onClick={() => setHelpOpen(false)} className="rounded-lg p-2 text-[var(--ink-faint)] transition hover:bg-[var(--ground-raised-hi)] hover:text-[var(--ink)]"><X size={20} /></button>
@@ -236,9 +236,9 @@ export default function WordFormationExplorer() {
             <div className="flex-1 space-y-8 overflow-y-auto p-6">
               <div className="flex items-start gap-3 rounded-xl border border-[var(--slate-accent)]/25 bg-[var(--slate-accent)]/10 p-4 text-sm text-[var(--ink-dim)]">
                 <Info size={18} className="mt-0.5 shrink-0 text-[var(--slate-accent)]" />
-                <p>
-                  <strong className="text-[var(--ink)]">វិធីកម្លាយ (Derivation):</strong> ការបង្កើតពាក្យថ្មីពីពាក្យឫស ដោយប្រើ <strong className="text-[var(--ink)]">ផ្នត់ (Affixes)</strong>។ ផ្នត់ដើមមាន ៥ ទម្រង់ និងផ្នត់ជែកមាន ៦ ទម្រង់។
-                </p>
+                  <p>
+                    <strong className="text-[var(--ink)]">វិធីកម្លាយ (Derivation):</strong> ការបង្កើតពាក្យថ្មីពីពាក្យឫស ដោយប្រើ <strong className="text-[var(--ink)]">ផ្នត់ (Affixes)</strong>។ ផ្នត់ដើមមាន ៥ ទម្រង់ ផ្នត់ជែកមាន ៦ ទម្រង់ ព្រមទាំងលក្ខណៈព្យាង្គ និងសូរព្យញ្ជនៈ/ស្រៈ។
+                  </p>
               </div>
 
               <section>
@@ -248,10 +248,10 @@ export default function WordFormationExplorer() {
                 </h3>
                 <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
                   {[
-                    ["១. ទម្រង់ [ព-]", "បន្ថែមព្យញ្ជនៈទោលមួយនៅខាងមុខពាក្យឫស។", "ក + កាយ ➔ កកាយ"],
+                    ["១. ទម្រង់ [ព-]", "បន្ថែមព្យញ្ជនៈទោលមួយនៅខាងមុខពាក្យឫស។", "ក + កាយ ➔ កកាយ, ក + ម៉ៅ ➔ ខ្មៅ"],
                     ["២. ទម្រង់ [ពន/ណ-]", "បន្ថែមព្យញ្ជនៈភ្ជាប់ជាមួយ ន ឬ ណ។", "ប + ណ + ដើរ ➔ បណ្ដើរ"],
-                    ["៣. ទម្រង់ [ពម/ំ-]", "បន្ថែមព្យញ្ជនៈភ្ជាប់ជាមួយ ម ឬ និគ្គហិត (-ំ)។", "ប + ំ + បែក ➔ បំបែក"],
-                    ["៤. ទម្រង់ [ពល/រ-]", "បន្ថែមព្យញ្ជនៈភ្ជាប់ជាមួយ ល ឬ រ។", "ក + រ + វី ➔ ក្រវី"],
+                    ["៣. ទម្រង់ [ពម/ំ-]", "បន្ថែមព្យញ្ជនៈភ្ជាប់ជាមួយ ម ឬ និគ្គហិត (-ំ)។", "ប + ំ + ប្លែង ➔ បំប្លែង, ក + ំ + បាំង ➔ កំបាំង"],
+                    ["៤. ទម្រង់ [ពល/រ-]", "បន្ថែមព្យញ្ជនៈភ្ជាប់ជាមួយ ល ឬ រ។", "ជ + រ + ុះ ➔ ជ្រុះ, ប្រ + កាប់ ➔ ប្រកាប់"],
                     ["៥. ទម្រង់ [ពស/អ-]", "បន្ថែមព្យញ្ជនៈ ស ឬ ការប្រែប្រួលសំឡេងស្រៈ។", "ស + ម្ងាត់ ➔ សម្ងាត់"],
                   ].map(([title, body, demo]) => (
                     <div key={title} className="rounded-xl border border-[var(--ground-line)] bg-[var(--ground)] p-4">
@@ -275,6 +275,133 @@ export default function WordFormationExplorer() {
                       <p className="mt-2 rounded-lg border border-[var(--ground-line)] bg-[var(--ground-raised)] p-2 font-mono-ui text-xs text-[var(--ink)]">{form.demo}</p>
                     </div>
                   ))}
+                </div>
+              </section>
+
+              <section>
+                <h3 className="mb-3 flex items-center gap-2 border-b border-[var(--ground-line)] pb-2 font-khmer text-lg font-bold text-[var(--ink)]">
+                  <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[var(--slate-accent)]/15 font-mono-ui text-xs font-bold text-[var(--slate-accent)]">៣</span>
+                  លក្ខណៈរបស់ព្យាង្គ (Syllable Characteristics)
+                </h3>
+                <p className="mb-3 text-xs text-[var(--ink-faint)]">យោងតាមមេរៀនទី១០ នៃសៀវភៅសិក្សាគោលថ្នាក់ទី១១ ព្យាង្គត្រូវបានបែងចែកតាមលក្ខណៈខ្យល់ និងការបន្លឺ៖</p>
+                <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+                  {[
+                    ["ព្យាង្គបើក (Open)", "ជាព្យាង្គដែលបញ្ចប់ដោយស្រៈ មានទម្រង់ ពស ឬ ពពស។", "ឧទាហរណ៍: ដើរ, ស្រែ, បើ"],
+                    ["ព្យាង្គបិទ (Closed)", "ជាព្យាង្គដែលមានព្យញ្ជនៈនៅខាងចុង មានទម្រង់ ពសព ឬ ពពសព។", "ឧទាហរណ៍: ដឹង, កាប់"],
+                    ["ព្យាង្គវែង (Long)", "ជាព្យាង្គដែលប្រើប្រាស់ស្រៈវែង ទាញសូរបន្លាយ។", ""],
+                    ["ព្យាង្គខ្លី (Short)", "ជាព្យាង្គដែលអានដាច់សម្លេងខ្លីៗ ពាក្យដែលមានបន្តក់ ឬស្រៈខ្លី។", ""],
+                  ].map(([title, body, demo]) => (
+                    <div key={title} className="rounded-xl border border-[var(--ground-line)] bg-[var(--ground)] p-4">
+                      <h4 className="mb-1 inline-block rounded bg-[var(--slate-accent)]/10 px-2 py-0.5 text-xs font-bold text-[var(--slate-accent)]">{title}</h4>
+                      <p className="text-xs leading-relaxed text-[var(--ink-dim)]">{body}</p>
+                      {demo && <p className="mt-2 rounded-lg border border-[var(--ground-line)] bg-[var(--ground-raised)] p-2 font-mono-ui text-xs text-[var(--ink)]">{demo}</p>}
+                    </div>
+                  ))}
+                </div>
+              </section>
+
+              <section>
+                <h3 className="mb-3 flex items-center gap-2 border-b border-[var(--ground-line)] pb-2 font-khmer text-lg font-bold text-[var(--ink)]">
+                  <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[var(--danger)]/15 font-mono-ui text-xs font-bold text-[var(--danger)]">៤</span>
+                  សូរព្យញ្ជនៈ និង សូរស្រៈ (Phonetics)
+                </h3>
+                <p className="mb-3 text-xs text-[var(--ink-faint)]">យោងតាមមេរៀនទី៣ «សេចក្តីក្លាហាន» ការបន្លឺសំឡេងត្រូវបានបែងចែកជា លក្ខណៈខ្យល់ និង លក្ខណៈឮ។</p>
+                <div className="mb-4">
+                  <h4 className="mb-2 text-xs font-bold uppercase tracking-wider text-[var(--ink-faint)]">១. ចំណាត់ថ្នាក់ព្យញ្ជនៈតាមលក្ខណៈខ្យល់</h4>
+                  <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
+                    {[
+                      ["ខ្យល់ស្ទះ (Stops)", "បន្លឺឡើងដោយដំណើរខ្យល់ផ្ទុះ។", "ក, គ, ត, ទ"],
+                      ["ខ្យល់ច្រមុះ (Nasals)", "បន្លឺដោយមានភាពរំពងក្នុងច្រមុះ។", "ង, ញ, ន, ម"],
+                      ["ខ្យល់បង្ហូរត្រដុស (Fricatives/Liquids)", "បន្លឺដោយខ្យល់ត្រដុស ឬហូរ។", "ស, ហ, រ, ល"],
+                    ].map(([title, body, demo]) => (
+                      <div key={title} className="rounded-xl border border-[var(--ground-line)] bg-[var(--ground)] p-4">
+                        <h5 className="mb-1 inline-block rounded bg-[var(--danger)]/10 px-2 py-0.5 text-xs font-bold text-[var(--danger)]">{title}</h5>
+                        <p className="text-xs leading-relaxed text-[var(--ink-dim)]">{body}</p>
+                        <p className="mt-2 rounded-lg border border-[var(--ground-line)] bg-[var(--ground-raised)] p-2 text-center font-mono-ui text-sm font-semibold text-[var(--ink)]">{demo}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <h4 className="mb-2 text-xs font-bold uppercase tracking-wider text-[var(--ink-faint)]">២. ចំណាត់ថ្នាក់សូរស្រៈ</h4>
+                  <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+                    {[
+                      ["ស្រៈនិស្ស័យ (Dependent Vowels)", "បែងចែកជា ២ ពួកគឺ ពួក អ និង ពួក អ៊។", ""],
+                      ["ស្រៈពេញតួ (Independent Vowels)", "ស្រៈពិសេសដែលអាចសរសេរ និងប្រើប្រាស់ឯកឯងបាន ប្រើនៅដើម ឬ ចុងព្យាង្គ។", "ឪពុក, ឧបករណ៏, ឯកឧត្តម"],
+                    ].map(([title, body, demo]) => (
+                      <div key={title} className="rounded-xl border border-[var(--ground-line)] bg-[var(--ground)] p-4">
+                        <h5 className="mb-1 inline-block rounded bg-[var(--danger)]/10 px-2 py-0.5 text-xs font-bold text-[var(--danger)]">{title}</h5>
+                        <p className="text-xs leading-relaxed text-[var(--ink-dim)]">{body}</p>
+                        {demo && <p className="mt-2 rounded-lg border border-[var(--ground-line)] bg-[var(--ground-raised)] p-2 font-mono-ui text-xs text-[var(--ink)]">{demo}</p>}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </section>
+
+              <section>
+                <h3 className="mb-3 flex items-center gap-2 border-b border-[var(--ground-line)] pb-2 font-khmer text-lg font-bold text-[var(--ink)]">
+                  <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[var(--gold)]/15 font-mono-ui text-xs font-bold text-[var(--gold)]">៥</span>
+                  ប្រវត្តិអក្សរសិល្ប៍ និង ចលនា (Literature History & Movements)
+                </h3>
+                <p className="mb-3 text-xs leading-relaxed text-[var(--ink-faint)]">អក្សរសិល្ប៍ខ្មែរត្រូវបានបែងចែកជាច្រើនសម័យកាល និងចលនាផ្សេងៗគ្នា ដែលឆ្លុះបញ្ចាំងពីតថភាពសង្គម មនុស្ស និងវប្បធម៌។</p>
+                <h4 className="mb-2 text-xs font-bold uppercase tracking-wider text-[var(--ink-faint)]">សម័យកាលអក្សរសិល្ប៍</h4>
+                <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+                  {[
+                    ["សម័យបុរាណ", "មុនអង្គរ (ស.វ.ទី១ ដល់ទី៨) និង សម័យអង្គរ (៨០២-១៤៣១)។"],
+                    ["សម័យកណ្ដាល", "ឆ្នាំ ១៤៣១ ដល់ ឆ្នាំ ១៨៦៣។ អ្នកនិពន្ធល្បីៗមាន ព្រះរាជសម្ភារ, ឧកញ៉ាសន្ធរវោហាម៉ុក, ជ័យនន្ទ។"],
+                    ["សម័យទំនើប", "ឆ្នាំ ១៨៦៣ ដល់ ១៩៥៣។"],
+                    ["សម័យបច្ចុប្បន្ន", "ឆ្នាំ ១៩៥៣ រហូតមក។"],
+                  ].map(([title, body]) => (
+                    <div key={title} className="rounded-xl border border-[var(--ground-line)] bg-[var(--ground)] p-4">
+                      <h5 className="mb-1 inline-block rounded bg-[var(--gold)]/10 px-2 py-0.5 font-khmer text-xs font-bold text-[var(--gold)]">{title}</h5>
+                      <p className="font-khmer text-xs leading-relaxed text-[var(--ink-dim)]">{body}</p>
+                    </div>
+                  ))}
+                </div>
+                <h4 className="mb-2 mt-5 text-xs font-bold uppercase tracking-wider text-[var(--ink-faint)]">ចលនាអក្សរសិល្ប៍ (៤ ចលនា)</h4>
+                <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+                  {[
+                    ["១. ពុទ្ធនិយម", "យកទ្រឹស្ដីពុទ្ធសាសនា (បុណ្យ-បាប, កម្មផល) ជាគោល។ ឧ. មហាវេស្សន្តរជាតក។"],
+                    ["២. ព្រាហ្មណ៍និយម", "ផ្តោតលើអច្ឆរិយបុគ្គល (ព្រះព្រហ្ម, វិស្ណុ, សិវៈ) មានមន្តអាគម។ ឧ. រឿងរាមកេរ្តិ៍។"],
+                    ["៣. ខេមរនិយម", "ឆ្លុះបញ្ចាំងពីសង្គមខ្មែរជាក់ស្តែង។"],
+                    ["៤. បរទេសនិយម", "ទទួលឥទ្ធិពលបរទេស។ ឧ. រឿងកុលាបប៉ៃលិន, រឿងសូផាត។"],
+                  ].map(([title, body]) => (
+                    <div key={title} className="rounded-xl border border-[var(--ground-line)] bg-[var(--ground)] p-4">
+                      <h5 className="mb-1 inline-block rounded bg-[var(--success)]/10 px-2 py-0.5 font-khmer text-xs font-bold text-[var(--success)]">{title}</h5>
+                      <p className="font-khmer text-xs leading-relaxed text-[var(--ink-dim)]">{body}</p>
+                    </div>
+                  ))}
+                </div>
+              </section>
+
+              <section>
+                <h3 className="mb-3 flex items-center gap-2 border-b border-[var(--ground-line)] pb-2 font-khmer text-lg font-bold text-[var(--ink)]">
+                  <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[var(--slate-accent)]/15 font-mono-ui text-xs font-bold text-[var(--slate-accent)]">៦</span>
+                  តែងសេចក្ដី និង វិភាគអត្ថបទ (Composition & Analysis)
+                </h3>
+                <div className="mb-4 rounded-xl border border-[var(--slate-accent)]/25 bg-[var(--slate-accent)]/10 p-4">
+                  <h4 className="mb-1 font-khmer text-sm font-bold text-[var(--slate-accent)]">តែងសេចក្ដីបែបពិភាក្សា</h4>
+                  <p className="font-khmer text-xs leading-relaxed text-[var(--ink-dim)]">តម្រូវឱ្យអ្នកធ្វើការថ្លឹងថ្លែងពិចារណាលើ មតិស្រប និង មតិផ្ទុយ ដោយមានអំណះអំណាងរឹងមាំ និងមានការសំយោគមតិ នៅចុងបញ្ចប់ប្រសិនបើមតិទាំងពីរទាក់ទងគ្នា។</p>
+                </div>
+                <h4 className="mb-2 text-xs font-bold uppercase tracking-wider text-[var(--ink-faint)]">ការវិភាគអត្ថបទ (Text Analysis)</h4>
+                <p className="mb-3 font-khmer text-xs text-[var(--ink-faint)]">ត្រូវផ្តោតលើចំណុច ៤ យ៉ាងធំៗ៖</p>
+                <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+                  {[
+                    ["បង្ហាញអត្ថបទ", "អ្នកនិពន្ធ, ជីវប្រវត្តិ, កាលកំណត់តែង, និង ប្រភពរឿង។"],
+                    ["សង្ខេបអត្ថបទ", "តួអង្គ, កាលអាកាស, និង បញ្ហាសង្គម។"],
+                    ["អត្ថន័យ", "ពិភាក្សាលើប្រធានរឿង, ទំនាស់, វិភាគតួអង្គ (គុណសម្បត្តិ និង គុណវិបត្តិ), និង តម្លៃអប់រំ។"],
+                    ["អត្ថរូប", "សិក្សាពី វិធីតែងនិពន្ធ, របៀបសរសេរ, សំវាទវិធី, សារសព្ទ។"],
+                  ].map(([title, body]) => (
+                    <div key={title} className="rounded-xl border border-[var(--ground-line)] bg-[var(--ground)] p-4">
+                      <h5 className="mb-1 inline-block rounded bg-[var(--danger)]/10 px-2 py-0.5 font-khmer text-xs font-bold text-[var(--danger)]">{title}</h5>
+                      <p className="font-khmer text-xs leading-relaxed text-[var(--ink-dim)]">{body}</p>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-4 rounded-xl border border-[var(--gold)]/25 bg-[var(--gold)]/5 p-4">
+                  <h4 className="mb-1 font-khmer text-sm font-bold text-[var(--gold)]">សំយោគមតិ (Synthesis)</h4>
+                  <p className="font-khmer text-xs leading-relaxed text-[var(--ink-dim)]">គឺជាការពង្រឹង ឬ ប្រមូលផ្តុំគំនិត ព័ត៌មាន ឬ ព្រឹត្តិការណ៍សំខាន់ៗដែលមាននៅក្នុងរបាយការណ៍ ឬ អត្ថបទនានា បញ្ចូលគ្នាដើម្បីទាញរកសេចក្តីសន្និដ្ឋានមួយដ៏ត្រឹមត្រូវ។</p>
                 </div>
               </section>
             </div>

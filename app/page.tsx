@@ -1,12 +1,18 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Search, ArrowLeft, Star, Waypoints, LayoutGrid, ArrowUpDown, Layers } from "lucide-react";
 import { CollectionsPicker } from "@/components/CollectionsPicker";
 import { CollectionsSection } from "@/components/CollectionsSection";
 import { CommandPalette } from "@/components/CommandPalette";
 import { HeaderInfo } from "@/components/HeaderInfo";
+import { UniversalInput } from "@/components/UniversalInput";
+import { HomeSpotlightCarousel } from "@/components/HomeSpotlightCarousel";
+import { WorkspaceSwitcher } from "@/components/WorkspaceSwitcher";
+import { parseIntent } from "@/lib/intent-parser";
+import { DEFAULT_WORKSPACE_PROFILES, WORKSPACES, type WorkspaceProfile } from "@/lib/workspaces";
 import { LanguageToggle } from "@/components/LanguageToggle";
 import { useLanguage } from "@/components/LanguageProvider";
 import { ThemeToggle } from "@/components/ThemeToggle";
@@ -42,6 +48,8 @@ export default function Home() {
   const [paletteOpen, setPaletteOpen] = useState(false);
   const [activeId, setActiveIdRaw] = useState<string | null>(null);
   const [filter, setFilter] = useState("");
+  const parsedFilter = useMemo(() => parseIntent(filter), [filter]);
+  const isCalculationIntent = Boolean(filter.trim() && parsedFilter.toolId && parsedFilter.domain !== "tool" && parsedFilter.domain !== "khmer");
   const [graphFocusCategory, setGraphFocusCategory] = useState<Category | null>(null);
   const { value: viewMode, setValue: setViewMode } = useLocalStorage<"grid" | "graph">(
     STORAGE_KEYS.viewMode,
@@ -57,6 +65,8 @@ export default function Home() {
   const { value: favorites, setValue: setFavorites } = useLocalStorage<string[]>(STORAGE_KEYS.favorites, []);
   const { value: recents, setValue: setRecents } = useLocalStorage<string[]>(STORAGE_KEYS.recents, []);
   const { value: collections, setValue: setCollections } = useLocalStorage<ToolCollection[]>(STORAGE_KEYS.collections, []);
+  const { value: workspaceId, setValue: setWorkspaceId } = useLocalStorage(STORAGE_KEYS.workspace, "all");
+  const { value: workspaceProfiles } = useLocalStorage<WorkspaceProfile[]>("workspace-profiles", DEFAULT_WORKSPACE_PROFILES);
   const { value: viewpoint, setValue: setViewpoint, hydrated } = useLocalStorage<Viewpoint>(STORAGE_KEYS.viewpoint, {
     activeId: null,
     scrollY: 0,
@@ -65,6 +75,7 @@ export default function Home() {
   const smartSuggestions = useMemo(() => {
     const value = filter.trim();
     if (!value) return [] as typeof TOOLS;
+    if (isCalculationIntent) return [] as typeof TOOLS;
     const ids: string[] = [];
     const lower = value.toLowerCase();
     const push = (...toolIds: string[]) => ids.push(...toolIds);
@@ -102,7 +113,7 @@ export default function Home() {
         .forEach(({ tool }) => push(tool.id));
     }
     return [...new Set(ids)].map((id) => TOOLS.find((tool) => tool.id === id)).filter(Boolean) as typeof TOOLS;
-  }, [filter]);
+  }, [filter, isCalculationIntent]);
 
   // Keep a ref mirror of the last known grid scroll position so the restore
   // effect below can read it without re-running on every scroll tick.
@@ -231,19 +242,27 @@ export default function Home() {
   const active = useMemo(() => TOOLS.find((t) => t.id === activeId) ?? null, [activeId]);
 
   const filteredByCategory = useMemo(() => {
-    const q = filter.trim().toLowerCase();
+    // A recognized calculation belongs to its routed calculator, not the
+    // ordinary tool-name filter. Keep the catalog visible behind the action.
+    const q = isCalculationIntent ? "" : filter.trim().toLowerCase();
     const map = new Map<Category, typeof TOOLS>();
+    const workspace = WORKSPACES.find((item) => item.id === workspaceId);
     for (const cat of CATEGORY_ORDER) {
       const list = TOOLS.filter(
-        (t) => t.category === cat && (q === "" || t.title.toLowerCase().includes(q) || t.khmerTitle?.toLowerCase().includes(q) || t.keywords.some((k) => k.includes(q)))
+        (t) => t.category === cat
+          && (!workspace || workspace.keywords.some((id) => id === t.id))
+          && (q === "" || t.title.toLowerCase().includes(q) || t.khmerTitle?.toLowerCase().includes(q) || t.keywords.some((k) => k.includes(q)))
       );
       if (list.length) map.set(cat, list);
     }
     return map;
-  }, [filter]);
+  }, [filter, isCalculationIntent, workspaceId]);
 
-  const favoriteTools = useMemo(() => favorites.map((id) => TOOLS.find((t) => t.id === id)).filter(Boolean) as typeof TOOLS, [favorites]);
-  const recentTools = useMemo(() => recents.map((id) => TOOLS.find((t) => t.id === id)).filter(Boolean) as typeof TOOLS, [recents]);
+  const activeWorkspaceProfile = workspaceProfiles.find((profile) => profile.id === workspaceId);
+  const favoriteIds = activeWorkspaceProfile?.favoriteToolIds ?? favorites;
+  const recentIds = activeWorkspaceProfile?.recentCalculations ?? recents;
+  const favoriteTools = useMemo(() => favoriteIds.map((id) => TOOLS.find((t) => t.id === id)).filter(Boolean) as typeof TOOLS, [favoriteIds]);
+  const recentTools = useMemo(() => recentIds.map((id) => TOOLS.find((t) => t.id === id)).filter(Boolean) as typeof TOOLS, [recentIds]);
   const dailyAddition = useMemo(() => {
     // Current Monday–Sunday week in Asia/Phnom_Penh (UTC+7).
     const ppNow = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Phnom_Penh" }));
@@ -354,8 +373,8 @@ export default function Home() {
       <div className="grid-veil pointer-events-none absolute inset-0 top-0" />
 
       <div className="sticky-nav relative" data-scrolled={navScrolled}>
-        <div className="home-nav-inner mx-auto flex max-w-[77rem] items-center gap-3 px-5 py-3 sm:px-10">
-          <span className="home-brand shrink-0 font-display text-sm font-semibold text-[var(--gold)]">១២៣</span>
+         <div className="home-nav-inner mx-auto flex max-w-[77rem] items-center gap-3 px-5 py-2 sm:px-10">
+           <Link href="/" aria-label="123 Toolbox home" className="home-brand shrink-0 font-display text-sm font-bold text-[var(--gold)] hover:text-[var(--gold-dim)]">១២៣</Link>
 
           <div className="category-ticker min-w-0 flex-1">
             <div className="category-ticker-track">
@@ -419,8 +438,9 @@ export default function Home() {
 
       {viewMode === "grid" && (
       <>
-      <div className="home-hero relative mx-auto mt-14 max-w-3xl px-5 text-center sm:px-10">
-        <div className="mb-5 flex items-center justify-center gap-2 text-xs tracking-[0.1em] text-[var(--ink-faint)]">
+       <div className="relative mx-auto min-h-0 max-w-[77rem] px-5 sm:px-10 xl:min-h-[20rem]">
+       <div className="home-hero relative mx-auto mt-8 max-w-3xl text-center">
+         <div className="mb-3 flex items-center justify-center gap-2 text-xs font-bold tracking-[0.1em] text-[var(--ink-faint)]">
           <span>{t("one workbench", "កន្លែងធ្វើការតែមួយ")}</span>
           <span className="text-[var(--gold)]">·</span>
           <span>{t("one toolbox", "ប្រអប់ឧបករណ៍តែមួយ")}</span>
@@ -435,35 +455,22 @@ export default function Home() {
             {t("adding more tools everyday", "បន្ថែមឧបករណ៍រាល់ថ្ងៃ")}
           </span>
         </div>
-        <h1 className="font-display text-4xl font-semibold leading-tight text-[var(--ink)] sm:text-5xl">
-          {t("one workbench", "កន្លែងធ្វើការតែមួយ")}
-          <br /> {t("one toolbox", "ប្រអប់ឧបករណ៍តែមួយ")}
-        </h1>
-        <p className="mx-auto mt-4 max-w-lg text-sm leading-relaxed text-[var(--ink-dim)]">
+         <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-[var(--ink-dim)]">
           {t("Office, development, text, math, Khmer language, geospatial, network, security, design, and time utilities — all searchable in one place.", "ឧបករណ៍សម្រាប់ការិយាល័យ អ្នកអភិវឌ្ឍន៍ អត្ថបទ គណិតវិទ្យា ភាសាខ្មែរ ភូមិសាស្ត្រ បណ្តាញ សុវត្ថិភាព ការរចនា និងពេលវេលា — ស្វែងរក និងប្រើប្រាស់បានយ៉ាងងាយស្រួល។")}
         </p>
-        <p className="mx-auto mt-2 max-w-lg text-xs leading-relaxed text-[var(--ink-faint)]">
-          {t(`Merge and compress PDFs, remove image backgrounds, convert Khmer digits, generate QR codes, and ${TOTAL - 4} more — free in your browser.`, `បញ្ចូល និងបង្រួម PDF លុបផ្ទៃខាងក្រោយរូបភាព បម្លែងលេខខ្មែរ បង្កើតកូដ QR និងឧបករណ៍ ${toKh(TOTAL - 4)} មុខទៀត — ឥតគិតថ្លៃ និងដំណើរការក្នុងកម្មវិធីរុករករបស់អ្នក។`)}
-        </p>
+         <p className="mx-auto mt-1 max-w-lg text-xs leading-relaxed text-[var(--ink-faint)]">
+           {t(`Merge and compress PDFs, remove image backgrounds, convert Khmer digits, generate QR codes, and ${TOTAL - 4} more — free in your browser.`, `បញ្ចូល និងបង្រួម PDF លុបផ្ទៃខាងក្រោយរូបភាព បម្លែងលេខខ្មែរ បង្កើតកូដ QR និងឧបករណ៍ ${toKh(TOTAL - 4)} មុខទៀត — ឥតគិតថ្លៃ និងដំណើរការក្នុងកម្មវិធីរុករករបស់អ្នក។`)}
+         </p>
 
-        <div className="mx-auto mt-10 flex w-full max-w-md items-center gap-2 rounded-lg border border-[var(--ground-line)] bg-[var(--ground-raised)] px-4 py-3 text-left text-sm text-[var(--ink-faint)] transition focus-within:border-[var(--gold-dim)]">
-          <Search size={16} />
-          <input
-            value={filter}
-            onChange={(e) => setFilter(e.target.value)}
-            placeholder={t(`Filter ${TOTAL} tools…`, `ស្វែងរកក្នុងចំណោមឧបករណ៍ ${toKh(TOTAL)} មុខ…`)}
-            className="w-full bg-transparent text-[var(--ink)] outline-none placeholder:text-[var(--ink-faint)]"
-          />
-          <span title={t("Press / to search", "ចុច / ដើម្បីស្វែងរក")} className="flex shrink-0 items-center rounded border border-[var(--ground-line)] px-1.5 py-0.5 font-mono-ui text-[10px]">
-            /
-          </span>
-        </div>
-        {smartSuggestions.length > 0 && (
+         <UniversalInput value={filter} onChange={setFilter} />
+         <WorkspaceSwitcher value={workspaceId} onChange={setWorkspaceId} />
+
+         {smartSuggestions.length > 0 && (
           <div className="mx-auto mt-2 flex w-full max-w-md flex-wrap items-center justify-center gap-1.5 text-left">
             <span className="text-[10px] font-semibold uppercase tracking-wide text-[var(--ink-faint)]">
               {t("Looks like…", "ប្រហែលជា…")}
             </span>
-            {smartSuggestions.slice(0, 4).map((suggestion) => {
+             {smartSuggestions.slice(0, 4).map((suggestion) => {
               const suggestionKm = suggestion.khmerTitle ?? suggestion.title;
               return (
                 <button
@@ -475,10 +482,12 @@ export default function Home() {
                   {t(suggestion.title, suggestionKm)}
                 </button>
               );
-            })}
-          </div>
-        )}
-      </div>
+              })}
+           </div>
+          )}
+       </div>
+       <HomeSpotlightCarousel />
+       </div>
 
       {filter === "" && dailyAddition.date && dailyAddition.tools.length > 0 && (
         <div className="recently-added relative mx-auto mt-12 max-w-[77rem] px-5 sm:px-10">

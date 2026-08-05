@@ -4529,10 +4529,7 @@ export const STATIC_DATABASE: Record<string, KhmerWordData> = {
     pronunciation: "បាត់",
     definition: "(កិ.) មិនឃើញ, វិនាស, ស្ងាត់ (To lose/disappear).",
     homophones: [
-      { word: "បាត់", definition: "មិនឃើញ", pronunciation: "បាត់" },
-      { word: "បាត", definition: "បាតដៃ / ក្រោម", pronunciation: "បាត" },
-      { word: "បាត្រ", definition: "បាត្រលោក", pronunciation: "បាត" },
-      { word: "បាទ", definition: "ចាស (ប្រុស)", pronunciation: "បាត" }
+      { word: "បាត់", definition: "មិនឃើញ", pronunciation: "បាត់" }
     ],
     synonyms: ["វិនាស"],
     antonyms: ["ឃើញ", "នៅ"],

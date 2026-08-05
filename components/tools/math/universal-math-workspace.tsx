@@ -1,10 +1,11 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ArrowLeftRight, Calculator, Clock3, Copy, History, Percent, Ruler } from "lucide-react";
 import { useLanguage } from "@/components/LanguageProvider";
 import { ToolShell } from "@/components/ui/Shell";
 import { useToolState } from "@/lib/storage";
+import { useQueryInput } from "@/lib/query-input";
 import { UNIT_CATEGORY_FACTORS } from "./unit-pair";
 
 type Category = keyof typeof UNIT_CATEGORY_FACTORS;
@@ -26,6 +27,11 @@ export default function UniversalMathWorkspace() {
   const [from, setFrom] = useState("meter");
   const [value, setValue] = useState("100");
   const [history, setHistory] = useToolState<string[]>("math-workspace:history", []);
+  const queryInput = useQueryInput();
+
+  useEffect(() => {
+    if (queryInput) setInput(queryInput);
+  }, [queryInput, setInput]);
 
   const parsed = useMemo(() => {
     const q = input.trim();

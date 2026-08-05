@@ -3,6 +3,7 @@ import Link from "next/link";
 import { JetBrains_Mono, Kantumruy_Pro, Moul, Siemreap, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import "./mobile.css";
+import "./mobile-carousel.css";
 import { AppProviders } from "@/components/AppProviders";
 import { themeInitScript } from "@/components/ThemeProvider";
 import { ScrollToTopButton } from "@/components/ScrollToTopButton";

@@ -330,6 +330,7 @@ export default function TsxPortal() {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"><\/script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"><\/script>
 <script src="https://cdn.jsdelivr.net/npm/lucide-react@0.436.0/dist/umd/lucide-react.min.js"><\/script>
+<script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.13/dist/html-to-image.js"><\/script>
 <script src="https://cdn.tailwindcss.com"><\/script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;600;700&display=swap" rel="stylesheet">
@@ -356,7 +357,11 @@ function require(name){
     if(!window.LucideReact)throw new Error('lucide-react not loaded');
     return window.LucideReact;
   }
-  throw new Error('Import not supported: "'+name+'"');
+  if(name==='html-to-image'){
+    if(!window.htmlToImage)throw new Error('html-to-image not loaded');
+    return window.htmlToImage;
+  }
+  throw new Error('Import not supported: "'+name+'". Available: react, react-dom, react-dom/client, lucide-react, html-to-image');
 }
 try{
   ${compiled}
@@ -401,8 +406,8 @@ try{
   return (
     <ToolShell
       title="TSX Portal"
-      description="Drop in, run, and view — a live TSX / JSX, Markdown, and BBCode playground with split-pane preview. Ctrl+Enter to compile."
-      descriptionKm="សាកល្បងសរសេរ និងមើលកូដ TSX / JSX, Markdown និង BBCode ជាមួយនឹងការបង្ហាញលទ្ធផលភ្លាមៗ។ Ctrl+Enter ដើម្បីដំណើរការ។"
+      description="Drop in, run, and view — a live TSX / JSX, Markdown, and BBCode playground with split-pane preview. Ctrl+Enter to compile. Supported imports: react, react-dom, lucide-react, html-to-image."
+      descriptionKm="សាកល្បងសរសេរ និងមើលកូដ TSX / JSX, Markdown និង BBCode ជាមួយនឹងការបង្ហាញលទ្ធផលភ្លាមៗ។ Ctrl+Enter ដើម្បីដំណើរការ។ កញ្ចប់ដែលអាច import បាន៖ react, react-dom, lucide-react, html-to-image។"
     >
       <div className="rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)] overflow-hidden">
         {/* Toolbar */}

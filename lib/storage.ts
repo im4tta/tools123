@@ -94,6 +94,7 @@ export const STORAGE_KEYS = {
   viewMode: "viewMode",
   language: "language",
   collections: "collections",
+  workspace: "workspace",
   toolState: (id: string) => `tool:${id}`,
 } as const;
 
