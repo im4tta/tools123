@@ -47,8 +47,8 @@ export function ToolRouteClient({ toolId }: { toolId: string }) {
   if (!tool) return null;
   const currentToolId = tool.id;
   function clearSavedToolData() {
-    if (!window.confirm(t("Clear this tool's saved data?", "លុបទិន្នន័យដែលបានរក្សាទុករបស់ឧបករណ៍នេះ?"))) return;
-    storage.remove(STORAGE_KEYS.toolState(currentToolId));
+    if (!window.confirm(t("Clear all saved app data? This removes favorites, workspaces, collections, and tool inputs.", "លុបទិន្នន័យកម្មវិធីដែលបានរក្សាទុកទាំងអស់? វានឹងលុបចំណូលចិត្ត កន្លែងធ្វើការ បណ្តុំ និងទិន្នន័យបញ្ចូលរបស់ឧបករណ៍។"))) return;
+    storage.clearAll();
     window.location.reload();
   }
   const ToolComponent = tool.Component;
@@ -114,8 +114,8 @@ export function ToolRouteClient({ toolId }: { toolId: string }) {
             <button
               type="button"
               onClick={clearSavedToolData}
-              aria-label={t("Clear saved data", "លុបទិន្នន័យដែលបានរក្សាទុក")}
-              title={t("Clear saved data", "លុបទិន្នន័យដែលបានរក្សាទុក")}
+               aria-label={t("Clear all app data", "លុបទិន្នន័យកម្មវិធីទាំងអស់")}
+               title={t("Clear all app data", "លុបទិន្នន័យកម្មវិធីទាំងអស់")}
               className="flex h-8 w-8 items-center justify-center rounded-md border border-[var(--ground-line)] text-[var(--ink-faint)] transition hover:border-[var(--danger)]/50 hover:text-[var(--danger)]"
             >
               <Trash2 size={14} />
