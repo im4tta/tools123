@@ -18,7 +18,8 @@
   .home-spotlight-carousel > div::-webkit-scrollbar { display: none; }
 
   .home-spotlight-card {
-    flex: 0 0 min(72vw, 17rem);
+    flex: 0 0 100%;
+    max-width: none;
     border-radius: 0.75rem;
     padding: 0.6rem;
     scroll-snap-align: start;
