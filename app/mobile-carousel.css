@@ -1,0 +1,49 @@
+/* Compact side-data cards on phones. Desktop sizing stays in the component. */
+@media (max-width: 640px) {
+  .home-spotlight-carousel {
+    margin-top: 0.5rem;
+    padding-inline: 0.5rem;
+  }
+
+  .home-spotlight-carousel > div {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+    overflow-x: auto;
+    padding-bottom: 0.25rem;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  .home-spotlight-carousel > div::-webkit-scrollbar { display: none; }
+
+  .home-spotlight-card {
+    flex: 0 0 calc((100% - 0.5rem) / 2);
+    min-width: 0;
+    max-width: none;
+    height: 13.5rem;
+    overflow: hidden;
+    border-radius: 0.75rem;
+    padding: 0.6rem;
+    scroll-snap-align: start;
+  }
+
+  .home-spotlight-card .home-spotlight-heading {
+    margin-bottom: 0.5rem;
+    font-size: 0.65rem;
+  }
+
+  .home-spotlight-card .home-spotlight-value {
+    font-size: 1rem;
+  }
+
+  .home-spotlight-card .home-spotlight-detail-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.35rem 0.75rem;
+  }
+
+  .home-spotlight-card .home-spotlight-location-dots {
+    max-height: 1.25rem;
+    overflow: hidden;
+  }
+}

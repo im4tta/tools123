@@ -84,6 +84,21 @@ export const storage = {
     if (typeof window === "undefined") return;
     window.localStorage.removeItem(`${PREFIX}${key}`);
   },
+  removeToolData(toolId: string) {
+    if (typeof window === "undefined") return;
+    const toolPrefix = `${PREFIX}${STORAGE_KEYS.toolState(toolId)}:`;
+    const exactKey = `${PREFIX}${STORAGE_KEYS.toolState(toolId)}`;
+    const keys = Object.keys(window.localStorage);
+    for (const key of keys) {
+      if (key === exactKey || key.startsWith(toolPrefix)) window.localStorage.removeItem(key);
+    }
+  },
+  clearAll() {
+    if (typeof window === "undefined") return;
+    for (const key of Object.keys(window.localStorage)) {
+      if (key.startsWith(PREFIX)) window.localStorage.removeItem(key);
+    }
+  },
 };
 
 export const STORAGE_KEYS = {
@@ -94,6 +109,7 @@ export const STORAGE_KEYS = {
   viewMode: "viewMode",
   language: "language",
   collections: "collections",
+  workspace: "workspace",
   toolState: (id: string) => `tool:${id}`,
 } as const;
 

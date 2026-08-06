@@ -3,16 +3,18 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
-import { ArrowLeft, Search, ShieldCheck, Star } from "lucide-react";
+import { ArrowLeft, Search, ShieldCheck, Star, Trash2 } from "lucide-react";
 import { CollectionsPicker } from "@/components/CollectionsPicker";
 import { CommandPalette } from "@/components/CommandPalette";
 import { HeaderInfo } from "@/components/HeaderInfo";
 import { LanguageToggle } from "@/components/LanguageToggle";
 import { useLanguage } from "@/components/LanguageProvider";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import { STORAGE_KEYS, useLocalStorage, type ToolCollection } from "@/lib/storage";
+import { STORAGE_KEYS, storage, useLocalStorage, type ToolCollection } from "@/lib/storage";
 import { TOOLS } from "@/lib/tools";
 import { toolHref } from "@/lib/toolRoutes";
+import { recommendationsFor } from "@/lib/recommendations";
+import { DEFAULT_WORKSPACE_PROFILES, type WorkspaceProfile } from "@/lib/workspaces";
 
 export function ToolRouteClient({ toolId }: { toolId: string }) {
   const { mode, text: t } = useLanguage();
@@ -21,11 +23,18 @@ export function ToolRouteClient({ toolId }: { toolId: string }) {
   const { value: favorites, setValue: setFavorites } = useLocalStorage<string[]>(STORAGE_KEYS.favorites, []);
   const { value: collections, setValue: setCollections } = useLocalStorage<ToolCollection[]>(STORAGE_KEYS.collections, []);
   const { setValue: setRecents } = useLocalStorage<string[]>(STORAGE_KEYS.recents, []);
+  const { value: workspaceId } = useLocalStorage(STORAGE_KEYS.workspace, "all");
+  const { setValue: setWorkspaceProfiles } = useLocalStorage<WorkspaceProfile[]>("workspace-profiles", DEFAULT_WORKSPACE_PROFILES);
   const tool = TOOLS.find((item) => item.id === toolId);
 
   useEffect(() => {
     setRecents((previous) => [toolId, ...previous.filter((id) => id !== toolId)].slice(0, 8));
-  }, [setRecents, toolId]);
+    if (workspaceId !== "all") {
+      setWorkspaceProfiles((profiles) => profiles.map((profile) => profile.id === workspaceId
+        ? { ...profile, recentCalculations: [toolId, ...profile.recentCalculations.filter((id) => id !== toolId)].slice(0, 8) }
+        : profile));
+    }
+  }, [setRecents, setWorkspaceProfiles, toolId, workspaceId]);
 
   useEffect(() => {
     if (!tool) return;
@@ -36,20 +45,41 @@ export function ToolRouteClient({ toolId }: { toolId: string }) {
 
   const openTool = useCallback((id: string) => router.push(toolHref(id)), [router]);
   if (!tool) return null;
+  const currentToolId = tool.id;
+  function clearSavedToolData() {
+    if (!window.confirm(t("Clear all saved app data? This removes favorites, workspaces, collections, and tool inputs.", "លុបទិន្នន័យកម្មវិធីដែលបានរក្សាទុកទាំងអស់? វានឹងលុបចំណូលចិត្ត កន្លែងធ្វើការ បណ្តុំ និងទិន្នន័យបញ្ចូលរបស់ឧបករណ៍។"))) return;
+    storage.clearAll();
+    window.location.reload();
+  }
   const ToolComponent = tool.Component;
   const isFavorite = favorites.includes(tool.id);
+  function toggleFavorite() {
+    const nextFavorite = !isFavorite;
+    setFavorites((items) => nextFavorite ? [currentToolId, ...items.filter((id) => id !== currentToolId)] : items.filter((id) => id !== currentToolId));
+    if (workspaceId !== "all") {
+      setWorkspaceProfiles((profiles) => profiles.map((profile) => profile.id === workspaceId
+        ? { ...profile, favoriteToolIds: nextFavorite ? [currentToolId, ...profile.favoriteToolIds.filter((id) => id !== currentToolId)] : profile.favoriteToolIds.filter((id) => id !== currentToolId) }
+        : profile));
+    }
+  }
   const khmerTitle = tool.khmerTitle ?? tool.title;
   const localizedTitle = mode === "en" ? tool.title : mode === "km" ? khmerTitle : `${tool.title} — ${khmerTitle}`;
-  const relatedTools = TOOLS
-    .filter((candidate) => candidate.id !== tool.id)
-    .map((candidate) => {
-      const sharedKeywords = candidate.keywords.filter((keyword) => tool.keywords.includes(keyword)).length;
-      return { tool: candidate, score: (candidate.category === tool.category ? 3 : 0) + sharedKeywords * 2 };
-    })
-    .filter(({ score }) => score > 0)
-    .sort((a, b) => b.score - a.score || a.tool.title.localeCompare(b.tool.title))
-    .slice(0, 6)
-    .map(({ tool: related }) => related);
+  const configuredRecommendations = recommendationsFor(tool.id)
+    .map((recommendation) => ({ tool: TOOLS.find((candidate) => candidate.id === recommendation.id), reason: recommendation.reason, reasonKm: recommendation.reasonKm }))
+    .filter((recommendation) => Boolean(recommendation.tool))
+    .map((recommendation) => ({ tool: recommendation.tool!, reason: recommendation.reason, reasonKm: recommendation.reasonKm }));
+  const relatedTools = configuredRecommendations.length > 0
+    ? configuredRecommendations
+    : TOOLS
+      .filter((candidate) => candidate.id !== tool.id)
+      .map((candidate) => {
+        const sharedKeywords = candidate.keywords.filter((keyword) => tool.keywords.includes(keyword)).length;
+        return { tool: candidate, score: (candidate.category === tool.category ? 3 : 0) + sharedKeywords * 2 };
+      })
+      .filter(({ score }) => score > 0)
+      .sort((a, b) => b.score - a.score || a.tool.title.localeCompare(b.tool.title))
+      .slice(0, 6)
+      .map(({ tool: related }) => ({ tool: related, reason: "Shares a category or workflow", reasonKm: "មានប្រភេទ ឬលំហូរការងារដូចគ្នា" }));
 
   return (
     <main className="min-h-screen px-5 pb-16 pt-24 sm:px-10">
@@ -62,7 +92,7 @@ export function ToolRouteClient({ toolId }: { toolId: string }) {
           <div className="tool-route-actions flex shrink-0 items-center gap-2">
             <button
               type="button"
-              onClick={() => setFavorites((items) => isFavorite ? items.filter((id) => id !== tool.id) : [tool.id, ...items])}
+              onClick={toggleFavorite}
               aria-label={isFavorite ? t("Remove from favorites", "ដកចេញពីចំណូលចិត្ត") : t("Add to favorites", "បន្ថែមទៅចំណូលចិត្ត")}
               className={`flex h-8 w-8 items-center justify-center rounded-md border ${isFavorite ? "border-[var(--gold)] text-[var(--gold)]" : "border-[var(--ground-line)] text-[var(--ink-faint)]"}`}
             >
@@ -71,10 +101,25 @@ export function ToolRouteClient({ toolId }: { toolId: string }) {
             <CollectionsPicker
               toolId={tool.id}
               favorites={favorites}
-              onToggleFavorite={(id) => setFavorites((items) => items.includes(id) ? items.filter((x) => x !== id) : [id, ...items])}
+              onToggleFavorite={(id) => {
+                const nextFavorite = !favorites.includes(id);
+                setFavorites((items) => nextFavorite ? [id, ...items.filter((item) => item !== id)] : items.filter((item) => item !== id));
+                if (workspaceId !== "all") setWorkspaceProfiles((profiles) => profiles.map((profile) => profile.id === workspaceId
+                  ? { ...profile, favoriteToolIds: nextFavorite ? [id, ...profile.favoriteToolIds.filter((item) => item !== id)] : profile.favoriteToolIds.filter((item) => item !== id) }
+                  : profile));
+              }}
               collections={collections}
               setCollections={setCollections}
             />
+            <button
+              type="button"
+              onClick={clearSavedToolData}
+               aria-label={t("Clear all app data", "លុបទិន្នន័យកម្មវិធីទាំងអស់")}
+               title={t("Clear all app data", "លុបទិន្នន័យកម្មវិធីទាំងអស់")}
+              className="flex h-8 w-8 items-center justify-center rounded-md border border-[var(--ground-line)] text-[var(--ink-faint)] transition hover:border-[var(--danger)]/50 hover:text-[var(--danger)]"
+            >
+              <Trash2 size={14} />
+            </button>
             <button
               type="button"
               onClick={() => setPaletteOpen(true)}
@@ -92,9 +137,9 @@ export function ToolRouteClient({ toolId }: { toolId: string }) {
       <div className="fade-rise"><ToolComponent /></div>
       {relatedTools.length > 0 && (
         <section className="mx-auto mt-10 max-w-6xl">
-          <h2 className="font-display text-lg font-medium text-[var(--ink)]">{t("Related tools", "ឧបករណ៍ពាក់ព័ន្ធ")}</h2>
+          <h2 className="font-display text-lg font-medium text-[var(--ink)]">{t("Next recommended tools", "ឧបករណ៍ណែនាំបន្ទាប់")}</h2>
           <div className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-            {relatedTools.map((related) => {
+            {relatedTools.map(({ tool: related, reason, reasonKm }) => {
               const relatedKhmerTitle = related.khmerTitle ?? related.title;
               const relatedTitle = mode === "en" ? related.title : mode === "km" ? relatedKhmerTitle : `${related.title} — ${relatedKhmerTitle}`;
               return (
@@ -103,7 +148,8 @@ export function ToolRouteClient({ toolId }: { toolId: string }) {
                   href={toolHref(related.id)}
                   className="rounded-lg border border-[var(--ground-line)] bg-[var(--ground-raised)] px-4 py-3 text-sm text-[var(--ink)] transition hover:border-[var(--gold-dim)] hover:bg-[var(--ground-raised-hi)]"
                 >
-                  {relatedTitle}
+                  <span className="block font-medium">{relatedTitle}</span>
+                  <span className="mt-1 block text-xs text-[var(--ink-faint)]">{t(reason, reasonKm ?? reason)}</span>
                 </Link>
               );
             })}

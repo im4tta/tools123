@@ -1,0 +1,239 @@
+"use client";
+
+import { useEffect, useMemo, useRef, useState } from "react";
+import * as d3 from "d3";
+import { Focus, Minus, Network, Plus, Search } from "lucide-react";
+import { useLanguage } from "@/components/LanguageProvider";
+import { ToolShell } from "@/components/ui/Shell";
+import { useToolState } from "@/lib/storage";
+import { STATIC_DATABASE, type KhmerWordData } from "@/lib/khmer-lexicon-db";
+
+type LinkType = "homophone" | "compound" | "synonym" | "antonym" | "phrase" | "related";
+type NodeGroup = "root" | LinkType;
+interface LexicalNode extends d3.SimulationNodeDatum { id: string; en: string; definition: string; base: NodeGroup; group: NodeGroup; radius: number; }
+interface LexicalLink extends d3.SimulationLinkDatum<LexicalNode> { source: string | LexicalNode; target: string | LexicalNode; type: LinkType; }
+
+const LINK_ORDER: LinkType[] = ["homophone", "compound", "synonym", "antonym", "phrase", "related"];
+const COLORS: Record<NodeGroup, string> = { root: "#d4a24c", homophone: "#d4a24c", compound: "#9b59b6", synonym: "#3f9d63", antonym: "#d9534f", phrase: "#e8874a", related: "#4a9db5" };
+const LABELS: Record<LinkType, [string, string]> = { homophone: ["Homophones", "សទិសសូរ"], compound: ["Compounds", "ពាក្យផ្សំ"], synonym: ["Synonyms", "សទិសន័យ"], antonym: ["Antonyms", "ពាក្យផ្ទុយ"], phrase: ["Phrases", "ឃ្លា"], related: ["Related", "ពាក់ព័ន្ធ"] };
+
+/** Classify a relatedWords entry: multi-word → phrase, shares the base morpheme → compound, else related. */
+function classifyRelated(target: string, base: string): LinkType {
+  if (/[\s()\->]/.test(target)) return "phrase";
+  if (target.includes(base) || base.includes(target)) return "compound";
+  return "related";
+}
+
+function linksFor(word: KhmerWordData): { target: string; type: LinkType }[] {
+  return [
+    ...word.homophones.map((x) => ({ target: x.word, type: "homophone" as const })),
+    ...word.synonyms.map((target) => ({ target, type: "synonym" as const })),
+    ...word.antonyms.map((target) => ({ target, type: "antonym" as const })),
+    ...word.relatedWords.map((target) => ({ target, type: classifyRelated(target, word.word) })),
+  ].filter((link, i, all) => all.findIndex((x) => x.target === link.target && x.type === link.type) === i);
+}
+
+/** Every word with at least one resolvable link, sorted by link count (highest first). */
+const LINKED_WORDS = Object.keys(STATIC_DATABASE)
+  .map((id) => ({ id, links: linksFor(STATIC_DATABASE[id]).filter((link) => STATIC_DATABASE[link.target]) }))
+  .filter((item) => item.links.length > 0)
+  .sort((a, b) => b.links.length - a.links.length);
+
+function makeGraph(focus?: string) {
+  // Curate the largest, most-connected words into a readable default view.
+  const all = LINKED_WORDS.slice(0, 180);
+  const present = new Set(all.map((item) => item.id));
+  // Guarantee the actively selected word AND every one of its direct neighbours
+  // render as connected nodes — even words outside the curated top-180 that are
+  // reachable from the left panel. Keeps the graph in sync with the panel.
+  if (focus && STATIC_DATABASE[focus]) {
+    const focusLinks = linksFor(STATIC_DATABASE[focus]).filter((link) => STATIC_DATABASE[link.target]);
+    if (!present.has(focus)) {
+      all.push({ id: focus, links: focusLinks });
+      present.add(focus);
+    }
+    focusLinks.forEach((link) => {
+      if (present.has(link.target) || !STATIC_DATABASE[link.target]) return;
+      all.push({
+        id: link.target,
+        links: linksFor(STATIC_DATABASE[link.target]).filter((l) => STATIC_DATABASE[l.target]),
+      });
+      present.add(link.target);
+    });
+  }
+  const ids = new Set(all.map((item) => item.id));
+  const nodes: LexicalNode[] = all.map((item) => {
+    const counts = new Map<LinkType, number>();
+    item.links.forEach((link) => counts.set(link.type, (counts.get(link.type) ?? 0) + 1));
+    let base: NodeGroup = "related";
+    let best = -1;
+    counts.forEach((count, type) => {
+      const rank = LINK_ORDER.indexOf(type);
+      if (rank > best) { best = rank; base = type; }
+    });
+    return { id: item.id, en: STATIC_DATABASE[item.id].definition, definition: STATIC_DATABASE[item.id].definition, base, group: base, radius: Math.max(22, Math.min(34, 14 + item.id.length * 3)) };
+  });
+  const links: LexicalLink[] = [];
+  all.forEach((item) => item.links.forEach((link) => { if (ids.has(link.target)) links.push({ source: item.id, target: link.target, type: link.type }); }));
+  return { nodes, links };
+}
+
+/** Cached graph keyed by its node set so re-selecting a word with the same
+ *  visible nodes returns the identical object (no re-layout on every click). */
+let cachedGraph: ReturnType<typeof makeGraph> | null = null;
+let cachedSignature = "";
+function getGraph(focus?: string) {
+  const next = makeGraph(focus);
+  const nodeSignature = next.nodes.map((node) => node.id).join("\u0000");
+  const linkSignature = next.links
+    .map((link) => `${link.source}|${link.target}|${link.type}`)
+    .join("\u0000");
+  const signature = `${nodeSignature}\u0001${linkSignature}`;
+  if (cachedGraph && signature === cachedSignature) return cachedGraph;
+  cachedGraph = next;
+  cachedSignature = signature;
+  return cachedGraph;
+}
+
+export default function WordRelationships() {
+  const { text: t } = useLanguage();
+  const [query, setQuery] = useToolState("word-relationships:query", "ទឹក");
+  const [selectedId, setSelectedId] = useState("ទឹក");
+  const [searchError, setSearchError] = useState(false);
+  const [definitionNode, setDefinitionNode] = useState<LexicalNode | null>(null);
+  const [definitionPosition, setDefinitionPosition] = useState({ x: 0, y: 0 });
+  const svgRef = useRef<SVGSVGElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const zoomRef = useRef<d3.ZoomBehavior<SVGSVGElement, unknown> | null>(null);
+  const groupRef = useRef<d3.Selection<SVGGElement, unknown, null, undefined> | null>(null);
+  const nodeSelection = useRef<d3.Selection<SVGCircleElement, LexicalNode, SVGGElement, unknown> | null>(null);
+  const linkSelection = useRef<d3.Selection<SVGLineElement, LexicalLink, SVGGElement, unknown> | null>(null);
+  const textSelection = useRef<d3.Selection<SVGTextElement, LexicalNode, SVGGElement, unknown> | null>(null);
+  // Recomputed on selection, but returns the previous object when the visible
+  // node set is unchanged so the graph isn't re-laid-out on every click.
+  const graph = useMemo(() => getGraph(selectedId || undefined), [selectedId]);
+  const selected = STATIC_DATABASE[selectedId] ?? null;
+  const suggestions = query.trim() ? Object.keys(STATIC_DATABASE).filter((word) => word.toLowerCase().includes(query.toLowerCase())).slice(0, 10) : [];
+
+  useEffect(() => {
+    const svgElement = svgRef.current;
+    const container = containerRef.current;
+    if (!svgElement || !container) return;
+    const width = Math.max(container.clientWidth, 500);
+    const height = Math.max(container.clientHeight, 520);
+    const svg = d3.select(svgElement);
+    svg.selectAll("*").remove();
+    const group = svg.append("g");
+    groupRef.current = group;
+    const zoom = d3.zoom<SVGSVGElement, unknown>().scaleExtent([0.15, 4]).on("zoom", (event) => group.attr("transform", event.transform));
+    svg.call(zoom); zoomRef.current = zoom;
+    svg.on("click", (event) => { const target = event.target as Element; if (!(target instanceof SVGCircleElement) && !target.closest?.("circle")) { setSelectedId(""); setQuery(""); } });
+    const simulation = d3.forceSimulation<LexicalNode>(graph.nodes)
+      .force("link", d3.forceLink<LexicalNode, LexicalLink>(graph.links).id((node) => node.id).distance(90).strength(.45))
+      .force("charge", d3.forceManyBody<LexicalNode>().strength(-180))
+      .force("center", d3.forceCenter(width / 2, height / 2))
+      .force("collide", d3.forceCollide<LexicalNode>().radius((node) => node.radius + 12));
+    const links = group.append("g").selectAll("line").data(graph.links).join("line") as d3.Selection<SVGLineElement, LexicalLink, SVGGElement, unknown>;
+    const nodes = group.append("g").selectAll("circle").data(graph.nodes).join("circle") as d3.Selection<SVGCircleElement, LexicalNode, SVGGElement, unknown>;
+    const text = group.append("g").selectAll("text").data(graph.nodes).join("text") as d3.Selection<SVGTextElement, LexicalNode, SVGGElement, unknown>;
+    links.attr("stroke", (link) => COLORS[link.type]).attr("stroke-opacity", .35).attr("stroke-width", 1.5);
+    nodes.attr("r", (node) => node.radius).attr("fill", (node) => COLORS[node.group]).attr("fill-opacity", .72).attr("stroke", "#e2e8f0").attr("stroke-opacity", .7).attr("stroke-width", 1.5).on("click", (event, node) => { event.stopPropagation(); setSelectedId(node.id); setQuery(node.id); setDefinitionNode(node); setDefinitionPosition({ x: event.clientX, y: event.clientY }); });
+    text
+      .text(null)
+      .attr("text-anchor", "middle")
+      .attr("fill", "#ffffff")
+      .attr("font-family", "var(--font-kantumruy-pro), sans-serif")
+      .attr("font-size", 11)
+      .attr("font-weight", 700)
+      .attr("paint-order", "stroke")
+      .attr("stroke", "#0b1017")
+      .attr("stroke-width", 3)
+      .attr("stroke-linejoin", "round")
+      .attr("pointer-events", "none")
+      .each(function (node) {
+        const label = d3.select(this);
+        label.append("tspan").attr("dy", "-0.2em").text(node.id);
+      });
+    nodeSelection.current = nodes; linkSelection.current = links; textSelection.current = text;
+    const drag = d3.drag<SVGCircleElement, LexicalNode>().on("start", (event, node) => { if (!event.active) simulation.alphaTarget(.25).restart(); node.fx = node.x; node.fy = node.y; }).on("drag", (event, node) => { node.fx = event.x; node.fy = event.y; }).on("end", (event, node) => { if (!event.active) simulation.alphaTarget(0); node.fx = null; node.fy = null; });
+    nodes.call(drag);
+     simulation.on("tick", () => { links.attr("x1", (link) => (link.source as LexicalNode).x ?? 0).attr("y1", (link) => (link.source as LexicalNode).y ?? 0).attr("x2", (link) => (link.target as LexicalNode).x ?? 0).attr("y2", (link) => (link.target as LexicalNode).y ?? 0); nodes.attr("cx", (node) => node.x ?? 0).attr("cy", (node) => node.y ?? 0); text.attr("x", (node) => node.x ?? 0).attr("y", (node) => node.y ?? 0).each(function (node) { d3.select(this).selectAll("tspan").attr("x", node.x ?? 0); }); });
+    svg.call(zoom.transform, d3.zoomIdentity.translate(width / 2, height / 2).scale(.72).translate(-width / 2, -height / 2));
+    return () => { simulation.stop(); };
+  }, [graph, setQuery]);
+
+  useEffect(() => {
+    const svgElement = svgRef.current;
+    const container = containerRef.current;
+    if (!selectedId) {
+      graph.nodes.forEach((item) => { item.group = item.base; });
+      nodeSelection.current?.attr("fill", (item) => COLORS[item.group]).attr("fill-opacity", 1).attr("stroke-width", 1.5);
+      linkSelection.current?.attr("stroke-opacity", .35).attr("stroke-width", 1.5);
+      textSelection.current?.attr("fill-opacity", 1);
+      return;
+    }
+    const node = graph.nodes.find((item) => item.id === selectedId);
+    if (!node) return;
+    const neighborType = new Map<string, LinkType>();
+    // Use the selected entry as the source of truth. D3 mutates link endpoints
+    // from string IDs into node objects during simulation, which can otherwise
+    // make valid direct relationships appear disconnected during highlighting.
+    linksFor(STATIC_DATABASE[selectedId])
+      .filter((link) => STATIC_DATABASE[link.target])
+      .forEach((link) => neighborType.set(link.target, link.type));
+    graph.links.forEach((link) => {
+      const source = typeof link.source === "string" ? link.source : link.source.id;
+      const target = typeof link.target === "string" ? link.target : link.target.id;
+      if (source === selectedId) {
+        const prev = neighborType.get(target);
+        if (prev === undefined || LINK_ORDER.indexOf(link.type) < LINK_ORDER.indexOf(prev)) neighborType.set(target, link.type);
+      }
+      if (target === selectedId) {
+        const prev = neighborType.get(source);
+        if (prev === undefined || LINK_ORDER.indexOf(link.type) < LINK_ORDER.indexOf(prev)) neighborType.set(source, link.type);
+      }
+    });
+    graph.nodes.forEach((item) => { item.group = item.id === selectedId ? "root" : neighborType.get(item.id) ?? item.base; });
+    const connected = new Set([selectedId, ...neighborType.keys()]);
+    nodeSelection.current?.attr("fill", (item) => COLORS[item.group]).attr("fill-opacity", (item) => connected.has(item.id) ? 1 : .08).attr("stroke-width", (item) => item.id === selectedId ? 3 : 1.5);
+    linkSelection.current?.attr("stroke-opacity", (link) => { const source = typeof link.source === "string" ? link.source : link.source.id; const target = typeof link.target === "string" ? link.target : link.target.id; return source === selectedId || target === selectedId ? 1 : .08; }).attr("stroke-width", (link) => { const source = typeof link.source === "string" ? link.source : link.source.id; const target = typeof link.target === "string" ? link.target : link.target.id; return source === selectedId || target === selectedId ? 3 : 1.5; });
+    textSelection.current?.attr("fill-opacity", (item) => connected.has(item.id) ? 1 : .08);
+    if (svgElement && container && typeof node.x === "number" && isFinite(node.x) && typeof node.y === "number" && isFinite(node.y)) {
+      const t = d3.zoomTransform(svgElement);
+      const zoom = zoomRef.current ?? d3.zoom<SVGSVGElement, unknown>();
+      const apply = zoom.transform as unknown as (t: d3.Transition<SVGSVGElement, unknown, null, undefined>, x: d3.ZoomTransform) => void;
+      d3.select(svgElement).transition().duration(450).call(apply, d3.zoomIdentity.translate(container.clientWidth / 2, container.clientHeight / 2).scale(t.k).translate(-node.x, -node.y));
+    }
+  }, [graph, selectedId]);
+
+  function search() {
+    const word = query.trim();
+    if (!word) return;
+    if (STATIC_DATABASE[word]) { setSelectedId(word); setSearchError(false); } else setSearchError(true);
+  }
+
+  const exactMatch = query.trim() && STATIC_DATABASE[query.trim()];
+  const shownSuggestions = exactMatch ? [] : suggestions;
+
+  const selectedLinks = selected ? linksFor(selected).filter((link) => STATIC_DATABASE[link.target]) : [];
+  return <ToolShell title="Khmer Word Relationship Explorer" khmerTitle="ស្វែងរកទំនាក់ទំនងពាក្យខ្មែរ" description="Obsidian-style force graph of the full local Khmer lexicon: homophones, compounds, synonyms, antonyms, phrases, and related words." descriptionKm="ក្រាហ្វបែប Obsidian នៃសទ្ទានុក្រមខ្មែរទាំងមូល៖ សទិសសូរ ពាក្យផ្សំ សទិសន័យ បដិសព្ទ ឃ្លា និងពាក្យទាក់ទង។">
+    <div className="rounded-2xl border border-[var(--ground-line)] bg-[#0f172a] p-3 shadow-2xl sm:p-4"><div className="grid min-h-[680px] grid-cols-1 overflow-hidden rounded-xl border border-white/10 bg-[#0b1017] lg:grid-cols-[18rem_1fr]">
+      <aside className="flex min-h-0 flex-col border-b border-white/10 bg-[#151c26] lg:border-b-0 lg:border-r"><div className="border-b border-white/10 p-4"><div className="mb-3 flex items-center gap-2 text-slate-100"><Network size={17} className="text-[#d4a24c]" /><span className="font-khmer font-bold">ក្រាហ្វបណ្ដាញពាក្យខ្មែរ</span></div><div className="relative"><Search size={14} className="absolute left-3 top-3 text-slate-500" /><input value={query} onChange={(e) => { setQuery(e.target.value); setSearchError(false); }} onKeyDown={(e) => e.key === "Enter" && search()} placeholder="ស្វែងរកពាក្យ…" className="w-full rounded-lg border border-white/10 bg-[#0b1017] py-2.5 pl-9 pr-14 font-khmer text-sm text-slate-100 outline-none focus:border-[#d4a24c]" /><button onClick={search} className="absolute right-1.5 top-1.5 rounded bg-[#d4a24c] px-2 py-1 text-[10px] font-bold text-[#0b1017]">ស្វែងរក</button>{shownSuggestions.length > 0 && <div className="absolute left-0 right-0 top-full z-20 mt-1 max-h-56 overflow-auto rounded-lg border border-white/10 bg-[#151c26] shadow-xl">{shownSuggestions.map((word) => <button key={word} onClick={() => { setQuery(word); setSelectedId(word); setSearchError(false); }} className="flex w-full items-center gap-2 px-3 py-2 text-left font-khmer text-xs text-slate-200 hover:bg-[#0b1017]"><span className="h-1.5 w-1.5 shrink-0 rounded-full" style={{ background: COLORS.related }} />{word}</button>)}</div>}</div>{searchError && <p className="mt-2 text-[10px] text-orange-400">មិនមានពាក្យនេះក្នុងទិន្នន័យក្រាហ្វទេ។</p>}</div><div className="flex-1 overflow-auto p-4">{selected ? <><div className="mb-4"><div className="font-khmer text-3xl font-bold text-[#d4a24c]">{selected.word}</div><p className="mt-1 text-xs leading-relaxed text-slate-400">{selected.definition}</p></div><div className="space-y-2">{selectedLinks.map((link) => <button key={`${link.type}-${link.target}`} onClick={() => { setSelectedId(link.target); setQuery(link.target); }} className="flex w-full items-center gap-2 rounded border border-white/10 bg-[#0b1017] px-2.5 py-2 text-left hover:border-[#d4a24c]/60"><span className="h-2 w-2 rounded-full" style={{ background: COLORS[link.type] }} /><span className="font-khmer text-xs text-slate-200">{link.target}</span><span className="ml-auto text-[9px] text-slate-500">{t(LABELS[link.type][0], LABELS[link.type][1])}</span></button>)}</div></> : <p className="text-center text-xs text-slate-500">ជ្រើសរើសពាក្យដើម្បីមើលព័ត៌មាន។</p>}</div></aside>
+      <main ref={containerRef} className="relative min-h-[560px] overflow-hidden bg-[radial-gradient(#273244_1px,transparent_1px)] [background-size:18px_18px]"><div className="absolute left-4 top-4 z-10 rounded-lg border border-white/10 bg-[#151c26]/90 p-3 text-[10px] text-slate-400 backdrop-blur"><div className="mb-2 font-bold text-slate-200">ប្រភេទទំនាក់ទំនង</div>{(Object.keys(LABELS) as LinkType[]).map((type) => <div key={type} className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full" style={{ background: COLORS[type] }} />{LABELS[type][1]}</div>)}</div><div className="absolute bottom-4 right-4 z-10 flex gap-1"><button onClick={() => svgRef.current && zoomRef.current && d3.select(svgRef.current).transition().call(zoomRef.current.scaleBy, 1.3)} className="rounded-full border border-white/10 bg-[#151c26] p-2 text-slate-300"><Plus size={14} /></button><button onClick={() => svgRef.current && zoomRef.current && d3.select(svgRef.current).transition().call(zoomRef.current.scaleBy, .7)} className="rounded-full border border-white/10 bg-[#151c26] p-2 text-slate-300"><Minus size={14} /></button><button onClick={() => setSelectedId("")} className="rounded-full border border-white/10 bg-[#151c26] p-2 text-slate-300"><Focus size={14} /></button></div><svg ref={svgRef} className="h-full min-h-[560px] w-full" /></main>
+     </div></div>
+     {definitionNode && (
+       <div
+         className="fixed z-50 w-[min(18rem,calc(100vw-2rem))] rounded-xl border border-[#d4a24c]/60 bg-[#151c26]/95 p-3 text-slate-100 shadow-2xl backdrop-blur"
+         style={{ left: definitionPosition.x, top: definitionPosition.y, transform: "translate(-50%, calc(-100% - 14px))" }}
+         onClick={(event) => event.stopPropagation()}
+       >
+         <div className="mb-1 flex items-center justify-between gap-2">
+           <h2 className="font-khmer text-lg font-bold text-white">{definitionNode.id}</h2>
+           <button type="button" onClick={() => setDefinitionNode(null)} className="rounded px-1.5 text-lg leading-none text-slate-400 hover:bg-white/10 hover:text-white" aria-label={t("Close", "បិទ")}>×</button>
+         </div>
+         <p className="text-[10px] font-semibold uppercase tracking-wider text-[#d4a24c]">{t("Definition", "និយមន័យ")}</p>
+         <p className="mt-1 font-khmer text-sm leading-relaxed text-[#fef3c7]">{definitionNode.definition}</p>
+       </div>
+     )}
+  </ToolShell>;
+}

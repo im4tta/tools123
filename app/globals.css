@@ -159,6 +159,7 @@ body {
   border: 1px solid var(--ground-line);
   padding: 0.35rem 0.75rem;
   font-size: 0.75rem;
+  line-height: 1.45;
   color: var(--ink-dim);
   background: var(--ground-raised);
   white-space: nowrap;
@@ -179,6 +180,7 @@ body {
    the chips are the only thing that moves. */
 .category-ticker {
   overflow: hidden;
+  padding-block: 0.12rem;
   -webkit-mask-image: linear-gradient(to right, transparent, black 28px, black calc(100% - 28px), transparent);
   mask-image: linear-gradient(to right, transparent, black 28px, black calc(100% - 28px), transparent);
 }

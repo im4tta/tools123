@@ -19,7 +19,8 @@ export type Category =
   | "video"
   | "meta"
   | "family"
-  | "fun";
+  | "fun"
+  | "knowledge";
 
 export interface ToolDef {
   id: string;
@@ -29,6 +30,7 @@ export interface ToolDef {
   addedOn?: string;
   category: Category;
   keywords: string[];
+  localProject?: { author: string; repository: string; license: string; relationship?: "adapted" | "integrated" | "inspired" };
   Component: ComponentType;
 }
 
@@ -44,6 +46,7 @@ export const CATEGORY_ORDER: Category[] = [
   "science",
   "family",
   "fun",
+  "knowledge",
   "dev",
   "network",
   "security",
@@ -71,6 +74,7 @@ export const CATEGORY_META: Record<Category, { label: string; khmer: string; col
   meta: { label: "Meta", khmer: "មេតា", color: "#7ea0a9" },
   family: { label: "Family", khmer: "គ្រួសារ", color: "#c97eb8" },
   fun: { label: "Fun", khmer: "កំសាន្ត", color: "#e8a840" },
+  knowledge: { label: "Knowledge", khmer: "ចំណេះដឹង", color: "#62a0c9" },
 };
 
 function load(category: Category, file: string) {
@@ -161,6 +165,11 @@ export const TOOLS: ToolDef[] = [
   { id: "markdown-preview", title: "Markdown Previewer", category: "dev", keywords: ["markdown", "md", "preview"], Component: load("dev", "markdown-preview") },
   { id: "tsx-portal", title: "TSX Portal", addedOn: "2026-08-03T10:00:00+07:00", category: "dev", keywords: ["tsx", "jsx", "playground", "sandbox", "live preview", "babel", "repl", "react", "markdown", "bbcode"], Component: load("dev", "tsx-portal") },
   { id: "diff-checker", title: "Text Diff Checker", category: "dev", keywords: ["diff", "compare", "changes"], Component: load("dev", "diff-checker") },
+  { id: "api-benchmark", title: "API Benchmark", addedOn: "2026-08-04T10:50:00+07:00", category: "dev", keywords: ["api", "benchmark", "latency", "performance", "rest", "graphql", "http", "race track", "speed test"], Component: load("dev", "api-benchmark") },
+  { id: "json-to-typescript", title: "JSON → TypeScript / Zod", khmerTitle: "បម្លែង JSON → TypeScript / Zod", addedOn: "2026-08-04T11:00:00+07:00", category: "dev", keywords: ["json", "typescript", "zod", "schema", "types"], Component: load("dev", "json-to-typescript") },
+  { id: "json-data-converter", title: "JSON Data Converter", khmerTitle: "កម្មវិធីបម្លែងទិន្នន័យ JSON", addedOn: "2026-08-04T11:05:00+07:00", category: "dev", keywords: ["json", "csv", "yaml", "xml", "convert", "data"], Component: load("dev", "json-data-converter") },
+  { id: "jsonl-validator", title: "JSONL Validator", khmerTitle: "ផ្ទៀងផ្ទាត់ JSONL", addedOn: "2026-08-04T11:10:00+07:00", category: "dev", keywords: ["jsonl", "json lines", "validate", "logs"], Component: load("dev", "jsonl-validator") },
+  { id: "ai-token-counter", title: "AI Token Counter", khmerTitle: "រាប់ Token AI", addedOn: "2026-08-04T11:15:00+07:00", category: "dev", keywords: ["token", "llm", "ai", "context window", "prompt"], Component: load("dev", "ai-token-counter") },
   { id: "word-counter", title: "Word & Character Counter", category: "dev", keywords: ["word count", "character count"], Component: load("dev", "word-counter") },
   { id: "lorem-ipsum", title: "Placeholder Text Generator", category: "dev", keywords: ["lorem ipsum", "filler", "placeholder"], Component: load("dev", "lorem-ipsum") },
   { id: "color-converter", title: "Color Converter", category: "dev", keywords: ["hex", "rgb", "hsl", "color"], Component: load("dev", "color-converter") },
@@ -190,6 +199,7 @@ export const TOOLS: ToolDef[] = [
   { id: "romanization", title: "Khmer Romanization", category: "khmer", keywords: ["romanize", "transliterate", "latin"], Component: load("khmer", "romanization") },
   { id: "line-break-helper", title: "Soft Line-break Helper", category: "khmer", keywords: ["zwsp", "word wrap", "line break", "khmerscribe", "khmer break", "ចន្លោះសូន្យ", "បំបែកបន្ទាត់"], Component: load("khmer", "line-break-helper") },
   { id: "font-preview", title: "Khmer Web Font Preview", category: "khmer", keywords: ["font", "noto sans khmer", "typography"], Component: load("khmer", "font-preview") },
+  { id: "pangram-generator", title: "Khmer Pangram & Character Coverage Generator", khmerTitle: "កម្មវិធីបង្កើត Pangram និងពិនិត្យគ្របដណ្តប់តួអក្សរខ្មែរ", addedOn: "2026-08-06T09:00:00+07:00", category: "khmer", keywords: ["pangram", "character coverage", "font testing", "khmer unicode", "consonants", "subscripts", "vowels", "typography", "តួអក្សរ", "ព្យញ្ជនៈ", "ស្រៈ"], Component: load("khmer", "pangram-generator") },
   { id: "riel-usd", title: "KHR Currency Converter", khmerTitle: "កម្មវិធីប្តូរប្រាក់រៀល", category: "khmer", keywords: ["exchange rate", "currency", "mef", "usd", "riel"], Component: load("khmer", "riel-usd") },
   { id: "vowel-chart", title: "Dependent Vowel Reference", category: "khmer", keywords: ["vowel", "ស្រៈ", "pronunciation"], Component: load("khmer", "vowel-chart") },
   { id: "punctuation-reference", title: "Khmer Punctuation Reference", category: "khmer", keywords: ["khan", "bariyoosan", "punctuation"], Component: load("khmer", "punctuation-reference") },
@@ -207,7 +217,18 @@ export const TOOLS: ToolDef[] = [
   { id: "provinces-reference", title: "Cambodia Provinces Reference", category: "khmer", keywords: ["province", "khet", "capital", "address", "dropdown", "administrative"], Component: load("khmer", "provinces-reference") },
   { id: "construction-water-glossary", title: "Construction & Water Resources Glossary", category: "khmer", keywords: ["mowram", "boq", "canal", "irrigation", "contract", "esmp", "construction"], Component: load("khmer", "construction-water-glossary") },
   { id: "safety-code-pro", title: "SafetyCodePro Cambodia", khmerTitle: "ស្តង់ដារសុវត្ថិភាពសំណង់", addedOn: "2026-07-31", category: "khmer", keywords: ["safety", "ppe", "hard hat", "high-vis vest", "construction", "osha", "prakas", "សុវត្ថិភាព", "មួក", "អាវចំណាំងផ្លាត"], Component: load("khmer", "safety-code-pro") },
-  { id: "khmer-lexicon", title: "Somtosor", khmerTitle: "សទិសសូរ", addedOn: "2026-08-03T10:25:00+07:00", category: "khmer", keywords: ["dictionary", "homophone", "synonym", "antonym", "lexicon", "vocabulary", "khmer word", "chuon nath", "សទានុក្រម", "សទិសសូរ", "ពាក្យ"], Component: load("khmer", "khmer-lexicon") },
+  { id: "terminology-coverage", title: "Khmer Terminology Coverage Checker", khmerTitle: "ពិនិត្យការគ្របដណ្តប់ពាក្យបច្ចេកទេសខ្មែរ", addedOn: "2026-08-06T09:10:00+07:00", category: "khmer", keywords: ["terminology", "coverage", "mptc", "glossary", "technical terms"], Component: load("khmer", "terminology-coverage") },
+  { id: "terminology-translator", title: "Khmer ↔ Digital Terminology Translator", khmerTitle: "កម្មវិធីបកប្រែវាក្យស័ព្ទឌីជីថល ខ្មែរ ↔ អង់គ្លេស", addedOn: "2026-08-06T09:20:00+07:00", category: "khmer", keywords: ["terminology translator", "mptc", "official terms", "digital terminology", "khmer translation", "វាក្យស័ព្ទ", "បកប្រែបច្ចេកទេស"], Component: load("khmer", "terminology-translator") },
+  { id: "document-terminology-scanner", title: "Khmer Document Terminology Scanner", khmerTitle: "ស្កេនពាក្យបច្ចេកទេសក្នុងឯកសារ", addedOn: "2026-08-06T09:30:00+07:00", category: "khmer", keywords: ["document", "pdf", "docx", "txt", "terminology", "scanner", "report", "occurrences"], Component: load("khmer", "document-terminology-scanner") },
+  { id: "dataset-profiler", title: "Khmer Dataset Profiler", khmerTitle: "វិភាគគុណភាព Dataset ខ្មែរ", addedOn: "2026-08-06T09:40:00+07:00", category: "khmer", keywords: ["dataset", "csv", "json", "duplicates", "unicode", "language statistics", "missing values", "normalize", "deduplicate"], Component: load("khmer", "dataset-profiler") },
+  { id: "place-name-variants", title: "Cambodia Place-Name Variant Finder", khmerTitle: "ស្វែងរកបំរែបំរួលឈ្មោះទីកន្លែងកម្ពុជា", addedOn: "2026-08-04T11:45:00+07:00", category: "khmer", keywords: ["place names", "variants", "gis", "osm", "province", "gazetteer"], Component: load("khmer", "place-name-variants") },
+  { id: "font-coverage-analyzer", title: "Khmer Font Coverage Analyzer", khmerTitle: "វិភាគការគាំទ្រអក្សរខ្មែរ ក្នុង Font", addedOn: "2026-08-06T09:50:00+07:00", category: "khmer", keywords: ["font", "ttf", "otf", "glyph", "coverage", "khmer", "unicode block", "consonants", "subscripts", "vowels", "punctuation"], Component: load("khmer", "font-coverage-analyzer") },
+  { id: "web-shaping-test-lab", title: "Khmer Web Shaping Test Lab", khmerTitle: "មន្ទីរពិសោធន៍សាកល្បងការបង្ហាញអក្សរខ្មែរ", addedOn: "2026-08-06T10:00:00+07:00", category: "khmer", keywords: ["font", "shaping", "khmer", "coeng", "vowels", "browser", "chrome", "firefox", "safari", "typography", "OpenType"], Component: load("khmer", "web-shaping-test-lab") },
+  { id: "font-regression-tester", title: "Khmer Font Regression Tester", khmerTitle: "ប្រៀបធៀប Font ខ្មែរ", addedOn: "2026-08-04T11:55:00+07:00", category: "khmer", keywords: ["font comparison", "font regression", "ttf", "otf", "rendering"], Component: load("khmer", "font-regression-tester") },
+  { id: "word-relationships", title: "Khmer Word Relationship Explorer", khmerTitle: "ស្វែងរកទំនាក់ទំនងពាក្យខ្មែរ", addedOn: "2026-08-04T12:00:00+07:00", category: "khmer", keywords: ["word graph", "relationships", "synonym", "antonym", "related words", "khmer vocabulary"], Component: load("khmer", "word-relationships") },
+  { id: "name-structure-explorer", title: "Khmer Name Structure Explorer", khmerTitle: "កម្មវិធីវិភាគរចនាសម្ព័ន្ធឈ្មោះខ្មែរ", addedOn: "2026-08-04T12:05:00+07:00", category: "khmer", keywords: ["khmer name", "surname", "given name", "grapheme", "decomposition", "transliteration", "mononym"], Component: load("khmer", "name-structure-explorer") },
+  { id: "word-formation-explorer", title: "Khmer Root & Word Formation Explorer", khmerTitle: "អ្នករុករកឫសគល់ពាក្យខ្មែរ", addedOn: "2026-08-04T12:10:00+07:00", category: "khmer", keywords: ["root", "word formation", "prefix", "infix", "affix", "etymology", "sandhi", "morphology", "derivation", "ឫសពាក្យ", "ផ្នត់ដើម", "ផ្នត់ជែក", "កម្លាយ"], Component: load("khmer", "word-formation-explorer") },
+  { id: "khmer-lexicon", title: "Homophone", khmerTitle: "សទិសសូរ", addedOn: "2026-08-03T10:25:00+07:00", category: "khmer", keywords: ["dictionary", "homophone", "synonym", "antonym", "lexicon", "vocabulary", "khmer word", "chuon nath", "សទានុក្រម", "សទិសសូរ", "ពាក្យ"], Component: load("khmer", "khmer-lexicon") },
   { id: "collation-sorter", title: "Khmer Collation Sorter", category: "khmer", keywords: ["sort", "alphabetical", "collator", "intl"], Component: load("khmer", "collation-sorter") },
   { id: "khmer-slug-generator", title: "Khmer → URL Slug Generator", category: "khmer", keywords: ["slug", "url", "next.js", "route", "transliterate"], Component: load("khmer", "slug-generator") },
   { id: "pronoun-register", title: "Khmer Pronoun & Register Reference", category: "khmer", keywords: ["pronoun", "register", "politeness", "សព្វនាម", "translation"], Component: load("khmer", "pronoun-register") },
@@ -221,9 +242,11 @@ export const TOOLS: ToolDef[] = [
   { id: "ministry-directory", title: "Cambodia Government Institution Directory", khmerTitle: "បញ្ជីក្រសួង និងស្ថាប័នរាជរដ្ឋាភិបាល", category: "khmer", keywords: ["ministry", "government", "institution", "contact", "ក្រសួង"], Component: load("khmer", "ministry-directory") },
   { id: "government-plate-lookup", title: "Cambodia Government Plate Lookup", khmerTitle: "ស្វែងរកស្លាកលេខរដ្ឋកម្ពុជា", category: "khmer", keywords: ["plate", "state", "police", "military", "ស្លាកលេខ"], Component: load("khmer", "government-plate-lookup") },
   { id: "khmer-unicode-normalizer", title: "Khmer Typing Sequence Normalizer", khmerTitle: "កែសម្រួលលំដាប់វាយអក្សរខ្មែរ", addedOn: "2026-07-31", category: "khmer", keywords: ["unicode", "normalize", "typing sequence", "coeng", "zero width", "យូនីកូដ", "អក្សរជើង"], Component: load("khmer", "khmer-unicode-normalizer") },
-  { id: "khmer-word-segmentation-tester", title: "Khmer Word Segmentation Tester", khmerTitle: "កម្មវិធីសាកល្បងបំបែកពាក្យខ្មែរ", addedOn: "2026-07-31", category: "khmer", keywords: ["word segmentation", "tokenizer", "nlp", "boundary", "khmer nlp", "បំបែកពាក្យ"], Component: load("khmer", "word-segmentation-tester") },
+  { id: "coeng-tada-corrector", title: "Khmer Coeng Ta/Da Corrector", khmerTitle: "កែសម្រួលជើង ត / ជើង ដ", addedOn: "2026-08-06T10:10:00+07:00", category: "khmer", keywords: ["coeng", "tada", "ta", "da", "khmer spelling", "orthography", "wasm", "unicode", "ជើងត", "ជើងដ"], localProject: { author: "Seanghay Yath", repository: "https://github.com/seanghay/khmer-coeng-tada-corrector", license: "MIT" }, Component: load("khmer", "coeng-tada-corrector") },
+  { id: "khmer-word-segmentation-tester", title: "Khmer Word Segmentation Tester", khmerTitle: "កម្មវិធីសាកល្បងបំបែកពាក្យខ្មែរ", addedOn: "2026-07-31", category: "khmer", keywords: ["word segmentation", "tokenizer", "nlp", "boundary", "khmer nlp", "បំបែកពាក្យ"], localProject: { author: "Seanghay Yath", repository: "https://github.com/seanghay/split-khmer", license: "MIT" }, Component: load("khmer", "word-segmentation-tester") },
   { id: "khmer-font-encoding-inspector", title: "Khmer Font Encoding Inspector", khmerTitle: "ពិនិត្យការអ៊ិនកូដពុម្ពអក្សរខ្មែរ", addedOn: "2026-07-31", category: "khmer", keywords: ["font", "encoding", "ttf", "otf", "cmap", "unicode", "ពុម្ពអក្សរ"], Component: load("khmer", "font-encoding-inspector") },
   { id: "khmer-sentence-segmenter", title: "Khmer Sentence Segmenter", khmerTitle: "បំបែកប្រយោគខ្មែរ", category: "khmer", keywords: ["sentence", "segment", "punctuation", "nlp", "ប្រយោគ"], Component: load("khmer", "khmer-sentence-segmenter") },
+  { id: "khmer-punctuation-restorer", title: "Khmer Sentence Punctuation Restorer", khmerTitle: "កែសម្រួលវណ្ណយុត្តិប្រយោគខ្មែរ", addedOn: "2026-08-06T10:20:00+07:00", category: "khmer", keywords: ["punctuation", "restore", "ocr", "asr", "scraped text", "old documents", "khmerpunctuate", "វណ្ណយុត្តិ"], localProject: { author: "Seanghay Yath", repository: "https://github.com/seanghay/khmerpunctuate", license: "MIT", relationship: "inspired" }, Component: load("khmer", "khmer-punctuation-restorer") },
   { id: "administrative-code-decoder", title: "Cambodia Administrative Code Decoder", khmerTitle: "ឧបករណ៍អានលេខកូដរដ្ឋបាលកម្ពុជា", category: "khmer", keywords: ["administrative code", "province code", "district code", "commune code", "village code", "លេខកូដរដ្ឋបាល"], Component: load("khmer", "administrative-code-decoder") },
   { id: "address-formatter", title: "Cambodia Bilingual Address Formatter", khmerTitle: "រៀបចំទម្រង់អាសយដ្ឋានកម្ពុជាពីរភាសា", category: "khmer", keywords: ["address", "format", "bilingual", "csv", "អាសយដ្ឋាន"], Component: load("khmer", "address-formatter") },
   { id: "government-plate-parser", title: "Cambodia Government Plate Parser", khmerTitle: "ឧបករណ៍វិភាគស្លាកលេខរដ្ឋកម្ពុជា", category: "khmer", keywords: ["plate", "parse", "normalize", "state", "police", "military", "ស្លាកលេខ"], Component: load("khmer", "government-plate-parser") },
@@ -289,6 +312,8 @@ export const TOOLS: ToolDef[] = [
   { id: "statistics-calculator", title: "Mean / Median / Mode / StdDev Calculator", category: "math", keywords: ["statistics", "mean", "median", "mode"], Component: load("math", "statistics-calculator") },
   { id: "matrix-calculator", title: "Matrix Determinant", category: "math", keywords: ["matrix", "determinant"], Component: load("math", "matrix-calculator") },
   { id: "unit-converter", title: "Length / Weight / Volume Unit Converter", category: "math", keywords: ["unit", "convert", "metric", "imperial"], Component: load("math", "unit-converter") },
+  { id: "universal-math-workspace", title: "Universal Math Workspace", khmerTitle: "កន្លែងធ្វើការគណិតវិទ្យាសកល", addedOn: "2026-08-04T09:05:00+07:00", category: "math", keywords: ["math", "smart input", "fraction", "percent", "duration", "unit conversion", "calculator"], Component: load("math", "universal-math-workspace") },
+  { id: "universal-converter", title: "Universal Unit Converter", khmerTitle: "កម្មវិធីបម្លែងឯកតាសកល", addedOn: "2026-08-04T09:00:00+07:00", category: "math", keywords: ["unit", "convert", "all units", "length", "mass", "volume", "area", "speed", "data"], Component: load("math", "universal-converter") },
   { id: "temperature-converter", title: "Temperature Converter", category: "math", keywords: ["celsius", "fahrenheit", "kelvin"], Component: load("math", "temperature-converter") },
   { id: "random-number", title: "Random Number Generator", category: "math", keywords: ["random", "range"], Component: load("math", "random-number") },
   { id: "ratio-simplifier", title: "Ratio Simplifier", category: "math", keywords: ["ratio", "simplify"], Component: load("math", "ratio-simplifier") },
@@ -377,7 +402,7 @@ export const TOOLS: ToolDef[] = [
   { id: "pdf-info", title: "PDF Info & Preview", category: "office", keywords: ["pdf", "page count", "metadata", "thumbnail"], Component: load("office", "pdf-info") },
   { id: "pdf-merge", title: "PDF Merge", category: "office", keywords: ["pdf", "merge", "combine", "join"], Component: load("office", "pdf-merge") },
   { id: "pdf-organizer", title: "PDF Page Organizer", category: "office", keywords: ["pdf", "reorder", "rotate", "delete page", "split", "extract"], Component: load("office", "pdf-organizer") },
-  { id: "file-compressor", title: "File Compressor", category: "office", keywords: ["compress", "pdf", "image", "shrink", "reduce size", "sralify", "zip", "batch"], Component: load("office", "file-compressor") },
+  { id: "file-compressor", title: "File Compressor", category: "office", keywords: ["compress", "pdf", "image", "shrink", "reduce size", "sralify", "zip", "batch"], localProject: { author: "im4tta · Sralify", repository: "https://github.com/im4tta/Sralify", license: "MIT" }, Component: load("office", "file-compressor") },
   { id: "pdf-watermark", title: "PDF Watermark", category: "office", keywords: ["pdf", "watermark", "stamp", "confidential"], Component: load("office", "pdf-watermark") },
   { id: "images-to-pdf", title: "Images → PDF", category: "office", keywords: ["image", "jpg", "png", "pdf", "convert"], Component: load("office", "images-to-pdf") },
   { id: "pdf-to-images", title: "PDF → Images", category: "office", keywords: ["pdf", "png", "jpg", "export", "render"], Component: load("office", "pdf-to-images") },
@@ -385,6 +410,7 @@ export const TOOLS: ToolDef[] = [
   // ---- Office (19) ----
   { id: "rfa-generator", title: "Request for Approval (RFA)", khmerTitle: "សំណើសុំការអនុម័ត (RFA)", addedOn: "2026-07-29", category: "office", keywords: ["rfa", "request for approval", "construction", "submittal", "contractor"], Component: load("office", "rfa-generator") },
   { id: "business-calculators", title: "Business Calculators", khmerTitle: "ម៉ាស៊ីនគណនាអាជីវកម្ម", addedOn: "2026-07-29", category: "office", keywords: ["loan", "amortization", "vat", "discount", "date add", "salary tax", "nssf", "ប្រាក់កម្ចី", "ពន្ធ", "បសស"], Component: load("office", "business-calculators") },
+  { id: "calculation-notebook", title: "Calculation Notebook", khmerTitle: "សៀវភៅកត់ត្រាការគណនា", addedOn: "2026-08-06T10:30:00+07:00", category: "office", keywords: ["calculation notebook", "live calculation", "project", "estimate", "construction", "paint", "quantity takeoff", "dependencies", "សៀវភៅគណនា"], Component: load("office", "calculation-notebook") },
   { id: "bid-timeline-calculator", title: "Bid Timeline Calculator", khmerTitle: "ម៉ាស៊ីនគណនាកាលវិភាគដេញថ្លៃ", addedOn: "2026-07-31", category: "office", keywords: ["bid", "tender", "ifb", "pre-bid", "submission deadline", "bid validity", "bid security"], Component: load("office", "bid-timeline-calculator") },
   { id: "retention-ld-tracker", title: "Retention & Liquidated Damages Tracker", khmerTitle: "តាមដានប្រាក់តម្កល់ទុក និងសំណងការយឺតយ៉ាវ", addedOn: "2026-07-31", category: "office", keywords: ["retention", "liquidated damages", "ld", "delay", "withholding", "dlp", "construction"], Component: load("office", "retention-ld-tracker") },
   { id: "ipc-proportion", title: "IPC Proportion Calculator", addedOn: "2026-08-03T10:35:00+07:00", category: "office", keywords: ["ipc", "interim payment", "proportion", "split", "percentage", "allocation", "construction", "payment", "certificate"], Component: load("office", "ipc-proportion-calculator") },
@@ -431,10 +457,12 @@ export const TOOLS: ToolDef[] = [
   { id: "data-residency-map", title: "Data Residency Map", addedOn: "2026-07-31", category: "meta", keywords: ["data residency", "network audit", "local", "privacy", "offline"], Component: load("meta", "data-residency-map") },
 
   // ---- Family (1) ----
-  { id: "yellow-card-tracker", title: "Yellow Card Tracker", addedOn: "2026-08-03T10:10:00+07:00", category: "family", keywords: ["child health", "immunization", "vaccine", "growth chart", "who", "yellow card", "baby", "kids", "cambodia", "សុខភាព", "កុមារ", "ថ្នាំបង្ការ"], Component: load("family", "yellow-card-tracker") },
+  { id: "yellow-card-tracker", title: "Yellow Card Tracker", addedOn: "2026-08-03T10:10:00+07:00", category: "family", keywords: ["child health", "immunization", "vaccine", "vaccination", "bcg", "hepb", "opv", "ipv", "dpt", "hep-b", "hib", "pcv", "mr", "measles", "rubella", "je", "japanese encephalitis", "vitamin a", "deworming", "growth chart", "who", "yellow card", "baby", "kids", "cambodia", "សុខភាព", "កុមារ", "ថ្នាំបង្ការ"], Component: load("family", "yellow-card-tracker") },
 
   // ---- Fun (1) ----
   { id: "khmer-sentence-builder", title: "Khmer Sentence Builder", addedOn: "2026-08-03T10:15:00+07:00", category: "fun", keywords: ["game", "sentence", "builder", "quiz", "khmer language", "learning", "drag", "interactive", "kids", "fun", "ល្បែង", "ផ្គុំ", "ល្បះ"], Component: load("fun", "khmer-sentence-builder") },
+  { id: "khmer-typing-training", title: "Khmer Typing Training", khmerTitle: "ល្បែងហ្វឹកហាត់វាយអក្សរខ្មែរ", addedOn: "2026-08-04T12:10:00+07:00", category: "fun", keywords: ["typing", "khmer keyboard", "wpm", "accuracy", "keyboard training", "practice"], Component: load("fun", "khmer-typing-training") },
+  { id: "khmer-keyboard-visualizer", title: "Khmer Keyboard Visualizer", khmerTitle: "ឧបករណ៍បង្ហាញក្តារចុចខ្មែរ", addedOn: "2026-08-04T09:10:00+07:00", category: "knowledge", keywords: ["keyboard", "nida", "khmer layout", "unicode", "keystroke", "altgr", "shift"], Component: load("fun", "khmer-keyboard-visualizer") },
   { id: "chhmoh-astrology", title: "Chhmoh Astrology Portal", addedOn: "2026-08-03T10:20:00+07:00", category: "fun", keywords: ["astrology", "khmer name", "naming", "borit", "destiny", "horoscope", "chhmoh", "baby name", "ឈ្មោះ", "ហោរាសាស្ត្រ", "មហាទក្សា"], Component: load("fun", "chhmoh-astrology") },
 
   // ---- Data-driven unit-pair converters (generated, Batch 1) ----

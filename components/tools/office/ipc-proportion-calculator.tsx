@@ -27,10 +27,13 @@ export default function IpcProportionCalculator() {
   const totalNum = parseFloat(total) || 0;
   const sumPercent = rows.reduce((s, r) => s + r.percent, 0);
   const sumAmount = rows.reduce((s, r) => s + r.amount, 0);
+  const formatMoney = (value: number) => value.toLocaleString("en", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const formatPercent = (value: number) => value.toFixed(2);
+  const displayLabel = (row: Row) => row.label.replace(/\([^)]*\)/, `(${formatPercent(row.percent)}%)`);
 
   const excelTab = useMemo(() => {
-    let out = `${currency} ${totalNum.toLocaleString("en", { minimumFractionDigits: 2 })}\n`;
-    rows.forEach((r) => { out += `${r.percent.toFixed(1)}%\t${currency} ${r.amount.toLocaleString("en", { minimumFractionDigits: 2 })}\n`; });
+    let out = `${currency} ${formatMoney(totalNum)}\n`;
+    rows.forEach((r) => { out += `${formatPercent(r.percent)}%\t${currency} ${formatMoney(r.amount)}\n`; });
     return out;
   }, [rows, totalNum, currency]);
 
@@ -154,7 +157,7 @@ export default function IpcProportionCalculator() {
             {rows.map((r, i) => (
               <tr key={r.id} className="group hover:bg-[var(--ground)]/50 transition">
                 <td className="px-3 py-2.5 text-center"><span className="inline-block h-3 w-3 rounded-full" style={{ background: PALETTE[i % PALETTE.length] }} /></td>
-                <td className="px-3 py-2.5"><input value={r.label} onChange={(e) => handleLabel(i, e.target.value)} className="w-full min-w-[120px] bg-transparent text-sm font-semibold text-[var(--ink)] outline-none hover:border-b hover:border-[var(--ground-line)] focus:border-b focus:border-[var(--gold-dim)]" /></td>
+                <td className="px-3 py-2.5"><input value={displayLabel(r)} onChange={(e) => handleLabel(i, e.target.value)} className="w-full min-w-[120px] bg-transparent text-sm font-semibold text-[var(--ink)] outline-none hover:border-b hover:border-[var(--ground-line)] focus:border-b focus:border-[var(--gold-dim)]" /></td>
                 <td className="px-3 py-2.5 text-center">
                   <div className="relative inline-block">
                     <input type="number" step="any" value={r.percent === 0 ? "0" : r.percent} disabled={mode === "amount"}
@@ -163,7 +166,7 @@ export default function IpcProportionCalculator() {
                     <span className="pointer-events-none absolute right-2.5 top-1.5 text-[10px] text-[var(--ink-faint)]">%</span>
                   </div>
                 </td>
-                <td className="px-3 py-2.5 text-right font-mono-ui text-sm font-bold text-[var(--ink)]">{currency} {r.amount.toLocaleString("en", { minimumFractionDigits: 2 })}</td>
+                <td className="px-3 py-2.5 text-right font-mono-ui text-sm font-bold text-[var(--ink)]">{currency} {formatMoney(r.amount)}</td>
                 <td className="px-3 py-2.5 text-center"><button type="button" onClick={() => removeRow(i)} className="invisible rounded p-1 text-[var(--ink-faint)] transition group-hover:visible hover:text-[var(--danger)]"><Trash2 size={13} /></button></td>
               </tr>
             ))}
@@ -172,7 +175,7 @@ export default function IpcProportionCalculator() {
             <tr className="border-t-2 border-[var(--ground-line)] bg-[var(--ground)] font-bold">
               <td colSpan={2} className="px-3 py-2.5 text-[10px] uppercase text-[var(--ink-faint)]">{t("TOTAL", "សរុប")}</td>
               <td className="px-3 py-2.5 text-center font-mono-ui text-xs text-[var(--gold)]">{sumPercent.toFixed(2)}%</td>
-              <td className="px-3 py-2.5 text-right font-mono-ui text-xs text-[var(--ink)]">{currency} {sumAmount.toLocaleString("en", { minimumFractionDigits: 2 })}</td>
+              <td className="px-3 py-2.5 text-right font-mono-ui text-xs text-[var(--ink)]">{currency} {formatMoney(sumAmount)}</td>
               <td />
             </tr>
           </tfoot>
@@ -194,12 +197,12 @@ export default function IpcProportionCalculator() {
             {diffPct === "balanced" ? t("100% Balanced", "១០០% ត្រឹមត្រូវ") : diffPct === "under" ? t("Under-allocated", "មិនទាន់គ្រប់") : t("Exceeds 100%", "លើស ១០០%")}
           </span>
           <span className="ml-auto font-mono-ui text-xs font-semibold">
-            {diffPct === "balanced" ? `${currency} ${sumAmount.toLocaleString("en", { minimumFractionDigits: 2 })}` : `${currency} ${Math.abs(sumAmount - totalNum).toLocaleString("en", { minimumFractionDigits: 2 })} (${Math.abs((sumPercent - 100)).toFixed(2)}%)`}
+            {diffPct === "balanced" ? `${currency} ${formatMoney(sumAmount)}` : `${currency} ${formatMoney(Math.abs(sumAmount - totalNum))} (${formatPercent(Math.abs(sumPercent - 100))}%)`}
           </span>
         </div>
         <div className="flex h-2.5 w-full overflow-hidden rounded-full bg-[var(--ground-line)]">
           {rows.map((r, i) => r.percent > 0 ? (
-            <div key={i} title={`${r.label}: ${r.percent.toFixed(1)}%`} style={{ width: `${Math.min(r.percent, 100)}%`, background: PALETTE[i % PALETTE.length] }} className="h-full border-r border-white/20" />
+            <div key={i} title={displayLabel(r)} style={{ width: `${Math.min(r.percent, 100)}%`, background: PALETTE[i % PALETTE.length] }} className="h-full border-r border-white/20" />
           ) : null)}
         </div>
       </div>

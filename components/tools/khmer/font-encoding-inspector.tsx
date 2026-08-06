@@ -134,6 +134,28 @@ function glyphFromFormat12(view: DataView, offset: number, codepoint: number) {
   return false;
 }
 
+/** Shared cmap-level glyph check for tools that need per-codepoint coverage. */
+export function inspectCodepointCoverage(buffer: ArrayBuffer, codepoints: number[]) {
+  const view = new DataView(buffer);
+  fontFlavor(view);
+  const tableCount = view.getUint16(4);
+  const cmapTable: TableRecord[] = [];
+  for (let index = 0; index < tableCount; index += 1) {
+    const record = 12 + index * 16;
+    if (!hasBytes(view, record, 16)) continue;
+    const tag = readTag(view, record);
+    if (tag === "cmap") cmapTable.push({ tag, offset: view.getUint32(record + 8), length: view.getUint32(record + 12) });
+  }
+  const cmaps = parseCmaps(view, cmapTable[0]);
+  const cmap = cmaps.find((item) => item.format === 12) ?? cmaps.find((item) => item.format === 4) ?? cmaps.find((item) => item.format === 6);
+  if (!cmap) return codepoints.map(() => false);
+  return codepoints.map((codepoint) => cmap.format === 12
+    ? glyphFromFormat12(view, cmap.offset, codepoint)
+    : cmap.format === 4
+      ? glyphFromFormat4(view, cmap.offset, codepoint)
+      : glyphFromFormat6(view, cmap.offset, codepoint));
+}
+
 function khmerGlyphCoverage(view: DataView, cmaps: CmapRecord[]) {
   const cmap = cmaps.find((item) => item.format === 12) ?? cmaps.find((item) => item.format === 4) ?? cmaps.find((item) => item.format === 6);
   if (!cmap) return null;

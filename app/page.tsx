@@ -1,12 +1,18 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Search, ArrowLeft, Star, Waypoints, LayoutGrid, ArrowUpDown, Layers } from "lucide-react";
 import { CollectionsPicker } from "@/components/CollectionsPicker";
 import { CollectionsSection } from "@/components/CollectionsSection";
 import { CommandPalette } from "@/components/CommandPalette";
 import { HeaderInfo } from "@/components/HeaderInfo";
+import { UniversalInput } from "@/components/UniversalInput";
+import { HomeSpotlightCarousel } from "@/components/HomeSpotlightCarousel";
+import { WorkspaceSwitcher } from "@/components/WorkspaceSwitcher";
+import { parseIntent } from "@/lib/intent-parser";
+import { DEFAULT_WORKSPACE_PROFILES, WORKSPACES, type WorkspaceProfile } from "@/lib/workspaces";
 import { LanguageToggle } from "@/components/LanguageToggle";
 import { useLanguage } from "@/components/LanguageProvider";
 import { ThemeToggle } from "@/components/ThemeToggle";
@@ -42,6 +48,8 @@ export default function Home() {
   const [paletteOpen, setPaletteOpen] = useState(false);
   const [activeId, setActiveIdRaw] = useState<string | null>(null);
   const [filter, setFilter] = useState("");
+  const parsedFilter = useMemo(() => parseIntent(filter), [filter]);
+  const isCalculationIntent = Boolean(filter.trim() && parsedFilter.toolId && parsedFilter.domain !== "tool" && parsedFilter.domain !== "khmer");
   const [graphFocusCategory, setGraphFocusCategory] = useState<Category | null>(null);
   const { value: viewMode, setValue: setViewMode } = useLocalStorage<"grid" | "graph">(
     STORAGE_KEYS.viewMode,
@@ -57,10 +65,55 @@ export default function Home() {
   const { value: favorites, setValue: setFavorites } = useLocalStorage<string[]>(STORAGE_KEYS.favorites, []);
   const { value: recents, setValue: setRecents } = useLocalStorage<string[]>(STORAGE_KEYS.recents, []);
   const { value: collections, setValue: setCollections } = useLocalStorage<ToolCollection[]>(STORAGE_KEYS.collections, []);
+  const { value: workspaceId, setValue: setWorkspaceId } = useLocalStorage(STORAGE_KEYS.workspace, "all");
+  const { value: workspaceProfiles } = useLocalStorage<WorkspaceProfile[]>("workspace-profiles", DEFAULT_WORKSPACE_PROFILES);
   const { value: viewpoint, setValue: setViewpoint, hydrated } = useLocalStorage<Viewpoint>(STORAGE_KEYS.viewpoint, {
     activeId: null,
     scrollY: 0,
   });
+
+  const smartSuggestions = useMemo(() => {
+    const value = filter.trim();
+    if (!value) return [] as typeof TOOLS;
+    if (isCalculationIntent) return [] as typeof TOOLS;
+    const ids: string[] = [];
+    const lower = value.toLowerCase();
+    const push = (...toolIds: string[]) => ids.push(...toolIds);
+    if (/^eyJ[a-z0-9_-]+\./i.test(value)) push("jwt-decoder", "base64");
+    if (/^\s*[-\w]+\s*,\s*[-\w]+(?:\s*\n|$)/.test(value)) push("csv-json", "csv-to-markdown");
+    if (/^-?\d+\.\d+\s*,\s*-?\d+\.\d+$/.test(value)) push("dms-converter", "geojson-formatter", "utm-converter");
+    if (/\b(ភូមិ|ឃុំ|សង្កាត់|ស្រុក|ខណ្ឌ|ខេត្ត|ក្រុង|village|commune|district|province|address|street)\b/i.test(value)) push("address-formatter", "province-lookup", "postal-code-finder");
+    if (/\b(state|government|police|military|រដ្ឋ|ប៉ូលិស|យោធា)\b/i.test(value)) push("government-plate-parser", "government-plate-lookup", "vehicle-plate");
+    if (/\b(bcg|hepb?|opv|ipv|dpt|hib|pcv|mr|measles|rubella|je|japanese encephalitis|vitamin\s*a|deworming|vaccine|vaccination|ថ្នាំបង្ការ|វីតាមីន)\b/i.test(value)) push("yellow-card-tracker");
+    if (/(?:^|\s)(?:\+?855|0[1-9]\d{7,8})(?:\s|$)/.test(value)) push("phone-formatter", "phone-number-cleaner");
+    if (/^\d{6}$/.test(value)) push("administrative-code-decoder", "postal-code-finder", "province-lookup");
+    if (/\b(plate|license|number plate|ស្លាកលេខ)\b/i.test(value) || /\d{1,2}[A-Z]{1,3}[- ]?\d{3,5}/i.test(value)) push("government-plate-parser", "government-plate-lookup", "vehicle-plate", "khmer-numerology");
+    if (/[\u1780-\u17ff]/.test(value)) push("khmer-unicode-normalizer", "khmer-lexicon", "khmer-word-counter");
+    try { JSON.parse(value); push("json-formatter", "json-to-typescript", "json-data-converter"); } catch { /* not JSON */ }
+    if (/^\s*[{[]/.test(value) && /\}\s*$|\]\s*$/.test(value)) push("json-formatter", "jsonl-validator");
+
+    // Every registered tool participates in ranked suggestions. This makes
+    // Smart Input useful beyond the hand-written detectors above.
+    const tokens = lower.split(/[^a-z0-9\u1780-\u17ff]+/).filter((token) => token.length >= 2);
+    if (tokens.length) {
+      TOOLS.map((tool) => {
+        const fields = [tool.id, tool.title, tool.khmerTitle ?? "", ...tool.keywords].map((field) => field.toLowerCase());
+        let score = 0;
+        if (fields.some((field) => field === lower)) score += 20;
+        if (fields.some((field) => field.includes(lower))) score += 10;
+        for (const token of tokens) {
+          if (fields.some((field) => field === token)) score += 8;
+          else if (fields.some((field) => field.includes(token))) score += 2;
+        }
+        return { tool, score };
+      })
+        .filter(({ score }) => score > 0)
+        .sort((a, b) => b.score - a.score || a.tool.title.localeCompare(b.tool.title))
+        .slice(0, 5)
+        .forEach(({ tool }) => push(tool.id));
+    }
+    return [...new Set(ids)].map((id) => TOOLS.find((tool) => tool.id === id)).filter(Boolean) as typeof TOOLS;
+  }, [filter, isCalculationIntent]);
 
   // Keep a ref mirror of the last known grid scroll position so the restore
   // effect below can read it without re-running on every scroll tick.
@@ -189,19 +242,28 @@ export default function Home() {
   const active = useMemo(() => TOOLS.find((t) => t.id === activeId) ?? null, [activeId]);
 
   const filteredByCategory = useMemo(() => {
-    const q = filter.trim().toLowerCase();
+    // A recognized calculation belongs to its routed calculator, not the
+    // ordinary tool-name filter. Keep the catalog visible behind the action.
+    const q = isCalculationIntent ? "" : filter.trim().toLowerCase();
     const map = new Map<Category, typeof TOOLS>();
+    const workspace = WORKSPACES.find((item) => item.id === workspaceId);
     for (const cat of CATEGORY_ORDER) {
       const list = TOOLS.filter(
-        (t) => t.category === cat && (q === "" || t.title.toLowerCase().includes(q) || t.khmerTitle?.toLowerCase().includes(q) || t.keywords.some((k) => k.includes(q)))
+        (t) => t.category === cat
+          && (!workspace || workspace.keywords.some((id) => id === t.id))
+          && (q === "" || t.title.toLowerCase().includes(q) || t.khmerTitle?.toLowerCase().includes(q) || t.keywords.some((k) => k.includes(q)))
       );
       if (list.length) map.set(cat, list);
     }
     return map;
-  }, [filter]);
+  }, [filter, isCalculationIntent, workspaceId]);
 
-  const favoriteTools = useMemo(() => favorites.map((id) => TOOLS.find((t) => t.id === id)).filter(Boolean) as typeof TOOLS, [favorites]);
-  const recentTools = useMemo(() => recents.map((id) => TOOLS.find((t) => t.id === id)).filter(Boolean) as typeof TOOLS, [recents]);
+  const activeWorkspaceProfile = workspaceProfiles.find((profile) => profile.id === workspaceId);
+  const favoriteIds = activeWorkspaceProfile?.favoriteToolIds ?? favorites;
+  const recentIds = activeWorkspaceProfile?.recentCalculations ?? recents;
+  const favoriteTools = useMemo(() => favoriteIds.map((id) => TOOLS.find((t) => t.id === id)).filter(Boolean) as typeof TOOLS, [favoriteIds]);
+  const recentTools = useMemo(() => recentIds.map((id) => TOOLS.find((t) => t.id === id)).filter(Boolean) as typeof TOOLS, [recentIds]);
+  const localDevTools = useMemo(() => TOOLS.filter((tool) => tool.localProject), []);
   const dailyAddition = useMemo(() => {
     // Current Monday–Sunday week in Asia/Phnom_Penh (UTC+7).
     const ppNow = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Phnom_Penh" }));
@@ -312,8 +374,8 @@ export default function Home() {
       <div className="grid-veil pointer-events-none absolute inset-0 top-0" />
 
       <div className="sticky-nav relative" data-scrolled={navScrolled}>
-        <div className="home-nav-inner mx-auto flex max-w-[77rem] items-center gap-3 px-5 py-3 sm:px-10">
-          <span className="home-brand shrink-0 font-display text-sm font-semibold text-[var(--gold)]">១២៣</span>
+         <div className="home-nav-inner mx-auto flex max-w-[77rem] items-center gap-3 px-5 py-2 sm:px-10">
+           <Link href="/" aria-label="123 Toolbox home" className="home-brand shrink-0 font-display text-sm font-bold text-[var(--gold)] hover:text-[var(--gold-dim)]">១២៣</Link>
 
           <div className="category-ticker min-w-0 flex-1">
             <div className="category-ticker-track">
@@ -377,8 +439,9 @@ export default function Home() {
 
       {viewMode === "grid" && (
       <>
-      <div className="home-hero relative mx-auto mt-14 max-w-3xl px-5 text-center sm:px-10">
-        <div className="mb-5 flex items-center justify-center gap-2 text-xs tracking-[0.1em] text-[var(--ink-faint)]">
+       <div className="relative mx-auto min-h-0 max-w-[77rem] px-5 sm:px-10 xl:min-h-[20rem]">
+       <div className="home-hero relative mx-auto mt-8 max-w-3xl text-center">
+         <div className="mb-3 flex items-center justify-center gap-2 text-xs font-bold tracking-[0.1em] text-[var(--ink-faint)]">
           <span>{t("one workbench", "កន្លែងធ្វើការតែមួយ")}</span>
           <span className="text-[var(--gold)]">·</span>
           <span>{t("one toolbox", "ប្រអប់ឧបករណ៍តែមួយ")}</span>
@@ -393,30 +456,39 @@ export default function Home() {
             {t("adding more tools everyday", "បន្ថែមឧបករណ៍រាល់ថ្ងៃ")}
           </span>
         </div>
-        <h1 className="font-display text-4xl font-semibold leading-tight text-[var(--ink)] sm:text-5xl">
-          {t("one workbench", "កន្លែងធ្វើការតែមួយ")}
-          <br /> {t("one toolbox", "ប្រអប់ឧបករណ៍តែមួយ")}
-        </h1>
-        <p className="mx-auto mt-4 max-w-lg text-sm leading-relaxed text-[var(--ink-dim)]">
+         <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-[var(--ink-dim)]">
           {t("Office, development, text, math, Khmer language, geospatial, network, security, design, and time utilities — all searchable in one place.", "ឧបករណ៍សម្រាប់ការិយាល័យ អ្នកអភិវឌ្ឍន៍ អត្ថបទ គណិតវិទ្យា ភាសាខ្មែរ ភូមិសាស្ត្រ បណ្តាញ សុវត្ថិភាព ការរចនា និងពេលវេលា — ស្វែងរក និងប្រើប្រាស់បានយ៉ាងងាយស្រួល។")}
         </p>
-        <p className="mx-auto mt-2 max-w-lg text-xs leading-relaxed text-[var(--ink-faint)]">
-          {t(`Merge and compress PDFs, remove image backgrounds, convert Khmer digits, generate QR codes, and ${TOTAL - 4} more — free in your browser.`, `បញ្ចូល និងបង្រួម PDF លុបផ្ទៃខាងក្រោយរូបភាព បម្លែងលេខខ្មែរ បង្កើតកូដ QR និងឧបករណ៍ ${toKh(TOTAL - 4)} មុខទៀត — ឥតគិតថ្លៃ និងដំណើរការក្នុងកម្មវិធីរុករករបស់អ្នក។`)}
-        </p>
+         <p className="mx-auto mt-1 max-w-lg text-xs leading-relaxed text-[var(--ink-faint)]">
+           {t(`Merge and compress PDFs, remove image backgrounds, convert Khmer digits, generate QR codes, and ${TOTAL - 4} more — free in your browser.`, `បញ្ចូល និងបង្រួម PDF លុបផ្ទៃខាងក្រោយរូបភាព បម្លែងលេខខ្មែរ បង្កើតកូដ QR និងឧបករណ៍ ${toKh(TOTAL - 4)} មុខទៀត — ឥតគិតថ្លៃ និងដំណើរការក្នុងកម្មវិធីរុករករបស់អ្នក។`)}
+         </p>
 
-        <div className="mx-auto mt-10 flex w-full max-w-md items-center gap-2 rounded-lg border border-[var(--ground-line)] bg-[var(--ground-raised)] px-4 py-3 text-left text-sm text-[var(--ink-faint)] transition focus-within:border-[var(--gold-dim)]">
-          <Search size={16} />
-          <input
-            value={filter}
-            onChange={(e) => setFilter(e.target.value)}
-            placeholder={t(`Filter ${TOTAL} tools…`, `ស្វែងរកក្នុងចំណោមឧបករណ៍ ${toKh(TOTAL)} មុខ…`)}
-            className="w-full bg-transparent text-[var(--ink)] outline-none placeholder:text-[var(--ink-faint)]"
-          />
-          <span title={t("Press / to search", "ចុច / ដើម្បីស្វែងរក")} className="flex shrink-0 items-center rounded border border-[var(--ground-line)] px-1.5 py-0.5 font-mono-ui text-[10px]">
-            /
-          </span>
-        </div>
-      </div>
+         <UniversalInput value={filter} onChange={setFilter} />
+         <WorkspaceSwitcher value={workspaceId} onChange={setWorkspaceId} />
+
+         {smartSuggestions.length > 0 && (
+          <div className="mx-auto mt-2 flex w-full max-w-md flex-wrap items-center justify-center gap-1.5 text-left">
+            <span className="text-[10px] font-semibold uppercase tracking-wide text-[var(--ink-faint)]">
+              {t("Looks like…", "ប្រហែលជា…")}
+            </span>
+             {smartSuggestions.slice(0, 4).map((suggestion) => {
+              const suggestionKm = suggestion.khmerTitle ?? suggestion.title;
+              return (
+                <button
+                  key={suggestion.id}
+                  type="button"
+                  onClick={() => setActiveId(suggestion.id)}
+                  className="rounded-full border border-[var(--gold)]/30 bg-[var(--gold)]/5 px-2.5 py-1 text-[11px] font-semibold text-[var(--gold)] transition hover:bg-[var(--gold)]/15"
+                >
+                  {t(suggestion.title, suggestionKm)}
+                </button>
+              );
+              })}
+           </div>
+          )}
+       </div>
+       <HomeSpotlightCarousel />
+       </div>
 
       {filter === "" && dailyAddition.date && dailyAddition.tools.length > 0 && (
         <div className="recently-added relative mx-auto mt-12 max-w-[77rem] px-5 sm:px-10">
@@ -562,6 +634,16 @@ export default function Home() {
       </>
       )}
 
+      {filter === "" && localDevTools.length > 0 && (
+        <section className="relative mx-auto mt-10 max-w-[77rem] px-5 sm:px-10">
+          <div className="mb-3 flex items-baseline gap-2 border-b border-[var(--ground-line)] pb-2">
+            <h2 className="font-display text-sm font-medium text-[var(--ink)]">{t("Tools from local developers", "ឧបករណ៍ពីអ្នកអភិវឌ្ឍន៍ក្នុងស្រុក")}</h2>
+            <span className="text-xs text-[var(--ink-faint)]">{t("Verified local projects and references", "គម្រោង និងប្រភពក្នុងស្រុកដែលបានផ្ទៀងផ្ទាត់")}</span>
+          </div>
+          <ToolGrid tools={localDevTools} onSelect={setActiveId} favorites={favorites} onToggleFavorite={toggleFavorite} showCredits />
+        </section>
+      )}
+
       <CommandPalette open={paletteOpen} onOpenChange={setPaletteOpen} onSelect={setActiveId} />
     </main>
   );
@@ -573,12 +655,14 @@ function ToolGrid({
   favorites,
   onToggleFavorite,
   showNewBadge = false,
+  showCredits = false,
 }: {
   tools: typeof TOOLS;
   onSelect: (id: string) => void;
   favorites: string[];
   onToggleFavorite: (id: string) => void;
   showNewBadge?: boolean;
+  showCredits?: boolean;
 }) {
   const { text: t } = useLanguage();
   return (
@@ -590,14 +674,16 @@ function ToolGrid({
             key={tool.id}
             className="tool-card group flex items-center gap-1 rounded-md border border-transparent pr-1 text-left text-sm text-[var(--ink-dim)] transition hover:border-[var(--ground-line)] hover:bg-[var(--ground-raised)] hover:text-[var(--ink)]"
           >
-            <button onClick={() => onSelect(tool.id)} className="flex flex-1 items-center gap-2 px-3 py-2 text-left">
-              <span>{t(tool.title, tool.khmerTitle ?? tool.title)}</span>
+            <button onClick={() => onSelect(tool.id)} className="min-w-0 flex-1 px-3 py-2 text-left">
+              <span className="flex items-center gap-2">{t(tool.title, tool.khmerTitle ?? tool.title)}
               {showNewBadge && (
                 <span className="new-tool-badge shrink-0 rounded border border-[var(--gold-dim)] px-1 py-0.5 text-[9px] font-semibold leading-none text-[var(--gold)]">
                   {t("NEW", "ថ្មី")}
                 </span>
-              )}
+              )}</span>
+              {showCredits && tool.localProject && <span className="mt-0.5 block truncate text-[10px] text-[var(--ink-faint)]">{tool.localProject.author} · {tool.localProject.license}{tool.localProject.relationship === "inspired" ? " · Inspired / independent" : tool.localProject.relationship === "adapted" ? " · Adapted" : tool.localProject.relationship === "integrated" ? " · Integrated" : ""}</span>}
             </button>
+            {showCredits && tool.localProject && <a href={tool.localProject.repository} target="_blank" rel="noopener noreferrer" onClick={(event) => event.stopPropagation()} className="shrink-0 rounded px-1.5 py-1 text-[10px] text-[var(--ink-faint)] underline hover:text-[var(--gold)]">GitHub</a>}
             <button
               onClick={() => onToggleFavorite(tool.id)}
               aria-label={isFav ? t("Remove from favorites", "ដកចេញពីចំណូលចិត្ត") : t("Add to favorites", "បន្ថែមទៅចំណូលចិត្ត")}

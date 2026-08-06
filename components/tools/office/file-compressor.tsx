@@ -366,27 +366,28 @@ function ItemRow({ item, onRemove }: { item: Item; onRemove: () => void }) {
 
       {/* Before/after drag slider — image results only; PDFs show size stats above instead. */}
       {item.kind === "image" && item.status === "done" && item.originalUrl && item.resultUrl && (
-        <div className="mt-2">
-          <div className="relative h-40 w-full overflow-hidden rounded border border-[var(--ground-line)] bg-[var(--ground)]">
+         <div className="relative mt-2">
+           <div className="relative h-[min(70vh,42rem)] min-h-[20rem] w-full overflow-hidden rounded-xl border border-[var(--ground-line)] bg-[var(--ground)]">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={item.originalUrl} alt="Original" className="absolute inset-0 h-full w-full object-contain" />
             <div className="absolute inset-0 overflow-hidden" style={{ clipPath: `inset(0 ${100 - sliderPos}% 0 0)` }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={item.resultUrl} alt="Compressed" className="h-full w-full object-contain" />
             </div>
-            <div className="pointer-events-none absolute inset-y-0 z-10 w-0.5 bg-[var(--gold)]" style={{ left: `${sliderPos}%` }} />
+             <div className="pointer-events-none absolute inset-y-0 z-10 w-0.5 bg-[var(--gold)] shadow-[0_0_0_1px_rgba(0,0,0,.25)]" style={{ left: `${sliderPos}%` }} />
+             <div className="pointer-events-none absolute top-1/2 z-20 flex h-9 w-9 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-2 border-white bg-[var(--gold)] text-xs font-bold text-[#0a0c0d] shadow-lg" style={{ left: `${sliderPos}%` }}>↔</div>
             <div className="pointer-events-none absolute left-1.5 top-1.5 rounded bg-black/60 px-1.5 py-0.5 text-[9px] text-white">compressed</div>
             <div className="pointer-events-none absolute right-1.5 top-1.5 rounded bg-black/60 px-1.5 py-0.5 text-[9px] text-white">original</div>
           </div>
-          <input
-            type="range"
+           <input
+             type="range"
             min={0}
             max={100}
             value={sliderPos}
             onChange={(e) => setSliderPos(Number(e.target.value))}
-            className="mt-1.5 w-full"
-            aria-label="Compare original and compressed"
-          />
+             className="absolute inset-0 z-30 h-full w-full cursor-ew-resize opacity-0"
+             aria-label="Compare original and compressed"
+           />
         </div>
       )}
     </div>

@@ -165,7 +165,7 @@ const PLACEHOLDERS: Entry[] = [
   ["Search English or Khmer...", "ស្វែងរកជាភាសាអង់គ្លេស ឬខ្មែរ…"],
   ["English or Khmer term…", "ពាក្យជាភាសាអង់គ្លេស ឬខ្មែរ…"],
   ["Search English, French, or Khmer...", "ស្វែងរកជាភាសាអង់គ្លេស បារាំង ឬខ្មែរ…"],
-  ["Project name, author, keyword…", "ឈ្មោះគម្រោង អ្នកនិពន្ធ ឬពាក្យគន្លឹះ…"],
+  ["Project name, author, keyword…", "ឈ្មោះគម្រោង អ្នកបង្កើត ឬពាក្យគន្លឹះ…"],
   ["Model name, author, keyword…", "ឈ្មោះម៉ូដែល អ្នកបង្កើត ឬពាក្យគន្លឹះ…"],
   ["km, latin, or note…", "ខ្មែរ ឡាតាំង ឬកំណត់ចំណាំ…"],
   ["Province or capital name…", "ឈ្មោះរាជធានី ឬខេត្ត…"],

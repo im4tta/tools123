@@ -16,6 +16,9 @@ function formatDate(date: string) {
   return new Intl.DateTimeFormat("en", { dateStyle: "long", timeZone: "UTC" }).format(d);
 }
 
+const parseTs = (s: string) =>
+  new Date(s.includes("T") ? s : `${s}T00:00:00+07:00`).getTime();
+
 const toolsByDate = new Map<string, ToolDef[]>();
 for (const tool of TOOLS) {
   if (!tool.addedOn) continue;
@@ -23,7 +26,10 @@ for (const tool of TOOLS) {
   const dateKey = tool.addedOn.slice(0, 10);
   toolsByDate.set(dateKey, [...(toolsByDate.get(dateKey) ?? []), tool]);
 }
-const changelogGroups = [...toolsByDate.entries()].sort(([a], [b]) => b.localeCompare(a));
+// Newest first within each date, independent of the TOOLS array order.
+const changelogGroups = [...toolsByDate.entries()]
+  .map(([date, tools]) => [date, [...tools].sort((a, b) => parseTs(b.addedOn as string) - parseTs(a.addedOn as string))] as const)
+  .sort(([a], [b]) => b.localeCompare(a));
 
 export default function ChangelogPage() {
   return (

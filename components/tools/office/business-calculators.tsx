@@ -200,7 +200,7 @@ export default function BusinessCalculators() {
     };
   }, [salary, salaryKhrPerUnit, validSalaryExchangeRate]);
 
-  const compactRows = loan ? (loan.rows.length <= 6 ? loan.rows : [...loan.rows.slice(0, 3), ...loan.rows.slice(-3)]) : [];
+  const scheduleRows = loan?.rows ?? [];
 
   return (
     <ToolShell title="Business Calculators" khmerTitle="ម៉ាស៊ីនគណនាអាជីវកម្ម" description="Loan, VAT, discount, date, Cambodian resident salary-tax, and NSSF contribution calculations in one suite." descriptionKm="ឧបករណ៍គណនាប្រាក់កម្ចី អាករ ការបញ្ចុះតម្លៃ កាលបរិច្ឆេទ ពន្ធលើប្រាក់ខែអ្នកនិវាសនជនកម្ពុជា និងវិភាគទាន ប.ស.ស។">
@@ -232,11 +232,11 @@ export default function BusinessCalculators() {
         </Row>
         <Field label="Term (months)" labelKm="រយៈពេល (ខែ)" hint="1–600" hintKm="១–៦០០"><TextInput type="number" min="1" max="600" step="1" value={loanInput.months} onChange={(event) => setLoanInput({ ...loanInput, months: event.target.value })} /></Field>
         <Output label={text("Amortization estimate", "ការប៉ាន់ស្មានរំលស់")} error={!loan} value={loan ? `${text("Monthly payment", "ការទូទាត់ប្រចាំខែ")}: ${format(loan.payment)}\n${text("Total paid", "សរុបបានទូទាត់")}: ${format(loan.total)}\n${text("Total interest", "ការប្រាក់សរុប")}: ${format(loan.total - numberOf(loanInput.principal))}` : text("Enter a positive principal, a 0–100% rate, and a whole term of 1–600 months.", "បញ្ចូលប្រាក់ដើមវិជ្ជមាន អត្រា ០–១០០% និងរយៈពេលជាចំនួនខែពេញពី ១–៦០០។")} />
-        {loan && <div className="overflow-x-auto rounded-md border border-[var(--ground-line)]">
+        {loan && <div className="max-h-[70vh] overflow-auto rounded-md border border-[var(--ground-line)]">
           <table className="w-full min-w-[38rem] text-right text-xs">
-            <caption className="p-3 text-left text-[var(--ink-dim)]">{text(loan.rows.length > 6 ? "First and last 3 payments shown" : "Payment schedule", loan.rows.length > 6 ? "បង្ហាញការទូទាត់ ៣ ដំបូង និង ៣ ចុងក្រោយ" : "កាលវិភាគទូទាត់")}</caption>
+             <caption className="p-3 text-left text-[var(--ink-dim)]">{text("Full payment schedule", "កាលវិភាគទូទាត់ពេញលេញ")}</caption>
             <thead className="bg-[var(--ground-raised)] text-[var(--ink-dim)]"><tr><th className="p-2">#</th><th className="p-2">{text("Payment", "ទូទាត់")}</th><th className="p-2">{text("Principal", "ប្រាក់ដើម")}</th><th className="p-2">{text("Interest", "ការប្រាក់")}</th><th className="p-2">{text("Balance", "សមតុល្យ")}</th></tr></thead>
-            <tbody>{compactRows.map((row, index) => <tr key={row.period} className={`border-t border-[var(--ground-line)] text-[var(--ink)] ${index === 3 && loan.rows.length > 6 ? "border-t-4" : ""}`}><td className="p-2">{row.period}</td><td className="p-2">{format(row.payment)}</td><td className="p-2">{format(row.principal)}</td><td className="p-2">{format(row.interest)}</td><td className="p-2">{format(row.balance)}</td></tr>)}</tbody>
+             <tbody>{scheduleRows.map((row) => <tr key={row.period} className="border-t border-[var(--ground-line)] text-[var(--ink)]"><td className="p-2">{row.period}</td><td className="p-2">{format(row.payment)}</td><td className="p-2">{format(row.principal)}</td><td className="p-2">{format(row.interest)}</td><td className="p-2">{format(row.balance)}</td></tr>)}</tbody>
           </table>
         </div>}
       </section>}

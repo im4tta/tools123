@@ -72,6 +72,48 @@ export default function AcknowledgementPage() {
       </section>
 
       <section className="mt-10">
+        <h2 className="font-display text-lg font-medium text-[var(--ink)]">Khmer Coeng Ta/Da Corrector</h2>
+        <div className="mt-4 rounded-lg border border-[var(--gold)]/30 bg-[var(--gold)]/5 px-4 py-4 text-sm leading-relaxed text-[var(--ink-dim)]">
+          <p>
+            Special thanks to <strong className="text-[var(--ink)]">Mr. Seanghay Yath</strong> for the original
+            <a href="https://github.com/seanghay/khmer-coeng-tada-corrector" target="_blank" rel="noopener noreferrer" className="mx-1 text-[var(--gold)] hover:text-[var(--gold-dim)]">Khmer Coeng Ta/Da Corrector</a>
+            project, including its trained model, C++ engine, and browser WASM implementation.
+          </p>
+          <p className="mt-2">
+            123 Toolbox uses the original browser WASM artifacts with attribution under the MIT License. The
+            <a href="https://khmer-coeng-tada-corrector.vercel.app/" target="_blank" rel="noopener noreferrer" className="mx-1 text-[var(--gold)] hover:text-[var(--gold-dim)]">original deployed demo</a>
+            remains available from the author.
+          </p>
+          <p className="mt-2 text-xs text-[var(--ink-faint)]">Copyright © 2026 Seanghay Yath · MIT License</p>
+        </div>
+      </section>
+
+      <section className="mt-10">
+        <h2 className="font-display text-lg font-medium text-[var(--ink)]">Khmer Word Segmentation</h2>
+        <div className="mt-4 rounded-lg border border-[var(--gold)]/30 bg-[var(--gold)]/5 px-4 py-4 text-sm leading-relaxed text-[var(--ink-dim)]">
+          <p>
+            Special thanks to <strong className="text-[var(--ink)]">Mr. Seanghay Yath</strong> for the original
+            <a href="https://github.com/seanghay/split-khmer" target="_blank" rel="noopener noreferrer" className="mx-1 text-[var(--gold)] hover:text-[var(--gold-dim)]">split-khmer</a>
+            package, which powers the Khmer sentence-to-word-array segmentation in the Word Segmentation Tester.
+          </p>
+          <p className="mt-2">The package is used under the MIT License and remains credited to its original author.</p>
+          <p className="mt-2 text-xs text-[var(--ink-faint)]">Copyright © Seanghay Yath · MIT License</p>
+          <p className="mt-3 border-t border-[var(--ground-line)] pt-3">The comparison references the <a href="https://github.com/vengmony/khmer-nlp-toolkit" target="_blank" rel="noopener noreferrer" className="text-[var(--gold)] hover:text-[var(--gold-dim)]">vengmony/khmer-nlp-toolkit</a> JavaScript toolkit under the MIT License and the <a href="https://github.com/vvearr/khmer-word-segmentation" target="_blank" rel="noopener noreferrer" className="text-[var(--gold)] hover:text-[var(--gold-dim)]">vvearr/khmer-word-segmentation</a> KCC and annotation project under Apache-2.0.</p>
+          <p className="mt-3 border-t border-[var(--ground-line)] pt-3">Sovichea’s <a href="https://github.com/Sovichea/khmer_segmenter" target="_blank" rel="noopener noreferrer" className="text-[var(--gold)] hover:text-[var(--gold-dim)]">Khmer Viterbi Segmenter</a> is provided as an external reference. Its project code is MIT licensed, while bundled linguistic data has separate noncommercial terms. We link to its <a href="https://sovichea.github.io/khmer_segment_webui_demo/" target="_blank" rel="noopener noreferrer" className="text-[var(--gold)] hover:text-[var(--gold-dim)]">live demo</a> and do not redistribute its restricted data.</p>
+        </div>
+      </section>
+
+      <section className="mt-10">
+        <h2 className="font-display text-lg font-medium text-[var(--ink)]">Khmer Punctuation Restoration</h2>
+        <div className="mt-4 rounded-lg border border-[var(--gold)]/30 bg-[var(--gold)]/5 px-4 py-4 text-sm leading-relaxed text-[var(--ink-dim)]">
+          <p>
+            The punctuation-restoration tool references <a href="https://github.com/seanghay/khmerpunctuate" target="_blank" rel="noopener noreferrer" className="text-[var(--gold)] hover:text-[var(--gold-dim)]">khmerpunctuate</a> by Seanghay Yath and its Khmer punctuation model on <a href="https://huggingface.co/seanghay/khmer-punctuation-restore" target="_blank" rel="noopener noreferrer" className="text-[var(--gold)] hover:text-[var(--gold-dim)]">Hugging Face</a>.
+          </p>
+          <p className="mt-2">The current browser fallback is independently implemented and does not bundle the original ONNX model. The original project is credited for the reference workflow and model approach under the MIT License.</p>
+        </div>
+      </section>
+
+      <section className="mt-10">
         <h2 className="font-display text-lg font-medium text-[var(--ink)]">Fonts</h2>
         <div className="mt-4 space-y-3">
           {FONTS.map((font) => (

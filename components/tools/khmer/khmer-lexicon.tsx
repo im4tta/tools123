@@ -38,7 +38,7 @@ export default function KhmerLexicon() {
 
   return (
     <ToolShell
-      title="Somtosor"
+      title="Homophone"
       khmerTitle="សទិសសូរ"
       description="Khmer homophone dictionary — explore words that sound alike, plus synonyms, antonyms, related words, and examples from Chuon Nath & Headley."
       descriptionKm="វចនានុក្រមសទិសសូរខ្មែរ — ស្វែងយល់ពីពាក្យដែលមានសូរដូចគ្នា សទិសន័យ បដិសព្ទ និងឧទាហរណ៍ ពីវចនានុក្រមជួនណាត និងហេដលី។"
