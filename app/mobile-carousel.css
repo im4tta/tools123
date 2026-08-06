@@ -18,8 +18,11 @@
   .home-spotlight-carousel > div::-webkit-scrollbar { display: none; }
 
   .home-spotlight-card {
-    flex: 0 0 100%;
+    flex: 0 0 calc((100% - 0.5rem) / 2);
+    min-width: 0;
     max-width: none;
+    height: 13.5rem;
+    overflow: hidden;
     border-radius: 0.75rem;
     padding: 0.6rem;
     scroll-snap-align: start;
@@ -35,7 +38,7 @@
   }
 
   .home-spotlight-card .home-spotlight-detail-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.35rem 0.75rem;
   }
 
