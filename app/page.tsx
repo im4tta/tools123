@@ -263,6 +263,7 @@ export default function Home() {
   const recentIds = activeWorkspaceProfile?.recentCalculations ?? recents;
   const favoriteTools = useMemo(() => favoriteIds.map((id) => TOOLS.find((t) => t.id === id)).filter(Boolean) as typeof TOOLS, [favoriteIds]);
   const recentTools = useMemo(() => recentIds.map((id) => TOOLS.find((t) => t.id === id)).filter(Boolean) as typeof TOOLS, [recentIds]);
+  const localDevTools = useMemo(() => TOOLS.filter((tool) => tool.localProject), []);
   const dailyAddition = useMemo(() => {
     // Current Monday–Sunday week in Asia/Phnom_Penh (UTC+7).
     const ppNow = new Date(new Date().toLocaleString("en-US", { timeZone: "Asia/Phnom_Penh" }));
@@ -633,6 +634,16 @@ export default function Home() {
       </>
       )}
 
+      {filter === "" && localDevTools.length > 0 && (
+        <section className="relative mx-auto mt-10 max-w-[77rem] px-5 sm:px-10">
+          <div className="mb-3 flex items-baseline gap-2 border-b border-[var(--ground-line)] pb-2">
+            <h2 className="font-display text-sm font-medium text-[var(--ink)]">{t("Tools from local developers", "ឧបករណ៍ពីអ្នកអភិវឌ្ឍន៍ក្នុងស្រុក")}</h2>
+            <span className="text-xs text-[var(--ink-faint)]">{t("Verified local projects and references", "គម្រោង និងប្រភពក្នុងស្រុកដែលបានផ្ទៀងផ្ទាត់")}</span>
+          </div>
+          <ToolGrid tools={localDevTools} onSelect={setActiveId} favorites={favorites} onToggleFavorite={toggleFavorite} showCredits />
+        </section>
+      )}
+
       <CommandPalette open={paletteOpen} onOpenChange={setPaletteOpen} onSelect={setActiveId} />
     </main>
   );
@@ -644,12 +655,14 @@ function ToolGrid({
   favorites,
   onToggleFavorite,
   showNewBadge = false,
+  showCredits = false,
 }: {
   tools: typeof TOOLS;
   onSelect: (id: string) => void;
   favorites: string[];
   onToggleFavorite: (id: string) => void;
   showNewBadge?: boolean;
+  showCredits?: boolean;
 }) {
   const { text: t } = useLanguage();
   return (
@@ -661,14 +674,16 @@ function ToolGrid({
             key={tool.id}
             className="tool-card group flex items-center gap-1 rounded-md border border-transparent pr-1 text-left text-sm text-[var(--ink-dim)] transition hover:border-[var(--ground-line)] hover:bg-[var(--ground-raised)] hover:text-[var(--ink)]"
           >
-            <button onClick={() => onSelect(tool.id)} className="flex flex-1 items-center gap-2 px-3 py-2 text-left">
-              <span>{t(tool.title, tool.khmerTitle ?? tool.title)}</span>
+            <button onClick={() => onSelect(tool.id)} className="min-w-0 flex-1 px-3 py-2 text-left">
+              <span className="flex items-center gap-2">{t(tool.title, tool.khmerTitle ?? tool.title)}
               {showNewBadge && (
                 <span className="new-tool-badge shrink-0 rounded border border-[var(--gold-dim)] px-1 py-0.5 text-[9px] font-semibold leading-none text-[var(--gold)]">
                   {t("NEW", "ថ្មី")}
                 </span>
-              )}
+              )}</span>
+              {showCredits && tool.localProject && <span className="mt-0.5 block truncate text-[10px] text-[var(--ink-faint)]">{tool.localProject.author} · {tool.localProject.license}{tool.localProject.relationship === "inspired" ? " · Inspired / independent" : tool.localProject.relationship === "adapted" ? " · Adapted" : tool.localProject.relationship === "integrated" ? " · Integrated" : ""}</span>}
             </button>
+            {showCredits && tool.localProject && <a href={tool.localProject.repository} target="_blank" rel="noopener noreferrer" onClick={(event) => event.stopPropagation()} className="shrink-0 rounded px-1.5 py-1 text-[10px] text-[var(--ink-faint)] underline hover:text-[var(--gold)]">GitHub</a>}
             <button
               onClick={() => onToggleFavorite(tool.id)}
               aria-label={isFav ? t("Remove from favorites", "ដកចេញពីចំណូលចិត្ត") : t("Add to favorites", "បន្ថែមទៅចំណូលចិត្ត")}

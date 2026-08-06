@@ -86,7 +86,7 @@ export function HomeSpotlightCarousel() {
   ];
 
   return (
-    <section className="home-spotlight-carousel pointer-events-none relative z-20 mx-auto mt-6 w-full max-w-[77rem] px-5 sm:px-10 xl:absolute xl:inset-x-5 xl:top-20 xl:mt-0 xl:px-0">
+    <section className="home-spotlight-carousel pointer-events-none relative z-20 mx-auto mt-6 w-full max-w-[77rem] px-5 sm:px-10 xl:absolute xl:inset-x-5 xl:top-20 xl:mt-0 xl:pl-5 xl:pr-16">
       <div className="flex flex-col gap-3 sm:grid sm:grid-cols-2 xl:flex xl:flex-row xl:justify-between">
         <article className="home-spotlight-card pointer-events-auto w-full rounded-2xl border border-amber-500/25 bg-[var(--ground-raised)] p-4 shadow-sm sm:max-w-none xl:w-64" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
           <div className="home-spotlight-heading mb-3 flex items-center justify-between">

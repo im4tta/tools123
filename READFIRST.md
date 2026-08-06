@@ -14,6 +14,64 @@ Before changing, reviewing, or adding anything in this repository, read this fil
 - Do not add fake live data, fake official terminology, or unsupported claims. Label estimates and fallback data clearly.
 - Do not remove existing functionality to make a new feature easier.
 
+## Source Attribution And Credits
+
+- Before adding or substantially adapting any tool, inspect the original source references, including GitHub repositories, npm packages, demos, papers, datasets, fonts, APIs, and other external projects.
+- Search the repository and the tool implementation for original-source comments, URLs, package metadata, license files, and attribution requirements before assuming the work is original.
+- Add proper acknowledgement and credits for every identified creator or project, including a human-readable source link and license where applicable.
+- Add source attribution in the tool UI when the external work materially powers the tool, and add full credit to the Acknowledgements page for reusable libraries, models, datasets, algorithms, WASM artifacts, and adapted projects.
+- Preserve third-party copyright notices and license text when redistributing code, models, binaries, fonts, or other artifacts.
+- Tools123 is an aggregation and integration platform combining local and international tools; it must not present source projects or adapted work as original Tools123 creations.
+- When a tool is built with AI assistance, do not omit human or project credits. Investigate likely source origins and cite them before claiming the implementation is original.
+- If AI-assisted coding reveals an external algorithm, library, dataset, model, UI, or project but the exact source cannot be confirmed, mark the attribution as unresolved and do not make an unsupported ownership claim.
+- Do not remove, shorten, or replace existing source credits merely to make a tool appear more original.
+
+## TOOLS123 Provenance Policy
+
+Before implementing or integrating any tool:
+
+1. Search existing implementations in this repository and elsewhere.
+2. Search GitHub, npm, PyPI, Hugging Face, official websites, research papers, datasets, and relevant documentation.
+3. Identify the original project and creator whenever possible.
+4. Locate the authoritative `LICENSE` or terms of use.
+5. Never assume a public GitHub repository is freely redistributable.
+6. Never remove an existing copyright or attribution notice.
+7. Preserve all required license notices.
+8. Identify third-party dependencies, models, datasets, APIs, fonts, and other external assets.
+9. Record relevant sources in machine-readable tool metadata.
+10. Generate a visible `Source & Credits` section for tools with external provenance.
+11. If provenance or licensing cannot be verified, mark it `Provenance Pending`; never silently claim it is original.
+12. If licensing is unclear or incompatible, do not copy the implementation. Build an independent implementation or link to the original resource instead.
+13. Distinguish original work, adapted open-source work, external integrations, third-party data, third-party models, AI-assisted implementation, and inspired independent implementations.
+14. Never claim third-party work as Tools123 original work.
+
+### Provenance Statuses
+
+- `original`: implementation written by Tools123; origin is Tools123.
+- `adapted`: existing open-source implementation modified by Tools123; original project and license are recorded.
+- `integrated`: external library, API, model, or service used without copying its implementation.
+- `inspired`: concept influenced by another project, but implementation is independently written by Tools123.
+- `ai-assisted`: AI generated or substantially assisted implementation; source resemblance must still be investigated before publication.
+- `unknown`: origin or license is unresolved; display `Provenance Pending` until verified.
+
+### Required Metadata Shape
+
+New or audited tools should record provenance in machine-readable metadata similar to:
+
+```ts
+type ToolProvenance = {
+  status: "original" | "adapted" | "integrated" | "inspired" | "ai-assisted" | "unknown";
+  creator?: string;
+  origin?: string;
+  originalProject?: string;
+  sources?: string[];
+  license?: string;
+  notes?: string;
+};
+```
+
+The UI should expose this through a localized `Source & Credits` section whenever the status is not plainly original, or whenever third-party data, models, libraries, or APIs materially affect the tool.
+
 ## Adding Or Updating A Tool
 
 - Register every new tool in `lib/tools.tsx`.
