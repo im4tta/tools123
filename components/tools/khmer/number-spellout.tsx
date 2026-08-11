@@ -157,7 +157,7 @@ function formatNumberWithCommas(str: string) {
 
 type BreakdownEntry = { label: string; val: string; text: string };
 
-function buildBreakdown(intPartStr: string, decPartStr: string, style: Style, currency: Currency, raw: string): BreakdownEntry[] {
+function buildBreakdown(intPartStr: string, decPartStr: string, style: Style, currency: Currency): BreakdownEntry[] {
   const num = parseInt(intPartStr, 10);
   if (isNaN(num)) return [];
   const items: BreakdownEntry[] = [];
@@ -216,10 +216,9 @@ export default function NumberSpellout() {
   const [style, setStyle] = useToolState<Style>("number-spellout:style", "banking");
 
   const result = useMemo(() => processConversion(input, currency, style), [input, currency, style]);
-  const breakdown = useMemo(() => result ? buildBreakdown(result.intPartStr, result.decPartStr, style, currency, input) : [], [result, style, currency, input]);
+  const breakdown = useMemo(() => result ? buildBreakdown(result.intPartStr, result.decPartStr, style, currency) : [], [result, style, currency]);
 
   const invalid = !result;
-  const rawForNumeral = useMemo(() => formatNumberWithCommas(input.replace(/,/g, "")), [input]);
 
   return (
     <ToolShell

@@ -1,12 +1,11 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Copy, Download, FileText, GitBranch, Languages, Network, Search, Type } from "lucide-react";
+import { Copy, Download, Languages } from "lucide-react";
 import { useLanguage } from "@/components/LanguageProvider";
 import { ToolShell } from "@/components/ui/Shell";
 import { MPTC_TERMS } from "@/lib/data/mptc-lexicon";
 import { STATIC_DATABASE } from "@/lib/khmer-lexicon-db";
-import { CAMBODIA_PROVINCES } from "@/lib/cambodia-provinces";
 import { CAMBODIA_PLACE_VARIANTS } from "@/lib/cambodia-place-variants";
 
 export type KhmerSuiteMode = "coverage" | "document" | "dataset" | "places" | "font" | "font-regression" | "relationships";
@@ -15,19 +14,6 @@ function khmerCount(value: string) { return [...value].filter((c) => /[\u1780-\u
 
 function normalizePlace(value: string) {
   return value.normalize("NFKC").toLowerCase().replace(/[\s._\-']/g, "");
-}
-
-function canonicalPlace(value: string) {
-  const normalized = normalizePlace(value);
-  const aliases: Record<string, string> = {
-    pp: "12", phnompenh: "12", phnompenhcity: "12", ភ្នំពេញ: "12",
-    bmc: "01", banteaymeanchey: "01", battambang: "02", kandal: "08",
-    siemreap: "17", siemreapcity: "17", kampot: "07", kep: "23",
-  };
-  const aliasCode = aliases[normalized];
-  if (aliasCode) return aliasCode;
-  const province = CAMBODIA_PROVINCES.find((p) => p.code === value || normalizePlace(p.en) === normalized || normalizePlace(p.km) === normalized);
-  return province?.code ?? normalized;
 }
 
 function levenshtein(a: string, b: string) {

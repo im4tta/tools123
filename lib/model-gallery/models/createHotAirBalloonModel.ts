@@ -139,12 +139,9 @@ export function createHotAirBalloonModel(options: HotAirBalloonOptions = {}): TH
   root.add(envelope);
 
   /* skirt / throat opening */
-  const skirt = new THREE.Mesh(new THREE.CylinderGeometry(0.34, 0.4, 0.2, 24, 1, true), matBasketDarkClone(matBasket));
+  const skirt = new THREE.Mesh(new THREE.CylinderGeometry(0.34, 0.4, 0.2, 24, 1, true), new THREE.MeshStandardMaterial({ color: 0x2a2a2c, roughness: 0.8, side: THREE.DoubleSide }));
   skirt.position.y = 0.7;
   root.add(skirt);
-  function matBasketDarkClone(mat: THREE.MeshStandardMaterial): THREE.MeshStandardMaterial {
-    return new THREE.MeshStandardMaterial({ color: 0x2a2a2c, roughness: 0.8, side: THREE.DoubleSide });
-  }
 
   /* ---- rigging: load lines from the skirt down to the basket corners ---- */
   const basketY = -0.1;

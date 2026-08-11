@@ -101,7 +101,6 @@ export function createPadlockModel(options: PadlockOptions = {}): THREE.Group {
   });
   const matSteelDark = new THREE.MeshStandardMaterial({ color: COL.steelDark, roughness: 0.45, metalness: 0.9 });
   const matBrass = new THREE.MeshStandardMaterial({ color: COL.brass, roughness: 0.3, metalness: 1.0 });
-  const matDark = new THREE.MeshStandardMaterial({ color: COL.dark, roughness: 0.6, metalness: 0.2 });
   const matLed = new THREE.MeshStandardMaterial({
     color: COL.green,
     emissive: COL.green,

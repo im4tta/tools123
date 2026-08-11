@@ -1121,8 +1121,8 @@ function extractColorsFromImage(image: HTMLImageElement, callback: (colors: [str
 export default function FrameStudio() {
   const [deviceId, setDeviceId] = useState("17pm");
   const [colorIdx, setColorIdx] = useState(0);
-  const [device2Id, setDevice2Id] = useState("17");
-  const [colorIdx2, setColorIdx2] = useState(0);
+  const [device2Id] = useState("17");
+  const [colorIdx2] = useState(0);
   const [layoutMode, setLayoutMode] = useState("single");
 
   const [img, setImg] = useState<HTMLImageElement | null>(null);
@@ -1133,13 +1133,13 @@ export default function FrameStudio() {
   const [backdropId, setBackdropId] = useState("studio-light");
   const [customColor, setCustomColor] = useState("#FFFFFF");
   const [extractedGradient, setExtractedGradient] = useState<[string, string] | null>(null);
-  const [customBgImg, setCustomBgImg] = useState<HTMLImageElement | null>(null);
+  const [customBgImg] = useState<HTMLImageElement | null>(null);
 
   const [imgZoom, setImgZoom] = useState(1);
   const [offsetX, setOffsetX] = useState(0);
   const [offsetY, setOffsetY] = useState(0);
-  const [brightness, setBrightness] = useState(1);
-  const [contrast, setContrast] = useState(1);
+  const [brightness] = useState(1);
+  const [contrast] = useState(1);
 
   const [pitch3D, setPitch3D] = useState(0);
   const [yaw3D, setYaw3D] = useState(0);
@@ -1150,9 +1150,9 @@ export default function FrameStudio() {
   const [exportScale, setExportScale] = useState(2);
   const [exportFormat, setExportFormat] = useState("image/png");
   const [orientation, setOrientation] = useState("portrait");
-  const [imageFit, setImageFit] = useState("cover");
-  const [shadowIntensity, setShadowIntensity] = useState(0.6);
-  const [showGlare, setShowGlare] = useState(true);
+  const [imageFit] = useState("cover");
+  const [shadowIntensity] = useState(0.6);
+  const [showGlare] = useState(true);
   const [showReflection, setShowReflection] = useState(false);
   const [noiseIntensity, setNoiseIntensity] = useState(0);
   const [aspectRatioId, setAspectRatioId] = useState("auto");
@@ -1161,10 +1161,10 @@ export default function FrameStudio() {
   const [badgeText, setBadgeText] = useState("PRO RELEASE");
   const [headlineText, setHeadlineText] = useState("Designed for Performance");
   const [subtitleText, setSubtitleText] = useState("Build, preview, and showcase hardware mockups in seconds.");
-  const [textAlign, setTextAlign] = useState("center");
+  const [textAlign] = useState("center");
   const [fontFamily, setFontFamily] = useState("Plus Jakarta Sans");
   const [showCtaBadge, setShowCtaBadge] = useState(false);
-  const [ctaType, setCtaType] = useState("appstore");
+  const [ctaType] = useState("appstore");
 
   const { theme, toggle: toggleTheme } = useTheme();
   const isDarkMode = theme === "dark";

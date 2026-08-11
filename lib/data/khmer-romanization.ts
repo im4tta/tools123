@@ -260,8 +260,6 @@ export function romanizeSyllable(syllable: string, style: RomanStyle): string {
     if (!dd) continue;
     if (dd.s1) vowelRoman = style === "linguistic" ? dd.linguistic : (series === 1 ? dd.s1 : (dd.s2 ?? ""));
   }
-  let finalConsonant = "";
-  if (subscriptConsonant && subscriptConsonant !== "រ") finalConsonant = KHMER_CONSONANTS[subscriptConsonant]?.roman || "";
   return (leadRoman + subRoman + vowelRoman).replace(/qq/, "q").replace(/h_h/, "h");
 }
 

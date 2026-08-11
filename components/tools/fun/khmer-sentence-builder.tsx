@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Award, BookOpen, CheckCircle, Clock, Coffee, Flag, Gauge, Heart, Home, Languages, Leaf, Lightbulb, LogOut, MousePointerClick, Play, RotateCcw, ShoppingCart, Star, Tag, Trash2, Utensils, Volume2, VolumeX, Plane, Briefcase, Smile, Building } from "lucide-react";
+import { Award, BookOpen, CheckCircle, Clock, Coffee, Flag, Gauge, Languages, Leaf, Lightbulb, LogOut, MousePointerClick, Play, RotateCcw, ShoppingCart, Star, Tag, Utensils, Plane, Briefcase, Smile, Building } from "lucide-react";
 import { useLanguage } from "@/components/LanguageProvider";
 import { ToolShell } from "@/components/ui/Shell";
 import { useToolState } from "@/lib/storage";

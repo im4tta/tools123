@@ -10,7 +10,6 @@ export default function PasswordGenerator() {
   const [useUpper, setUseUpper] = useToolState("password-generator:useUpper", true);
   const [useDigits, setUseDigits] = useToolState("password-generator:useDigits", true);
   const [useSymbols, setUseSymbols] = useToolState("password-generator:useSymbols", true);
-  const [avoidAmbiguous, setAvoidAmbiguous] = useToolState("password-generator:avoidAmbiguous", true);
   const [result, setResult] = useToolState("password-generator:result", "");
 
   function generate() {
@@ -20,7 +19,6 @@ export default function PasswordGenerator() {
     const bytes = crypto.getRandomValues(new Uint32Array(n));
     setResult([...bytes].map((b) => pool[b % pool.length]).join(""));
   }
-  void avoidAmbiguous;
 
   return (
     <ToolShell title="Password Generator" description="Cryptographically random passwords, ambiguous-looking characters (0/O, 1/l) excluded by default.">

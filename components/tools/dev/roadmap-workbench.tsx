@@ -1,8 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { CheckCircle2, Copy, Download, FileJson, GitBranch, Wand2 } from "lucide-react";
-import { useLanguage } from "@/components/LanguageProvider";
+import { CheckCircle2, Copy } from "lucide-react";
 import { ToolShell } from "@/components/ui/Shell";
 
 export type WorkbenchMode = "types" | "convert" | "jsonl" | "tokens" | "smart" | "chains";
@@ -49,7 +48,6 @@ function detectInput(input: string) {
 }
 
 export function RoadmapWorkbench({ mode }: { mode: WorkbenchMode }) {
-  const { text: t } = useLanguage();
   const [input, setInput] = useState(mode === "types" ? SAMPLE : "");
   const [copied, setCopied] = useState(false);
 
@@ -101,7 +99,6 @@ export function RoadmapWorkbench({ mode }: { mode: WorkbenchMode }) {
 }
 
 function ChainWorkspace() {
-  const { text: t } = useLanguage();
   const chains = [
     { title: "Developer JSON", steps: ["JSON Formatter", "JSON Validator", "JSON → TypeScript / Zod"] },
     { title: "Khmer OCR", steps: ["Khmer OCR Cleaner", "Khmer Unicode Normalizer", "Khmer Text Statistics"] },

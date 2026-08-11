@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { Binary, BookA, Split, Type } from "lucide-react";
 import { useLanguage } from "@/components/LanguageProvider";
 import { ToolShell } from "@/components/ui/Shell";

@@ -1,7 +1,6 @@
 "use client";
 import { ToolShell, TextArea, Field } from "@/components/ui/Shell";
 import { Output } from "@/components/ui/Output";
-import { Button } from "@/components/ui/Output";
 import { useToolState } from "@/lib/storage";
 
 export default function Base64Tool() {

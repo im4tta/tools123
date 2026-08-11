@@ -1,6 +1,6 @@
 "use client";
 import { Fragment, useMemo, useState } from "react";
-import { CopyButton, type CopyField } from "@/components/CopyButton";
+import { CopyButton } from "@/components/CopyButton";
 import { ToolShell, Field, TextInput } from "@/components/ui/Shell";
 import { useToolState } from "@/lib/storage";
 import { MPTC_TERMS } from "@/lib/data/mptc-lexicon";

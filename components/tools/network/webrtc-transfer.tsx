@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { Clipboard, ClipboardPaste, Download, FileText, Link, Upload, Wifi, WifiOff } from "lucide-react";
+import { Clipboard, Download, FileText, Upload, Wifi } from "lucide-react";
 import { useLanguage } from "@/components/LanguageProvider";
 import { ToolShell } from "@/components/ui/Shell";
 
@@ -23,7 +23,6 @@ export default function WebRTCTransfer() {
   const [statusText, setStatusText] = useState("");
   const pcRef = useRef<RTCPeerConnection | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
-  const dcRef = useRef<RTCDataChannel | null>(null);
 
   // ---- SEND flow ----
   async function createTransfer() {
@@ -118,7 +117,6 @@ export default function WebRTCTransfer() {
     setStep("idle"); setFile(null); setOfferText(""); setAnswerInput(""); setProgress(0); setStatusText("");
   }
 
-  const dropRef = useRef<HTMLDivElement>(null);
   const [dragover, setDragover] = useState(false);
 
   function handleFile(f: File) {

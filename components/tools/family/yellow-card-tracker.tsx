@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Activity, CalendarDays, Check, ChevronRight, Droplet, FileText, PlusCircle, RotateCcw, Sparkles, Trash2, UserCheck } from "lucide-react";
+import { Activity, Check, ChevronRight, Droplet, FileText, PlusCircle, Sparkles, Trash2, UserCheck } from "lucide-react";
 import { useLanguage } from "@/components/LanguageProvider";
 import { ToolShell } from "@/components/ui/Shell";
 import { useToolState } from "@/lib/storage";
@@ -69,7 +69,6 @@ export default function YellowCardTracker() {
   const [village, setVillage] = useToolState("yt:village", "");
   const [commune, setCommune] = useToolState("yt:commune", "");
   const [district, setDistrict] = useToolState("yt:district", "");
-  const [province, setProvince] = useToolState("yt:province", "");
 
   const [growthData, setGrowthData] = useToolState<{ month: number; weight: number; date: string }[]>("yt:growth", [
     { month: 0, weight: 3.2, date: "2026-06-10" }, { month: 2, weight: 5.1, date: "2026-08-10" },

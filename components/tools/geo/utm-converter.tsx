@@ -1,6 +1,6 @@
 "use client";
 import { useMemo } from "react";
-import { ToolShell, Field, TextInput, Row, Select } from "@/components/ui/Shell";
+import { ToolShell, Field, TextInput, Row } from "@/components/ui/Shell";
 import { Output } from "@/components/ui/Output";
 import { useToolState } from "@/lib/storage";
 

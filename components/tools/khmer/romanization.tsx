@@ -3,12 +3,11 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { FileJson, FileSpreadsheet, Globe, Keyboard, BookOpen, Search, Volume2, Trash2, ChevronDown } from "lucide-react";
 import { CopyButton } from "@/components/CopyButton";
 import { useLanguage } from "@/components/LanguageProvider";
-import { Field, TextInput, ToolShell } from "@/components/ui/Shell";
-import { useClipboard } from "@/components/ClipboardProvider";
+import { Field, ToolShell } from "@/components/ui/Shell";
 import { useToolState } from "@/lib/storage";
 import {
   KHMER_CONSONANTS, KHMER_VOWELS, KHMER_SUBSCRIPTS, KHMER_INDEPENDENT_VOWELS,
-  KHMER_DIACRITICS, EXCEPTION_DICT, REVERSE_LOOKUP,
+  KHMER_DIACRITICS, REVERSE_LOOKUP,
   segmentSyllables, romanizeSyllable, romanizeFull,
   isKhmerChar, RomanStyle, STYLE_LABELS,
 } from "@/lib/data/khmer-romanization";
@@ -27,14 +26,6 @@ const QUIZ_BANK = [
   { khmer: "សប្បាយ", choices: ["Sabbay", "Sabaay", "Sabay", "Sabai"], correct: "Sabbay", hint: "Happy or fun" },
 ];
 
-function toast(msg: string) {
-  const el = document.createElement("div");
-  el.className = "fixed bottom-5 right-5 z-[100] rounded-xl border border-[var(--gold-dim)]/30 bg-[var(--ground-raised)] px-4 py-3 text-xs text-[var(--gold)] shadow-elev shadow-lg animate-[fade-rise_0.22s_ease_both]";
-  el.textContent = msg;
-  document.body.appendChild(el);
-  setTimeout(() => { el.style.opacity = "0"; el.style.transition = "opacity 0.3s"; setTimeout(() => el.remove(), 300); }, 2500);
-}
-
 export default function Romanization() {
   const { text: t } = useLanguage();
   const [input, setInput] = useToolState("romanization:input", "សួស្ដី កម្ពុជា");
@@ -52,9 +43,7 @@ export default function Romanization() {
   const [quizStreak, setQuizStreak] = useState(0);
   const [quizAnswered, setQuizAnswered] = useState(false);
   const [quizQuestions, setQuizQuestions] = useState<typeof QUIZ_BANK>([]);
-  const [copied, setCopied] = useState(false);
   const inputRef = useRef<HTMLTextAreaElement>(null);
-  const { copyText } = useClipboard();
 
   const output = useMemo(() => romanizeFull(input, style), [input, style]);
 
@@ -71,13 +60,6 @@ export default function Romanization() {
       return next;
     });
   }, [input, output, style]);
-
-  function handleCopy() {
-    copyText(output);
-    setCopied(true);
-    toast(t("Copied output", "បានចម្លងលទ្ធផល"));
-    setTimeout(() => setCopied(false), 1500);
-  }
 
   function exportJSON() {
     if (!input.trim()) return;
@@ -319,8 +301,6 @@ export default function Romanization() {
                 <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                   {quizQuestions[quizIdx].choices.map((opt) => {
                     const isCorrect = opt === quizQuestions[quizIdx].correct;
-                    const isSelected = quizAnswered && opt === quizQuestions[quizIdx].correct;
-                    const isWrong = quizAnswered && opt !== quizQuestions[quizIdx].correct;
                     return (
                       <button key={opt} disabled={quizAnswered} onClick={() => submitQuiz(opt)}
                         className={`rounded-md border px-3 py-2 text-sm font-semibold transition ${quizAnswered ? (isCorrect ? "border-[var(--success)] bg-[var(--success)]/10 text-[var(--success)]" : "border-[var(--ground-line)] text-[var(--ink-faint)] opacity-50") : "border-[var(--ground-line)] text-[var(--ink)] hover:border-[var(--gold-dim)]"}`}>

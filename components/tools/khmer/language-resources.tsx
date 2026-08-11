@@ -1,7 +1,7 @@
 "use client";
 import { useMemo } from "react";
 import { ExternalLink } from "lucide-react";
-import { CopyButton, type CopyField } from "@/components/CopyButton";
+import { CopyButton } from "@/components/CopyButton";
 import { ToolShell, Field, Select } from "@/components/ui/Shell";
 import { useToolState } from "@/lib/storage";
 

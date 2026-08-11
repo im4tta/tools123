@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { CopyButton, type CopyField } from "@/components/CopyButton";
+import { CopyButton } from "@/components/CopyButton";
 import { ToolShell, Field, TextInput } from "@/components/ui/Shell";
 
 const ENTRIES = [

@@ -1,6 +1,6 @@
 "use client";
 import { useMemo } from "react";
-import { CopyButton, type CopyField } from "@/components/CopyButton";
+import { CopyButton } from "@/components/CopyButton";
 import { ToolShell, Field, Select, TextInput } from "@/components/ui/Shell";
 import { useToolState } from "@/lib/storage";
 

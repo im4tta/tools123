@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { CopyButton, type CopyField } from "@/components/CopyButton";
+import { CopyButton } from "@/components/CopyButton";
 import { useLanguage } from "@/components/LanguageProvider";
 import { Field, TextInput, ToolShell } from "@/components/ui/Shell";
 

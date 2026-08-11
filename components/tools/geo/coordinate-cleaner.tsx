@@ -10,7 +10,6 @@ function parseMessy(line: string): [number, number] | null {
   if (m.length < 2) return null;
   const lat = Number(m[0]), lng = Number(m[1]);
   if (isNaN(lat) || isNaN(lng)) return null;
-  const sw = /[SsWw]/.test(line);
   return [lat, lng];
 }
 

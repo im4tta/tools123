@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { ArrowRight, Binary, Globe, Hash, Keyboard, Search, Settings2, Type } from "lucide-react";
+import { Search, Settings2, Type } from "lucide-react";
 import { useLanguage } from "@/components/LanguageProvider";
 import { ToolShell } from "@/components/ui/Shell";
 import { useToolState } from "@/lib/storage";
@@ -23,7 +23,6 @@ export default function KhmerKeyboardVisualizer() {
   const [altgr, setAltgr] = useState(false);
   const [active, setActive] = useState<string | null>(null);
   const [last, setLast] = useState<{ key: string; output: string } | null>(null);
-  const [sequence, setSequence] = useState<{ char: string; key: string; shift: boolean }[]>([]);
 
   const handleKey = useCallback((event: KeyboardEvent) => {
     const key = event.key.length === 1 ? event.key.toLowerCase() : event.key;
