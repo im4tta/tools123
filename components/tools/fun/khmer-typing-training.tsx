@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { AlertCircle, Keyboard, RotateCcw, Target, Timer, Trash2, Trophy, Zap } from "lucide-react";
+import { AlertCircle, RotateCcw, Target, Timer, Trash2, Trophy, Zap } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { useLanguage } from "@/components/LanguageProvider";
 import { ToolShell } from "@/components/ui/Shell";

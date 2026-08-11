@@ -1,6 +1,6 @@
 "use client";
 import { useEffect } from "react";
-import { ToolShell, TextArea, TextInput, Field, Row } from "@/components/ui/Shell";
+import { ToolShell, TextArea, TextInput, Field } from "@/components/ui/Shell";
 import { Output } from "@/components/ui/Output";
 import { useToolState } from "@/lib/storage";
 

@@ -1,7 +1,7 @@
 "use client";
 
-import { useCallback, useMemo, useRef, useState } from "react";
-import { BarChart3, CheckCircle2, Copy, Crown, Download, Eye, Flag, Gauge, Layers, Play, Plus, RotateCcw, Server, Settings, Sliders, Sparkles, Square, Trash2, XCircle, Zap } from "lucide-react";
+import { useMemo, useRef, useState } from "react";
+import { CheckCircle2, Download, Eye, Play, Plus, RotateCcw, Settings, Square, Trash2, XCircle, Zap } from "lucide-react";
 import { useLanguage } from "@/components/LanguageProvider";
 import { ToolShell } from "@/components/ui/Shell";
 import { useToolState } from "@/lib/storage";
@@ -87,12 +87,11 @@ export default function ApiBenchmark() {
   const [reqCount, setReqCount] = useToolState("ab:reqs", 5);
   const [concurrent, setConcurrent] = useToolState("ab:mode", false);
   const [delayMs, setDelayMs] = useToolState("ab:delay", 300);
-  const [timeoutSec, setTimeoutSec] = useToolState("ab:timeout", 8);
+  const [timeoutSec] = useToolState("ab:timeout", 8);
   const [results, setResults] = useState<EndpointResult[]>([]);
   const [running, setRunning] = useState(false);
   const [progress, setProgress] = useState({ cur: 0, tot: 0 });
   const [detailId, setDetailId] = useState<string | null>(null);
-  const [copied, setCopied] = useState("");
   const [expanded, setExpanded] = useState<string | null>(null);
   const abortRef = useRef<AbortController | null>(null);
 

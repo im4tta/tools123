@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useLanguage } from "@/components/LanguageProvider";
 import { ToolShell } from "@/components/ui/Shell";
 import { useToolState } from "@/lib/storage";
-import { Download, Eye, EyeOff, FileText, GripVertical, Play, RotateCcw } from "lucide-react";
+import { Download, Eye, EyeOff, FileText, GripVertical, Play } from "lucide-react";
 
 type Mode = "react" | "markdown" | "bbcode";
 

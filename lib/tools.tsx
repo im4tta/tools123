@@ -277,6 +277,7 @@ export const TOOLS: ToolDef[] = [
   { id: "gps-validator", title: "GPS Coordinate Validator", category: "geo", keywords: ["gps", "validate", "lat lng"], Component: load("geo", "gps-validator") },
   { id: "speed-distance-time", title: "Speed / Distance / Time Calculator", category: "geo", keywords: ["speed", "distance", "time", "travel"], Component: load("geo", "speed-distance-time") },
   { id: "nearest-province", title: "Nearest Province Finder", category: "geo", keywords: ["cambodia-address", "reverse geocode", "province", "gps"], Component: load("geo", "nearest-province") },
+  { id: "airport-lookup", title: "Airport Lookup", khmerTitle: "ស្វែងរកព្រលានយន្តហោះ", addedOn: "2026-08-10T10:00:00+07:00", category: "geo", keywords: ["airport", "iata", "icao", "aviation", "flight", "terminal", "ព្រលានយន្តហោះ", "កំពង់យន្តហោះ"], localProject: { author: "OurAirports", repository: "https://ourairports.com/data/", license: "Public Domain", relationship: "integrated" }, Component: load("geo", "airport-lookup") },
 
   // ---- Science (1) ----
   { id: "materials", title: "Earth Materials & 3D Atom Pro", khmerTitle: "សារធាតុផែនដី & អាតូម 3D Pro", addedOn: "2026-07-30", category: "science", keywords: ["elements", "periodic table", "materials", "chemistry", "3d atom", "isotopes", "science", "វិទ្យាសាស្រ្ត", "ធាតុគីមី", "តារាងខួប", "សារធាតុ"], Component: load("science", "materials") },

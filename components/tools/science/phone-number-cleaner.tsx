@@ -20,9 +20,7 @@ import {
   BarChart3,
   ArrowUpRight,
   HelpCircle,
-  X,
-  Languages,
-  Sparkles
+  X
 } from 'lucide-react';
 
 type FormatStyle = 'local' | 'intl' | 'intl_compact' | 'dashed' | 'dotted' | 'compact';

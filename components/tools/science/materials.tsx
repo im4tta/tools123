@@ -5,9 +5,9 @@ import {
   Search, Globe, X, Layers, Shield, Sparkles, Zap, 
   Droplet, Flame, Wind, Mountain, Bookmark,
   Copy, Check, Grid, List, Scale, Cpu, Leaf, ArrowRight,
-  FlaskConical, Atom, RefreshCw, ChevronRight, Eye, Maximize2, RotateCcw,
-  Volume2, VolumeX, Award, HelpCircle, Play, Sliders, Activity, Box, Plus, Hammer,
-  Wrench, Thermometer, Info, FileText, BookOpen
+  FlaskConical, Atom, RefreshCw, Maximize2,
+  Volume2, VolumeX, Award, Box, Hammer,
+  FileText, BookOpen
 } from 'lucide-react';
 import { useLanguage } from "@/components/LanguageProvider";
 
@@ -580,7 +580,7 @@ class AudioSynth {
       gain.connect(this.ctx.destination);
       osc.start();
       osc.stop(this.ctx.currentTime + 0.05);
-    } catch(e) {}
+    } catch {}
   }
   playSynthCraft() {
     if (!this.enabled) return;
@@ -598,14 +598,14 @@ class AudioSynth {
       gain.connect(this.ctx.destination);
       osc.start();
       osc.stop(this.ctx.currentTime + 0.25);
-    } catch(e) {}
+    } catch {}
   }
 }
 const soundFx = new AudioSynth();
 
 function Visualizer3DCanvas({ element, mode = 'atom' }: { element: any; mode?: string }) {
   const mountRef = useRef<HTMLDivElement>(null);
-  const [speed, setSpeed] = useState(0.01);
+  const [speed] = useState(0.01);
   const [wireframe, setWireframe] = useState(false);
 
   useEffect(() => {
@@ -815,7 +815,6 @@ function Visualizer3DCanvas({ element, mode = 'atom' }: { element: any; mode?: s
 function PropertyRadarChart({ metrics }: { metrics: any }) {
   if (!metrics) return null;
 
-  const labels = ['Hardness', 'Conductivity', 'Thermal', 'Density', 'Eco/Recycle'];
   const values = [
     metrics.hardness || 50,
     metrics.conductivity || 50,

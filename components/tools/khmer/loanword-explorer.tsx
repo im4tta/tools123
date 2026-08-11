@@ -4,15 +4,9 @@ import { useMemo, useState } from "react";
 import {
   Search,
   BookOpen,
-  Filter,
-  Globe,
-  Sparkles,
   Volume2,
   Bookmark,
-  BookmarkCheck,
   Award,
-  Info,
-  Layers,
   ChevronRight,
   RotateCcw,
   X,
@@ -21,7 +15,7 @@ import {
   List,
 } from "lucide-react";
 import { useLanguage } from "@/components/LanguageProvider";
-import { ToolShell, Field, Select, TextInput } from "@/components/ui/Shell";
+import { ToolShell } from "@/components/ui/Shell";
 import { useToolState } from "@/lib/storage";
 
 const ORIGIN_CONFIG: Record<string, { km: string; en: string; color: string; icon: string; era: string }> = {

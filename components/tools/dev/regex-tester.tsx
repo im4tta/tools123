@@ -11,7 +11,6 @@ export default function RegexTester() {
 
   const { matches, error } = useMemo(() => {
     try {
-      const re = new RegExp(pattern, flags);
       const found = [...text.matchAll(new RegExp(pattern, flags.includes("g") ? flags : flags + "g"))];
       return { matches: found.map((m) => `${m[0]}  @${m.index}`), error: false };
     } catch (e) {

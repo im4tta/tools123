@@ -1,5 +1,4 @@
 "use client";
-import { useMemo } from "react";
 import { ToolShell, Field, TextInput, Row } from "@/components/ui/Shell";
 import { Output } from "@/components/ui/Output";
 import { useToolState } from "@/lib/storage";
@@ -12,15 +11,6 @@ function ddToDms(dd: number, isLat: boolean) {
   const min = Math.floor(minFloat);
   const sec = ((minFloat - min) * 60).toFixed(2);
   return `${deg}° ${min}' ${sec}" ${dir}`;
-}
-
-function dmsToDd(input: string): number | null {
-  const m = input.match(/(-?\d+(?:\.\d+)?)[°\s]+(\d+(?:\.\d+)?)['\s]+(\d+(?:\.\d+)?)["\s]*([NSEW]?)/i);
-  if (!m) return null;
-  const [, d, mm, s, dir] = m;
-  let dd = Math.abs(Number(d)) + Number(mm) / 60 + Number(s) / 3600;
-  if (/[SW]/i.test(dir) || Number(d) < 0) dd = -dd;
-  return dd;
 }
 
 export default function DmsConverter() {

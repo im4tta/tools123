@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Bookmark, Calculator, Copy, FileSpreadsheet, Image, Layers, Plus, RotateCcw, Save, Trash2, Wand } from "lucide-react";
+import { Copy, Plus, Trash2, Wand } from "lucide-react";
 import { useLanguage } from "@/components/LanguageProvider";
 import { ToolShell } from "@/components/ui/Shell";
 import { useToolState } from "@/lib/storage";
@@ -50,10 +50,6 @@ export default function IpcProportionCalculator() {
   function handleTotal(v: string) { setTotal(v); recalc(); }
   function handlePercent(idx: number, v: string) {
     setRows((p) => p.map((r, i) => (i === idx ? { ...r, percent: parseFloat(v) || 0 } : r)));
-    recalc();
-  }
-  function handleAmount(idx: number, v: string) {
-    setRows((p) => p.map((r, i) => (i === idx ? { ...r, amount: parseFloat(v) || 0 } : r)));
     recalc();
   }
   function handleLabel(idx: number, v: string) { setRows((p) => p.map((r, i) => (i === idx ? { ...r, label: v } : r))); }
