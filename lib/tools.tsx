@@ -298,7 +298,7 @@ export const TOOLS: ToolDef[] = [
   { id: "random-string", title: "Random String Generator", category: "text", keywords: ["random", "generate string"], Component: load("text", "random-string") },
   { id: "text-statistics", title: "Text Statistics", category: "text", keywords: ["reading time", "word count"], Component: load("text", "text-statistics") },
   { id: "whitespace-trimmer", title: "Whitespace / Line Cleaner", category: "text", keywords: ["trim", "whitespace", "blank lines"], Component: load("text", "whitespace-trimmer") },
-  { id: "title-case", title: "Title Case Converter", category: "text", keywords: ["title case", "capitalize"], Component: load("text", "title-case") },
+  { id: "text-case-normalizer", title: "Text Case & Normalizer", khmerTitle: "បំលែងអក្សរ និងសម្អាតអត្ថបទ", addedOn: "2026-08-12T11:00:00+07:00", category: "text", keywords: ["uppercase", "lowercase", "sentence case", "title case", "capitalize", "normalize", "unicode", "nfc", "whitespace", "diff", "compare", "text cleaner", "case converter", "find and replace", "camelcase", "snake_case", "kebab-case", "sort lines", "reverse", "remove duplicates", "អក្សរធំ", "អក្សរតូច"], Component: load("text", "text-case-normalizer") },
   { id: "text-columns", title: "Text to Columns Splitter", category: "text", keywords: ["split", "delimiter", "columns"], Component: load("text", "text-columns") },
   { id: "anagram-checker", title: "Anagram Checker", category: "text", keywords: ["anagram", "letters"], Component: load("text", "anagram-checker") },
   { id: "line-numberer", title: "Text Line Numberer", category: "text", keywords: ["line numbers", "numbered list"], Component: load("text", "line-numberer") },
@@ -430,6 +430,7 @@ export const TOOLS: ToolDef[] = [
   { id: "team-generator", title: "Team Generator", khmerTitle: "កម្មវិធីបែងចែកក្រុម", addedOn: "2026-07-29", category: "office", keywords: ["team", "group", "random", "shuffle", "ក្រុម"], Component: load("office", "team-generator") },
   { id: "signature-pad", title: "Signature Pad", khmerTitle: "ផ្ទាំងហត្ថលេខា", addedOn: "2026-07-29", category: "office", keywords: ["signature", "sign", "draw", "png", "ហត្ថលេខា"], Component: load("office", "signature-pad") },
   { id: "asset-register", title: "Asset Register", khmerTitle: "បញ្ជីសម្ភារៈ", addedOn: "2026-07-29", category: "office", keywords: ["asset", "inventory", "equipment", "register", "សម្ភារៈ"], Component: load("office", "asset-register") },
+  { id: "nid-card-print-formatter", title: "NID Card Print Formatter", khmerTitle: "រៀបចំអត្តសញ្ញាណប័ណ្ណសម្រាប់បោះពុម្ព", addedOn: "2026-08-12T10:00:00+07:00", category: "office", keywords: ["national id", "nid", "id card", "print layout", "a4", "crop", "document scanner", "photo", "front back", "identity", "អត្តសញ្ញាណប័ណ្ណ", "កាត", "បោះពុម្ព"], Component: load("office", "nid-card-print-formatter") },
 
   // ---- Images (8) ----
   { id: "document-scanner", title: "Document Scanner", khmerTitle: "ម៉ាស៊ីនស្កេនឯកសារ", addedOn: "2026-07-29", category: "images", keywords: ["document", "scanner", "camera", "capture", "grayscale", "ឯកសារ", "ស្កេន"], Component: load("images", "document-scanner") },
