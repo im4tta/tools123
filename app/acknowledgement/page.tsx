@@ -16,6 +16,7 @@ const LIBRARIES = [
   { name: "jsQR", url: "https://github.com/cozmo/jsQR", by: "Cosmo Wolfe", use: "QR code detection and decoding" },
   { name: "gif.js", url: "https://github.com/jnordberg/gif.js", by: "Johan Nordberg", use: "GIF encoding in the browser" },
   { name: "qrcode.react", url: "https://github.com/zpao/qrcode.react", by: "Paul O'Shannessy", use: "QR code rendering for React" },
+  { name: "qrcode-generator", url: "https://github.com/kazuhikoarase/qrcode-generator", by: "Kazuhiko Arase", use: "QR code matrix encoding in the browser" },
   { name: "@imgly/background-removal", url: "https://github.com/imgly/background-removal-js", by: "IMG.LY GmbH", use: "AI-powered background removal" },
   { name: "@thyrith/momentkh", url: "https://www.npmjs.com/package/@thyrith/momentkh", by: "ThyRith", use: "Khmer calendar and date utilities" },
   { name: "ESLint", url: "https://eslint.org/", by: "OpenJS Foundation", use: "JavaScript linting" },
