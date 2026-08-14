@@ -5,6 +5,7 @@ import { ToolShell } from "@/components/ui/Shell";
 import { Output, Button } from "@/components/ui/Output";
 import { useToolState } from "@/lib/storage";
 import { useLanguage } from "@/components/LanguageProvider";
+import { recordExport } from "@/lib/export";
 
 interface HistItem {
   value: string;
@@ -183,6 +184,7 @@ export default function QrDecoderTool() {
     link.download = "qr-content.txt";
     link.click();
     setTimeout(() => URL.revokeObjectURL(url), 100);
+    recordExport();
   }
 
   useEffect(() => {

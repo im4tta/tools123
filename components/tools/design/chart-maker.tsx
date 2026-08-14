@@ -4,6 +4,7 @@ import { useMemo, useRef, useState } from "react";
 import { useLanguage } from "@/components/LanguageProvider";
 import { Field, Row, Select, TextArea, ToolShell } from "@/components/ui/Shell";
 import { Button, Output } from "@/components/ui/Output";
+import { recordExport } from "@/lib/export";
 
 type ChartType = "bar" | "line";
 type Parsed = { labels: string[]; values: number[]; error: string };
@@ -37,6 +38,7 @@ function saveSvg(svg: SVGSVGElement) {
   link.download = "chart.svg";
   link.click();
   URL.revokeObjectURL(url);
+  recordExport();
 }
 
 function short(value: string) {

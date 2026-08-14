@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { Copy, Download, Languages } from "lucide-react";
 import { useLanguage } from "@/components/LanguageProvider";
 import { ToolShell } from "@/components/ui/Shell";
+import { recordExport } from "@/lib/export";
 import { MPTC_TERMS } from "@/lib/data/mptc-lexicon";
 import { STATIC_DATABASE } from "@/lib/khmer-lexicon-db";
 import { CAMBODIA_PLACE_VARIANTS } from "@/lib/cambodia-place-variants";
@@ -132,6 +133,7 @@ export function KhmerAnalysisSuite({ mode }: { mode: KhmerSuiteMode }) {
     link.href = `data:text/csv;charset=utf-8,\uFEFF${encodeURIComponent(csv)}`;
     link.download = "cambodia_place_name_variants.csv";
     link.click();
+    recordExport();
   }
 
   return <ToolShell title={meta[0]} khmerTitle={meta[1]} description="Local-first Khmer language quality and terminology analysis." descriptionKm="ឧបករណ៍វិភាគភាសាខ្មែរ ដំណើរការក្នុងកម្មវិធីរុករករបស់អ្នក។">

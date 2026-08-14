@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useLanguage } from "@/components/LanguageProvider";
 import { ToolShell } from "@/components/ui/Shell";
 import { useToolState } from "@/lib/storage";
+import { recordExport } from "@/lib/export";
 import { Download, Eye, EyeOff, FileText, GripVertical, Play } from "lucide-react";
 
 type Mode = "react" | "markdown" | "bbcode";
@@ -228,6 +229,7 @@ export default function TsxPortal() {
     a.download = meta.download;
     a.click();
     URL.revokeObjectURL(url);
+    recordExport();
   }
 
   function compile() {

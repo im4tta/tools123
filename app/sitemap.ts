@@ -5,6 +5,7 @@ import { TOOLS } from "@/lib/tools";
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     { url: BASE_URL, changeFrequency: "weekly", priority: 1 },
+    { url: `${BASE_URL}/about`, changeFrequency: "yearly", priority: 0.4 },
     { url: `${BASE_URL}/changelog`, changeFrequency: "weekly", priority: 0.4 },
     { url: `${BASE_URL}/acknowledgement`, changeFrequency: "yearly", priority: 0.2 },
     ...TOOLS.map((tool) => ({
