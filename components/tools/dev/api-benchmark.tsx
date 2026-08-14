@@ -5,6 +5,7 @@ import { CheckCircle2, Download, Eye, Play, Plus, RotateCcw, Settings, Square, T
 import { useLanguage } from "@/components/LanguageProvider";
 import { ToolShell } from "@/components/ui/Shell";
 import { useToolState } from "@/lib/storage";
+import { recordExport } from "@/lib/export";
 
 type HttpMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
 
@@ -187,6 +188,7 @@ export default function ApiBenchmark() {
     let csv = "Endpoint,Run,Status,Latency (ms),TTFB (ms),Size (B)\n";
     results.forEach((er) => er.runs.forEach((r) => { csv += `"${er.name}",${r.runIndex},${r.status},${r.timeMs},${r.ttfbMs},${r.sizeBytes}\n`; }));
     const a = document.createElement("a"); a.href = "data:text/csv;charset=utf-8," + encodeURIComponent(csv); a.download = "api-benchmark.csv"; a.click();
+    recordExport();
   }
 
   return (

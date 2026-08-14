@@ -119,6 +119,40 @@ function toolSlugify({ input = "", separator = "-" }) {
   return text;
 }
 
+function toolRielUsd({ amount = 0, rate = 4000, direction = "usd_to_riel" }) {
+  const value = Number(amount);
+  const r = Number(rate);
+  if (!Number.isFinite(value) || !Number.isFinite(r) || r <= 0) throw new Error("Invalid amount or rate.");
+  const result = direction === "usd_to_riel" ? value * r : value / r;
+  return { amount: value, rate: r, direction, result: Math.round(result * 100) / 100 };
+}
+
+function toolUnixTime({ format = "iso", value = Date.now() }) {
+  const ts = Number(value);
+  const d = new Date(ts);
+  if (Number.isNaN(d.getTime())) throw new Error("Invalid timestamp.");
+  if (format === "unix") return String(Math.floor(d.getTime() / 1000));
+  if (format === "iso") return d.toISOString();
+  if (format === "relative") {
+    const diff = Date.now() - d.getTime();
+    const abs = Math.abs(diff);
+    const units = [
+      ["year", 31536000000],
+      ["month", 2592000000],
+      ["day", 86400000],
+      ["hour", 3600000],
+      ["minute", 60000],
+      ["second", 1000],
+    ];
+    for (const [name, ms] of units) {
+      const n = Math.floor(abs / ms);
+      if (n >= 1) return `${n} ${name}${n > 1 ? "s" : ""} ${diff >= 0 ? "ago" : "from now"}`;
+    }
+    return "just now";
+  }
+  throw new Error(`Unsupported format: ${format}`);
+}
+
 // ---------------------------------------------------------------------------
 // Tool catalog
 // ---------------------------------------------------------------------------
@@ -236,6 +270,32 @@ const TOOLS = [
       required: ["input"],
     },
     handler: toolSlugify,
+  },
+  {
+    name: "riel_usd",
+    description: "Convert Cambodian Riel (KHR) to US Dollars or back using a supplied exchange rate.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        amount: { type: "number", description: "Amount to convert." },
+        rate: { type: "number", description: "Exchange rate: KHR per 1 USD (default 4000)." },
+        direction: { type: "string", enum: ["usd_to_riel", "riel_to_usd"] },
+      },
+      required: ["amount"],
+    },
+    handler: toolRielUsd,
+  },
+  {
+    name: "unix_time",
+    description: "Convert a Unix timestamp to ISO 8601, back to Unix seconds, or a relative time string.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        value: { type: "number", description: "Timestamp in milliseconds (default now)." },
+        format: { type: "string", enum: ["iso", "unix", "relative"] },
+      },
+    },
+    handler: toolUnixTime,
   },
 ];
 

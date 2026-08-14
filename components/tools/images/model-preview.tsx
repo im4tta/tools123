@@ -24,6 +24,7 @@ import {
 import { useLanguage } from "@/components/LanguageProvider";
 import { ToolShell, Field, Select } from "@/components/ui/Shell";
 import { Button } from "@/components/ui/Output";
+import { recordExport, watermarkImageDataUrl } from "@/lib/export";
 
 // Declare THREE on window for loaded external scripts
 declare global {
@@ -1300,15 +1301,17 @@ export default function ModelPreviewTool() {
     setTimeout(() => setToast(null), 3000);
   };
 
-  const takeSnapshot = () => {
+  const takeSnapshot = async () => {
     const { renderer, scene, camera } = threeRef.current;
     if (!renderer || !scene || !camera) return;
     renderer.render(scene, camera);
     const dataURL = renderer.domElement.toDataURL('image/png');
+    const watermarked = await watermarkImageDataUrl(dataURL, 'image/png');
     const link = document.createElement('a');
     link.download = `tools123_Snapshot_${Date.now()}.png`;
-    link.href = dataURL;
+    link.href = watermarked;
     link.click();
+    recordExport();
     showToast(text('Snapshot downloaded!', 'បានទាញយករូបភាព Snapshot ដោយជោគជ័យ!'), 'success');
   };
 

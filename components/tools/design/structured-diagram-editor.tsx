@@ -4,6 +4,7 @@ import { useMemo, useRef, useState } from "react";
 import type { PointerEvent as ReactPointerEvent } from "react";
 import { useLanguage } from "@/components/LanguageProvider";
 import { ToolShell } from "@/components/ui/Shell";
+import { recordExport } from "@/lib/export";
 
 type Mode = "Diagram" | "Mind Map" | "Org Chart" | "WBS";
 type NodeModel = { id: string; label: string; parentId: string | null; x: number; y: number };
@@ -207,6 +208,7 @@ export default function StructuredDiagramEditor() {
     anchor.download = `${mode.toLowerCase().replaceAll(" ", "-")}.svg`;
     anchor.click();
     setTimeout(() => URL.revokeObjectURL(url), 0);
+    recordExport();
   }
 
   return (

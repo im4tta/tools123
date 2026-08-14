@@ -108,6 +108,40 @@ export function toolFaqLd(tool: ToolDef) {
   };
 }
 
+/** Curated tools that get HowTo structured data (their steps are well-defined). */
+const HOWTO_TOOLS: Record<string, string[]> = {
+  "pdf-merge": ["Open the PDF Merge tool", "Select or drag in two or more PDF files", "Choose the page order, then click Merge", "Download the combined PDF"],
+  "qr-generator": ["Choose a content type (URL, Wi-Fi, contact, and more)", "Fill in the required fields", "Pick a style and size", "Download the QR code as PNG or SVG"],
+  "base64": ["Enter or paste your text", "Choose Encode or Decode", "Copy or download the result"],
+  "json-formatter": ["Paste your JSON", "Click Format (or Minify)", "Copy the formatted output"],
+  "uuid": ["Open the UUID Generator", "Choose how many UUIDs you need", "Copy the generated identifiers"],
+  "hash": ["Enter your text", "Select an algorithm (MD5, SHA-1, SHA-256…)", "Copy the resulting hash"],
+  "digit-converter": ["Enter Khmer or Arabic numerals", "Choose the conversion direction", "Copy the converted number"],
+  "url-encode": ["Paste a URL or string", "Choose Encode or Decode", "Copy the result"],
+  "case-converter": ["Paste your text", "Choose a case mode (UPPER, lower, Title, Sentence)", "Copy the converted text"],
+  "word-counter": ["Paste your text", "View the live word, character, and line counts"],
+};
+
+/** HowTo structured data for tools with well-defined, truthful steps. */
+export function toolHowToLd(tool: ToolDef) {
+  const steps = HOWTO_TOOLS[tool.id];
+  if (!steps) return null;
+  return {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name: `How to use ${tool.title}`,
+    description: toolDescription(tool),
+    url: toolUrl(tool.id),
+    inLanguage: ["en", "km"],
+    totalTime: "PT1M",
+    step: steps.map((text, i) => ({
+      "@type": "HowToStep",
+      position: i + 1,
+      name: text,
+    })),
+  };
+}
+
 /** Breadcrumb for a tool page: Home → Category → Tool. */
 export function toolBreadcrumbLd(tool: ToolDef) {
   const category = CATEGORY_META[tool.category];

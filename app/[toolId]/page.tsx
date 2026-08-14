@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ToolRouteClient } from "@/components/ToolRouteClient";
-import { toolDescription, toolJsonLd, toolBreadcrumbLd, toolFaqLd } from "@/lib/seo";
+import { toolDescription, toolJsonLd, toolBreadcrumbLd, toolFaqLd, toolHowToLd } from "@/lib/seo";
 import { TOOLS } from "@/lib/tools";
 import { resolveToolId, toolHref } from "@/lib/toolRoutes";
 import { BASE_URL, toolUrl } from "@/lib/site";
@@ -52,6 +52,7 @@ export default async function ToolPage({ params }: { params: Promise<{ toolId: s
   const jsonLd = toolJsonLd(tool);
   const breadcrumbLd = toolBreadcrumbLd(tool);
   const faqLd = toolFaqLd(tool);
+  const howToLd = toolHowToLd(tool);
 
   return (
     <>
@@ -67,6 +68,12 @@ export default async function ToolPage({ params }: { params: Promise<{ toolId: s
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd).replace(/</g, "\\u003c") }}
       />
+      {howToLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(howToLd).replace(/</g, "\\u003c") }}
+        />
+      )}
       <ToolRouteClient toolId={tool.id} />
     </>
   );

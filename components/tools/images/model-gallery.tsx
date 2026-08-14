@@ -5,6 +5,7 @@ import { Download } from "lucide-react";
 import { ToolShell, Field } from "@/components/ui/Shell";
 import { Button } from "@/components/ui/Output";
 import { MODEL_GALLERY } from "@/lib/model-gallery/registry";
+import { recordExport } from "@/lib/export";
 
 type ThreeModule = typeof import("three");
 
@@ -207,6 +208,7 @@ export default function ModelGalleryTool() {
         a.click();
         a.remove();
         URL.revokeObjectURL(url);
+        recordExport();
       },
       (err) => setError(`Could not export GLB: ${String(err)}`),
       { binary: true },

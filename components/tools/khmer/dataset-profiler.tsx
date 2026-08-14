@@ -4,6 +4,7 @@ import { CheckCircle2, Download, FileSpreadsheet, Loader2, Sparkles, Trash2, Upl
 import { useMemo, useState } from "react";
 import { useLanguage } from "@/components/LanguageProvider";
 import { ToolShell } from "@/components/ui/Shell";
+import { recordExport } from "@/lib/export";
 
 type DataRow = Record<string, string>;
 type Dataset = { rows: DataRow[]; columns: string[]; source: string };
@@ -115,6 +116,7 @@ export default function DatasetProfiler() {
     if (!dataset) return;
     const blob = new Blob([csvExport(dataset)], { type: "text/csv;charset=utf-8" });
     const link = document.createElement("a"); link.href = URL.createObjectURL(blob); link.download = `${fileName.replace(/\.[^.]+$/, "") || "dataset"}_clean.csv`; link.click(); URL.revokeObjectURL(link.href);
+    recordExport();
   }
 
   return <ToolShell title="Khmer Dataset Profiler" khmerTitle="វិភាគគុណភាព Dataset ខ្មែរ" description="Profile CSV or JSON data containing Khmer text, detect language coverage, missing values, duplicates, and Unicode anomalies, then clean and export it locally." descriptionKm="វិភាគទិន្នន័យ CSV ឬ JSON ដែលមានអត្ថបទខ្មែរ រកការគ្របដណ្តប់ភាសា តម្លៃខ្វះ កំណត់ត្រាស្ទួន និងបញ្ហាយូនីកូដ បន្ទាប់មកសម្អាត និងនាំចេញក្នុងកម្មវិធីរុករក។">

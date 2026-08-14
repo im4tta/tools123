@@ -22,6 +22,7 @@ import {
   HelpCircle,
   X
 } from 'lucide-react';
+import { recordExport } from '@/lib/export';
 
 type FormatStyle = 'local' | 'intl' | 'intl_compact' | 'dashed' | 'dotted' | 'compact';
 type FilterStatus = 'all' | 'valid' | 'invalid' | 'duplicate';
@@ -446,6 +447,7 @@ export default function App() {
     link.download = `cleaned_khmer_phones.txt`;
     link.click();
     URL.revokeObjectURL(url);
+    recordExport();
     showToast(t.toastExportTxt);
   };
 
@@ -464,6 +466,7 @@ export default function App() {
     link.download = `cleaned_khmer_phones.csv`;
     link.click();
     URL.revokeObjectURL(url);
+    recordExport();
     showToast(t.toastExportCsv);
   };
 
@@ -488,6 +491,7 @@ export default function App() {
     link.download = `khmer_contacts.vcf`;
     link.click();
     URL.revokeObjectURL(url);
+    recordExport();
     showToast(t.toastExportVcard);
   };
 

@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { useLanguage } from "@/components/LanguageProvider";
 import { Field, Row, TextInput, ToolShell } from "@/components/ui/Shell";
 import { Button } from "@/components/ui/Output";
+import { recordExport } from "@/lib/export";
 
 type Card = {
   name: string;
@@ -38,6 +39,7 @@ function saveSvg(svg: SVGSVGElement, filename: string) {
   link.download = filename;
   link.click();
   URL.revokeObjectURL(url);
+  recordExport();
 }
 
 function short(value: string, limit: number) {

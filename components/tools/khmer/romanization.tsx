@@ -5,6 +5,7 @@ import { CopyButton } from "@/components/CopyButton";
 import { useLanguage } from "@/components/LanguageProvider";
 import { Field, ToolShell } from "@/components/ui/Shell";
 import { useToolState } from "@/lib/storage";
+import { recordExport } from "@/lib/export";
 import {
   KHMER_CONSONANTS, KHMER_VOWELS, KHMER_SUBSCRIPTS, KHMER_INDEPENDENT_VOWELS,
   KHMER_DIACRITICS, REVERSE_LOOKUP,
@@ -67,6 +68,7 @@ export default function Romanization() {
     const url = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], { type: "application/json" }));
     const a = document.createElement("a"); a.href = url; a.download = "khmer-romanization.json"; a.click();
     URL.revokeObjectURL(url);
+    recordExport();
   }
 
   function exportCSV() {
@@ -75,6 +77,7 @@ export default function Romanization() {
     const url = URL.createObjectURL(new Blob([csv], { type: "text/csv" }));
     const a = document.createElement("a"); a.href = url; a.download = "khmer-romanization.csv"; a.click();
     URL.revokeObjectURL(url);
+    recordExport();
   }
 
   function speak() {

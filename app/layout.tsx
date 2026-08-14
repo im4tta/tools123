@@ -83,6 +83,9 @@ export default function RootLayout({
                 <div className="flex flex-wrap items-center justify-center gap-4">
                   <SponsorButton />
                   <WatermarkToggle />
+                  <Link href="/about" className="transition hover:text-[var(--gold)]">
+                    About
+                  </Link>
                   <Link href="/acknowledgement" className="transition hover:text-[var(--gold)]">
                     Acknowledgements
                   </Link>

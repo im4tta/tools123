@@ -7,6 +7,7 @@ import { ArrowLeft, Search, ShieldCheck, Star, Trash2 } from "lucide-react";
 import { CollectionsPicker } from "@/components/CollectionsPicker";
 import { CommandPalette } from "@/components/CommandPalette";
 import { HeaderInfo } from "@/components/HeaderInfo";
+import { ToolFaq } from "@/components/ToolFaq";
 import { LanguageToggle } from "@/components/LanguageToggle";
 import { useLanguage } from "@/components/LanguageProvider";
 import { ThemeToggle } from "@/components/ThemeToggle";
@@ -135,6 +136,7 @@ export function ToolRouteClient({ toolId }: { toolId: string }) {
         </div>
       </header>
       <div className="fade-rise"><ToolComponent /></div>
+      <ToolFaq title={tool.title} khmerTitle={tool.khmerTitle} />
       {relatedTools.length > 0 && (
         <section className="mx-auto mt-10 max-w-6xl">
           <h2 className="font-display text-lg font-medium text-[var(--ink)]">{t("Next recommended tools", "ឧបករណ៍ណែនាំបន្ទាប់")}</h2>
