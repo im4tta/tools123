@@ -1,17 +1,19 @@
 "use client";
 import { useEffect, useMemo, useRef, useState } from "react";
 import qrcode from "qrcode-generator";
-import { Download, ImagePlus } from "lucide-react";
+import { Crosshair, Download, ImagePlus, Loader2 } from "lucide-react";
 import { ToolShell, Field, TextInput, TextArea, Select, Row } from "@/components/ui/Shell";
 import { Button, Output } from "@/components/ui/Output";
 import { useToolState } from "@/lib/storage";
 import { useLanguage } from "@/components/LanguageProvider";
+import { recordExport, watermarkImageDataUrl } from "@/lib/export";
 
-type QrType = "text" | "wifi" | "vcard" | "email" | "sms" | "phone" | "location" | "event";
+type QrType = "text" | "wifi" | "vcard" | "email" | "sms" | "phone" | "location" | "event" | "google" | "social";
+type SocialPlatform = "facebook" | "instagram" | "x" | "youtube" | "linkedin" | "tiktok" | "telegram" | "whatsapp" | "line";
 type Preset = "default" | "ocean" | "forest" | "lux" | "sunset" | "midnight" | "gold" | "rose" | "neon" | "cyber";
 type PixelShape = "square" | "circle" | "diamond" | "star" | "heart" | "leaf" | "hexagon" | "cross" | "triangle" | "dash";
 type EyeShape = "square" | "rounded" | "smooth" | "circle" | "leaf" | "diamond" | "hexagon" | "octagon";
-type SocialIcon = "none" | "facebook" | "youtube" | "x" | "instagram" | "telegram";
+type SocialIcon = "none" | "gmaps" | "facebook" | "youtube" | "x" | "instagram" | "telegram";
 
 interface State {
   type: QrType;
@@ -31,6 +33,9 @@ interface State {
   phone: string;
   locLat: string;
   locLng: string;
+  googleReview: string;
+  socialPlatform: SocialPlatform;
+  socialHandle: string;
   evTitle: string;
   evLocation: string;
   evStart: string;
@@ -101,6 +106,7 @@ const EYE_SHAPES: { id: EyeShape; name: string; km: string }[] = [
 
 const SOCIAL_ICONS: { id: SocialIcon; name: string; km: string }[] = [
   { id: "none", name: "None", km: "គ្មាន" },
+  { id: "gmaps", name: "Google Maps pin", km: "សញ្ញាផែនទី Google" },
   { id: "facebook", name: "Facebook", km: "ហ្វេសប៊ុក" },
   { id: "youtube", name: "YouTube", km: "យូធូប" },
   { id: "x", name: "X (Twitter)", km: "អ៊ិច (ធ្វីតធឺ)" },
@@ -108,7 +114,23 @@ const SOCIAL_ICONS: { id: SocialIcon; name: string; km: string }[] = [
   { id: "telegram", name: "Telegram", km: "តេឡេក្រាម" },
 ];
 
-const SOCIAL_PATHS: Record<Exclude<SocialIcon, "none">, { d: string; fill: string }> = {
+/** Google Maps pin silhouette, adapted from the Wikimedia Commons 2026 icon (red pin + white inner circle). */
+const GMAPS_PIN_PATH =
+  "M96,8c38.11,0,69,30.89,69,69,0,14.15-4.26,27.31-11.57,38.26-14.46,21.66-37.07,37.94-48.72,61.23l-1.54,3.07c-1.48,2.96-4.33,4.44-7.18,4.44-2.85,0-5.69-1.48-7.17-4.44l-1.54-3.07c-11.65-23.29-34.25-39.57-48.71-61.23-7.31-10.95-11.57-24.11-11.57-38.26,0-38.11,30.89-69,69-69Z";
+
+const SOCIAL_PROFILES: { id: SocialPlatform; name: string; km: string; url: (handle: string) => string }[] = [
+  { id: "facebook", name: "Facebook", km: "ហ្វេសប៊ុក", url: (h) => `https://www.facebook.com/${h}` },
+  { id: "instagram", name: "Instagram", km: "អាំងស្តាក្រាម", url: (h) => `https://www.instagram.com/${h}` },
+  { id: "x", name: "X (Twitter)", km: "អ៊ិច (ធ្វីតធឺ)", url: (h) => `https://x.com/${h}` },
+  { id: "youtube", name: "YouTube", km: "យូធូប", url: (h) => `https://www.youtube.com/@${h}` },
+  { id: "linkedin", name: "LinkedIn", km: "លីងគីន", url: (h) => `https://www.linkedin.com/in/${h}` },
+  { id: "tiktok", name: "TikTok", km: "ទីគតុក", url: (h) => `https://www.tiktok.com/@${h}` },
+  { id: "telegram", name: "Telegram", km: "តេឡេក្រាម", url: (h) => `https://t.me/${h}` },
+  { id: "whatsapp", name: "WhatsApp", km: "វ៉ាត់សាប", url: (h) => `https://wa.me/${h}` },
+  { id: "line", name: "LINE", km: "លីន", url: (h) => `https://line.me/ti/p/${h}` },
+];
+
+const SOCIAL_PATHS: Record<Exclude<SocialIcon, "none" | "gmaps">, { d: string; fill: string }> = {
   facebook: {
     d: "M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z",
     fill: "#1877F2",
@@ -149,6 +171,9 @@ const initial: State = {
   phone: "",
   locLat: "",
   locLng: "",
+  googleReview: "",
+  socialPlatform: "facebook",
+  socialHandle: "",
   evTitle: "",
   evLocation: "",
   evStart: "",
@@ -162,7 +187,7 @@ const initial: State = {
   bg: PRESETS.default.bg,
   eyeOuter: PRESETS.default.eyeOuter,
   eyeInner: PRESETS.default.eyeInner,
-  size: 260,
+  size: 360,
   level: "M",
   logo: null,
 };
@@ -381,10 +406,10 @@ interface RenderOpts {
 
 function centerLogoSize(matrix: boolean[][]): number {
   const n = matrix.length;
-  return Math.max(3, Math.round(n * 0.24));
+  return Math.max(3, Math.round(n * 0.18));
 }
 
-function renderCanvas(ctx: CanvasRenderingContext2D, px: number, matrix: boolean[][], opts: RenderOpts, logoImg: HTMLImageElement | null) {
+function renderCanvas(ctx: CanvasRenderingContext2D, px: number, matrix: boolean[][], opts: RenderOpts, logoImg: HTMLImageElement | null, gmapsImg: HTMLImageElement | null) {
   const n = matrix.length;
   const quiet = 4;
   const cell = px / (n + quiet * 2);
@@ -416,43 +441,64 @@ function renderCanvas(ctx: CanvasRenderingContext2D, px: number, matrix: boolean
 
   if (hasCenter) {
     const size = cell * centerLogoSize(matrix);
-    const radius = size * 0.22;
     const cx = px / 2;
     const cy = px / 2;
-    ctx.fillStyle = "#ffffff";
-    ctx.beginPath();
-    ctx.roundRect(cx - size / 2, cy - size / 2, size, size, radius);
-    ctx.fill();
 
-    const innerSize = size * 0.65;
+    const innerSize = size * 0.72;
     if (logoImg) {
       const scale = Math.min(innerSize / logoImg.naturalWidth, innerSize / logoImg.naturalHeight);
       const iw = logoImg.naturalWidth * scale;
       const ih = logoImg.naturalHeight * scale;
       ctx.drawImage(logoImg, cx - iw / 2, cy - ih / 2, iw, ih);
     } else if (opts.social !== "none") {
-      const icon = SOCIAL_PATHS[opts.social];
-      const scale = innerSize / 24;
-      ctx.save();
-      ctx.translate(cx - innerSize / 2, cy - innerSize / 2);
-      ctx.scale(scale, scale);
-      if (opts.social === "instagram") {
-        const g = ctx.createLinearGradient(0, 24, 24, 0);
-        g.addColorStop(0, "#f09433");
-        g.addColorStop(0.3, "#e6683c");
-        g.addColorStop(0.6, "#dc2743");
-        g.addColorStop(1, "#bc1888");
-        ctx.fillStyle = g;
+      if (opts.social === "gmaps") {
+        if (gmapsImg) {
+          const scale = Math.min(innerSize / gmapsImg.naturalWidth, innerSize / gmapsImg.naturalHeight);
+          const iw = gmapsImg.naturalWidth * scale;
+          const ih = gmapsImg.naturalHeight * scale;
+          ctx.drawImage(gmapsImg, cx - iw / 2, cy - ih / 2, iw, ih);
+        } else {
+          // Fallback while the official icon loads: red gradient pin + white inner circle.
+          const scale = innerSize / 192;
+          ctx.save();
+          ctx.translate(cx - innerSize / 2, cy - innerSize / 2);
+          ctx.scale(scale, scale);
+          const g = ctx.createLinearGradient(0, 8, 0, 148);
+          g.addColorStop(0, "#ea4335");
+          g.addColorStop(0.55, "#c5221f");
+          g.addColorStop(1, "#a50e0e");
+          ctx.fillStyle = g;
+          ctx.fill(new Path2D(GMAPS_PIN_PATH));
+          ctx.fillStyle = "#ffffff";
+          ctx.beginPath();
+          ctx.arc(96, 77, 30, 0, 2 * Math.PI);
+          ctx.fill();
+          ctx.restore();
+        }
       } else {
-        ctx.fillStyle = icon.fill;
+        const icon = SOCIAL_PATHS[opts.social];
+        const scale = innerSize / 24;
+        ctx.save();
+        ctx.translate(cx - innerSize / 2, cy - innerSize / 2);
+        ctx.scale(scale, scale);
+        if (opts.social === "instagram") {
+          const g = ctx.createLinearGradient(0, 24, 24, 0);
+          g.addColorStop(0, "#f09433");
+          g.addColorStop(0.3, "#e6683c");
+          g.addColorStop(0.6, "#dc2743");
+          g.addColorStop(1, "#bc1888");
+          ctx.fillStyle = g;
+        } else {
+          ctx.fillStyle = icon.fill;
+        }
+        ctx.fill(new Path2D(icon.d));
+        ctx.restore();
       }
-      ctx.fill(new Path2D(icon.d));
-      ctx.restore();
     }
   }
 }
 
-function buildSvg(size: number, matrix: boolean[][], opts: RenderOpts, socialIcon: SocialIcon, logo: string | null): string {
+function buildSvg(size: number, matrix: boolean[][], opts: RenderOpts, socialIcon: SocialIcon, logo: string | null, gmapsDataUrl: string | null): string {
   const n = matrix.length;
   const quiet = 4;
   const cell = size / (n + quiet * 2);
@@ -462,6 +508,10 @@ function buildSvg(size: number, matrix: boolean[][], opts: RenderOpts, socialIco
   if (socialIcon === "instagram") {
     parts.push('<defs><linearGradient id="ig-grad" x1="0" y1="24" x2="24" y2="0" gradientUnits="userSpaceOnUse">' +
       '<stop offset="0" stop-color="#f09433"/><stop offset="0.3" stop-color="#e6683c"/><stop offset="0.6" stop-color="#dc2743"/><stop offset="1" stop-color="#bc1888"/></linearGradient></defs>');
+  }
+  if (socialIcon === "gmaps" && !gmapsDataUrl) {
+    parts.push('<defs><linearGradient id="gmaps-grad" x1="0" y1="8" x2="0" y2="148" gradientUnits="userSpaceOnUse">' +
+      '<stop offset="0" stop-color="#ea4335"/><stop offset="0.55" stop-color="#c5221f"/><stop offset="1" stop-color="#a50e0e"/></linearGradient></defs>');
   }
   parts.push(`<rect width="${size}" height="${size}" fill="${opts.bg}"/>`);
 
@@ -487,17 +537,24 @@ function buildSvg(size: number, matrix: boolean[][], opts: RenderOpts, socialIco
 
   if (hasCenter) {
     const logoSize = cell * centerLogoSize(matrix);
-    const radius = logoSize * 0.22;
     const cx = size / 2;
     const cy = size / 2;
-    parts.push(`<rect x="${fmt(cx - logoSize / 2)}" y="${fmt(cy - logoSize / 2)}" width="${fmt(logoSize)}" height="${fmt(logoSize)}" rx="${fmt(radius)}" fill="#ffffff"/>`);
-    const innerSize = logoSize * 0.65;
+    const innerSize = logoSize * 0.72;
     if (logo) {
       parts.push(`<image href="${logo}" x="${fmt(cx - innerSize / 2)}" y="${fmt(cy - innerSize / 2)}" width="${fmt(innerSize)}" height="${fmt(innerSize)}" preserveAspectRatio="xMidYMid meet"/>`);
     } else if (socialIcon !== "none") {
-      const icon = SOCIAL_PATHS[socialIcon];
-      const scale = innerSize / 24;
-      parts.push(`<g transform="translate(${fmt(cx - innerSize / 2)},${fmt(cy - innerSize / 2)}) scale(${fmt(scale)})"><path d="${icon.d}" fill="${icon.fill}"/></g>`);
+      if (socialIcon === "gmaps") {
+        if (gmapsDataUrl) {
+          parts.push(`<image href="${gmapsDataUrl}" x="${fmt(cx - innerSize / 2)}" y="${fmt(cy - innerSize / 2)}" width="${fmt(innerSize)}" height="${fmt(innerSize)}" preserveAspectRatio="xMidYMid meet"/>`);
+        } else {
+          const scale = innerSize / 192;
+          parts.push(`<g transform="translate(${fmt(cx - innerSize / 2)},${fmt(cy - innerSize / 2)}) scale(${fmt(scale)})"><path d="${GMAPS_PIN_PATH}" fill="url(#gmaps-grad)"/><circle cx="96" cy="77" r="30" fill="#ffffff"/></g>`);
+        }
+      } else {
+        const icon = SOCIAL_PATHS[socialIcon];
+        const scale = innerSize / 24;
+        parts.push(`<g transform="translate(${fmt(cx - innerSize / 2)},${fmt(cy - innerSize / 2)}) scale(${fmt(scale)})"><path d="${icon.d}" fill="${icon.fill}"/></g>`);
+      }
     }
   }
 
@@ -536,13 +593,163 @@ function EyePreview({ shape, colorOuter, colorInner }: { shape: EyeShape; colorO
   return <canvas ref={canvasRef} className="h-10 w-10" />;
 }
 
+const DEFAULT_CENTER: [number, number] = [11.5564, 104.9282];
+
+/** Interactive OpenStreetMap picker. Dynamically loads Leaflet only when shown. */
+function LocationMap({ lat, lng, onChange }: { lat: string; lng: string; onChange: (lat: string, lng: string) => void }) {
+  const { text } = useLanguage();
+  const containerRef = useRef<HTMLDivElement>(null);
+  const mapRef = useRef<{ map: unknown; marker: unknown } | null>(null);
+  const [locBusy, setLocBusy] = useState(false);
+  const [locError, setLocError] = useState(false);
+
+  function useMyLocation() {
+    if (!("geolocation" in navigator)) {
+      setLocError(true);
+      return;
+    }
+    setLocBusy(true);
+    setLocError(false);
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        setLocBusy(false);
+        const la = pos.coords.latitude;
+        const ln = pos.coords.longitude;
+        onChange(la.toFixed(6), ln.toFixed(6));
+        const state = mapRef.current;
+        if (state) {
+          const map = state.map as import("leaflet").Map;
+          const marker = state.marker as import("leaflet").Marker;
+          marker.setLatLng([la, ln]);
+          map.setView([la, ln], 16);
+        }
+      },
+      () => {
+        setLocBusy(false);
+        setLocError(true);
+      },
+      { enableHighAccuracy: true, timeout: 15000, maximumAge: 60000 }
+    );
+  }
+
+  useEffect(() => {
+    let disposed = false;
+    let map: import("leaflet").Map | null = null;
+    let marker: import("leaflet").Marker | null = null;
+    let L: typeof import("leaflet");
+
+    (async () => {
+      const mod = await import("leaflet");
+      await import("leaflet/dist/leaflet.css");
+      if (disposed || !containerRef.current) return;
+      L = mod;
+
+      const la = parseFloat(lat);
+      const ln = parseFloat(lng);
+      const hasValid = Number.isFinite(la) && Number.isFinite(ln) && Math.abs(la) <= 90 && Math.abs(ln) <= 180;
+      const center: [number, number] = hasValid ? [la, ln] : DEFAULT_CENTER;
+
+      map = L.map(containerRef.current, {
+        center,
+        zoom: hasValid ? 15 : 12,
+        attributionControl: true,
+      });
+
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 19,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      }).addTo(map);
+
+      const icon = L.divIcon({
+        className: "",
+        html: '<div style="width:22px;height:22px;background:#d97706;border:3px solid #fff;border-radius:50% 50% 50% 0;transform:rotate(-45deg);box-shadow:0 1px 4px rgba(0,0,0,.4)"></div>',
+        iconSize: [22, 22],
+        iconAnchor: [11, 22],
+      });
+
+      marker = L.marker(center, { icon, draggable: true }).addTo(map);
+
+      const applyPosition = (position: { lat: number; lng: number }) => {
+        onChange(position.lat.toFixed(6), position.lng.toFixed(6));
+      };
+
+      map.on("click", (e) => {
+        marker?.setLatLng(e.latlng);
+        applyPosition(e.latlng);
+      });
+      marker.on("dragend", () => {
+        const p = marker?.getLatLng();
+        if (p) applyPosition(p);
+      });
+
+      mapRef.current = { map, marker };
+      // Wait for the panel to lay out so the tile grid sizes correctly.
+      setTimeout(() => map?.invalidateSize(), 60);
+    })();
+
+    return () => {
+      disposed = true;
+      const state = mapRef.current;
+      if (state) {
+        (state.map as import("leaflet").Map).remove();
+        mapRef.current = null;
+      }
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Keep the marker in sync when the coordinate fields change.
+  useEffect(() => {
+    const state = mapRef.current;
+    if (!state) return;
+    const la = parseFloat(lat);
+    const ln = parseFloat(lng);
+    if (!Number.isFinite(la) || !Number.isFinite(ln)) return;
+    if (Math.abs(la) > 90 || Math.abs(ln) > 180) return;
+    const marker = state.marker as import("leaflet").Marker;
+    marker.setLatLng([la, ln]);
+  }, [lat, lng]);
+
+  return (
+    <div className="flex flex-col gap-2">
+      <div ref={containerRef} className="h-72 w-full rounded-md border border-[var(--ground-line)]" />
+      <div className="flex flex-wrap items-center gap-2">
+        <button
+          type="button"
+          onClick={useMyLocation}
+          disabled={locBusy}
+          className="inline-flex items-center gap-1.5 rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-1.5 text-xs font-medium text-[var(--ink)] transition hover:border-[var(--gold-dim)] hover:text-[var(--gold)] disabled:opacity-50"
+        >
+          {locBusy ? (
+            <Loader2 size={13} className="animate-spin" />
+          ) : (
+            <Crosshair size={13} />
+          )}
+          {locBusy ? text("Locating…", "កំពុងរកទីតាំង…") : text("Use my location", "ប្រើទីតាំងរបស់ខ្ញុំ")}
+        </button>
+        {locError && (
+          <span className="text-xs text-[var(--danger)]">
+            {text("Location unavailable or permission denied.", "ទីតាំងមិនអាចប្រើបាន ឬត្រូវបានបដិសេធការអនុញ្ញាត។")}
+          </span>
+        )}
+      </div>
+      <p className="text-xs text-[var(--ink-faint)]">
+        {text("Click or drag the marker on the map to choose the coordinates.", "ចុច ឬអូសសញ្ញាសម្គាល់លើផែនទីដើម្បីជ្រើសរើសកូអរដោនេ។")}
+      </p>
+    </div>
+  );
+}
+
 export default function QrGenerator() {
   const { text } = useLanguage();
-  const [s, setS] = useToolState<State>("qr-generator:v3", initial);
-  const update = (patch: Partial<State>) => setS((prev) => ({ ...prev, ...patch }));
+  const [saved, setSaved] = useToolState<Partial<State>>("qr-generator:v3", {});
+  const s = useMemo<State>(() => ({ ...initial, ...saved }), [saved]);
+  const update = (patch: Partial<State>) => setSaved((prev) => ({ ...initial, ...prev, ...patch }));
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [logoBusy, setLogoBusy] = useState(false);
   const [logoImg, setLogoImg] = useState<{ src: string; img: HTMLImageElement } | null>(null);
+  const [gmapsAsset, setGmapsAsset] = useState<{ img: HTMLImageElement; dataUrl: string } | null>(null);
+  const [includeWatermark, setIncludeWatermark] = useState(true);
 
   const value = useMemo(() => {
     switch (s.type) {
@@ -558,6 +765,19 @@ export default function QrGenerator() {
         return `tel:${s.phone}`;
       case "location":
         return `geo:${s.locLat},${s.locLng}`;
+      case "google": {
+        const g = s.googleReview.trim();
+        if (/^https?:\/\//i.test(g)) return g;
+        if (!g) return "";
+        return `https://search.google.com/local/writereview?placeid=${encodeURIComponent(g)}`;
+      }
+      case "social": {
+        const h = s.socialHandle.trim().replace(/^@+/, "");
+        if (/^https?:\/\//i.test(h)) return h;
+        if (!h) return "";
+        const profile = SOCIAL_PROFILES.find((p) => p.id === s.socialPlatform);
+        return profile ? profile.url(h) : "";
+      }
       case "event":
         return `BEGIN:VEVENT\nSUMMARY:${s.evTitle}\nLOCATION:${s.evLocation}\nDTSTART:${formatDateTime(s.evStart)}\nDTEND:${formatDateTime(s.evEnd)}\nDESCRIPTION:${s.evDesc}\nEND:VEVENT`;
       default:
@@ -592,6 +812,34 @@ export default function QrGenerator() {
   }, [s.logo]);
 
   useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch("/google-maps-icon.png");
+        const blob = await res.blob();
+        const dataUrl = await new Promise<string>((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result as string);
+          reader.onerror = () => reject(new Error("read failed"));
+          reader.readAsDataURL(blob);
+        });
+        const img = new Image();
+        await new Promise<void>((resolve, reject) => {
+          img.onload = () => resolve();
+          img.onerror = () => reject(new Error("image load failed"));
+          img.src = dataUrl;
+        });
+        if (!cancelled) setGmapsAsset({ img, dataUrl });
+      } catch {
+        // keep the vector fallback if the icon can't load
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
@@ -600,7 +848,7 @@ export default function QrGenerator() {
     canvas.width = px;
     canvas.height = px;
     if (matrix) {
-      renderCanvas(ctx, px, matrix, opts, logoImage);
+      renderCanvas(ctx, px, matrix, opts, logoImage, gmapsAsset?.img ?? null);
     } else {
       ctx.fillStyle = opts.bg;
       ctx.fillRect(0, 0, px, px);
@@ -610,7 +858,7 @@ export default function QrGenerator() {
       ctx.textBaseline = "middle";
       ctx.fillText(text("Enter data", "បញ្ចូលទិន្នន័យ"), px / 2, px / 2);
     }
-  }, [matrix, opts, logoImage, s.size, text]);
+  }, [matrix, opts, logoImage, gmapsAsset, s.size, text]);
 
   function pickLogo(file: File) {
     setLogoBusy(true);
@@ -628,7 +876,7 @@ export default function QrGenerator() {
     update({ preset: id, fg: p.fg, bg: p.bg, eyeOuter: p.eyeOuter, eyeInner: p.eyeInner });
   }
 
-  function downloadPng() {
+  async function downloadPng() {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
@@ -638,16 +886,18 @@ export default function QrGenerator() {
     out.height = 2048;
     const octx = out.getContext("2d");
     if (!octx) return;
-    renderCanvas(octx, 2048, matrix, opts, logoImage);
+    renderCanvas(octx, 2048, matrix, opts, logoImage, gmapsAsset?.img ?? null);
+    const dataUrl = await watermarkImageDataUrl(out.toDataURL("image/png"), "image/png", includeWatermark);
     const a = document.createElement("a");
-    a.href = out.toDataURL("image/png");
+    a.href = dataUrl;
     a.download = "qr-code.png";
     a.click();
+    recordExport();
   }
 
   function downloadSvg() {
     if (!matrix) return;
-    const source = buildSvg(1024, matrix, opts, s.social, s.logo);
+    const source = buildSvg(2048, matrix, opts, s.social, s.logo, gmapsAsset?.dataUrl ?? null);
     const blob = new Blob([source], { type: "image/svg+xml" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -655,6 +905,7 @@ export default function QrGenerator() {
     a.download = "qr-code.svg";
     a.click();
     URL.revokeObjectURL(url);
+    recordExport();
   }
 
   const pickerClass =
@@ -666,13 +917,23 @@ export default function QrGenerator() {
     <ToolShell
       title="QR Code Generator"
       khmerTitle="បង្កើតកូដ QR"
-      description="Generate a scannable QR code for a link, Wi-Fi network, contact card, email, SMS, phone, location, or event — styled locally with color presets, custom module and finder shapes, and a center logo, then export as high-resolution PNG or SVG."
-      descriptionKm="បង្កើតកូដ QR ដែលអាចស្កេនបានសម្រាប់តំណ Wi-Fi កាតទំនាក់ទំនង អ៊ីមែល SMS ទូរស័ព្ទ ទីតាំង ឬព្រឹត្តិការណ៍ — រចនានៅលើឧបករណ៍ដោយមានពណ៌ប្រេសិត រាងម៉ូឌុល និងស៊ុមស្វែងរកផ្ទាល់ខ្លួន និងស្លាកកណ្តាល រួចនាំចេញជា PNG ឬ SVG គុណភាពខ្ពស់។"
+      description="Generate a scannable QR code for a link, Wi-Fi network, contact card, email, SMS, phone, location (pick it on a map), Google review, social profile, or event — styled locally with color presets, custom module and finder shapes, and a center logo, then export as high-resolution PNG or SVG."
+      descriptionKm="បង្កើតកូដ QR ដែលអាចស្កេនបានសម្រាប់តំណ Wi-Fi កាតទំនាក់ទំនង អ៊ីមែល SMS ទូរស័ព្ទ ទីតាំង (ជ្រើសរើសលើផែនទី) ការពិនិត្យ Google ទម្រង់បណ្តាញសង្គម ឬព្រឹត្តិការណ៍ — រចនានៅលើឧបករណ៍ដោយមានពណ៌ប្រេសិត រាងម៉ូឌុល និងស៊ុមស្វែងរកផ្ទាល់ខ្លួន និងស្លាកកណ្តាល រួចនាំចេញជា PNG ឬ SVG គុណភាពខ្ពស់។"
     >
-      <div className="lg:grid lg:h-[calc(100dvh-13rem)] lg:min-h-[440px] lg:grid-cols-[minmax(0,1fr)_340px] lg:gap-6 lg:overflow-hidden">
+      <div className="lg:grid lg:h-[calc(100dvh-13rem)] lg:min-h-[440px] lg:grid-cols-[minmax(0,1fr)_400px] lg:gap-6 lg:overflow-hidden">
         <div className="space-y-5 lg:h-full lg:overflow-y-auto lg:pb-4 lg:pr-2">
           <Field label="Content type">
-            <Select value={s.type} onChange={(e) => update({ type: e.target.value as QrType })}>
+            <Select
+              value={s.type}
+              onChange={(e) => {
+                const next = e.target.value as QrType;
+                if (next === "location" && s.social === "none") {
+                  update({ type: next, social: "gmaps" });
+                } else {
+                  update({ type: next });
+                }
+              }}
+            >
               <option value="text">{text("URL / Plain text", "តំណ / អត្ថបទ")}</option>
               <option value="wifi">{text("Wi-Fi network", "បណ្តាញ Wi-Fi")}</option>
               <option value="vcard">{text("Contact card (vCard)", "កាតទំនាក់ទំនង (vCard)")}</option>
@@ -680,6 +941,8 @@ export default function QrGenerator() {
               <option value="sms">SMS</option>
               <option value="phone">{text("Phone number", "លេខទូរស័ព្ទ")}</option>
               <option value="location">{text("Location (GPS)", "ទីតាំង (GPS)")}</option>
+              <option value="google">{text("Google review", "ការពិនិត្យ Google")}</option>
+              <option value="social">{text("Social profile", "ទម្រង់បណ្តាញសង្គម")}</option>
               <option value="event">{text("Event (calendar)", "ព្រឹត្តិការណ៍ (ប្រតិទិន)")}</option>
             </Select>
           </Field>
@@ -739,10 +1002,34 @@ export default function QrGenerator() {
           )}
 
           {s.type === "location" && (
-            <Row>
-              <Field label="Latitude"><TextInput value={s.locLat} onChange={(e) => update({ locLat: e.target.value })} placeholder="11.5564" /></Field>
-              <Field label="Longitude"><TextInput value={s.locLng} onChange={(e) => update({ locLng: e.target.value })} placeholder="104.9282" /></Field>
-            </Row>
+            <>
+              <LocationMap lat={s.locLat} lng={s.locLng} onChange={(la, ln) => update({ locLat: la, locLng: ln })} />
+              <Row>
+                <Field label="Latitude"><TextInput value={s.locLat} onChange={(e) => update({ locLat: e.target.value })} placeholder="11.5564" /></Field>
+                <Field label="Longitude"><TextInput value={s.locLng} onChange={(e) => update({ locLng: e.target.value })} placeholder="104.9282" /></Field>
+              </Row>
+            </>
+          )}
+
+          {s.type === "google" && (
+            <Field label="Google review link or Place ID" hint={text("Paste the write-a-review link from your Google Business profile, or just the Place ID.", "បិទភ្ជាប់តំណដាក់ពិនិត្យឡើងវិញពីទម្រង់ Google Business របស់អ្នក ឬត្រឹមតែ Place ID។")}>
+              <TextArea value={s.googleReview} onChange={(e) => update({ googleReview: e.target.value })} placeholder="https://search.google.com/local/writereview?placeid=…" rows={2} />
+            </Field>
+          )}
+
+          {s.type === "social" && (
+            <>
+              <Field label="Platform">
+                <Select value={s.socialPlatform} onChange={(e) => update({ socialPlatform: e.target.value as SocialPlatform })}>
+                  {SOCIAL_PROFILES.map((p) => (
+                    <option key={p.id} value={p.id}>{text(p.name, p.km)}</option>
+                  ))}
+                </Select>
+              </Field>
+              <Field label="Username or link" hint={text("Handle without @, or paste a full profile URL.", "ឈ្មោះដោយគ្មាន @ ឬបិទភ្ជាប់ URL ទំព័រទម្រង់។")}>
+                <TextInput value={s.socialHandle} onChange={(e) => update({ socialHandle: e.target.value })} placeholder="yourname" />
+              </Field>
+            </>
           )}
 
           {s.type === "event" && (
@@ -869,7 +1156,7 @@ export default function QrGenerator() {
 
           <Row>
             <Field label="Size (px)" hint={`${s.size}px`}>
-              <input type="range" min={160} max={600} step={10} value={s.size} onChange={(e) => update({ size: Number(e.target.value) })} className="w-full" />
+              <input type="range" min={200} max={800} step={10} value={s.size} onChange={(e) => update({ size: Number(e.target.value) })} className="w-full" />
             </Field>
             <Field label="Error correction" hint={s.logo || s.social !== "none" ? text("use High with a badge", "ប្រើកម្រិតខ្ពស់ពេលមានស្លាក") : undefined}>
               <Select value={s.level} onChange={(e) => update({ level: e.target.value as State["level"] })}>
@@ -901,6 +1188,16 @@ export default function QrGenerator() {
               <Download size={13} className="mr-1.5 inline" />SVG
             </Button>
           </div>
+
+          <label className="flex cursor-pointer items-center gap-2 text-xs text-[var(--ink-dim)]">
+            <input
+              type="checkbox"
+              checked={includeWatermark}
+              onChange={(e) => setIncludeWatermark(e.target.checked)}
+              className="h-3.5 w-3.5 accent-[var(--gold)]"
+            />
+            {text("Include 123tool.app watermark", "បញ្ចូល watermark 123tool.app")}
+          </label>
         </div>
       </div>
     </ToolShell>

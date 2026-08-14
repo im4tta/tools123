@@ -47,7 +47,7 @@ export default function Home() {
   const router = useRouter();
   const [paletteOpen, setPaletteOpen] = useState(false);
   const [activeId, setActiveIdRaw] = useState<string | null>(null);
-  const [filter, setFilter] = useState("");
+  const [filter, setFilter] = useState(() => (typeof window !== "undefined" ? new URLSearchParams(window.location.search).get("q") ?? "" : ""));
   const parsedFilter = useMemo(() => parseIntent(filter), [filter]);
   const isCalculationIntent = Boolean(filter.trim() && parsedFilter.toolId && parsedFilter.domain !== "tool" && parsedFilter.domain !== "khmer");
   const [graphFocusCategory, setGraphFocusCategory] = useState<Category | null>(null);

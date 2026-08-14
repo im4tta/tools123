@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import Link from "next/link";
 import { JetBrains_Mono, Kantumruy_Pro, Moul, Siemreap, Space_Grotesk } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import "./mobile.css";
 import "./mobile-carousel.css";
@@ -8,7 +9,13 @@ import { AppProviders } from "@/components/AppProviders";
 import { themeInitScript } from "@/components/ThemeProvider";
 import { ScrollToTopButton } from "@/components/ScrollToTopButton";
 import { ScrollToBottomButton } from "@/components/ScrollToBottomButton";
+import { SponsorButton } from "@/components/SponsorButton";
+import { WatermarkToggle } from "@/components/WatermarkToggle";
+import { ShareToast } from "@/components/ShareToast";
 import { BASE_URL } from "@/lib/site";
+import { siteJsonLd } from "@/lib/seo";
+
+const SITE_JSON_LD = JSON.stringify(siteJsonLd()).replace(/</g, "\\u003c");
 
 const kantumruyPro = Kantumruy_Pro({
   subsets: ["khmer", "latin"],
@@ -46,6 +53,7 @@ export default function RootLayout({
       <head>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" />
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: SITE_JSON_LD }} />
       </head>
       <body className="antialiased">
         <AppProviders>
@@ -54,7 +62,9 @@ export default function RootLayout({
             <footer className="border-t border-[var(--ground-line)] px-5 py-6 text-center text-xs text-[var(--ink-faint)] sm:px-10">
               <div className="mx-auto flex max-w-[77rem] flex-col items-center gap-2 sm:flex-row sm:justify-between">
                 <span>{new Date().getFullYear()} — 123 Toolbox</span>
-                <div className="flex items-center gap-4">
+                <div className="flex flex-wrap items-center justify-center gap-4">
+                  <SponsorButton />
+                  <WatermarkToggle />
                   <Link href="/acknowledgement" className="transition hover:text-[var(--gold)]">
                     Acknowledgements
                   </Link>
@@ -75,7 +85,9 @@ export default function RootLayout({
           </div>
           <ScrollToBottomButton />
           <ScrollToTopButton />
+          <ShareToast />
         </AppProviders>
+        <Analytics />
       </body>
     </html>
   );

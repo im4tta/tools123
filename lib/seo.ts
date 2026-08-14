@@ -1,5 +1,5 @@
 import { CATEGORY_META, type ToolDef } from "@/lib/tools";
-import { toolUrl } from "@/lib/site";
+import { BASE_URL, toolUrl } from "@/lib/site";
 
 type ToolBlurb = {
   en: string;
@@ -69,5 +69,84 @@ export function toolJsonLd(tool: ToolDef) {
       price: "0",
       priceCurrency: "USD",
     },
+  };
+}
+
+/** Breadcrumb for a tool page: Home → Category → Tool. */
+export function toolBreadcrumbLd(tool: ToolDef) {
+  const category = CATEGORY_META[tool.category];
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "123 Toolbox", item: BASE_URL },
+      { "@type": "ListItem", position: 2, name: category.label, item: BASE_URL },
+      { "@type": "ListItem", position: 3, name: tool.title, item: toolUrl(tool.id) },
+    ],
+  };
+}
+
+/** Site-wide Organization + WebSite schema (with search action). */
+export function siteJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        name: "123 Toolbox",
+        url: BASE_URL,
+        logo: `${BASE_URL}/icon.svg`,
+        sameAs: ["https://github.com/im4tta/tools123"],
+      },
+      {
+        "@type": "WebSite",
+        name: "123 Toolbox",
+        url: BASE_URL,
+        inLanguage: ["en", "km"],
+        publisher: { "@id": `${BASE_URL}/#organization` },
+        potentialAction: {
+          "@type": "SearchAction",
+          target: { "@type": "EntryPoint", urlTemplate: `${BASE_URL}/?q={search_term_string}` },
+          "query-input": "required name=search_term_string",
+        },
+      },
+      {
+        "@type": "FAQPage",
+        mainEntity: [
+          {
+            "@type": "Question",
+            name: "Is 123 Toolbox free to use?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "Yes. Every tool on 123 Toolbox is free and runs directly in your browser — no account or payment required.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "Are my files uploaded to a server?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "No. Files and text are processed locally in your browser and are not uploaded by 123 Toolbox, except for a few tools that clearly depend on an external resource.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "What kinds of tools are available?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "123 Toolbox includes hundreds of tools for PDFs, images, developers, designers, Khmer language, geospatial data, security, math, and everyday work.",
+            },
+          },
+          {
+            "@type": "Question",
+            name: "Which languages does 123 Toolbox support?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: "The interface supports English, Khmer, and a bilingual English–Khmer mode.",
+            },
+          },
+        ],
+      },
+    ],
   };
 }
