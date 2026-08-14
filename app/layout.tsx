@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import Link from "next/link";
 import { JetBrains_Mono, Kantumruy_Pro, Moul, Siemreap, Space_Grotesk } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import "./mobile.css";
 import "./mobile-carousel.css";
@@ -76,6 +77,7 @@ export default function RootLayout({
           <ScrollToBottomButton />
           <ScrollToTopButton />
         </AppProviders>
+        <Analytics />
       </body>
     </html>
   );
