@@ -306,6 +306,8 @@ export const TOOLS: ToolDef[] = [
   { id: "anagram-checker", title: "Anagram Checker", category: "text", keywords: ["anagram", "letters"], Component: load("text", "anagram-checker") },
   { id: "line-numberer", title: "Text Line Numberer", category: "text", keywords: ["line numbers", "numbered list"], Component: load("text", "line-numberer") },
   { id: "nato-phonetic", title: "NATO Phonetic Alphabet", khmerTitle: "អក្ខរក្រមសូរសព្ទ NATO", addedOn: "2026-08-14T15:20:00+07:00", category: "text", keywords: ["nato", "phonetic", "alphabet", "alpha bravo", "spell", "radio", "សូរសព្ទ", "អក្ខរក្រម"], Component: load("text", "nato-phonetic") },
+  { id: "word-scrambler", title: "Word Scrambler", khmerTitle: "លាយអក្សរ", addedOn: "2026-08-14T16:00:00+07:00", category: "text", keywords: ["scramble", "anagram", "shuffle letters", "word jumble", "លាយអក្សរ", "អក្សរ"], Component: load("text", "word-scrambler") },
+  { id: "text-to-emoji", title: "Text to Emoji", khmerTitle: "បំប្លែងអត្ថបទទៅជា Emoji", addedOn: "2026-08-14T16:05:00+07:00", category: "text", keywords: ["emoji", "text to emoji", "emojify", "translate", "emoji", "អ៊ីម៉ូជី"], Component: load("text", "text-to-emoji") },
 
   // ---- Math (17) ----
   { id: "percentage-calculator", title: "Percentage Calculator", category: "math", keywords: ["percent", "percentage"], Component: load("math", "percentage-calculator") },
@@ -478,6 +480,9 @@ export const TOOLS: ToolDef[] = [
   { id: "khmer-word-game", title: "Khmer Word Arrange Game", khmerTitle: "ហ្គេម រៀបពាក្យខ្មែរ", addedOn: "2026-08-12T13:00:00+07:00", category: "fun", keywords: ["game", "arrange", "syllable", "word", "sentence", "fill blank", "khmer", "spelling", "puzzle", "quiz", "ហ្គេម", "រៀបពាក្យ", "ព្យាង្គ", "បំពេញ"], Component: load("fun", "khmer-word-game") },
   { id: "flag-guessing-game", title: "Flag Guessing Game", khmerTitle: "ល្បែងទាយទង់ជាតិ", addedOn: "2026-08-14T10:00:00+07:00", category: "fun", keywords: ["flag", "game", "quiz", "country", "geography", "world", "continent", "world flags", "guess", "learning", "kids", "ទង់ជាតិ", "ល្បែង", "ប្រទេស", "ភូមិសាស្ត្រ", "ទាយ"], Component: load("fun", "flag-guessing-game") },
   { id: "chhmoh-astrology", title: "Chhmoh Astrology Portal", addedOn: "2026-08-03T10:20:00+07:00", category: "fun", keywords: ["astrology", "khmer name", "naming", "borit", "destiny", "horoscope", "chhmoh", "baby name", "ឈ្មោះ", "ហោរាសាស្ត្រ", "មហាទក្សា"], Component: load("fun", "chhmoh-astrology") },
+  { id: "dice-roller", title: "Dice Roller", khmerTitle: "គ្រាប់ឡុកឡាក់", addedOn: "2026-08-14T16:10:00+07:00", category: "fun", keywords: ["dice", "roll", "d4", "d6", "d20", "rpg", "board game", "random", "ឡុកឡាក់", "គ្រវែង"], Component: load("fun", "dice-roller") },
+  { id: "coin-flip", title: "Coin Flip", khmerTitle: "បោះកាក់", addedOn: "2026-08-14T16:15:00+07:00", category: "fun", keywords: ["coin", "flip", "heads", "tails", "toss", "random", "best of", "កាក់", "បោះ"], Component: load("fun", "coin-flip") },
+  { id: "name-picker", title: "Random Name Picker", khmerTitle: "ជ្រើសរើសឈ្មោះចៃដន្យ", addedOn: "2026-08-14T16:20:00+07:00", category: "fun", keywords: ["random picker", "name picker", "winner", "decision", "raffle", "draw", "lucky", "ជ្រើសរើស", "ឈ្មោះ", "ចៃដន្យ", "អ្នកឈ្នះ"], Component: load("fun", "name-picker") },
 
   // ---- Data-driven unit-pair converters (generated, Batch 1) ----
   ...UNIT_PAIR_TOOLS,
