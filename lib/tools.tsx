@@ -169,6 +169,8 @@ export const TOOLS: ToolDef[] = [
   { id: "json-to-typescript", title: "JSON → TypeScript / Zod", khmerTitle: "បម្លែង JSON → TypeScript / Zod", addedOn: "2026-08-04T11:00:00+07:00", category: "dev", keywords: ["json", "typescript", "zod", "schema", "types"], Component: load("dev", "json-to-typescript") },
   { id: "json-data-converter", title: "JSON Data Converter", khmerTitle: "កម្មវិធីបម្លែងទិន្នន័យ JSON", addedOn: "2026-08-04T11:05:00+07:00", category: "dev", keywords: ["json", "csv", "yaml", "xml", "convert", "data"], Component: load("dev", "json-data-converter") },
   { id: "jsonl-validator", title: "JSONL Validator", khmerTitle: "ផ្ទៀងផ្ទាត់ JSONL", addedOn: "2026-08-04T11:10:00+07:00", category: "dev", keywords: ["jsonl", "json lines", "validate", "logs"], Component: load("dev", "jsonl-validator") },
+  { id: "sql-formatter", title: "SQL Formatter", khmerTitle: "រៀបចំទម្រង់ SQL", addedOn: "2026-08-14T15:05:00+07:00", category: "dev", keywords: ["sql", "format", "beautify", "query", "database", "pretty", "sql formatter"], Component: load("dev", "sql-formatter") },
+  { id: "json-xml-converter", title: "JSON ↔ XML Converter", khmerTitle: "បម្លែង JSON ↔ XML", addedOn: "2026-08-14T15:10:00+07:00", category: "dev", keywords: ["json", "xml", "convert", "data interchange"], Component: load("dev", "json-xml-converter") },
   { id: "ai-token-counter", title: "AI Token Counter", khmerTitle: "រាប់ Token AI", addedOn: "2026-08-04T11:15:00+07:00", category: "dev", keywords: ["token", "llm", "ai", "context window", "prompt"], Component: load("dev", "ai-token-counter") },
   { id: "word-counter", title: "Word & Character Counter", category: "dev", keywords: ["word count", "character count"], Component: load("dev", "word-counter") },
   { id: "lorem-ipsum", title: "Placeholder Text Generator", category: "dev", keywords: ["lorem ipsum", "filler", "placeholder"], Component: load("dev", "lorem-ipsum") },
@@ -303,6 +305,7 @@ export const TOOLS: ToolDef[] = [
   { id: "text-columns", title: "Text to Columns Splitter", category: "text", keywords: ["split", "delimiter", "columns"], Component: load("text", "text-columns") },
   { id: "anagram-checker", title: "Anagram Checker", category: "text", keywords: ["anagram", "letters"], Component: load("text", "anagram-checker") },
   { id: "line-numberer", title: "Text Line Numberer", category: "text", keywords: ["line numbers", "numbered list"], Component: load("text", "line-numberer") },
+  { id: "nato-phonetic", title: "NATO Phonetic Alphabet", khmerTitle: "អក្ខរក្រមសូរសព្ទ NATO", addedOn: "2026-08-14T15:20:00+07:00", category: "text", keywords: ["nato", "phonetic", "alphabet", "alpha bravo", "spell", "radio", "សូរសព្ទ", "អក្ខរក្រម"], Component: load("text", "nato-phonetic") },
 
   // ---- Math (17) ----
   { id: "percentage-calculator", title: "Percentage Calculator", category: "math", keywords: ["percent", "percentage"], Component: load("math", "percentage-calculator") },
@@ -324,6 +327,7 @@ export const TOOLS: ToolDef[] = [
   { id: "triangle-solver", title: "Right Triangle Solver", category: "math", keywords: ["triangle", "hypotenuse", "pythagorean"], Component: load("math", "triangle-solver") },
   { id: "compound-interest", title: "Compound Interest Calculator", category: "math", keywords: ["interest", "compound", "savings", "investment"], Component: load("math", "compound-interest") },
   { id: "bill-split", title: "Tip & Bill Split Calculator", category: "math", keywords: ["tip", "bill", "split", "restaurant"], Component: load("math", "bill-split") },
+  { id: "loan-calculator", title: "Loan & EMI Calculator", khmerTitle: "គណនាកម្ចី និង EMI", addedOn: "2026-08-14T15:00:00+07:00", category: "math", keywords: ["loan", "emi", "mortgage", "interest", "repayment", "installment", "កម្ចី", "ប្រាក់កម្ចី", "ការប្រាក់"], Component: load("math", "loan-calculator") },
   { id: "latex-renderer", title: "LaTeX Formula Renderer", category: "math", keywords: ["latex", "katex", "formula", "equation", "ratex", "typeset"], Component: load("math", "latex-renderer") },
 
   // ---- Network (13) ----
@@ -382,6 +386,7 @@ export const TOOLS: ToolDef[] = [
   { id: "golden-ratio-calculator", title: "Golden Ratio Calculator", category: "design", keywords: ["golden ratio", "phi", "proportion"], Component: load("design", "golden-ratio-calculator") },
   { id: "color-name-finder", title: "Nearest CSS Color Name Finder", category: "design", keywords: ["color name", "css colors", "nearest"], Component: load("design", "color-name-finder") },
   { id: "vector-drawable-to-svg", title: "VectorDrawable → SVG", category: "design", keywords: ["android", "vector drawable", "svg", "icon convert"], Component: load("design", "vector-drawable-to-svg") },
+  { id: "color-blindness-simulator", title: "Color Blindness Simulator", khmerTitle: "កម្មវិធីក្លែងធ្វើភាពពិការពណ៌", addedOn: "2026-08-14T15:15:00+07:00", category: "design", keywords: ["color blindness", "protanopia", "deuteranopia", "tritanopia", "accessibility", "cvd", "simulation", "ពិការពណ៌", "ភាពពិការពណ៌"], Component: load("design", "color-blindness-simulator") },
 
   // ---- Time & Date (14) ----
   { id: "daily-feng-shui-calendar", title: "Daily Feng Shui Calendar", khmerTitle: "ប្រតិទិនហុងស៊ុយប្រចាំថ្ងៃ", addedOn: "2026-07-29", category: "time", keywords: ["feng shui", "calendar", "cultural reference", "daily planning", "ហុងស៊ុយ"], Component: load("time", "daily-feng-shui-calendar") },
@@ -462,8 +467,9 @@ export const TOOLS: ToolDef[] = [
   // ---- Meta (1) ----
   { id: "data-residency-map", title: "Data Residency Map", addedOn: "2026-07-31", category: "meta", keywords: ["data residency", "network audit", "local", "privacy", "offline"], Component: load("meta", "data-residency-map") },
 
-  // ---- Family (1) ----
+  // ---- Family (2) ----
   { id: "yellow-card-tracker", title: "Yellow Card Tracker", addedOn: "2026-08-03T10:10:00+07:00", category: "family", keywords: ["child health", "immunization", "vaccine", "vaccination", "bcg", "hepb", "opv", "ipv", "dpt", "hep-b", "hib", "pcv", "mr", "measles", "rubella", "je", "japanese encephalitis", "vitamin a", "deworming", "growth chart", "who", "yellow card", "baby", "kids", "cambodia", "សុខភាព", "កុមារ", "ថ្នាំបង្ការ"], Component: load("family", "yellow-card-tracker") },
+  { id: "bmi-calculator", title: "BMI Calculator", khmerTitle: "គណនា BMI", addedOn: "2026-08-14T15:25:00+07:00", category: "family", keywords: ["bmi", "body mass index", "weight", "height", "health", "fitness", "bmi calculator", "ទម្ងន់", "កម្ពស់", "សុខភាព"], Component: load("family", "bmi-calculator") },
 
   // ---- Fun (1) ----
   { id: "khmer-sentence-builder", title: "Khmer Sentence Builder", addedOn: "2026-08-03T10:15:00+07:00", category: "fun", keywords: ["game", "sentence", "builder", "quiz", "khmer language", "learning", "drag", "interactive", "kids", "fun", "ល្បែង", "ផ្គុំ", "ល្បះ"], Component: load("fun", "khmer-sentence-builder") },

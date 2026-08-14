@@ -8,30 +8,31 @@ import { useLanguage } from "@/components/LanguageProvider";
 interface Zone {
   zone: string;
   city: string;
+  cityKm: string;
   flag: string;
 }
 
 const ALL_ZONES: Zone[] = [
-  { zone: "Asia/Phnom_Penh", city: "Phnom Penh", flag: "🇰🇭" },
-  { zone: "Asia/Bangkok", city: "Bangkok", flag: "🇹🇭" },
-  { zone: "Asia/Singapore", city: "Singapore", flag: "🇸🇬" },
-  { zone: "Asia/Tokyo", city: "Tokyo", flag: "🇯🇵" },
-  { zone: "Asia/Shanghai", city: "Shanghai", flag: "🇨🇳" },
-  { zone: "Asia/Kolkata", city: "New Delhi", flag: "🇮🇳" },
-  { zone: "Asia/Dubai", city: "Dubai", flag: "🇦🇪" },
-  { zone: "Europe/London", city: "London", flag: "🇬🇧" },
-  { zone: "Europe/Paris", city: "Paris", flag: "🇫🇷" },
-  { zone: "Europe/Berlin", city: "Berlin", flag: "🇩🇪" },
-  { zone: "Europe/Moscow", city: "Moscow", flag: "🇷🇺" },
-  { zone: "America/New_York", city: "New York", flag: "🇺🇸" },
-  { zone: "America/Chicago", city: "Chicago", flag: "🇺🇸" },
-  { zone: "America/Los_Angeles", city: "Los Angeles", flag: "🇺🇸" },
-  { zone: "America/Sao_Paulo", city: "São Paulo", flag: "🇧🇷" },
-  { zone: "Africa/Cairo", city: "Cairo", flag: "🇪🇬" },
-  { zone: "Africa/Johannesburg", city: "Johannesburg", flag: "🇿🇦" },
-  { zone: "Australia/Sydney", city: "Sydney", flag: "🇦🇺" },
-  { zone: "Pacific/Auckland", city: "Auckland", flag: "🇳🇿" },
-  { zone: "UTC", city: "UTC", flag: "🌐" },
+  { zone: "Asia/Phnom_Penh", city: "Phnom Penh", cityKm: "ភ្នំពេញ", flag: "🇰🇭" },
+  { zone: "Asia/Bangkok", city: "Bangkok", cityKm: "បាងកក", flag: "🇹🇭" },
+  { zone: "Asia/Singapore", city: "Singapore", cityKm: "សិង្ហបុរី", flag: "🇸🇬" },
+  { zone: "Asia/Tokyo", city: "Tokyo", cityKm: "តូក្យូ", flag: "🇯🇵" },
+  { zone: "Asia/Shanghai", city: "Shanghai", cityKm: "សៀងហៃ", flag: "🇨🇳" },
+  { zone: "Asia/Kolkata", city: "New Delhi", cityKm: "ញូដេលី", flag: "🇮🇳" },
+  { zone: "Asia/Dubai", city: "Dubai", cityKm: "ឌូបៃ", flag: "🇦🇪" },
+  { zone: "Europe/London", city: "London", cityKm: "ឡុងដ៍", flag: "🇬🇧" },
+  { zone: "Europe/Paris", city: "Paris", cityKm: "ប៉ារីស", flag: "🇫🇷" },
+  { zone: "Europe/Berlin", city: "Berlin", cityKm: "ប៊ែរឡាំង", flag: "🇩🇪" },
+  { zone: "Europe/Moscow", city: "Moscow", cityKm: "មូស្គូ", flag: "🇷🇺" },
+  { zone: "America/New_York", city: "New York", cityKm: "ញូវយ៉ក", flag: "🇺🇸" },
+  { zone: "America/Chicago", city: "Chicago", cityKm: "ស៊ីកាហ្គោ", flag: "🇺🇸" },
+  { zone: "America/Los_Angeles", city: "Los Angeles", cityKm: "ឡូសអង់ចេឡេស", flag: "🇺🇸" },
+  { zone: "America/Sao_Paulo", city: "São Paulo", cityKm: "សៅប៉ូឡូ", flag: "🇧🇷" },
+  { zone: "Africa/Cairo", city: "Cairo", cityKm: "គែរ", flag: "🇪🇬" },
+  { zone: "Africa/Johannesburg", city: "Johannesburg", cityKm: "ចូហានណេសបឺក", flag: "🇿🇦" },
+  { zone: "Australia/Sydney", city: "Sydney", cityKm: "ស៊ីដនី", flag: "🇦🇺" },
+  { zone: "Pacific/Auckland", city: "Auckland", cityKm: "អូកឡិន", flag: "🇳🇿" },
+  { zone: "UTC", city: "UTC", cityKm: "UTC", flag: "🌐" },
 ];
 
 const DEFAULT_ZONES = ["Asia/Phnom_Penh", "Asia/Tokyo", "Europe/London", "America/New_York"];
@@ -57,9 +58,11 @@ function fmtDate(zone: string) {
 }
 
 export default function WorldClock() {
-  const { text: t } = useLanguage();
+  const { mode, text: t } = useLanguage();
   const [zones, setZones] = useToolState<string[]>("world-clock:zones", DEFAULT_ZONES);
   const [query, setQuery] = useState("");
+
+  const cityName = (z: Zone) => (mode === "en" ? z.city : mode === "km" ? z.cityKm : `${z.city} — ${z.cityKm}`);
   const [now, setNow] = useState(() => Date.now());
 
   useEffect(() => {
@@ -67,7 +70,7 @@ export default function WorldClock() {
     return () => clearInterval(id);
   }, []);
 
-  const active = useMemo(() => zones.map((z) => ALL_ZONES.find((a) => a.zone === z) ?? { zone: z, city: z, flag: "🌐" }), [zones]);
+  const active = useMemo(() => zones.map((z) => ALL_ZONES.find((a) => a.zone === z) ?? { zone: z, city: z, cityKm: z, flag: "🌐" }), [zones]);
 
   // `now` is read below to keep the live clock ticking every second.
   void now;
@@ -75,7 +78,7 @@ export default function WorldClock() {
   const suggestions = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (!q) return [];
-    return ALL_ZONES.filter((z) => !zones.includes(z.zone) && (z.city.toLowerCase().includes(q) || z.zone.toLowerCase().includes(q))).slice(0, 6);
+    return ALL_ZONES.filter((z) => !zones.includes(z.zone) && (z.city.toLowerCase().includes(q) || z.cityKm.toLowerCase().includes(q) || z.zone.toLowerCase().includes(q))).slice(0, 6);
   }, [query, zones]);
 
   function add(zone: string) {
@@ -114,7 +117,7 @@ export default function WorldClock() {
                 className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm text-[var(--ink)] transition hover:bg-[var(--ground-raised-hi)]"
               >
                 <span>{z.flag}</span>
-                <span className="flex-1">{z.city}</span>
+                <span className="flex-1">{cityName(z)}</span>
                 <span className="font-mono-ui text-xs text-[var(--ink-faint)]">{z.zone}</span>
               </button>
             ))}
@@ -127,7 +130,7 @@ export default function WorldClock() {
           <div key={z.zone} className="flex items-center gap-3 rounded-lg border border-[var(--ground-line)] bg-[var(--ground-raised)] px-4 py-3">
             <span className="text-2xl">{z.flag}</span>
             <div className="min-w-0 flex-1">
-              <div className="truncate text-sm font-medium text-[var(--ink)]">{z.city}</div>
+              <div className="truncate text-sm font-medium text-[var(--ink)]">{cityName(z)}</div>
               <div className="text-xs text-[var(--ink-faint)]">{fmtDate(z.zone)}</div>
             </div>
             <div className="text-right">
