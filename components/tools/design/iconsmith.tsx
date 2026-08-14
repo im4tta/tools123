@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Copy, Check, Zap, X } from "lucide-react";
 import { ToolShell, Field, TextInput } from "@/components/ui/Shell";
 import { useToolState } from "@/lib/storage";
+import { recordExport } from "@/lib/export";
 
 type SourceMode = "image" | "text";
 type OgBgMode = "gradient" | "dark" | "light" | "custom";
@@ -932,6 +933,7 @@ export default function IconsmithTool() {
       a.click();
       a.remove();
       setTimeout(() => URL.revokeObjectURL(url), 4000);
+      recordExport();
 
       setStatus(`Pack forged — ${files.length} files, ${(zipBytes.length / 1024).toFixed(1)} KB.`);
       setStatusOk(true);

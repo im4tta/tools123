@@ -5,6 +5,7 @@ import { useLanguage } from "@/components/LanguageProvider";
 import { ToolShell, Field, TextInput, Row } from "@/components/ui/Shell";
 import { Button, Output } from "@/components/ui/Output";
 import { useToolState } from "@/lib/storage";
+import { recordExport } from "@/lib/export";
 
 type TimerState = { activity: string; status: "idle" | "running" | "paused"; accumulatedMs: number; startedAt: number | null };
 type Session = { id: string; activity: string; startedAt: string; endedAt: string; durationMs: number; manual: boolean };
@@ -26,6 +27,7 @@ const downloadCsv = (sessions: Session[]) => {
   const url = URL.createObjectURL(new Blob([content], { type: "text/csv;charset=utf-8" }));
   const anchor = document.createElement("a"); anchor.href = url; anchor.download = "time-sessions.csv"; anchor.click();
   setTimeout(() => URL.revokeObjectURL(url), 0);
+  recordExport();
 };
 
 export default function TimeTracker() {

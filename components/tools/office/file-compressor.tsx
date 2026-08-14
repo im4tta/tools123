@@ -5,6 +5,7 @@ import { ToolShell, Field, Select, Row } from "@/components/ui/Shell";
 import { Button } from "@/components/ui/Output";
 import { loadPdfJs, formatBytes } from "@/lib/pdfjs";
 import { useToolState } from "@/lib/storage";
+import { recordExport } from "@/lib/export";
 
 /**
  * File Compressor — ported from Sralify (github.com/im4tta/Sralify), the
@@ -224,6 +225,7 @@ export default function FileCompressorTool() {
     a.download = "compressed-files.zip";
     a.click();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
+    recordExport();
   }
 
   return (

@@ -5,6 +5,7 @@ import { Download, RotateCcw, RotateCw } from "lucide-react";
 import { useLanguage } from "@/components/LanguageProvider";
 import { Button } from "@/components/ui/Output";
 import { Field, ToolShell } from "@/components/ui/Shell";
+import { drawWatermark, recordExport } from "@/lib/export";
 
 function cameraErrorMessage(error: unknown) {
   const name = error instanceof DOMException ? error.name : "";
@@ -162,12 +163,15 @@ export default function DocumentScanner() {
     const canvas = outputRef.current;
     if (!canvas || !sourceUrl) return;
     try {
+      const ctx = canvas.getContext("2d");
+      if (ctx) drawWatermark(ctx, canvas.width, canvas.height);
       const url = URL.createObjectURL(await canvasBlob(canvas));
       const link = document.createElement("a");
       link.href = url;
       link.download = "scanned-document.png";
       link.click();
       setTimeout(() => URL.revokeObjectURL(url), 0);
+      recordExport();
     } catch {
       setError("Could not export the PNG. / មិនអាចនាំចេញ PNG បានទេ។");
     }

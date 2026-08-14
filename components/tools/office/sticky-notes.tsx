@@ -5,6 +5,7 @@ import { useLanguage } from "@/components/LanguageProvider";
 import { ToolShell, Field, TextInput, TextArea, Select, Row } from "@/components/ui/Shell";
 import { Button } from "@/components/ui/Output";
 import { useToolState } from "@/lib/storage";
+import { recordExport } from "@/lib/export";
 
 type Color = "yellow" | "blue" | "green" | "pink" | "purple";
 type Note = { id: string; title: string; content: string; color: Color; updatedAt: string };
@@ -19,6 +20,7 @@ const downloadJson = (notes: Note[]) => {
   const url = URL.createObjectURL(new Blob([JSON.stringify(notes, null, 2)], { type: "application/json" }));
   const anchor = document.createElement("a"); anchor.href = url; anchor.download = "sticky-notes.json"; anchor.click();
   setTimeout(() => URL.revokeObjectURL(url), 0);
+  recordExport();
 };
 
 export default function StickyNotes() {

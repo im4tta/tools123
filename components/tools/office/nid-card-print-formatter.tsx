@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/Output";
 import { ToolShell } from "@/components/ui/Shell";
 import { useLanguage } from "@/components/LanguageProvider";
 import { useToolState } from "@/lib/storage";
+import { recordExport, watermarkImageDataUrl } from "@/lib/export";
 import {
   Check,
   FileDown,
@@ -191,7 +192,7 @@ export default function NidCardPrintFormatter() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [front.croppedDataUrl, back.croppedDataUrl, bw, contrast, brightness, saturation, sharpen, watermark, roundCorners]);
 
-  const exportPNG = () => {
+  const exportPNG = async () => {
     const frontCv = frontPreviewRef.current;
     const backCv = backPreviewRef.current;
     if (!frontCv?.width && !backCv?.width) return;
@@ -223,8 +224,9 @@ export default function NidCardPrintFormatter() {
 
     const link = document.createElement("a");
     link.download = "NID_Card_Layout.png";
-    link.href = canvas.toDataURL("image/png");
+    link.href = await watermarkImageDataUrl(canvas.toDataURL("image/png"), "image/png");
     link.click();
+    recordExport();
   };
 
   const exportDOCX = async () => {
@@ -278,6 +280,7 @@ export default function NidCardPrintFormatter() {
     link.download = "NID_Card_Layout.docx";
     link.click();
     setTimeout(() => URL.revokeObjectURL(url), 100);
+    recordExport();
   };
 
   const exportPDF = async () => {
@@ -312,6 +315,7 @@ export default function NidCardPrintFormatter() {
       doc.rect(currentX, startY, cardW, cardH);
     }
     doc.save("NID_Card_Layout.pdf");
+    recordExport();
   };
 
   const scaleA4 = () => {

@@ -5,6 +5,7 @@ import { useLanguage } from "@/components/LanguageProvider";
 import { ToolShell, Field, TextInput, Select, Row } from "@/components/ui/Shell";
 import { Button } from "@/components/ui/Output";
 import { useToolState } from "@/lib/storage";
+import { recordExport } from "@/lib/export";
 
 type Status = "todo" | "progress" | "done";
 type Priority = "low" | "medium" | "high";
@@ -22,6 +23,7 @@ const download = (name: string, content: string, type: string) => {
   const anchor = document.createElement("a");
   anchor.href = url; anchor.download = name; anchor.click();
   setTimeout(() => URL.revokeObjectURL(url), 0);
+  recordExport();
 };
 
 export default function TaskManager() {

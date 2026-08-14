@@ -8,6 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "mcp": "node mcp/server.mjs",
     "audit:network": "node scripts/audit-network.mjs"
   },
   "dependencies": {
