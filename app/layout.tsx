@@ -39,6 +39,24 @@ export const metadata: Metadata = {
   title: "123 Toolbox — ប្រអប់ឧបករណ៍ ១២៣",
   description:
     "430+ free browser-based tools for PDF, images, developers, designers, Khmer language, and everyday work. ឧបករណ៍អនឡាញឥតគិតថ្លៃជាង ៤០០ មុខ។",
+  alternates: {
+    canonical: BASE_URL,
+    languages: {
+      "x-default": BASE_URL,
+      en: `${BASE_URL}/en`,
+      km: `${BASE_URL}/km`,
+    },
+  },
+  openGraph: {
+    type: "website",
+    title: "123 Toolbox — ប្រអប់ឧបករណ៍ ១២៣",
+    description:
+      "430+ free browser-based tools for PDF, images, developers, designers, Khmer language, and everyday work.",
+    url: BASE_URL,
+    siteName: "123 Toolbox",
+    locale: "en_US",
+    alternateLocale: "km_KH",
+  },
 };
 
 export default function RootLayout({
@@ -70,6 +88,9 @@ export default function RootLayout({
                   </Link>
                   <Link href="/changelog" className="transition hover:text-[var(--gold)]">
                     Changelog
+                  </Link>
+                  <Link href="/llms.txt" className="transition hover:text-[var(--gold)]">
+                    llms.txt
                   </Link>
                   <a
                     href="https://github.com/im4tta/tools123"

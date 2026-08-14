@@ -208,6 +208,20 @@ A useful report should include the tool name/URL, language mode, browser/device,
 - Shared EN/KH/BI localization dictionaries and UI primitives
 - Browser APIs for Canvas, Web Crypto, Clipboard, local storage, media, and file handling
 - Web app manifest and service-worker registration for app-like use
+- Per-tool JSON-LD structured data (WebApplication, BreadcrumbList, FAQPage) for search and answer engines
+- A standalone MCP server exposing deterministic tools to AI assistants
+
+## MCP server (for AI assistants)
+
+A zero-dependency [Model Context Protocol](https://modelcontextprotocol.io) server is included at `mcp/server.mjs`. It exposes deterministic, browser-free tools — Base64, hashing, UUID, URL encode, JSON format/minify, case conversion, word count, Khmer digit conversion, and slugify — so AI assistants such as Claude Desktop, Cursor, or Copilot can invoke them directly.
+
+Run it:
+
+```bash
+npm run mcp
+```
+
+Register it in your MCP client with the command `node mcp/server.mjs` (no arguments). To add a tool, add an entry to the `TOOLS` array in `mcp/server.mjs` with its name, description, JSON Schema, and a pure handler.
 
 ## Local development
 

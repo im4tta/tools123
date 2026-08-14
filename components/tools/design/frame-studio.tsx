@@ -9,6 +9,7 @@ import {
   Sparkle, Palette, Flame, Box,
 } from "lucide-react";
 import { useTheme } from "@/components/ThemeProvider";
+import { recordExport, watermarkImageDataUrl } from "@/lib/export";
 
 /* ---------------------------------------------------------
    Stock Wallpaper Presets
@@ -1256,7 +1257,7 @@ export default function FrameStudio() {
     imgZoom, offsetX, offsetY, brightness, contrast, showCtaBadge, ctaType, noiseIntensity, customBgImg
   ]);
 
-  const handleDownload = () => {
+  const handleDownload = async () => {
     const composite = buildComposite({
       device, colorIdx, img, backdrop, customColor, paddingPct, scale: exportScale,
       orientation, imageFit, shadowIntensity, showGlare, screenPreset, showReflection,
@@ -1268,8 +1269,9 @@ export default function FrameStudio() {
     const suffix = device.label.replace(/[^a-zA-Z0-9]/g, "-").toLowerCase();
     const ext = exportFormat === "image/jpeg" ? "jpg" : exportFormat === "image/webp" ? "webp" : "png";
     link.download = `${suffix}-studio-mockup.${ext}`;
-    link.href = composite.toDataURL(exportFormat, 0.95);
+    link.href = await watermarkImageDataUrl(composite.toDataURL(exportFormat, 0.95), exportFormat);
     link.click();
+    recordExport();
   };
 
   const handleCopy = async () => {

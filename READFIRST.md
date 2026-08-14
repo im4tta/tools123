@@ -162,3 +162,4 @@ The UI should expose this through a localized `Source & Credits` section wheneve
 - Use `apply_patch` for manual edits.
 - Do not commit, amend, push, or create a PR unless explicitly requested.
 - Never use destructive Git commands without explicit approval.
+- Remove dead code and unused imports when touching a file. After deleting a symbol, search the repository for remaining references before removing it. Fix any new lint/TypeScript warnings the change introduces; do not leave unused variables, unused imports, or unreachable branches behind. Report pre-existing warnings separately and do not fix unrelated code unless asked.

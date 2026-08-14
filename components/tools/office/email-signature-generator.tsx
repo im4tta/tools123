@@ -6,6 +6,7 @@ import { useLanguage } from "@/components/LanguageProvider";
 import { ToolShell, Field, TextInput } from "@/components/ui/Shell";
 import { Button, Output } from "@/components/ui/Output";
 import { useToolState } from "@/lib/storage";
+import { recordExport } from "@/lib/export";
 
 type Signature = { name: string; role: string; company: string; email: string; phone: string; website: string; accent: string; useAccent: boolean };
 const INITIAL: Signature = { name: "", role: "", company: "", email: "", phone: "", website: "", accent: "#a97922", useAccent: true };
@@ -38,6 +39,7 @@ const downloadHtml = (content: string) => {
   const url = URL.createObjectURL(new Blob([content], { type: "text/html;charset=utf-8" }));
   const anchor = document.createElement("a"); anchor.href = url; anchor.download = "email-signature.html"; anchor.click();
   setTimeout(() => URL.revokeObjectURL(url), 0);
+  recordExport();
 };
 
 export default function EmailSignatureGenerator() {

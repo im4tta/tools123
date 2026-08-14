@@ -2,6 +2,7 @@
 import { useRef, useState } from "react";
 import { ToolShell, Field, TextInput } from "@/components/ui/Shell";
 import { Button } from "@/components/ui/Output";
+import { recordExport, watermarkImageDataUrl } from "@/lib/export";
 
 export default function VideoThumbnailTool() {
   const [fileUrl, setFileUrl] = useState<string | null>(null);
@@ -83,6 +84,15 @@ export default function VideoThumbnailTool() {
           <a
             href={thumbUrl}
             download="thumbnail.png"
+            onClick={async (e) => {
+              e.preventDefault();
+              const watermarked = await watermarkImageDataUrl(thumbUrl, "image/png");
+              const a = document.createElement("a");
+              a.href = watermarked;
+              a.download = "thumbnail.png";
+              a.click();
+              recordExport();
+            }}
             className="mt-2 inline-block rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-1.5 text-xs text-[var(--ink-dim)] hover:border-[var(--gold-dim)]"
           >
             Download PNG

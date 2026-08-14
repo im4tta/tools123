@@ -54,7 +54,7 @@ export function toolJsonLd(tool: ToolDef) {
   const category = CATEGORY_META[tool.category];
   return {
     "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
+    "@type": "WebApplication",
     name: tool.title,
     alternateName: tool.khmerTitle,
     description: toolDescription(tool),
@@ -62,13 +62,49 @@ export function toolJsonLd(tool: ToolDef) {
     applicationCategory: "UtilitiesApplication",
     applicationSubCategory: category.label,
     operatingSystem: "Web",
+    browserRequirements: "Requires a modern web browser",
     inLanguage: ["en", "km"],
     isAccessibleForFree: true,
+    featureList: tool.keywords.slice(0, 10),
     offers: {
       "@type": "Offer",
       price: "0",
       priceCurrency: "USD",
     },
+  };
+}
+
+/** Truthful per-tool FAQ (free, browser-only, bilingual UI). */
+export function toolFaqLd(tool: ToolDef) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: `Is ${tool.title} free to use?`,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: `Yes. ${tool.title} on 123 Toolbox is free and runs directly in your browser — no account or payment required.`,
+        },
+      },
+      {
+        "@type": "Question",
+        name: `Do I need to install anything to use ${tool.title}?`,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "No installation is required. It runs in a modern web browser and processes your input locally on your device.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: `Is ${tool.title} available in Khmer?`,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Yes. The 123 Toolbox interface supports English, Khmer, and a bilingual English–Khmer mode.",
+        },
+      },
+    ],
   };
 }
 

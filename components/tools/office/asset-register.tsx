@@ -5,6 +5,7 @@ import { CopyButton } from "@/components/CopyButton";
 import { useLanguage } from "@/components/LanguageProvider";
 import { Button, Output } from "@/components/ui/Output";
 import { Select, TextInput, ToolShell } from "@/components/ui/Shell";
+import { recordExport } from "@/lib/export";
 
 type AssetStatus = "in-use" | "available" | "maintenance" | "retired";
 type Asset = {
@@ -39,6 +40,7 @@ function downloadCsv(content: string) {
   link.download = "asset-register.csv";
   link.click();
   setTimeout(() => URL.revokeObjectURL(url), 0);
+  recordExport();
 }
 
 type EditableAsset = Omit<Asset, "id">;

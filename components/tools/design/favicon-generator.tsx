@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Download } from "lucide-react";
 import { ToolShell } from "@/components/ui/Shell";
 import { Output, Button } from "@/components/ui/Output";
+import { recordExport } from "@/lib/export";
 
 const SIZES = [
   { size: 16, name: "favicon-16x16.png", label: "Browser tab (16×16)" },
@@ -100,6 +101,7 @@ export default function FaviconGeneratorTool() {
     a.download = "favicons.zip";
     a.click();
     URL.revokeObjectURL(url);
+    recordExport();
   }
 
   return (

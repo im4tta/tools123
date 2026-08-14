@@ -24,7 +24,13 @@ export function proxy(request: NextRequest) {
 
   // First visit to the home page: geo-detect and redirect to the best locale.
   if (pathname === "/" && !request.cookies.has(LOCALE_COOKIE)) {
-    const country = request.headers.get("x-vercel-ip-country")?.trim().toUpperCase();
+    // IP-based country detection — no browser permission prompt.
+    // Vercel provides `x-vercel-ip-country`; Cloudflare provides `CF-IPCountry`.
+    // Fall back to English when no header is present (self-hosted / dev).
+    const country =
+      (request.headers.get("x-vercel-ip-country") ?? request.headers.get("cf-ipcountry") ?? "")
+        .trim()
+        .toUpperCase();
     // Cambodia → Khmer, otherwise English.
     const locale = country === "KH" ? "km" : "en";
     const url = request.nextUrl.clone();

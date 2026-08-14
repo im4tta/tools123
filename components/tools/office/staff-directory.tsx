@@ -4,6 +4,7 @@ import { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import { useLanguage } from "@/components/LanguageProvider";
 import { Button } from "@/components/ui/Output";
 import { Field, TextInput, ToolShell } from "@/components/ui/Shell";
+import { recordExport } from "@/lib/export";
 
 type StaffRecord = {
   key: number;
@@ -35,6 +36,7 @@ function downloadCsv(records: StaffRecord[]) {
   link.download = "staff-directory.csv";
   link.click();
   setTimeout(() => URL.revokeObjectURL(url), 0);
+  recordExport();
 }
 
 export default function StaffDirectory() {

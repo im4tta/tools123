@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { useLanguage } from "@/components/LanguageProvider";
 import { Button, Output } from "@/components/ui/Output";
 import { Field, TextArea, TextInput, ToolShell } from "@/components/ui/Shell";
+import { recordExport } from "@/lib/export";
 
 type Status =
   | "approved"
@@ -31,6 +32,7 @@ function downloadText(content: string, filename: string) {
   link.download = filename;
   link.click();
   setTimeout(() => URL.revokeObjectURL(url), 0);
+  recordExport();
 }
 
 export default function RfaGenerator() {

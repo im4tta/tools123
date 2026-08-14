@@ -5,6 +5,7 @@ import { ToolShell, Field, Select, Row } from "@/components/ui/Shell";
 import { Button } from "@/components/ui/Output";
 import { loadPdfJs } from "@/lib/pdfjs";
 import { useToolState } from "@/lib/storage";
+import { recordExport } from "@/lib/export";
 
 interface PageImg {
   page: number;
@@ -68,6 +69,7 @@ export default function PdfToImagesTool() {
     a.download = "pdf-pages.zip";
     a.click();
     URL.revokeObjectURL(url);
+    recordExport();
   }
 
   return (
