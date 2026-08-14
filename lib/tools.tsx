@@ -310,6 +310,7 @@ export const TOOLS: ToolDef[] = [
   { id: "gcd-lcm", title: "GCD & LCM Calculator", category: "math", keywords: ["gcd", "lcm", "greatest common divisor"], Component: load("math", "gcd-lcm") },
   { id: "prime-checker", title: "Prime Number Checker & Factorizer", category: "math", keywords: ["prime", "factorize", "factors"], Component: load("math", "prime-checker") },
   { id: "fibonacci-generator", title: "Fibonacci Sequence Generator", category: "math", keywords: ["fibonacci", "sequence"], Component: load("math", "fibonacci-generator") },
+  { id: "number-to-words", title: "Number to Words", khmerTitle: "លេខទៅជាពាក្យ", addedOn: "2026-08-14T14:40:00+07:00", category: "math", keywords: ["number to words", "spell out", "english words", "integer", "លេខ", "ពាក្យ"], Component: load("math", "number-to-words") },
   { id: "quadratic-solver", title: "Quadratic Equation Solver", category: "math", keywords: ["quadratic", "roots", "discriminant"], Component: load("math", "quadratic-solver") },
   { id: "statistics-calculator", title: "Mean / Median / Mode / StdDev Calculator", category: "math", keywords: ["statistics", "mean", "median", "mode"], Component: load("math", "statistics-calculator") },
   { id: "matrix-calculator", title: "Matrix Determinant", category: "math", keywords: ["matrix", "determinant"], Component: load("math", "matrix-calculator") },
@@ -397,6 +398,8 @@ export const TOOLS: ToolDef[] = [
   { id: "moon-phase-calculator", title: "Moon Phase Calculator", category: "time", keywords: ["moon phase", "lunar"], Component: load("time", "moon-phase-calculator") },
   { id: "duration-calculator", title: "Duration Adder / Subtractor", category: "time", keywords: ["duration", "add time", "timesheet"], Component: load("time", "duration-calculator") },
   { id: "shift-duration", title: "Shift Duration Calculator", category: "time", keywords: ["shift", "overnight", "work hours"], Component: load("time", "shift-duration") },
+  { id: "world-clock", title: "World Clock", khmerTitle: "នាឡិកាពិភពលោក", addedOn: "2026-08-14T14:30:00+07:00", category: "time", keywords: ["world clock", "timezone", "cities", "live time", "utc", "international", "clock", "នាឡិកា", "ពិភពលោក", "ម៉ោង"], Component: load("time", "world-clock") },
+  { id: "leap-year-checker", title: "Leap Year Checker", khmerTitle: "ពិនិត្យឆ្នាំបង្គ្រប់", addedOn: "2026-08-14T14:35:00+07:00", category: "time", keywords: ["leap year", "calendar", "year", "february", "ឆ្នាំបង្គ្រប់", "ឆ្នាំ"], Component: load("time", "leap-year-checker") },
 
   // ---- Documents (8) ----
   { id: "currency-to-words", title: "Currency Amount to Words", category: "office", keywords: ["cheque", "invoice", "amount", "spell out"], Component: load("office", "currency-to-words") },
