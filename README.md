@@ -7,14 +7,29 @@
   <p><strong>ឧបករណ៍អនឡាញឥតគិតថ្លៃសម្រាប់ PDF រូបភាព អ្នកអភិវឌ្ឍន៍ កម្ពុជា និងភាសាខ្មែរ។</strong></p>
   <p>
     <a href="https://github.com/im4tta/tools123"><img alt="GitHub repository" src="https://img.shields.io/badge/GitHub-im4tta%2Ftools123-181717?logo=github" /></a>
-    <a href="https://imeta.asia"><img alt="Website" src="https://img.shields.io/badge/Website-imeta.asia-c9a24b" /></a>
+    <a href="https://123tool.app"><img alt="Website" src="https://img.shields.io/badge/Website-123tool.app-c9a24b" /></a>
     <a href="https://t.me/tmeta9"><img alt="Telegram contact" src="https://img.shields.io/badge/Telegram-Report_or_request-26A5E4?logo=telegram&logoColor=white" /></a>
+    <a href="https://buymeacoffee.com/thebmeta"><img alt="Sponsor on Buy Me a Coffee" src="https://img.shields.io/badge/Sponsor-Support_this_project-FF813F?logo=buymeacoffee&logoColor=white" /></a>
     <img alt="Next.js 16" src="https://img.shields.io/badge/Next.js-16-black?logo=next.js" />
     <img alt="React 19" src="https://img.shields.io/badge/React-19-149ECA?logo=react" />
   </p>
 </div>
 
 ---
+
+## Sponsors
+
+123 Toolbox is free and open source. If the tools save you time, a small sponsorship helps cover hosting, domains, and development — and every supporter is sincerely appreciated.
+
+១២៣ Toolbox គឺឥតគិតថ្លៃ និងបើកចំហ។ ប្រសិនបើឧបករណ៍ទាំងនេះជួយសន្សំសំចៃពេលវេលារបស់អ្នក ការឧបត្ថម្ភតូចមួយជួយទ្រទ្រង់ការបង្ហោះ ដែន និងការអភិវឌ្ឍ — ហើយយើងសូមអរគុណយ៉ាងជ្រាលជ្រៅចំពោះអ្នកគាំទ្រគ្រប់រូប។
+
+**🙏 Thank you / សូមអរគុណ** to every person who has supported this project — your contribution keeps these tools running and growing.
+
+👉 **[Buy Me a Coffee](https://buymeacoffee.com/thebmeta)** • **[ឧបត្ថម្ភតាម Buy Me a Coffee](https://buymeacoffee.com/thebmeta)**
+
+For supporters in Cambodia, you can also pay directly to the ABA account **103456789** (ABA QR code shown on the site footer). / សម្រាប់អ្នកគាំទ្រនៅកម្ពុជា អ្នកក៏អាចផ្ទេរដោយផ្ទាល់ទៅគណនី ABA **១០៣៤៥៦៧៨៩** (កូដ QR របស់ ABA បង្ហាញនៅលើបាតទំព័រ)។
+
+
 
 ## Overview
 
@@ -214,7 +229,7 @@ If a credit is missing or inaccurate, please report it through **[Telegram](http
 
 - **Report a broken or inaccurate tool:** [t.me/tmeta9](https://t.me/tmeta9)
 - **Request a new tool:** [t.me/tmeta9](https://t.me/tmeta9)
-- **Website:** [imeta.asia](https://imeta.asia)
+- **Website:** [123tool.app](https://123tool.app)
 - **GitHub profile:** [github.com/im4tta](https://github.com/im4tta)
 - **Repository:** [github.com/im4tta/tools123](https://github.com/im4tta/tools123)
 

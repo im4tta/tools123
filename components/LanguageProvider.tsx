@@ -17,8 +17,26 @@ const LanguageContext = createContext<LanguageContextValue>({
   text: (en, km) => `${en} / ${km}`,
 });
 
+function readLocaleCookie(): LanguageMode | null {
+  if (typeof document === "undefined") return null;
+  const match = document.cookie.split(";").map((c) => c.trim()).find((c) => c.startsWith("tb-locale="));
+  if (!match) return null;
+  const value = match.slice("tb-locale=".length);
+  return value === "en" || value === "km" ? value : null;
+}
+
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const { value: mode, setValue: setMode } = useLocalStorage<LanguageMode>(STORAGE_KEYS.language, "bi");
+  useEffect(() => {
+    // If the user has never chosen a language, honour the geo-routed locale.
+    if (typeof window !== "undefined" && window.localStorage.getItem("toolbox123:language") === null) {
+      const cookieLocale = readLocaleCookie();
+      if (cookieLocale) {
+        setMode(cookieLocale);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   useEffect(() => {
     document.documentElement.lang = mode === "km" ? "km" : "en";
     document.documentElement.dataset.language = mode;
