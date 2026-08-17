@@ -76,10 +76,22 @@ export function toolJsonLd(tool: ToolDef) {
 
 /** Truthful per-tool FAQ (free, browser-only, bilingual UI). */
 export function toolFaqLd(tool: ToolDef) {
+  const what = toolWhatItDoes(tool);
+  const how = toolHowToUse(tool);
   return {
     "@context": "https://schema.org",
     "@type": "FAQPage",
     mainEntity: [
+      {
+        "@type": "Question",
+        name: `What does ${tool.title} do?`,
+        acceptedAnswer: { "@type": "Answer", text: what.en },
+      },
+      {
+        "@type": "Question",
+        name: `How do I use ${tool.title}?`,
+        acceptedAnswer: { "@type": "Answer", text: how.en.join(" ") },
+      },
       {
         "@type": "Question",
         name: `Is ${tool.title} free to use?`,
@@ -104,6 +116,43 @@ export function toolFaqLd(tool: ToolDef) {
           text: "Yes. The 123 Toolbox interface supports English, Khmer, and a bilingual English–Khmer mode.",
         },
       },
+    ],
+  };
+}
+
+/** "What does this tool do?" — bilingual description. */
+export function toolWhatItDoes(tool: ToolDef): { en: string; km: string } {
+  const blurb = TOOL_BLURBS[tool.id];
+  if (blurb) return { en: blurb.en, km: blurb.km };
+  const category = CATEGORY_META[tool.category];
+  const khmerTitle = tool.khmerTitle ?? tool.title;
+  return {
+    en: `${tool.title} is a free ${category.label.toLowerCase()} tool that runs directly in your browser.`,
+    km: `${khmerTitle} គឺជាឧបករណ៍${category.khmer}ឥតគិតថ្លៃ ដែលដំណើរការដោយផ្ទាល់ក្នុងកម្មវិធីរុករករបស់អ្នក។`,
+  };
+}
+
+/** "How do I use this tool?" — specific steps when known, otherwise generic. */
+export function toolHowToUse(tool: ToolDef): { en: string[]; km: string[] } {
+  const specific = HOWTO_TOOLS[tool.id];
+  if (specific) {
+    return {
+      en: specific,
+      km: specific,
+    };
+  }
+  return {
+    en: [
+      "Open the tool.",
+      "Enter or paste your input.",
+      "View the result instantly.",
+      "Copy or download the output if needed.",
+    ],
+    km: [
+      "បើកឧបករណ៍។",
+      "បញ្ចូល ឬបិទភ្ជាប់ទិន្នន័យរបស់អ្នក។",
+      "មើលលទ្ធផលភ្លាមៗ។",
+      "ចម្លង ឬទាញយកលទ្ធផលបើចាំបាច់។",
     ],
   };
 }

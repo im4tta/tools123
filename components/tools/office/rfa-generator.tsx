@@ -35,6 +35,19 @@ function downloadText(content: string, filename: string) {
   recordExport();
 }
 
+function downloadPdfBlob(bytes: Uint8Array, filename: string) {
+  const blob = new Blob([bytes as BlobPart], { type: "application/pdf" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  recordExport();
+}
+
 export default function RfaGenerator() {
   const { text } = useLanguage();
   const [meta, setMeta] = useState({
@@ -61,6 +74,121 @@ export default function RfaGenerator() {
     if (!found) return "—";
     return text(found.en, found.km) + (status === "other" && otherIssue.trim() ? `: ${otherIssue.trim()}` : "");
   }, [status, otherIssue, text]);
+
+  const [exporting, setExporting] = useState(false);
+
+  const downloadPdf = async () => {
+    const { PDFDocument, StandardFonts, rgb } = await import("pdf-lib");
+    setExporting(true);
+    try {
+      const pdf = await PDFDocument.create();
+      const page = pdf.addPage([595.28, 841.89]);
+      const font = await pdf.embedFont(StandardFonts.Helvetica);
+      const bold = await pdf.embedFont(StandardFonts.HelveticaBold);
+      const margin = 50;
+      const right = 595.28 - margin;
+      const contentW = right - margin;
+      const ink = rgb(0.15, 0.16, 0.17);
+      const dim = rgb(0.45, 0.46, 0.48);
+      const gold = rgb(0.78, 0.62, 0.2);
+      const lineC = rgb(0.85, 0.86, 0.87);
+
+      let y = 841.89 - margin;
+
+      const wrap = (s: string, size: number, maxW: number) => {
+        const words = s.split(/\s+/);
+        const lines: string[] = [];
+        let cur = "";
+        for (const word of words) {
+          const test = cur ? cur + " " + word : word;
+          if (font.widthOfTextAtSize(test, size) > maxW && cur) {
+            lines.push(cur);
+            cur = word;
+          } else {
+            cur = test;
+          }
+        }
+        if (cur) lines.push(cur);
+        return lines;
+      };
+
+      const section = (title: string) => {
+        page.drawText(title, { x: margin, y, size: 11, font: bold, color: ink });
+        y -= 4;
+        page.drawLine({ start: { x: margin, y }, end: { x: right, y }, thickness: 1.2, color: gold });
+        y -= 16;
+      };
+
+      const field = (label: string, value: string) => {
+        page.drawText(label, { x: margin, y, size: 9, font: bold, color: dim });
+        const lines = wrap(value, 10, contentW - 150);
+        const lx = margin + 150;
+        lines.forEach((l, i) => page.drawText(l, { x: lx, y: y - i * 13, size: 10, font, color: ink }));
+        y -= Math.max(1, lines.length) * 13 + 4;
+      };
+
+      const para = (title: string, value: string, size = 10) => {
+        section(title);
+        const lines = wrap(value || "—", size, contentW);
+        lines.forEach((l, i) => page.drawText(l, { x: margin, y: y - i * (size + 3), size, font, color: ink }));
+        y -= lines.length * (size + 3) + 14;
+      };
+
+      page.drawText("REQUEST FOR APPROVAL", { x: margin, y, size: 18, font: bold, color: ink });
+      y -= 6;
+      page.drawText("(RFA)", { x: margin, y, size: 12, font, color: dim });
+      page.drawText(`Ref: ${meta.referenceNo.trim() || "—"}`, { x: right - font.widthOfTextAtSize(`Ref: ${meta.referenceNo.trim() || "—"}`, 10), y: 841.89 - margin - 6, size: 10, font, color: dim });
+      y -= 28;
+
+      section("DETAILS");
+      field("Contractor", meta.contractor.trim() || "—");
+      field("Contract Package No.", meta.contractPkgNo.trim() || "—");
+      field("To", meta.toParty.trim() || "—");
+      field("Date Submitted", meta.dateSubmitted || "—");
+      field("Received Date", meta.receivedDate || "—");
+      field("Re-Submitted", meta.resubmitted ? "Yes" : "No");
+      field("Submittal Revision", meta.submittalRevision.trim() || "—");
+      y -= 6;
+
+      para("SUBJECT OF SUBMISSION", subject.trim() || "—");
+      para("ENGINEER'S COMMENTS", comments.trim() || "—");
+
+      section("SUBMITTAL / COMMENTS STATUS");
+      const stLines = wrap(statusLabel, 11, contentW - 24);
+      const boxH = Math.max(24, stLines.length * 15 + 10);
+      page.drawRectangle({ x: margin, y: y - boxH, width: contentW, height: boxH, color: rgb(0.98, 0.96, 0.9) });
+      stLines.forEach((l, i) => page.drawText(l, { x: margin + 12, y: y - 16 - i * 15, size: 11, font: bold, color: gold }));
+      y -= boxH + 20;
+
+      section("SIGN-OFF");
+      const colW = (contentW - 20) / 2;
+      const leftCol = margin;
+      const rightCol = margin + colW + 20;
+      const signoff = [
+        { title: "Engineer, hand over", name: engineerName, date: engineerDate },
+        { title: "Contractor received", name: contractorName, date: contractorDate },
+      ];
+      signoff.forEach((s, i) => {
+        const x = i === 0 ? leftCol : rightCol;
+        page.drawText(s.title, { x, y, size: 10, font: bold, color: dim });
+        page.drawLine({ start: { x, y: y - 34 }, end: { x: x + colW, y: y - 34 }, thickness: 0.8, color: lineC });
+        page.drawText(`${s.name.trim() || "—"}`, { x, y: y - 46, size: 10, font, color: ink });
+        page.drawText(`Date: ${s.date || "—"}`, { x, y: y - 60, size: 10, font, color: ink });
+      });
+      y -= 76;
+
+      const note =
+        "Note: The content of this approval does not relieve the Contractor from any of its obligations toward the works as per the drawings and specifications of the contract.";
+      const nLines = wrap(note, 8.5, contentW);
+      nLines.forEach((l, i) => page.drawText(l, { x: margin, y: y - i * 12, size: 8.5, font, color: dim }));
+      y -= nLines.length * 12;
+
+      const bytes = await pdf.save();
+      downloadPdfBlob(bytes, `rfa-${meta.referenceNo || meta.dateSubmitted || "form"}.pdf`);
+    } finally {
+      setExporting(false);
+    }
+  };
 
   const output = useMemo(() => {
     const line = "─".repeat(52);
@@ -193,8 +321,11 @@ export default function RfaGenerator() {
         <Button type="button" onClick={() => downloadText(output, `rfa-${meta.referenceNo || meta.dateSubmitted || "form"}.txt`)}>
           {text("Download text", "ទាញយកអត្ថបទ")}
         </Button>
+        <Button type="button" onClick={() => void downloadPdf()} disabled={exporting}>
+          {text(exporting ? "Generating…" : "Download PDF", exporting ? "កំពុងបង្កើត…" : "ទាញយក PDF")}
+        </Button>
         <Button type="button" onClick={() => window.print()}>
-          {text("Print / PDF", "បោះពុម្ព / PDF")}
+          {text("Print", "បោះពុម្ព")}
         </Button>
       </div>
       <div id="rfa-preview">
