@@ -43,6 +43,135 @@ export default function InvoiceGenerator() {
       ? `$${n.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
       : `${Math.round(n).toLocaleString("en-US")} ៛`;
 
+  const fmtPdf = (n: number) =>
+    currency === "usd"
+      ? "$" + n.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+      : Math.round(n).toLocaleString("en-US") + " KHR";
+
+  const [exporting, setExporting] = useState(false);
+
+  const downloadPdf = async () => {
+    const { PDFDocument, StandardFonts, rgb } = await import("pdf-lib");
+    setExporting(true);
+    try {
+      const pdf = await PDFDocument.create();
+      const page = pdf.addPage([595.28, 841.89]);
+      const font = await pdf.embedFont(StandardFonts.Helvetica);
+      const bold = await pdf.embedFont(StandardFonts.HelveticaBold);
+      const W = 595.28;
+      const margin = 50;
+      const right = W - margin;
+      const ink = rgb(0.15, 0.16, 0.17);
+      const dim = rgb(0.45, 0.46, 0.48);
+      const gold = rgb(0.78, 0.62, 0.2);
+      const line = rgb(0.86, 0.87, 0.88);
+
+      let y = 841.89 - margin;
+
+      const wrapText = (text: string, size: number, maxWidth: number) => {
+        const words = text.split(/\s+/);
+        const lines: string[] = [];
+        let cur = "";
+        for (const word of words) {
+          const test = cur ? cur + " " + word : word;
+          if (font.widthOfTextAtSize(test, size) > maxWidth && cur) {
+            lines.push(cur);
+            cur = word;
+          } else {
+            cur = test;
+          }
+        }
+        if (cur) lines.push(cur);
+        return lines;
+      };
+
+      page.drawText(business || "Untitled Business", { x: margin, y, size: 20, font: bold, color: ink });
+      y -= 18;
+      if (taxId) {
+        page.drawText(`Tax ID: ${taxId}`, { x: margin, y, size: 10, font, color: dim });
+        y -= 14;
+      }
+      page.drawText("INVOICE", { x: right, y: 841.89 - margin + 8, size: 26, font: bold, color: gold });
+      page.drawText(`Invoice No.: ${invoiceNo}`, { x: right - font.widthOfTextAtSize(`Invoice No.: ${invoiceNo}`, 10), y: 841.89 - margin - 26, size: 10, font, color: dim });
+      page.drawText(`Date: ${date}`, { x: right - font.widthOfTextAtSize(`Date: ${date}`, 10), y: 841.89 - margin - 40, size: 10, font, color: dim });
+
+      page.drawLine({ start: { x: margin, y }, end: { x: right, y }, thickness: 1, color: line });
+      y -= 28;
+      page.drawText("BILL TO", { x: margin, y, size: 9, font: bold, color: dim });
+      y -= 15;
+      page.drawText(client || "-", { x: margin, y, size: 12, font: bold, color: ink });
+      y -= 40;
+
+      const colItem = margin;
+      const colQty = 300;
+      const colPrice = 360;
+      const colAmt = 445;
+      const colW = right - margin;
+      const headerY = y;
+
+      const cells: { x: number; label: string; align: "left" | "right" }[] = [
+        { x: colItem, label: "Item", align: "left" },
+        { x: colQty, label: "Qty", align: "left" },
+        { x: colPrice, label: "Unit Price", align: "right" },
+        { x: colAmt, label: "Amount", align: "right" },
+      ];
+
+      page.drawRectangle({ x: margin, y: headerY - 24, width: colW, height: 24, color: rgb(0.97, 0.95, 0.9) });
+      for (const c of cells) {
+        const cx = c.align === "right" ? c.x + 100 - font.widthOfTextAtSize(c.label, 9) : c.x;
+        page.drawText(c.label, { x: cx, y: headerY - 17, size: 9, font: bold, color: dim });
+      }
+      y = headerY - 24 - 8;
+
+      const empty = items.length === 0 || items.every((it) => !it.desc && !it.price);
+      if (empty) {
+        page.drawText("(no line items)", { x: margin, y, size: 10, font, color: dim });
+        y -= 24;
+      } else {
+        for (const it of items) {
+          if (!it.desc && !it.price) continue;
+          const amount = (Number(it.qty) || 0) * (Number(it.price) || 0);
+          const descLines = wrapText(it.desc || "-", 10, colQty - colItem - 12);
+          const rowH = Math.max(18, descLines.length * 12 + 4);
+          page.drawRectangle({ x: margin, y: y - rowH, width: colW, height: rowH, color: rgb(1, 1, 1) });
+          page.drawLine({ start: { x: margin, y: y - rowH }, end: { x: right, y: y - rowH }, thickness: 0.5, color: line });
+          descLines.forEach((l, i) => page.drawText(l, { x: colItem, y: y - 2 - i * 12, size: 10, font, color: ink }));
+          page.drawText(String(Number(it.qty) || 0), { x: colQty, y: y - 2, size: 10, font, color: ink });
+          page.drawText(fmtPdf(Number(it.price) || 0), { x: colPrice + 70 - font.widthOfTextAtSize(fmtPdf(Number(it.price) || 0), 10), y: y - 2, size: 10, font, color: ink });
+          page.drawText(fmtPdf(amount), { x: colAmt + 100 - font.widthOfTextAtSize(fmtPdf(amount), 10), y: y - 2, size: 10, font: bold, color: ink });
+          y -= rowH;
+        }
+      }
+
+      y -= 16;
+      const totals: { label: string; value: number; bold?: boolean; gold?: boolean }[] = [
+        { label: "Subtotal", value: calc.subtotal },
+      ];
+      if (vatOn === "true") totals.push({ label: "VAT (10%)", value: calc.vat });
+      totals.push({ label: "Total", value: calc.total, bold: true, gold: true });
+
+      for (const row of totals) {
+        const size = row.bold ? 12 : 10;
+        page.drawText(row.label, { x: colItem, y, size, font: row.bold ? bold : font, color: dim });
+        page.drawText(fmtPdf(row.value), { x: colAmt + 100 - font.widthOfTextAtSize(fmtPdf(row.value), size), y, size, font: row.bold ? bold : font, color: row.gold ? gold : ink });
+        y -= 16;
+      }
+
+      const bytes = await pdf.save();
+      const blob = new Blob([bytes as BlobPart], { type: "application/pdf" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `invoice-${invoiceNo || "untitled"}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    } finally {
+      setExporting(false);
+    }
+  };
+
   return (
     <ToolShell
       title="Invoice Generator"
@@ -164,10 +293,18 @@ export default function InvoiceGenerator() {
       <div className="mt-2 flex gap-2">
         <button
           type="button"
-          onClick={() => window.print()}
-          className="rounded-md bg-[var(--gold)] px-4 py-2 text-sm font-medium text-[var(--ground-base)] transition hover:opacity-90"
+          onClick={() => void downloadPdf()}
+          disabled={exporting}
+          className="rounded-md bg-[var(--gold)] px-4 py-2 text-sm font-medium text-[var(--ground-base)] transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
         >
-          {t("Print / Save PDF", "បោះពុម្ព / រក្សាទុក PDF")}
+          {exporting ? t("Generating…", "កំពុងបង្កើត…") : t("Download PDF", "ទាញយក PDF")}
+        </button>
+        <button
+          type="button"
+          onClick={() => window.print()}
+          className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-4 py-2 text-sm text-[var(--ink-dim)] transition hover:text-[var(--ink)]"
+        >
+          {t("Print", "បោះពុម្ព")}
         </button>
         <button
           type="button"

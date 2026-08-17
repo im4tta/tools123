@@ -84,6 +84,147 @@ export default function AdministrativeLetterBuilder() {
     }
   }
 
+  async function exportPdf() {
+    setExporting(true);
+    try {
+      await document.fonts.ready;
+      const probeMoul = document.createElement("span");
+      probeMoul.className = "font-moul";
+      probeMoul.style.cssText = "position:absolute;visibility:hidden";
+      const probeKhmer = document.createElement("span");
+      probeKhmer.className = "font-khmer";
+      probeKhmer.style.cssText = "position:absolute;visibility:hidden";
+      document.body.appendChild(probeMoul);
+      document.body.appendChild(probeKhmer);
+      const moulFamily = getComputedStyle(probeMoul).fontFamily;
+      const khmerFamily = getComputedStyle(probeKhmer).fontFamily;
+      document.body.removeChild(probeMoul);
+      document.body.removeChild(probeKhmer);
+      const moul = (size: number, weight = 400) => `${weight} ${size}px ${moulFamily}`;
+      const khmer = (size: number, weight = 400) => `${weight} ${size}px ${khmerFamily}`;
+      await Promise.all([
+        document.fonts.load(moul(52), "ព្រះរាជាណាចក្រកម្ពុជា ជាតិ សាសនា ព្រះមហាក្សត្រ"),
+        document.fonts.load(khmer(46), letter.body || "កម្មវត្ថុ"),
+      ]);
+
+      const W = 2480;
+      const H = 3508;
+      const canvas = document.createElement("canvas");
+      canvas.width = W;
+      canvas.height = H;
+      const ctx = canvas.getContext("2d")!;
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, W, H);
+      ctx.fillStyle = "#000000";
+
+      const marginX = 175;
+      const top = 210;
+      const contentW = W - marginX * 2;
+      let y = top;
+
+      const wrap = (textValue: string, font: string, size: number, maxW: number): string[] => {
+        const words = textValue.split(/\s+/).filter(Boolean);
+        const lines: string[] = [];
+        let cur = "";
+        const pushWord = (word: string) => {
+          ctx.font = font;
+          while (ctx.measureText(word).width > maxW && word.length > 1) {
+            let cut = word.length;
+            while (cut > 1 && ctx.measureText(word.slice(0, cut)).width > maxW) cut--;
+            if (cur) { lines.push(cur); cur = ""; }
+            lines.push(word.slice(0, cut));
+            word = word.slice(cut);
+          }
+          const test = cur ? cur + " " + word : word;
+          ctx.font = font;
+          if (cur && ctx.measureText(test).width > maxW) {
+            lines.push(cur);
+            cur = word;
+          } else {
+            cur = test;
+          }
+        };
+        for (const word of words) pushWord(word);
+        if (cur) lines.push(cur);
+        return lines;
+      };
+
+      const centerLine = (textValue: string, font: string, size: number, lineHeight: number) => {
+        ctx.font = font;
+        ctx.fillText(textValue, (W - ctx.measureText(textValue).width) / 2, y);
+        y += lineHeight;
+      };
+
+      if (letter.royalHeader) {
+        centerLine("ព្រះរាជាណាចក្រកម្ពុជា", moul(52), 52, 80);
+        centerLine("ជាតិ សាសនា ព្រះមហាក្សត្រ", moul(42), 42, 70);
+        ctx.fillRect(marginX + contentW / 2 - 130, y - 8, 260, 2);
+        y += 40;
+      }
+
+      ctx.font = moul(46);
+      ctx.textAlign = "center";
+      ctx.fillText(letter.sender || "—", W / 2, y);
+      ctx.textAlign = "left";
+      y += 80;
+
+      const bodyFont = khmer(42);
+      const bodyLh = 78;
+      const bodyLines: string[] = [];
+      bodyLines.push(`កម្មវត្ថុ៖ ${letter.subject || "—"}`);
+      if (letter.reference) bodyLines.push(`យោង៖ ${letter.reference}`);
+      y += 20;
+
+      const drawPara = (textValue: string, indent: boolean, align: "left" | "right" | "center" = "left") => {
+        const lines = wrap(textValue, bodyFont, 42, contentW);
+        lines.forEach((line, i) => {
+          ctx.font = bodyFont;
+          const x = align === "right" ? W - marginX - ctx.measureText(line).width : align === "center" ? (W - ctx.measureText(line).width) / 2 : marginX + (indent && i === 0 ? 84 : 0);
+          ctx.fillText(line, x, y);
+          y += bodyLh;
+        });
+      };
+
+      drawPara(`កម្មវត្ថុ៖ ${letter.subject || "—"}`, false);
+      if (letter.reference) drawPara(`យោង៖ ${letter.reference}`, false);
+      drawPara(`${letter.recipient} ${letter.honorific}`, false, "center");
+      y += 10;
+      drawPara(letter.body || "—", true);
+      y += 24;
+
+      const rightLines = [letter.location, ...dateLines];
+      rightLines.forEach((line) => {
+        ctx.font = bodyFont;
+        ctx.fillText(line, W - marginX - ctx.measureText(line).width, y);
+        y += bodyLh;
+      });
+      y += 70;
+
+      const colW = (contentW - 60) / 2;
+      const sigCols: { title: string; name: string }[] = letter.signatureMode === "witnesses"
+        ? [{ title: "សាក្សី", name: letter.witnesses || "________________" }, { title: letter.role || "អ្នកចុះហត្ថលេខា", name: "________________" }]
+        : [{ title: letter.role || "អ្នកចុះហត្ថលេខា", name: "________________" }];
+      sigCols.forEach((col, i) => {
+        const x = letter.signatureMode === "witnesses" ? marginX + i * (colW + 60) : W - marginX - colW;
+        ctx.font = bodyFont;
+        ctx.fillText(col.title, x, y);
+        y += 130;
+        ctx.fillText(col.name, x, y);
+        y -= 130 + bodyLh;
+      });
+
+      const { PDFDocument } = await import("pdf-lib");
+      const pdf = await PDFDocument.create();
+      const page = pdf.addPage([595.28, 841.89]);
+      const png = await pdf.embedPng(canvas.toDataURL("image/png"));
+      page.drawImage(png, { x: 0, y: 0, width: 595.28, height: 841.89 });
+      const bytes = await pdf.save();
+      downloadBlob(new Blob([bytes as BlobPart], { type: "application/pdf" }), `${templateId}-${letter.date || "letter"}.pdf`);
+    } finally {
+      setExporting(false);
+    }
+  }
+
   return (
     <ToolShell title="Khmer Administrative Letter Builder" khmerTitle="កម្មវិធីបង្កើតលិខិតរដ្ឋបាលខ្មែរ" description="Draft from 100 populated Khmer administrative templates with full solar/lunar dates, Cambodia province selection, responsive A4 preview, and genuine Microsoft Word export." descriptionKm="ព្រាងលិខិតរដ្ឋបាលខ្មែរពីគំរូពេញលេញ ១០០ ជាមួយកាលបរិច្ឆេទសុរិយគតិ/ចន្ទគតិពេញលេញ ជម្រើសខេត្ត-រាជធានី ទិដ្ឋភាព A4 និងការនាំចេញ Microsoft Word ពិតប្រាកដ។">
       <div className="rounded-md border border-amber-500/40 bg-amber-500/10 p-3 text-sm text-[var(--ink-dim)]">{text("Templates are drafting aids, not official forms. Verify legal, protocol, date, address, and organization-specific wording before use. Word uses Moul and Kantumruy Pro font names; install those fonts on the receiving computer for closest rendering.", "គំរូទាំងនេះជាជំនួយសម្រាប់ព្រាង មិនមែនទម្រង់ផ្លូវការទេ។ សូមផ្ទៀងផ្ទាត់ផ្លូវច្បាប់ ពិធីការ កាលបរិច្ឆេទ អាសយដ្ឋាន និងពាក្យរបស់ស្ថាប័ន មុនប្រើប្រាស់។ ឯកសារ Word ប្រើឈ្មោះពុម្ពអក្សរ Moul និង Kantumruy Pro; សូមដំឡើងពុម្ពអក្សរទាំងនេះលើកុំព្យូទ័រអ្នកទទួល ដើម្បីបង្ហាញបានជិតបំផុត។")}</div>
@@ -101,7 +242,7 @@ export default function AdministrativeLetterBuilder() {
           <Row><Field label="Gregorian date" labelKm="កាលបរិច្ឆេទសុរិយគតិ"><TextInput type="date" value={letter.date} onChange={(event) => update("date", event.target.value)} /></Field><Field label="Date display" labelKm="ការបង្ហាញកាលបរិច្ឆេទ"><Select value={letter.dateMode} onChange={(event) => update("dateMode", event.target.value as DateMode)}><option value="both">{text("Full solar + lunar", "សុរិយគតិ + ចន្ទគតិពេញលេញ")}</option><option value="solar">{text("Full solar only", "សុរិយគតិពេញលេញ")}</option><option value="lunar">{text("Full lunar only", "ចន្ទគតិពេញលេញ")}</option></Select></Field></Row>
           <Row><Field label="Signature layout" labelKm="ប្លង់ហត្ថលេខា"><Select value={letter.signatureMode} onChange={(event) => update("signatureMode", event.target.value as LetterState["signatureMode"])}><option value="single">{text("Single signer", "អ្នកចុះហត្ថលេខាម្នាក់")}</option><option value="witnesses">{text("Signer with witnesses", "អ្នកចុះហត្ថលេខា និងសាក្សី")}</option></Select></Field><label className="flex items-center gap-2 self-end rounded-md border border-[var(--ground-line)] p-3 text-sm text-[var(--ink)]"><input type="checkbox" checked={letter.royalHeader} onChange={(event) => update("royalHeader", event.target.checked)} />{text("Show royal header", "បង្ហាញបាវចនាជាតិ")}</label></Row>
           {letter.signatureMode === "witnesses" && <Field label="Witnesses" labelKm="សាក្សី"><TextInput value={letter.witnesses} onChange={(event) => update("witnesses", event.target.value)} /></Field>}
-          <div className="flex flex-wrap gap-2"><Button type="button" onClick={() => copyText(plainText)}>{text("Copy text", "ចម្លងអត្ថបទ")}</Button><Button type="button" onClick={() => downloadText(plainText)}>{text("Download text", "ទាញយកអត្ថបទ")}</Button><Button type="button" onClick={() => void exportWord()} disabled={exporting}>{text(exporting ? "Creating Word file…" : "Export Microsoft Word (.docx)", exporting ? "កំពុងបង្កើតឯកសារ Word…" : "នាំចេញ Microsoft Word (.docx)")}</Button><Button type="button" onClick={() => window.print()}>{text("Print A4", "បោះពុម្ព A4")}</Button></div>
+          <div className="flex flex-wrap gap-2"><Button type="button" onClick={() => copyText(plainText)}>{text("Copy text", "ចម្លងអត្ថបទ")}</Button><Button type="button" onClick={() => downloadText(plainText)}>{text("Download text", "ទាញយកអត្ថបទ")}</Button><Button type="button" onClick={() => void exportWord()} disabled={exporting}>{text(exporting ? "Creating Word file…" : "Export Microsoft Word (.docx)", exporting ? "កំពុងបង្កើតឯកសារ Word…" : "នាំចេញ Microsoft Word (.docx)")}</Button><Button type="button" onClick={() => void exportPdf()} disabled={exporting}>{text(exporting ? "Creating PDF…" : "Export PDF (.pdf)", exporting ? "កំពុងបង្កើត PDF…" : "នាំចេញ PDF (.pdf)")}</Button><Button type="button" onClick={() => window.print()}>{text("Print A4", "បោះពុម្ព A4")}</Button></div>
         </div>
         <div className="overflow-auto rounded-lg bg-neutral-400/20 p-2 sm:p-4">
           <article id="khmer-letter-preview" lang="km" className="mx-auto min-h-full aspect-[210/297] w-full max-w-[48rem] bg-white px-[7%] py-[6%] text-black shadow-xl">
