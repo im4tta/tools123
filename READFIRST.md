@@ -79,6 +79,7 @@ The UI should expose this through a localized `Source & Credits` section wheneve
 - Add an `addedOn` timestamp for new tools so the homepage latest-tools section and changelog can find it.
 - Add English `title` and Khmer `khmerTitle`.
 - Add English and Khmer descriptions when the tool has custom explanatory text.
+- Every tool page shows a FAQ section ("What does this tool do?", "How do I use it?", plus the standard free/install/Khmer questions). Add a truthful bilingual "what it does" blurb to `lib/seo.ts` (`TOOL_BLURBS` / `toolWhatItDoes`) and, where steps are well-defined, a "how to use" step list to `HOWTO_TOOLS` so the FAQ and `FAQPage`/`HowTo` structured data are accurate for that tool.
 - Add useful English and Khmer keywords so homepage search, Universal Input, and workspaces can find it.
 - Verify the tool appears in the correct workspace when applicable.
 - Use persisted state through the existing storage helpers when state should survive navigation.

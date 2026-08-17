@@ -171,6 +171,8 @@ export const TOOLS: ToolDef[] = [
   { id: "jsonl-validator", title: "JSONL Validator", khmerTitle: "ផ្ទៀងផ្ទាត់ JSONL", addedOn: "2026-08-04T11:10:00+07:00", category: "dev", keywords: ["jsonl", "json lines", "validate", "logs"], Component: load("dev", "jsonl-validator") },
   { id: "sql-formatter", title: "SQL Formatter", khmerTitle: "រៀបចំទម្រង់ SQL", addedOn: "2026-08-17T15:05:00+07:00", category: "dev", keywords: ["sql", "format", "beautify", "query", "database", "pretty", "sql formatter"], Component: load("dev", "sql-formatter") },
   { id: "json-xml-converter", title: "JSON ↔ XML Converter", khmerTitle: "បម្លែង JSON ↔ XML", addedOn: "2026-08-17T15:10:00+07:00", category: "dev", keywords: ["json", "xml", "convert", "data interchange"], Component: load("dev", "json-xml-converter") },
+  { id: "markdown-to-html", title: "Markdown → HTML", khmerTitle: "បម្លែង Markdown → HTML", addedOn: "2026-08-17T17:00:00+07:00", category: "dev", keywords: ["markdown", "html", "convert", "embed", "md", "blog"], Component: load("dev", "markdown-to-html") },
+  { id: "html-formatter", title: "HTML Formatter", khmerTitle: "រៀបចំទម្រង់ HTML", addedOn: "2026-08-17T17:05:00+07:00", category: "dev", keywords: ["html", "format", "beautify", "indent", "pretty", "minify"], Component: load("dev", "html-formatter") },
   { id: "ai-token-counter", title: "AI Token Counter", khmerTitle: "រាប់ Token AI", addedOn: "2026-08-04T11:15:00+07:00", category: "dev", keywords: ["token", "llm", "ai", "context window", "prompt"], Component: load("dev", "ai-token-counter") },
   { id: "word-counter", title: "Word & Character Counter", category: "dev", keywords: ["word count", "character count"], Component: load("dev", "word-counter") },
   { id: "lorem-ipsum", title: "Placeholder Text Generator", category: "dev", keywords: ["lorem ipsum", "filler", "placeholder"], Component: load("dev", "lorem-ipsum") },
@@ -309,6 +311,7 @@ export const TOOLS: ToolDef[] = [
   { id: "word-scrambler", title: "Word Scrambler", khmerTitle: "លាយអក្សរ", addedOn: "2026-08-17T16:00:00+07:00", category: "text", keywords: ["scramble", "anagram", "shuffle letters", "word jumble", "លាយអក្សរ", "អក្សរ"], Component: load("text", "word-scrambler") },
   { id: "text-to-emoji", title: "Text to Emoji", khmerTitle: "បំប្លែងអត្ថបទទៅជា Emoji", addedOn: "2026-08-17T16:05:00+07:00", category: "text", keywords: ["emoji", "text to emoji", "emojify", "translate", "emoji", "អ៊ីម៉ូជី"], Component: load("text", "text-to-emoji") },
   { id: "leetspeak", title: "Leetspeak Converter", khmerTitle: "បំប្លែង Leetspeak", addedOn: "2026-08-17T16:35:00+07:00", category: "text", keywords: ["leetspeak", "leet", "1337", "hacker", "gamer", "text"], Component: load("text", "leetspeak") },
+  { id: "smart-quotes", title: "Smart Quotes Converter", khmerTitle: "បម្លែងសញ្ញាសម្រង់", addedOn: "2026-08-17T17:10:00+07:00", category: "text", keywords: ["smart quotes", "curly quotes", "typography", "straight quotes", "unicode", "សញ្ញាសម្រង់"], Component: load("text", "smart-quotes") },
 
   // ---- Math (17) ----
   { id: "percentage-calculator", title: "Percentage Calculator", category: "math", keywords: ["percent", "percentage"], Component: load("math", "percentage-calculator") },
@@ -390,6 +393,7 @@ export const TOOLS: ToolDef[] = [
   { id: "golden-ratio-calculator", title: "Golden Ratio Calculator", category: "design", keywords: ["golden ratio", "phi", "proportion"], Component: load("design", "golden-ratio-calculator") },
   { id: "color-name-finder", title: "Nearest CSS Color Name Finder", category: "design", keywords: ["color name", "css colors", "nearest"], Component: load("design", "color-name-finder") },
   { id: "vector-drawable-to-svg", title: "VectorDrawable → SVG", category: "design", keywords: ["android", "vector drawable", "svg", "icon convert"], Component: load("design", "vector-drawable-to-svg") },
+  { id: "color-mixer", title: "Color Mixer", khmerTitle: "លាយពណ៌", addedOn: "2026-08-17T17:15:00+07:00", category: "design", keywords: ["color mix", "blend", "gradient", "mix colors", "blend colors", "ពណ៌", "លាយ"], Component: load("design", "color-mixer") },
   { id: "color-harmony", title: "Color Harmony Generator", khmerTitle: "បង្កើតពណ៌ដែលចុះសម្រុងគ្នា", addedOn: "2026-08-17T16:40:00+07:00", category: "design", keywords: ["color harmony", "complementary", "analogous", "triadic", "palette", "color scheme", "ពណ៌", "ចុះសម្រុង"], Component: load("design", "color-harmony") },
   { id: "color-blindness-simulator", title: "Color Blindness Simulator", khmerTitle: "កម្មវិធីក្លែងធ្វើភាពពិការពណ៌", addedOn: "2026-08-17T15:15:00+07:00", category: "design", keywords: ["color blindness", "protanopia", "deuteranopia", "tritanopia", "accessibility", "cvd", "simulation", "ពិការពណ៌", "ភាពពិការពណ៌"], Component: load("design", "color-blindness-simulator") },
 
@@ -488,6 +492,8 @@ export const TOOLS: ToolDef[] = [
   { id: "dice-roller", title: "Dice Roller", khmerTitle: "គ្រាប់ឡុកឡាក់", addedOn: "2026-08-17T16:10:00+07:00", category: "fun", keywords: ["dice", "roll", "d4", "d6", "d20", "rpg", "board game", "random", "ឡុកឡាក់", "គ្រវែង"], Component: load("fun", "dice-roller") },
   { id: "coin-flip", title: "Coin Flip", khmerTitle: "បោះកាក់", addedOn: "2026-08-17T16:15:00+07:00", category: "fun", keywords: ["coin", "flip", "heads", "tails", "toss", "random", "best of", "កាក់", "បោះ"], Component: load("fun", "coin-flip") },
   { id: "name-picker", title: "Random Name Picker", khmerTitle: "ជ្រើសរើសឈ្មោះចៃដន្យ", addedOn: "2026-08-17T16:20:00+07:00", category: "fun", keywords: ["random picker", "name picker", "winner", "decision", "raffle", "draw", "lucky", "ជ្រើសរើស", "ឈ្មោះ", "ចៃដន្យ", "អ្នកឈ្នះ"], Component: load("fun", "name-picker") },
+  { id: "emoji-lookup", title: "Emoji Meaning Lookup", khmerTitle: "ស្វែងរកអត្ថន័យ Emoji", addedOn: "2026-08-17T17:20:00+07:00", category: "fun", keywords: ["emoji", "meaning", "unicode name", "lookup", "symbol", "អ៊ីម៉ូជី", "អត្ថន័យ"], Component: load("fun", "emoji-lookup") },
+  { id: "random-quote", title: "Random Quote Generator", khmerTitle: "បង្កើតសម្រង់ពាក្យចៃដន្យ", addedOn: "2026-08-17T17:25:00+07:00", category: "fun", keywords: ["quote", "motivation", "inspiration", "random quote", "daily quote", "សម្រង់ពាក្យ", "លើកទឹកចិត្ត"], Component: load("fun", "random-quote") },
 
   // ---- Data-driven unit-pair converters (generated, Batch 1) ----
   ...UNIT_PAIR_TOOLS,

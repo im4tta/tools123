@@ -136,7 +136,7 @@ export function ToolRouteClient({ toolId }: { toolId: string }) {
         </div>
       </header>
       <div className="fade-rise"><ToolComponent /></div>
-      <ToolFaq title={tool.title} khmerTitle={tool.khmerTitle} />
+      <ToolFaq tool={tool} />
       {relatedTools.length > 0 && (
         <section className="mx-auto mt-10 max-w-6xl">
           <h2 className="font-display text-lg font-medium text-[var(--ink)]">{t("Next recommended tools", "ឧបករណ៍ណែនាំបន្ទាប់")}</h2>

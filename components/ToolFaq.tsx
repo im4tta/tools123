@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { useLanguage } from "@/components/LanguageProvider";
+import { toolHowToUse, toolWhatItDoes } from "@/lib/seo";
+import type { ToolDef } from "@/lib/tools";
 
 interface FaqItem {
   q: string;
@@ -11,9 +13,27 @@ interface FaqItem {
   aKm: string;
 }
 
-function faqItems(title: string, khmerTitle: string): FaqItem[] {
-  const name = khmerTitle || title;
-  return [
+export function ToolFaq({ tool }: { tool: ToolDef }) {
+  const { text } = useLanguage();
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
+  const title = tool.title;
+  const name = tool.khmerTitle ?? tool.title;
+  const what = toolWhatItDoes(tool);
+  const how = toolHowToUse(tool);
+
+  const items: FaqItem[] = [
+    {
+      q: `What does ${title} do?`,
+      qKm: `តើ ${name} ធ្វើអ្វី?`,
+      a: what.en,
+      aKm: what.km,
+    },
+    {
+      q: `How do I use ${title}?`,
+      qKm: `តើខ្ញុំប្រើ ${name} ដោយរបៀបណា?`,
+      a: how.en.join(" "),
+      aKm: how.km.join(" "),
+    },
     {
       q: `Is ${title} free to use?`,
       qKm: `តើ ${name} ឥតគិតថ្លៃទេ?`,
@@ -33,12 +53,6 @@ function faqItems(title: string, khmerTitle: string): FaqItem[] {
       aKm: "បាទ។ ចំណុចប្រទាក់របស់ 123 Toolbox គាំទ្រភាសាអង់គ្លេស ខ្មែរ និងរបៀបពីរភាសា អង់គ្លេស–ខ្មែរ។",
     },
   ];
-}
-
-export function ToolFaq({ title, khmerTitle }: { title: string; khmerTitle?: string }) {
-  const { text } = useLanguage();
-  const [openIndex, setOpenIndex] = useState<number | null>(0);
-  const items = faqItems(title, khmerTitle ?? title);
 
   return (
     <section className="mx-auto mt-10 max-w-6xl">
