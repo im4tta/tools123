@@ -55,18 +55,28 @@ export default function InvoiceGenerator() {
     setExporting(true);
     try {
       const pdf = await PDFDocument.create();
-      const page = pdf.addPage([595.28, 841.89]);
       const font = await pdf.embedFont(StandardFonts.Helvetica);
       const bold = await pdf.embedFont(StandardFonts.HelveticaBold);
       const W = 595.28;
-      const margin = 50;
+      const H = 841.89;
+      const margin = 55;
       const right = W - margin;
-      const ink = rgb(0.15, 0.16, 0.17);
-      const dim = rgb(0.45, 0.46, 0.48);
-      const gold = rgb(0.78, 0.62, 0.2);
-      const line = rgb(0.86, 0.87, 0.88);
+      const contentW = right - margin;
+      const ink = rgb(0.16, 0.17, 0.18);
+      const dim = rgb(0.42, 0.43, 0.45);
+      const gold = rgb(0.76, 0.6, 0.18);
+      const softLine = rgb(0.88, 0.89, 0.9);
+      const rowAlt = rgb(0.985, 0.985, 0.985);
 
-      let y = 841.89 - margin;
+      const tableX = {
+        item: margin,
+        qty: 295,
+        price: 345,
+        amount: 425,
+        end: right,
+      };
+      const padX = 8;
+      let y = H - margin;
 
       const wrapText = (text: string, size: number, maxWidth: number) => {
         const words = text.split(/\s+/);
@@ -85,77 +95,103 @@ export default function InvoiceGenerator() {
         return lines;
       };
 
-      page.drawText(business || "Untitled Business", { x: margin, y, size: 20, font: bold, color: ink });
-      y -= 18;
-      if (taxId) {
-        page.drawText(`Tax ID: ${taxId}`, { x: margin, y, size: 10, font, color: dim });
-        y -= 14;
-      }
-      page.drawText("INVOICE", { x: right, y: 841.89 - margin + 8, size: 26, font: bold, color: gold });
-      page.drawText(`Invoice No.: ${invoiceNo}`, { x: right - font.widthOfTextAtSize(`Invoice No.: ${invoiceNo}`, 10), y: 841.89 - margin - 26, size: 10, font, color: dim });
-      page.drawText(`Date: ${date}`, { x: right - font.widthOfTextAtSize(`Date: ${date}`, 10), y: 841.89 - margin - 40, size: 10, font, color: dim });
+      const newPage = () => {
+        const p = pdf.addPage([W, H]);
+        p.drawLine({ start: { x: margin, y: H - 88 }, end: { x: right, y: H - 88 }, thickness: 1.4, color: gold });
+        return p;
+      };
+      let page = pdf.addPage([W, H]);
 
-      page.drawLine({ start: { x: margin, y }, end: { x: right, y }, thickness: 1, color: line });
-      y -= 28;
+      // ---- Header ----
+      page.drawText(business || "Untitled Business", { x: margin, y: H - 78, size: 22, font: bold, color: ink });
+      if (taxId) page.drawText(`Tax ID: ${taxId}`, { x: margin, y: H - 95, size: 9.5, font, color: dim });
+      page.drawText("INVOICE", { x: right - font.widthOfTextAtSize("INVOICE", 28), y: H - 78, size: 28, font: bold, color: gold });
+      page.drawText(`Invoice No.: ${invoiceNo}`, { x: right - font.widthOfTextAtSize(`Invoice No.: ${invoiceNo}`, 9.5), y: H - 99, size: 9.5, font, color: dim });
+      page.drawText(`Date: ${date}`, { x: right - font.widthOfTextAtSize(`Date: ${date}`, 9.5), y: H - 112, size: 9.5, font, color: dim });
+      page.drawLine({ start: { x: margin, y: H - 120 }, end: { x: right, y: H - 120 }, thickness: 1.4, color: gold });
+      y = H - 152;
+
+      // ---- Bill to ----
       page.drawText("BILL TO", { x: margin, y, size: 9, font: bold, color: dim });
-      y -= 15;
-      page.drawText(client || "-", { x: margin, y, size: 12, font: bold, color: ink });
-      y -= 40;
+      page.drawText(client || "-", { x: margin, y: y - 17, size: 12.5, font: bold, color: ink });
+      y -= 44;
 
-      const colItem = margin;
-      const colQty = 300;
-      const colPrice = 360;
-      const colAmt = 445;
-      const colW = right - margin;
-      const headerY = y;
+      // ---- Items table ----
+      const headH = 26;
+      const drawHead = (p: typeof page) => {
+        p.drawRectangle({ x: margin, y: y - headH, width: contentW, height: headH, color: gold });
+        const heads = [
+          { x: tableX.item, label: "Item", align: "left" },
+          { x: tableX.qty, label: "Qty", align: "right" },
+          { x: tableX.price, label: "Unit Price", align: "right" },
+          { x: tableX.amount, label: "Amount", align: "right" },
+        ];
+        for (const h of heads) {
+          const rightEdge = h.x === tableX.item ? tableX.qty : h.x === tableX.qty ? tableX.price : h.x === tableX.price ? tableX.amount : tableX.end;
+          const hx = h.align === "right" ? rightEdge - padX - font.widthOfTextAtSize(h.label, 9.5) : h.x + padX;
+          p.drawText(h.label, { x: hx, y: y - 17, size: 9.5, font: bold, color: rgb(1, 1, 1) });
+        }
+        p.drawLine({ start: { x: margin, y: y - headH }, end: { x: right, y: y - headH }, thickness: 0.8, color: gold });
+      };
+      drawHead(page);
+      y -= headH + 4;
 
-      const cells: { x: number; label: string; align: "left" | "right" }[] = [
-        { x: colItem, label: "Item", align: "left" },
-        { x: colQty, label: "Qty", align: "left" },
-        { x: colPrice, label: "Unit Price", align: "right" },
-        { x: colAmt, label: "Amount", align: "right" },
-      ];
-
-      page.drawRectangle({ x: margin, y: headerY - 24, width: colW, height: 24, color: rgb(0.97, 0.95, 0.9) });
-      for (const c of cells) {
-        const cx = c.align === "right" ? c.x + 100 - font.widthOfTextAtSize(c.label, 9) : c.x;
-        page.drawText(c.label, { x: cx, y: headerY - 17, size: 9, font: bold, color: dim });
-      }
-      y = headerY - 24 - 8;
+      const vLines = (p: typeof page, topY: number, bottomY: number) => {
+        for (const x of [tableX.qty, tableX.price, tableX.amount]) {
+          p.drawLine({ start: { x, y: topY }, end: { x, y: bottomY }, thickness: 0.4, color: softLine });
+        }
+      };
 
       const empty = items.length === 0 || items.every((it) => !it.desc && !it.price);
-      if (empty) {
-        page.drawText("(no line items)", { x: margin, y, size: 10, font, color: dim });
-        y -= 24;
-      } else {
-        for (const it of items) {
-          if (!it.desc && !it.price) continue;
-          const amount = (Number(it.qty) || 0) * (Number(it.price) || 0);
-          const descLines = wrapText(it.desc || "-", 10, colQty - colItem - 12);
-          const rowH = Math.max(18, descLines.length * 12 + 4);
-          page.drawRectangle({ x: margin, y: y - rowH, width: colW, height: rowH, color: rgb(1, 1, 1) });
-          page.drawLine({ start: { x: margin, y: y - rowH }, end: { x: right, y: y - rowH }, thickness: 0.5, color: line });
-          descLines.forEach((l, i) => page.drawText(l, { x: colItem, y: y - 2 - i * 12, size: 10, font, color: ink }));
-          page.drawText(String(Number(it.qty) || 0), { x: colQty, y: y - 2, size: 10, font, color: ink });
-          page.drawText(fmtPdf(Number(it.price) || 0), { x: colPrice + 70 - font.widthOfTextAtSize(fmtPdf(Number(it.price) || 0), 10), y: y - 2, size: 10, font, color: ink });
-          page.drawText(fmtPdf(amount), { x: colAmt + 100 - font.widthOfTextAtSize(fmtPdf(amount), 10), y: y - 2, size: 10, font: bold, color: ink });
-          y -= rowH;
+      const rows = empty ? [] : items.filter((it) => it.desc || it.price);
+
+      for (let i = 0; i < rows.length; i++) {
+        const it = rows[i];
+        const amount = (Number(it.qty) || 0) * (Number(it.price) || 0);
+        const descLines = wrapText(it.desc || "-", 10, tableX.qty - tableX.item - padX * 2);
+        const rowH = Math.max(24, descLines.length * 12 + 10);
+
+        if (y - rowH < 120) {
+          page = newPage();
+          y = H - margin;
+          drawHead(page);
+          y -= headH + 4;
         }
+
+        const p = page;
+        if (i % 2 === 1) p.drawRectangle({ x: margin, y: y - rowH, width: contentW, height: rowH, color: rowAlt });
+        descLines.forEach((l, li) => p.drawText(l, { x: tableX.item + padX, y: y - 6 - li * 12, size: 10, font, color: ink }));
+        p.drawText(String(Number(it.qty) || 0), { x: tableX.price - padX - font.widthOfTextAtSize(String(Number(it.qty) || 0), 10), y: y - 6, size: 10, font, color: ink });
+        p.drawText(fmtPdf(Number(it.price) || 0), { x: tableX.amount - padX - font.widthOfTextAtSize(fmtPdf(Number(it.price) || 0), 10), y: y - 6, size: 10, font, color: ink });
+        p.drawText(fmtPdf(amount), { x: tableX.end - padX - font.widthOfTextAtSize(fmtPdf(amount), 10), y: y - 6, size: 10, font: bold, color: ink });
+        vLines(p, y, y - rowH);
+        p.drawLine({ start: { x: margin, y: y - rowH }, end: { x: right, y: y - rowH }, thickness: 0.5, color: softLine });
+        y -= rowH;
       }
 
-      y -= 16;
-      const totals: { label: string; value: number; bold?: boolean; gold?: boolean }[] = [
-        { label: "Subtotal", value: calc.subtotal },
+      if (empty) {
+        page.drawText("(no line items)", { x: margin + padX, y: y - 8, size: 10, font, color: dim });
+        y -= 24;
+      }
+
+      // ---- Totals ----
+      y -= 18;
+      const totals = [
+        { label: "Subtotal", value: calc.subtotal, strong: false },
       ];
-      if (vatOn === "true") totals.push({ label: "VAT (10%)", value: calc.vat });
-      totals.push({ label: "Total", value: calc.total, bold: true, gold: true });
+      if (vatOn === "true") totals.push({ label: "VAT (10%)", value: calc.vat, strong: false });
 
-      for (const row of totals) {
-        const size = row.bold ? 12 : 10;
-        page.drawText(row.label, { x: colItem, y, size, font: row.bold ? bold : font, color: dim });
-        page.drawText(fmtPdf(row.value), { x: colAmt + 100 - font.widthOfTextAtSize(fmtPdf(row.value), size), y, size, font: row.bold ? bold : font, color: row.gold ? gold : ink });
-        y -= 16;
+      const totRight = right - padX;
+      for (const t of totals) {
+        page.drawText(t.label, { x: tableX.amount, y, size: 10, font, color: dim });
+        page.drawText(fmtPdf(t.value), { x: totRight - font.widthOfTextAtSize(fmtPdf(t.value), 10), y, size: 10, font, color: ink });
+        y -= 17;
       }
+      y -= 4;
+      const totalH = 26;
+      page.drawRectangle({ x: tableX.amount, y: y - totalH, width: tableX.end - tableX.amount, height: totalH, color: gold });
+      page.drawText("Total", { x: tableX.amount + padX, y: y - totalH / 2 - 4, size: 12, font: bold, color: rgb(1, 1, 1) });
+      page.drawText(fmtPdf(calc.total), { x: totRight - font.widthOfTextAtSize(fmtPdf(calc.total), 12), y: y - totalH / 2 - 4, size: 12, font: bold, color: rgb(1, 1, 1) });
 
       const bytes = await pdf.save();
       const blob = new Blob([bytes as BlobPart], { type: "application/pdf" });
