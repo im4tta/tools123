@@ -308,6 +308,7 @@ export const TOOLS: ToolDef[] = [
   { id: "nato-phonetic", title: "NATO Phonetic Alphabet", khmerTitle: "អក្ខរក្រមសូរសព្ទ NATO", addedOn: "2026-08-14T15:20:00+07:00", category: "text", keywords: ["nato", "phonetic", "alphabet", "alpha bravo", "spell", "radio", "សូរសព្ទ", "អក្ខរក្រម"], Component: load("text", "nato-phonetic") },
   { id: "word-scrambler", title: "Word Scrambler", khmerTitle: "លាយអក្សរ", addedOn: "2026-08-14T16:00:00+07:00", category: "text", keywords: ["scramble", "anagram", "shuffle letters", "word jumble", "លាយអក្សរ", "អក្សរ"], Component: load("text", "word-scrambler") },
   { id: "text-to-emoji", title: "Text to Emoji", khmerTitle: "បំប្លែងអត្ថបទទៅជា Emoji", addedOn: "2026-08-14T16:05:00+07:00", category: "text", keywords: ["emoji", "text to emoji", "emojify", "translate", "emoji", "អ៊ីម៉ូជី"], Component: load("text", "text-to-emoji") },
+  { id: "leetspeak", title: "Leetspeak Converter", khmerTitle: "បំប្លែង Leetspeak", addedOn: "2026-08-14T16:35:00+07:00", category: "text", keywords: ["leetspeak", "leet", "1337", "hacker", "gamer", "text"], Component: load("text", "leetspeak") },
 
   // ---- Math (17) ----
   { id: "percentage-calculator", title: "Percentage Calculator", category: "math", keywords: ["percent", "percentage"], Component: load("math", "percentage-calculator") },
@@ -330,6 +331,7 @@ export const TOOLS: ToolDef[] = [
   { id: "compound-interest", title: "Compound Interest Calculator", category: "math", keywords: ["interest", "compound", "savings", "investment"], Component: load("math", "compound-interest") },
   { id: "bill-split", title: "Tip & Bill Split Calculator", category: "math", keywords: ["tip", "bill", "split", "restaurant"], Component: load("math", "bill-split") },
   { id: "loan-calculator", title: "Loan & EMI Calculator", khmerTitle: "គណនាកម្ចី និង EMI", addedOn: "2026-08-14T15:00:00+07:00", category: "math", keywords: ["loan", "emi", "mortgage", "interest", "repayment", "installment", "កម្ចី", "ប្រាក់កម្ចី", "ការប្រាក់"], Component: load("math", "loan-calculator") },
+  { id: "fuel-cost-calculator", title: "Fuel Cost Calculator", khmerTitle: "គណនាថ្លៃប្រេងឥន្ធនៈ", addedOn: "2026-08-14T16:30:00+07:00", category: "math", keywords: ["fuel", "gas", "cost", "distance", "efficiency", "trip", "petrol", "ឥន្ធនៈ", "ប្រេង", "ចំណាយ"], Component: load("math", "fuel-cost-calculator") },
   { id: "latex-renderer", title: "LaTeX Formula Renderer", category: "math", keywords: ["latex", "katex", "formula", "equation", "ratex", "typeset"], Component: load("math", "latex-renderer") },
 
   // ---- Network (13) ----
@@ -388,11 +390,13 @@ export const TOOLS: ToolDef[] = [
   { id: "golden-ratio-calculator", title: "Golden Ratio Calculator", category: "design", keywords: ["golden ratio", "phi", "proportion"], Component: load("design", "golden-ratio-calculator") },
   { id: "color-name-finder", title: "Nearest CSS Color Name Finder", category: "design", keywords: ["color name", "css colors", "nearest"], Component: load("design", "color-name-finder") },
   { id: "vector-drawable-to-svg", title: "VectorDrawable → SVG", category: "design", keywords: ["android", "vector drawable", "svg", "icon convert"], Component: load("design", "vector-drawable-to-svg") },
+  { id: "color-harmony", title: "Color Harmony Generator", khmerTitle: "បង្កើតពណ៌ដែលចុះសម្រុងគ្នា", addedOn: "2026-08-14T16:40:00+07:00", category: "design", keywords: ["color harmony", "complementary", "analogous", "triadic", "palette", "color scheme", "ពណ៌", "ចុះសម្រុង"], Component: load("design", "color-harmony") },
   { id: "color-blindness-simulator", title: "Color Blindness Simulator", khmerTitle: "កម្មវិធីក្លែងធ្វើភាពពិការពណ៌", addedOn: "2026-08-14T15:15:00+07:00", category: "design", keywords: ["color blindness", "protanopia", "deuteranopia", "tritanopia", "accessibility", "cvd", "simulation", "ពិការពណ៌", "ភាពពិការពណ៌"], Component: load("design", "color-blindness-simulator") },
 
   // ---- Time & Date (14) ----
   { id: "daily-feng-shui-calendar", title: "Daily Feng Shui Calendar", khmerTitle: "ប្រតិទិនហុងស៊ុយប្រចាំថ្ងៃ", addedOn: "2026-07-29", category: "time", keywords: ["feng shui", "calendar", "cultural reference", "daily planning", "ហុងស៊ុយ"], Component: load("time", "daily-feng-shui-calendar") },
   { id: "age-calculator", title: "Age Calculator", category: "time", keywords: ["age", "birthday"], Component: load("time", "age-calculator") },
+  { id: "age-in-words", title: "Age in Words", khmerTitle: "អាយុជាពាក្យ", addedOn: "2026-08-14T16:45:00+07:00", category: "time", keywords: ["age", "years months days", "birthday countdown", "total days", "weeks", "អាយុ", "ថ្ងៃកំណើត"], Component: load("time", "age-in-words") },
   { id: "date-difference-calculator", title: "Date Difference Calculator", category: "time", keywords: ["days between", "date diff"], Component: load("time", "date-difference-calculator") },
   { id: "countdown-timer", title: "Countdown Timer", category: "time", keywords: ["countdown", "timer"], Component: load("time", "countdown-timer") },
   { id: "timezone-converter", title: "Timezone Converter", category: "time", keywords: ["timezone", "utc", "convert time"], Component: load("time", "timezone-converter") },
@@ -472,6 +476,7 @@ export const TOOLS: ToolDef[] = [
   // ---- Family (2) ----
   { id: "yellow-card-tracker", title: "Yellow Card Tracker", addedOn: "2026-08-03T10:10:00+07:00", category: "family", keywords: ["child health", "immunization", "vaccine", "vaccination", "bcg", "hepb", "opv", "ipv", "dpt", "hep-b", "hib", "pcv", "mr", "measles", "rubella", "je", "japanese encephalitis", "vitamin a", "deworming", "growth chart", "who", "yellow card", "baby", "kids", "cambodia", "សុខភាព", "កុមារ", "ថ្នាំបង្ការ"], Component: load("family", "yellow-card-tracker") },
   { id: "bmi-calculator", title: "BMI Calculator", khmerTitle: "គណនា BMI", addedOn: "2026-08-14T15:25:00+07:00", category: "family", keywords: ["bmi", "body mass index", "weight", "height", "health", "fitness", "bmi calculator", "ទម្ងន់", "កម្ពស់", "សុខភាព"], Component: load("family", "bmi-calculator") },
+  { id: "sleep-calculator", title: "Sleep Calculator", khmerTitle: "គណនាម៉ោងគេង", addedOn: "2026-08-14T16:50:00+07:00", category: "family", keywords: ["sleep", "wake", "sleep cycle", "bedtime", "wake up", "rem", "គេង", "ម៉ោងគេង", "ក្រោក"], Component: load("family", "sleep-calculator") },
 
   // ---- Fun (1) ----
   { id: "khmer-sentence-builder", title: "Khmer Sentence Builder", addedOn: "2026-08-03T10:15:00+07:00", category: "fun", keywords: ["game", "sentence", "builder", "quiz", "khmer language", "learning", "drag", "interactive", "kids", "fun", "ល្បែង", "ផ្គុំ", "ល្បះ"], Component: load("fun", "khmer-sentence-builder") },
