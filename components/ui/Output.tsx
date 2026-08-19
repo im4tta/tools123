@@ -2,14 +2,12 @@
 
 import { CopyButton } from "@/components/CopyButton";
 import { useLanguage } from "@/components/LanguageProvider";
-import { uiKm } from "@/lib/i18n-ui";
 
 function useUiText() {
-  const { text } = useLanguage();
+  const { ui } = useLanguage();
   return (value?: string) => {
     if (!value) return value;
-    const km = uiKm(value);
-    return km ? text(value, km) : value;
+    return ui(value);
   };
 }
 

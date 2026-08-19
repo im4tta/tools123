@@ -1333,7 +1333,7 @@ function GooglePeriodicGrid({ elements, lang, onSelectElement, searchQuery }: { 
 
 export default function MaterialsApp() {
   const { mode } = useLanguage();
-  const lang: "km" | "en" = mode === "bi" ? "en" : mode;
+  const lang: "km" | "en" = mode === "km" ? "km" : "en";
   const [activeTab, setActiveTab] = useState('materials'); // 'materials' | 'periodic' | 'crafting' | 'quiz'
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState('all');
