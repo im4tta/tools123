@@ -2,17 +2,15 @@
 
 import { Children, cloneElement, isValidElement, ReactNode } from "react";
 import { useLanguage } from "@/components/LanguageProvider";
-import { uiKm } from "@/lib/i18n-ui";
 import { descriptionKmFor } from "@/lib/i18n-descriptions";
 import { toKhmerToolTitle } from "@/lib/tool-title-km";
 
-/** Localises a shared UI string through the dictionary, keeping English when untranslated. */
+/** Localises a shared UI string through the active-language dictionaries. */
 function useUiText() {
-  const { text } = useLanguage();
+  const { ui } = useLanguage();
   return (value?: string) => {
     if (!value) return value;
-    const km = uiKm(value);
-    return km ? text(value, km) : value;
+    return ui(value);
   };
 }
 
@@ -29,10 +27,18 @@ export function ToolShell({
   descriptionKm?: string;
   children: ReactNode;
 }) {
-  const { mode, text } = useLanguage();
+  const { mode, ui } = useLanguage();
   const resolvedKhmerTitle = khmerTitle ?? toKhmerToolTitle(title);
-  const localizedTitle = mode === "km" ? resolvedKhmerTitle : title;
+  const localizedTitle = mode === "km" ? resolvedKhmerTitle : mode === "en" || mode === "bi" ? title : ui(title);
   const resolvedDescriptionKm = descriptionKm ?? descriptionKmFor(description);
+  const localizedDescription =
+    mode === "km"
+      ? (resolvedDescriptionKm ?? description)
+      : mode === "bi"
+        ? (resolvedDescriptionKm ? `${description} / ${resolvedDescriptionKm}` : description)
+        : mode === "en"
+          ? description
+          : ui(description);
   return (
     <div className="mx-auto w-full max-w-6xl">
       <header className="mb-8">
@@ -42,7 +48,7 @@ export function ToolShell({
             <span lang="km" className="font-khmer text-lg text-[var(--gold)]">{resolvedKhmerTitle}</span>
           )}
         </div>
-        <p className="mt-2 text-sm leading-relaxed text-[var(--ink-dim)]">{resolvedDescriptionKm ? text(description, resolvedDescriptionKm) : description}</p>
+        <p className="mt-2 text-sm leading-relaxed text-[var(--ink-dim)]">{localizedDescription}</p>
       </header>
       <div className="space-y-5">{children}</div>
     </div>

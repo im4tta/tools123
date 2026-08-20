@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Search, ArrowLeft, Star, Waypoints, LayoutGrid, ArrowUpDown, Layers } from "lucide-react";
+import { Search, ArrowLeft, Star, Waypoints, LayoutGrid, ArrowUpDown, Layers, ShieldCheck, CircleDollarSign, WifiOff, Languages, BadgeCheck, FolderGit2 } from "lucide-react";
 import { CollectionsPicker } from "@/components/CollectionsPicker";
 import { CollectionsSection } from "@/components/CollectionsSection";
 import { CommandPalette } from "@/components/CommandPalette";
@@ -35,6 +35,51 @@ const STARTER_TOOL_IDS = [
   "qr-generator",
   "image-optimizer",
   "file-compressor",
+];
+
+const WHY_FEATURES = [
+  {
+    icon: ShieldCheck,
+    en: "Private by design",
+    km: "ឯកជនភាពលំដាប់ខ្ពស់",
+    descEn: "Files and text are processed locally on your device — nothing is uploaded to a server.",
+    descKm: "ឯកសារ និងអត្ថបទត្រូវបានដំណើរការនៅលើឧបករណ៍របស់អ្នក — គ្មានអ្វីត្រូវបានផ្ទុកឡើងលើម៉ាស៊ីនមេទេ។",
+  },
+  {
+    icon: CircleDollarSign,
+    en: "Free, forever",
+    km: "ឥតគិតថ្លៃ ជារៀងរហូត",
+    descEn: "No accounts, no paywalls, no hidden costs — everything is free to use.",
+    descKm: "មិនតម្រូវឱ្យចុះឈ្មោះ គ្មានជញ្ជាំងបង់ប្រាក់ គ្មានថ្លៃលាក់កំបាំង — ប្រើបានឥតគិតថ្លៃទាំងអស់។",
+  },
+  {
+    icon: WifiOff,
+    en: "Works offline",
+    km: "ដំណើរការដោយគ្មានអ៊ីនធឺណិត",
+    descEn: "No API calls or sign-in — most tools run even without a connection.",
+    descKm: "មិនពឹងផ្អែកលើ API ឬការចូលប្រើ — ឧបករណ៍ភាគច្រើនដំណើរការបានទោះគ្មានបណ្តាញក៏ដោយ។",
+  },
+  {
+    icon: Languages,
+    en: "Khmer-first",
+    km: "គិតគូរពីភាសាខ្មែរ",
+    descEn: "A fully bilingual interface plus tools made for Khmer: digits, addresses, plates, lexicon.",
+    descKm: "ចំណុចប្រទាក់ពីរភាសាពេញលេញ រួមជាមួយឧបករណ៍សម្រាប់ភាសាខ្មែរ៖ លេខ អាសយដ្ឋាន ស្លាកលេខ វចនានុក្រម។",
+  },
+  {
+    icon: BadgeCheck,
+    en: "Honest by default",
+    km: "ស្មោះត្រង់ជានិច្ច",
+    descEn: "Estimates, fallback data, and AI-assisted tools are always clearly labeled.",
+    descKm: "តម្លៃប៉ាន់ស្មាន ទិន្នន័យជំនួស និងឧបករណ៍ដែលជំនួយដោយ AI ត្រូវបានដាក់ស្លាកយ៉ាងច្បាស់លាស់ជានិច្ច។",
+  },
+  {
+    icon: FolderGit2,
+    en: "Open source",
+    km: "ប្រភពបើកចំហ",
+    descEn: "The full code is public on GitHub, with verified local projects included.",
+    descKm: "លេខកូដទាំងស្រុងជាសាធារណៈនៅលើ GitHub រួមទាំងគម្រោងក្នុងស្រុកដែលបានផ្ទៀងផ្ទាត់។",
+  },
 ];
 
 interface Viewpoint {
@@ -489,6 +534,37 @@ export default function Home() {
        </div>
        <HomeSpotlightCarousel />
        </div>
+
+      {filter === "" && (
+        <section className="why-123tool relative mx-auto mt-12 max-w-[77rem] px-5 sm:px-10">
+          <div className="mb-3 flex flex-wrap items-baseline gap-2 border-b border-[var(--ground-line)] pb-2">
+            <h2 className="font-display text-sm font-medium text-[var(--ink)]">{t("Why 123tool?", "ហេតុអ្វីបានជា ១២៣?")}</h2>
+            <span className="text-xs text-[var(--ink-faint)]">{t("Free, private, and built for Khmer speakers", "ឥតគិតថ្លៃ ឯកជន និងបង្កើតសម្រាប់អ្នកនិយាយភាសាខ្មែរ")}</span>
+          </div>
+          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
+            {WHY_FEATURES.map((f) => {
+              const Icon = f.icon;
+              return (
+                <div key={f.en} className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4">
+                  <Icon size={17} className="text-[var(--gold)]" />
+                  <div className="mt-2 text-sm font-semibold text-[var(--ink)]">{t(f.en, f.km)}</div>
+                  <p className="mt-1 text-xs leading-relaxed text-[var(--ink-dim)]">{t(f.descEn, f.descKm)}</p>
+                </div>
+              );
+            })}
+          </div>
+          <div className="mt-5 flex flex-wrap items-center justify-center gap-x-8 gap-y-2 text-xs text-[var(--ink-dim)]">
+            <span className="flex items-baseline gap-1.5">
+              <span className="font-display text-base font-semibold text-[var(--gold)]">{toKh(TOTAL)}</span>
+              {t("tools", "ឧបករណ៍")}
+            </span>
+            <span className="hidden h-3 w-px bg-[var(--ground-line)] sm:block" />
+            <span className="flex items-center gap-1.5"><ShieldCheck size={13} className="text-[var(--gold)]" />{t("100% in your browser", "១០០% នៅក្នុងកម្មវិធីរុករករបស់អ្នក")}</span>
+            <span className="hidden h-3 w-px bg-[var(--ground-line)] sm:block" />
+            <span className="flex items-center gap-1.5"><Languages size={13} className="text-[var(--gold)]" />{t("Bilingual: English · ខ្មែរ", "ពីរភាសា៖ អង់គ្លេស · ខ្មែរ")}</span>
+          </div>
+        </section>
+      )}
 
       {filter === "" && dailyAddition.date && dailyAddition.tools.length > 0 && (
         <div className="recently-added relative mx-auto mt-12 max-w-[77rem] px-5 sm:px-10">
