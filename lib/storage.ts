@@ -13,6 +13,22 @@ function safeParse<T>(raw: string | null, fallback: T): T {
   }
 }
 
+function isPlainObject(v: unknown): v is Record<string, unknown> {
+  return typeof v === "object" && v !== null && !Array.isArray(v);
+}
+
+/**
+ * Fills in missing top-level keys from `initial` so a persisted state saved
+ * under an older shape (before new fields were added) hydrates with its new
+ * defaults instead of `undefined`.
+ */
+function mergeState<T>(persisted: T, initial: T): T {
+  if (isPlainObject(persisted) && isPlainObject(initial)) {
+    return { ...initial, ...persisted } as T;
+  }
+  return persisted;
+}
+
 /**
  * SSR-safe localStorage-backed state. Reads on mount (client only),
  * writes on every change, and stays in sync across tabs via the
@@ -26,7 +42,7 @@ export function useLocalStorage<T>(key: string, initial: T) {
   useEffect(() => {
     // Intentional one-time hydration read from localStorage after mount (SSR-safe).
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    setValue(safeParse<T>(window.localStorage.getItem(fullKey), initial));
+    setValue(mergeState<T>(safeParse<T>(window.localStorage.getItem(fullKey), initial), initial));
     setHydrated(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fullKey]);
@@ -34,7 +50,7 @@ export function useLocalStorage<T>(key: string, initial: T) {
   useEffect(() => {
     function onStorage(e: StorageEvent) {
       if (e.key === fullKey) {
-        setValue(safeParse<T>(e.newValue, initial));
+        setValue(mergeState<T>(safeParse<T>(e.newValue, initial), initial));
       }
     }
     window.addEventListener("storage", onStorage);

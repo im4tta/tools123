@@ -1,11 +1,17 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLanguage } from "@/components/LanguageProvider";
 import { getWatermarkEnabled, setWatermarkEnabled } from "@/lib/export";
 
 export function WatermarkToggle({ className = "" }: { className?: string }) {
   const { text } = useLanguage();
-  const [enabled, setEnabled] = useState<boolean>(() => getWatermarkEnabled());
+  const [enabled, setEnabled] = useState(true);
+
+  useEffect(() => {
+    // SSR-safe: read localStorage only after mount to avoid hydration mismatch.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setEnabled(getWatermarkEnabled());
+  }, []);
 
   function toggle() {
     const next = !enabled;

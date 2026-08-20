@@ -39,6 +39,74 @@ const TOOL_BLURBS: Record<string, ToolBlurb> = {
     en: "Reference Cambodian construction safety practices, PPE color coding, regulations, and official sources.",
     km: "យោងអំពីការអនុវត្តសុវត្ថិភាពសំណង់កម្ពុជា ពណ៌ឧបករណ៍ PPE បទប្បញ្ញត្តិ និងប្រភពផ្លូវការ។",
   },
+  "social-post-generator": {
+    en: "Design a styled social post for X, Facebook, Telegram, or Instagram at the correct per-platform size and export it as a PNG, entirely in your browser.",
+    km: "រចនាប៉ុស្តិ៍បណ្ដាញសង្គមសម្រាប់ X, Facebook, Telegram ឬ Instagram នៅទំហំត្រឹមត្រូវតាមវេទិកា ហើយនាំចេញជា PNG ដំណើរការទាំងស្រុងក្នុងកម្មវិធីរុករករបស់អ្នក។",
+  },
+  "math-symbols": {
+    en: "Search a reference of common math symbols — name, meaning, LaTeX, and Unicode — and copy any symbol to your clipboard.",
+    km: "ស្វែងរកសញ្ញាគណិតវិទ្យាទូទៅ — ឈ្មោះ អត្ថន័យ LaTeX និង Unicode — ហើយចម្លងសញ្ញាទៅក្ដារចម្លងរបស់អ្នក។",
+  },
+  "formula-solver": {
+    en: "Pick a common formula, enter the values you know, and solve for any one variable — area, volume, speed, density, and more.",
+    km: "ជ្រើសរើសរូបមន្តទូទៅ បញ្ចូលតម្លៃដែលអ្នកដឹង ហើយដោះស្រាយរកអថេរណាមួយ — ផ្ទៃក្រឡា មាឌ ល្បឿន ដង់ស៊ីតេ និងច្រើនទៀត។",
+  },
+  "permutation-combination": {
+    en: "Compute permutations (nPr), combinations (nCr), and factorials exactly for integers.",
+    km: "គណនាការរៀបលំដាប់ (nPr) ការបន្សំ (nCr) និងហ្វាក់តូរីយែលយ៉ាងជាក់លាក់សម្រាប់ចំនួនគត់។",
+  },
+  "complex-number": {
+    en: "Add, subtract, multiply, and divide complex numbers (a + bi), with modulus, argument, and conjugate.",
+    km: "បូក ដក គុណ និងចែកចំនួនកុំផ្លិច (a + bi) ព្រមទាំងម៉ូឌុល អាគុយម៉ង់ និងកុងជូហ្គេត។",
+  },
+  "geometry-calculator": {
+    en: "Compute area, perimeter, volume, and surface area for common 2D and 3D shapes.",
+    km: "គណនាផ្ទៃក្រឡា បរិមាត្រ មាឌ និងផ្ទៃប្រអប់សម្រាប់រាង 2D និង 3D ទូទៅ។",
+  },
+  "exponent-logarithm": {
+    en: "Solve aᵇ = c for base, exponent, or result, and compute logarithms in any base.",
+    km: "ដោះស្រាយ aᵇ = c រកគ្រឹះ ស្វ័យគុណ ឬលទ្ធផល និងគណនាលោការីតក្នុងគ្រឹះណាមួយ។",
+  },
+  "trig-values": {
+    en: "Reference exact sine, cosine, and tangent for common angles, and compute them for any angle.",
+    km: "យោងតម្លៃស៊ីនុស កូស៊ីនុស និងតង់សង់ពិតប្រាកដសម្រាប់មុំទូទៅ និងគណនាវាសម្រាប់មុំណាមួយ។",
+  },
+  "electronics-calculators": {
+    en: "Calculate resistor color codes, LED series resistors, voltage dividers, and Ohm's law — all in your browser.",
+    km: "គណនាកូដពណ៌រេស៊ីស្ទ័រ រេស៊ីស្ទ័រ LED បំរែបំរួលតង់ស្យុង និងច្បាប់អូម — ទាំងអស់ក្នុងកម្មវិធីរុករករបស់អ្នក។",
+  },
+  "one-rep-max": {
+    en: "Estimate your one-rep max from weight and reps using Epley, Brzycki, Lombardi, and O'Conner formulas.",
+    km: "ប៉ាន់ប្រមាណទម្ងន់អតិបរមាដែលអាចលើកបាន ១ដង ពីទម្ងន់ និងចំនួនដង ដោយរូបមន្ត Epley, Brzycki, Lombardi និង O'Conner។",
+  },
+  "matrix-operations": {
+    en: "Add, multiply, transpose, invert, and find the determinant of 2×2 and 3×3 matrices.",
+    km: "បូក គុណ ប្តូរជួរឈរ រកអ៊ីនវ៉េស និងដេតេមីណង់នៃម៉ាទ្រីស ២×២ និង ៣×៣។",
+  },
+  "vector-calculator": {
+    en: "Compute dot and cross products, magnitude, angle, and projection for 2D and 3D vectors.",
+    km: "គណនាគុណចំណុច និងគុណវ៉ិចទ័រ ម៉ាហ្គីនីទុយត មុំ និងការព្យាករសម្រាប់វ៉ិចទ័រ 2D និង 3D។",
+  },
+  "image-palette-extractor": {
+    en: "Extract the dominant colors from any image as hex swatches with coverage percentages.",
+    km: "ស្រង់ពណ៌សំខាន់ៗពីរូបភាពជាការ៉េ hex ជាមួយភាគរយគ្របដណ្តប់។",
+  },
+  "barcode-generator": {
+    en: "Generate Code 128, EAN-13, EAN-8, UPC-A, and Code 39 barcodes as SVG.",
+    km: "បង្កើតកូដបារកូដ Code 128, EAN-13, EAN-8, UPC-A និង Code 39 ជា SVG។",
+  },
+  "inflation-calculator": {
+    en: "Estimate how purchasing power changes over time at a given annual inflation rate.",
+    km: "ប៉ាន់ប្រមាណការប្រែប្រួលកម្លាំងទិញតាមពេលវេលា តាមអត្រាអតិផរណាប្រចាំឆ្នាំ។",
+  },
+  "svg-to-png": {
+    en: "Render SVG markup to a PNG image at any size, entirely in your browser.",
+    km: "បំប្លែងកូដ SVG ទៅជារូប PNG តាមទំហំណាមួយ ក្នុងកម្មវិធីរុករក។",
+  },
+  "deepseek-rate-desk": {
+    en: "Check DeepSeek V4 API pricing with peak/off-peak windows and estimate token costs for any usage.",
+    km: "ពិនិត្យតម្លៃ DeepSeek V4 API ជាមួយម៉ោងខ្ពស់/ទាប និងប៉ាន់ប្រមាណថ្លៃ Token សម្រាប់ការប្រើប្រាស់ណាមួយ។",
+  },
 };
 
 export function toolDescription(tool: ToolDef) {
@@ -169,6 +237,23 @@ const HOWTO_TOOLS: Record<string, string[]> = {
   "url-encode": ["Paste a URL or string", "Choose Encode or Decode", "Copy the result"],
   "case-converter": ["Paste your text", "Choose a case mode (UPPER, lower, Title, Sentence)", "Copy the converted text"],
   "word-counter": ["Paste your text", "View the live word, character, and line counts"],
+  "social-post-generator": ["Pick the platform preset (X, Facebook, Telegram, or Instagram)", "Enter your handle, headline, subline, and hashtags", "Style the text and background colors, and add a logo if you want", "Download the post as a PNG"],
+  "math-symbols": ["Open the Math Symbol Dictionary", "Search by name, meaning, or LaTeX, or filter by category", "Click the copy button on any symbol to copy it (or its LaTeX)"],
+  "formula-solver": ["Choose a formula", "Select which variable to solve for", "Enter the known values", "Read the solved result"],
+  "permutation-combination": ["Enter n (total items)", "Enter r (chosen items)", "Read the permutations, combinations, and factorial"],
+  "complex-number": ["Choose an operation (add, subtract, multiply, divide)", "Enter the real and imaginary parts of both numbers", "Read the result, modulus, argument, and conjugate"],
+  "geometry-calculator": ["Choose a 2D or 3D shape", "Enter the shape's dimensions", "Read the area/volume and perimeter/surface area"],
+  "exponent-logarithm": ["Choose what to solve for (base, exponent, or result)", "Enter the two known values", "Read the result, then use the log section for logₐ(x)"],
+  "trig-values": ["View the table of exact values for common angles", "Enter any angle and choose degrees or radians", "Read the sine, cosine, and tangent"],
+  "electronics-calculators": ["Pick the section you need (resistor color code, LED resistor, voltage divider, or Ohm's law)", "Enter the values you know", "Read the calculated result"],
+  "one-rep-max": ["Enter the weight you lifted", "Enter how many reps you completed", "Read the estimated 1RM and the percentage table"],
+  "matrix-operations": ["Choose a matrix size (2×2 or 3×3)", "Enter the values for matrix A (and B)", "Pick an operation", "Read the result matrix or determinant"],
+  "vector-calculator": ["Choose 2D or 3D", "Enter the components of vectors A and B", "Read the dot/cross products, magnitudes, angle, and projection"],
+  "image-palette-extractor": ["Upload or drop an image", "Choose how many colors to extract", "Copy the hex codes of the dominant colors"],
+  "barcode-generator": ["Choose a barcode type", "Enter the value", "Download the barcode as SVG"],
+  "inflation-calculator": ["Enter an amount and start/end years", "Enter an annual inflation rate", "Read the equivalent value and total inflation"],
+  "svg-to-png": ["Paste or upload SVG markup", "Set the output width and height", "Download the rendered PNG"],
+  "deepseek-rate-desk": ["Pick a model (v4-flash or v4-pro)", "Choose auto, off-peak, or peak", "Set tokens, cache hit rate, and request count", "Read the estimated cost"],
 };
 
 /** HowTo structured data for tools with well-defined, truthful steps. */

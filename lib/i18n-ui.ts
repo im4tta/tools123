@@ -110,6 +110,62 @@ const MATH_LABELS: Entry[] = [
   ["Roman numeral", "លេខរ៉ូម៉ាំង"], ["Roman", "រ៉ូម៉ាំង"], ["Celsius (°C)", "សែលស្យុស (°C)"], ["Fahrenheit (°F)", "ហ្វារិនហៃ (°F)"],
   ["Kelvin (K)", "កែលវិន (K)"], ["Leg A", "ជ្រុង A"], ["Leg B", "ជ្រុង B"], ["Hypotenuse (C)", "អ៊ីប៉ូតេនុស (C)"],
   ["Angle opposite A / opposite B", "មុំទល់មុខ A / ទល់មុខ B"], ["From", "ពី"], ["To", "ទៅ"],
+  // --- Math symbols & formulas ---
+  ["Search symbols", "ស្វែងរកសញ្ញា"], ["All", "ទាំងអស់"], ["Arithmetic", "នព្វន្ត"], ["Comparison", "ការប្រៀបធៀប"], ["Algebra", "ពីជគណិត"],
+  ["Calculus", "កាល់គូល"], ["Sets & Logic", "សំណុំ និងតក្កវិជ្ជា"], ["Greek", "អក្សរក្រិក"], ["Constants", "ថេរ"],
+  ["Formula", "រូបមន្ត"], ["Area of a rectangle", "ផ្ទៃក្រឡាចតុកោណកែង"], ["Area of a triangle", "ផ្ទៃក្រឡាត្រីកោណ"], ["Area of a circle", "ផ្ទៃក្រឡារង្វង់"],
+  ["Circumference of a circle", "បរិមាត្ររង្វង់"], ["Speed / distance / time", "ល្បឿន / ចម្ងាយ / ពេលវេលា"], ["Density", "ដង់ស៊ីតេ"], ["Ohm's law", "ច្បាប់អូម"],
+  ["Force (Newton's 2nd law)", "កម្លាំង (ច្បាប់ទី២ ញូតុន)"], ["Percentage", "ភាគរយ"], ["Pythagorean theorem", "ទ្រឹស្តីបទពីតាហ្គោរ"], ["Simple interest", "ការប្រាក់សាមញ្ញ"],
+  ["Volume of a sphere", "មាឌស៊្វែរ"], ["Volume of a cylinder", "មាឌស៊ីឡាំង"], ["Volume of a cone", "មាឌកោណ"],
+  ["Area (m²)", "ផ្ទៃក្រឡា (ម²)"], ["Length (m)", "ប្រវែង (ម)"], ["Width (m)", "ទទឹង (ម)"], ["Base (m)", "គ្រឹះ (ម)"], ["Height (m)", "កម្ពស់ (ម)"], ["Radius (m)", "កាំ (ម)"],
+  ["Circumference (m)", "បរិមាត្រ (ម)"], ["Speed (m/s)", "ល្បឿន (ម/វ)"], ["Distance (m)", "ចម្ងាយ (ម)"], ["Time (s)", "ពេលវេលា (វ)"], ["Density (kg/m³)", "ដង់ស៊ីតេ (គ.ក្រ/ម³)"],
+  ["Mass (kg)", "ម៉ាស (គ.ក្រ)"], ["Volume (m³)", "មាឌ (ម³)"], ["Voltage (V)", "តង់ស្យុង (V)"], ["Current (A)", "ចរន្ត (A)"], ["Resistance (Ω)", "កម្លាំងទប់ (Ω)"],
+  ["Force (N)", "កម្លាំង (N)"], ["Acceleration (m/s²)", "ល្បឿនប្រែប្រួល (ម/វ²)"], ["Percent (%)", "ភាគរយ (%)"], ["Part", "ចំណែក"], ["Whole", "ចំនួនសរុប"],
+  ["Leg a (m)", "ជ្រុង a (ម)"], ["Leg b (m)", "ជ្រុង b (ម)"], ["Hypotenuse c (m)", "អ៊ីប៉ូតេនុស c (ម)"], ["Interest", "ការប្រាក់"], ["Rate (%)", "អត្រា (%)"], ["Time (years)", "ពេលវេលា (ឆ្នាំ)"],
+  // --- Permutation & combination ---
+  ["n (total items)", "n (ចំនួនធាតុសរុប)"], ["r (chosen items)", "r (ចំនួនធាតុដែលជ្រើសរើស)"],
+  ["Permutations  P(n,r) = n! / (n−r)!", "ការរៀបលំដាប់  P(n,r) = n! / (n−r)!"], ["Combinations  C(n,r) = n! / (r!(n−r)!)", "ការបន្សំ  C(n,r) = n! / (r!(n−r)!)"],
+  ["Factorial  n!", "ហ្វាក់តូរីយែល  n!"],
+  // --- Complex numbers ---
+  ["Operation", "ប្រតិបត្តិការ"], ["Addition (a + b)", "ការបូក (a + b)"], ["Subtraction (a − b)", "ការដក (a − b)"], ["Multiplication (a × b)", "ការគុណ (a × b)"], ["Division (a ÷ b)", "ការចែក (a ÷ b)"],
+  ["z₁ real part (a)", "ផ្នែកពិត z₁ (a)"], ["z₁ imaginary part (b)", "ផ្នែកនិម្មិត z₁ (b)"], ["z₂ real part (c)", "ផ្នែកពិត z₂ (c)"], ["z₂ imaginary part (d)", "ផ្នែកនិម្មិត z₂ (d)"],
+  ["Modulus |z|", "ម៉ូឌុល |z|"], ["Argument (rad)", "អាគុយម៉ង់ (រ៉ាដ្យង់)"], ["Argument (°)", "អាគុយម៉ង់ (°)"], ["Conjugate", "កុងជូហ្គេត"],
+  // --- Geometry ---
+  ["Shape", "រាង"], ["2D shapes", "រាង 2D"], ["3D shapes", "រាង 3D"], ["Circle", "រង្វង់"], ["Rectangle", "ចតុកោណកែង"], ["Triangle", "ត្រីកោណ"],
+  ["Sphere", "ស៊្វែរ"], ["Cube", "គូប"], ["Cylinder", "ស៊ីឡាំង"], ["Cone", "កោណ"], ["Rectangular prism", "ព្រីសចតុកោណ"],
+  ["Radius (r)", "កាំ (r)"], ["Length (l)", "ប្រវែង (l)"], ["Width (w)", "ទទឹង (w)"], ["Base (b)", "គ្រឹះ (b)"], ["Height (h)", "កម្ពស់ (h)"], ["Side (a)", "ជ្រុង (a)"],
+  ["Area", "ផ្ទៃក្រឡា"], ["Circumference", "បរិមាត្រ"], ["Perimeter", "បរិមាត្រ"], ["Volume", "មាឌ"], ["Surface area", "ផ្ទៃប្រអប់"],
+  // --- Exponent & logarithm ---
+  ["Result (c)", "លទ្ធផល (c)"], ["Base (a)", "គ្រឹះ (a)"], ["Exponent (b)", "ស្វ័យគុណ (b)"], ["Argument (x)", "អាគុយម៉ង់ (x)"], ["logₐ(x)", "logₐ(x)"],
+  // --- Trig ---
+  ["Degrees (°)", "ដឺក្រេ (°)"], ["Radians", "រ៉ាដ្យង់"],
+  // --- Electronics ---
+  ["Band 1", "ខ្សែទី ១"], ["Band 2", "ខ្សែទី ២"], ["Multiplier", "មេគុណគុណ"], ["Tolerance", "ភាពអត់ឱន"], ["Resistance", "រេស៊ីស្ទ័រ"],
+  ["Resistance (e.g. 4700, 4.7k, 1M)", "រេស៊ីស្ទ័រ (ឧ. 4700, 4.7k, 1M)"],
+  ["Supply voltage (V)", "តង់ស្យុងផ្គត់ផ្គង់ (V)"], ["LED forward voltage (V)", "តង់ស្យុង LED (V)"], ["LED current (mA)", "ចរន្ត LED (mA)"],
+  ["Calculated resistor", "រេស៊ីស្ទ័រដែលបានគណនា"], ["Nearest standard (E24)", "តម្លៃស្តង់ដារជិតបំផុត (E24)"], ["Power dissipated", "ថាមពលបាត់បង់"],
+  ["Input voltage (V)", "តង់ស្យុងបញ្ចូល (V)"], ["R1 (Ω)", "R1 (Ω)"], ["R2 (Ω)", "R2 (Ω)"], ["Output voltage", "តង់ស្យុងលទ្ធផល"],
+  ["Current", "ចរន្ត"], ["Power (W)", "ថាមពល (W)"],
+  ["Black", "ខ្មៅ"], ["Brown", "ត្នោត"], ["Red", "ក្រហម"], ["Orange", "ទឹកក្រូច"], ["Yellow", "លឿង"], ["Green", "បៃតង"],
+  ["Blue", "ខៀវ"], ["Violet", "ស្វាយ"], ["Grey", "ប្រផេះ"], ["White", "ស"], ["Gold", "មាស"], ["Silver", "ប្រាក់"],
+  // --- Fitness (1RM) ---
+  ["Weight lifted", "ទម្ងន់ដែលលើក"], ["Reps", "ចំនួនដង"], ["Average 1RM", "មធ្យម 1RM"], ["Weight", "ទម្ងន់"],
+  // --- Matrix ---
+  ["Matrix size", "ទំហំម៉ាទ្រីស"], ["Matrix A", "ម៉ាទ្រីស A"], ["Matrix B", "ម៉ាទ្រីស B"],
+  ["Add (A + B)", "បូក (A + B)"], ["Subtract (A − B)", "ដក (A − B)"], ["Multiply (A × B)", "គុណ (A × B)"],
+  ["Transpose (Aᵀ)", "ប្តូរជួរឈរ (Aᵀ)"], ["Determinant (det A)", "ដេតេមីណង់ (det A)"], ["Inverse (A⁻¹)", "អ៊ីនវ៉េស (A⁻¹)"],
+  ["2×2", "2×2"], ["3×3", "3×3"],
+  // --- Phone network ---
+  ["Operator", "ប្រតិបត្តិករ"], ["Type", "ប្រភេទ"], ["Max price ($)", "តម្លៃអតិបរមា ($)"], ["Weekly", "ប្រចាំសប្តាហ៍"],
+  // --- Vector / palette / barcode / inflation / svg ---
+  ["Dimension", "វិមាត្រ"], ["Vector A", "វ៉ិចទ័រ A"], ["Vector B", "វ៉ិចទ័រ B"],
+  ["Magnitude |A|", "ម៉ាហ្គីនីទុយត |A|"], ["Magnitude |B|", "ម៉ាហ្គីនីទុយត |B|"], ["Dot product (A·B)", "គុណចំណុច (A·B)"],
+  ["Cross product (A×B)", "គុណវ៉ិចទ័រ (A×B)"], ["Angle between (°)", "មុំរវាង (°)"], ["Projection of A onto B", "ការព្យាករ A លើ B"],
+  ["A + B", "A + B"], ["A − B", "A − B"],
+  ["Number of colors", "ចំនួនពណ៌"], ["Barcode type", "ប្រភេទបារកូដ"],
+  ["Amount", "ចំនួនទឹកប្រាក់"], ["Start year", "ឆ្នាំចាប់ផ្តើម"], ["End year", "ឆ្នាំបញ្ចប់"],
+  ["Annual inflation rate (%)", "អត្រាអតិផរណាប្រចាំឆ្នាំ (%)"], ["Equivalent value", "តម្លៃសមមូល"], ["Total inflation over period", "អតិផរណាសរុបក្នុងរយៈពេល"],
+  ["SVG markup", "កូដ SVG"],
 ];
 
 const NET_SEC_LABELS: Entry[] = [
