@@ -159,6 +159,11 @@ export default function KhmerWordSegmentationTester() {
           <a href="https://sovichea.github.io/khmer_segment_webui_demo/" target="_blank" rel="noopener noreferrer" className="text-[var(--gold)] underline">{t("Live demo", "Demo ផ្ទាល់")}</a>{" · "}
           <a href="https://github.com/Sovichea/khmer_segmenter" target="_blank" rel="noopener noreferrer" className="text-[var(--gold)] underline">{t("Source", "ប្រភព")}</a>
         </p>
+        <p className="mt-3 border-t border-[var(--ground-line)] pt-3">
+          <strong className="text-[var(--ink)]">Socret Lee · CLAWS Tokenizer</strong>{" "}
+          {t("is linked as an external reference. It is a Python word-segmentation library (a Graph Neural Network with TFLite weights) under the MIT License, so it does not run in the browser and is not bundled here.", "ត្រូវបានភ្ជាប់ជាប្រភពយោងខាងក្រៅ។ វាជាបណ្ណាល័យបំបែកពាក្យភាសា Python (Graph Neural Network ជាមួយទម្ងន់ TFLite) ក្រោមអាជ្ញាបណ្ណ MIT ដូច្នេះមិនដំណើរការក្នុងកម្មវិធីរុករក ហើយមិនត្រូវបានចែកចាយនៅទីនេះទេ។")}{" "}
+          <a href="https://github.com/Socret360/claws" target="_blank" rel="noopener noreferrer" className="text-[var(--gold)] underline">{t("Source", "ប្រភព")}</a>
+        </p>
       </aside>
     </ToolShell>
   );

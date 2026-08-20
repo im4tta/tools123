@@ -134,6 +134,23 @@ export default function OpticalTransfer() {
           ))}
         </div>
       </div>
+
+      {/* Source & Credits */}
+      <div className="mt-6 rounded-2xl border border-[var(--ground-line)] bg-[var(--ground-raised)] p-6">
+        <h3 className="mb-3 font-semibold text-[var(--ink)]">{t("Source & Credits", "ប្រភព និងក្រេឌីត")}</h3>
+        <p className="text-xs leading-relaxed text-[var(--ink-dim)]">
+          {t("This tool is an independent implementation inspired by Decimen Optical Transfer, the fountain-coded QR file-transfer project by Evan Crawley (Bash Alarmist).", "ឧបករណ៍នេះជាការអនុវត្តឯករាជ្យដែលបានបំផុសគំនិតពី Decimen Optical Transfer ដែលជាគម្រោងបញ្ជូនឯកសារតាមកូដ QR បែប Fountain របស់ Evan Crawley (Bash Alarmist)។")}
+        </p>
+        <ul className="mt-3 space-y-1.5 text-xs text-[var(--ink-dim)]">
+          <li>
+            <span className="font-semibold text-[var(--ink)]">Decimen Optical Transfer</span> — Evan Crawley (Bash Alarmist) · {t("AGPL-3.0-or-later", "AGPL-3.0 ឬថ្មីជាង")} ·{" "}
+            <a href="https://github.com/bashalarmistalt/decimen-optical-transfer" target="_blank" rel="noreferrer" className="text-[var(--gold)] underline underline-offset-2">github.com/bashalarmistalt/decimen-optical-transfer</a> ·{" "}
+            <a href="https://decimen.app" target="_blank" rel="noreferrer" className="text-[var(--gold)] underline underline-offset-2">decimen.app</a>
+          </li>
+          <li>{t("Portions contributed by Steve Dakh under the MIT License.", "ផ្នែកខ្លះផ្តល់ដោយ Steve Dakh ក្រោមអាជ្ញាបណ្ណ MIT។")}</li>
+          <li>{t("The vendored decimen-codec (AGPL-3.0) incorporates zxing-cpp (Apache-2.0).", "decimen-codec (AGPL-3.0) ដែលរួមបញ្ចូល zxing-cpp (Apache-2.0)។")}</li>
+        </ul>
+      </div>
     </ToolShell>
   );
 }
