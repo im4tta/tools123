@@ -107,6 +107,62 @@ const TOOL_BLURBS: Record<string, ToolBlurb> = {
     en: "Check DeepSeek V4 API pricing with peak/off-peak windows and estimate token costs for any usage.",
     km: "ពិនិត្យតម្លៃ DeepSeek V4 API ជាមួយម៉ោងខ្ពស់/ទាប និងប៉ាន់ប្រមាណថ្លៃ Token សម្រាប់ការប្រើប្រាស់ណាមួយ។",
   },
+  "excel-password-remover": {
+    en: "Remove worksheet and workbook protection passwords from an .xlsx or .xlsm file, entirely in your browser.",
+    km: "ដកពាក្យសម្ងាត់ការពារសន្លឹក និងសៀវភៅការងារពីឯកសារ .xlsx ឬ .xlsm ដំណើរការក្នុងកម្មវិធីរុករករបស់អ្នក។",
+  },
+  "webcam-mic-test": {
+    en: "Test your webcam and microphone with a live preview, resolution readout, and input level meter.",
+    km: "សាកល្បងកាមេរ៉ា និងមីក្រូហ្វូនជាមួយការមើលផ្ទាល់ គុណភាពបង្ហាញ និងកម្រិតសំឡេង។",
+  },
+  "screen-recorder": {
+    en: "Record your screen, a window, or a browser tab to a WebM video — with optional microphone narration.",
+    km: "ថតអេក្រង់ វីនដូ ឬផ្ទាំងកម្មវិធីរុករកទៅជា WebM — ជាមួយសំឡេងមីក្រូហ្វូនបើចង់បាន។",
+  },
+  "screen-color-picker": {
+    en: "Pick any pixel on your screen with the built-in eyedropper and copy its hex, RGB, or HSL value.",
+    km: "ជ្រើសរើសពណ៌ណាមួយលើអេក្រង់ដោយ eyedropper ហើយចម្លងតម្លៃ hex, RGB ឬ HSL។",
+  },
+  "periodic-table": {
+    en: "Browse all 118 elements and compute the molar mass of any chemical formula.",
+    km: "រុករកធាតុទាំង ១១៨ និងគណនាម៉ាសម៉ូលានៃរូបមន្តគីមីណាមួយ។",
+  },
+  "word-cloud": {
+    en: "Turn any text into a word cloud sized by word frequency and export it as PNG.",
+    km: "បម្លែងអត្ថបទទៅជាពពកពាក្យ ដែលទំហំផ្អែកលើប្រេកង់ពាក្យ និងនាំចេញជា PNG។",
+  },
+  "braille-translator": {
+    en: "Convert text to grade-1 braille and back using Unicode braille patterns.",
+    km: "បម្លែងអត្ថបទទៅជាអក្សរប្រៃយ៍កម្រិត១ និងត្រឡប់វិញ ដោយប្រើយូនីកូដប្រៃយ៍។",
+  },
+  "dns-lookup": {
+    en: "Query live DNS records (A, AAAA, MX, TXT, NS, CNAME, SOA) for any domain via DNS-over-HTTPS.",
+    km: "សួរកំណត់ត្រា DNS ផ្ទាល់ (A, AAAA, MX, TXT, NS, CNAME, SOA) សម្រាប់ដូមេនណាមួយ។",
+  },
+  "whats-my-ip": {
+    en: "Show your public IP address with ISP and approximate location from a free IP API.",
+    km: "បង្ហាញលេខ IP សាធារណៈរបស់អ្នក ព្រមទាំងអ៊ីស្ពី និងទីតាំងប្រហាក់ប្រហែល។",
+  },
+  "http-request-tester": {
+    en: "Send HTTP requests with custom headers and bodies, then inspect status, timing, and response.",
+    km: "ផ្ញើសំណើ HTTP ជាមួយក្បាល និងខ្លឹមសារដោយខ្លួនឯង ហើយពិនិត្យស្ថានភាព ពេលវេលា និងចម្លើយ។",
+  },
+  "hmac-generator": {
+    en: "Compute HMAC signatures with SHA-1/256/384/512 locally via the Web Crypto API.",
+    km: "គណនាហត្ថលេខា HMAC ដោយ SHA-1/256/384/512 ក្នុងឧបករណ៍តាម Web Crypto API។",
+  },
+  "text-to-speech": {
+    en: "Read any text aloud with your browser's built-in voices, plus rate, pitch, and volume controls.",
+    km: "អានអត្ថបទជាសំឡេងដោយសំឡេងក្នុងកម្មវិធីរុករក ព្រមទាំងគ្រប់គ្រងល្បឿន តុរឹង និងកម្រិត។",
+  },
+  "images-to-gif": {
+    en: "Combine ordered images into an animated GIF with adjustable delay and quality.",
+    km: "ផ្គុំរូបភាពតាមលំដាប់ទៅជា GIF មានចលនា ជាមួយពេល និងគុណភាពដែលអាចកំណត់បាន។",
+  },
+  "meme-generator": {
+    en: "Add classic top and bottom captions to any image and export the result as PNG.",
+    km: "បន្ថែមអត្ថបទខាងលើ និងខាងក្រោមទៅលើរូបភាព ហើយនាំចេញជា PNG។",
+  },
 };
 
 export function toolDescription(tool: ToolDef) {
@@ -254,6 +310,20 @@ const HOWTO_TOOLS: Record<string, string[]> = {
   "inflation-calculator": ["Enter an amount and start/end years", "Enter an annual inflation rate", "Read the equivalent value and total inflation"],
   "svg-to-png": ["Paste or upload SVG markup", "Set the output width and height", "Download the rendered PNG"],
   "deepseek-rate-desk": ["Pick a model (v4-flash or v4-pro)", "Choose auto, off-peak, or peak", "Set tokens, cache hit rate, and request count", "Read the estimated cost"],
+  "excel-password-remover": ["Upload an .xlsx or .xlsm file", "Review the detected protection (sheets and workbook)", "Click Remove protection & download", "Open the downloaded, unprotected copy"],
+  "webcam-mic-test": ["Choose your camera and microphone", "Click Start test and allow permissions", "Check the live preview, resolution, and mic level meter"],
+  "screen-recorder": ["Optionally enable microphone narration", "Click Start recording and choose a screen or tab", "Stop when finished", "Preview and download the WebM video"],
+  "screen-color-picker": ["Click Pick a color from screen", "Hover any pixel and click to capture it", "Copy the hex, RGB, or HSL value"],
+  "periodic-table": ["Click any element to see its details", "Type a chemical formula like H2SO4", "Read the molar mass and per-element breakdown"],
+  "word-cloud": ["Paste your text", "Shuffle the layout if you like", "Download the cloud as PNG"],
+  "braille-translator": ["Choose Text → Braille or Braille → Text", "Enter your text", "Copy the converted output"],
+  "dns-lookup": ["Enter a domain name", "Choose a record type (A, MX, TXT…)", "Click Look up", "Read the live records with their TTLs"],
+  "whats-my-ip": ["Open the tool", "Your public IP appears automatically", "Copy it or review the ISP and location details"],
+  "http-request-tester": ["Pick a method and enter the URL", "Add headers and a body if needed", "Send the request", "Review status, timing, and response body"],
+  "hmac-generator": ["Choose an algorithm", "Enter the message and secret key", "Copy the HMAC in hex or base64"],
+  "text-to-speech": ["Type or paste text", "Choose a voice and adjust rate, pitch, volume", "Click Speak"],
+  "images-to-gif": ["Add images in play order", "Set frame delay, width, and quality", "Generate and download the GIF"],
+  "meme-generator": ["Upload an image", "Type top and bottom captions", "Adjust font size if needed", "Download as PNG"],
 };
 
 /** HowTo structured data for tools with well-defined, truthful steps. */
