@@ -293,3 +293,102 @@ body {
   font-weight: 600;
   pointer-events: none;
 }
+
+/* ── Khmer Studio (scoped) ─────────────────────────────────────────────── */
+
+@font-face {
+  font-family: "Kantumruy Pro Variable";
+  src: url("/fonts/KantumruyPro-Variable.ttf") format("truetype-variations");
+  font-weight: 100 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+.khmer-studio {
+  /* Studio shell — warm near-black, like a darkroom */
+  --ink-950: #14120f;
+  --ink-900: #1c1914;
+  --ink-850: #221e17;
+  --ink-800: #2b251b;
+  --ink-700: #3a3223;
+
+  /* Paper + poster ink defaults */
+  --paper: #f4eedd;
+  --paper-ink: #211b12;
+
+  /* Accents — Khmer lacquerware red, stupa gold */
+  --lacquer: #b3402f;
+  --lacquer-bright: #d05a44;
+
+  /* UI text on dark */
+  --bone: #ede6d6;
+  --bone-dim: #a79c87;
+  --bone-faint: #7a705d;
+
+  --studio-gold: #c9a227;
+  --font-display: "Kantumruy Pro Variable", "Noto Sans Khmer", sans-serif;
+  --font-mono: ui-monospace, "JetBrains Mono", monospace;
+}
+
+.khmer-studio {
+  background: var(--ink-950);
+  color: var(--bone);
+}
+
+.khmer-studio .paper-grain {
+  background-image: radial-gradient(circle at 1px 1px, rgba(0, 0, 0, 0.05) 1px, transparent 0);
+  background-size: 3px 3px;
+}
+
+.khmer-studio input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+}
+.khmer-studio input[type="range"]::-webkit-slider-runnable-track {
+  height: 2px;
+  background: var(--ink-700);
+}
+.khmer-studio input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  margin-top: -9px;
+  width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  background: var(--studio-gold);
+  border: 2px solid var(--ink-950);
+  box-shadow: 0 0 0 1px var(--studio-gold);
+  cursor: grab;
+}
+.khmer-studio input[type="range"]:active::-webkit-slider-thumb {
+  cursor: grabbing;
+  background: var(--lacquer-bright);
+}
+.khmer-studio input[type="range"]::-moz-range-track {
+  height: 2px;
+  background: var(--ink-700);
+}
+.khmer-studio input[type="range"]::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  background: var(--studio-gold);
+  border: 2px solid var(--ink-950);
+  cursor: grab;
+}
+
+@theme inline {
+  --color-ink-950: var(--ink-950);
+  --color-ink-900: var(--ink-900);
+  --color-ink-850: var(--ink-850);
+  --color-ink-800: var(--ink-800);
+  --color-ink-700: var(--ink-700);
+  --color-paper: var(--paper);
+  --color-lacquer: var(--lacquer);
+  --color-lacquer-bright: var(--lacquer-bright);
+  --color-gold: var(--gold);
+  --color-bone: var(--bone);
+  --color-bone-dim: var(--bone-dim);
+  --color-bone-faint: var(--bone-faint);
+}

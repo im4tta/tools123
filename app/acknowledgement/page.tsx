@@ -7,6 +7,8 @@ const LIBRARIES = [
   { name: "Tailwind CSS", url: "https://tailwindcss.com/", by: "Tailwind Labs", use: "Utility-first CSS framework" },
   { name: "TypeScript", url: "https://www.typescriptlang.org/", by: "Microsoft Corporation", use: "Type-safe JavaScript superset" },
   { name: "pdf-lib", url: "https://pdf-lib.js.org/", by: "Andrew Dillon", use: "PDF creation and manipulation" },
+  { name: "HappyPDF", url: "https://seanghay.github.io/happypdf/", by: "Seanghay Yath", use: "pdf-lib fork with HarfBuzz shaping for correct Khmer/Indic script rendering (Khmer Studio)" },
+  { name: "Kantumruy Pro", url: "https://fonts.google.com/kantumruypro", by: "Kantumruy Pro Project Authors", use: "Variable Khmer/Latin typeface, SIL OFL (Khmer Studio)" },
   { name: "pdfjs-dist", url: "https://mozilla.github.io/pdf.js/", by: "Mozilla Foundation", use: "PDF rendering in the browser" },
   { name: "KaTeX", url: "https://katex.org/", by: "Khan Academy", use: "Fast math typesetting" },
   { name: "lucide-react", url: "https://lucide.dev/", by: "Lucide Contributors", use: "Open-source icon library" },
@@ -75,6 +77,22 @@ export default function AcknowledgementPage() {
         </div>
       </section>
 
+      <section className="mt-10">
+        <h2 className="font-display text-lg font-medium text-[var(--ink)]">HappyPDF</h2>
+        <div className="mt-4 rounded-lg border border-[var(--gold)]/30 bg-[var(--gold)]/5 px-4 py-4 text-sm leading-relaxed text-[var(--ink-dim)]">
+          <p>
+            Special thanks to <strong className="text-[var(--ink)]">Seanghay Yath</strong> for
+            <a href="https://seanghay.github.io/happypdf/" target="_blank" rel="noopener noreferrer" className="mx-1 text-[var(--gold)] hover:text-[var(--gold-dim)]">HappyPDF</a>,
+            a fork of pdf-lib that swaps in HarfBuzz text shaping, so Khmer subscript consonants,
+            vowel reordering, and mark attachment render correctly in generated PDFs.
+          </p>
+          <p className="mt-2">
+            123 Toolbox uses the npm package as a bundled dependency in the Khmer Studio tool
+            (posters, crosswords, and exam sheets), under the MIT License.
+          </p>
+          <p className="mt-2 text-xs text-[var(--ink-faint)]">HappyPDF builds on pdf-lib by Andrew Dillon. The Kantumruy Pro and Noto Khmer fonts bundled alongside it are licensed under the SIL Open Font License.</p>
+        </div>
+      </section>
       <section className="mt-10">
         <h2 className="font-display text-lg font-medium text-[var(--ink)]">Khmer Coeng Ta/Da Corrector</h2>
         <div className="mt-4 rounded-lg border border-[var(--gold)]/30 bg-[var(--gold)]/5 px-4 py-4 text-sm leading-relaxed text-[var(--ink-dim)]">

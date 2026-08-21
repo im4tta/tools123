@@ -163,6 +163,50 @@ const TOOL_BLURBS: Record<string, ToolBlurb> = {
     en: "Add classic top and bottom captions to any image and export the result as PNG.",
     km: "បន្ថែមអត្ថបទខាងលើ និងខាងក្រោមទៅលើរូបភាព ហើយនាំចេញជា PNG។",
   },
+  "file-checksum": {
+    en: "Hash any file with SHA-1/256/384/512 and verify it against an expected checksum, entirely locally.",
+    km: "គណនាកូដ SHA-1/256/384/512 នៃឯកសារណាមួយ ហើយផ្ទៀងផ្ទាត់ក្នុងឧបករណ៍របស់អ្នក។",
+  },
+  "speed-test": {
+    en: "Measure real ping, jitter, download, and upload speed against Cloudflare's public endpoints.",
+    km: "វាស់ពិង ជីតធឺ ការទាញយក និងការបញ្ជូនជាក់ស្តែងតាមចំណុចបម្រើ Cloudflare។",
+  },
+  "qr-batch": {
+    en: "Turn a list of links or texts into many QR codes and download them all as a ZIP of SVGs.",
+    km: "បម្លែងបញ្ជីតំណ ឬអត្ថបទទៅជាកូដ QR ជាច្រើន ដោយទាញយកជា ZIP នៃ SVG។",
+  },
+  "curl-converter": {
+    en: "Paste a curl command and get equivalent fetch, axios, Python requests, or Go code.",
+    km: "បិទភ្ជាប់ពាក្យបញ្ជា curl ហើយទទួលបានកូដ fetch, axios, Python requests ឬ Go សមមូល។",
+  },
+  "markdown-toc": {
+    en: "Generate a table of contents with GitHub-style anchors from Markdown headings.",
+    km: "បង្កើតតារាងមាតិកាជាមួយអង់គ័របែប GitHub ពីចំណងជើង Markdown។",
+  },
+  "voice-dictation": {
+    en: "Dictate text with your voice using browser speech recognition — Khmer supported where available.",
+    km: "សរសេរអត្ថបទដោយសំឡេងតាមការសម្គាល់សំឡេងរបស់កម្មវិធីរុករក — គាំទ្រភាសាខ្មែរ បើមាន។",
+  },
+  "savings-goal": {
+    en: "Find how long it takes to reach a savings goal, or the monthly deposit needed to hit a deadline.",
+    km: "រកពេលដែលត្រូវការដើម្បីសម្រេចគោលដៅសន្សំ ឬការដាក់ប្រាក់ក្នុងមួយខែតាមកាលកំណត់។",
+  },
+  "meta-tag-generator": {
+    en: "Generate SEO and social-share meta tags — title, description, Open Graph, Twitter cards.",
+    km: "បង្កើតសញ្ញាសម្គាល់ SEO និងបណ្ដាញសង្គម — ចំណងជើង ការពិពណ៌នា Open Graph Twitter cards។",
+  },
+  "pregnancy-due-date": {
+    en: "Estimate a due date, current pregnancy week, and trimester dates from the last menstrual period.",
+    km: "ប៉ាន់ប្រមាណថ្ងៃសម្រាល សប្តាហ៍ផ្ទៃពោះ និងកាលបរិច្ឆេទត្រីមាស ពីខែចុងក្រោយ។",
+  },
+  "debt-settle-up": {
+    en: "Split shared expenses fairly and get the minimum transfers that settle everyone up.",
+    km: "ចែកចំណាយរួមយុត្តិធម៌ ហើយទទួលបានការផ្ទេរប្រាក់តិចតួចបំផុត។",
+  },
+  "khmer-studio": {
+    en: "Create print-ready Khmer PDFs with correct script shaping — variable-weight posters, crossword puzzles from a word list, and paginated exam sheets with answer keys.",
+    km: "បង្កើតឯកសារ PDF ខ្មែរដែលមានរូបរាងត្រឹមត្រូវ — ផ្ទាំងពុម្ពអក្សរ ល្បែងអូសអក្សរ និងសំណុំបែបបទប្រឡងជាមួយចម្លើយ។",
+  },
 };
 
 export function toolDescription(tool: ToolDef) {
@@ -324,6 +368,17 @@ const HOWTO_TOOLS: Record<string, string[]> = {
   "text-to-speech": ["Type or paste text", "Choose a voice and adjust rate, pitch, volume", "Click Speak"],
   "images-to-gif": ["Add images in play order", "Set frame delay, width, and quality", "Generate and download the GIF"],
   "meme-generator": ["Upload an image", "Type top and bottom captions", "Adjust font size if needed", "Download as PNG"],
+  "file-checksum": ["Drop or browse for a file", "Copy the SHA-256 (or other) hash", "Paste an expected checksum to verify the match"],
+  "speed-test": ["Click Start speed test", "Wait through ping, download, and upload phases", "Read your ping, jitter, and Mbps results"],
+  "qr-batch": ["Paste one entry per line (text | file-name)", "Choose error-correction level", "Download the ZIP of SVG QR codes"],
+  "curl-converter": ["Paste a curl command", "Choose the target language or library", "Copy the generated code"],
+  "markdown-toc": ["Paste your Markdown", "Set the maximum heading depth", "Copy the generated table of contents"],
+  "voice-dictation": ["Choose your language", "Click Start dictating and allow microphone access", "Speak — text appears as you talk"],
+  "savings-goal": ["Enter your goal and current savings", "Choose time-to-goal or deadline mode", "Read months needed or required monthly deposit"],
+  "meta-tag-generator": ["Fill in title, description, and URLs", "Review the generated snippet", "Paste it into your page's <head>"],
+  "pregnancy-due-date": ["Enter the first day of the last period", "Adjust cycle length if it differs from 28 days", "Read the due date, current week, and trimester dates"],
+  "debt-settle-up": ["Add each person and what they paid", "Review total and fair share", "Follow the minimal transfers to settle up"],
+  "khmer-studio": ["Pick a tab: Poster, Crossword, or Exam sheet", "Type your Khmer text or paste a word/question list", "Adjust weight, palette, and format", "Download the print-ready PDF (answer keys included for crossword and exam)"],
 };
 
 /** HowTo structured data for tools with well-defined, truthful steps. */

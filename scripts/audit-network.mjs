@@ -49,6 +49,10 @@ const EXTERNAL_PATTERNS = [
 // Manual corrections for heuristic misses. Key = component file (relative to
 // components/tools/, without extension). Reason replaces any detected reasons.
 const MANUAL_OVERRIDES = {
+  "khmer/khmer-studio": {
+    kind: "local",
+    reason: "Fully local — happypdf is a bundled dependency and the Kantumruy Pro font ships in /public; the external links are attribution only.",
+  },
   "dev/github-file-browser": {
     kind: "network",
     reason: "Calls the GitHub public API to list repo contents from the browser.",
