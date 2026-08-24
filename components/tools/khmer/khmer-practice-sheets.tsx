@@ -100,11 +100,13 @@ async function generatePracticePdf(
         opacity: 0.18,
       });
 
-      const g = item.text.trim() || "ក";
+      const g = item.text.replace(/\r?\n/g, " ").trim() || "ក";
       const gSize = Math.min(30, (cellW - 10) / Math.max(g.length * 0.62, 1));
       const w = glyphFont.widthOfTextAtSize(g, gSize);
       const gx = x + (cellW - w) / 2;
-      const gy = y - cellH + 12;
+      // Baseline sits exactly on the cell's ruled line so glyphs never
+      // appear shifted onto the row below.
+      const gy = y - cellH + 8;
 
       if (c < exampleCells) {
         // Solid model glyph in the first cell
