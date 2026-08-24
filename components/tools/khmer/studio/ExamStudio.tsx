@@ -246,7 +246,7 @@ export default function ExamStudio() {
       </aside>
 
       {/* Live PDF preview */}
-      <main className="flex flex-1 flex-col items-center gap-3 overflow-auto bg-ink-950 p-6 lg:p-14">
+      <main className="flex flex-1 flex-col items-center gap-3 overflow-auto bg-ink-950 p-4 sm:p-6 lg:p-14">
         <div className="flex w-full items-center justify-between font-[family-name:var(--font-mono)] text-[10px] uppercase tracking-widest text-bone-faint">
           <span>Live PDF preview</span>
           <span>{rendering ? "rendering…" : `${mcqCount} MCQ · ${shortCount} short answer`}</span>
@@ -255,7 +255,7 @@ export default function ExamStudio() {
           <iframe
             src={`${pdfUrl}#toolbar=0&view=FitH`}
             title="Exam PDF preview"
-            className="w-full flex-1 rounded-lg border border-ink-800 bg-ink-900"
+            className="h-[420px] w-full max-w-full rounded-lg border border-ink-800 bg-ink-900 sm:h-[560px] lg:h-[calc(100dvh-18rem)] lg:min-h-[520px]"
             style={{ minHeight: "70vh" }}
           />
         ) : (

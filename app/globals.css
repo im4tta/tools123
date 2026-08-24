@@ -305,34 +305,32 @@ body {
 }
 
 .khmer-studio {
-  /* Studio shell — warm near-black, like a darkroom */
-  --ink-950: #14120f;
-  --ink-900: #1c1914;
-  --ink-850: #221e17;
-  --ink-800: #2b251b;
-  --ink-700: #3a3223;
+  /* Follow the site theme instead of a hardcoded dark shell. */
+  --ink-950: var(--ground);
+  --ink-900: var(--ground-raised);
+  --ink-850: var(--ground-raised-hi);
+  --ink-800: var(--ground-line);
+  --ink-700: var(--ground-line);
 
-  /* Paper + poster ink defaults */
+  /* Paper defaults stay print-oriented (they mirror the PDF output). */
   --paper: #f4eedd;
   --paper-ink: #211b12;
 
-  /* Accents — Khmer lacquerware red, stupa gold */
-  --lacquer: #b3402f;
-  --lacquer-bright: #d05a44;
+  /* Accents — Khmer lacquerware red */
+  --lacquer: var(--danger);
+  --lacquer-bright: var(--danger);
 
-  /* UI text on dark */
-  --bone: #ede6d6;
-  --bone-dim: #a79c87;
-  --bone-faint: #7a705d;
+  /* UI text follows the site ink */
+  --bone: var(--ink);
+  --bone-dim: var(--ink-dim);
+  --bone-faint: var(--ink-faint);
 
-  --studio-gold: #c9a227;
+  --studio-gold: var(--gold);
   --font-display: "Kantumruy Pro Variable", "Noto Sans Khmer", sans-serif;
   --font-mono: ui-monospace, "JetBrains Mono", monospace;
-}
 
-.khmer-studio {
-  background: var(--ink-950);
-  color: var(--bone);
+  background: var(--ground);
+  color: var(--ink);
 }
 
 .khmer-studio .paper-grain {

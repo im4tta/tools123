@@ -27,7 +27,7 @@ export default function KhmerStudioTool() {
       description="Print-ready Khmer PDFs with correct shaping — variable-weight posters, crossword puzzles, and exam sheets."
       descriptionKm="បង្កើតឯកសារ PDF ខ្មែរដែលមានរូបរាងត្រឹមត្រូវ — ផ្ទាំងពុម្ពអក្សរ ល្បែងអូសអក្សរ និងសំណុំបែបបទប្រឡង។"
     >
-      <div className="khmer-studio -mx-4 -my-2 sm:-mx-6">
+      <div className="khmer-studio overflow-hidden rounded-xl border border-[var(--ground-line)]">
         <nav className="flex border-b border-[var(--ink-800)] bg-[var(--ink-950)] px-4 py-3 sm:px-6">
           <div className="flex flex-wrap gap-1">
             {tabs.map((item) => (
