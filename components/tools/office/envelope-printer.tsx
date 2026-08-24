@@ -1,10 +1,9 @@
 "use client";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Download } from "lucide-react";
-import { PDFDocument } from "happypdf";
+import { PDFDocument, wrapText } from "happypdf";
 import {
   embedStudioFont,
-  fitLines,
   hexToColor,
   STUDIO_FONTS,
 } from "@/lib/studio/pdfShared";
@@ -23,6 +22,31 @@ interface Block {
   lines: string[];
 }
 
+/** Fits a multi-line address block: wraps each user line separately so
+ *  explicit line breaks are preserved, shrinking until the block fits. */
+function fitBlock(
+  font: ReturnType<typeof embedStudioFont> extends Promise<infer F> ? F : never,
+  lines: string[],
+  maxSize: number,
+  minSize: number,
+  maxW: number,
+  maxH: number,
+  lh = 1.35,
+): { size: number; out: string[] } {
+  const wrapOne = (t: string, s: number) =>
+    wrapText(t, (x) => font.widthOfTextAtSize(x, s), { maxWidth: maxW }).map((l) => l.text);
+  let size = maxSize;
+  while (size > minSize) {
+    const out: string[] = [];
+    for (const ln of lines) out.push(...wrapOne(ln, size));
+    if (out.length * size * lh <= maxH) return { size, out };
+    size -= 1;
+  }
+  const out: string[] = [];
+  for (const ln of lines) out.push(...wrapOne(ln, minSize));
+  return { size: minSize, out };
+}
+
 export default function EnvelopePrinter() {
   const { text: t } = useLanguage();
   const [format, setFormat] = useToolState<"dl" | "c6" | "labels">("envelope:format", "dl");
@@ -33,6 +57,7 @@ export default function EnvelopePrinter() {
     "លោក សុខ ដារា\nផ្ទះលេខ ១២៣ ផ្លូវ ស៊ីសូវត្ថ\nសង្កាត់បឹងរាំង ខណ្ឌ៧មករា\nរាជធានីភ្នំពេញ",
   );
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
+  const [error, setError] = useState("");
   const [rendering, setRendering] = useState(false);
   const prevUrlRef = useRef<string | null>(null);
 
@@ -53,8 +78,22 @@ export default function EnvelopePrinter() {
         setPdfUrl(null);
         return;
       }
+      setError("");
       setRendering(true);
-      generate().catch(() => {}).finally(() => { if (!cancelled) setRendering(false); });
+      generate()
+        .then((blob) => {
+          if (cancelled) return;
+          const url = URL.createObjectURL(blob);
+          if (prevUrlRef.current) URL.revokeObjectURL(prevUrlRef.current);
+          prevUrlRef.current = url;
+          setPdfUrl(url);
+        })
+        .catch(() => {
+          if (!cancelled) setError(t("Could not render the preview.", "មិនអាចបង្កើតការមើលជាមុនបានទេ។"));
+        })
+        .finally(() => {
+          if (!cancelled) setRendering(false);
+        });
 
       async function generate() {
         const pdfDoc = await PDFDocument.create();
@@ -79,16 +118,14 @@ export default function EnvelopePrinter() {
               const x = 12 + cI * (cellW + gapX);
               const yTop = ph - 24 - r * (cellH + gapY);
               const block = blocks[idx];
-              const fit = fitLines(font, block.lines.join("\n"), 10, 5, cellW - 8, cellH - 6, 1.25);
-              fit.lines.forEach((line, li) => {
+              const fit = fitBlock(font, block.lines, 10, 5, cellW - 8, cellH - 6, 1.25);
+              fit.out.forEach((line, li) => {
                 page.drawText(line, {
                   x: x + 4,
                   y: yTop - 12 - li * fit.size * 1.25,
                   font,
                   size: fit.size,
                   color: ink,
-                  maxWidth: cellW - 8,
-                  lineHeight: fit.size * 1.25,
                 });
               });
               idx++;
@@ -103,11 +140,10 @@ export default function EnvelopePrinter() {
             const font = await embedStudioFont(pdfDoc, fontId, 400);
             const textW = ew * (sender.trim() ? 0.55 : 0.72);
             const x = ew * 0.36;
-            const addressText = block.lines.join("\n");
-            const fit = fitLines(font, addressText, 14, 7, textW, eh * 0.6, 1.35);
-            const blockH = fit.lines.length * fit.size * 1.35;
+            const fit = fitBlock(font, block.lines, 14, 7, textW, eh * 0.6, 1.35);
+            const blockH = fit.out.length * fit.size * 1.35;
             let y = eh / 2 + blockH / 2 - fit.size;
-            fit.lines.forEach((line) => {
+            fit.out.forEach((line) => {
               const lw = font.widthOfTextAtSize(line, fit.size);
               const lx = sender.trim() ? x : x + (textW - lw) / 2;
               page.drawText(line, { x: lx, y, font, size: fit.size, color: ink });
@@ -115,8 +151,8 @@ export default function EnvelopePrinter() {
             });
             if (sender.trim()) {
               const sFont = await embedStudioFont(pdfDoc, fontId, 400);
-              const sFit = fitLines(sFont, sender.trim(), 9, 6, ew * 0.28, eh * 0.3, 1.3);
-              sFit.lines.forEach((line, i) => {
+              const sFit = fitBlock(sFont, sender.trim().split(/\r?\n/), 9, 6, ew * 0.28, eh * 0.3, 1.3);
+              sFit.out.forEach((line, i) => {
                 page.drawText(line, { x: ew * 0.06, y: eh - 40 - i * sFit.size * 1.3, font: sFont, size: sFit.size, color: ink, opacity: 0.75 });
               });
             }
@@ -131,7 +167,7 @@ export default function EnvelopePrinter() {
       cancelled = true;
       clearTimeout(timer);
     };
-  }, [blocks, format, fontId, sender]);
+  }, [blocks, format, fontId, sender, t]);
 
   useEffect(
     () => () => {
@@ -185,6 +221,7 @@ export default function EnvelopePrinter() {
                 {t("Enter at least one address.", "សូមបញ្ចូលអាសយដ្ឋានយ៉ាងតិចមួយ។")}
               </div>
             )}
+            {error && <p className="text-sm text-[var(--danger)]">{error}</p>}
             <button type="button" onClick={() => { if (!pdfUrl) return; const a = document.createElement("a"); a.href = pdfUrl; a.download = "envelopes.pdf"; a.click(); }} disabled={!pdfUrl} className="flex w-full items-center justify-center gap-2 rounded-xl bg-[var(--gold)] px-5 py-3 text-sm font-semibold text-[#0a0c0d] transition hover:bg-[var(--gold-dim)] disabled:opacity-40">
               <Download size={15} />{t("Download PDF", "ទាញយក PDF")}
             </button>
