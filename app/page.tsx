@@ -20,6 +20,7 @@ import { ObsidianGraph } from "@/components/ObsidianGraph";
 import { TOOLS, CATEGORY_META, CATEGORY_ORDER, Category } from "@/lib/tools";
 import { toolHref } from "@/lib/toolRoutes";
 import { useLocalStorage, STORAGE_KEYS, type ToolCollection } from "@/lib/storage";
+import { mostUsedToolIds } from "@/lib/export";
 
 const KH_DIGITS = "០១២៣៤៥៦៧៨៩";
 const toKh = (n: number) => String(n).split("").map((d) => KH_DIGITS[Number(d)]).join("");
@@ -308,6 +309,12 @@ export default function Home() {
   const recentIds = activeWorkspaceProfile?.recentCalculations ?? recents;
   const favoriteTools = useMemo(() => favoriteIds.map((id) => TOOLS.find((t) => t.id === id)).filter(Boolean) as typeof TOOLS, [favoriteIds]);
   const recentTools = useMemo(() => recentIds.map((id) => TOOLS.find((t) => t.id === id)).filter(Boolean) as typeof TOOLS, [recentIds]);
+  const [mostUsedIds, setMostUsedIds] = useState<string[]>(() => (typeof window !== "undefined" ? mostUsedToolIds(8) : []));
+  const refreshMostUsed = useCallback(() => setMostUsedIds(mostUsedToolIds(8)), []);
+  // Refresh the "Most used" list whenever we return to the grid (tool opens change it).
+  useEffect(() => { if (activeId === null) refreshMostUsed(); }, [activeId, refreshMostUsed]); // eslint-disable-line react-hooks/set-state-in-effect
+  const mostUsedTools = useMemo(() => mostUsedIds.map((id) => TOOLS.find((t) => t.id === id)).filter(Boolean) as typeof TOOLS, [mostUsedIds]);
+  const hasUsage = useMemo(() => mostUsedIds.length > 0, [mostUsedIds]);
   const localDevTools = useMemo(() => TOOLS.filter((tool) => tool.localProject), []);
   const dailyAddition = useMemo(() => {
     // Current Monday–Sunday week in Asia/Phnom_Penh (UTC+7).
@@ -630,6 +637,18 @@ export default function Home() {
           </div>
           <div className="tool-list-scroll">
             <ToolGrid tools={recentTools} onSelect={setActiveId} favorites={favorites} onToggleFavorite={toggleFavorite} />
+          </div>
+        </div>
+      )}
+
+      {hasUsage && mostUsedTools.length > 0 && filter === "" && (
+        <div className="relative mx-auto mt-10 max-w-[77rem] px-5 sm:px-10">
+          <div className="mb-3 flex items-baseline gap-2 border-b border-[var(--ground-line)] pb-2">
+            <h2 className="font-display text-sm font-medium text-[var(--ink)]">{t("Most used", "បានប្រើច្រើនបំផុត")}</h2>
+            <span className="text-xs text-[var(--ink-faint)]">{t("from your own usage", "ពីការប្រើប្រាស់របស់អ្នក")}</span>
+          </div>
+          <div className="tool-list-scroll">
+            <ToolGrid tools={mostUsedTools} onSelect={setActiveId} favorites={favorites} onToggleFavorite={toggleFavorite} />
           </div>
         </div>
       )}

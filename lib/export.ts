@@ -12,6 +12,44 @@ export const EXPORT_MILESTONES = [1, 5, 10, 20] as const;
 
 const EXPORT_COUNT_KEY = "toolbox123:exportCount";
 const WATERMARK_KEY = "toolbox123:watermark";
+const TOOL_USAGE_KEY = "toolbox123:toolUsage";
+
+/** Per-tool usage counts, persisted locally from the user's own behaviour. */
+export type ToolUsage = Record<string, number>;
+
+export function getToolUsage(): ToolUsage {
+  if (typeof window === "undefined") return {};
+  try {
+    const raw = window.localStorage.getItem(TOOL_USAGE_KEY);
+    if (!raw) return {};
+    return JSON.parse(raw) as ToolUsage;
+  } catch {
+    return {};
+  }
+}
+
+/** Increment a tool's usage counter when it is opened, and return the new counts. */
+export function recordToolUse(toolId: string): ToolUsage {
+  if (typeof window === "undefined") return {};
+  const usage = getToolUsage();
+  usage[toolId] = (usage[toolId] ?? 0) + 1;
+  try {
+    window.localStorage.setItem(TOOL_USAGE_KEY, JSON.stringify(usage));
+  } catch {
+    // ignore storage errors
+  }
+  return usage;
+}
+
+/** Tools most used by this visitor, sorted by usage count (most first). */
+export function mostUsedToolIds(limit = 8): string[] {
+  const usage = getToolUsage();
+  return Object.entries(usage)
+    .filter(([, count]) => count > 0)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, limit)
+    .map(([id]) => id);
+}
 
 export function getExportCount(): number {
   if (typeof window === "undefined") return 0;

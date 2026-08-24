@@ -1,9 +1,9 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Search, Settings2, Type } from "lucide-react";
+import { Copy, Delete, Square, Search, Settings2, Type } from "lucide-react";
 import { useLanguage } from "@/components/LanguageProvider";
-import { ToolShell } from "@/components/ui/Shell";
+import { ToolShell, TextArea } from "@/components/ui/Shell";
 import { useToolState } from "@/lib/storage";
 
 const BASE: Record<string, string> = { q: "ឆ", w: "វ", e: "េ", r: "រ", t: "ត", y: "យ", u: "ុ", i: "ិ", o: "ោ", p: "ផ", a: "ា", s: "ស", d: "ដ", f: "ថ", g: "ង", h: "ហ", j: "្", k: "ក", l: "ល", ";": "ើ", "'": "់", z: "ឋ", x: "ខ", c: "ច", v: "ឥ", b: "ប", n: "ន", m: "ម", "[": "ៀ", "]": "ឪ", "\\": "ឮ", "/": "៊", "1": "១", "2": "២", "3": "៣", "4": "៤", "5": "៥", "6": "៦", "7": "៧", "8": "៨", "9": "៩", "0": "០", "`": "«", "=": "៭" };
@@ -23,15 +23,22 @@ export default function KhmerKeyboardVisualizer() {
   const [altgr, setAltgr] = useState(false);
   const [active, setActive] = useState<string | null>(null);
   const [last, setLast] = useState<{ key: string; output: string } | null>(null);
+  const [output, setOutput] = useToolState("kkv:output", "");
+
+  const typeKey = useCallback((key: string) => {
+    const ch = keyChar(key, shift, altgr);
+    setLast({ key, output: ch });
+    setOutput((prev) => prev + ch);
+  }, [shift, altgr, setOutput]);
 
   const handleKey = useCallback((event: KeyboardEvent) => {
     const key = event.key.length === 1 ? event.key.toLowerCase() : event.key;
     setActive(event.code);
     if (event.key === "Shift") setShift(true);
     if (event.code === "AltRight") setAltgr(true);
-    if (BASE[key] || SHIFT[key] || ALT[key]) setLast({ key: event.key, output: keyChar(key, event.shiftKey, event.getModifierState("AltGraph") || event.code === "AltRight" || altgr) });
+    if (BASE[key] || SHIFT[key] || ALT[key]) { const ch = keyChar(key, event.shiftKey, event.getModifierState("AltGraph") || event.code === "AltRight" || altgr); setLast({ key: event.key, output: ch }); setOutput((prev) => prev + ch); }
     window.setTimeout(() => setActive(null), 140);
-  }, [altgr]);
+  }, [altgr, setOutput]);
   useEffect(() => { const up = (event: KeyboardEvent) => { if (event.key === "Shift") setShift(false); if (event.code === "AltRight") setAltgr(false); }; window.addEventListener("keyup", up); return () => window.removeEventListener("keyup", up); }, []);
   useEffect(() => { window.addEventListener("keydown", handleKey); return () => window.removeEventListener("keydown", handleKey); }, [handleKey]);
 
@@ -47,8 +54,14 @@ export default function KhmerKeyboardVisualizer() {
   return <ToolShell title="Khmer Keyboard Visualizer" khmerTitle="ឧបករណ៍បង្ហាញក្តារចុចខ្មែរ" description="Interactive Khmer NiDA keyboard reference, modifier viewer, Unicode inspector, and keystroke sequence simulator." descriptionKm="មើលក្តារចុចខ្មែរ NiDA បែបអន្តរកម្ម ពិនិត្យគ្រាប់ចុច សញ្ញា Unicode និងលំដាប់វាយអក្សរ។">
     <div className="space-y-5">
       <div className="rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)] p-5">
+        <div className="mb-3 flex flex-wrap items-center justify-between gap-2"><h2 className="flex items-center gap-2 font-semibold text-[var(--ink)]"><Type size={16} className="text-[var(--gold)]" />{t("Type here", "វាយនៅទីនេះ")}</h2><div className="flex gap-2"><button type="button" onClick={() => { if (output) { void navigator.clipboard?.writeText(output); } }} className="flex items-center gap-1 rounded-md border border-[var(--ground-line)] px-2 py-1 text-xs text-[var(--ink-dim)] hover:border-[var(--gold)]/40"><Copy size={13} />{t("Copy", "ចម្លង")}</button></div></div>
+        <TextArea rows={3} value={output} onChange={(e) => setOutput(e.target.value)} placeholder={t("Click keys or type on your keyboard — Khmer text appears here.", "ចុចគ្រាប់ចុច ឬវាយលើក្តារចុចរបស់អ្នក — អត្ថបទខ្មែរនឹងបង្ហាញនៅទីនេះ។")} className="font-khmer text-xl leading-relaxed" />
+        <div className="mt-2 text-[11px] text-[var(--ink-faint)]">{output ? (() => { try { return `${Array.from(new Intl.Segmenter(undefined, { granularity: "grapheme" }).segment(output)).length} ${t("grapheme clusters", "ក្រុមអក្សរ")}`; } catch { return `${Array.from(output).length} ${t("characters", "តួអក្សរ")}`; } })() : ""}</div>
+      </div>
+
+      <div className="rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)] p-5">
         <div className="mb-4 flex flex-wrap items-center justify-between gap-3"><h2 className="flex items-center gap-2 font-semibold text-[var(--ink)]"><Settings2 size={16} className="text-[var(--gold)]" />{t("Khmer Standard (NiDA)", "ខ្មែរស្ដង់ដារ (NiDA)")}</h2><div className="flex gap-2"><span className={`rounded-md px-2 py-1 text-xs font-bold ${shift ? "bg-[var(--gold)]/15 text-[var(--gold)]" : "bg-[var(--ground)] text-[var(--ink-faint)]"}`}>SHIFT {shift ? "ON" : "OFF"}</span><span className={`rounded-md px-2 py-1 text-xs font-bold ${altgr ? "bg-pink-500/15 text-pink-500" : "bg-[var(--ground)] text-[var(--ink-faint)]"}`}>ALTGR {altgr ? "ON" : "OFF"}</span><button onClick={() => setShift(!shift)} className="rounded-md border border-[var(--ground-line)] px-2 py-1 text-xs text-[var(--ink-dim)]">Shift</button><button onClick={() => setAltgr(!altgr)} className="rounded-md border border-[var(--ground-line)] px-2 py-1 text-xs text-[var(--ink-dim)]">AltGr</button></div></div>
-        <div className="overflow-x-auto rounded-xl border border-[var(--ground-line)] bg-[var(--ground)] p-4"><div className="mx-auto min-w-[700px] max-w-5xl space-y-2">{KEY_ROWS.map((row, ri) => <div key={ri} className="flex justify-center gap-1.5">{row.map((key) => <button key={key} type="button" onClick={() => setLast({ key, output: keyChar(key, shift, altgr) })} className={`relative flex h-12 min-w-10 flex-col items-center justify-center rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] text-sm font-bold text-[var(--ink)] transition ${active === `Key${key.toUpperCase()}` ? "scale-95 border-[var(--gold)] bg-[var(--gold)]/20" : "hover:border-[var(--gold)]/40"}`}><span className={altgr ? "text-pink-500" : ""}>{keyChar(key, shift, altgr)}</span><span className="absolute bottom-0.5 left-1 text-[9px] text-[var(--ink-faint)]">{altgr ? "AltGr+" + key : shift ? SHIFT_SYMBOLS[key] ?? key.toUpperCase() : key}</span></button>)}</div>)}<div className="flex justify-center pt-1"><div className="h-10 w-64 rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] text-center text-[10px] leading-10 text-[var(--ink-faint)]">Space</div></div></div></div>
+        <div className="overflow-x-auto rounded-xl border border-[var(--ground-line)] bg-[var(--ground)] p-4"><div className="mx-auto min-w-[700px] max-w-5xl space-y-2">{KEY_ROWS.map((row, ri) => <div key={ri} className="flex justify-center gap-1.5">{row.map((key) => <button key={key} type="button" onClick={() => typeKey(key)} className={`relative flex h-12 min-w-10 flex-col items-center justify-center rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] text-sm font-bold text-[var(--ink)] transition ${active === `Key${key.toUpperCase()}` ? "scale-95 border-[var(--gold)] bg-[var(--gold)]/20" : "hover:border-[var(--gold)]/40"}`}><span className={altgr ? "text-pink-500" : ""}>{keyChar(key, shift, altgr)}</span><span className="absolute bottom-0.5 left-1 text-[9px] text-[var(--ink-faint)]">{altgr ? "AltGr+" + key : shift ? SHIFT_SYMBOLS[key] ?? key.toUpperCase() : key}</span></button>)}</div>)}<div className="flex justify-center gap-1.5 pt-1"><button type="button" onClick={() => typeKey(" ")} className="h-10 w-64 rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] text-center text-[10px] leading-10 text-[var(--ink-faint)] hover:border-[var(--gold)]/40">Space</button><button type="button" onClick={() => setOutput((prev) => prev.slice(0, -1))} className="flex h-10 items-center gap-1 rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 text-[10px] text-[var(--ink-dim)] hover:border-[var(--gold)]/40"><Delete size={13} />{t("Backspace", "លុបថយក្រោយ")}</button><button type="button" onClick={() => setOutput("")} className="flex h-10 items-center gap-1 rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 text-[10px] text-[var(--ink-dim)] hover:border-[var(--gold)]/40"><Square size={13} />{t("Clear", "ជម្រះ")}</button></div></div></div>
       </div>
 
       <div className="rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)] p-5"><h2 className="mb-3 flex items-center gap-2 font-semibold text-[var(--ink)]"><Search size={16} className="text-[var(--gold)]" />{t("Key Inspector", "ពិនិត្យគ្រាប់ចុច")}</h2>{last ? <div className="grid grid-cols-1 gap-3 sm:grid-cols-3"><div className="rounded-lg border border-[var(--ground-line)] bg-[var(--ground)] p-4 text-center"><div className="font-khmer text-4xl text-[var(--gold)]">{last.output}</div><div className="mt-1 text-[10px] text-[var(--ink-faint)]">{t("Khmer output", "លទ្ធផលខ្មែរ")}</div></div><div className="rounded-lg border border-[var(--ground-line)] bg-[var(--ground)] p-4"><div className="text-[10px] text-[var(--ink-faint)]">{t("Latin key", "គ្រាប់ឡាតាំង")}</div><div className="mt-2 font-mono-ui text-xl font-bold text-[var(--ink)]">{last.key}</div></div><div className="rounded-lg border border-[var(--ground-line)] bg-[var(--ground)] p-4"><div className="text-[10px] text-[var(--ink-faint)]">Unicode</div><div className="mt-2 font-mono-ui text-xl font-bold text-[var(--gold)]">{codepoint(last.output)}</div></div></div> : <div className="rounded-lg border border-dashed border-[var(--ground-line)] p-6 text-center text-xs text-[var(--ink-faint)]">{t("Press a key to inspect it", "ចុចគ្រាប់ចុចដើម្បីពិនិត្យ")}</div>}</div>

@@ -77,3 +77,69 @@ export async function embedStudioFont(
     subset: true,
   });
 }
+
+/** Shrinks text until the wrapped block fits maxW × maxH. */
+export function fitLines(
+  font: PDFFont,
+  text: string,
+  maxSize: number,
+  minSize: number,
+  maxWidth: number,
+  maxHeight: number,
+  lineHeightFactor = 1.3,
+): { size: number; lines: string[] } {
+  let size = maxSize;
+  while (size > minSize) {
+    const lines = wrapText(text, (t) => font.widthOfTextAtSize(t, size), { maxWidth }).map((l) => l.text);
+    if (lines.length * size * lineHeightFactor <= maxHeight) return { size, lines };
+    size -= 1;
+  }
+  const lines = wrapText(text, (t) => font.widthOfTextAtSize(t, minSize), { maxWidth }).map((l) => l.text);
+  return { size: minSize, lines };
+}
+
+type DrawLinePage = {
+  drawLine: (opts: {
+    start: { x: number; y: number };
+    end: { x: number; y: number };
+    thickness?: number;
+    color?: Color;
+    opacity?: number;
+  }) => void;
+};
+
+/** Draws a dashed straight line between two points. */
+export function drawDashedLine(
+  page: DrawLinePage,
+  opts: {
+    start: { x: number; y: number };
+    end: { x: number; y: number };
+    thickness?: number;
+    color?: Color;
+    opacity?: number;
+    dash?: number;
+    gap?: number;
+  },
+): void {
+  const { start, end } = opts;
+  const dx = end.x - start.x;
+  const dy = end.y - start.y;
+  const length = Math.hypot(dx, dy);
+  const dash = opts.dash ?? 4;
+  const gap = opts.gap ?? 3;
+  if (length === 0) return;
+  const ux = dx / length;
+  const uy = dy / length;
+  let d = 0;
+  while (d < length) {
+    const segEnd = Math.min(d + dash, length);
+    page.drawLine({
+      start: { x: start.x + ux * d, y: start.y + uy * d },
+      end: { x: start.x + ux * segEnd, y: start.y + uy * segEnd },
+      thickness: opts.thickness ?? 0.75,
+      color: opts.color,
+      opacity: opts.opacity ?? 1,
+    });
+    d = segEnd + gap;
+  }
+}
