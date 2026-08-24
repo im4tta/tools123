@@ -14,6 +14,7 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 import { STORAGE_KEYS, storage, useLocalStorage, type ToolCollection } from "@/lib/storage";
 import { TOOLS } from "@/lib/tools";
 import { toolHref } from "@/lib/toolRoutes";
+import { recordToolUse } from "@/lib/export";
 import { recommendationsFor } from "@/lib/recommendations";
 import { DEFAULT_WORKSPACE_PROFILES, type WorkspaceProfile } from "@/lib/workspaces";
 
@@ -35,6 +36,7 @@ export function ToolRouteClient({ toolId }: { toolId: string }) {
         ? { ...profile, recentCalculations: [toolId, ...profile.recentCalculations.filter((id) => id !== toolId)].slice(0, 8) }
         : profile));
     }
+    recordToolUse(toolId);
   }, [setRecents, setWorkspaceProfiles, toolId, workspaceId]);
 
   useEffect(() => {

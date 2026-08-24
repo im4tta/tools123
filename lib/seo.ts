@@ -208,8 +208,68 @@ const TOOL_BLURBS: Record<string, ToolBlurb> = {
     km: "ចែកចំណាយរួមយុត្តិធម៌ ហើយទទួលបានការផ្ទេរប្រាក់តិចតួចបំផុត។",
   },
   "khmer-studio": {
-    en: "Create print-ready Khmer PDFs with correct script shaping — variable-weight posters, crossword puzzles from a word list, and paginated exam sheets with answer keys.",
-    km: "បង្កើតឯកសារ PDF ខ្មែរដែលមានរូបរាងត្រឹមត្រូវ — ផ្ទាំងពុម្ពអក្សរ ល្បែងអូសអក្សរ និងសំណុំបែបបទប្រឡងជាមួយចម្លើយ។",
+    en: "Create print-ready Khmer PDFs with correct script shaping — variable-weight posters, crossword/word-search puzzles from a word list, paginated exam sheets with answer keys, and double-sided flashcard decks.",
+    km: "បង្កើតឯកសារ PDF ខ្មែរដែលមានរូបរាងត្រឹមត្រូវ — ផ្ទាំងពុម្ពអក្សរ ល្បែងអូសអក្សរ សំណុំបែបបទប្រឡងជាមួយចម្លើយ និងកាតរំលឹក។",
+  },
+  "khmer-lyrics": {
+    en: "Browse and read real Khmer song lyrics from the public khlyrics database — title and artist index, bilingual search, and a copy-ready view.",
+    km: "ស្វែងរក និងអានខ្លឹមសារបទចម្រៀងខ្មែរពិតប្រាកដពីមូលដ្ឋានទិន្នន័យ khlyrics សាធារណៈ — លិបិក្រមតាមចំណងជើង និងអ្នកចម្រៀង ការស្វែងរកទ្វេភាសា និងទិដ្ឋភាពអាន។",
+  },
+  "site-forensics": {
+    en: "Inspect any domain in one shot — live DNS records, HTTP response headers, WHOIS registration via RDAP, IP geolocation, and Wayback Machine history.",
+    km: "ពិនិត្យដូមេនណាមួយក្នុងមួយដង — កំណត់ត្រា DNS ផ្ទាល់ បឋមកថា HTTP ការចុះបញ្ជី WHOIS ទីតាំង IP និងប្រវត្តិ Wayback Machine។",
+  },
+  "flight-route-planner": {
+    en: "Compute the great-circle distance and estimated cruise time between two airports from real airport coordinates — a truthful distance reference, not a live fare scanner.",
+    km: "គណនាចម្ងាយផ្ទៃធំ និងពេលហោះប៉ាន់ស្មានរវាងអាកាសយានដ្ឋានពីរ ពីកូអរដោនេពិតប្រាកដ — ជាឯកសារយោងចម្ងាយដ៏ពិតប្រាកដ មិនមែនជាឧបករណ៍ស្កេនតម្លៃផ្ទាល់ទេ។",
+  },
+  "map-poster-generator": {
+    en: "Create a printable map poster of any location — a live pan-and-zoom map with a real basemap, exported as a high-resolution PNG.",
+    km: "បង្កើតផ្ទាំងផែនទីសម្រាប់ទីកន្លែងណាមួយ — ផែនទីផ្ទាល់អូស-ពង្រីក ជាមួយផ្ទៃខាងក្រោយពិតប្រាកដ នាំចេញជា PNG គុណភាពខ្ពស់។",
+  },
+  "route-on-map": {
+    en: "Draw the great-circle route between two airports on a real map and see the distance, using real OurAirports coordinates.",
+    km: "គូសផ្លូវរវាងអាកាសយានដ្ឋានពីរលើផែនទីផ្ទាល់ និងមើលចម្ងាយ ដោយប្រើកូអរដោនេពិតប្រាកដពី OurAirports។",
+  },
+  "khmer-text-diff": {
+    en: "Compare two Khmer texts and highlight what changed at the grapheme-cluster level, so stacked syllables stay intact.",
+    km: "ប្រៀបធៀបអត្ថបទខ្មែរពីរ និងបន្លិចអ្វីដែលប្តូរប្រែនៅកម្រិតក្រុមអក្សរ ដើម្បីកុំឱ្យព្យាង្គពីរតួដាច់ពីគ្នា។",
+  },
+  "khmer-greeting-cards": {
+    en: "Make an elegant Khmer greeting card from traditional well-wish templates — new year, wedding, condolence and more — and export it as a PNG.",
+    km: "បង្កើតកាតជូនពរខ្មែរដ៏ស្រស់ស្អាតពីគំរូបុរាណ — ចូលឆ្នាំថ្មី អាពាហ៍ពិពាហ៍ រំលែកទុក្ខ និងច្រើនទៀត — រួចនាំចេញជា PNG។",
+  },
+  "clipboard-manager": {
+    en: "Capture, search, split, and merge your clipboard history entirely in this browser — with Khmer text support, pinning, and one-click re-copy.",
+    km: "ចាប់យក ស្វែងរក បំបែក និងបញ្ចូលប្រវត្តិក្ដារចម្លងទាំងស្រុងក្នុងកម្មវិធីរុករក — ជាមួយការគាំទ្រអក្សរខ្មែរ ការខ្ទាស់ និងការចម្លងឡើងវិញមួយចុច។",
+  },
+  "screenshot-ocr": {
+    en: "Paste a screenshot or upload an image and extract the text with in-browser OCR — tuned for Khmer and English. Files never leave your device.",
+    km: "បិទភ្ជាប់រូបថតអេក្រង់ ឬបញ្ចូលរូបភាព រួចទាញយកអត្ថបទដោយ OCR ក្នុងកម្មវិធីរុករក — សម្រួលសម្រាប់ភាសាខ្មែរ និងអង់គ្លេស។ ឯកសារមិនចាកចេញពីឧបករណ៍របស់អ្នកទេ។",
+  },
+  "lsb-steganography": {
+    en: "Hide a secret message inside an image's pixels (LSB steganography) or read one back — invisible to the eye and fully offline.",
+    km: "លាក់សារសម្ងាត់ក្នុងភីកសែលរូបភាព (LSB steganography) ឬអានវាមកវិញ — មើលមិនឃើញ និងដំណើរការក្រៅបណ្តាញទាំងស្រុង។",
+  },
+  "audio-visualizer-player": {
+    en: "Play an audio track with a live animated visualizer — spectrum bars, waveform, or radial — drawn in real time with the Web Audio API.",
+    km: "ចាក់សំឡេងជាមួយរូបភាពចលនាផ្ទាល់ — របារស្ពែកទ្រុម រលកសំឡេង ឬរ៉ាឌីល — គូរតាមពេលជាក់ស្តែងដោយ Web Audio API។",
+  },
+  "video-to-audio": {
+    en: "Extract the audio track from a video file and download it as a WAV — entirely in your browser, no upload.",
+    km: "ទាញយកសំឡេងពីឯកសារវីដេអូ ហើយនាំចេញជា WAV — ដំណើរការទាំងស្រុងក្នុងកម្មវិធីរុករក គ្មានការបញ្ចូលឡើយ។",
+  },
+  "video-merger": {
+    en: "Combine multiple video files into a single video — re-encoded client-side with MediaRecorder, no upload.",
+    km: "បញ្ចូលឯកសារវីដេអូជាច្រើនទៅជាវីដេអូតែមួយ — ដោយប្រើ MediaRecorder ក្នុងកម្មវិធីរុករក គ្មានការបញ្ចូលឡើយ។",
+  },
+  "subtitle-player": {
+    en: "Play a video with .srt subtitles synced to playback — paste SRT text or load a file and read the active cue in real time.",
+    km: "ចាក់វីដេអូជាមួយអក្សររត់ពីក្រោម .srt ដែលស្របតាមពេលចាក់ — បិទភ្ជាប់អត្ថបទ SRT ឬផ្ទុកឯកសារ រួចអានអត្ថបទបច្ចុប្បន្នតាមពេលវេលា។",
+  },
+  "video-frame-batch": {
+    en: "Extract a frame every N seconds from a video and download all the frames as a ZIP — entirely in your browser.",
+    km: "ទាញយករូបភាពមួយសន្លឹករៀងរាល់ N វិនាទីពីវីដេអូ ហើយនាំចេញទាំងអស់ជា ZIP — ដំណើរការទាំងស្រុងក្នុងកម្មវិធីរុករក។",
   },
   "khmer-practice-sheets": {
     en: "Generate ruled Khmer handwriting practice worksheets with a solid example and faint tracing cells for each letter or word.",
@@ -399,11 +459,26 @@ const HOWTO_TOOLS: Record<string, string[]> = {
   "meta-tag-generator": ["Fill in title, description, and URLs", "Review the generated snippet", "Paste it into your page's <head>"],
   "pregnancy-due-date": ["Enter the first day of the last period", "Adjust cycle length if it differs from 28 days", "Read the due date, current week, and trimester dates"],
   "debt-settle-up": ["Add each person and what they paid", "Review total and fair share", "Follow the minimal transfers to settle up"],
-  "khmer-studio": ["Pick a tab: Poster, Crossword, or Exam sheet", "Type your Khmer text or paste a word/question list", "Adjust weight, palette, and format", "Download the print-ready PDF (answer keys included for crossword and exam)"],
+  "khmer-studio": ["Pick a tab: Poster, Crossword / Word search, Exam sheet, or Flashcards", "Type your Khmer text or paste a word/question list (or load a word bank)", "Adjust font, weight, palette, and format", "Download the print-ready PDF (answer keys included for puzzles and exams)"],
   "khmer-practice-sheets": ["Type the letters or words to practice (one per line)", "Choose a font and how many tracing cells", "Preview and download the worksheet PDF"],
   "certificate-generator": ["Enter organisation, award line, and date", "Paste recipient names (one per line)", "Pick a font and border color", "Download one PDF with a page per recipient"],
   "envelope-printer": ["Paste addresses separated by blank lines", "Choose DL, C6, or A4 label format", "Optionally add a sender block", "Download and print"],
   "event-ticket-sheet": ["Enter event title, date, venue, and price", "Set start number and quantity", "Add a QR link prefix if needed", "Download the numbered ticket sheets"],
+  "khmer-lyrics": ["Pick Sample or paste your khlyrics JSON", "Search by title, artist, or lyric", "Select a song to read its lyrics", "Copy the lyrics to use elsewhere"],
+  "site-forensics": ["Enter a domain or URL", "Click Inspect", "Review DNS, HTTP, WHOIS, IP, and Wayback sections", "Check the source note about live data"],
+  "flight-route-planner": ["Type an origin IATA code or city name", "Pick the airport from the suggestions", "Do the same for the destination", "Read the route distance and estimated cruise time"],
+  "map-poster-generator": ["Choose a Cambodian location", "Pick a basemap and theme", "Adjust zoom and title", "Export and download the PNG poster"],
+  "route-on-map": ["Enter an origin airport code", "Enter a destination airport code", "Review the route drawn on the map", "Read the great-circle distance"],
+  "khmer-text-diff": ["Paste the original Khmer text", "Paste the changed Khmer text", "Choose grapheme or word granularity", "Read the highlighted differences"],
+  "khmer-greeting-cards": ["Pick an occasion and theme", "Edit the Khmer and English message", "Add your name", "Preview and download the card"],
+  "clipboard-manager": ["Copy text, or paste from your clipboard", "Browse the captured history", "Pin, search, and clear items", "Click Copy to reuse any entry"],
+  "screenshot-ocr": ["Upload or paste a screenshot", "Pick Khmer or English", "Click Extract text", "Copy the recognized text"],
+  "lsb-steganography": ["Upload an image", "Choose Hide or Read mode", "Enter a message and hide it, or read one back", "Download the encoded PNG"],
+  "audio-visualizer-player": ["Choose an audio file", "Pick a visualizer mode (bars, wave, radial)", "Adjust the color", "Play to see the live visualization"],
+  "video-to-audio": ["Choose a video file", "Click Extract audio", "Review the detected duration", "Download the WAV file"],
+  "video-merger": ["Select two or more video files", "Reorder or remove clips as needed", "Click Merge videos", "Download the combined WebM"],
+  "subtitle-player": ["Choose a video file", "Paste SRT text or load a .srt file", "Play the video", "Read the active caption synced to playback"],
+  "video-frame-batch": ["Choose a video file", "Set the frame interval in seconds", "Click Extract frames", "Download all frames as a ZIP"],
 };
 
 /** HowTo structured data for tools with well-defined, truthful steps. */
