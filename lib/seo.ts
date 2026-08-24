@@ -135,6 +135,10 @@ const TOOL_BLURBS: Record<string, ToolBlurb> = {
     en: "Convert text to grade-1 braille and back using Unicode braille patterns.",
     km: "បម្លែងអត្ថបទទៅជាអក្សរប្រៃយ៍កម្រិត១ និងត្រឡប់វិញ ដោយប្រើយូនីកូដប្រៃយ៍។",
   },
+  "script-analyzer": {
+    en: "Break text down by Unicode script, expose mixed-script homoglyph tricks like Cyrillic 'а' in 'аpple', and strip invisible characters.",
+    km: "វិភាគអត្ថបទតាមយូនីកូដ បង្ហាញអក្សរក្លែងក្លាយ ហើយសម្អាតតួអក្សរក្រឡេកមិនឃើញ។",
+  },
   "dns-lookup": {
     en: "Query live DNS records (A, AAAA, MX, TXT, NS, CNAME, SOA) for any domain via DNS-over-HTTPS.",
     km: "សួរកំណត់ត្រា DNS ផ្ទាល់ (A, AAAA, MX, TXT, NS, CNAME, SOA) សម្រាប់ដូមេនណាមួយ។",
@@ -206,6 +210,22 @@ const TOOL_BLURBS: Record<string, ToolBlurb> = {
   "khmer-studio": {
     en: "Create print-ready Khmer PDFs with correct script shaping — variable-weight posters, crossword puzzles from a word list, and paginated exam sheets with answer keys.",
     km: "បង្កើតឯកសារ PDF ខ្មែរដែលមានរូបរាងត្រឹមត្រូវ — ផ្ទាំងពុម្ពអក្សរ ល្បែងអូសអក្សរ និងសំណុំបែបបទប្រឡងជាមួយចម្លើយ។",
+  },
+  "khmer-practice-sheets": {
+    en: "Generate ruled Khmer handwriting practice worksheets with a solid example and faint tracing cells for each letter or word.",
+    km: "បង្កើតសន្លឹកអនុវត្តសរសេរអក្សរខ្មែរ — ឧទាហរណ៍ច្បាស់មួយ និងក្រឡាធំៗសម្រាប់ហ្វឹកហាត់។",
+  },
+  "certificate-generator": {
+    en: "Batch-generate decorated certificates with correctly shaped Khmer names — one page per recipient.",
+    km: "បង្កើតលិខិតសម្គាល់ជាបាច់ ជាមួយឈ្មោះខ្មែរដែលបង្ហាញត្រឹមត្រូវ — មួយទំព័រក្នុងមួយឈ្មោះ។",
+  },
+  "envelope-printer": {
+    en: "Print Khmer addresses onto DL/C6 envelopes or A4 label sheets, batch-ready and correctly shaped.",
+    km: "បោះពុម្ពអាសយដ្ឋានខ្មែរលើសំបុត្រ DL/C6 ឬស្លាក A4 — រួចរាល់ជាបាច់។",
+  },
+  "event-ticket-sheet": {
+    en: "Generate numbered event tickets with tear lines and optional QR codes on print-ready A4 sheets.",
+    km: "បង្កើតសំបុត្រលេខរៀង ជាមួយបន្ទាត់បោះ និងកូដ QR បើចង់បាន — ទម្រង់ A4។",
   },
 };
 
@@ -361,6 +381,7 @@ const HOWTO_TOOLS: Record<string, string[]> = {
   "periodic-table": ["Click any element to see its details", "Type a chemical formula like H2SO4", "Read the molar mass and per-element breakdown"],
   "word-cloud": ["Paste your text", "Shuffle the layout if you like", "Download the cloud as PNG"],
   "braille-translator": ["Choose Text → Braille or Braille → Text", "Enter your text", "Copy the converted output"],
+  "script-analyzer": ["Paste suspicious text, a URL, or a username", "Review the script breakdown and homoglyph alerts", "Copy the cleaned text with invisible characters stripped"],
   "dns-lookup": ["Enter a domain name", "Choose a record type (A, MX, TXT…)", "Click Look up", "Read the live records with their TTLs"],
   "whats-my-ip": ["Open the tool", "Your public IP appears automatically", "Copy it or review the ISP and location details"],
   "http-request-tester": ["Pick a method and enter the URL", "Add headers and a body if needed", "Send the request", "Review status, timing, and response body"],
@@ -379,6 +400,10 @@ const HOWTO_TOOLS: Record<string, string[]> = {
   "pregnancy-due-date": ["Enter the first day of the last period", "Adjust cycle length if it differs from 28 days", "Read the due date, current week, and trimester dates"],
   "debt-settle-up": ["Add each person and what they paid", "Review total and fair share", "Follow the minimal transfers to settle up"],
   "khmer-studio": ["Pick a tab: Poster, Crossword, or Exam sheet", "Type your Khmer text or paste a word/question list", "Adjust weight, palette, and format", "Download the print-ready PDF (answer keys included for crossword and exam)"],
+  "khmer-practice-sheets": ["Type the letters or words to practice (one per line)", "Choose a font and how many tracing cells", "Preview and download the worksheet PDF"],
+  "certificate-generator": ["Enter organisation, award line, and date", "Paste recipient names (one per line)", "Pick a font and border color", "Download one PDF with a page per recipient"],
+  "envelope-printer": ["Paste addresses separated by blank lines", "Choose DL, C6, or A4 label format", "Optionally add a sender block", "Download and print"],
+  "event-ticket-sheet": ["Enter event title, date, venue, and price", "Set start number and quantity", "Add a QR link prefix if needed", "Download the numbered ticket sheets"],
 };
 
 /** HowTo structured data for tools with well-defined, truthful steps. */
