@@ -58,9 +58,13 @@ async function generatePracticePdf(
   const exampleCells = 1;
 
   for (const item of items) {
-    if (y - cellH - 26 < MARGIN) y = newPage();
+    if (y - 14 - cellH - 16 < MARGIN) y = newPage();
 
-    // Item label above the band
+    // Explicit band coordinates — nothing double-subtracts cellH.
+    const bandTop = y - 14; // small gap below the label
+    const bandBottom = bandTop - cellH;
+
+    // Item label sits in the gap directly above its band
     page.drawText(item.text.slice(0, 40), {
       x: MARGIN,
       y: y - 10,
@@ -69,13 +73,12 @@ async function generatePracticePdf(
       color: ink,
       opacity: 0.65,
     });
-    y -= cellH;
 
     for (let c = 0; c < perRow; c++) {
       const x = MARGIN + c * cellW;
       page.drawRectangle({
         x,
-        y: y - cellH,
+        y: bandBottom,
         width: cellW,
         height: cellH,
         borderColor: ink,
@@ -83,18 +86,18 @@ async function generatePracticePdf(
         opacity: 0,
         borderOpacity: 0.45,
       });
-      // Baseline
+      // Baseline rule near the bottom of the cell
       page.drawLine({
-        start: { x: x + 4, y: y - cellH + 8 },
-        end: { x: x + cellW - 4, y: y - cellH + 8 },
+        start: { x: x + 4, y: bandBottom + 8 },
+        end: { x: x + cellW - 4, y: bandBottom + 8 },
         thickness: 0.5,
         color: ink,
         opacity: 0.35,
       });
       // Mid guide
       page.drawLine({
-        start: { x: x + 4, y: y - cellH / 2 },
-        end: { x: x + cellW - 4, y: y - cellH / 2 },
+        start: { x: x + 4, y: bandBottom + cellH / 2 },
+        end: { x: x + cellW - 4, y: bandBottom + cellH / 2 },
         thickness: 0.4,
         color: ink,
         opacity: 0.18,
@@ -104,9 +107,8 @@ async function generatePracticePdf(
       const gSize = Math.min(30, (cellW - 10) / Math.max(g.length * 0.62, 1));
       const w = glyphFont.widthOfTextAtSize(g, gSize);
       const gx = x + (cellW - w) / 2;
-      // Baseline sits exactly on the cell's ruled line so glyphs never
-      // appear shifted onto the row below.
-      const gy = y - cellH + 8;
+      // Glyph baseline sits exactly on the cell's ruled line.
+      const gy = bandBottom + 8;
 
       if (c < exampleCells) {
         // Solid model glyph in the first cell
@@ -117,7 +119,7 @@ async function generatePracticePdf(
       }
     }
 
-    y -= 16;
+    y = bandBottom - 18;
   }
 
   const bytes = await pdfDoc.save();
