@@ -20,6 +20,14 @@ const THEMES = [
   { id: "flame", label: "Flame", a: "#f97316", b: "#eab308" },
   { id: "ice", label: "Ice", a: "#38bdf8", b: "#a5b4fc" },
   { id: "mono", label: "Mono", a: "#e5e7eb", b: "#9ca3af" },
+  // Cambodian places
+  { id: "angkor", label: "Angkor", a: "#d4a94e", b: "#8a5a1f" },
+  { id: "tonlesap", label: "Tonlé Sap", a: "#46b5cf", b: "#1c6ea4" },
+  { id: "mekong", label: "Mekong", a: "#52b788", b: "#2a6e4f" },
+  { id: "kohrong", label: "Koh Rong", a: "#2ec4b6", b: "#f2e6c8" },
+  { id: "preahvihear", label: "Preah Vihear", a: "#9d8cd8", b: "#57487f" },
+  { id: "kampot", label: "Kampot", a: "#d99a4e", b: "#7a4a12" },
+  { id: "battambang", label: "Battambang", a: "#cf7a54", b: "#82432a" },
 ] as const;
 
 function hexToRgb(hex: string): [number, number, number] {

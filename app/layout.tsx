@@ -70,7 +70,7 @@ export default function RootLayout({
     >
       <head>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" />
-        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+        <script suppressHydrationWarning dangerouslySetInnerHTML={{ __html: themeInitScript }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: SITE_JSON_LD }} />
       </head>
       <body className="antialiased">

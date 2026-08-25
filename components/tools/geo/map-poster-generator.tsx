@@ -42,6 +42,38 @@ const THEMES = [
     background: "#1a0f14", land: "#1a0f14", water: "#24101c", park: "#2c1722",
     buildings: "#6a4a6a", roadMajor: "#f0d0d0", roadMinor: "#6a4a5a", roadCasing: "#5a3a4a",
   }, rasterFilter: "sepia(0.4) hue-rotate(-30deg) saturate(1.3)" },
+  { id: "tonlesap", label: "Tonlé Sap", ui: "#0f7d9c", map: {
+    background: "#e8f2f4", land: "#e8f2f4", water: "#2f8fb0", park: "#a8d3c9",
+    buildings: "#c9d6d2", roadMajor: "#0f4c5c", roadMinor: "#5c8a96", roadCasing: "#a9c4c6",
+  }, rasterFilter: "saturate(1.2) hue-rotate(10deg)" },
+  { id: "mekong", label: "Mekong", ui: "#1f7a5c", map: {
+    background: "#eef3e6", land: "#eef3e6", water: "#5aa67f", park: "#b8d49b",
+    buildings: "#d8e0c0", roadMajor: "#1f5c3f", roadMinor: "#6f9d6a", roadCasing: "#b6cba3",
+  }, rasterFilter: "saturate(1.15)" },
+  { id: "preahvihear", label: "Preah Vihear", ui: "#6b4f8f", map: {
+    background: "#ece7f1", land: "#ece7f1", water: "#7d94b0", park: "#a9b7c8",
+    buildings: "#c5bdd6", roadMajor: "#3e3060", roadMinor: "#7d75a0", roadCasing: "#c2bcd8",
+  }, rasterFilter: "saturate(0.9) brightness(0.98)" },
+  { id: "kohrong", label: "Koh Rong", ui: "#12a4a0", map: {
+    background: "#eafaf8", land: "#eafaf8", water: "#1fb5b0", park: "#b7e0c1",
+    buildings: "#f2e6c8", roadMajor: "#0c5f5c", roadMinor: "#4fb3ab", roadCasing: "#9fd6cf",
+  }, rasterFilter: "saturate(1.25) brightness(1.04)" },
+  { id: "bokor", label: "Bokor", ui: "#5a6678", map: {
+    background: "#e9ecf0", land: "#e9ecf0", water: "#8fa1ab", park: "#aebcc3",
+    buildings: "#7d8a96", roadMajor: "#33414f", roadMinor: "#6f7d89", roadCasing: "#b0bcc4",
+  }, rasterFilter: "saturate(0.6) brightness(0.96)" },
+  { id: "kampot", label: "Kampot", ui: "#b5762a", map: {
+    background: "#f4ecdf", land: "#f4ecdf", water: "#cdb98f", park: "#cdbd8a",
+    buildings: "#c8a97a", roadMajor: "#6f4a18", roadMinor: "#a9824a", roadCasing: "#e0cfa8",
+  }, rasterFilter: "sepia(0.3) saturate(1.1)" },
+  { id: "battambang", label: "Battambang", ui: "#a9553a", map: {
+    background: "#f2e7de", land: "#f2e7de", water: "#c89279", park: "#d8ab8a",
+    buildings: "#b98a72", roadMajor: "#6f3524", roadMinor: "#a9785e", roadCasing: "#ddbcab",
+  }, rasterFilter: "sepia(0.35) saturate(1.2)" },
+  { id: "sihanoukville", label: "Sihanoukville", ui: "#1f7fbf", map: {
+    background: "#e6f1f8", land: "#e6f1f8", water: "#3fa0d8", park: "#a9d8e0",
+    buildings: "#dbe0d8", roadMajor: "#1b5f8a", roadMinor: "#5f9ec0", roadCasing: "#a8ccda",
+  }, rasterFilter: "saturate(1.2) brightness(1.02)" },
 ] as const;
 
 const LOCATIONS = [
@@ -52,6 +84,11 @@ const LOCATIONS = [
   { id: "kp", km: "កំពត", en: "Kampot", lat: 10.6083, lng: 104.2232, zoom: 11 },
   { id: "kpc", km: "កំពង់ចាម", en: "Kampong Cham", lat: 11.9931, lng: 105.4728, zoom: 11 },
   { id: "bt", km: "បន្ទាយមានជ័យ", en: "Banteay Meanchey", lat: 13.7500, lng: 102.9833, zoom: 10 },
+  { id: "tonlesap", km: "ទន្លេសាប", en: "Tonlé Sap", lat: 12.9400, lng: 104.0700, zoom: 9 },
+  { id: "pv", km: "ព្រះវិហារ", en: "Preah Vihear", lat: 13.7892, lng: 104.9860, zoom: 10 },
+  { id: "kr", km: "កោះរ៉ុង", en: "Koh Rong", lat: 10.6841, lng: 103.2715, zoom: 12 },
+  { id: "bokor", km: "បូកគោ", en: "Bokor", lat: 10.6333, lng: 104.0266, zoom: 12 },
+  { id: "mekong", km: "ទន្លេមេគង្គ", en: "Mekong River", lat: 11.5564, lng: 105.0000, zoom: 10 },
 ] as const;
 
 const EXPORT_SIZES = [

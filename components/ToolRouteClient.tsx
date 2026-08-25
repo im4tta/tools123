@@ -11,6 +11,7 @@ import { ToolFaq } from "@/components/ToolFaq";
 import { LanguageToggle } from "@/components/LanguageToggle";
 import { useLanguage } from "@/components/LanguageProvider";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { AccentThemePicker } from "@/components/AccentThemePicker";
 import { STORAGE_KEYS, storage, useLocalStorage, type ToolCollection } from "@/lib/storage";
 import { TOOLS } from "@/lib/tools";
 import { toolHref } from "@/lib/toolRoutes";
@@ -132,6 +133,7 @@ export function ToolRouteClient({ toolId }: { toolId: string }) {
               <Search size={13} /><span className="hidden sm:inline">{t("Find a tool…", "ស្វែងរកឧបករណ៍…")}</span>
             </button>
             <HeaderInfo />
+            <AccentThemePicker />
             <LanguageToggle />
             <ThemeToggle />
           </div>
@@ -174,3 +176,4 @@ export function ToolRouteClient({ toolId }: { toolId: string }) {
     </main>
   );
 }
+

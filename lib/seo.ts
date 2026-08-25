@@ -239,13 +239,49 @@ const TOOL_BLURBS: Record<string, ToolBlurb> = {
     en: "Make an elegant Khmer greeting card from traditional well-wish templates — new year, wedding, condolence and more — and export it as a PNG.",
     km: "បង្កើតកាតជូនពរខ្មែរដ៏ស្រស់ស្អាតពីគំរូបុរាណ — ចូលឆ្នាំថ្មី អាពាហ៍ពិពាហ៍ រំលែកទុក្ខ និងច្រើនទៀត — រួចនាំចេញជា PNG។",
   },
+  "khmer-bionic-reader": {
+    en: "Bold the leading grapheme clusters of each Khmer word to skim stacked-syllable text faster — a Khmer-tuned bionic reader.",
+    km: "ដិតក្រុមអក្សរនាំមុខនៃពាក្យខ្មែរនីមួយៗ ដើម្បីស្កេនអត្ថបទដែលមានព្យាង្គពីរតួគ្នាលឿនជាងមុន — ជាឧបករណ៍អានបែប bionic សម្រាប់ខ្មែរ។",
+  },
+  "magic-byte-checker": {
+    en: "Detect a file's real type from its magic bytes (PNG, PDF, ZIP, DOCX, audio, video, fonts) — upload a file or paste hex, entirely in your browser.",
+    km: "ស្វែងរកប្រភេទពិតប្រាកដរបស់ឯកសារពី magic bytes (PNG, PDF, ZIP, DOCX, សំឡេង, វីដេអូ, ពុម្ពអក្សរ) — ផ្ទុកឯកសារ ឬបិទភ្ជាប់ hex, ដំណើរការក្នុងកម្មវិធីរុករក។",
+  },
+  "water-bill-calculator": {
+    en: "Estimate a water bill from monthly cubic-meter usage with editable tier rates — sample defaults you replace with your actual rates.",
+    km: "ប៉ាន់ស្មានវិក្កយបត្រទឹកពីការប្រើប្រាស់ម៉ែត្រគូបប្រចាំខែ ដោយអត្រាកម្រិតដែលអាចកែបាន — អត្រាលំនាំដើមជាគំរូ សូមជំនួសដោយអត្រាពិតរបស់អ្នក។",
+  },
+  "nssf-payroll-calculator": {
+    en: "Estimate NSSF contributions (employee + employer) with editable percentages — sample defaults you replace with the current official rates.",
+    km: "ប៉ាន់ស្មានការរួមចំណែក NSSF (បុគ្គលិក + និយោជក) ដោយភាគរយដែលអាចកែបាន — តម្លៃលំនាំដើមជាគំរូ សូមជំនួសដោយអត្រាផ្លូវការ។",
+  },
+  "insurance-premium-estimator": {
+    en: "Estimate a monthly insurance premium from tier, age band and members — sample default rates you replace with your real quote.",
+    km: "ប៉ាន់ស្មានបុព្វលាភប្រចាំខែពីកម្រិត ក្រុមអាយុ និងចំនួនអ្នកធានា — អត្រាលំនាំដើមជាគំរូ សូមជំនួសដោយតម្លៃពិតរបស់អ្នក។",
+  },
+  "ride-fare-estimator": {
+    en: "Estimate tuk-tuk or ride-hailing fares from distance or two points — sample rates you set to your own observed fares.",
+    km: "ប៉ាន់ស្មានថ្លៃទុកទុក ឬរថយន្តកិច្ចសន្យាពីចម្ងាយ ឬពីរចំណុច — អត្រាគំរូដែលអ្នកកំណត់តាមថ្លៃពិតដែលអ្នកបានសង្កេត។",
+  },
+  "document-expiry-reminder": {
+    en: "Check how long a passport, visa, or document stays valid, with a warning for the 6-month-before-expiry travel rule.",
+    km: "ពិនិត្យរយៈពេលនៃលិខិតឆ្លងដែន ទិដ្ឋាការ ឬឯកសារនៅមានសុពលភាព ជាមួយក្រុមអាសន្នសម្រាប់ច្បាប់ ៦ ខែមុនផុតកំណត់។",
+  },
+  "emergency-hotlines": {
+    en: "Quick bilingual reference for Cambodia emergency numbers, utility companies (EDC, PPWSA), telecom support, and government hotlines.",
+    km: "ឯកសារយោងរហ័សជាពីរភាសាសម្រាប់លេខបន្ទាន់ ក្រុមហ៊ុនឧបករណ៍ប្រើប្រាស់ (EDC, PPWSA) សេវាទូរគមនាគមន៍ និងលេខរដ្ឋាភិបាល។",
+  },
+  "school-year-planner": {
+    en: "Plan a Cambodian school year into two semesters with a mid-year break from a configurable start date.",
+    km: "រៀបចំផែនការឆ្នាំសិក្សាកម្ពុជាជាពីរឆមាស ជាមួយការឈប់សម្រាកពាក់កណ្តាលឆ្នាំ ពីកាលបរិច្ឆេទចាប់ផ្តើមដែលអាចកំណត់បាន។",
+  },
   "clipboard-manager": {
     en: "Capture, search, split, and merge your clipboard history entirely in this browser — with Khmer text support, pinning, and one-click re-copy.",
     km: "ចាប់យក ស្វែងរក បំបែក និងបញ្ចូលប្រវត្តិក្ដារចម្លងទាំងស្រុងក្នុងកម្មវិធីរុករក — ជាមួយការគាំទ្រអក្សរខ្មែរ ការខ្ទាស់ និងការចម្លងឡើងវិញមួយចុច។",
   },
   "screenshot-ocr": {
-    en: "Paste a screenshot or upload an image and extract the text with in-browser OCR — tuned for Khmer and English. Files never leave your device.",
-    km: "បិទភ្ជាប់រូបថតអេក្រង់ ឬបញ្ចូលរូបភាព រួចទាញយកអត្ថបទដោយ OCR ក្នុងកម្មវិធីរុករក — សម្រួលសម្រាប់ភាសាខ្មែរ និងអង់គ្លេស។ ឯកសារមិនចាកចេញពីឧបករណ៍របស់អ្នកទេ។",
+    en: "Read Khmer text from an image with a choice of accurate, in-browser OCR engines (KhmerOCR CRNN or Kiri OCR transformer) — region boxes and confidence, no upload.",
+    km: "អានអក្សរខ្មែរពីរូបភាពជាមួយជម្រើសម៉ាស៊ីនអានអក្សរត្រឹមត្រូវក្នុងកម្មវិធីរុករក (KhmerOCR CRNN ឬ Kiri OCR transformer) — ជាមួយប្រអប់តំបន់ និងភាពជឿជាក់ គ្មានការបញ្ចូលឡើយ។",
   },
   "lsb-steganography": {
     en: "Hide a secret message inside an image's pixels (LSB steganography) or read one back — invisible to the eye and fully offline.",
@@ -479,6 +515,15 @@ const HOWTO_TOOLS: Record<string, string[]> = {
   "video-merger": ["Select two or more video files", "Reorder or remove clips as needed", "Click Merge videos", "Download the combined WebM"],
   "subtitle-player": ["Choose a video file", "Paste SRT text or load a .srt file", "Play the video", "Read the active caption synced to playback"],
   "video-frame-batch": ["Choose a video file", "Set the frame interval in seconds", "Click Extract frames", "Download all frames as a ZIP"],
+  "khmer-bionic-reader": ["Paste Khmer text", "Pick an intensity level", "Read the bolded preview", "Copy the HTML output if needed"],
+  "magic-byte-checker": ["Upload a file or paste hex bytes", "Review the detected type", "Check the byte preview", "Use the result to rename/identify the file"],
+  "water-bill-calculator": ["Enter your monthly cubic-meter usage", "Adjust or verify the tier rates if needed", "Read the estimated bill in KHR and USD", "Confirm against your PPWSA bill"],
+  "nssf-payroll-calculator": ["Enter base salary and headcount", "Set the salary ceiling and exchange rate", "Review the editable contribution rates", "Read the employee, employer and total shares"],
+  "insurance-premium-estimator": ["Pick a coverage tier", "Choose the age band", "Set the number of members", "Read the estimated monthly and yearly premium"],
+  "ride-fare-estimator": ["Choose a vehicle type", "Enter km or two map points", "Read the estimated fare in KHR and USD", "Allow for surge and real road distance"],
+  "document-expiry-reminder": ["Enter the document expiry date", "Set the travel-rule window", "Read days and months remaining", "Renew before it hits the rule window"],
+  "emergency-hotlines": ["Search or filter by category", "Find the number you need", "Tap the number to call", "Keep emergency lines 117/118/119/911 saved"],
+  "school-year-planner": ["Set the first-semester start", "Set semester and break lengths", "Read the two-semester timeline", "Verify against your school calendar"],
 };
 
 /** HowTo structured data for tools with well-defined, truthful steps. */
