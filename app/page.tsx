@@ -16,6 +16,7 @@ import { DEFAULT_WORKSPACE_PROFILES, WORKSPACES, type WorkspaceProfile } from "@
 import { LanguageToggle } from "@/components/LanguageToggle";
 import { useLanguage } from "@/components/LanguageProvider";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { AccentThemePicker } from "@/components/AccentThemePicker";
 import { ObsidianGraph } from "@/components/ObsidianGraph";
 import { TOOLS, CATEGORY_META, CATEGORY_ORDER, Category } from "@/lib/tools";
 import { toolHref } from "@/lib/toolRoutes";
@@ -309,12 +310,21 @@ export default function Home() {
   const recentIds = activeWorkspaceProfile?.recentCalculations ?? recents;
   const favoriteTools = useMemo(() => favoriteIds.map((id) => TOOLS.find((t) => t.id === id)).filter(Boolean) as typeof TOOLS, [favoriteIds]);
   const recentTools = useMemo(() => recentIds.map((id) => TOOLS.find((t) => t.id === id)).filter(Boolean) as typeof TOOLS, [recentIds]);
-  const [mostUsedIds, setMostUsedIds] = useState<string[]>(() => (typeof window !== "undefined" ? mostUsedToolIds(8) : []));
+  const [mostUsedIds, setMostUsedIds] = useState<string[]>([]);
+  const [mostUsedHydrated, setMostUsedHydrated] = useState(false);
   const refreshMostUsed = useCallback(() => setMostUsedIds(mostUsedToolIds(8)), []);
-  // Refresh the "Most used" list whenever we return to the grid (tool opens change it).
-  useEffect(() => { if (activeId === null) refreshMostUsed(); }, [activeId, refreshMostUsed]); // eslint-disable-line react-hooks/set-state-in-effect
+  // Hydrate the "Most used" list exactly once on the client after SSR, so the
+  // server-rendered markup ([]) never mismatches the client (which reads
+  // localStorage) — then re-sync whenever we return to the grid.
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setMostUsedHydrated(true);
+    refreshMostUsed();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  useEffect(() => { if (activeId === null && mostUsedHydrated) refreshMostUsed(); }, [activeId, mostUsedHydrated, refreshMostUsed]); // eslint-disable-line react-hooks/set-state-in-effect
   const mostUsedTools = useMemo(() => mostUsedIds.map((id) => TOOLS.find((t) => t.id === id)).filter(Boolean) as typeof TOOLS, [mostUsedIds]);
-  const hasUsage = useMemo(() => mostUsedIds.length > 0, [mostUsedIds]);
+  const hasUsage = useMemo(() => mostUsedHydrated && mostUsedIds.length > 0, [mostUsedHydrated, mostUsedIds]);
   const localDevTools = useMemo(() => TOOLS.filter((tool) => tool.localProject), []);
   const dailyAddition = useMemo(() => {
     // Current Monday–Sunday week in Asia/Phnom_Penh (UTC+7).
@@ -409,6 +419,7 @@ export default function Home() {
               <Search size={13} /> {t("Find a tool…", "ស្វែងរកឧបករណ៍…")}
               <kbd className="ml-1 rounded border border-[var(--ground-line)] px-1 text-[10px]">⌘K</kbd>
             </button>
+            <AccentThemePicker />
             <LanguageToggle />
             <ThemeToggle />
           </div>
@@ -470,6 +481,7 @@ export default function Home() {
               </span>
             </button>
             <HeaderInfo />
+            <AccentThemePicker />
             <LanguageToggle />
             <ThemeToggle />
           </div>
@@ -794,3 +806,4 @@ function ToolGrid({
     </div>
   );
 }
+

@@ -39,6 +39,74 @@
   --shadow-elev: 0 8px 30px rgba(28, 26, 21, 0.08);
 }
 
+/* ---- Accent themes (Cambodian places) ----
+   An accent layer on top of dark/light: overrides the primary accent pair
+   (--gold / --gold-dim) so the whole UI picks up the theme via existing
+   var(--gold) usage. Scoped per mode because light inverts the dim pair. */
+
+[data-theme="dark"][data-accent="angkor"] {
+  --gold: #d4a94e; --gold-dim: #8f7434; /* Angkor sandstone */
+}
+[data-theme="light"][data-accent="angkor"] {
+  --gold: #96690f; --gold-dim: #c29a3c;
+}
+
+[data-theme="dark"][data-accent="tonlesap"] {
+  --gold: #46b5cf; --gold-dim: #25727f; /* Tonlé Sap lake blue */
+}
+[data-theme="light"][data-accent="tonlesap"] {
+  --gold: #17798c; --gold-dim: #46b5cf;
+}
+
+[data-theme="dark"][data-accent="mekong"] {
+  --gold: #52b788; --gold-dim: #2a6e4f; /* Mekong green */
+}
+[data-theme="light"][data-accent="mekong"] {
+  --gold: #23744f; --gold-dim: #52b788;
+}
+
+[data-theme="dark"][data-accent="kohrong"] {
+  --gold: #2ec4b6; --gold-dim: #17706a; /* Koh Rong aqua */
+}
+[data-theme="light"][data-accent="kohrong"] {
+  --gold: #0e8577; --gold-dim: #2ec4b6;
+}
+
+[data-theme="dark"][data-accent="preahvihear"] {
+  --gold: #9d8cd8; --gold-dim: #57487f; /* Preah Vihear dusk violet */
+}
+[data-theme="light"][data-accent="preahvihear"] {
+  --gold: #5f4fa0; --gold-dim: #9d8cd8;
+}
+
+[data-theme="dark"][data-accent="bokor"] {
+  --gold: #93a8bd; --gold-dim: #55677a; /* Bokor mist */
+}
+[data-theme="light"][data-accent="bokor"] {
+  --gold: #4d6478; --gold-dim: #93a8bd;
+}
+
+[data-theme="dark"][data-accent="kampot"] {
+  --gold: #d99a4e; --gold-dim: #86591f; /* Kampot pepper ochre */
+}
+[data-theme="light"][data-accent="kampot"] {
+  --gold: #96601a; --gold-dim: #d99a4e;
+}
+
+[data-theme="dark"][data-accent="battambang"] {
+  --gold: #cf7a54; --gold-dim: #82432a; /* Battambang terracotta */
+}
+[data-theme="light"][data-accent="battambang"] {
+  --gold: #96492c; --gold-dim: #cf7a54;
+}
+
+[data-theme="dark"][data-accent="sihanoukville"] {
+  --gold: #58a6e8; --gold-dim: #2c608c; /* Sihanoukville coast */
+}
+[data-theme="light"][data-accent="sihanoukville"] {
+  --gold: #1f6ea6; --gold-dim: #58a6e8;
+}
+
 * {
   border-color: var(--ground-line);
 }

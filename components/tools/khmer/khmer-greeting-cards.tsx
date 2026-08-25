@@ -27,6 +27,13 @@ const THEMES = [
   { id: "green", label: "Jade", bg: "#10231c", accent: "#6fae8a", text: "#eef5ef" },
   { id: "blue", label: "Indigo", bg: "#101c33", accent: "#7aa2e0", text: "#eef2fb" },
   { id: "light", label: "Ivory", bg: "#f4eedd", accent: "#b3402f", text: "#3b2a1e" },
+  // Cambodian places
+  { id: "angkor", label: "Angkor", bg: "#241708", accent: "#d4a94e", text: "#f7eeda" },
+  { id: "tonlesap", label: "Tonlé Sap", bg: "#0c2733", accent: "#46b5cf", text: "#e9f5fa" },
+  { id: "mekong", label: "Mekong", bg: "#10241a", accent: "#52b788", text: "#eaf6ef" },
+  { id: "kohrong", label: "Koh Rong", bg: "#07302e", accent: "#2ec4b6", text: "#e8faf8" },
+  { id: "preahvihear", label: "Preah Vihear", bg: "#1c1430", accent: "#9d8cd8", text: "#f1edfb" },
+  { id: "kampot", label: "Kampot", bg: "#2b1c08", accent: "#d99a4e", text: "#f8efe0" },
 ] as const;
 
 const CARD = { w: 1200, h: 1600 };
