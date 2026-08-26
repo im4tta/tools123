@@ -283,6 +283,10 @@ const TOOL_BLURBS: Record<string, ToolBlurb> = {
     en: "Read Khmer text from an image with a choice of accurate, in-browser OCR engines (KhmerOCR CRNN or Kiri OCR transformer) — region boxes and confidence, no upload.",
     km: "អានអក្សរខ្មែរពីរូបភាពជាមួយជម្រើសម៉ាស៊ីនអានអក្សរត្រឹមត្រូវក្នុងកម្មវិធីរុករក (KhmerOCR CRNN ឬ Kiri OCR transformer) — ជាមួយប្រអប់តំបន់ និងភាពជឿជាក់ គ្មានការបញ្ចូលឡើយ។",
   },
+  "object-counter": {
+    en: "Upload an image and count objects on-device — people, animals, vehicles, plants, furniture, food and more — using a YOLOS detection model in your browser.",
+    km: "ផ្ទុករូបភាព រួចរាប់វត្ថុនៅលើឧបករណ៍ — មនុស្ស សត្វ យានយន្ត រុក្ខជាតិ គ្រឿងសង្ហារឹម អាហារ... ដោយប្រើម៉ូដេល YOLOS ក្នុងកម្មវិធីរុករក។",
+  },
   "lsb-steganography": {
     en: "Hide a secret message inside an image's pixels (LSB steganography) or read one back — invisible to the eye and fully offline.",
     km: "លាក់សារសម្ងាត់ក្នុងភីកសែលរូបភាព (LSB steganography) ឬអានវាមកវិញ — មើលមិនឃើញ និងដំណើរការក្រៅបណ្តាញទាំងស្រុង។",
@@ -524,6 +528,7 @@ const HOWTO_TOOLS: Record<string, string[]> = {
   "document-expiry-reminder": ["Enter the document expiry date", "Set the travel-rule window", "Read days and months remaining", "Renew before it hits the rule window"],
   "emergency-hotlines": ["Search or filter by category", "Find the number you need", "Tap the number to call", "Keep emergency lines 117/118/119/911 saved"],
   "school-year-planner": ["Set the first-semester start", "Set semester and break lengths", "Read the two-semester timeline", "Verify against your school calendar"],
+  "object-counter": ["Upload an image", "Click Count objects", "Review the detected boxes on the image", "Read the total and per-category counts"],
 };
 
 /** HowTo structured data for tools with well-defined, truthful steps. */
