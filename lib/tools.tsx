@@ -562,6 +562,7 @@ export const TOOLS: ToolDef[] = [
   { id: "image-upscaler", title: "Image Upscaler", category: "images", keywords: ["upscale", "enlarge", "resolution", "sharpen"], Component: load("images", "image-upscaler") },
   { id: "image-watermark", title: "Image Watermark", category: "images", keywords: ["watermark", "copyright", "stamp", "brand"], Component: load("images", "image-watermark") },
   { id: "screenshot-ocr", title: "Khmer OCR", khmerTitle: "អានអក្សរខ្មែរពីរូបភាព", addedOn: "2026-08-25", category: "images", keywords: ["ocr", "khmer", "text recognition", "extract", "document", "អានអត្ថបទ", "អក្សរខ្មែរ"], localProject: { author: "Seanghay Yath", repository: "https://github.com/seanghay/KhmerOCR", license: "MIT", relationship: "integrated" }, Component: load("images", "screenshot-ocr") },
+  { id: "object-counter", title: "Object Count Estimator", khmerTitle: "ប៉ាន់ស្មានចំនួនវត្ថុ", addedOn: "2026-08-26", category: "images", keywords: ["object", "count", "detect", "people", "pills", "plant", "vehicle", "yolo", "vision", "រាប់វត្ថុ", "រកឃើញវត្ថុ"], localProject: { author: "hustvl (YOLOS) via Xenova", repository: "https://huggingface.co/Xenova/yolos-tiny", license: "Apache-2.0", relationship: "integrated" }, Component: load("images", "object-counter") },
   { id: "lsb-steganography", title: "Invisible Text Steganography", khmerTitle: "លាក់អត្ថបទក្នុងរូបភាព", addedOn: "2026-08-24", category: "images", keywords: ["steganography", "lsb", "hidden", "secret", "image", "encode", "លាក់", "អត្ថបទ"], Component: load("images", "lsb-steganography") },
   { id: "logo-remover", title: "Logo / Watermark Remover", category: "images", keywords: ["remove logo", "remove watermark", "gemini", "inpaint", "content aware fill", "clean"], Component: load("images", "logo-remover") },
   { id: "image-exif", title: "Image Metadata (EXIF) Viewer & Stripper", category: "images", keywords: ["exif", "metadata", "gps", "privacy", "strip"], Component: load("images", "image-exif") },
@@ -631,3 +632,4 @@ export const TOOLS: ToolDef[] = [
 ];
 
 for (const tool of TOOLS) tool.khmerTitle ??= toKhmerToolTitle(tool.title);
+
