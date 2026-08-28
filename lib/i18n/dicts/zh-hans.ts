@@ -13,7 +13,7 @@ const DICT: Record<string, string> = {
   "Start here": "从这里开始",
   Favorites: "收藏",
   "Recently used": "最近使用",
-  "Tools from local developers": "本地开发者工具",
+  "Tools from local/Int'l developers": "本地开发者工具",
   "Switch to graph view": "切换到图形视图",
   "Switch to grid view": "切换到网格视图",
   Graph: "图形",

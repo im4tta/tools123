@@ -13,7 +13,7 @@ const DICT: Record<string, string> = {
   "Start here": "ここから始める",
   Favorites: "お気に入り",
   "Recently used": "最近使ったツール",
-  "Tools from local developers": "ローカル開発者のツール",
+  "Tools from local/Int'l developers": "ローカル開発者のツール",
   "Switch to graph view": "グラフ表示に切り替え",
   "Switch to grid view": "グリッド表示に切り替え",
   Graph: "グラフ",

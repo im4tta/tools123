@@ -327,6 +327,306 @@ const TOOL_BLURBS: Record<string, ToolBlurb> = {
     en: "Generate numbered event tickets with tear lines and optional QR codes on print-ready A4 sheets.",
     km: "បង្កើតសំបុត្រលេខរៀង ជាមួយបន្ទាត់បោះ និងកូដ QR បើចង់បាន — ទម្រង់ A4។",
   },
+  "yaml-formatter": {
+    en: "Validate and pretty-print YAML configuration files with clear error locations, or minify them to JSON.",
+    km: "ផ្ទៀងផ្ទាត់ និងរៀបចំទម្រង់ YAML ឱ្យស្អាត ជាមួយទីតាំងកំហុសច្បាស់លាស់ ឬបង្រួមជា JSON។",
+  },
+  "xml-formatter": {
+    en: "Validate and pretty-print XML with two-space indentation, plus a minify mode and element statistics.",
+    km: "ផ្ទៀងផ្ទាត់ និងរៀបចំទម្រង់ XML ដោយចូលបន្ទាត់ ២ ដក រួមទាំងរបៀបបង្រួម និងស្ថិតិធាតុ។",
+  },
+  "code-to-image": {
+    en: "Turn a code snippet into a styled image with a theme, line numbers, and title bar, ready to share as PNG.",
+    km: "បម្លែងកូដទៅជារូបភាពស្អាត ជាមួយផ្ទាំងពណ៌ លេខបន្ទាត់ និងចំណងជើង រួចរាល់សម្រាប់ចែករំលែកជា PNG។",
+  },
+  "websocket-tester": {
+    en: "Connect to any ws:// or wss:// server, send text or JSON messages, and inspect the live message log.",
+    km: "ភ្ជាប់ទៅម៉ាស៊ីនមេ ws:// ឬ wss:// ណាមួយ ផ្ញើសារជាអត្ថបទ ឬ JSON ហើយមើលកំណត់ហេតុសារផ្ទាល់។",
+  },
+  "punycode-converter": {
+    en: "Convert internationalized domain names to and from punycode (xn--) using RFC 3492.",
+    km: "បម្លែងឈ្មោះដូមេនអន្តរជាតិ ទៅ និងពី punycode (xn--) តាម RFC 3492។",
+  },
+  "mac-vendor-lookup": {
+    en: "Normalize and validate a MAC address, then look up its vendor from a labeled sample OUI list.",
+    km: "កែទម្រង់ និងផ្ទៀងផ្ទាត់អាសយដ្ឋាន MAC រួចស្វែងរកម្ចាស់របស់វាពីបញ្ជី OUI គំរូដែលមានស្លាក។",
+  },
+  "hash-identifier": {
+    en: "Identify the likely algorithm of a hash string by its pattern, length, and encoding.",
+    km: "កំណត់ក្បួនដែលទំនងរបស់ hash ពីលំនាំ ប្រវែង និងការអ៊ិនកូដរបស់វា។",
+  },
+  "email-header-analyzer": {
+    en: "Paste raw email headers to trace the Received path, extract IPs, and review SPF, DKIM, and DMARC results.",
+    km: "បិទភ្ជាប់បឋមកថាអ៊ីមែល ដើម្បីតាមដានផ្លូវ Received ស្រង់ IP និងពិនិត្យលទ្ធផល SPF, DKIM និង DMARC។",
+  },
+  "totp-authenticator": {
+    en: "Generate time-based (TOTP) and counter-based (HOTP) one-time codes from a base32 secret and verify codes you enter.",
+    km: "បង្កើតលេខកូដតែម្តងតាមពេល (TOTP) និងតាមលេខរាប់ (HOTP) ពី secret ប្រភេទ base32 និងផ្ទៀងផ្ទាត់លេខកូដដែលអ្នកបញ្ចូល។",
+  },
+  "aes-encryption": {
+    en: "Encrypt and decrypt text with AES-GCM using a passphrase derived through PBKDF2, entirely in your browser.",
+    km: "អ៊ិនគ្រីប និងឌិគ្រីបអត្ថបទជាមួយ AES-GCM ដោយប្រើពាក្យសម្ងាត់ដែលបង្កើតតាម PBKDF2 ទាំងស្រុងក្នុងកម្មវិធីរុករក។",
+  },
+  "rsa-key-generator": {
+    en: "Generate RSA key pairs (2048 or 4096-bit) and export them as PEM, with strength notes and privacy warnings.",
+    km: "បង្កើតសោ RSA (2048 ឬ 4096 ប៊ីត) និងនាំចេញជា PEM ជាមួយកំណត់ត្រាកម្លាំង និងការព្រមានឯកជនភាព។",
+  },
+  "base58-codec": {
+    en: "Encode and decode Base58 (Bitcoin alphabet) with optional Base58Check checksum verification.",
+    km: "អ៊ិនកូដ និងឌិកូដ Base58 (អក្ខរក្រម Bitcoin) ជាមួយការផ្ទៀងផ្ទាត់ checksum Base58Check ជាជម្រើស។",
+  },
+  "certificate-viewer": {
+    en: "Paste a PEM certificate to read its subject, issuer, validity dates, and SANs, and see its expiry status.",
+    km: "បិទភ្ជាប់វិញ្ញាបនបត្រ PEM ដើម្បីអានម្ចាស់ អ្នកចេញ កាលបរិច្ឆេទសុពលភាព និង SAN ព្រមទាំងស្ថានភាពផុតកំណត់។",
+  },
+  "pwned-check": {
+    en: "Check whether a password appears in known data breaches using the Have I Been Pwned range API, without sending the full password.",
+    km: "ពិនិត្យថាតើពាក្យសម្ងាត់លេចឡើងក្នុងការលេចធ្លាយទិន្នន័យដែលគេស្គាល់ ដោយប្រើ API របស់ Have I Been Pwned ដោយមិនផ្ញើពាក្យសម្ងាត់ទាំងមូល។",
+  },
+  "bitwise-calculator": {
+    en: "Perform bitwise AND, OR, XOR, NOT, and shifts on 32-bit integers with decimal, hex, and binary views.",
+    km: "គណនា AND, OR, XOR, NOT និងការប្តូរប៊ីតលើចំនួនគត់ ៣២ ប៊ីត ជាមួយទិដ្ឋភាពគោលដប់ គោលដប់ប្រាំមួយ និងគោលពីរ។",
+  },
+  "odds-converter": {
+    en: "Convert between decimal, fractional, American odds and implied probability, and compute payouts for a stake.",
+    km: "បម្លែងរវាង odds គោលដប់ ប្រភាគ អាមេរិក និងប្រូបាប៊ីលីតេបង្កប់ ព្រមទាំងគណនាការសងសម្រាប់ទឹកប្រាក់ភ្នាល់។",
+  },
+  "linear-regression": {
+    en: "Fit a straight line to pasted X,Y data and read slope, intercept, R², correlation, and predictions.",
+    km: "សមទិន្នន័យ X,Y ទៅនឹងបន្ទាត់ត្រង់ ហើយអានជម្រាល ចំណុចប្រសព្វ R² ការជាប់ទាក់ទង និងការព្យាករណ៍។",
+  },
+  "zscore-calculator": {
+    en: "Compute z-scores, cumulative probability, and percentiles for a normal distribution, or invert a probability to a z.",
+    km: "គណនា z-score ប្រូបាប៊ីលីតេបង្គរ និងភាគរយសម្រាប់ការចែកចាយធម្មតា ឬបម្លែងប្រូបាប៊ីលីតេទៅជា z។",
+  },
+  "sequence-solver": {
+    en: "Find the nth term and sum of arithmetic and geometric sequences, or detect the type from given terms.",
+    km: "រកតួទី n និងផលបូកនៃលំដាប់នព្វន្ត និងធរណីមាត្រ ឬកំណត់ប្រភេទពីតួដែលបានផ្តល់។",
+  },
+  "language-detector": {
+    en: "Detect the likely language and script of a text using character and stopword heuristics (approximate results).",
+    km: "កំណត់ភាសា និងអក្សរដែលទំនងនៃអត្ថបទ ដោយប្រើ heuristics លើតួអក្សរ និងពាក្យ (លទ្ធផលប្រហាក់ប្រហែល)។",
+  },
+  "ngram-finder": {
+    en: "Count N-grams (1–5 words) in pasted text with frequency, sorting, and CSV export.",
+    km: "រាប់ N-gram (១–៥ ពាក្យ) ក្នុងអត្ថបទដែលបិទភ្ជាប់ ជាមួយប្រេកង់ ការតម្រៀប និងការនាំចេញ CSV។",
+  },
+  "ipa-phonetics": {
+    en: "Get approximate English pronunciations in IPA from a sample word list with rule-based fallback.",
+    km: "ទទួលបានការបញ្ចេញសំឡេងអង់គ្លេសប្រហាក់ប្រហែលជា IPA ពីបញ្ជីពាក្យគំរូ ជាមួយការជំនួសតាមវិធាន។",
+  },
+  "unicode-text-generator": {
+    en: "Transform text into zalgo, fullwidth, small caps, bold, strikethrough, or superscript Unicode styles.",
+    km: "បំលែងអត្ថបទទៅជារចនាប័ទ្ម Unicode ដូចជា zalgo អក្សរពេញទទឹង អក្សរតូច ដិត កាត់បន្ទាត់ ឬអក្សរលើ។",
+  },
+  "glassmorphism-generator": {
+    en: "Create a frosted-glass panel with adjustable blur, opacity, border, and shadow, and copy the CSS.",
+    km: "បង្កើតផ្ទាំងកញ្ចក់ស្រអែម ដោយលៃតម្រូវ blur ភាពថ្លា ស៊ុម និងស្រមោល រួចចម្លង CSS។",
+  },
+  "neumorphism-generator": {
+    en: "Design soft UI controls with inset shadows and copy the generated CSS.",
+    km: "រចនាប៊ូតុង soft UI ជាមួយស្រមោលខាងក្នុង រួចចម្លង CSS ដែលបង្កើត។",
+  },
+  "text-shadow-generator": {
+    en: "Stack multiple text-shadow layers on live preview text and copy the CSS.",
+    km: "ដាក់ស្រទាប់ text-shadow ជាច្រើនលើអត្ថបទមើលផ្ទាល់ រួចចម្លង CSS។",
+  },
+  "css-filter-generator": {
+    en: "Apply CSS filter effects such as grayscale, sepia, and hue-rotate to an image and copy the CSS.",
+    km: "អនុវត្តបែបផែន CSS filter ដូចជា grayscale, sepia, hue-rotate លើរូបភាព រួចចម្លង CSS។",
+  },
+  "font-pair-finder": {
+    en: "Browse curated Google Font pairings for headings and body text with live preview.",
+    km: "រកមើលគូ Google Font ដែលបានជ្រើសរើសសម្រាប់ចំណងជើង និងអត្ថបទ ជាមួយការមើលផ្ទាល់។",
+  },
+  "css-grid-playground": {
+    en: "Experiment with CSS Grid columns, rows, gaps, and alignment and copy the layout CSS.",
+    km: "សាកល្បង CSS Grid ជាមួយជួរឈរ ជួរដេក គម្លាត និងការតម្រឹម រួចចម្លង CSS ប្លង់។",
+  },
+  "svg-path-inspector": {
+    en: "Break an SVG path's d attribute into commands with stats and a live preview.",
+    km: "បំបែកលក្ខណៈ d របស់ SVG path ទៅជាពាក្យបញ្ជា ជាមួយស្ថិតិ និងការមើលផ្ទាល់។",
+  },
+  "svg-pattern-generator": {
+    en: "Generate SVG patterns like dots, stripes, grids, and checkerboards with copyable code.",
+    km: "បង្កើត SVG pattern ដូចជា ចំនុច ឆ្នូត ក្រឡាចត្រង្គ និង checkerboard ជាមួយកូដសម្រាប់ចម្លង។",
+  },
+  "graph-visualizer": {
+    en: "Visualize nodes and edges as an interactive force-directed graph with drag and hover.",
+    km: "បង្ហាញថ្នាំង និងបន្ទាត់តភ្ជាប់ជាក្រាហ្វអន្តរកម្ម ដោយអាចអូស និងដាក់កណ្តុរ។",
+  },
+  "resume-builder": {
+    en: "Fill in your details and print a clean A4 resume directly from your browser.",
+    km: "បំពេញព័ត៌មានរបស់អ្នក ហើយបោះពុម្ព CV ទំហំ A4 ស្អាតដោយផ្ទាល់ពីកម្មវិធីរុករក។",
+  },
+  "concrete-calculator": {
+    en: "Estimate concrete volume and nominal cement, sand, and gravel for slabs, footings, and columns.",
+    km: "ប៉ាន់ស្មានមាឌបេតុង និងស៊ីម៉ង់ត៍ ខ្សាច់ ក្រួសតាមសមាមាត្រស្តង់ដារ សម្រាប់កម្រាល គ្រឹះ និងសសរ។",
+  },
+  "rebar-calculator": {
+    en: "Convert rebar diameter to weight per meter and estimate quantities for slabs and beams.",
+    km: "បម្លែងអង្កត់ផ្ចិតដែកទៅជាទម្ងន់ក្នុងមួយម៉ែត្រ និងប៉ាន់ស្មានបរិមាណសម្រាប់កម្រាល និងធ្នឹម។",
+  },
+  "tile-calculator": {
+    en: "Calculate how many floor or wall tiles and boxes you need with wastage included.",
+    km: "គណនាចំនួនក្បឿង និងប្រអប់ដែលអ្នកត្រូវការសម្រាប់កម្រាល ឬជញ្ជាំង រាប់ទាំងការខូចខាត។",
+  },
+  "solar-calculator": {
+    en: "Size a solar system from daily energy use: panels, battery bank, and inverter.",
+    km: "គណនាទំហំប្រព័ន្ធពន្លឺព្រះអាទិត្យពីការប្រើប្រាស់ថាមពលប្រចាំថ្ងៃ៖ បន្ទះ ថ្ម និងអាំងវឺរទ័រ។",
+  },
+  "ac-btu-calculator": {
+    en: "Estimate the air-conditioning capacity (BTU/kW) a room needs from its size, occupants, and sun exposure.",
+    km: "ប៉ាន់ស្មានសមត្ថភាពម៉ាស៊ីនត្រជាក់ (BTU/kW) ដែលបន្ទប់ត្រូវការ ពីទំហំ ចំនួនមនុស្ស និងការប៉ះពន្លឺព្រះអាទិត្យ។",
+  },
+  "generator-sizing": {
+    en: "Add your appliances to find the generator size needed for running and starting loads.",
+    km: "បន្ថែមឧបករណ៍របស់អ្នក ដើម្បីរកទំហំម៉ាស៊ីនភ្លើងសម្រាប់បន្ទុកធម្មតា និងបន្ទុកពេលបើក។",
+  },
+  "gold-price-calculator": {
+    en: "Convert gold weight between chi, gram, and troy ounce and value it at the rate you enter.",
+    km: "បម្លែងទម្ងន់មាសរវាងជី ក្រាម និង troy ounce ហើយគណនាតម្លៃតាមអត្រាដែលអ្នកបញ្ចូល។",
+  },
+  "sitemap-generator": {
+    en: "Generate a valid sitemap.xml from your base URL and page list, with optional lastmod, frequency, and priority.",
+    km: "បង្កើត sitemap.xml ត្រឹមត្រូវពី URL មូលដ្ឋាន និងបញ្ជីទំព័ររបស់អ្នក ជាមួយ lastmod, frequency និង priority ជាជម្រើស។",
+  },
+  "robots-txt-generator": {
+    en: "Build a robots.txt file with user-agent rules, allow/disallow lines, crawl-delay, and sitemap links.",
+    km: "បង្កើតឯកសារ robots.txt ជាមួយវិធាន user-agent, allow/disallow, crawl-delay និងតំណ sitemap។",
+  },
+  "rss-generator": {
+    en: "Create a valid RSS 2.0 feed from feed metadata and your list of items, ready to copy or download.",
+    km: "បង្កើត RSS 2.0 feed ត្រឹមត្រូវពីព័ត៌មាន feed និងបញ្ជីអត្ថបទរបស់អ្នក រួចរាល់សម្រាប់ចម្លង ឬទាញយក។",
+  },
+  "khmer-proverbs": {
+    en: "Browse a curated collection of well-known Khmer proverbs with Khmer meanings and English translations.",
+    km: "រកមើលបណ្តុំសុភាសិតខ្មែរដ៏ល្បីដែលបានជ្រើសរើស ជាមួយអត្ថន័យខ្មែរ និងការបកប្រែអង់គ្លេស។",
+  },
+  "khmer-rhyming-dictionary": {
+    en: "Find words that rhyme with any Khmer word, grouped by final-sound patterns from a large offline dictionary.",
+    km: "ស្វែងរកពាក្យដែលស្លោកជាមួយពាក្យខ្មែរណាមួយ ដោយដាក់ជាក្រុមតាមលំនាំសំឡេងចុង ពីវចនានុក្រមក្រៅបណ្តាញធំ។",
+  },
+  "khmer-poem-generator": {
+    en: "Generate sample Khmer kâp verses from themed word banks with rhyme schemes and syllable counts.",
+    km: "បង្កើតកាព្យខ្មែរគំរូពីធនាគារពាក្យតាមប្រធានបទ ជាមួយរបៀបស្លោក និងចំនួនព្យាង្គ។",
+  },
+  "heart-rate-zones": {
+    en: "Calculate your maximum and target heart-rate zones using the 220-age and Karvonen formulas.",
+    km: "គណនាអត្រាបេះដូងអតិបរមា និងតំបន់គោលដៅរបស់អ្នក ដោយប្រើរូបមន្ត 220−អាយុ និង Karvonen។",
+  },
+  "git-cheatsheet": {
+    en: "A copyable reference of common Git commands: setup, daily workflow, branches, undo, and remotes.",
+    km: "សន្លឹកយោង Git ដែលអាចចម្លងបាន៖ ការដំឡើង ការងារប្រចាំថ្ងៃ សាខា ការមិនធ្វើវិញ និង remotes។",
+  },
+  "html-css-cheatsheet": {
+    en: "A practical HTML5 and CSS reference with tags, attributes, selectors, flexbox, grid, and examples.",
+    km: "ឯកសារយោង HTML5 និង CSS អនុវត្តជាក់ស្តែង ជាមួយ tags, attributes, selectors, flexbox, grid និងឧទាហរណ៍។",
+  },
+  "sql-cheatsheet": {
+    en: "A reference of core SQL: SELECT, JOINs, grouping, aggregates, CRUD, and table creation with examples.",
+    km: "ឯកសារយោង SQL មូលដ្ឋាន៖ SELECT, JOIN, grouping, aggregates, CRUD និងការបង្កើតតារាង ជាមួយឧទាហរណ៍។",
+  },
+  "linux-cheatsheet": {
+    en: "A quick reference of essential Linux commands for files, permissions, processes, networks, and text.",
+    km: "ឯកសារយោងរហ័សនៃពាក្យបញ្ជា Linux សំខាន់ៗ សម្រាប់ឯកសារ ការអនុញ្ញាត ដំណើរការ បណ្តាញ និងអត្ថបទ។",
+  },
+  "country-dialing-codes": {
+    en: "Look up international country calling codes and example phone formats for 80 countries.",
+    km: "ស្វែងរកលេខកូដទូរស័ព្ទអន្តរជាតិ និងទម្រង់លេខទូរស័ព្ទឧទាហរណ៍សម្រាប់ ៨០ ប្រទេស។",
+  },
+  "currency-codes": {
+    en: "Browse a reference table of ISO 4217 currency codes, numbers, names, and symbols.",
+    km: "រកមើលតារាងយោង ISO 4217 នៃលេខកូដរូបិយប័ណ្ណ លេខ ឈ្មោះ និងនិមិត្តសញ្ញា។",
+  },
+  "food-calorie-reference": {
+    en: "Check approximate calorie values for common foods and Cambodian dishes (reference values, verify with labels).",
+    km: "ពិនិត្យតម្លៃកាឡូរីប្រហាក់ប្រហែលសម្រាប់អាហារទូទៅ និងម្ហូបខ្មែរ (តម្លៃយោង សូមផ្ទៀងផ្ទាត់ជាមួយស្លាកផលិតផល)។",
+  },
+  "recipe-resizer": {
+    en: "Scale any recipe to a different number of servings and copy the adjusted ingredient list.",
+    km: "កែទំហំរូបមន្តណាមួយទៅចំនួនមនុស្សផ្សេង ហើយចម្លងបញ្ជីគ្រឿងផ្សំដែលបានកែ។",
+  },
+  "coffee-ratio": {
+    en: "Find the right coffee-to-water ratio for pour-over, French press, espresso, and more.",
+    km: "រកសមាមាត្រកាហ្វេទឹកត្រឹមត្រូវសម្រាប់ pour-over, French press, espresso និងច្រើនទៀត។",
+  },
+  "image-collage": {
+    en: "Combine several photos into a grid collage with adjustable spacing and export it as PNG.",
+    km: "ផ្សំរូបថតជាច្រើនទៅជា collage ជាក្រឡាចត្រង្គ ជាមួយគម្លាតអាចកែបាន ហើយនាំចេញជា PNG។",
+  },
+  "image-vectorizer": {
+    en: "Trace a photo or drawing into a simplified SVG outline right in your browser.",
+    km: "តាមដានរូបថត ឬគំនូរទៅជា SVG គ្រោងសាមញ្ញ ដោយផ្ទាល់ក្នុងកម្មវិធីរុករករបស់អ្នក។",
+  },
+  "placeholder-image": {
+    en: "Create custom SVG placeholder images with your own size, text, and colors.",
+    km: "បង្កើតរូបភាព placeholder SVG ផ្ទាល់ខ្លួន ជាមួយទំហំ អត្ថបទ និងពណ៌របស់អ្នក។",
+  },
+  "gif-splitter": {
+    en: "Split a GIF into its frames, remove frames, and change playback speed, then re-encode it.",
+    km: "បំបែក GIF ជាស៊ុម ដកស៊ុមចេញ ប្តូរល្បឿនលេង រួចអ៊ិនកូដវិញ។",
+  },
+  "barcode-reader": {
+    en: "Decode EAN-13, UPC-A, and EAN-8 barcodes from an image with the built-in decoder or the native API.",
+    km: "អានលេខកូដ EAN-13, UPC-A និង EAN-8 ពីរូបភាព ជាមួយ decoder ភ្ជាប់មក ឬ API ដើម។",
+  },
+  "image-histogram": {
+    en: "Analyze the red, green, blue, and luminance distribution of a photo with a histogram.",
+    km: "វិភាគការចែកចាយក្រហម បៃតង ខៀវ និងពន្លឺរបស់រូបថត ជាមួយអ៊ីស្តូក្រាម។",
+  },
+  "pixel-art": {
+    en: "Turn an image into pixel art with color quantization, or draw on a blank pixel grid.",
+    km: "បំលែងរូបភាពទៅជាសិល្បៈ pixel ជាមួយការកាត់បន្ថយពណ៌ ឬគូរលើក្រឡាចត្រង្គ pixel ទទេ។",
+  },
+  "audio-merger": {
+    en: "Combine multiple audio files into one WAV, or convert a single file to WAV, entirely in your browser.",
+    km: "បញ្ចូលឯកសារសំឡេងច្រើនទៅជា WAV មួយ ឬបម្លែងឯកសារតែមួយទៅជា WAV ទាំងស្រុងក្នុងកម្មវិធីរុករក។",
+  },
+  "tempo-changer": {
+    en: "Play audio at a different tempo and pitch with speed and detune controls.",
+    km: "ចាក់សំឡេងតាមចង្វាក់ និងកម្រិតផ្សេង ជាមួយការគ្រប់គ្រងល្បឿន និង detune។",
+  },
+  "noise-generator": {
+    en: "Generate white, pink, or brown noise for sleep or focus and download it as WAV.",
+    km: "បង្កើតសំឡេង white, pink ឬ brown noise សម្រាប់គេង ឬផ្តោតអារម្មណ៍ ហើយទាញយកជា WAV។",
+  },
+  "virtual-piano": {
+    en: "Play a two-octave virtual piano with your mouse or keyboard, and hear common chords.",
+    km: "លេងព្យាណូនិម្មិតពីរ octave ដោយកណ្តុរ ឬក្តារចុច ហើយស្តាប់ chord ទូទៅ។",
+  },
+  "video-compressor": {
+    en: "Re-encode a video at a lower resolution and bitrate in your browser and download it as WebM.",
+    km: "អ៊ិនកូដវីដេអូវិញនៅកម្រិតភាពច្បាស់ និង bitrate ទាបក្នុងកម្មវិធីរុករក ហើយទាញយកជា WebM។",
+  },
+  "subtitle-editor": {
+    en: "Edit SRT and VTT subtitles: fix timings and text, shift by an offset, and export either format.",
+    km: "កែសម្រួលអក្សររត់ SRT និង VTT៖ កែពេលវេលា និងអត្ថបទ ប្តូរដោយ offset ហើយនាំចេញទម្រង់ណាមួយ។",
+  },
+  "period-tracker": {
+    en: "Track your cycle and estimate future periods, ovulation, and the fertile window (estimates, not medical advice).",
+    km: "តាមដានវដ្តរបស់អ្នក និងប៉ាន់ស្មានរដូវបន្ទាប់ ថ្ងៃបញ្ចេញពង និងរយៈពេលមានកូន (ការប៉ាន់ស្មាន មិនមែនជាដំបូន្មានវេជ្ជសាស្ត្រ)។",
+  },
+  "fasting-timer": {
+    en: "Run an intermittent-fasting countdown with presets like 16:8 and 18:6, with a saved history.",
+    km: "ដំណើរការកម្មវិធីរាប់ម៉ោងតមអាហារ ជាមួយ presets ដូចជា 16:8 និង 18:6 ជាមួយប្រវត្តិរក្សាទុក។",
+  },
+  "sudoku": {
+    en: "Play generated Sudoku puzzles with three difficulties, hints, notes, and a solver.",
+    km: "លេងល្បែងស៊ូដូគូដែលបង្កើតដោយស្វ័យប្រវត្តិ កម្រិត ៣ ជាមួយជំនួយ កំណត់ត្រា និងអ្នកដោះស្រាយ។",
+  },
+  "trivia-quiz": {
+    en: "Test your general knowledge with 50 curated multiple-choice questions, including Cambodia culture.",
+    km: "សាកល្បងចំណេះទូទៅរបស់អ្នក ជាមួយសំណួរជ្រើសរើស ៥០ ដែលបានជ្រើសរើស រួមទាំងវប្បធម៌កម្ពុជា។",
+  },
+  "bingo-generator": {
+    en: "Generate classic 1–75 Bingo cards with a free center and print a sheet of cards.",
+    km: "បង្កើតកាតប៊ីងហ្គូ 1–75 បុរាណ ជាមួយកណ្តាលទំនេរ ហើយបោះពុម្ពសន្លឹកកាត។",
+  },
+  "cambodia-geography-quiz": {
+    en: "Quiz yourself on Cambodian provinces, capitals, and famous landmarks with explanations.",
+    km: "សាកល្បងចំណេះដឹងអំពីខេត្ត រាជធានី និងទីតាំងល្បីរបស់កម្ពុជា ជាមួយការពន្យល់។",
+  },
 };
 
 export function toolDescription(tool: ToolDef) {
@@ -529,6 +829,81 @@ const HOWTO_TOOLS: Record<string, string[]> = {
   "emergency-hotlines": ["Search or filter by category", "Find the number you need", "Tap the number to call", "Keep emergency lines 117/118/119/911 saved"],
   "school-year-planner": ["Set the first-semester start", "Set semester and break lengths", "Read the two-semester timeline", "Verify against your school calendar"],
   "object-counter": ["Upload an image", "Click Count objects", "Review the detected boxes on the image", "Read the total and per-category counts"],
+  "yaml-formatter": ["Paste your YAML", "Choose Format, Validate, or Minify", "Fix any reported error at the given line", "Copy the formatted output"],
+  "xml-formatter": ["Paste your XML", "Choose Format, Minify, or Validate", "Fix any reported error at the given line", "Copy the formatted output"],
+  "code-to-image": ["Paste or type your code", "Pick a theme and toggle line numbers", "Adjust the title bar text", "Download the image as PNG"],
+  "websocket-tester": ["Enter a ws:// or wss:// URL", "Click Connect", "Type a message and Send (text or JSON)", "Review the timestamped log, then Disconnect"],
+  "punycode-converter": ["Enter a unicode domain or an xn-- punycode label", "Choose Encode or Decode", "Copy the converted domain"],
+  "mac-vendor-lookup": ["Paste a MAC address in any common format", "Check the detected OUI", "Read the vendor from the sample list or follow the IEEE link for the full registry"],
+  "hash-identifier": ["Paste the hash string", "Review the candidate algorithms and confidence", "Use the matching algorithm in the Hash tool if needed"],
+  "email-header-analyzer": ["Open the raw email headers from your mail client", "Paste them into the tool", "Review the From/To/Received chain and SPF/DKIM/DMARC results"],
+  "totp-authenticator": ["Paste a base32 secret (from a setup key or QR content)", "Read the current 6-digit code and countdown", "Enter a code to verify it", "Switch to HOTP counter mode if needed"],
+  "aes-encryption": ["Enter a passphrase and text", "Click Encrypt to get the base64 output", "Paste the output and the same passphrase, then Decrypt to recover the text"],
+  "rsa-key-generator": ["Choose a key size (2048 or 4096)", "Click Generate", "Copy the public and private PEM keys", "Store the private key securely — it never leaves your device"],
+  "base58-codec": ["Enter text or hex, or paste a Base58 string", "Choose Encode or Decode", "Toggle Base58Check to verify a checksum"],
+  "certificate-viewer": ["Paste a PEM certificate", "Review subject, issuer, validity, and SANs", "Check the expiry status (valid, expiring, expired)"],
+  "pwned-check": ["Type or paste a password", "Click Check", "Review the result (found count or not found)", "Only the first 5 hash characters are sent, never the password"],
+  "bitwise-calculator": ["Enter two integers (decimal or 0x hex)", "Choose an operation (AND, OR, XOR, NOT, shift)", "Read the result in decimal, hex, and binary"],
+  "odds-converter": ["Enter any one odds format", "Read the converted decimal, fractional, American, and implied probability", "Optionally enter a stake to see payout"],
+  "linear-regression": ["Paste X,Y pairs (CSV or x,y lines)", "Read slope, intercept, R², and correlation", "Enter an x to predict y"],
+  "zscore-calculator": ["Enter value, mean, and standard deviation", "Read the z-score, probability, and percentile", "Switch to probability → z to invert"],
+  "sequence-solver": ["Choose arithmetic or geometric", "Enter the first term and common difference/ratio", "Set n to read the nth term and the sum"],
+  "language-detector": ["Paste your text", "Read the detected script and likely language", "Treat the result as an approximation"],
+  "ngram-finder": ["Paste your text", "Choose the N size and options (ignore case, skip stopwords)", "Review the frequency list or copy it as CSV"],
+  "ipa-phonetics": ["Type or paste an English word", "Read its approximate IPA transcription", "Check the sample dictionary note for coverage limits"],
+  "unicode-text-generator": ["Type your text", "Pick a style (zalgo, fullwidth, small caps, bold, strikethrough)", "Copy the transformed result"],
+  "glassmorphism-generator": ["Adjust blur, opacity, border, radius, and shadow", "Watch the live glass preview", "Copy the generated CSS"],
+  "neumorphism-generator": ["Adjust distance, blur, color, and radius", "Watch the soft UI preview", "Copy the generated CSS"],
+  "text-shadow-generator": ["Add or remove shadow layers", "Set offset, blur, and color per layer", "Copy the CSS text-shadow"],
+  "css-filter-generator": ["Adjust the filter sliders (grayscale, sepia, brightness…)", "Watch the live image preview", "Copy the filter CSS"],
+  "font-pair-finder": ["Browse the curated heading/body pairings", "Edit the sample text", "Use the pairing with its Google Fonts links"],
+  "css-grid-playground": ["Set columns, rows, gap, and alignment", "Watch the live grid preview", "Copy the generated CSS"],
+  "svg-path-inspector": ["Paste an SVG path d attribute", "Review the parsed commands and stats", "Check the live path preview"],
+  "svg-pattern-generator": ["Pick a pattern type (dots, stripes, grid…)", "Set colors, sizes, and spacing", "Copy the SVG code"],
+  "graph-visualizer": ["Paste edges (one per line, like A-B) or edit the sample graph", "Review the force-directed layout", "Drag nodes or hover for details"],
+  "resume-builder": ["Fill in your details and entries", "Review the A4 preview", "Print (or print to PDF) from your browser"],
+  "concrete-calculator": ["Choose the shape (slab, column, beam, footing)", "Enter the dimensions and mix ratio", "Read the volume and the cement/sand/gravel estimate"],
+  "rebar-calculator": ["Pick a rebar diameter", "Enter length and quantity", "Read the weight, plus slab/beam quantity estimates"],
+  "tile-calculator": ["Enter the floor or wall area", "Pick a tile size and joint width", "Set wastage % and tiles per box", "Read tiles and boxes needed"],
+  "solar-calculator": ["Enter your daily energy use in kWh", "Adjust panel wattage, system voltage, and battery depth-of-discharge", "Read panels, battery bank, and inverter size"],
+  "ac-btu-calculator": ["Enter room dimensions, occupants, and sun exposure", "Adjust electronics wattage if needed", "Read the recommended BTU/kW and capacity"],
+  "generator-sizing": ["Add each appliance with its running watts", "Flag motor loads for the surge factor", "Read total running and starting loads and the recommended generator size"],
+  "gold-price-calculator": ["Enter the current gold rate (user-supplied)", "Choose the weight unit (chi, gram, troy ounce)", "Pick the purity and read the value in KHR and USD"],
+  "sitemap-generator": ["Enter your base URL", "Add one page path per line (optionally with lastmod/frequency/priority)", "Copy or download the generated sitemap.xml"],
+  "robots-txt-generator": ["Add user-agent groups with Allow/Disallow rules", "Optionally set Crawl-delay and a Sitemap URL", "Copy or download the robots.txt"],
+  "rss-generator": ["Fill in feed metadata (title, link, description)", "Add your items (title, link, description, optional date)", "Copy or download the RSS 2.0 XML"],
+  "khmer-proverbs": ["Browse or search the curated proverbs", "Use the shuffle to get a proverb of the day", "Read the Khmer meaning and English translation"],
+  "khmer-rhyming-dictionary": ["Type a Khmer word to search", "Click a word to open its rhyme family", "Read the rhyming partners with definitions"],
+  "khmer-poem-generator": ["Pick a theme and stanza count", "Choose a rhyme scheme", "Click Generate and review the sample verses"],
+  "heart-rate-zones": ["Enter your age", "Optionally add your resting heart rate", "Read your max HR and Z1–Z5 target zones"],
+  "git-cheatsheet": ["Browse the grouped commands", "Click copy on any command", "Paste it into your terminal"],
+  "html-css-cheatsheet": ["Browse the HTML5 and CSS reference groups", "Click copy on any snippet", "Paste it into your code"],
+  "sql-cheatsheet": ["Browse the SQL reference groups", "Click copy on any query", "Paste it into your SQL editor"],
+  "linux-cheatsheet": ["Browse the command groups", "Click copy on any command", "Paste it into your terminal"],
+  "country-dialing-codes": ["Search by country, code, or ISO2", "Find the calling code and example format", "Copy the code"],
+  "currency-codes": ["Search by code, number, or name", "Read the ISO 4217 details and symbol", "Copy the code"],
+  "food-calorie-reference": ["Search or filter by food category", "Review the approximate kcal values", "Always verify with the product label"],
+  "recipe-resizer": ["Add your ingredients with amounts and units", "Set the original and target servings", "Read the scaled amounts and copy the recipe"],
+  "coffee-ratio": ["Pick a brew method preset", "Enter coffee grams or water ml", "Read the other amount and servings"],
+  "image-collage": ["Upload multiple images", "Choose grid rows/columns, gap, and background", "Download the combined PNG"],
+  "image-vectorizer": ["Upload an image", "Adjust threshold and simplify tolerance", "Copy or download the SVG outline"],
+  "placeholder-image": ["Set width, height, text, and colors", "Preview the SVG placeholder", "Copy the SVG or download it"],
+  "gif-splitter": ["Upload a GIF", "Review the extracted frames and adjust speed", "Remove unwanted frames if needed", "Re-encode and download the GIF"],
+  "barcode-reader": ["Upload a barcode image (EAN/UPC)", "Read the decoded value and checksum result", "Check the browser-support note for the native API"],
+  "image-histogram": ["Upload an image", "Toggle R/G/B/luminance channels", "Read the channel statistics"],
+  "pixel-art": ["Upload an image and choose the grid size", "Enable color quantization if you like", "Preview and export the PNG, or draw on a blank grid"],
+  "audio-merger": ["Add audio files in order", "Reorder them if needed", "Click Merge and download the WAV"],
+  "tempo-changer": ["Load an audio file", "Adjust the tempo and pitch sliders", "Play to hear the effect"],
+  "noise-generator": ["Pick white, pink, or brown noise", "Set duration and volume", "Play, or download the WAV"],
+  "virtual-piano": ["Click the keys or use your computer keyboard", "Hold for sustain", "Play a chord from the dictionary"],
+  "video-compressor": ["Load a video", "Set scale and bitrate", "Start the re-encode and download the WebM"],
+  "subtitle-editor": ["Load or paste SRT/VTT subtitles", "Edit cue timings and text", "Apply a global offset if needed", "Export as SRT or VTT"],
+  "period-tracker": ["Set your cycle and period lengths", "Enter your last period start date", "Read the predicted periods, ovulation, and fertile window"],
+  "fasting-timer": ["Pick a fasting preset or set a custom window", "Start the timer", "Pause or reset as needed, and review the history"],
+  "sudoku": ["Choose a difficulty and start a new game", "Tap a cell and enter a number (or use notes)", "Use Check, Hint, or Solve as needed"],
+  "trivia-quiz": ["Start the quiz", "Pick an answer for each question", "Read your score and the result"],
+  "bingo-generator": ["Choose how many cards you need", "Generate the cards", "Print the sheet of cards"],
+  "cambodia-geography-quiz": ["Start the quiz", "Answer the province, capital, and landmark questions", "Read the explanations for each answer"],
 };
 
 /** HowTo structured data for tools with well-defined, truthful steps. */
