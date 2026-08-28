@@ -627,6 +627,66 @@ const TOOL_BLURBS: Record<string, ToolBlurb> = {
     en: "Quiz yourself on Cambodian provinces, capitals, and famous landmarks with explanations.",
     km: "សាកល្បងចំណេះដឹងអំពីខេត្ត រាជធានី និងទីតាំងល្បីរបស់កម្ពុជា ជាមួយការពន្យល់។",
   },
+  "stereo-channel-test": {
+    en: "Check left/right speaker balance with a 440 Hz tone or noise from the left, right, both, or a sweeping channel.",
+    km: "ពិនិត្យតុល្យភាពសំឡេងឆ្វេង/ស្តាំ ជាមួយសំឡេង 440 Hz ឬសម្លេងរំខាន ចេញពីឆ្វេង ស្តាំ ទាំងពីរ ឬរំកិលឆ្លាស់។",
+  },
+  "css-animation-generator": {
+    en: "Build a CSS keyframe animation visually — property, easing, duration, iteration — and copy the code.",
+    km: "បង្កើត CSS animation បែប keyframes ដោយមើលឃើញ — លក្ខណៈសម្បត្តិ easing រយៈពេល ចំនួនវគ្គ — រួចចម្លងកូដ។",
+  },
+  "keyboard-event-viewer": {
+    en: "Press any key and read its key, code, keyCode, modifiers, and location — handy for shortcuts and Khmer keyboards.",
+    km: "ចុចគ្រាប់ចុចណាមួយ ហើយអាន key, code, keyCode, គ្រាប់ចុចរួម និងទីតាំង — ងាយស្រួលសម្រាប់ផ្លូវកាត់ និងក្ដារចុចខ្មែរ។",
+  },
+  "sample-size-calculator": {
+    en: "Work out how many people to survey using Cochran's formula with an optional finite-population correction.",
+    km: "គណនាចំនួនមនុស្សដែលត្រូវស្ទង់មតិ ដោយរូបមន្ត Cochran ជាមួយការកែតម្រូវចំនួនប្រជាជន (ជម្រើស)។",
+  },
+  "margin-markup-calculator": {
+    en: "Convert between cost, price, margin %, and markup %, and price from a target margin.",
+    km: "បម្លែងរវាងតម្លៃធ្វើ តម្លៃលក់ កំរិតចំណេញ % និង markup % ព្រមទាំងកំណត់តម្លៃលក់ពីកំរិតចំណេញគោលដៅ។",
+  },
+  "device-info": {
+    en: "See what this browser and device expose: screen, CPU, memory, network, battery, timezone, and storage.",
+    km: "មើលអ្វីដែលកម្មវិធីរុករក និងឧបករណ៍បង្ហាញ៖ អេក្រង់ CPU អង្គចងចាំ បណ្តាញ ថ្ម តំបន់ពេលវេលា និងកន្លែងផ្ទុក។",
+  },
+  "download-time-calculator": {
+    en: "Estimate how long a download takes at your link speed, distinguishing MB, MiB, Mbit/s, and MB/s.",
+    km: "ប៉ាន់ស្មានពេលទាញយកឯកសារតាមល្បឿនបណ្តាញ ដោយបែងចែក MB, MiB, Mbit/s និង MB/s។",
+  },
+  "ipv6-subnet-calculator": {
+    en: "Expand or compress an IPv6 address, identify its scope, and compute the exact subnet first/last address and size.",
+    km: "ពង្រីក ឬបង្រួមអាសយដ្ឋាន IPv6 កំណត់ប្រភេទរបស់វា និងគណនាអាសយដ្ឋានដើម/ចុង និងទំហំ subnet ពិតប្រាកដ។",
+  },
+  "depreciation-calculator": {
+    en: "Build a year-by-year depreciation schedule: straight-line, declining balance, double declining, or sum-of-years digits.",
+    km: "បង្កើតតារាងការធ្លាក់តម្លៃសម្បត្តិរយៈពេលឆ្នាំម្ដងៗ៖ ត្រង់ៗ តុល្យភាពធ្លាក់ចុះ ធ្លាក់ចុះពីរដង ឬផលបូកលេខឆ្នាំ។",
+  },
+  "meeting-cost-calculator": {
+    en: "See what a meeting really costs from attendees × average hourly rate × time, with a live ticking mode.",
+    km: "មើលចំណាយពិតរបស់ការប្រជុំ ពីអ្នកចូលរួម × អត្រាម៉ោងមធ្យម × ពេលវេលា ជាមួយរបៀបមើលផ្ទាល់។",
+  },
+  "npv-irr-calculator": {
+    en: "Analyze cash flows with net present value, internal rate of return, and simple payback from a pasted list.",
+    km: "វិភាគចរន្តសាច់ប្រាក់៖ តម្លៃបច្ចុប្បន្នសុទ្ធ (NPV) អត្រាត្រឡប់មូលធនផ្ទៃក្នុង (IRR) និងរយៈពេលសងសរុប ពីបញ្ជីចរន្តសាច់ប្រាក់។",
+  },
+  "volumetric-weight-calculator": {
+    en: "Calculate chargeable shipping weight as the greater of actual and volumetric weight (L×W×H ÷ divisor).",
+    km: "គណនាទម្ងន់គិតថ្លៃសម្រាប់ការដឹកជញ្ជូន៖ យកទម្ងន់ធំជាងគេ រវាងទម្ងន់ពិត និងទម្ងន់តាមទំហំ (បណ្តោយ×ទទឹង×កម្ពស់ ÷ កត្តា)។",
+  },
+  "dilution-calculator": {
+    en: "Solve C₁V₁ = C₂V₂ for any missing value and compute molarity from mass, molar mass, and volume.",
+    km: "ដោះស្រាយ C₁V₁ = C₂V₂ សម្រាប់តួដែលបាត់ និងគណនា molarity ពីម៉ាស ម៉ាសម៉ូលារ និងកម្រិតទឹក។",
+  },
+  "dna-translator": {
+    en: "Clean a DNA/RNA sequence, transcribe to mRNA, get the reverse complement, GC content, and all six reading frames.",
+    km: "សម្អាតលំដាប់ DNA/RNA បម្លែងទៅ mRNA គណនា reverse complement ខ្លឹមសារ GC និងបកប្រែស៊ុមអានទាំង ៦។",
+  },
+  "half-life-calculator": {
+    en: "Compute the amount left after a given time, the decay constant λ, and the mean lifetime from a half-life.",
+    km: "គណនាបរិមាណសល់ក្រោយពេលកំណត់ ស្ថិរភាពថេរខ្ទេច (λ) និងអាយុកាលមធ្យម ពីរយៈពេលពាក់កណ្តាល។",
+  },
 };
 
 export function toolDescription(tool: ToolDef) {
@@ -904,6 +964,21 @@ const HOWTO_TOOLS: Record<string, string[]> = {
   "trivia-quiz": ["Start the quiz", "Pick an answer for each question", "Read your score and the result"],
   "bingo-generator": ["Choose how many cards you need", "Generate the cards", "Print the sheet of cards"],
   "cambodia-geography-quiz": ["Start the quiz", "Answer the province, capital, and landmark questions", "Read the explanations for each answer"],
+  "stereo-channel-test": ["Pick a signal type (tone or noise)", "Choose left, right, both, or sweep", "Adjust the volume and check which speaker plays"],
+  "css-animation-generator": ["Choose a property and from/to values", "Set easing, duration, delay, and iteration", "Copy the generated keyframe CSS"],
+  "keyboard-event-viewer": ["Click the box to focus it", "Press any key and watch the event details", "Clear the log when done"],
+  "sample-size-calculator": ["Pick a confidence level", "Enter the margin of error and expected proportion", "Optionally add the population size", "Read the required sample size and achieved margin"],
+  "margin-markup-calculator": ["Choose a mode (from price, from margin, or from cost)", "Enter the two known values", "Read margin, markup, and implied price"],
+  "device-info": ["Open the tool", "Review the read-only device and browser details", "Click Refresh to re-read values"],
+  "download-time-calculator": ["Enter the file size and its unit", "Enter the link speed and its unit", "Read the estimated time and transfer rate"],
+  "ipv6-subnet-calculator": ["Enter an IPv6 address, optionally with /prefix", "Read the type, expanded/compressed forms", "Review the subnet first/last address and size"],
+  "depreciation-calculator": ["Enter asset cost, salvage value, and life", "Pick a depreciation method", "Read the year-by-year schedule"],
+  "meeting-cost-calculator": ["Enter attendees, average hourly rate, and minutes", "Read the total, per-person, and per-minute cost", "Start live mode to watch it tick"],
+  "npv-irr-calculator": ["Paste a cash-flow list (one value per line)", "Enter a discount rate", "Read NPV, IRR, and simple payback"],
+  "volumetric-weight-calculator": ["Enter length, width, height, and actual weight", "Pick a divisor (default 5000) or custom", "Read the volumetric and chargeable weight"],
+  "dilution-calculator": ["Choose which variable to solve for", "Enter the other three values", "Read the solved value and the molarity section"],
+  "dna-translator": ["Paste a DNA or RNA sequence", "Pick a reading frame", "Read transcription, reverse complement, GC content, and translation"],
+  "half-life-calculator": ["Enter the initial amount and half-life", "Enter the elapsed time", "Read the remaining amount, λ, and mean lifetime"],
 };
 
 /** HowTo structured data for tools with well-defined, truthful steps. */
