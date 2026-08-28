@@ -13,7 +13,7 @@ const DICT: Record<string, string> = {
   "Start here": "ဤနေရာမှ စတင်ပါ",
   Favorites: "အကြိုက်ဆုံးများ",
   "Recently used": "မကြာသေးမီ သုံးခဲ့သော",
-  "Tools from local developers": "ပြည်တွင်း developer များ၏ ကိရိယာများ",
+  "Tools from local/Int'l developers": "ပြည်တွင်း developer များ၏ ကိရိယာများ",
   "Switch to graph view": "ဂရပ်မြင်ကွင်းသို့ ပြောင်းရန်",
   "Switch to grid view": "ဇယားကွက်မြင်ကွင်းသို့ ပြောင်းရန်",
   Graph: "ဂရပ်",

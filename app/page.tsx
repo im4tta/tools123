@@ -744,7 +744,7 @@ export default function Home() {
       {filter === "" && localDevTools.length > 0 && (
         <section className="relative mx-auto mt-10 max-w-[77rem] px-5 sm:px-10">
           <div className="mb-3 flex items-baseline gap-2 border-b border-[var(--ground-line)] pb-2">
-            <h2 className="font-display text-sm font-medium text-[var(--ink)]">{t("Tools from local developers", "ឧបករណ៍ពីអ្នកអភិវឌ្ឍន៍ក្នុងស្រុក")}</h2>
+            <h2 className="font-display text-sm font-medium text-[var(--ink)]">{t("Tools from local/Int'l developers", "ឧបករណ៍ពីអ្នកអភិវឌ្ឍន៍ក្នុងស្រុក/អន្តរជាតិ")}</h2>
             <span className="text-xs text-[var(--ink-faint)]">{t("Verified local projects and references", "គម្រោង និងប្រភពក្នុងស្រុកដែលបានផ្ទៀងផ្ទាត់")}</span>
           </div>
           <ToolGrid tools={localDevTools} onSelect={setActiveId} favorites={favorites} onToggleFavorite={toggleFavorite} showCredits />

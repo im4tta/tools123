@@ -13,7 +13,7 @@ const DICT: Record<string, string> = {
   "Start here": "Mula di sini",
   Favorites: "Kegemaran",
   "Recently used": "Baru digunakan",
-  "Tools from local developers": "Alatan daripada pembangun tempatan",
+  "Tools from local/Int'l developers": "Alatan daripada pembangun tempatan",
   "Switch to graph view": "Tukar ke paparan graf",
   "Switch to grid view": "Tukar ke paparan grid",
   Graph: "Graf",

@@ -13,7 +13,7 @@ const DICT: Record<string, string> = {
   "Start here": "Bắt đầu từ đây",
   "Favorites": "Yêu thích",
   "Recently used": "Đã dùng gần đây",
-  "Tools from local developers": "Công cụ của nhà phát triển địa phương",
+  "Tools from local/Int'l developers": "Công cụ của nhà phát triển địa phương",
   "Switch to graph view": "Chuyển sang chế độ biểu đồ",
   "Switch to grid view": "Chuyển sang chế độ lưới",
   "Graph": "Biểu đồ",
