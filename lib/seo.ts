@@ -687,6 +687,166 @@ const TOOL_BLURBS: Record<string, ToolBlurb> = {
     en: "Compute the amount left after a given time, the decay constant λ, and the mean lifetime from a half-life.",
     km: "គណនាបរិមាណសល់ក្រោយពេលកំណត់ ស្ថិរភាពថេរខ្ទេច (λ) និងអាយុកាលមធ្យម ពីរយៈពេលពាក់កណ្តាល។",
   },
+  "khmer-musical-instruments": {
+    en: "Browse a curated reference of traditional Khmer musical instruments with Khmer and English names and descriptions.",
+    km: "រកមើលឯកសារយោងឧបករណ៍ភ្លេងប្រពៃណីខ្មែរ ជាមួយឈ្មោះ និងការពណ៌នាជាភាសាខ្មែរ និងអង់គ្លេស។",
+  },
+  "khmer-dances-festivals": {
+    en: "Discover well-known Khmer classical and folk dances and festivals with timings and descriptions.",
+    km: "ស្វែងយល់អំពីរបាំបុរាណ និងប្រពៃណី និងពិធីបុណ្យខ្មែរល្បីៗ ជាមួយពេលវេលា និងការពណ៌នា។",
+  },
+  "khmer-dish-glossary": {
+    en: "Look up well-known Khmer dishes by Khmer or English name with short descriptions.",
+    km: "ស្វែងរកម្ហូបខ្មែរល្បីៗ តាមឈ្មោះខ្មែរ ឬអង់គ្លេស ជាមួយការពណ៌នាខ្លីៗ។",
+  },
+  "khmer-birthday-personality": {
+    en: "Find the traditional Khmer personality traits and color for the weekday you were born on (for fun, not scientific).",
+    km: "ស្វែងរកលក្ខណៈបុគ្គលតាមប្រពៃណីខ្មែរ និងពណ៌សម្រាប់ថ្ងៃសប្តាហ៍ដែលអ្នកកើត (សម្រាប់កំសាន្ត មិនមែនវិទ្យាសាស្ត្រ)។",
+  },
+  "khmer-lunar-calendar": {
+    en: "View a month grid with the Khmer lunar day for every date, including waxing/waning and the lunar month.",
+    km: "មើលប្រតិទិនខែ ជាមួយថ្ងៃចន្ទគតិខ្មែរសម្រាប់រាល់កាលបរិច្ឆេទ រាប់ទាំងកើត/រោច និងខែចន្ទគតិ។",
+  },
+  "khmer-new-year-countdown": {
+    en: "Live countdown to the next Khmer New Year (Moha Songkran, around mid-April) with the zodiac animal.",
+    km: "រាប់ថយក្រោយផ្ទាល់ទៅចូលឆ្នាំខ្មែរបន្ទាប់ (មហាសង្រ្កាន្ត ប្រហែលពាក់កណ្តាលខែមេសា) ជាមួយឆ្នាំសត្វ។",
+  },
+  "semver-calculator": {
+    en: "Validate, compare, and increment semantic versions (semver.org 2.0.0) with suggested next releases.",
+    km: "ផ្ទៀងផ្ទាត់ ប្រៀបធៀប និងបន្ថែមលេខកំណែ semantic version (semver.org 2.0.0) ជាមួយការស្នើកំណែបន្ទាប់។",
+  },
+  "env-validator": {
+    en: "Validate .env files line by line: syntax, duplicates, quoting, and empty or invalid keys.",
+    km: "ផ្ទៀងផ្ទាត់ឯកសារ .env បន្ទាត់ម្តងៗ៖ វេយ្យាករណ៍ ការស្ទួន ការដាក់សញ្ញាសម្រង់ និងគ្រាប់ចុចទទេ ឬមិនត្រឹមត្រូវ។",
+  },
+  "jsonpath-tester": {
+    en: "Evaluate JSONPath expressions against your JSON and see the matched results with counts.",
+    km: "វាយតម្លៃ JSONPath expressions ទល់នឹង JSON របស់អ្នក ហើយមើលលទ្ធផលដែលត្រូវ ជាមួយចំនួន។",
+  },
+  "pwa-manifest-generator": {
+    en: "Build a valid manifest.json for your progressive web app with icons, colors, and display settings.",
+    km: "បង្កើត manifest.json ត្រឹមត្រូវសម្រាប់កម្មវិធី PWA របស់អ្នក ជាមួយរូបតំណាង ពណ៌ និងការកំណត់បង្ហាញ។",
+  },
+  "conventional-commit-generator": {
+    en: "Write conventional commit messages with type, scope, breaking changes, body, and footer.",
+    km: "សរសេរសារប្រគល់ conventional commit ជាមួយប្រភេទ scope ការផ្លាស់ប្តូរបំបែក body និង footer។",
+  },
+  "cookie-parser": {
+    en: "Parse Cookie and Set-Cookie headers into readable tables and build Cookie headers, per RFC 6265.",
+    km: "វិភាគបឋមកថា Cookie និង Set-Cookie ទៅជាតារាងងាយអាន និងបង្កើតបឋមកថា Cookie តាម RFC 6265។",
+  },
+  "avatar-identicon-generator": {
+    en: "Generate initials avatars and deterministic identicons as SVG or PNG for profiles and apps.",
+    km: "បង្កើត avatar អក្សរផ្តើម និង identicon ថេរជា SVG ឬ PNG សម្រាប់ប្រវត្តិរូប និងកម្មវិធី។",
+  },
+  "loading-spinner-generator": {
+    en: "Pick a spinner style, colors, and speed and copy the CSS or SVG loader for your site.",
+    km: "ជ្រើសរើសរចនាប័ទ្ម spinner ពណ៌ និងល្បឿន រួចចម្លង CSS ឬ SVG loader សម្រាប់គេហទំព័ររបស់អ្នក។",
+  },
+  "skeleton-loader-generator": {
+    en: "Compose a skeleton loading screen from lines, avatars, and blocks and copy the shimmer CSS.",
+    km: "រៀបចំអេក្រង់ skeleton loading ពីបន្ទាត់ avatar និងប្លុក រួចចម្លង CSS shimmer។",
+  },
+  "css-transform-generator": {
+    en: "Build CSS transforms with translate, rotate, scale, skew, and perspective and copy the code.",
+    km: "បង្កើត CSS transforms ជាមួយ translate, rotate, scale, skew និង perspective រួចចម្លងកូដ។",
+  },
+  "image-compare-slider": {
+    en: "Drag a divider to compare two images side by side, perfect for before/after shots.",
+    km: "អូសបន្ទាត់បំបែក ដើម្បីប្រៀបធៀបរូបភាពពីរ ល្អសម្រាប់រូបមុន/ក្រោយ។",
+  },
+  "webcam-photo-booth": {
+    en: "Take webcam photos with mirror and filter options and download them as PNG.",
+    km: "ថតរូបតាមកាមេរ៉ាជាមួយជម្រើសកញ្ចក់ឆ្លុះ និងតម្រង រួចទាញយកជា PNG។",
+  },
+  "duplicate-image-checker": {
+    en: "Upload images and find visually similar or duplicate ones using perceptual hashes.",
+    km: "ផ្ទុករូបភាព ហើយរករូបស្រដៀងគ្នា ឬស្ទួន ដោយប្រើ perceptual hash។",
+  },
+  "beat-maker": {
+    en: "Program a 16-step drum beat with kick, snare, hi-hat, clap, and bass and play it live.",
+    km: "រៀបចំចង្វាក់ស្គរ ១៦ ជំហាន ជាមួយ kick, snare, hi-hat, clap និង bass ហើយលេងផ្ទាល់។",
+  },
+  "instrument-tuner": {
+    en: "Tune your instrument with your microphone: detect the pitch and see the nearest note and cents.",
+    km: "លៃសំឡេងឧបករណ៍របស់អ្នកជាមួយមីក្រូហ្វូន៖ រកប្រេកង់ ហើយមើលសម្លេងជិតបំផុត និង cents។",
+  },
+  "sound-effect-generator": {
+    en: "Generate sweep, siren, chirp, laser, ring, and alarm sounds and download them as WAV.",
+    km: "បង្កើតសំឡេង sweep, siren, chirp, laser, ring និង alarm ហើយទាញយកជា WAV។",
+  },
+  "video-speed-changer": {
+    en: "Re-encode a video at 0.25x–4x speed in your browser and download the WebM.",
+    km: "អ៊ិនកូដវីដេអូវិញក្នុងល្បឿន ០.២៥x–៤x ក្នុងកម្មវិធីរុករក ហើយទាញយកជា WebM។",
+  },
+  "video-green-screen": {
+    en: "Remove a green screen from a video and compose it over a background, then export WebM.",
+    km: "ដកផ្ទៃបៃតងចេញពីវីដេអូ ហើយផ្សំលើផ្ទៃខាងក្រោយ រួចនាំចេញជា WebM។",
+  },
+  "video-watermark": {
+    en: "Add a text watermark to a video with position, opacity, and color, then export WebM.",
+    km: "ដាក់សញ្ញាទឹកអត្ថបទលើវីដេអូ ជាមួយទីតាំង ភាពថ្លា និងពណ៌ រួចនាំចេញជា WebM។",
+  },
+  "sig-figs-calculator": {
+    en: "Count significant figures, round to a chosen precision, and see each digit explained.",
+    km: "រាប់ខ្ទង់សំខាន់ បង្គត់ទៅភាពជាក់លាក់ដែលជ្រើស ហើយមើលការពន្យល់រាល់ខ្ទង់។",
+  },
+  "modular-arithmetic": {
+    en: "Add, subtract, multiply, and exponentiate modulo m, find inverses, and solve congruences step by step.",
+    km: "បូក ដក គុណ និងស្វ័យគុណម៉ូឌុល m រក inverse និងដោះស្រាយ congruence មួយជំហានម្តង។",
+  },
+  "quartile-outlier-analyzer": {
+    en: "Compute quartiles and IQR, and flag outliers in your data with Tukey's fence rule.",
+    km: "គណនា quartile និង IQR ហើយសម្គាល់ outlier ក្នុងទិន្នន័យរបស់អ្នក តាមវិធាន Tukey fence។",
+  },
+  "break-even-calculator": {
+    en: "Find the break-even units and revenue from fixed costs, variable cost, and price.",
+    km: "រកចំនួនឯកតា និងចំណូលចំណុចដាច់ ពីតម្លៃថេរ តម្លៃប្រែប្រួល និងតម្លៃលក់។",
+  },
+  "cooking-converter": {
+    en: "Convert cooking measures between cups, spoons, ounces, and grams for common ingredients.",
+    km: "បម្លែងឯកតាចម្អិនអាហារ រវាងពែង ស្លាបព្រា អោនស៍ និងក្រាម សម្រាប់គ្រឿងផ្សំទូទៅ។",
+  },
+  "calories-burned": {
+    en: "Estimate calories burned by activity, weight, and duration using a MET reference table.",
+    km: "ប៉ាន់ស្មានកាឡូរីដុតតាមសកម្មភាព ទម្ងន់ និងរយៈពេល ដោយប្រើតារាង MET យោង។",
+  },
+  "blood-pressure-log": {
+    en: "Log your blood pressure readings with summaries and general category references (not medical advice).",
+    km: "កត់ត្រាសម្ពាធឈាមរបស់អ្នក ជាមួយសេចក្តីសង្ខេប និងការប្រៀបធៀបទូទៅ (មិនមែនជាដំបូន្មានវេជ្ជសាស្ត្រ)។",
+  },
+  "hiit-timer": {
+    en: "Run HIIT intervals with work/rest presets like Tabata and a phase-change beep.",
+    km: "ដំណើរការ HIIT interval ជាមួយ presets ដូចជា Tabata និងសំឡេងរោទិ៍ពេលប្តូរដំណាក់កាល។",
+  },
+  "minesweeper": {
+    en: "Play classic Minesweeper with beginner, intermediate, and expert boards.",
+    km: "លេងល្បែង Minesweeper បុរាណ ជាមួយក្តារកម្រិតដំបូង មធ្យម និងជំនាញ។",
+  },
+  "game-2048": {
+    en: "Play 2048: slide tiles to merge them into 2048, with keyboard and touch controls.",
+    km: "លេង ២០៤៨៖ រំកិលក្បឿងដើម្បីផ្សំឲ្យបាន ២០៤៨ ជាមួយការគ្រប់គ្រងក្តារចុច និងប៉ះ។",
+  },
+  "snake": {
+    en: "Play the classic Snake arcade game with growing length and increasing speed.",
+    km: "លេងល្បែងពស់បុរាណ ដែលពស់កាន់តែវែង និងលឿនជាងមុន។",
+  },
+  "connect-four": {
+    en: "Play Connect Four against a friend or a simple AI on a 7×6 board.",
+    km: "លេងល្បែងភ្ជាប់បួន ជាមួយមិត្ត ឬ AI សាមញ្ញ លើក្តារ ៧×៦។",
+  },
+  "mad-libs": {
+    en: "Fill in words to build a funny story with Mad Libs templates in English and Khmer.",
+    km: "បំពេញពាក្យដើម្បីបង្កើតរឿងកំប្លែង ជាមួយគំរូ Mad Libs ជាភាសាអង់គ្លេស និងខ្មែរ។",
+  },
+  "solstice-calculator": {
+    en: "Estimate the equinox and solstice dates for any year with day-length comparisons.",
+    km: "ប៉ាន់ស្មានកាលបរិច្ឆេទ equinox និង solstice សម្រាប់ឆ្នាំណាមួយ ជាមួយការប្រៀបធៀបប្រវែងថ្ងៃ។",
+  },
+  "serial-date-converter": {
+    en: "Convert dates to and from Excel serial numbers and Julian Day numbers, including MJD.",
+    km: "បម្លែងកាលបរិច្ឆេទ ទៅ និងពីលេខស៊េរី Excel និងលេខ Julian Day រួមទាំង MJD។",
+  },
 };
 
 export function toolDescription(tool: ToolDef) {
@@ -979,6 +1139,46 @@ const HOWTO_TOOLS: Record<string, string[]> = {
   "dilution-calculator": ["Choose which variable to solve for", "Enter the other three values", "Read the solved value and the molarity section"],
   "dna-translator": ["Paste a DNA or RNA sequence", "Pick a reading frame", "Read transcription, reverse complement, GC content, and translation"],
   "half-life-calculator": ["Enter the initial amount and half-life", "Enter the elapsed time", "Read the remaining amount, λ, and mean lifetime"],
+  "khmer-musical-instruments": ["Browse or search the instruments", "Filter by strings, percussion, or wind", "Read the Khmer and English names and descriptions"],
+  "khmer-dances-festivals": ["Browse or search the dances and festivals", "Filter by type", "Read the timing and description"],
+  "khmer-dish-glossary": ["Search by Khmer or English name", "Read the short description", "Use it when ordering or translating a menu"],
+  "khmer-birthday-personality": ["Enter your birth date", "Read your Khmer weekday", "Review the traditional personality traits and color"],
+  "khmer-lunar-calendar": ["Pick a month with the picker or arrows", "Read the lunar day under each date", "Check the lunar month and zodiac year"],
+  "khmer-new-year-countdown": ["Open the tool", "Read the live countdown to the next Khmer New Year", "See the current zodiac animal and the mid-April note"],
+  "semver-calculator": ["Enter a version to validate and inspect", "Optionally enter a second version to compare", "Click an increment button to suggest the next version"],
+  "env-validator": ["Paste your .env content", "Review the per-line issues and summary", "Fix duplicates, quoting, or invalid keys"],
+  "jsonpath-tester": ["Paste your JSON", "Type a JSONPath expression like $.items[*].id", "Read the matched results and count"],
+  "pwa-manifest-generator": ["Fill in name, start_url, and other fields", "Add icons with sizes and purpose", "Copy or download the manifest.json"],
+  "conventional-commit-generator": ["Pick a type and optional scope", "Write the description and optional body", "Copy the generated commit message"],
+  "cookie-parser": ["Paste Cookie or Set-Cookie headers", "Review the parsed attributes table", "Or build a Cookie header from name/value pairs"],
+  "avatar-identicon-generator": ["Enter a name for an initials avatar, or any string for an identicon", "Pick colors, shape, and size", "Copy the SVG or download the PNG"],
+  "loading-spinner-generator": ["Pick a spinner style", "Set color, size, and speed", "Copy the CSS or SVG code"],
+  "skeleton-loader-generator": ["Toggle avatar, lines, card, and button blocks", "Set the shimmer colors and duration", "Copy the generated CSS"],
+  "css-transform-generator": ["Adjust the transform sliders", "Set perspective and transform-origin", "Copy the CSS"],
+  "image-compare-slider": ["Upload a before and after image", "Drag the divider to compare", "Swap sides if needed"],
+  "webcam-photo-booth": ["Allow camera access", "Toggle mirror and effects", "Capture photos and download them as PNG"],
+  "duplicate-image-checker": ["Upload multiple images", "Adjust the similarity threshold", "Review the grouped similar or duplicate images"],
+  "beat-maker": ["Pick a preset or program your own steps", "Set the BPM", "Press Play and adjust while it loops"],
+  "instrument-tuner": ["Allow microphone access", "Play a note on your instrument", "Read the nearest note and cents, and adjust tuning"],
+  "sound-effect-generator": ["Pick an effect type", "Adjust frequencies and duration", "Play it or download the WAV"],
+  "video-speed-changer": ["Load a video", "Choose a speed (0.25x–4x)", "Re-encode and download the WebM"],
+  "video-green-screen": ["Load a video with a green screen", "Optionally load a background image", "Adjust the key tolerance", "Preview and export the WebM"],
+  "video-watermark": ["Load a video", "Type the watermark text and set style", "Preview and export the WebM"],
+  "sig-figs-calculator": ["Enter a number", "Read the significant-figure count and explanation", "Optionally round to a chosen number of sig figs"],
+  "modular-arithmetic": ["Pick an operation", "Enter the values and modulus", "Read the result with steps"],
+  "quartile-outlier-analyzer": ["Paste a list of numbers", "Read the quartiles and IQR", "Review the flagged outliers"],
+  "break-even-calculator": ["Enter fixed costs, variable cost per unit, and price", "Read the break-even units and revenue", "Optionally enter a target volume for profit"],
+  "cooking-converter": ["Choose an ingredient or plain volume mode", "Enter an amount and unit", "Read the converted amount"],
+  "calories-burned": ["Pick an activity", "Enter your weight and duration", "Read the estimated calories burned"],
+  "blood-pressure-log": ["Add a reading with systolic, diastolic, and pulse", "Review the summary and category badge", "Delete or clear entries as needed"],
+  "hiit-timer": ["Pick a preset like Tabata or set custom intervals", "Start the timer", "Follow the work/rest phases and rounds"],
+  "minesweeper": ["Pick a difficulty", "Left-click to reveal, right-click to flag", "Clear the board without hitting a mine"],
+  "game-2048": ["Use arrow keys or swipe to slide tiles", "Merge equal tiles", "Reach 2048 (or undo a move if needed)"],
+  "snake": ["Use arrow keys, WASD, or the on-screen pad", "Eat the food and avoid the walls and yourself", "Beat your best score"],
+  "connect-four": ["Pick two-player or vs AI", "Click a column to drop a disc", "Connect four in a row, column, or diagonal"],
+  "mad-libs": ["Pick a story template", "Fill in each word type", "Read the funny completed story"],
+  "solstice-calculator": ["Enter a year", "Read the equinox and solstice dates", "Compare day lengths by season"],
+  "serial-date-converter": ["Enter a date, Excel serial, or Julian Day number", "Read the converted values", "Copy the result"],
 };
 
 /** HowTo structured data for tools with well-defined, truthful steps. */
