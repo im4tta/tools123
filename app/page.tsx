@@ -27,6 +27,45 @@ const KH_DIGITS = "០១២៣៤៥៦៧៨៩";
 const toKh = (n: number) => String(n).split("").map((d) => KH_DIGITS[Number(d)]).join("");
 const TOTAL = TOOLS.length;
 
+// Address-aware search: a lazily-loaded index of Cambodia's administrative
+// units (province → district → commune → village) so typing a place name or
+// admin code can recommend the Administrative Hierarchy tool. Loaded on demand
+// to keep the homepage bundle lean (the full dataset has ~16k entries).
+type PlaceEntry = { en: string; kh: string; code: string };
+let placeIndex: PlaceEntry[] | null = null;
+let placeIndexPromise: Promise<PlaceEntry[]> | null = null;
+function loadPlaceIndex(): Promise<PlaceEntry[]> {
+  if (!placeIndexPromise) {
+    placeIndexPromise = import("@/data/address_data.json").then((mod) => {
+      const rows = (mod.default ?? mod) as {
+        code: string;
+        en: string;
+        kh: string;
+        districts: {
+          code: string;
+          en: string;
+          kh: string;
+          communes: { code: string; en: string; kh: string; villages: { code: string; en: string; kh: string }[] }[];
+        }[];
+      }[];
+      const hits: PlaceEntry[] = [];
+      for (const p of rows) {
+        hits.push({ en: p.en, kh: p.kh, code: p.code });
+        for (const d of p.districts) {
+          hits.push({ en: d.en, kh: d.kh, code: d.code });
+          for (const c of d.communes) {
+            hits.push({ en: c.en, kh: c.kh, code: c.code });
+            for (const v of c.villages) hits.push({ en: v.en, kh: v.kh, code: v.code });
+          }
+        }
+      }
+      placeIndex = hits;
+      return hits;
+    });
+  }
+  return placeIndexPromise;
+}
+
 // A small, hand-picked set of broadly useful tools shown to first-time visitors
 // who have no favorites or recents yet — gives an immediate sense of what the
 // workbench can do instead of a cold wall of 13 categories.
@@ -97,6 +136,18 @@ export default function Home() {
   const [filter, setFilter] = useState(() => (typeof window !== "undefined" ? new URLSearchParams(window.location.search).get("q") ?? "" : ""));
   const parsedFilter = useMemo(() => parseIntent(filter), [filter]);
   const isCalculationIntent = Boolean(filter.trim() && parsedFilter.toolId && parsedFilter.domain !== "tool" && parsedFilter.domain !== "khmer");
+  const [placeIndexReady, setPlaceIndexReady] = useState(false);
+  useEffect(() => {
+    let alive = true;
+    loadPlaceIndex()
+      .then(() => {
+        if (alive) setPlaceIndexReady(true);
+      })
+      .catch(() => {});
+    return () => {
+      alive = false;
+    };
+  }, []);
   const [graphFocusCategory, setGraphFocusCategory] = useState<Category | null>(null);
   const { value: viewMode, setValue: setViewMode } = useLocalStorage<"grid" | "graph">(
     STORAGE_KEYS.viewMode,
@@ -130,6 +181,17 @@ export default function Home() {
     if (/^\s*[-\w]+\s*,\s*[-\w]+(?:\s*\n|$)/.test(value)) push("csv-json", "csv-to-markdown");
     if (/^-?\d+\.\d+\s*,\s*-?\d+\.\d+$/.test(value)) push("dms-converter", "geojson-formatter", "utm-converter");
     if (/\b(ភូមិ|ឃុំ|សង្កាត់|ស្រុក|ខណ្ឌ|ខេត្ត|ក្រុង|village|commune|district|province|address|street)\b/i.test(value)) push("address-formatter", "province-lookup", "postal-code-finder");
+    // Typing a real place name or admin code (e.g. Siem Reap, សៀមរាប, 1702)
+    // recommends the Administrative Hierarchy browser. Short queries must be
+    // exact matches so generic 2-3 letter words don't trigger address hits.
+    if (placeIndexReady && placeIndex) {
+      const q = value.trim().toLowerCase();
+      const isPlace =
+        q.length >= 3
+          ? placeIndex.some((p) => p.code.includes(q) || p.en.toLowerCase().includes(q) || p.kh.includes(q))
+          : placeIndex.some((p) => p.code === q || p.en.toLowerCase() === q || p.kh === q);
+      if (isPlace) push("administrative-hierarchy", "address-formatter", "province-lookup");
+    }
     if (/\b(state|government|police|military|រដ្ឋ|ប៉ូលិស|យោធា)\b/i.test(value)) push("government-plate-parser", "government-plate-lookup", "vehicle-plate");
     if (/\b(bcg|hepb?|opv|ipv|dpt|hib|pcv|mr|measles|rubella|je|japanese encephalitis|vitamin\s*a|deworming|vaccine|vaccination|ថ្នាំបង្ការ|វីតាមីន)\b/i.test(value)) push("yellow-card-tracker");
     if (/(?:^|\s)(?:\+?855|0[1-9]\d{7,8})(?:\s|$)/.test(value)) push("phone-formatter", "phone-number-cleaner");
@@ -160,7 +222,7 @@ export default function Home() {
         .forEach(({ tool }) => push(tool.id));
     }
     return [...new Set(ids)].map((id) => TOOLS.find((tool) => tool.id === id)).filter(Boolean) as typeof TOOLS;
-  }, [filter, isCalculationIntent]);
+  }, [filter, isCalculationIntent, placeIndexReady]);
 
   // Keep a ref mirror of the last known grid scroll position so the restore
   // effect below can read it without re-running on every scroll tick.

@@ -19,6 +19,118 @@ const TOOL_BLURBS: Record<string, ToolBlurb> = {
     en: "Create Khmer administrative letters from practical templates and export a ready-to-use official document.",
     km: "បង្កើតលិខិតរដ្ឋបាលខ្មែរពីគំរូអនុវត្តជាក់ស្តែង និងនាំចេញឯកសារផ្លូវការរួចរាល់សម្រាប់ប្រើប្រាស់។",
   },
+  "administrative-hierarchy": {
+    en: "Browse Cambodia's 25 provinces/capital, 210 districts, 1,661 communes, and 14,546 villages, or type to search any address by English, Khmer, or administrative code.",
+    km: "រកមើលរាជធានី-ខេត្តទាំង ២៥ ក្រុង-ស្រុក-ខណ្ឌចំនួន ២១០ ឃុំ-សង្កាត់ចំនួន ១,៦៦១ និងភូមិចំនួន ១៤,៥៤៦ ឬវាយដើម្បីស្វែងរកអាសយដ្ឋានតាមឈ្មោះខ្មែរ អង់គ្លេស ឬលេខកូដរដ្ឋបាល។",
+  },
+  "khmer-sorter": {
+    en: "Sort Khmer text lines or words into an approximate dictionary order with this bilingual tool.",
+    km: "រៀបតម្រៀបបន្ទាត់ ឬពាក្យអត្ថបទខ្មែរតាមលំដាប់វចនានុក្រមប្រហាក់ប្រហែល ជាមួយឧបករណ៍ជាពីរភាសានេះ។",
+  },
+  "khmer-text-stats": {
+    en: "Analyze Khmer text: count words, characters, consonants, vowels, diacritics, and digits by Unicode range.",
+    km: "វិភាគអត្ថបទខ្មែរ៖ រាប់ពាក្យ តួអក្សរ ព្យញ្ជនៈ ស្រៈ សញ្ញាវណ្ណយុត្ត និងលេខតាមជួរ Unicode។",
+  },
+  "json-diff": {
+    en: "Compare two JSON documents and see added, removed, and changed paths at a glance.",
+    km: "ប្រៀបធៀបឯកសារ JSON ពីរ និងមើលឃើញអ្វីដែលបន្ថែម ដកចេញ និងផ្លាស់ប្តូរភ្លាមៗ។",
+  },
+  "excel-column-converter": {
+    en: "Convert Excel column letters to numbers and back (A=1, Z=26, AA=27, up to XFD).",
+    km: "បម្លែងអក្សរជួរឈរ Excel ទៅជាលេខ និងបញ្ច្រាស់ (A=1, Z=26, AA=27 រហូតដល់ XFD)។",
+  },
+  "text-compressor": {
+    en: "Compress and decompress text in your browser with gzip or deflate, and compare the size savings.",
+    km: "បង្ហាប់ និងស្រាយអត្ថបទនៅក្នុងកម្មវិធីរុករកជាមួយ gzip ឬ deflate ហើយប្រៀបធៀបទំហំដែលសន្សំបាន។",
+  },
+  "pixelate-image": {
+    en: "Turn any photo into a pixel-art style image with an adjustable block size and PNG download.",
+    km: "បំលែងរូបថតណាមួយទៅជារូបភាពបែប Pixel Art ជាមួយទំហំប្លុកដែលអាចលៃតម្រូវបាន និងទាញយក PNG។",
+  },
+  "chord-progression-generator": {
+    en: "Browse and play common chord progressions in any key, with note names and audio preview.",
+    km: "រកមើល និងស្តាប់ Chord Progression ទូទៅក្នុងគ្រប់សោភ្លេង ជាមួយឈ្មោះសន្លឹកភ្លេង និងការស្តាប់ជាក់ស្តែង។",
+  },
+  "audio-file-size-calculator": {
+    en: "Estimate audio file size from bitrate, duration, and channels for MP3, WAV, and more.",
+    km: "ប៉ាន់ស្មានទំហំឯកសារអូឌីយ៉ូពី Bitrate រយៈពេល និងចំនួន Channel សម្រាប់ MP3, WAV ជាដើម។",
+  },
+  "frame-rate-converter": {
+    en: "Convert between video frame rates and see the resulting speed change and new duration.",
+    km: "បម្លែងរវាង Frame Rate វីដេអូ ហើយមើលការប្រែប្រួលល្បឿន និងរយៈពេលថ្មី។",
+  },
+  "video-file-size-calculator": {
+    en: "Estimate video file size from resolution, bitrate, and duration, with recommended bitrate references.",
+    km: "ប៉ាន់ស្មានទំហំឯកសារវីដេអូពីគុណភាព ប៊ីតរេត និងរយៈពេល ជាមួយតារាងប៊ីតរេតដែលណែនាំ។",
+  },
+  "work-hours-calculator": {
+    en: "Track daily work hours, breaks, overtime, and estimated pay with a simple time card.",
+    km: "តាមដានម៉ោងធ្វើការប្រចាំថ្ងៃ ការសម្រាក ម៉ោងបន្ថែម និងប្រាក់ខែប៉ាន់ស្មានជាមួយតារាងម៉ោងសាមញ្ញ។",
+  },
+  "business-days-calculator": {
+    en: "Count weekdays between two dates or add business days to a date, excluding weekends.",
+    km: "រាប់ថ្ងៃធ្វើការរវាងកាលបរិច្ឆេទពីរ ឬបន្ថែមថ្ងៃធ្វើការទៅកាលបរិច្ឆេទ ដោយមិនរាប់បញ្ចូលថ្ងៃសៅរ៍-អាទិត្យ។",
+  },
+  "day-of-year-calculator": {
+    en: "Find the day-of-year number, ISO week number, and days remaining for any date (or reverse it).",
+    km: "ស្វែងរកលេខថ្ងៃទីប៉ុន្មាននៃឆ្នាំ លេខសប្តាហ៍ ISO និងចំនួនថ្ងៃដែលនៅសល់សម្រាប់កាលបរិច្ឆេទណាមួយ (ឬបញ្ច្រាស់)។",
+  },
+  "quadratic-equation-solver": {
+    en: "Solve ax²+bx+c=0 with step-by-step working: discriminant, real or complex roots.",
+    km: "ដោះស្រាយ ax²+bx+c=0 មួយជំហានម្តង៖ ឌីស្គ្រីមីណង់ ឫសពិត ឬឫសកុំផ្លិច។",
+  },
+  "angle-converter": {
+    en: "Convert angles between degrees, radians, gradians, and turns instantly in every direction.",
+    km: "បម្លែងមុំរវាងដឺក្រេ រ៉ាដ្យង់ ហ្គ្រេដ្យង់ និងជុំ ភ្លាមៗគ្រប់ទិសដៅ។",
+  },
+  "sleep-cycle-calculator": {
+    en: "Find ideal bedtimes or wake times based on 90-minute sleep cycles for feeling more rested.",
+    km: "ស្វែងរកពេលចូលគេង ឬពេលភ្ញាក់ដែលសមស្របតាមវដ្តនៃដំណេក ៩០ នាទី ដើម្បីឱ្យមានការសម្រាកគ្រប់គ្រាន់។",
+  },
+  "step-distance-calculator": {
+    en: "Convert steps into distance using your height or stride, with an approximate calorie estimate.",
+    km: "បម្លែងចំនួនជំហានទៅជាចម្ងាយដោយប្រើកម្ពស់ ឬជំហានរបស់អ្នក ជាមួយការប៉ាន់ស្មានកាឡូរី។",
+  },
+  "ingredient-substitution-guide": {
+    en: "Look up quick cooking and baking substitutes for common ingredients like eggs, buttermilk, and more.",
+    km: "ស្វែងរកគ្រឿងផ្សំជំនួសសម្រាប់ការចម្អិន និងដុតនំដូចជា ស៊ុត ទឹកដោះគោជូរ ជាដើម។",
+  },
+  "salary-calculator": {
+    en: "Estimate net pay from gross salary with selectable progressive tax tables and a bracket breakdown.",
+    km: "ប៉ាន់ស្មានប្រាក់ខែសុទ្ធពីប្រាក់ខែសរុប ជាមួយតារាងពន្ធរីកចម្រើនដែលអាចជ្រើសរើស និងលម្អិតតាមកម្រិតពន្ធ។",
+  },
+  "late-fee-calculator": {
+    en: "Calculate the interest or fee on late payments from the principal, annual rate, and days overdue.",
+    km: "គណនាការបន្ថែម ឬការប្រាក់លើការបង់យឺត ពីទឹកប្រាក់ដើម អត្រាប្រចាំឆ្នាំ និងចំនួនថ្ងៃយឺត។",
+  },
+  "morse-code-translator": {
+    en: "Translate text to Morse code and back using the standard ITU alphabet, with copy buttons.",
+    km: "បម្លែងអត្ថបទទៅជាកូដម័រស និងបញ្ច្រាស់ដោយប្រើអក្ខរក្រម ITU ស្តង់ដារ ជាមួយប៊ូតុងចម្លង។",
+  },
+  "word-search-generator": {
+    en: "Generate printable word search puzzles from your own word list with solution included.",
+    km: "បង្កើតល្បែងរកពាក្យដែលអាចបោះពុម្ពបានពីបញ្ជីពាក្យរបស់អ្នក រួមទាំងដំណោះស្រាយ។",
+  },
+  "khmer-address-parser": {
+    en: "Paste a free-text Khmer or English address and split it into house, street, village, commune, district, and province fields.",
+    km: "បិទភ្ជាប់អាសយដ្ឋានខ្មែរ ឬអង់គ្លេស ហើយបំបែកវាទៅជាផ្ទះ ផ្លូវ ភូមិ ឃុំ ស្រុក និងខេត្ត។",
+  },
+  "khmer-keyboard-layout": {
+    en: "Explore the standard NIIDA Khmer keyboard layout, click keys to type, and find where any character sits.",
+    km: "រកមើលប្លង់ក្តារចុចខ្មែរ NIIDA ស្តង់ដារ ចុចគ្រាប់ចុចដើម្បីវាយ និងស្វែងរកទីតាំងតួអក្សរណាមួយ។",
+  },
+  "khmer-loanword-dictionary": {
+    en: "Look up common Khmer loanwords with their origin language, meaning, and usage examples.",
+    km: "ស្វែងរកពាក្យកម្ចីខ្មែរទូទៅ ជាមួយភាសាប្រភព អត្ថន័យ និងឧទាហរណ៍ប្រើប្រាស់។",
+  },
+  "khmer-word-frequency": {
+    en: "Paste Khmer text to see total and unique word counts and a ranked top-20 frequency chart.",
+    km: "បិទភ្ជាប់អត្ថបទខ្មែរ ដើម្បីមើលចំនួនពាក្យសរុប ពាក្យតែមួយ និងតារាងប្រេកង់លំដាប់កំពូលទាំង ២០។",
+  },
+  "khmer-pronunciation-guide": {
+    en: "Learn how Khmer consonants and vowels sound with approximate English equivalents and example words.",
+    km: "រៀនពីការអានព្យញ្ជនៈ និងស្រៈខ្មែរ ជាមួយសំឡេងប្រហាក់ប្រហែលជាភាសាអង់គ្លេស និងពាក្យឧទាហរណ៍។",
+  },
   "honorific-guide": {
     en: "Find appropriate Khmer official honorifics, salutations, and formal address for letters and protocol.",
     km: "ស្វែងរកគោរមងារ ពាក្យសំពះ និងរបៀបហៅតាមផ្លូវការខ្មែរសម្រាប់លិខិត និងពិធីការ។",
@@ -967,6 +1079,34 @@ export function toolHowToUse(tool: ToolDef): { en: string[]; km: string[] } {
 
 /** Curated tools that get HowTo structured data (their steps are well-defined). */
 const HOWTO_TOOLS: Record<string, string[]> = {
+  "administrative-hierarchy": ["Type a province, district, commune, or village name (English, Khmer, or code)", "Pick the matching result to fill the full address path", "Or browse level by level with the four dropdowns", "Copy the selected path and administrative codes"],
+  "khmer-sorter": ["Paste or type your Khmer text", "Choose to sort lines or words", "Copy the sorted output"],
+  "khmer-text-stats": ["Paste or type your Khmer text", "Read the word, character, consonant, vowel, and digit counts"],
+  "json-diff": ["Paste JSON document A", "Paste JSON document B", "Review the added, removed, and changed paths"],
+  "excel-column-converter": ["Enter a column letter (e.g. AA) or number (e.g. 27)", "Read the converted value instantly"],
+  "text-compressor": ["Paste your text", "Choose gzip or deflate", "Copy the compressed base64 output and compare sizes"],
+  "pixelate-image": ["Upload or drop an image", "Adjust the pixel block size", "Download the pixelated PNG"],
+  "chord-progression-generator": ["Pick a key and scale", "Choose a common progression", "Press Play to hear the chords or copy the note names"],
+  "audio-file-size-calculator": ["Enter bitrate, duration, and channels", "Read the estimated file size for the chosen format"],
+  "frame-rate-converter": ["Pick the source and target frame rates", "Enter the clip duration", "Read the speed change and new duration"],
+  "video-file-size-calculator": ["Choose a resolution", "Enter bitrate and duration", "Read the estimated file size"],
+  "work-hours-calculator": ["Enter start time, end time, and break for each shift", "Set the overtime threshold if needed", "Read total, regular, and overtime hours"],
+  "business-days-calculator": ["Pick count-between or add-days mode", "Enter the dates or number of days", "Read the weekday result"],
+  "day-of-year-calculator": ["Pick a date", "Read the day-of-year, week number, and days remaining", "Or enter a day number to find the date"],
+  "quadratic-equation-solver": ["Enter a, b, and c", "Read the discriminant and roots with steps"],
+  "angle-converter": ["Enter an angle in any unit", "Read the degrees, radians, gradians, and turns instantly"],
+  "sleep-cycle-calculator": ["Choose wake-up or bedtime mode", "Enter your target time", "Read the recommended times for 4-6 cycles"],
+  "step-distance-calculator": ["Enter steps and your height or stride length", "Read the distance in km/m and estimated calories"],
+  "ingredient-substitution-guide": ["Search an ingredient", "Read the substitute and ratio"],
+  "salary-calculator": ["Select a tax table", "Enter the gross monthly salary", "Read the net pay and bracket breakdown"],
+  "late-fee-calculator": ["Enter principal, annual rate, and days late", "Read the late fee and total due"],
+  "morse-code-translator": ["Type text or paste Morse", "Read the live translation in the other direction", "Copy the result"],
+  "word-search-generator": ["Enter up to 12 words", "Pick a grid size and generate", "Print or copy the grid, with the solution list"],
+  "khmer-address-parser": ["Paste or type a free-text address (Khmer or English)", "Click Parse", "Copy the structured fields or open it on Google Maps"],
+  "khmer-keyboard-layout": ["Click keys to type Khmer characters", "Toggle Shift for the shifted layer", "Or paste a character to find its key"],
+  "khmer-loanword-dictionary": ["Search a Khmer word or origin language", "Read its origin, meaning, and example"],
+  "khmer-word-frequency": ["Paste Khmer text", "Read total, unique, and top-20 word frequencies"],
+  "khmer-pronunciation-guide": ["Click a consonant or vowel", "Read its approximate sound and an example word"],
   "pdf-merge": ["Open the PDF Merge tool", "Select or drag in two or more PDF files", "Choose the page order, then click Merge", "Download the combined PDF"],
   "qr-generator": ["Choose a content type (URL, Wi-Fi, contact, and more)", "Fill in the required fields", "Pick a style and size", "Download the QR code as PNG or SVG"],
   "base64": ["Enter or paste your text", "Choose Encode or Decode", "Copy or download the result"],
