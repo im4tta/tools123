@@ -127,8 +127,11 @@ export function drawWatermark(ctx: CanvasRenderingContext2D, width: number, heig
   const fontSize = Math.max(12, Math.round(Math.min(width, height) * 0.03));
   const padding = Math.max(8, fontSize * 0.6);
   ctx.save();
-  ctx.font = `600 ${fontSize}px "Space Grotesk", system-ui, sans-serif`;
+  // Explicitly reset alignment/baseline: callers (e.g. grid renderers) often
+  // leave textAlign "center"/"middle", which would push the mark outside its box.
+  ctx.textAlign = "left";
   ctx.textBaseline = "bottom";
+  ctx.font = `600 ${fontSize}px "Space Grotesk", system-ui, sans-serif`;
   const metrics = ctx.measureText(text);
   const boxW = metrics.width + padding * 2;
   const boxH = fontSize + padding;
@@ -136,7 +139,8 @@ export function drawWatermark(ctx: CanvasRenderingContext2D, width: number, heig
   const y = height - boxH - padding;
   ctx.fillStyle = "rgba(0,0,0,0.28)";
   ctx.beginPath();
-  ctx.roundRect(x, y, boxW, boxH, 6);
+  if (typeof ctx.roundRect === "function") ctx.roundRect(x, y, boxW, boxH, 6);
+  else ctx.rect(x, y, boxW, boxH);
   ctx.fill();
   ctx.fillStyle = "rgba(255,255,255,0.65)";
   ctx.fillText(text, x + padding, y + boxH - padding * 0.5);
