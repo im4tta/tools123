@@ -131,6 +131,42 @@ const TOOL_BLURBS: Record<string, ToolBlurb> = {
     en: "Learn how Khmer consonants and vowels sound with approximate English equivalents and example words.",
     km: "រៀនពីការអានព្យញ្ជនៈ និងស្រៈខ្មែរ ជាមួយសំឡេងប្រហាក់ប្រហែលជាភាសាអង់គ្លេស និងពាក្យឧទាហរណ៍។",
   },
+  "khmer-time-in-words": {
+    en: "Convert any clock time into Khmer-spoken form — with Khmer numerals, day-part words (ព្រឹក, រសៀល, ល្ងាច…), and a live clock ticker.",
+    km: "បម្លែងម៉ោងណាមួយទៅជាទម្រង់និយាយខ្មែរ — ជាមួយលេខខ្មែរ ពាក្យផ្នែកថ្ងៃ (ព្រឹក, រសៀល, ល្ងាច…) និងនាឡិកាផ្ទាល់។",
+  },
+  "khmer-uposatha-days": {
+    en: "Find all four traditional Khmer Buddhist uposatha (ថ្ងៃសីល) observance days inside any Gregorian month or date range, using the Khmer lunisolar calendar.",
+    km: "ស្វែងរកថ្ងៃសីល ៤ ប្រភេទជាប្រពៃណីព្រះសាសនាខ្មែរ (ថ្ងៃសីល) នៅក្នុងខែ ឬចន្លោះថ្ងៃណាមួយ តាមប្រតិទិនចន្ទគតិខ្មែរ។",
+  },
+  "khmer-baby-name-finder": {
+    en: "Browse Khmer given names with their root meanings (Pali/Sanskrit glosses), filter by gender, search by name or meaning, keep favourites, and copy names.",
+    km: "រកមើលឈ្មោះកណ្ដាលខ្មែរ ជាមួយអត្ថន័យឫស (ពាក្យបាលី សំស្ក្រឹត) ច្រោះតាមភេទ ស្វែងរកតាមឈ្មោះ ឬអត្ថន័យ រក្សាចំណូលចិត្ត និងចម្លងឈ្មោះ។",
+  },
+  "khmer-poem-metre-checker": {
+    en: "Check Khmer poetry (កាព្យ) line by line for approximate syllable count, ending pattern, and consecutive rhyme groups — mismatches are flagged.",
+    km: "ពិនិត្យកំណាព្យខ្មែរ (កាព្យ) ជាបន្ទាត់ៗ សម្រាប់ចំនួនព្យាង្គប្រហាក់ប្រហែល គំរូបញ្ចប់ និងក្រុមចង្វាក់ជាប់ៗ — បន្ទាត់ដែលមិនត្រូវគ្នាត្រូវបានសម្គាល់។",
+  },
+  "khmer-typing-test": {
+    en: "Measure your Khmer typing speed (characters per minute) and accuracy across 4 built-in passages, with a live timer and per-character feedback.",
+    km: "វាស់ល្បឿនវាយអក្សរខ្មែរ (ចំនួនតួក្នុងមួយនាទី) និងភាពត្រឹមត្រូវលើអត្ថបទ ៤ គំរូ ដោយមានម៉ោងរាប់ផ្ទាល់ និងផ្តល់មតិប្រតិកម្មតាមតួអក្សរ។",
+  },
+  "anagram-solver": {
+    en: "Enter a pile of letters and find all dictionary words you can spell — filter by length or use a wildcard pattern like a__le.",
+    km: "បញ្ចូលអក្សរជាច្រើន រកពាក្យវចនានុក្រមទាំងអស់ដែលអ្នកអាចប្រកបបាន — ច្រោះតាមប្រវែង ឬប្រើគំរូឥតកំណត់ដូចជា a__le。",
+  },
+  "secret-santa-draw": {
+    en: "Run a Secret Santa gift exchange: enter names, draw privately one pair at a time, then copy the full giver→recipient list as CSV.",
+    km: "ធ្វើការផ្លាស់ប្តូរអំណោយសម្ងាត់៖ បញ្ចូលឈ្មោះ គូរឯកជនម្តងមួយគូ រួចចម្លងបញ្ជីអ្នកឲ្យ→អ្នកទទួលទាំងមូលជា CSV។",
+  },
+  "name-compatibility": {
+    en: "A playful compatibility score between two names, with a shake-to-reroll button and a Khmer-friendly verdict line. For entertainment only.",
+    km: "ពិន្ទុភាពត្រូវគ្នាលេងសប្បាយរវាងឈ្មោះពីរ មានប៊ូតុងអង្រួនគណនាឡើងវិញ និងឃ្លាសម្រាយតាមបែបខ្មែរ។ សម្រាប់ការកម្សាន្តតែប៉ុណ្ណោះ។",
+  },
+  "flashcard-quiz": {
+    en: "Build your own study deck with Question | Answer lines, then run a flashcard-style quiz until every card is marked mastered.",
+    km: "បង្កើតសន្លឹកសិក្សាផ្ទាល់ខ្លួនដោយប្រើបន្ទាត់ សំណួរ | ចម្លើយ រួចសាកល្បងរហូតដល់សន្លឹកទាំងអស់ត្រូវបានសម្គាល់ថាចេះ។",
+  },
   "honorific-guide": {
     en: "Find appropriate Khmer official honorifics, salutations, and formal address for letters and protocol.",
     km: "ស្វែងរកគោរមងារ ពាក្យសំពះ និងរបៀបហៅតាមផ្លូវការខ្មែរសម្រាប់លិខិត និងពិធីការ។",
@@ -1107,8 +1143,17 @@ const HOWTO_TOOLS: Record<string, string[]> = {
   "khmer-loanword-dictionary": ["Search a Khmer word or origin language", "Read its origin, meaning, and example"],
   "khmer-word-frequency": ["Paste Khmer text", "Read total, unique, and top-20 word frequencies"],
   "khmer-pronunciation-guide": ["Click a consonant or vowel", "Read its approximate sound and an example word"],
+  "khmer-time-in-words": ["Enter any 24-hour time or switch to 12-hour AM/PM", "Read the Khmer numeral phrase and the fully-spelled word phrase", "Or enable Live clock to follow the current time"],
+  "khmer-uposatha-days": ["Pick a starting date or month", "Optionally set an end date for a range", "Read the 4 uposatha types with lunar day names, weekday names, and Gregorian dates"],
+  "khmer-baby-name-finder": ["Filter by gender or leave it on Any", "Search by name or meaning keyword", "Tap the star to add favourites and copy any name"],
+  "khmer-poem-metre-checker": ["Paste your Khmer poem (កាព្យ), one verse per line", "Review the syllable count, ending pattern key, and rhyme group per line", "Check for mismatch highlights on consecutive lines"],
+  "khmer-typing-test": ["Choose a passage and click into the typing box", "Type the sample exactly — the timer starts on your first keystroke", "When you finish read your CPM, accuracy, and error count; Reset to try again"],
+  "anagram-solver": ["Enter your letters", "Optionally set min/max length or a wildcard pattern with underscores", "Browse the grouped results and click any word to copy it"],
+  "secret-santa-draw": ["Enter participant names one per line (2–25)", "Click Draw next to reveal one private pair at a time until everyone is matched", "Use Reshuffle to start over, or copy the full result as CSV"],
+  "name-compatibility": ["Enter two names and an optional relationship tag", "Read the compatibility score and verdict", "Click Shake dice to reroll with a new random seed"],
+  "flashcard-quiz": ["Enter Question | Answer lines (one card per line)", "Click Start quiz and flip each card when ready to reveal the answer", "Mark I knew it to master the card, or Not yet to retry it later"],
   "pdf-merge": ["Open the PDF Merge tool", "Select or drag in two or more PDF files", "Choose the page order, then click Merge", "Download the combined PDF"],
-  "qr-generator": ["Choose a content type (URL, Wi-Fi, contact, and more)", "Fill in the required fields", "Pick a style and size", "Download the QR code as PNG or SVG"],
+  "qr-generator": ["Choose a content type (URL, Wi-Fi, contact, and more) and fill the fields", "Or upload an existing QR image / paste from clipboard in the Scan & redesign card to auto-populate everything", "Pick a style, color, size, badge, and optional logo", "Download the QR code as PNG or SVG"],
   "base64": ["Enter or paste your text", "Choose Encode or Decode", "Copy or download the result"],
   "json-formatter": ["Paste your JSON", "Click Format (or Minify)", "Copy the formatted output"],
   "uuid": ["Open the UUID Generator", "Choose how many UUIDs you need", "Copy the generated identifiers"],
