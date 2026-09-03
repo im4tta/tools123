@@ -1,9 +1,10 @@
 "use client";
 import { useEffect, useMemo, useRef, useState } from "react";
 import qrcode from "qrcode-generator";
-import { Crosshair, Download, ImagePlus, Loader2 } from "lucide-react";
+import { Crosshair, Download, ImagePlus, Loader2, ScanLine, ClipboardPaste } from "lucide-react";
 import { ToolShell, Field, TextInput, TextArea, Select, Row } from "@/components/ui/Shell";
 import { Button, Output } from "@/components/ui/Output";
+import { CopyButton } from "@/components/CopyButton";
 import { useToolState } from "@/lib/storage";
 import { useLanguage } from "@/components/LanguageProvider";
 import { recordExport, watermarkImageDataUrl } from "@/lib/export";
@@ -740,6 +741,62 @@ function LocationMap({ lat, lng, onChange }: { lat: string; lng: string; onChang
   );
 }
 
+/** Best-effort conversion of a decoded QR payload into the generator's typed fields. */
+function payloadToState(payload: string): Partial<State> {
+  const raw = payload.trim();
+  const lower = raw.toLowerCase();
+
+  if (lower.startsWith("wifi:")) {
+    // WIFI:T:WPA;S:ssid;P:pass;H:false;  — field order can vary, so parse by tag.
+    const params = new Map<string, string>();
+    for (const seg of raw.split(";")) {
+      const m = seg.match(/^([TSPH]):(.*)$/s);
+      if (m) params.set(m[1], m[2].replace(/\\([\\;,:"])/g, "$1"));
+    }
+    const enc = (params.get("T") ?? "WPA").toLowerCase();
+    return {
+      type: "wifi",
+      wifiEnc: enc === "wep" ? "WEP" : enc === "nopass" ? "nopass" : "WPA",
+      wifiSsid: params.get("S") ?? "",
+      wifiPass: params.get("P") ?? "",
+    };
+  }
+
+  if (/^BEGIN:VCARD/i.test(raw)) {
+    const line = (k: string) => {
+      const m = raw.match(new RegExp(`(?:^|\\n)${k}(?:;CHARSET=UTF-8)?:([^\\n]*)`, "i"));
+      return m ? m[1].trim() : "";
+    };
+    return { type: "vcard", vName: line("FN"), vOrg: line("ORG"), vPhone: line("TEL"), vEmail: line("EMAIL") };
+  }
+
+  if (lower.startsWith("mailto:")) {
+    const rest = raw.slice(7);
+    const q = rest.indexOf("?");
+    const to = q >= 0 ? rest.slice(0, q) : rest;
+    const qs = new URLSearchParams(q >= 0 ? rest.slice(q + 1) : "");
+    return { type: "email", emailTo: to, emailSubject: qs.get("subject") ?? "", emailBody: qs.get("body") ?? "" };
+  }
+
+  if (lower.startsWith("sms:")) {
+    const rest = raw.slice(4);
+    const q = rest.indexOf("?");
+    const to = q >= 0 ? rest.slice(0, q) : rest;
+    const qs = new URLSearchParams(q >= 0 ? rest.slice(q + 1) : "");
+    return { type: "sms", smsTo: to, smsBody: qs.get("body") ?? "" };
+  }
+
+  if (lower.startsWith("tel:")) return { type: "phone", phone: raw.slice(4).trim() };
+
+  if (lower.startsWith("geo:")) {
+    const m = raw.slice(4).match(/(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)/);
+    if (m) return { type: "location", locLat: m[1], locLng: m[2], social: "gmaps" };
+  }
+
+  // Fall back to raw text for plain links and anything else (vCard events, etc.).
+  return { type: "text", text: raw };
+}
+
 export default function QrGenerator() {
   const { text } = useLanguage();
   const [saved, setSaved] = useToolState<Partial<State>>("qr-generator:v3", {});
@@ -750,6 +807,85 @@ export default function QrGenerator() {
   const [logoImg, setLogoImg] = useState<{ src: string; img: HTMLImageElement } | null>(null);
   const [gmapsAsset, setGmapsAsset] = useState<{ img: HTMLImageElement; dataUrl: string } | null>(null);
   const [includeWatermark, setIncludeWatermark] = useState(true);
+  const [scanBusy, setScanBusy] = useState(false);
+  const [scanPreview, setScanPreview] = useState<string | null>(null);
+  const [scanNote, setScanNote] = useState<{ ok: boolean; en: string; km: string } | null>(null);
+  const [decoded, setDecoded] = useState<string | null>(null);
+
+  /** Decodes a QR from an image file and pre-fills the designer with its content. */
+  async function redesignFromFile(file: File) {
+    setScanBusy(true);
+    setScanNote(null);
+    setDecoded(null);
+    setScanPreview(null);
+    try {
+      const dataUrl = await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result as string);
+        reader.onerror = () => reject(new Error("read failed"));
+        reader.readAsDataURL(file);
+      });
+      setScanPreview(dataUrl);
+      const img = new Image();
+      await new Promise<void>((resolve, reject) => {
+        img.onload = () => resolve();
+        img.onerror = () => reject(new Error("image load failed"));
+        img.src = dataUrl;
+      });
+      // Downscale very large images so decoding stays fast and reliable.
+      const scale = Math.min(1, 1200 / Math.max(img.naturalWidth, img.naturalHeight));
+      const canvas = document.createElement("canvas");
+      canvas.width = Math.max(1, Math.round(img.naturalWidth * scale));
+      canvas.height = Math.max(1, Math.round(img.naturalHeight * scale));
+      const ctx = canvas.getContext("2d");
+      if (!ctx) throw new Error("canvas unavailable");
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      const jsQR = (await import("jsqr")).default;
+      const code = jsQR(imageData.data, imageData.width, imageData.height);
+      if (!code?.data) {
+        setScanNote({
+          ok: false,
+          en: "No QR code found in that image. Try a clearer, straight-on photo with the code fully in frame.",
+          km: "រកមិនឃើញកូដ QR ក្នុងរូបភាពនោះទេ។ សូមសាកល្បងរូបភាពច្បាស់ និងត្រង់ ដោយកូដស្ថិតក្នុងស៊ុមទាំងស្រុង។",
+        });
+        return;
+      }
+      update(payloadToState(code.data));
+      setDecoded(code.data);
+      setScanNote({
+        ok: true,
+        en: "QR decoded — the content is now loaded below; customize the design and export.",
+        km: "បានអានកូដ QR — ឥឡូវខ្លឹមសារត្រូវបានផ្ទុកខាងក្រោម អាចកែរចនា និងនាំចេញ។",
+      });
+    } catch {
+      setScanNote({ ok: false, en: "Could not read that image.", km: "មិនអាចអានរូបភាពនោះបានទេ។" });
+    } finally {
+      setScanBusy(false);
+    }
+  }
+
+  /** Reads an image from the system clipboard and runs it through the redesign flow. */
+  async function redesignFromClipboard() {
+    try {
+      if (!navigator.clipboard?.read) {
+        setScanNote({ ok: false, en: "Clipboard image reading is not supported in this browser.", km: "កម្មវិធីរុករកនេះមិនគាំទ្រការអានរូបភាពពីក្តារតម្បៀតខ្ទាស់ទេ។" });
+        return;
+      }
+      const items = await navigator.clipboard.read();
+      for (const item of items) {
+        const type = item.types.find((t) => t.startsWith("image/"));
+        if (type) {
+          const blob = await item.getType(type);
+          await redesignFromFile(new File([blob], "clipboard-qr.png", { type: blob.type }));
+          return;
+        }
+      }
+      setScanNote({ ok: false, en: "No image found on the clipboard.", km: "រកមិនឃើញរូបភាពនៅលើក្តារតម្បៀតខ្ទាស់ទេ។" });
+    } catch {
+      setScanNote({ ok: false, en: "Could not read the clipboard.", km: "មិនអាចអានក្តារតម្បៀតខ្ទាស់បានទេ។" });
+    }
+  }
 
   const value = useMemo(() => {
     switch (s.type) {
@@ -917,11 +1053,48 @@ export default function QrGenerator() {
     <ToolShell
       title="QR Code Generator"
       khmerTitle="បង្កើតកូដ QR"
-      description="Generate a scannable QR code for a link, Wi-Fi network, contact card, email, SMS, phone, location (pick it on a map), Google review, social profile, or event — styled locally with color presets, custom module and finder shapes, and a center logo, then export as high-resolution PNG or SVG."
-      descriptionKm="បង្កើតកូដ QR ដែលអាចស្កេនបានសម្រាប់តំណ Wi-Fi កាតទំនាក់ទំនង អ៊ីមែល SMS ទូរស័ព្ទ ទីតាំង (ជ្រើសរើសលើផែនទី) ការពិនិត្យ Google ទម្រង់បណ្តាញសង្គម ឬព្រឹត្តិការណ៍ — រចនានៅលើឧបករណ៍ដោយមានពណ៌ប្រេសិត រាងម៉ូឌុល និងស៊ុមស្វែងរកផ្ទាល់ខ្លួន និងស្លាកកណ្តាល រួចនាំចេញជា PNG ឬ SVG គុណភាពខ្ពស់។"
+      description="Generate a scannable QR code for a link, Wi-Fi network, contact card, email, SMS, phone, location (pick it on a map), Google review, social profile, or event — styled locally with color presets, custom module and finder shapes, and a center logo, then export as high-resolution PNG or SVG. You can also upload an existing QR image to decode its content and redesign it."
+      descriptionKm="បង្កើតកូដ QR ដែលអាចស្កេនបានសម្រាប់តំណ Wi-Fi កាតទំនាក់ទំនង អ៊ីមែល SMS ទូរស័ព្ទ ទីតាំង (ជ្រើសរើសលើផែនទី) ការពិនិត្យ Google ទម្រង់បណ្តាញសង្គម ឬព្រឹត្តិការណ៍ — រចនានៅលើឧបករណ៍ដោយមានពណ៌ប្រេសិត រាងម៉ូឌុល និងស៊ុមស្វែងរកផ្ទាល់ខ្លួន និងស្លាកកណ្តាល រួចនាំចេញជា PNG ឬ SVG គុណភាពខ្ពស់។ អ្នកក៏អាចផ្ទុករូបភាព QR ដែលមានស្រាប់ ដើម្បីអានខ្លឹមសារ និងរចនាឡើងវិញ។"
     >
       <div className="lg:grid lg:h-[calc(100dvh-13rem)] lg:min-h-[440px] lg:grid-cols-[minmax(0,1fr)_400px] lg:gap-6 lg:overflow-hidden">
         <div className="space-y-5 lg:h-full lg:overflow-y-auto lg:pb-4 lg:pr-2">
+          <section className="rounded-md border border-[var(--gold-dim)]/40 bg-[var(--ground-raised)] p-3">
+            <div className="mb-1.5 flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-[var(--gold)]">
+              <ScanLine size={14} />
+              {text("Scan & redesign an existing QR", "ស្កេន និងរចនាឡើងវិញនូវ QR ដែលមានស្រាប់")}
+            </div>
+            <p className="mb-2 text-xs leading-relaxed text-[var(--ink-dim)]">
+              {text("Upload a QR image (or paste one with Ctrl+V) to read its content and restyle it here — decoding happens locally, nothing leaves your device.", "ផ្ទុករូបភាព QR (ឬបិទភ្ជាប់ដោយ Ctrl+V) ដើម្បីអានខ្លឹមសារ ហើយរចនាឡើងវិញនៅទីនេះ — ការអានធ្វើនៅក្នុងឧបករណ៍ គ្មានអ្វីចាកចេញទេ។")}
+            </p>
+            <div className="flex flex-wrap items-center gap-2">
+              <label className={pickerClass}>
+                {scanBusy ? <Loader2 size={14} className="animate-spin" /> : <ImagePlus size={14} />}
+                {scanBusy ? text("Reading…", "កំពុងអាន…") : text("Upload QR image", "ផ្ទុករូបភាព QR")}
+                <input type="file" accept="image/*" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) void redesignFromFile(f); }} />
+              </label>
+              <button type="button" className={pickerClass} onClick={() => void redesignFromClipboard()}>
+                <ClipboardPaste size={14} />
+                {text("Paste image (Ctrl+V)", "បិទភ្ជាប់រូបភាព (Ctrl+V)")}
+              </button>
+            </div>
+            {scanPreview && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={scanPreview} alt={text("Uploaded QR image", "រូបភាព QR ដែលបានផ្ទុក")} className="mt-2 max-h-40 rounded-md border border-[var(--ground-line)] object-contain" />
+            )}
+            {scanNote && (
+              <p className={`mt-2 text-xs leading-relaxed ${scanNote.ok ? "text-[var(--teal)]" : "text-[var(--danger)]"}`}>{text(scanNote.en, scanNote.km)}</p>
+            )}
+            {decoded && (
+              <div className="mt-2 rounded-md border border-[var(--ground-line)] bg-[var(--ground)] p-2">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-xs font-medium uppercase tracking-wide text-[var(--ink-dim)]">{text("Decoded content", "ខ្លឹមសារដែលបានអាន")}</span>
+                  <CopyButton text={decoded} compact />
+                </div>
+                <p className="mt-1 break-all font-mono-ui text-xs leading-relaxed text-[var(--ink)]">{decoded}</p>
+              </div>
+            )}
+          </section>
+
           <Field label="Content type">
             <Select
               value={s.type}
@@ -1200,6 +1373,9 @@ export default function QrGenerator() {
           </label>
         </div>
       </div>
+      <p className="text-xs text-[var(--ink-faint)]">
+        {text("QR scanning powered by jsQR (MIT) — github.com/cozmo/jsQR. QR generation by qrcode-generator (MIT).", "ការអាន QR ដោយប្រើ jsQR (MIT) — github.com/cozmo/jsQR។ ការបង្កើត QR ដោយ qrcode-generator (MIT)។")}
+      </p>
     </ToolShell>
   );
 }
