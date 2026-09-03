@@ -995,6 +995,10 @@ const TOOL_BLURBS: Record<string, ToolBlurb> = {
     en: "Convert dates to and from Excel serial numbers and Julian Day numbers, including MJD.",
     km: "បម្លែងកាលបរិច្ឆេទ ទៅ និងពីលេខស៊េរី Excel និងលេខ Julian Day រួមទាំង MJD។",
   },
+  "ouk-chatrang": {
+    en: "Play Ouk Chatrang (Cambodian Chess) against an AI opponent or a friend, with a 3D board, full Cambodian rules, and Khmer piece labels.",
+    km: "លេងអុកចត្រង្គទល់នឹងកុំព្យូទ័រ ឬមិត្ត ជាមួយក្តារ 3D ក្បួនខ្មែរពេញលេញ និងឈ្មោះកូនជាភាសាខ្មែរ។",
+  },
 };
 
 export function toolDescription(tool: ToolDef) {
@@ -1364,6 +1368,7 @@ const HOWTO_TOOLS: Record<string, string[]> = {
   "mad-libs": ["Pick a story template", "Fill in each word type", "Read the funny completed story"],
   "solstice-calculator": ["Enter a year", "Read the equinox and solstice dates", "Compare day lengths by season"],
   "serial-date-converter": ["Enter a date, Excel serial, or Julian Day number", "Read the converted values", "Copy the result"],
+  "ouk-chatrang": ["Click a piece to select it — valid moves light up on the board", "Click a highlighted square to move", "Use Hint for a suggested move, or Undo to take a move back", "Open Settings to change difficulty, board theme, or switch to 2D view"],
 };
 
 /** HowTo structured data for tools with well-defined, truthful steps. */

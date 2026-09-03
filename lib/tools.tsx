@@ -757,6 +757,7 @@ export const TOOLS: ToolDef[] = [
   { id: "mad-libs", title: "Mad Libs", khmerTitle: "ល្បែងបំពេញពាក្យ", addedOn: "2026-08-31T17:00:00+07:00", category: "fun", keywords: ["mad libs", "fill in", "story", "game", "words", "fun"], Component: load("fun", "mad-libs") },
   { id: "morse-code-translator", title: "Morse Code Translator", khmerTitle: "បម្លែងកូដម័រស", addedOn: "2026-09-01T09:00:00+07:00", category: "fun", keywords: ["morse", "code", "translate", "itau", "telegraph", "កូដម័រស"], Component: load("fun", "morse-code-translator") },
   { id: "word-search-generator", title: "Word Search Generator", khmerTitle: "បង្កើតល្បែងរកពាក្យ", addedOn: "2026-09-01T09:05:00+07:00", category: "fun", keywords: ["word search", "puzzle", "grid", "letters", "game", "រកពាក្យ"], Component: load("fun", "word-search-generator") },
+  { id: "ouk-chatrang", title: "Ouk Chatrang", khmerTitle: "អុកចត្រង្គ", addedOn: "2026-09-02T10:00:00+07:00", category: "fun", keywords: ["ouk chatrang", "cambodian chess", "chess", "board game", "strategy", "game", "ai", "អុក", "ចត្រង្គ", "ល្បែងអុក", "ហ្គេម", "ក្តារ"], Component: load("fun", "ouk-chatrang") },
 
   // ---- Batch O (2026-09-01): Khmer, dev, design, audio/video, time, math, science, office ----
   { id: "khmer-sorter", title: "Khmer Text Sorter", khmerTitle: "រៀបតម្រៀបអក្សរខ្មែរ", addedOn: "2026-09-01T09:10:00+07:00", category: "khmer", keywords: ["khmer", "sort", "dictionary order", "alphabet", "រៀបតម្រៀប"], Component: load("khmer", "khmer-sorter") },
