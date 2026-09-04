@@ -799,6 +799,9 @@ export const TOOLS: ToolDef[] = [
   { id: "name-compatibility", title: "Name Compatibility", khmerTitle: "ភាពត្រូវគ្នានៃឈ្មោះ", addedOn: "2026-09-02T12:35:00+07:00", category: "fun", keywords: ["name", "compatibility", "love", "match", "couple", "score", "fun", "ឈ្មោះ", "ត្រូវគ្នា", "ស្នេហា", "គូស្នេហ៍"], Component: load("fun", "name-compatibility") },
   { id: "flashcard-quiz", title: "Flashcard Quiz Maker", khmerTitle: "បង្កើតកម្រងសន្លឹកសំណួរ", addedOn: "2026-09-02T12:40:00+07:00", category: "fun", keywords: ["flashcard", "quiz", "study", "deck", "learn", "memory", "question", "answer", "សន្លឹក", "សំណួរ", "ចម្លើយ", "រៀន", "ចងចាំ"], Component: load("fun", "flashcard-quiz") },
 
+  // ---- Sep 4 2026 ----
+  { id: "khmer-font-studio", title: "Khmer Font Studio", khmerTitle: "ស្ទូឌីយ៉ូពុម្ពអក្សរខ្មែរ", addedOn: "2026-09-04T10:00:00+07:00", category: "khmer", keywords: ["khmer font", "docx", "word", "font replace", "font converter", "Khmer OS", "Noto Sans Khmer", "ពុម្ពអក្សរ", "ជួសជុល", "ឯកសារ", "Word"], Component: load("khmer", "khmer-font-studio") },
+
   // ---- Data-driven unit-pair converters (generated, Batch 1) ----
   ...UNIT_PAIR_TOOLS,
   ...TEMPERATURE_PAIR_TOOLS,

@@ -999,6 +999,10 @@ const TOOL_BLURBS: Record<string, ToolBlurb> = {
     en: "Play Ouk Chatrang (Cambodian Chess) against an AI opponent or a friend, with a 3D board, full Cambodian rules, and Khmer piece labels.",
     km: "លេងអុកចត្រង្គទល់នឹងកុំព្យូទ័រ ឬមិត្ត ជាមួយក្តារ 3D ក្បួនខ្មែរពេញលេញ និងឈ្មោះកូនជាភាសាខ្មែរ។",
   },
+  "khmer-font-studio": {
+    en: "Fix Khmer fonts across one or many bilingual .docx files in seconds — every Khmer text run is switched to your chosen font while English, digits, and all other formatting stay untouched. Runs entirely in your browser.",
+    km: "ជួសជុលពុម្ពអក្សរខ្មែរក្នុងឯកសារ .docx ជាច្រើន​ក្នុងរយៈពេលប៉ុន្មានវិនាទី — run អក្សរខ្មែរទាំងអស់ត្រូវបានផ្លាស់ប្តូរពុម្ព ខណៈអក្សរ​អង់គ្លេស លេខ និង​ទ្រង់ទ្រាយ​ផ្សេង​ទៀត​ត្រូវ​បាន​រក្សា​ទុក​ដូចដើម​ — ដំណើរការ​ទាំង​ស្រុង​ក្នុង​កម្មវិធី​រុករក​របស់​អ្នក​។",
+  },
 };
 
 export function toolDescription(tool: ToolDef) {
@@ -1369,6 +1373,7 @@ const HOWTO_TOOLS: Record<string, string[]> = {
   "solstice-calculator": ["Enter a year", "Read the equinox and solstice dates", "Compare day lengths by season"],
   "serial-date-converter": ["Enter a date, Excel serial, or Julian Day number", "Read the converted values", "Copy the result"],
   "ouk-chatrang": ["Click a piece to select it — valid moves light up on the board", "Click a highlighted square to move", "Use Hint for a suggested move, or Undo to take a move back", "Open Settings to change difficulty, board theme, or switch to 2D view"],
+  "khmer-font-studio": ["Drop one or more .docx files onto the upload zone", "Choose a target Khmer font and adjust the conversion rules", "Click Convert queue — each file is processed locally in your browser", "Download each converted file individually, or use Download all (.zip)"],
 };
 
 /** HowTo structured data for tools with well-defined, truthful steps. */
