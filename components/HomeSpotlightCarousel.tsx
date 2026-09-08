@@ -5,9 +5,9 @@ import { useEffect, useState } from "react";
 import { useLanguage } from "@/components/LanguageProvider";
 import { CAMBODIA_PROVINCES } from "@/lib/cambodia-provinces";
 import { fetchMefExchangeRates, type MefCurrencyRate } from "@/lib/mef-exchange";
+import { fetchMefFuelPeriods } from "@/lib/mef-fuel";
 
-const FUEL_API = "https://khfuel.vercel.app/api/public/prices";
-type FuelData = { gasoline92: number; diesel: number; kerosene: number | null; effectiveAt: string };
+type FuelData = { gasoline92: number; diesel: number; effectiveAt: string };
 type WeatherRow = { name?: string; temp_c?: number; condition?: { text?: string }; humidity?: number; wind_kph?: number; uv?: number; us_epa_index?: number; pm2_5?: number };
 
 function number(value: unknown) {
@@ -39,9 +39,9 @@ export function HomeSpotlightCarousel() {
   useEffect(() => {
     const controller = new AbortController();
     void Promise.allSettled([
-      fetch(FUEL_API, { signal: controller.signal }).then(async (response) => {
-        const payload = await response.json() as { success?: boolean; data?: FuelData };
-        if (payload.success && payload.data) setFuel(payload.data);
+      fetchMefFuelPeriods({ signal: controller.signal }).then((periods) => {
+        const current = periods[0];
+        if (current) setFuel({ gasoline92: current.gasoline92, diesel: current.diesel, effectiveAt: current.startDate });
       }),
       fetchMefExchangeRates({ signal: controller.signal }).then(setRates),
       Promise.allSettled(["weather", "uv", "aqi"].map((mode) => fetch(`https://data.mef.gov.kh/api/v1/realtime-api/${mode}`, { signal: controller.signal }).then(async (response) => (await response.json() as { data?: WeatherRow[] }).data ?? []))).then((results) => {
