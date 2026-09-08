@@ -7,6 +7,22 @@ type ToolBlurb = {
 };
 
 const TOOL_BLURBS: Record<string, ToolBlurb> = {
+  "price-adjustment-calculator": {
+    en: "Calculate the FIDIC Sub-Clause 13.8 price-adjustment factor (Pn) from cost-element weightings and base/current indices, then apply it to a payment amount.",
+    km: "គណនាកត្តាកែតម្រូវតម្លៃ (Pn) តាមមាត្រា 13.8 របស់ FIDIC ពីទម្ងន់ធាតុថ្លៃ និងសន្ទស្សន៍មូលដ្ឋាន/បច្ចុប្បន្ន ហើយអនុវត្តទៅលើចំនួនទឹកប្រាក់បង់។",
+  },
+  "advance-payment-recovery": {
+    en: "Model how a FIDIC advance payment is recovered across interim payment certificates, with per-IPC deductions, running balance, and net payable.",
+    km: "គណនាការសងប្រាក់បុរេប្រទានតាម FIDIC ឆ្លងកាត់វិញ្ញាបនបត្របង់ប្រាក់អន្តរកាល ជាមួយការកាត់ក្នុង IPC នីមួយៗ សមតុល្យនៅសល់ និងចំនួនត្រូវបង់សុទ្ធ។",
+  },
+  "bar-bending-schedule": {
+    en: "Build a reinforcement bar bending schedule with per-mark cut lengths, quantities, and theoretical weights, plus per-diameter and grand totals.",
+    km: "បង្កើតតារាងកាត់ និងពត់ដែក ជាមួយប្រវែងកាត់ បរិមាណ និងទម្ងន់តាមទ្រឹស្តីនៃលេខសម្គាល់នីមួយៗ ព្រមទាំងសរុបតាមអង្កត់ផ្ចិត និងសរុបទាំងអស់។",
+  },
+  "cambodia-working-days": {
+    en: "Count working days between two dates or add working days to a date, excluding weekends and Cambodian public holidays.",
+    km: "រាប់ថ្ងៃធ្វើការរវាងកាលបរិច្ឆេទពីរ ឬបន្ថែមថ្ងៃធ្វើការទៅកាលបរិច្ឆេទ ដោយដកថ្ងៃចុងសប្តាហ៍ និងថ្ងៃឈប់សម្រាកជាតិកម្ពុជា។",
+  },
   "contract-time-progress-calculator": {
     en: "Track a construction contract's elapsed time, remaining time, and expected completion date from your start date, duration, extension of time, and reporting cut-off, with a month-by-month day-count check.",
     km: "តាមដានពេលកន្លងផុត ពេលនៅសល់ និងកាលបរិច្ឆេទបញ្ចប់រំពឹងទុកនៃកិច្ចសន្យាសំណង់ ពីកាលបរិច្ឆេទចាប់ផ្តើម រយៈពេល ការបន្ថែមពេល និងកាលកំណត់រាយការណ៍ ព្រមទាំងការផ្ទៀងផ្ទាត់ការរាប់ថ្ងៃខែម្តងៗ។",
@@ -1127,6 +1143,10 @@ export function toolHowToUse(tool: ToolDef): { en: string[]; km: string[] } {
 
 /** Curated tools that get HowTo structured data (their steps are well-defined). */
 const HOWTO_TOOLS: Record<string, string[]> = {
+  "price-adjustment-calculator": ["Enter the fixed (non-adjustable) portion and each cost element's weighting", "Add the base and current index for every element", "Read the Pn factor and percentage change, and optionally the adjusted amount for a payment"],
+  "advance-payment-recovery": ["Enter the contract price, advance percentage, and recovery start/finish thresholds", "Add the gross certified amount for each interim payment certificate", "Read the per-IPC recovery, advance outstanding, and net amount payable"],
+  "bar-bending-schedule": ["Add a row per bar mark with its diameter, cut length, and quantity", "Read the total length and theoretical weight for each mark", "Check the per-diameter and grand-total weights, or copy the schedule"],
+  "cambodia-working-days": ["Choose count-between or add-working-days mode", "Enter the date(s) or number of working days", "Read the result with weekends and Cambodian public holidays excluded"],
   "contract-time-progress-calculator": ["Enter the start (commencement) date, contract duration in days, and any approved extension of time", "Set the reporting cut-off date (or use Set cut-off to today) and pick the counting rule", "Read the expected completion date, time elapsed, and time remaining, and verify the day count month by month"],
   "administrative-hierarchy": ["Type a province, district, commune, or village name (English, Khmer, or code)", "Pick the matching result to fill the full address path", "Or browse level by level with the four dropdowns", "Copy the selected path and administrative codes"],
   "khmer-sorter": ["Paste or type your Khmer text", "Choose to sort lines or words", "Copy the sorted output"],

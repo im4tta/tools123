@@ -1329,8 +1329,8 @@ export default function FrameStudio() {
       `}</style>
 
       {/* HEADER NAVBAR */}
-      <header className={`sticky top-0 z-30 border-b backdrop-blur-md transition-colors ${
-        isDarkMode ? "bg-[#090D16]/80 border-slate-800/80" : "bg-white/80 border-slate-200/80 shadow-xs"
+      <header className={`sticky top-0 z-30 border-b sm:backdrop-blur-md transition-colors ${
+        isDarkMode ? "bg-[#090D16] sm:bg-[#090D16]/80 border-slate-800/80" : "bg-white sm:bg-white/80 border-slate-200/80 shadow-xs"
       }`}>
         <div className="max-w-[1650px] mx-auto px-4 h-16 flex items-center justify-between">
           

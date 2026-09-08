@@ -1427,8 +1427,8 @@ export default function MaterialsApp() {
         <div className="absolute top-1/2 -right-24 w-96 h-96 rounded-full blur-3xl opacity-15 bg-[var(--teal)]"></div>
       </div>
 
-      <header className="sticky top-0 z-30 backdrop-blur-md transition-colors">
-        <div className="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3 bg-[var(--ground-raised)]/85 border border-[var(--ground-line)]/80 rounded-2xl border-b-0">
+      <header className="sticky top-0 z-30 sm:backdrop-blur-md transition-colors">
+        <div className="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3 bg-[var(--ground-raised)] sm:bg-[var(--ground-raised)]/85 border border-[var(--ground-line)]/80 rounded-2xl border-b-0">
           
           <div className="flex items-center gap-2.5">
             <div className="p-2 rounded-xl bg-gradient-to-tr from-blue-600 to-cyan-500 text-white shadow-md shadow-blue-500/20">
