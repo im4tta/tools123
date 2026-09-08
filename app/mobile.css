@@ -44,6 +44,14 @@
   .home-view-label { display: none; }
   .home-nav-actions [role="group"] button,
   .tool-route-actions [role="group"] button { padding-inline: 0.4rem; }
+  /* backdrop-filter blur over the continuously animating ticker repaints every
+     frame on mobile and makes the bar flicker/blank — use a near-opaque solid
+     background instead so the sticky nav stays rock-steady while scrolling. */
+  .sticky-nav {
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    background: color-mix(in srgb, var(--ground) 97%, transparent);
+  }
   .category-ticker { min-width: 4rem; }
   .category-ticker-track { animation-duration: 30s; }
   .home-hero { margin-top: 2.25rem; padding-inline: 1rem; }

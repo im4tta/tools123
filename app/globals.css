@@ -280,6 +280,10 @@ body {
 .category-ticker {
   overflow: hidden;
   padding-block: 0.12rem;
+  /* Isolate the ticker's painting so the continuous animation can't force
+     repaints of the blurred sticky-nav backdrop behind it (a mobile-Safari
+     glitch that made the bar blank out intermittently). */
+  contain: layout paint;
   -webkit-mask-image: linear-gradient(to right, transparent, black 28px, black calc(100% - 28px), transparent);
   mask-image: linear-gradient(to right, transparent, black 28px, black calc(100% - 28px), transparent);
 }
@@ -287,20 +291,30 @@ body {
   display: flex;
   width: max-content;
   gap: 0.5rem;
+  /* Promote to its own compositor layer and animate a GPU-only transform so
+     the scroll runs off the main thread instead of stuttering on mobile. */
+  will-change: transform;
+  backface-visibility: hidden;
   animation: category-ticker-scroll 38s linear infinite;
 }
-/* Pause on hover/focus so a click actually lands on the chip you meant to hit. */
-.category-ticker:hover .category-ticker-track,
+/* Keyboard focus always pauses (accessibility). Hover only pauses on devices
+   with a real hover-capable pointer — on touchscreens an emulated hover sticks
+   after a tap and would freeze the ticker ("stuck and gone for a few seconds"). */
 .category-ticker-track:focus-within {
   animation-play-state: paused;
 }
+@media (hover: hover) and (pointer: fine) {
+  .category-ticker:hover .category-ticker-track {
+    animation-play-state: paused;
+  }
+}
 @keyframes category-ticker-scroll {
   from {
-    transform: translateX(0);
+    transform: translate3d(0, 0, 0);
   }
   to {
     /* exactly one of the two duplicated chip sets — loops seamlessly */
-    transform: translateX(-50%);
+    transform: translate3d(-50%, 0, 0);
   }
 }
 /* This ticker is a deliberate exception to the site-wide reduced-motion
