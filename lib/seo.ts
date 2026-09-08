@@ -7,6 +7,18 @@ type ToolBlurb = {
 };
 
 const TOOL_BLURBS: Record<string, ToolBlurb> = {
+  "plus-code-converter": {
+    en: "Convert between latitude/longitude and Plus Codes (Open Location Code) — a free standard for sharing a precise location that has no street address.",
+    km: "បម្លែងរវាងរយៈទទឹង/រយៈបណ្តោយ និងលេខកូដ Plus (Open Location Code) — ស្តង់ដារឥតគិតថ្លៃសម្រាប់ចែករំលែកទីតាំងច្បាស់លាស់ដែលគ្មានអាសយដ្ឋានផ្លូវ។",
+  },
+  "point-in-polygon": {
+    en: "Check whether coordinates fall inside a polygon or boundary — paste a GeoJSON Polygon/MultiPolygon or lat,lng vertices and test points one at a time or in bulk.",
+    km: "ពិនិត្យថាតើកូអរដោនេស្ថិតនៅក្នុងពហុកោណ ឬព្រំដែនដែរឬទេ — បិទភ្ជាប់ GeoJSON Polygon/MultiPolygon ឬចំណុច lat,lng ហើយសាកល្បងចំណុចម្តងមួយ ឬច្រើន។",
+  },
+  "khmer-sms-counter": {
+    en: "Count characters, Unicode length, and real SMS segments for Khmer and mixed text — Khmer uses UCS-2, so each SMS holds only 70 characters instead of 160.",
+    km: "រាប់តួអក្សរ ប្រវែង Unicode និងចំនួនផ្នែក SMS ពិតប្រាកដសម្រាប់អត្ថបទខ្មែរ និងលាយ — ខ្មែរប្រើ UCS-2 ដូច្នេះ SMS នីមួយៗផ្ទុកបានតែ ៧០ តួអក្សរជំនួសឲ្យ ១៦០។",
+  },
   "price-adjustment-calculator": {
     en: "Calculate the FIDIC Sub-Clause 13.8 price-adjustment factor (Pn) from cost-element weightings and base/current indices, then apply it to a payment amount.",
     km: "គណនាកត្តាកែតម្រូវតម្លៃ (Pn) តាមមាត្រា 13.8 របស់ FIDIC ពីទម្ងន់ធាតុថ្លៃ និងសន្ទស្សន៍មូលដ្ឋាន/បច្ចុប្បន្ន ហើយអនុវត្តទៅលើចំនួនទឹកប្រាក់បង់។",
@@ -1143,6 +1155,9 @@ export function toolHowToUse(tool: ToolDef): { en: string[]; km: string[] } {
 
 /** Curated tools that get HowTo structured data (their steps are well-defined). */
 const HOWTO_TOOLS: Record<string, string[]> = {
+  "plus-code-converter": ["Enter a latitude and longitude and pick a code length to get the Plus Code", "Or paste a full Plus Code to get the center coordinate and cell bounds", "Open the location on plus.codes or Google Maps"],
+  "point-in-polygon": ["Paste a polygon as GeoJSON or as lat,lng vertices (one per line)", "Enter one or more points as lat,lng with an optional label", "Read which points fall inside the boundary"],
+  "khmer-sms-counter": ["Type or paste your message", "Read the detected encoding (Khmer forces UCS-2), character count, and grapheme clusters", "Check how many SMS segments it takes and how many characters remain"],
   "price-adjustment-calculator": ["Enter the fixed (non-adjustable) portion and each cost element's weighting", "Add the base and current index for every element", "Read the Pn factor and percentage change, and optionally the adjusted amount for a payment"],
   "advance-payment-recovery": ["Enter the contract price, advance percentage, and recovery start/finish thresholds", "Add the gross certified amount for each interim payment certificate", "Read the per-IPC recovery, advance outstanding, and net amount payable"],
   "bar-bending-schedule": ["Add a row per bar mark with its diameter, cut length, and quantity", "Read the total length and theoretical weight for each mark", "Check the per-diameter and grand-total weights, or copy the schedule"],
