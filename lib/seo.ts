@@ -7,6 +7,10 @@ type ToolBlurb = {
 };
 
 const TOOL_BLURBS: Record<string, ToolBlurb> = {
+  "contract-time-progress-calculator": {
+    en: "Track a construction contract's elapsed time, remaining time, and expected completion date from your start date, duration, extension of time, and reporting cut-off, with a month-by-month day-count check.",
+    km: "តាមដានពេលកន្លងផុត ពេលនៅសល់ និងកាលបរិច្ឆេទបញ្ចប់រំពឹងទុកនៃកិច្ចសន្យាសំណង់ ពីកាលបរិច្ឆេទចាប់ផ្តើម រយៈពេល ការបន្ថែមពេល និងកាលកំណត់រាយការណ៍ ព្រមទាំងការផ្ទៀងផ្ទាត់ការរាប់ថ្ងៃខែម្តងៗ។",
+  },
   "buddhist-era": {
     en: "Convert between Buddhist Era (BE) and Common Era (CE) years for Cambodian dates and official documents.",
     km: "បម្លែងរវាងឆ្នាំពុទ្ធសករាជ (ព.ស.) និងឆ្នាំគ្រិស្តសករាជ (គ.ស.) សម្រាប់កាលបរិច្ឆេទ និងឯកសារផ្លូវការ។",
@@ -1123,6 +1127,7 @@ export function toolHowToUse(tool: ToolDef): { en: string[]; km: string[] } {
 
 /** Curated tools that get HowTo structured data (their steps are well-defined). */
 const HOWTO_TOOLS: Record<string, string[]> = {
+  "contract-time-progress-calculator": ["Enter the start (commencement) date, contract duration in days, and any approved extension of time", "Set the reporting cut-off date (or use Set cut-off to today) and pick the counting rule", "Read the expected completion date, time elapsed, and time remaining, and verify the day count month by month"],
   "administrative-hierarchy": ["Type a province, district, commune, or village name (English, Khmer, or code)", "Pick the matching result to fill the full address path", "Or browse level by level with the four dropdowns", "Copy the selected path and administrative codes"],
   "khmer-sorter": ["Paste or type your Khmer text", "Choose to sort lines or words", "Copy the sorted output"],
   "khmer-text-stats": ["Paste or type your Khmer text", "Read the word, character, consonant, vowel, and digit counts"],
