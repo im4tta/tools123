@@ -3,15 +3,7 @@ import { useMemo } from "react";
 import { ToolShell, Field, TextArea } from "@/components/ui/Shell";
 import { Output } from "@/components/ui/Output";
 import { useToolState } from "@/lib/storage";
-
-function splitClusters(text: string): string[] {
-  if (typeof Intl !== "undefined" && "Segmenter" in Intl) {
-    const seg = new Intl.Segmenter("km", { granularity: "grapheme" });
-    return [...seg.segment(text)].map((s) => s.segment).filter((s) => s.trim().length > 0 || s === " ");
-  }
-  // Fallback: naive per-character split if the browser lacks Intl.Segmenter.
-  return [...text];
-}
+import { splitClusters } from "@/lib/khmer-syllables";
 
 export default function SyllableSplitter() {
   const [input, setInput] = useToolState("syllable-splitter:input", "អ្នកគ្រួបង្រៀនភាសាខ្មែរ");
