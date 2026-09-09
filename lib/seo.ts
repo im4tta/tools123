@@ -7,6 +7,30 @@ type ToolBlurb = {
 };
 
 const TOOL_BLURBS: Record<string, ToolBlurb> = {
+  "khmer-speech-time": {
+    en: "Estimate how long a Khmer passage takes to read aloud for voice-overs, subtitles, and speeches — exact syllable count with an adjustable speaking pace and cross-pace comparison.",
+    km: "ប៉ាន់ស្មានរយៈពេលអានឮៗនៃអត្ថបទខ្មែរសម្រាប់ការថតសំឡេង ចំណងជើងរង និងសុន្ទរកថា — ចំនួនព្យាង្គជាក់លាក់ ជាមួយល្បឿននិយាយអាចកែបាន និងការប្រៀបធៀបល្បឿន។",
+  },
+  "khmer-subtitle-chunker": {
+    en: "Turn a Khmer script into subtitle-length lines that never break mid-word, with automatic timing from an adjustable speaking rate, and export ready-to-use SRT.",
+    km: "បម្លែងអត្ថបទខ្មែរទៅជាបន្ទាត់ចំណងជើងរងដែលមិនកាត់ពាក្យ ជាមួយការកំណត់ពេលស្វ័យប្រវត្តិពីល្បឿននិយាយ ហើយនាំចេញ SRT រួចរាល់។",
+  },
+  "khmer-glyph-picker": {
+    en: "Find and copy any Khmer letter, subscript, vowel sign, diacritic, digit, or hard-to-type punctuation — search by romanisation, Unicode name, or U+ code, and compose glyphs together.",
+    km: "ស្វែងរក និងចម្លងអក្សរខ្មែរ ជើង សញ្ញាស្រៈ សញ្ញាកំណត់ លេខ ឬវណ្ណយុត្តិដែលពិបាកវាយ — ស្វែងរកតាមអក្សរឡាតាំង ឈ្មោះ Unicode ឬកូដ U+ ហើយផ្សំតួអក្សរ។",
+  },
+  "khmer-digit-reader": {
+    en: "Read phone numbers, OTPs, and codes aloud one digit at a time in Khmer — the way numbers are spoken over the phone, not as a single value.",
+    km: "អានលេខទូរស័ព្ទ OTP និងលេខកូដម្តងមួយខ្ទង់ជាភាសាខ្មែរ — តាមរបៀបនិយាយតាមទូរស័ព្ទ មិនមែនជាតម្លៃតែមួយ។",
+  },
+  "khmer-riel-cash-breakdown": {
+    en: "Break a riel (KHR) amount into the fewest banknotes with a greedy split; denominations are pre-filled with the common riel notes and fully editable.",
+    km: "បំបែកចំនួនប្រាក់រៀល (KHR) ទៅជាក្រដាសប្រាក់តិចបំផុត; ប្រភេទក្រដាសបំពេញស្រាប់ដោយក្រដាសរៀលទូទៅ ហើយអាចកែបាន។",
+  },
+  "khmer-search-normalizer": {
+    en: "Fold Khmer words to a base-consonant key — stripping vowel signs, diacritics, the coeng marker, and zero-width characters — for accent-insensitive search and matching.",
+    km: "បំបែកពាក្យខ្មែរទៅជាកូនសោព្យញ្ជនៈមូលដ្ឋាន — ដកសញ្ញាស្រៈ សញ្ញាកំណត់ ជើង និងតួអក្សរទទឹងសូន្យ — សម្រាប់ការស្វែងរក និងផ្គូផ្គងដោយមិនគិតការសរសេរ។",
+  },
   "plus-code-converter": {
     en: "Convert between latitude/longitude and Plus Codes (Open Location Code) — a free standard for sharing a precise location that has no street address.",
     km: "បម្លែងរវាងរយៈទទឹង/រយៈបណ្តោយ និងលេខកូដ Plus (Open Location Code) — ស្តង់ដារឥតគិតថ្លៃសម្រាប់ចែករំលែកទីតាំងច្បាស់លាស់ដែលគ្មានអាសយដ្ឋានផ្លូវ។",
@@ -1155,6 +1179,12 @@ export function toolHowToUse(tool: ToolDef): { en: string[]; km: string[] } {
 
 /** Curated tools that get HowTo structured data (their steps are well-defined). */
 const HOWTO_TOOLS: Record<string, string[]> = {
+  "khmer-speech-time": ["Paste your Khmer script", "Pick a speaking pace or enter a custom syllables-per-minute rate and per-sentence pause", "Read the estimated read-aloud time, syllable count, and time at each pace"],
+  "khmer-subtitle-chunker": ["Paste your Khmer script", "Set the maximum line width, speaking pace, gap, and minimum cue duration", "Review the timed cues and copy the SRT"],
+  "khmer-glyph-picker": ["Search by romanisation, Unicode name, or U+ code (or browse the sections)", "Click a glyph to add it to the compose box, or double-click to copy just that one", "Copy the composed text"],
+  "khmer-digit-reader": ["Enter a number, phone number, or code (Western or Khmer digits)", "Read it aloud digit by digit in Khmer, with an approximate romanisation"],
+  "khmer-riel-cash-breakdown": ["Enter a riel amount", "Adjust the denomination list if needed", "Read the fewest-notes breakdown and any uncoverable remainder"],
+  "khmer-search-normalizer": ["Paste Khmer words, one per line", "Choose whether to collapse spaces into one compact key", "Copy the base-consonant search keys for indexing"],
   "plus-code-converter": ["Enter a latitude and longitude and pick a code length to get the Plus Code", "Or paste a full Plus Code to get the center coordinate and cell bounds", "Open the location on plus.codes or Google Maps"],
   "point-in-polygon": ["Paste a polygon as GeoJSON or as lat,lng vertices (one per line)", "Enter one or more points as lat,lng with an optional label", "Read which points fall inside the boundary"],
   "khmer-sms-counter": ["Type or paste your message", "Read the detected encoding (Khmer forces UCS-2), character count, and grapheme clusters", "Check how many SMS segments it takes and how many characters remain"],
