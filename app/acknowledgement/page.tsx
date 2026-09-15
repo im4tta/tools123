@@ -10,6 +10,7 @@ const LIBRARIES = [
   { name: "HappyPDF", url: "https://seanghay.github.io/happypdf/", by: "Seanghay Yath", use: "pdf-lib fork with HarfBuzz shaping for correct Khmer/Indic script rendering (Khmer Studio)" },
   { name: "Kantumruy Pro", url: "https://fonts.google.com/kantumruypro", by: "Kantumruy Pro Project Authors", use: "Variable Khmer/Latin typeface, SIL OFL (Khmer Studio)" },
   { name: "pdfjs-dist", url: "https://mozilla.github.io/pdf.js/", by: "Mozilla Foundation", use: "PDF rendering in the browser" },
+  { name: "Tesseract.js", url: "https://github.com/naptha/tesseract.js", by: "Jerome Wu & contributors", use: "In-browser OCR / orientation detection (OSD) for scanned pages" },
   { name: "KaTeX", url: "https://katex.org/", by: "Khan Academy", use: "Fast math typesetting" },
   { name: "lucide-react", url: "https://lucide.dev/", by: "Lucide Contributors", use: "Open-source icon library" },
   { name: "cmdk", url: "https://cmdk.paco.me/", by: "Paco Coursey", use: "Command palette UI" },
