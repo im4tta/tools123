@@ -531,6 +531,10 @@ const TOOL_BLURBS: Record<string, ToolBlurb> = {
     en: "Generate numbered event tickets with tear lines and optional QR codes on print-ready A4 sheets.",
     km: "បង្កើតសំបុត្រលេខរៀង ជាមួយបន្ទាត់បោះ និងកូដ QR បើចង់បាន — ទម្រង់ A4។",
   },
+  "id-card-studio": {
+    en: "Design staff ID badges and event cards in batches — add photos, pick a layout, background and fonts, attach a QR code or barcode, add a back side, then export a PNG, a print-ready A4 PDF, or a ZIP of every card. Import people from CSV; everything runs locally in your browser with full Khmer support.",
+    km: "រចនាប័ណ្ណសម្គាល់បុគ្គលិក និងកាតព្រឹត្តិការណ៍ជាបាច់ — បន្ថែមរូបថត ជ្រើសប្លង់ ផ្ទៃខាងក្រោយ និងពុម្ពអក្សរ ភ្ជាប់កូដ QR ឬបាកូដ បន្ថែមផ្នែកខាងក្រោយ រួចនាំចេញជា PNG សន្លឹក A4 សម្រាប់បោះពុម្ព ឬ ZIP នៃកាតទាំងអស់។ នាំចូលមនុស្សពី CSV — ដំណើរការទាំងស្រុងក្នុងកម្មវិធីរុករក ជាមួយការគាំទ្រភាសាខ្មែរពេញលេញ។",
+  },
   "yaml-formatter": {
     en: "Validate and pretty-print YAML configuration files with clear error locations, or minify them to JSON.",
     km: "ផ្ទៀងផ្ទាត់ និងរៀបចំទម្រង់ YAML ឱ្យស្អាត ជាមួយទីតាំងកំហុសច្បាស់លាស់ ឬបង្រួមជា JSON។",
@@ -1287,6 +1291,7 @@ const HOWTO_TOOLS: Record<string, string[]> = {
   "certificate-generator": ["Enter organisation, award line, and date", "Paste recipient names (one per line)", "Pick a font and border color", "Download one PDF with a page per recipient"],
   "envelope-printer": ["Paste addresses separated by blank lines", "Choose DL, C6, or A4 label format", "Optionally add a sender block", "Download and print"],
   "event-ticket-sheet": ["Enter event title, date, venue, and price", "Set start number and quantity", "Add a QR link prefix if needed", "Download the numbered ticket sheets"],
+  "id-card-studio": ["Add people (or import a CSV) and upload each photo", "Pick a layout, background, fonts, and colors in the Design and Type tabs", "Set the ID fields and choose a QR code or barcode", "Export the active card as PNG, or all cards as an A4 PDF or ZIP"],
   "khmer-lyrics": ["Pick Sample or paste your khlyrics JSON", "Search by title, artist, or lyric", "Select a song to read its lyrics", "Copy the lyrics to use elsewhere"],
   "site-forensics": ["Enter a domain or URL", "Click Inspect", "Review DNS, HTTP, WHOIS, IP, and Wayback sections", "Check the source note about live data"],
   "flight-route-planner": ["Type an origin IATA code or city name", "Pick the airport from the suggestions", "Do the same for the destination", "Read the route distance and estimated cruise time"],

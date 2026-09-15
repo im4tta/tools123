@@ -250,6 +250,54 @@ body {
 
 
 
+/* ── Subtle UI polish ──────────────────────────────────────────────────
+   Additive enhancements layered onto existing markup hooks (.tool-card,
+   .new-tool-badge, .home-hero) — no structural changes, so layout, SEO and
+   responsive behaviour stay exactly as before. */
+
+/* Homepage tool cards: a gentle lift, a soft warm shadow, and a gold left
+   edge on hover so the grid feels tactile without shouting. */
+.tool-card {
+  position: relative;
+  transition: transform 0.16s ease, box-shadow 0.16s ease, border-color 0.15s ease,
+    background-color 0.15s ease, color 0.15s ease;
+}
+.tool-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px -12px color-mix(in srgb, var(--gold) 22%, rgba(0, 0, 0, 0.55));
+  border-left-color: var(--gold);
+}
+
+/* NEW badge: a slow, low-key gold breath so freshly added tools catch the eye.
+   The site-wide reduced-motion reset above stills this to a static soft glow. */
+.new-tool-badge {
+  animation: new-badge-breath 2.8s ease-in-out infinite;
+}
+@keyframes new-badge-breath {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--gold) 30%, transparent);
+  }
+  50% {
+    box-shadow: 0 0 9px 1px color-mix(in srgb, var(--gold) 30%, transparent);
+  }
+}
+
+/* Hero: a faint warm halo behind the headline so the top of the page has a
+   little depth. Purely decorative and non-interactive. */
+.home-hero::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -40px;
+  width: min(680px, 118%);
+  height: 240px;
+  transform: translateX(-50%);
+  background: radial-gradient(ellipse 60% 100% at 50% 0%, color-mix(in srgb, var(--gold) 11%, transparent), transparent 72%);
+  pointer-events: none;
+  z-index: -1;
+}
+
 .chip {
   display: inline-flex;
   align-items: center;
