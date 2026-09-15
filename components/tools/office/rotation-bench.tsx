@@ -20,6 +20,7 @@ import { ToolShell } from "@/components/ui/Shell";
 import { Button } from "@/components/ui/Output";
 import { useLanguage } from "@/components/LanguageProvider";
 import { loadPdfJs, formatBytes } from "@/lib/pdfjs";
+import { estimateSkew, rotate90, SKEW_MIN_DEG, SKEW_MAX_DEG } from "@/lib/scan";
 import { recordExport } from "@/lib/export";
 
 /* ------------------------------------------------------------------ tuning */
@@ -37,11 +38,8 @@ const WORKER_POOL_SIZE =
     ? Math.min(4, Math.max(2, (navigator.hardwareConcurrency || 4) - 1))
     : 2;
 
-// Deskew: search ±SKEW_MAX_DEG in SKEW_STEP increments; ignore anything below
-// SKEW_MIN_DEG (imperceptible, and re-rasterising for it isn't worth the loss).
-const SKEW_MAX_DEG = 8;
-const SKEW_STEP = 0.2;
-const SKEW_MIN_DEG = 0.4;
+// Skew search bounds live in lib/scan (SKEW_MIN_DEG / SKEW_MAX_DEG); pages
+// below SKEW_MIN_DEG aren't worth re-rasterising and stay lossless.
 const EXPORT_RASTER_PX = 1700; // longest side when a straightened page is baked to an image
 
 /* ------------------------------------------------------------------- types */
@@ -116,83 +114,6 @@ function preprocessForOsd(canvas: HTMLCanvasElement): HTMLCanvasElement {
   }
   ctx.putImageData(imgData, 0, 0);
   return out;
-}
-
-// Rotates a canvas by a multiple of 90° (clockwise) into a new canvas, swapping
-// dimensions for 90/270. Used to bring an OSD-oriented page upright before
-// measuring its fine skew.
-function rotateCanvas(src: HTMLCanvasElement, deg: number): HTMLCanvasElement {
-  const d = ((deg % 360) + 360) % 360;
-  if (d === 0) return src;
-  const out = document.createElement("canvas");
-  const swap = d === 90 || d === 270;
-  out.width = swap ? src.height : src.width;
-  out.height = swap ? src.width : src.height;
-  const ctx = out.getContext("2d");
-  if (!ctx) return src;
-  ctx.translate(out.width / 2, out.height / 2);
-  ctx.rotate((d * Math.PI) / 180);
-  ctx.drawImage(src, -src.width / 2, -src.height / 2);
-  return out;
-}
-
-// Projection-profile skew estimate. For each candidate angle we shear the
-// binarised ink map and score how sharply it concentrates into rows (a
-// well-aligned page piles ink into distinct text lines, giving a spiky row
-// profile). The best angle is the correction that flattens the lines. Returns
-// the correction to APPLY, in degrees (clockwise, matching CSS/canvas), or 0
-// when the page has too little ink or no clear peak. Independent implementation
-// of a classic algorithm — see the Source & Credits note.
-function estimateSkew(source: HTMLCanvasElement): number {
-  const maxSide = 480;
-  const scale = Math.min(1, maxSide / Math.max(source.width, source.height));
-  const w = Math.max(1, Math.round(source.width * scale));
-  const h = Math.max(1, Math.round(source.height * scale));
-  const c = document.createElement("canvas");
-  c.width = w;
-  c.height = h;
-  const ctx = c.getContext("2d");
-  if (!ctx) return 0;
-  ctx.drawImage(source, 0, 0, w, h);
-  const data = ctx.getImageData(0, 0, w, h).data;
-
-  const gray = new Float32Array(w * h);
-  let sum = 0;
-  for (let i = 0, p = 0; i < data.length; i += 4, p++) {
-    const g = 0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2];
-    gray[p] = g;
-    sum += g;
-  }
-  const thresh = (sum / (w * h)) * 0.82;
-  const dark = new Uint8Array(w * h);
-  let ink = 0;
-  for (let p = 0; p < gray.length; p++) if (gray[p] < thresh) { dark[p] = 1; ink++; }
-  if (ink < w * h * 0.003) return 0;
-
-  const cx = w / 2;
-  let best = 0;
-  let bestScore = -1;
-  let secondScore = -1;
-  for (let deg = -SKEW_MAX_DEG; deg <= SKEW_MAX_DEG + 1e-9; deg += SKEW_STEP) {
-    const t = Math.tan((deg * Math.PI) / 180);
-    const offset = Math.ceil(Math.abs(t) * w) + 1;
-    const len = h + 2 * offset;
-    const acc = new Float32Array(len);
-    for (let y = 0; y < h; y++) {
-      const row = y * w;
-      for (let x = 0; x < w; x++) {
-        if (dark[row + x]) acc[((y + (x - cx) * t) | 0) + offset]++;
-      }
-    }
-    let score = 0;
-    for (let i = 1; i < len; i++) { const diff = acc[i] - acc[i - 1]; score += diff * diff; }
-    if (score > bestScore) { secondScore = bestScore; bestScore = score; best = deg; }
-    else if (score > secondScore) secondScore = score;
-  }
-  // Reject a flat/ambiguous landscape, or a peak so small it's just noise.
-  if (bestScore <= 0 || secondScore / bestScore > 0.985) return 0;
-  if (Math.abs(best) < SKEW_MIN_DEG) return 0;
-  return Math.round(best * 10) / 10;
 }
 
 /* ---------------------------------------------------------------- page card */
@@ -435,7 +356,7 @@ export default function RotationBench() {
         // Measure skew on the orientation-corrected image so text is roughly
         // horizontal before we look for tilt.
         let deskew = 0;
-        try { deskew = estimateSkew(rotateCanvas(baseCanvas, extra)); } catch { deskew = 0; }
+        try { deskew = estimateSkew(rotate90(baseCanvas, extra)); } catch { deskew = 0; }
         updatePage(index, { status: extra === 0 ? "ok" : "auto", confidence: final.conf, extra, deskew, note: null });
       }
     } catch {

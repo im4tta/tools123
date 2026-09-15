@@ -539,6 +539,38 @@ const TOOL_BLURBS: Record<string, ToolBlurb> = {
     en: "Fix the orientation and skew of a scanned PDF in your browser — every page is auto-checked with OCR orientation detection, sideways and upside-down pages are corrected, crooked pages are auto-straightened (deskewed), and low-confidence pages are flagged for a one-click or bulk rotate. Rotation-only pages are exported losslessly by rewriting each page's rotation; only pages that need a fine straighten are re-rendered. Nothing is uploaded.",
     km: "កែទិសដៅ និងភាពផ្អៀងនៃឯកសារ PDF ស្កេនក្នុងកម្មវិធីរុករករបស់អ្នក — គ្រប់ទំព័រត្រូវពិនិត្យស្វ័យប្រវត្តិដោយ OCR ទំព័រផ្ដេក និងបញ្ច្រាសត្រូវកែ ទំព័រផ្អៀងត្រូវតម្រង់ស្វ័យប្រវត្តិ ហើយទំព័រដែលមិនប្រាកដត្រូវសម្គាល់ឲ្យចុចបង្វិល (ម្ដង ឬច្រើន)។ ទំព័របង្វិលៗត្រូវនាំចេញដោយរក្សាគុណភាពដើម មានតែទំព័រដែលត្រូវតម្រង់ប៉ុណ្ណោះទើបបង្ហាញឡើងវិញ។ គ្មានអ្វីត្រូវផ្ទុកឡើងទេ។",
   },
+  "pdf-metadata-cleaner": {
+    en: "View, edit, or strip the hidden metadata a PDF carries — title, author, the app that created it, and creation dates — then save a cleaned copy before you share it. A privacy step that runs entirely in your browser; nothing is uploaded.",
+    km: "មើល កែ ឬលុបទិន្នន័យមេតាដែលលាក់ក្នុង PDF — ចំណងជើង អ្នកនិពន្ធ កម្មវិធីបង្កើត និងកាលបរិច្ឆេទ — រួចរក្សាទុកច្បាប់ចម្លងស្អាតមុនចែករំលែក។ ដំណើរការទាំងស្រុងក្នុងកម្មវិធីរុករក គ្មានការផ្ទុកឡើង។",
+  },
+  "pdf-page-stamper": {
+    en: "Add page numbers, footers, or Bates numbering (PREFIX-000123) to every page of a PDF, with a live preview and control over position, size, and colour. Text is drawn as real PDF text so the file stays lossless. Runs locally.",
+    km: "បន្ថែមលេខទំព័រ ឬលេខ Bates (PREFIX-000123) ទៅគ្រប់ទំព័រនៃ PDF ជាមួយការមើលជាមុន និងការគ្រប់គ្រងទីតាំង ទំហំ និងពណ៌។ អក្សរត្រូវសរសេរជាអក្សរ PDF ពិត ដូច្នេះឯកសាររក្សាគុណភាពដើម។ ដំណើរការក្នុងម៉ាស៊ីន។",
+  },
+  "pdf-redactor": {
+    en: "Black out sensitive text or images in a PDF and export a file where the covered content is truly gone — each page is flattened to an image so nothing can be copied out from underneath. Everything runs locally in your browser.",
+    km: "លុបអត្ថបទ ឬរូបភាពសម្ងាត់ក្នុង PDF រួចនាំចេញឯកសារដែលមាតិកាដែលគ្របត្រូវលុបពិតប្រាកដ — គ្រប់ទំព័រត្រូវបំបែកជារូបភាព ដូច្នេះគ្មានអ្វីអាចចម្លងចេញពីខាងក្រោមបានទេ។ ដំណើរការក្នុងកម្មវិធីរុករករបស់អ្នក។",
+  },
+  "payslip-generator": {
+    en: "Turn payroll figures into a clean, printable bilingual (English + Khmer) payslip PDF. You enter each earning and deduction as a line item and the tool totals the net pay — amounts are yours, no tax or contribution rate is assumed. Khmer text is shaped correctly. Runs locally.",
+    km: "បម្លែងតួលេខប្រាក់ខែទៅជាប័ណ្ណបើកប្រាក់ខែ PDF ពីរភាសា (អង់គ្លេស + ខ្មែរ) ស្អាត និងអាចបោះពុម្ព។ អ្នកបញ្ចូលប្រាក់ចំណូល និងការកាត់នីមួយៗ ហើយឧបករណ៍គណនាប្រាក់សុទ្ធ — តួលេខជារបស់អ្នក គ្មានការសន្មតអត្រាពន្ធ ឬ​ភាគទានណាមួយ។ អក្សរខ្មែរបង្ហាញត្រឹមត្រូវ។ ដំណើរការក្នុងម៉ាស៊ីន។",
+  },
+  "loan-amortization": {
+    en: "See a month-by-month breakdown of principal and interest for a loan — reducing-balance (standard amortizing) or flat method — with the monthly payment, total interest, total paid, and a downloadable CSV. All figures are yours; no lender rates are assumed.",
+    km: "មើលការបំបែកប្រាក់ដើម និងការប្រាក់ជារៀងរាល់ខែសម្រាប់ប្រាក់កម្ចី — វិធីបញ្ចុះសមតុល្យ (ស្តង់ដារ) ឬវិធីថេរ — ជាមួយការបង់ប្រចាំខែ ការប្រាក់សរុប សរុបត្រូវបង់ និង CSV ទាញយកបាន។ តួលេខជារបស់អ្នក; គ្មានការសន្មតអត្រាកម្ចីណាមួយ។",
+  },
+  "passport-photo": {
+    en: "Crop a portrait to a common ID- or passport-photo size, optionally replace the background with a plain colour (matting runs locally on your device), and export a single photo or a print-ready sheet of copies at 300 DPI. Sizes are common presets — check your document's exact requirement. Nothing is uploaded.",
+    km: "កាត់រូបបញ្ឈរទៅទំហំរូបថតសម្គាល់ខ្លួនធម្មតា ប្តូរផ្ទៃខាងក្រោយទៅពណ៌រាបស្មើ (ដំណើរការក្នុងឧបករណ៍) រួចនាំចេញរូបតែមួយ ឬសន្លឹកច្បាប់ចម្លងត្រៀមបោះពុម្ព ៣០០ DPI។ ទំហំជាគំរូទូទៅ — សូមពិនិត្យតម្រូវការជាក់លាក់នៃឯកសាររបស់អ្នក។ គ្មានការផ្ទុកឡើងទេ។",
+  },
+  "scan-cleanup": {
+    en: "Turn phone photos of documents into clean scans — pages are auto-straightened, then thresholded to crisp black-and-white (or kept grayscale/colour) — and exported as a small multipage PDF. Everything runs locally in your browser.",
+    km: "បម្លែងរូបថតឯកសារពីទូរស័ព្ទទៅជាការស្កេនស្អាត — ទំព័រត្រូវតម្រង់ស្វ័យប្រវត្តិ រួចបម្លែងទៅ ស-ខ្មៅ ច្បាស់ (ឬរក្សាប្រផេះ/ពណ៌) — ហើយនាំចេញជា PDF ច្រើនទំព័រតូច។ ដំណើរការក្នុងកម្មវិធីរុករករបស់អ្នក។",
+  },
+  "print-studio": {
+    en: "Lay out images and characters onto print-ready A4 sheets — packed many-per-page (great for flashcards, stickers, or labels) or one-per-page. A full glyph palette covers the entire Khmer script (consonants, subscripts, vowels, signs, digits), Latin, currency/math/arrow symbols, and hundreds of emoji; type or click to add each as a styled tile with your own fill and outline. Export a PDF or a ZIP of PNGs, all in your browser.",
+    km: "រៀបចំរូបភាព និងតួអក្សរលើសន្លឹក A4 ត្រៀមបោះពុម្ព — ដាក់ច្រើនក្នុងមួយទំព័រ (ល្អសម្រាប់កាតរៀន ស្ទីកគ័រ ឬស្លាក) ឬមួយក្នុងមួយទំព័រ។ ផ្ទាំងតួអក្សរពេញលេញគ្របដណ្តប់អក្សរខ្មែរទាំងមូល (ព្យញ្ជនៈ ជើង ស្រៈ សញ្ញា លេខ) ឡាតាំង និមិត្តសញ្ញា និងអុីម៉ូជីរាប់រយ; វាយ ឬចុចដើម្បីបន្ថែមជាប្លុកតុបតែងជាមួយពណ៌ និងគែមផ្ទាល់ខ្លួន។ នាំចេញ PDF ឬ ZIP ក្នុងកម្មវិធីរុករក។",
+  },
   "yaml-formatter": {
     en: "Validate and pretty-print YAML configuration files with clear error locations, or minify them to JSON.",
     km: "ផ្ទៀងផ្ទាត់ និងរៀបចំទម្រង់ YAML ឱ្យស្អាត ជាមួយទីតាំងកំហុសច្បាស់លាស់ ឬបង្រួមជា JSON។",
@@ -1297,6 +1329,14 @@ const HOWTO_TOOLS: Record<string, string[]> = {
   "event-ticket-sheet": ["Enter event title, date, venue, and price", "Set start number and quantity", "Add a QR link prefix if needed", "Download the numbered ticket sheets"],
   "id-card-studio": ["Add people (or import a CSV) and upload each photo", "Pick a layout, background, fonts, and colors in the Design and Type tabs", "Set the ID fields and choose a QR code or barcode", "Export the active card as PNG, or all cards as an A4 PDF or ZIP"],
   "rotation-bench": ["Drop or choose a scanned PDF", "Wait while pages are read and orientation and skew are auto-detected", "Click any flagged page to rotate it 90°, or open a page to fine-tune its straighten", "Export the corrected PDF (rotation-only pages stay lossless)"],
+  "pdf-metadata-cleaner": ["Choose a PDF", "Review the title, author, producer, and dates it carries", "Edit any field, or click Strip all metadata", "Save the cleaned PDF"],
+  "pdf-page-stamper": ["Choose a PDF", "Pick a format (page number, N of total, or Bates) and a position", "Adjust size, margin, colour, and whether to skip page 1", "Save the stamped PDF"],
+  "pdf-redactor": ["Choose a PDF", "Drag boxes over anything sensitive on each page", "Use the page arrows to redact more pages", "Export — every page is flattened so covered content is truly removed"],
+  "payslip-generator": ["Fill in the company and employee details", "Add each earning and deduction as a line item", "Check the gross, deductions, and net pay totals", "Download the bilingual payslip PDF"],
+  "loan-amortization": ["Enter the loan amount, interest rate, and term", "Choose reducing-balance or flat, and a currency", "Read the monthly payment and totals", "Download the full schedule as CSV"],
+  "passport-photo": ["Choose a portrait photo", "Pick a photo size and a background colour", "Position the face with zoom and move sliders", "Download the photo, or a print sheet of copies"],
+  "scan-cleanup": ["Choose one or more document photos", "Pick black & white, grayscale, or colour, and leave Auto-straighten on", "Check the cleaned previews and adjust ink strength", "Export the multipage PDF"],
+  "print-studio": ["Import images, and/or type or pick characters from the Khmer/Latin/symbol/emoji palette", "Style typed characters with a fill and outline", "Choose pack-per-sheet or one-per-sheet, size, margin, and resolution", "Export a print-ready PDF or a ZIP of PNG sheets"],
   "khmer-lyrics": ["Pick Sample or paste your khlyrics JSON", "Search by title, artist, or lyric", "Select a song to read its lyrics", "Copy the lyrics to use elsewhere"],
   "site-forensics": ["Enter a domain or URL", "Click Inspect", "Review DNS, HTTP, WHOIS, IP, and Wayback sections", "Check the source note about live data"],
   "flight-route-planner": ["Type an origin IATA code or city name", "Pick the airport from the suggestions", "Do the same for the destination", "Read the route distance and estimated cruise time"],
