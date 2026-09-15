@@ -571,6 +571,14 @@ const TOOL_BLURBS: Record<string, ToolBlurb> = {
     en: "Lay out images and characters onto print-ready A4 sheets — packed many-per-page (great for flashcards, stickers, or labels) or one-per-page. A full glyph palette covers the entire Khmer script (consonants, subscripts, vowels, signs, digits), Latin, currency/math/arrow symbols, and hundreds of emoji; type or click to add each as a styled tile with your own fill and outline. Export a PDF or a ZIP of PNGs, all in your browser.",
     km: "រៀបចំរូបភាព និងតួអក្សរលើសន្លឹក A4 ត្រៀមបោះពុម្ព — ដាក់ច្រើនក្នុងមួយទំព័រ (ល្អសម្រាប់កាតរៀន ស្ទីកគ័រ ឬស្លាក) ឬមួយក្នុងមួយទំព័រ។ ផ្ទាំងតួអក្សរពេញលេញគ្របដណ្តប់អក្សរខ្មែរទាំងមូល (ព្យញ្ជនៈ ជើង ស្រៈ សញ្ញា លេខ) ឡាតាំង និមិត្តសញ្ញា និងអុីម៉ូជីរាប់រយ; វាយ ឬចុចដើម្បីបន្ថែមជាប្លុកតុបតែងជាមួយពណ៌ និងគែមផ្ទាល់ខ្លួន។ នាំចេញ PDF ឬ ZIP ក្នុងកម្មវិធីរុករក។",
   },
+  "pdf-form-filler": {
+    en: "Fill a PDF's interactive form fields right in your browser with a live preview, then optionally flatten the form so the values are locked in and can't be edited. Handles text fields, checkboxes, radio buttons, and dropdowns. Runs locally with pdf-lib; nothing is uploaded.",
+    km: "បំពេញវាលទម្រង់អន្តរកម្មនៃ PDF ក្នុងកម្មវិធីរុករករបស់អ្នក ជាមួយការមើលផ្ទាល់ រួចជ្រើសបំបែកទម្រង់ដើម្បីចាក់សោតម្លៃកុំឲ្យកែបាន។ គាំទ្រវាលអក្សរ ប្រអប់ធីក ប៊ូតុងជ្រើស និងបញ្ជីទម្លាក់។ ដំណើរការក្នុងម៉ាស៊ីនដោយ pdf-lib; គ្មានការផ្ទុកឡើង។",
+  },
+  "cash-receipt-generator": {
+    en: "Create a numbered, printable bilingual (English + Khmer) cash-receipt or payment voucher — payer, amount, purpose, and method, with an amount-in-words line that auto-fills in English and can be edited for Khmer. Khmer is shaped correctly. Everything runs locally.",
+    km: "បង្កើតបង្កាន់ដៃ ឬប័ណ្ណទូទាត់ពីរភាសា (អង់គ្លេស + ខ្មែរ) មានលេខរៀង និងអាចបោះពុម្ព — អ្នកបង់ ចំនួន គោលបំណង និងវិធីទូទាត់ ជាមួយបន្ទាត់ចំនួនជាអក្សរដែលបំពេញស្វ័យប្រវត្តិជាអង់គ្លេស ហើយកែសម្រាប់ខ្មែរបាន។ អក្សរខ្មែរបង្ហាញត្រឹមត្រូវ។ ដំណើរការក្នុងម៉ាស៊ីន។",
+  },
   "yaml-formatter": {
     en: "Validate and pretty-print YAML configuration files with clear error locations, or minify them to JSON.",
     km: "ផ្ទៀងផ្ទាត់ និងរៀបចំទម្រង់ YAML ឱ្យស្អាត ជាមួយទីតាំងកំហុសច្បាស់លាស់ ឬបង្រួមជា JSON។",
@@ -1337,6 +1345,8 @@ const HOWTO_TOOLS: Record<string, string[]> = {
   "passport-photo": ["Choose a portrait photo", "Pick a photo size and a background colour", "Position the face with zoom and move sliders", "Download the photo, or a print sheet of copies"],
   "scan-cleanup": ["Choose one or more document photos", "Pick black & white, grayscale, or colour, and leave Auto-straighten on", "Check the cleaned previews and adjust ink strength", "Export the multipage PDF"],
   "print-studio": ["Import images, and/or type or pick characters from the Khmer/Latin/symbol/emoji palette", "Style typed characters with a fill and outline", "Choose pack-per-sheet or one-per-sheet, size, margin, and resolution", "Export a print-ready PDF or a ZIP of PNG sheets"],
+  "pdf-form-filler": ["Choose a fillable PDF", "Fill the text fields, checkboxes, and dropdowns — the preview updates live", "Tick Flatten if you want the values locked in", "Download the filled PDF"],
+  "cash-receipt-generator": ["Enter the issuer, payer, amount, and purpose", "Pick a payment method and currency", "Click Auto for the amount in words, or edit it (e.g. Khmer)", "Download the numbered receipt PDF"],
   "khmer-lyrics": ["Pick Sample or paste your khlyrics JSON", "Search by title, artist, or lyric", "Select a song to read its lyrics", "Copy the lyrics to use elsewhere"],
   "site-forensics": ["Enter a domain or URL", "Click Inspect", "Review DNS, HTTP, WHOIS, IP, and Wayback sections", "Check the source note about live data"],
   "flight-route-planner": ["Type an origin IATA code or city name", "Pick the airport from the suggestions", "Do the same for the destination", "Read the route distance and estimated cruise time"],
