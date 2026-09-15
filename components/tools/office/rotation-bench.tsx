@@ -1,19 +1,20 @@
 "use client";
 
-// Rotation Bench — fix scanned-PDF page orientation, entirely in the browser.
+// Rotation Bench — fix scanned-PDF page orientation and skew, in the browser.
 //
 // Adapted from an in-house "rotation-bench" HTML prototype and rebuilt on this
 // app's shared components. Pages are rendered with pdf.js, orientation is
 // auto-detected with Tesseract's OSD (orientation & script detection) model,
-// low-confidence pages are flagged for a manual look, and the corrected file is
-// written back with pdf-lib by setting each page's /Rotate — so nothing is
-// re-rasterised and no quality is lost. Everything runs locally; the file is
-// never uploaded. See the Source & Credits section for library attribution.
+// and fine skew is measured with a projection-profile estimate. Coarse 90°
+// corrections are written back losslessly with pdf-lib by setting each page's
+// /Rotate; because PDF /Rotate can only store 90° multiples, pages that need a
+// fine straighten are the only ones re-rendered as an image on export. Nothing
+// is uploaded. See the Source & Credits section for library attribution.
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   FileUp, RotateCw, RotateCcw, Download, Loader2, Check, AlertTriangle,
-  Maximize2, X, ScanLine, Play, Pause,
+  Maximize2, X, ScanLine, Play, Pause, Wand2,
 } from "lucide-react";
 import { ToolShell } from "@/components/ui/Shell";
 import { Button } from "@/components/ui/Output";
@@ -36,6 +37,13 @@ const WORKER_POOL_SIZE =
     ? Math.min(4, Math.max(2, (navigator.hardwareConcurrency || 4) - 1))
     : 2;
 
+// Deskew: search ±SKEW_MAX_DEG in SKEW_STEP increments; ignore anything below
+// SKEW_MIN_DEG (imperceptible, and re-rasterising for it isn't worth the loss).
+const SKEW_MAX_DEG = 8;
+const SKEW_STEP = 0.2;
+const SKEW_MIN_DEG = 0.4;
+const EXPORT_RASTER_PX = 1700; // longest side when a straightened page is baked to an image
+
 /* ------------------------------------------------------------------- types */
 
 type PageStatus = "pending" | "ok" | "auto" | "flagged" | "manual";
@@ -45,6 +53,7 @@ interface PageState {
   thumb: string; // data URL
   ratio: number; // width / height of the rendered thumbnail
   extra: number; // 0 / 90 / 180 / 270 clockwise, applied on top of the PDF's own rotation
+  deskew: number; // fine straighten angle in degrees (clockwise), applied after `extra`
   status: PageStatus;
   confidence: number | null;
   note: string | null;
@@ -109,6 +118,83 @@ function preprocessForOsd(canvas: HTMLCanvasElement): HTMLCanvasElement {
   return out;
 }
 
+// Rotates a canvas by a multiple of 90° (clockwise) into a new canvas, swapping
+// dimensions for 90/270. Used to bring an OSD-oriented page upright before
+// measuring its fine skew.
+function rotateCanvas(src: HTMLCanvasElement, deg: number): HTMLCanvasElement {
+  const d = ((deg % 360) + 360) % 360;
+  if (d === 0) return src;
+  const out = document.createElement("canvas");
+  const swap = d === 90 || d === 270;
+  out.width = swap ? src.height : src.width;
+  out.height = swap ? src.width : src.height;
+  const ctx = out.getContext("2d");
+  if (!ctx) return src;
+  ctx.translate(out.width / 2, out.height / 2);
+  ctx.rotate((d * Math.PI) / 180);
+  ctx.drawImage(src, -src.width / 2, -src.height / 2);
+  return out;
+}
+
+// Projection-profile skew estimate. For each candidate angle we shear the
+// binarised ink map and score how sharply it concentrates into rows (a
+// well-aligned page piles ink into distinct text lines, giving a spiky row
+// profile). The best angle is the correction that flattens the lines. Returns
+// the correction to APPLY, in degrees (clockwise, matching CSS/canvas), or 0
+// when the page has too little ink or no clear peak. Independent implementation
+// of a classic algorithm — see the Source & Credits note.
+function estimateSkew(source: HTMLCanvasElement): number {
+  const maxSide = 480;
+  const scale = Math.min(1, maxSide / Math.max(source.width, source.height));
+  const w = Math.max(1, Math.round(source.width * scale));
+  const h = Math.max(1, Math.round(source.height * scale));
+  const c = document.createElement("canvas");
+  c.width = w;
+  c.height = h;
+  const ctx = c.getContext("2d");
+  if (!ctx) return 0;
+  ctx.drawImage(source, 0, 0, w, h);
+  const data = ctx.getImageData(0, 0, w, h).data;
+
+  const gray = new Float32Array(w * h);
+  let sum = 0;
+  for (let i = 0, p = 0; i < data.length; i += 4, p++) {
+    const g = 0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2];
+    gray[p] = g;
+    sum += g;
+  }
+  const thresh = (sum / (w * h)) * 0.82;
+  const dark = new Uint8Array(w * h);
+  let ink = 0;
+  for (let p = 0; p < gray.length; p++) if (gray[p] < thresh) { dark[p] = 1; ink++; }
+  if (ink < w * h * 0.003) return 0;
+
+  const cx = w / 2;
+  let best = 0;
+  let bestScore = -1;
+  let secondScore = -1;
+  for (let deg = -SKEW_MAX_DEG; deg <= SKEW_MAX_DEG + 1e-9; deg += SKEW_STEP) {
+    const t = Math.tan((deg * Math.PI) / 180);
+    const offset = Math.ceil(Math.abs(t) * w) + 1;
+    const len = h + 2 * offset;
+    const acc = new Float32Array(len);
+    for (let y = 0; y < h; y++) {
+      const row = y * w;
+      for (let x = 0; x < w; x++) {
+        if (dark[row + x]) acc[((y + (x - cx) * t) | 0) + offset]++;
+      }
+    }
+    let score = 0;
+    for (let i = 1; i < len; i++) { const diff = acc[i] - acc[i - 1]; score += diff * diff; }
+    if (score > bestScore) { secondScore = bestScore; bestScore = score; best = deg; }
+    else if (score > secondScore) secondScore = score;
+  }
+  // Reject a flat/ambiguous landscape, or a peak so small it's just noise.
+  if (bestScore <= 0 || secondScore / bestScore > 0.985) return 0;
+  if (Math.abs(best) < SKEW_MIN_DEG) return 0;
+  return Math.round(best * 10) / 10;
+}
+
 /* ---------------------------------------------------------------- page card */
 
 const STATUS_COLOR: Record<PageStatus, string> = {
@@ -120,16 +206,18 @@ const STATUS_COLOR: Record<PageStatus, string> = {
 };
 
 const PageCard = ({
-  page, selected, onRotate, onToggleSelect, onExpand,
+  page, selected, deskewOn, onRotate, onToggleSelect, onExpand,
 }: {
   page: PageState;
   selected: boolean;
+  deskewOn: boolean;
   onRotate: (index: number) => void;
   onToggleSelect: (index: number, checked: boolean) => void;
   onExpand: (index: number) => void;
 }) => {
   const { text: t } = useLanguage();
   const color = STATUS_COLOR[page.status];
+  const skew = deskewOn ? page.deskew : 0;
   const badge =
     page.status === "pending" ? <Loader2 size={12} className="animate-spin" />
       : page.status === "flagged" ? <AlertTriangle size={12} />
@@ -166,7 +254,7 @@ const PageCard = ({
             alt=""
             style={{
               maxWidth: "100%", maxHeight: "100%",
-              transform: `rotate(${page.extra}deg)`,
+              transform: `rotate(${page.extra + skew}deg)`,
               transition: "transform 0.2s ease",
               background: "#fff",
               border: "1px solid var(--ground-line)",
@@ -185,12 +273,22 @@ const PageCard = ({
       </div>
       <div className="mt-1.5 flex flex-col items-center gap-0.5">
         <span className="text-[10px] text-[var(--ink-faint)]">{t(`Page ${page.index + 1}`, `ទំព័រ ${page.index + 1}`)}</span>
-        <span
-          className="rounded-full border px-2 font-mono-ui text-[11px] font-semibold"
-          style={{ color, borderColor: "var(--ground-line)" }}
-        >
-          {page.extra}°
-        </span>
+        <div className="flex items-center gap-1">
+          <span
+            className="rounded-full border px-2 font-mono-ui text-[11px] font-semibold"
+            style={{ color, borderColor: "var(--ground-line)" }}
+          >
+            {page.extra}°
+          </span>
+          {skew !== 0 && (
+            <span
+              className="inline-flex items-center gap-0.5 rounded-full border border-[var(--gold-dim)] px-1.5 font-mono-ui text-[10px] font-semibold text-[var(--gold)]"
+              title={t("Straighten", "តម្រង់")}
+            >
+              <Wand2 size={9} />{skew > 0 ? "+" : ""}{skew.toFixed(1)}°
+            </span>
+          )}
+        </div>
         <span className="min-h-[12px] font-mono-ui text-[9px] text-[var(--ink-faint)]">
           {page.confidence != null ? `conf ${page.confidence.toFixed(1)}` : page.note ?? ""}
         </span>
@@ -212,11 +310,12 @@ export default function RotationBench() {
   const [fileMeta, setFileMeta] = useState("");
   const [pages, setPages] = useState<PageState[]>([]);
   const [ocrEnabled, setOcrEnabled] = useState(true);
+  const [deskewOn, setDeskewOn] = useState(true);
   const [filter, setFilter] = useState<Filter>("all");
   const [selected, setSelected] = useState<Set<number>>(new Set());
   const [dragging, setDragging] = useState(false);
   const [progress, setProgress] = useState<{ text: string; count: string; pct: number; show: boolean }>({ text: "", count: "", pct: 0, show: false });
-  const [preview, setPreview] = useState<PageState | null>(null);
+  const [previewIndex, setPreviewIndex] = useState<number | null>(null);
   const [exporting, setExporting] = useState(false);
   const [retrying, setRetrying] = useState(false);
 
@@ -280,6 +379,7 @@ export default function RotationBench() {
         thumb: canvas.toDataURL("image/png"),
         ratio: canvas.width / canvas.height,
         extra: 0,
+        deskew: 0,
         status: "pending",
         confidence: null,
         note: null,
@@ -303,22 +403,19 @@ export default function RotationBench() {
     return workerPoolRef.current;
   }, []);
 
-  const runOsd = useCallback(async (worker: OsdWorker, pageIndex: number, targetPx: number, preprocess: boolean) => {
-    const raw = await renderPageAtScale(pageIndex, targetPx);
-    const input = preprocess ? preprocessForOsd(raw) : raw;
-    const { data } = await worker.detect(input);
-    return parseOsd(data);
-  }, [renderPageAtScale]);
-
   const detectOnePage = useCallback(async (worker: OsdWorker, index: number) => {
     try {
-      const base = await runOsd(worker, index, OSD_RENDER_PX, false);
+      // Render once at OSD resolution; the same canvas is reused (rotated) for
+      // the fine-skew measurement, so a confident page needs no extra render.
+      const baseCanvas = await renderPageAtScale(index, OSD_RENDER_PX);
+      const base = parseOsd((await worker.detect(baseCanvas)).data);
       let final = base;
       let note: string | null = null;
 
       const weak = base.deg === null || base.conf === null || base.conf < CONFIDENCE_THRESHOLD;
       if (weak && !stoppedRef.current) {
-        const retry = await runOsd(worker, index, OSD_RETRY_PX, true);
+        const retryCanvas = preprocessForOsd(await renderPageAtScale(index, OSD_RETRY_PX));
+        const retry = parseOsd((await worker.detect(retryCanvas)).data);
         if (base.deg !== null && retry.deg !== null && base.deg !== retry.deg) {
           // Low-res and high-res passes disagreed — that disagreement is itself
           // the signal; flag rather than pick one.
@@ -330,18 +427,21 @@ export default function RotationBench() {
       }
 
       if (final.deg === null || final.conf === null) {
-        updatePage(index, { status: "flagged", confidence: null, note });
+        updatePage(index, { status: "flagged", confidence: null, note, deskew: 0 });
       } else if (final.conf < CONFIDENCE_THRESHOLD) {
-        updatePage(index, { status: "flagged", confidence: final.conf, note: null });
-      } else if (final.deg === 0) {
-        updatePage(index, { status: "ok", confidence: final.conf, note: null });
+        updatePage(index, { status: "flagged", confidence: final.conf, note: null, deskew: 0 });
       } else {
-        updatePage(index, { status: "auto", confidence: final.conf, extra: ((final.deg % 360) + 360) % 360, note: null });
+        const extra = ((final.deg % 360) + 360) % 360;
+        // Measure skew on the orientation-corrected image so text is roughly
+        // horizontal before we look for tilt.
+        let deskew = 0;
+        try { deskew = estimateSkew(rotateCanvas(baseCanvas, extra)); } catch { deskew = 0; }
+        updatePage(index, { status: extra === 0 ? "ok" : "auto", confidence: final.conf, extra, deskew, note: null });
       }
     } catch {
-      updatePage(index, { status: "flagged", confidence: null, note: t("detection error", "កំហុសពិនិត្យ") });
+      updatePage(index, { status: "flagged", confidence: null, note: t("detection error", "កំហុសពិនិត្យ"), deskew: 0 });
     }
-  }, [runOsd, updatePage, t]);
+  }, [renderPageAtScale, updatePage, t]);
 
   // Runs `task` over `indices` across the whole worker pool concurrently.
   const runPooled = useCallback(async (indices: number[], pool: OsdWorker[], task: (index: number, worker: OsdWorker) => Promise<void>) => {
@@ -443,6 +543,13 @@ export default function RotationBench() {
     updatePage(index, (p) => ({ extra: (p.extra + 90) % 360, status: "manual", note: null }));
   }, [updatePage]);
 
+  // Fine skew adjustment from the preview overlay (delta in degrees; 0 resets).
+  const nudgeSkew = useCallback((index: number, delta: number) => {
+    updatePage(index, (p) => ({
+      deskew: delta === 0 ? 0 : Math.max(-SKEW_MAX_DEG, Math.min(SKEW_MAX_DEG, Math.round((p.deskew + delta) * 10) / 10)),
+    }));
+  }, [updatePage]);
+
   const toggleSelect = useCallback((index: number, checked: boolean) => {
     setSelected((prev) => {
       const next = new Set(prev);
@@ -473,21 +580,77 @@ export default function RotationBench() {
   }, [terminateWorkerPool]);
 
   /* ---- export ---- */
+
+  // Bakes a page's full correction (coarse 90° + fine skew) into an upright,
+  // straight raster at print resolution. Only used for pages that need a
+  // straighten, since this is the one step that can't be stored losslessly.
+  const renderCorrectedRaster = useCallback(async (index: number, extra: number, deskew: number) => {
+    const pageProxy = await pdfDocRef.current.getPage(index + 1);
+    const vp1 = pageProxy.getViewport({ scale: 1 });
+    const scale = EXPORT_RASTER_PX / Math.max(vp1.width, vp1.height);
+    const vp = pageProxy.getViewport({ scale });
+    const raw = document.createElement("canvas");
+    raw.width = Math.round(vp.width);
+    raw.height = Math.round(vp.height);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    await pageProxy.render({ canvasContext: raw.getContext("2d"), viewport: vp, canvas: raw } as any).promise;
+    const swap = extra === 90 || extra === 270;
+    const out = document.createElement("canvas");
+    out.width = swap ? raw.height : raw.width;
+    out.height = swap ? raw.width : raw.height;
+    const ctx = out.getContext("2d");
+    if (ctx) {
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, out.width, out.height);
+      ctx.translate(out.width / 2, out.height / 2);
+      ctx.rotate(((extra + deskew) * Math.PI) / 180);
+      ctx.drawImage(raw, -raw.width / 2, -raw.height / 2);
+    }
+    return { canvas: out, ptW: swap ? vp1.height : vp1.width, ptH: swap ? vp1.width : vp1.height };
+  }, []);
+
   const exportPdf = useCallback(async () => {
     if (!fileRef.current) return;
     setExporting(true);
     try {
       const bytes = await fileRef.current.arrayBuffer();
       const { PDFDocument, degrees } = await import("pdf-lib");
-      const doc = await PDFDocument.load(bytes, { ignoreEncryption: true });
-      const pdfPages = doc.getPages();
-      pages.forEach((p) => {
-        const target = pdfPages[p.index];
-        if (!target || p.extra % 360 === 0) return;
-        const current = target.getRotation().angle || 0;
-        target.setRotation(degrees((((current + p.extra) % 360) + 360) % 360));
-      });
-      const outBytes = await doc.save();
+      const src = await PDFDocument.load(bytes, { ignoreEncryption: true });
+      const straighten = new Set(pages.filter((p) => deskewOn && Math.abs(p.deskew) >= SKEW_MIN_DEG).map((p) => p.index));
+
+      let out = src;
+      if (straighten.size === 0) {
+        // Fully lossless: just rewrite /Rotate on the original document.
+        const pdfPages = src.getPages();
+        pages.forEach((p) => {
+          const target = pdfPages[p.index];
+          if (!target || p.extra % 360 === 0) return;
+          const current = target.getRotation().angle || 0;
+          target.setRotation(degrees((((current + p.extra) % 360) + 360) % 360));
+        });
+      } else {
+        // Hybrid: copy untouched pages losslessly (with /Rotate); rasterise only
+        // the pages that need a fine straighten.
+        out = await PDFDocument.create();
+        setProgress({ text: t("Building PDF…", "កំពុងបង្កើត PDF…"), count: "", pct: 0, show: true });
+        for (const p of pages) {
+          if (!straighten.has(p.index)) {
+            const [copied] = await out.copyPages(src, [p.index]);
+            if (p.extra % 360 !== 0) {
+              const current = copied.getRotation().angle || 0;
+              copied.setRotation(degrees((((current + p.extra) % 360) + 360) % 360));
+            }
+            out.addPage(copied);
+          } else {
+            const raster = await renderCorrectedRaster(p.index, p.extra, p.deskew);
+            const jpg = await out.embedJpg(raster.canvas.toDataURL("image/jpeg", 0.92));
+            const page = out.addPage([raster.ptW, raster.ptH]);
+            page.drawImage(jpg, { x: 0, y: 0, width: raster.ptW, height: raster.ptH });
+          }
+        }
+      }
+
+      const outBytes = await out.save();
       const blob = new Blob([outBytes as BlobPart], { type: "application/pdf" });
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
@@ -497,13 +660,14 @@ export default function RotationBench() {
       a.click();
       a.remove();
       setTimeout(() => URL.revokeObjectURL(url), 4000);
+      setProgress((s) => ({ ...s, show: false }));
       recordExport();
     } catch {
       setProgress({ text: t("Could not build the corrected PDF.", "មិនអាចបង្កើត PDF កែតម្រូវបានទេ។"), count: "", pct: 0, show: true });
     } finally {
       setExporting(false);
     }
-  }, [pages, t]);
+  }, [pages, deskewOn, renderCorrectedRaster, t]);
 
   const togglePause = useCallback(() => {
     setPaused((prev) => {
@@ -521,13 +685,15 @@ export default function RotationBench() {
   }, [handleFile]);
 
   const visiblePages = filter === "flagged" ? pages.filter((p) => p.status === "flagged") : pages;
+  const rasterCount = deskewOn ? pages.reduce((n, p) => n + (Math.abs(p.deskew) >= SKEW_MIN_DEG ? 1 : 0), 0) : 0;
+  const previewPage = previewIndex != null ? pages.find((p) => p.index === previewIndex) ?? null : null;
 
   return (
     <ToolShell
       title="Rotation Bench"
       khmerTitle="តុបង្វិលទំព័រ PDF"
-      description="Fix the orientation of a scanned PDF — pages are auto-checked and sideways or upside-down pages corrected, low-confidence pages are flagged for a click, and the corrected file is exported without re-scanning. Everything runs locally in your browser."
-      descriptionKm="កែទិសដៅនៃឯកសារ PDF ស្កេន — ទំព័រត្រូវពិនិត្យស្វ័យប្រវត្តិ ហើយទំព័រផ្ដេក ឬបញ្ច្រាសត្រូវកែ ទំព័រដែលមិនប្រាកដត្រូវសម្គាល់ឲ្យចុច រួចនាំចេញឯកសារកែតម្រូវដោយមិនស្កេនឡើងវិញ។ ដំណើរការទាំងស្រុងក្នុងកម្មវិធីរុករករបស់អ្នក។"
+      description="Fix the orientation and skew of a scanned PDF — sideways and upside-down pages are auto-corrected, crooked pages are straightened, low-confidence pages are flagged for a click, and the file is exported keeping every rotation-only page lossless. Everything runs locally in your browser."
+      descriptionKm="កែទិសដៅ និងភាពផ្អៀងនៃឯកសារ PDF ស្កេន — ទំព័រផ្ដេក និងបញ្ច្រាសត្រូវកែស្វ័យប្រវត្តិ ទំព័រផ្អៀងត្រូវតម្រង់ ទំព័រដែលមិនប្រាកដត្រូវសម្គាល់ឲ្យចុច រួចនាំចេញឯកសារដោយរក្សាទំព័របង្វិលៗឲ្យនៅគុណភាពដើម។ ដំណើរការទាំងស្រុងក្នុងកម្មវិធីរុករករបស់អ្នក។"
     >
       {phase === "intro" ? (
         <div className="mx-auto max-w-xl">
@@ -554,6 +720,7 @@ export default function RotationBench() {
             <div className="mt-3 space-y-1.5 text-[13px] leading-relaxed text-[var(--ink-dim)]">
               <p>{t("Adapted from an in-house HTML prototype and rebuilt on this app's shared components.", "កែសម្រួលពីគំរូ HTML ផ្ទៃក្នុង ហើយបង្កើតឡើងវិញលើសមាសភាគរួមរបស់កម្មវិធីនេះ។")}</p>
               <p>{t("Rendering: pdf.js (Apache-2.0, Mozilla). Rewriting: pdf-lib (MIT). Orientation detection: Tesseract.js OSD (Apache-2.0).", "ការបង្ហាញ: pdf.js (Apache-2.0, Mozilla)។ ការសរសេរឡើងវិញ: pdf-lib (MIT)។ ការពិនិត្យទិសដៅ: Tesseract.js OSD (Apache-2.0)។")}</p>
+              <p>{t("Skew detection is an independent implementation of the classic projection-profile method.", "ការពិនិត្យភាពផ្អៀងជាការអនុវត្តឯករាជ្យនៃវិធីសាស្ត្រ projection-profile ដ៏ល្បី។")}</p>
             </div>
           </details>
         </div>
@@ -569,6 +736,10 @@ export default function RotationBench() {
               <label className="flex cursor-pointer items-center gap-1.5 text-xs text-[var(--ink-dim)]">
                 <input type="checkbox" checked={ocrEnabled} onChange={(e) => setOcrEnabled(e.target.checked)} className="h-3.5 w-3.5 accent-[var(--gold)]" />
                 {t("Auto-detect with OCR", "ពិនិត្យស្វ័យប្រវត្តិ OCR")}
+              </label>
+              <label className="flex cursor-pointer items-center gap-1.5 text-xs text-[var(--ink-dim)]" title={t("Straighten pages tilted by a few degrees. Straightened pages are re-rendered as images on export.", "តម្រង់ទំព័រដែលផ្អៀងពីរបីដឺក្រេ។ ទំព័រដែលបានតម្រង់ត្រូវបង្ហាញឡើងវិញជារូបភាពពេលនាំចេញ។")}>
+                <input type="checkbox" checked={deskewOn} onChange={(e) => setDeskewOn(e.target.checked)} className="h-3.5 w-3.5 accent-[var(--gold)]" />
+                {t("Auto-straighten (deskew)", "តម្រង់ស្វ័យប្រវត្តិ")}
               </label>
               <button onClick={retryFlagged} disabled={stats.flagged === 0 || retrying} className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised-hi)] px-2.5 py-1.5 text-xs text-[var(--ink)] transition hover:border-[var(--gold-dim)] disabled:opacity-40">{t("Retry flagged", "ព្យាយាមឡើងវិញ")}</button>
               <button onClick={selectFlagged} disabled={stats.flagged === 0} className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised-hi)] px-2.5 py-1.5 text-xs text-[var(--ink)] transition hover:border-[var(--gold-dim)] disabled:opacity-40">{t("Select flagged", "ជ្រើសទំព័រសម្គាល់")}</button>
@@ -618,32 +789,53 @@ export default function RotationBench() {
             ) : (
               <div className="grid gap-4" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(130px, 1fr))" }}>
                 {visiblePages.map((p) => (
-                  <PageCard key={p.index} page={p} selected={selected.has(p.index)} onRotate={rotatePage} onToggleSelect={toggleSelect} onExpand={(i) => setPreview(pages[i])} />
+                  <PageCard key={p.index} page={p} selected={selected.has(p.index)} deskewOn={deskewOn} onRotate={rotatePage} onToggleSelect={toggleSelect} onExpand={setPreviewIndex} />
                 ))}
               </div>
             )}
           </div>
 
           {/* summary + export */}
-          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3 text-sm">
-            <span className="text-[var(--ink-dim)]"><b className="font-mono-ui text-[var(--ink)]">{stats.total}</b> {t("pages", "ទំព័រ")}</span>
-            <span className="text-[var(--ink-dim)]"><b className="font-mono-ui text-[var(--success)]">{stats.ok}</b> {t("auto-corrected", "កែស្វ័យប្រវត្តិ")}</span>
-            <span className="text-[var(--ink-dim)]"><b className="font-mono-ui text-[var(--danger)]">{stats.flagged}</b> {t("need a look", "ត្រូវពិនិត្យ")}</span>
-            <span className="text-[var(--ink-dim)]"><b className="font-mono-ui text-[var(--ink)]">{stats.manual}</b> {t("by hand", "ដោយដៃ")}</span>
-            <Button className="inline-flex items-center gap-2" onClick={exportPdf} disabled={stats.total === 0 || exporting}>
-              {exporting ? <Loader2 size={15} className="animate-spin" /> : <Download size={15} />}
-              {exporting ? t("Building PDF…", "កំពុងបង្កើត PDF…") : t("Export corrected PDF", "នាំចេញ PDF កែតម្រូវ")}
-            </Button>
+          <div className="rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3">
+            <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm">
+              <span className="text-[var(--ink-dim)]"><b className="font-mono-ui text-[var(--ink)]">{stats.total}</b> {t("pages", "ទំព័រ")}</span>
+              <span className="text-[var(--ink-dim)]"><b className="font-mono-ui text-[var(--success)]">{stats.ok}</b> {t("auto-corrected", "កែស្វ័យប្រវត្តិ")}</span>
+              <span className="text-[var(--ink-dim)]"><b className="font-mono-ui text-[var(--danger)]">{stats.flagged}</b> {t("need a look", "ត្រូវពិនិត្យ")}</span>
+              <span className="text-[var(--ink-dim)]"><b className="font-mono-ui text-[var(--ink)]">{stats.manual}</b> {t("by hand", "ដោយដៃ")}</span>
+              {rasterCount > 0 && <span className="text-[var(--ink-dim)]"><b className="font-mono-ui text-[var(--gold)]">{rasterCount}</b> {t("straightened", "តម្រង់")}</span>}
+              <Button className="inline-flex items-center gap-2" onClick={exportPdf} disabled={stats.total === 0 || exporting}>
+                {exporting ? <Loader2 size={15} className="animate-spin" /> : <Download size={15} />}
+                {exporting ? t("Building PDF…", "កំពុងបង្កើត PDF…") : t("Export corrected PDF", "នាំចេញ PDF កែតម្រូវ")}
+              </Button>
+            </div>
+            {rasterCount > 0 && (
+              <p className="mt-2 text-center text-[11px] leading-relaxed text-[var(--ink-faint)]">
+                {t(`${rasterCount} straightened page${rasterCount === 1 ? "" : "s"} will be re-rendered as an image on export; every other page stays lossless (rotation-only).`,
+                  `ទំព័រតម្រង់ ${rasterCount} នឹងត្រូវបង្ហាញឡើងវិញជារូបភាពពេលនាំចេញ; ទំព័រផ្សេងទៀតរក្សាគុណភាពដើម (បង្វិលតែប៉ុណ្ណោះ)។`)}
+              </p>
+            )}
           </div>
         </div>
       )}
 
       {/* preview overlay */}
-      {preview && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 p-8" onClick={() => setPreview(null)}>
-          <button className="absolute right-5 top-5 flex h-9 w-9 items-center justify-center rounded-full bg-[var(--ground-raised)] text-[var(--ink)]" onClick={() => setPreview(null)} aria-label={t("Close preview", "បិទ")}><X size={18} /></button>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={preview.thumb} alt="" style={{ maxWidth: "100%", maxHeight: "100%", transform: `rotate(${preview.extra}deg)`, background: "#fff" }} onClick={(e) => e.stopPropagation()} />
+      {previewPage && (
+        <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center gap-4 bg-black/80 p-8" onClick={() => setPreviewIndex(null)}>
+          <button className="absolute right-5 top-5 flex h-9 w-9 items-center justify-center rounded-full bg-[var(--ground-raised)] text-[var(--ink)]" onClick={() => setPreviewIndex(null)} aria-label={t("Close preview", "បិទ")}><X size={18} /></button>
+          <div className="flex min-h-0 flex-1 items-center justify-center">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={previewPage.thumb} alt="" style={{ maxWidth: "100%", maxHeight: "100%", transform: `rotate(${previewPage.extra + previewPage.deskew}deg)`, background: "#fff" }} onClick={(e) => e.stopPropagation()} />
+          </div>
+          <div className="flex flex-wrap items-center justify-center gap-2 rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)] p-2 text-sm" onClick={(e) => e.stopPropagation()}>
+            <span className="px-1 text-xs text-[var(--ink-dim)]">{t(`Page ${previewPage.index + 1}`, `ទំព័រ ${previewPage.index + 1}`)}</span>
+            <button onClick={() => rotatePage(previewPage.index)} className="inline-flex items-center gap-1 rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised-hi)] px-2.5 py-1.5 text-xs text-[var(--ink)] hover:border-[var(--gold-dim)]"><RotateCw size={12} />{t("Rotate 90°", "បង្វិល ៩០°")}</button>
+            <span className="mx-1 h-4 w-px bg-[var(--ground-line)]" />
+            <span className="text-xs text-[var(--ink-dim)]">{t("Straighten", "តម្រង់")}</span>
+            <button onClick={() => nudgeSkew(previewPage.index, -0.2)} className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised-hi)] px-2.5 py-1.5 text-xs text-[var(--ink)] hover:border-[var(--gold-dim)]" aria-label={t("Tilt left", "ផ្អៀងឆ្វេង")}><RotateCcw size={12} /></button>
+            <span className="w-14 text-center font-mono-ui text-xs font-semibold text-[var(--gold)]">{previewPage.deskew > 0 ? "+" : ""}{previewPage.deskew.toFixed(1)}°</span>
+            <button onClick={() => nudgeSkew(previewPage.index, 0.2)} className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised-hi)] px-2.5 py-1.5 text-xs text-[var(--ink)] hover:border-[var(--gold-dim)]" aria-label={t("Tilt right", "ផ្អៀងស្តាំ")}><RotateCw size={12} /></button>
+            <button onClick={() => nudgeSkew(previewPage.index, 0)} className="rounded-md px-2.5 py-1.5 text-xs text-[var(--ink-faint)] hover:text-[var(--ink)]">{t("Reset", "កំណត់ឡើងវិញ")}</button>
+          </div>
         </div>
       )}
     </ToolShell>

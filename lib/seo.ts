@@ -536,8 +536,8 @@ const TOOL_BLURBS: Record<string, ToolBlurb> = {
     km: "រចនាប័ណ្ណសម្គាល់បុគ្គលិក និងកាតព្រឹត្តិការណ៍ជាបាច់ — បន្ថែមរូបថត ជ្រើសប្លង់ ផ្ទៃខាងក្រោយ និងពុម្ពអក្សរ ភ្ជាប់កូដ QR ឬបាកូដ បន្ថែមផ្នែកខាងក្រោយ រួចនាំចេញជា PNG សន្លឹក A4 សម្រាប់បោះពុម្ព ឬ ZIP នៃកាតទាំងអស់។ នាំចូលមនុស្សពី CSV — ដំណើរការទាំងស្រុងក្នុងកម្មវិធីរុករក ជាមួយការគាំទ្រភាសាខ្មែរពេញលេញ។",
   },
   "rotation-bench": {
-    en: "Fix the orientation of a scanned PDF in your browser — every page is auto-checked with OCR orientation detection, sideways and upside-down pages are corrected automatically, and low-confidence pages are flagged for a one-click rotate (with bulk rotation too). The corrected file is exported by rewriting each page's rotation, so nothing is re-scanned and no quality is lost. Nothing is uploaded.",
-    km: "កែទិសដៅនៃឯកសារ PDF ស្កេនក្នុងកម្មវិធីរុករករបស់អ្នក — គ្រប់ទំព័រត្រូវពិនិត្យស្វ័យប្រវត្តិដោយ OCR ទំព័រផ្ដេក និងបញ្ច្រាសត្រូវកែស្វ័យប្រវត្តិ ហើយទំព័រដែលមិនប្រាកដត្រូវសម្គាល់ឲ្យចុចបង្វិលម្ដង (និងបង្វិលច្រើនក្នុងពេលតែមួយ)។ ឯកសារកែតម្រូវត្រូវនាំចេញដោយសរសេរទិសដៅទំព័រឡើងវិញ ដូច្នេះគ្មានការស្កេនឡើងវិញ និងគ្មានការបាត់បង់គុណភាព។ គ្មានអ្វីត្រូវផ្ទុកឡើងទេ។",
+    en: "Fix the orientation and skew of a scanned PDF in your browser — every page is auto-checked with OCR orientation detection, sideways and upside-down pages are corrected, crooked pages are auto-straightened (deskewed), and low-confidence pages are flagged for a one-click or bulk rotate. Rotation-only pages are exported losslessly by rewriting each page's rotation; only pages that need a fine straighten are re-rendered. Nothing is uploaded.",
+    km: "កែទិសដៅ និងភាពផ្អៀងនៃឯកសារ PDF ស្កេនក្នុងកម្មវិធីរុករករបស់អ្នក — គ្រប់ទំព័រត្រូវពិនិត្យស្វ័យប្រវត្តិដោយ OCR ទំព័រផ្ដេក និងបញ្ច្រាសត្រូវកែ ទំព័រផ្អៀងត្រូវតម្រង់ស្វ័យប្រវត្តិ ហើយទំព័រដែលមិនប្រាកដត្រូវសម្គាល់ឲ្យចុចបង្វិល (ម្ដង ឬច្រើន)។ ទំព័របង្វិលៗត្រូវនាំចេញដោយរក្សាគុណភាពដើម មានតែទំព័រដែលត្រូវតម្រង់ប៉ុណ្ណោះទើបបង្ហាញឡើងវិញ។ គ្មានអ្វីត្រូវផ្ទុកឡើងទេ។",
   },
   "yaml-formatter": {
     en: "Validate and pretty-print YAML configuration files with clear error locations, or minify them to JSON.",
@@ -1296,7 +1296,7 @@ const HOWTO_TOOLS: Record<string, string[]> = {
   "envelope-printer": ["Paste addresses separated by blank lines", "Choose DL, C6, or A4 label format", "Optionally add a sender block", "Download and print"],
   "event-ticket-sheet": ["Enter event title, date, venue, and price", "Set start number and quantity", "Add a QR link prefix if needed", "Download the numbered ticket sheets"],
   "id-card-studio": ["Add people (or import a CSV) and upload each photo", "Pick a layout, background, fonts, and colors in the Design and Type tabs", "Set the ID fields and choose a QR code or barcode", "Export the active card as PNG, or all cards as an A4 PDF or ZIP"],
-  "rotation-bench": ["Drop or choose a scanned PDF", "Wait while pages are read and orientation is auto-detected", "Click any flagged page to rotate it 90°, or select several and bulk-rotate", "Export the corrected PDF"],
+  "rotation-bench": ["Drop or choose a scanned PDF", "Wait while pages are read and orientation and skew are auto-detected", "Click any flagged page to rotate it 90°, or open a page to fine-tune its straighten", "Export the corrected PDF (rotation-only pages stay lossless)"],
   "khmer-lyrics": ["Pick Sample or paste your khlyrics JSON", "Search by title, artist, or lyric", "Select a song to read its lyrics", "Copy the lyrics to use elsewhere"],
   "site-forensics": ["Enter a domain or URL", "Click Inspect", "Review DNS, HTTP, WHOIS, IP, and Wayback sections", "Check the source note about live data"],
   "flight-route-planner": ["Type an origin IATA code or city name", "Pick the airport from the suggestions", "Do the same for the destination", "Read the route distance and estimated cruise time"],
