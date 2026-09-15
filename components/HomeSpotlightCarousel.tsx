@@ -1,13 +1,34 @@
 "use client";
 
-import { CloudSun, Coins, Fuel, Pause, Play } from "lucide-react";
+import { ArrowDown, ArrowUp, CloudSun, Coins, Fuel, Minus, Pause, Play } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useLanguage } from "@/components/LanguageProvider";
 import { CAMBODIA_PROVINCES } from "@/lib/cambodia-provinces";
 import { fetchMefExchangeRates, type MefCurrencyRate } from "@/lib/mef-exchange";
 import { fetchMefFuelPeriods } from "@/lib/mef-fuel";
 
-type FuelData = { gasoline92: number; diesel: number; effectiveAt: string };
+type FuelData = { gasoline92: number; diesel: number; gasoline92Change: number; dieselChange: number; effectiveAt: string };
+
+/** Small up/down indicator for a fuel price, driven by the real per-period
+ *  change value from the MEF/MoC source (up = pricier, shown red). */
+function FuelTrend({ change }: { change: number }) {
+  const { text: t } = useLanguage();
+  const up = change > 0;
+  const down = change < 0;
+  const Icon = up ? ArrowUp : down ? ArrowDown : Minus;
+  const cls = up ? "text-red-500" : down ? "text-emerald-600" : "text-[var(--ink-faint)]";
+  const label = up
+    ? t("Up from previous period", "កើនពីអំឡុងមុន")
+    : down
+      ? t("Down from previous period", "ធ្លាក់ពីអំឡុងមុន")
+      : t("Unchanged from previous period", "មិនប្រែប្រួលពីអំឡុងមុន");
+  return (
+    <span className={`mt-1 flex items-center gap-0.5 text-[10px] font-semibold ${cls}`} title={label} aria-label={label}>
+      <Icon size={11} aria-hidden />
+      {`${Math.abs(change).toLocaleString()} ៛`}
+    </span>
+  );
+}
 type WeatherRow = { name?: string; temp_c?: number; condition?: { text?: string }; humidity?: number; wind_kph?: number; uv?: number; us_epa_index?: number; pm2_5?: number };
 
 function number(value: unknown) {
@@ -35,13 +56,21 @@ export function HomeSpotlightCarousel() {
   const [rates, setRates] = useState<MefCurrencyRate[]>([]);
   const [weatherRows, setWeatherRows] = useState<WeatherRow[]>([]);
   const [weatherIndex, setWeatherIndex] = useState(0);
+  const [weatherPinned, setWeatherPinned] = useState(false);
+
+  // Manually choosing a province (dropdown or dot) stops the auto-rotation so
+  // the chosen location stays put.
+  const pickWeather = (index: number) => {
+    setWeatherIndex(index);
+    setWeatherPinned(true);
+  };
 
   useEffect(() => {
     const controller = new AbortController();
     void Promise.allSettled([
       fetchMefFuelPeriods({ signal: controller.signal }).then((periods) => {
         const current = periods[0];
-        if (current) setFuel({ gasoline92: current.gasoline92, diesel: current.diesel, effectiveAt: current.startDate });
+        if (current) setFuel({ gasoline92: current.gasoline92, diesel: current.diesel, gasoline92Change: current.gasoline92Change, dieselChange: current.dieselChange, effectiveAt: current.startDate });
       }),
       fetchMefExchangeRates({ signal: controller.signal }).then(setRates),
       Promise.allSettled(["weather", "uv", "aqi"].map((mode) => fetch(`https://data.mef.gov.kh/api/v1/realtime-api/${mode}`, { signal: controller.signal }).then(async (response) => (await response.json() as { data?: WeatherRow[] }).data ?? []))).then((results) => {
@@ -67,10 +96,10 @@ export function HomeSpotlightCarousel() {
   }, [paused]);
 
   useEffect(() => {
-    if (paused || weatherRows.length < 2) return;
+    if (paused || weatherPinned || weatherRows.length < 2) return;
     const timer = window.setInterval(() => setWeatherIndex((current) => (current + 1) % weatherRows.length), 4000);
     return () => window.clearInterval(timer);
-  }, [paused, weatherRows.length]);
+  }, [paused, weatherPinned, weatherRows.length]);
 
   const usd = rates.find((rate) => rate.code === "USD") ?? rates[0];
   const weather = weatherRows[weatherIndex] ?? null;
@@ -97,8 +126,8 @@ export function HomeSpotlightCarousel() {
             <>
               <div className="mb-2 flex items-center gap-2 font-khmer text-base font-bold text-[var(--ink)]"><Fuel size={18} className="text-amber-600" /> {t("Fuel Prices", "តម្លៃប្រេង")}</div>
               <div className="grid grid-cols-2 gap-2">
-                <div className="rounded-lg bg-amber-500/10 p-2"><p className="text-[10px] text-[var(--ink-faint)]">{t("Gasoline 92", "សាំង 92")}</p><p className="mt-1 font-mono-ui text-sm font-bold text-[var(--ink)]">{fuel ? `${fuel.gasoline92.toLocaleString()} ៛` : "—"}</p></div>
-                <div className="rounded-lg bg-amber-500/10 p-2"><p className="text-[10px] text-[var(--ink-faint)]">{t("Diesel", "ម៉ាស៊ូត")}</p><p className="mt-1 font-mono-ui text-sm font-bold text-[var(--ink)]">{fuel ? `${fuel.diesel.toLocaleString()} ៛` : "—"}</p></div>
+                <div className="rounded-lg bg-amber-500/10 p-2"><p className="text-[10px] text-[var(--ink-faint)]">{t("Gasoline 92", "សាំង 92")}</p><p className="mt-1 font-mono-ui text-sm font-bold text-[var(--ink)]">{fuel ? `${fuel.gasoline92.toLocaleString()} ៛` : "—"}</p>{fuel && <FuelTrend change={fuel.gasoline92Change} />}</div>
+                <div className="rounded-lg bg-amber-500/10 p-2"><p className="text-[10px] text-[var(--ink-faint)]">{t("Diesel", "ម៉ាស៊ូត")}</p><p className="mt-1 font-mono-ui text-sm font-bold text-[var(--ink)]">{fuel ? `${fuel.diesel.toLocaleString()} ៛` : "—"}</p>{fuel && <FuelTrend change={fuel.dieselChange} />}</div>
               </div>
               <p className="mt-2 text-[10px] text-[var(--ink-faint)]">{fuel ? new Date(fuel.effectiveAt).toLocaleDateString() : t("Loading…", "កំពុងទាញយក…")}</p>
             </>
@@ -114,12 +143,26 @@ export function HomeSpotlightCarousel() {
         </article>
 
         <article className="home-spotlight-card pointer-events-auto w-full rounded-2xl border border-blue-500/25 bg-[var(--ground-raised)] p-4 shadow-sm sm:max-w-none xl:w-64" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
-          <div className="home-spotlight-heading mb-3 flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-blue-600"><CloudSun size={15} /> {t("Weather · All types", "អាកាសធាតុ · គ្រប់ប្រភេទ")}</div>
+          <div className="home-spotlight-heading mb-3 flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-blue-600"><CloudSun size={15} /> {t("Weather", "អាកាសធាតុ")}</div>
+            {weatherRows.length > 0 && (
+              <select
+                value={weatherIndex}
+                onChange={(event) => pickWeather(Number(event.target.value))}
+                aria-label={t("Choose province", "ជ្រើសខេត្ត")}
+                className="max-w-[8.5rem] cursor-pointer truncate rounded-md border border-blue-500/30 bg-[var(--ground)] px-1.5 py-0.5 text-[11px] font-medium normal-case tracking-normal text-[var(--ink)] outline-none focus:border-blue-500"
+              >
+                {weatherRows.map((row, index) => (
+                  <option key={String(row.name)} value={index}>{t(String(row.name), khmerLocation(String(row.name)))}</option>
+                ))}
+              </select>
+            )}
+          </div>
           <div className="mb-2 flex items-center justify-between"><p className="font-khmer text-base font-bold text-[var(--ink)]">{weather?.name ? t(String(weather.name), khmerLocation(String(weather.name))) : t("Loading…", "កំពុងទាញយក…")}</p><p className="home-spotlight-value font-mono-ui text-xl font-bold text-[var(--ink)]">{weatherValues[0][1]}</p></div>
           <p className="mb-3 truncate text-xs text-[var(--ink-dim)]">{weatherValues[1][1]}</p>
           <div className="home-spotlight-detail-grid grid grid-cols-2 gap-x-3 gap-y-2">{weatherValues.slice(2).map(([label, value]) => <div key={label}><p className="text-[10px] text-[var(--ink-faint)]">{label}</p><p className="font-mono-ui text-xs font-bold text-[var(--ink)]">{value}</p></div>)}</div>
           {!weather && <p className="mt-3 text-[10px] text-[var(--ink-faint)]">{t("Loading live data…", "កំពុងទាញទិន្នន័យ…")}</p>}
-          {weatherRows.length > 1 && <div className="home-spotlight-location-dots mt-3 flex max-w-full flex-wrap gap-0.5" aria-label={t("Weather locations", "ទីតាំងអាកាសធាតុ")}>{weatherRows.map((row, index) => <button key={row.name} type="button" onClick={() => setWeatherIndex(index)} className="group flex h-4 w-3 items-center justify-center" aria-label={String(row.name)} title={t(String(row.name), khmerLocation(String(row.name)))}><span className={`h-1 rounded-full transition-all ${index === weatherIndex ? "w-3 bg-blue-600" : "w-1 bg-blue-600/30 group-hover:w-2"}`} /></button>)}</div>}
+          {weatherRows.length > 1 && <div className="home-spotlight-location-dots mt-3 flex max-w-full flex-wrap gap-0.5" aria-label={t("Weather locations", "ទីតាំងអាកាសធាតុ")}>{weatherRows.map((row, index) => <button key={row.name} type="button" onClick={() => pickWeather(index)} className="group flex h-4 w-3 items-center justify-center" aria-label={String(row.name)} title={t(String(row.name), khmerLocation(String(row.name)))}><span className={`h-1 rounded-full transition-all ${index === weatherIndex ? "w-3 bg-blue-600" : "w-1 bg-blue-600/30 group-hover:w-2"}`} /></button>)}</div>}
         </article>
       </div>
     </section>

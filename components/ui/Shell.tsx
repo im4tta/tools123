@@ -48,7 +48,8 @@ export function ToolShell({
             <span lang="km" className="font-khmer text-lg text-[var(--gold)]">{resolvedKhmerTitle}</span>
           )}
         </div>
-        <p className="mt-2 text-sm leading-relaxed text-[var(--ink-dim)]">{localizedDescription}</p>
+        <div aria-hidden className="mt-3 h-[3px] w-10 rounded-full bg-gradient-to-r from-[var(--gold)] to-transparent" />
+        <p className="mt-3 text-sm leading-relaxed text-[var(--ink-dim)]">{localizedDescription}</p>
       </header>
       <div className="space-y-5">{children}</div>
     </div>

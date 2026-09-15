@@ -531,6 +531,14 @@ const TOOL_BLURBS: Record<string, ToolBlurb> = {
     en: "Generate numbered event tickets with tear lines and optional QR codes on print-ready A4 sheets.",
     km: "បង្កើតសំបុត្រលេខរៀង ជាមួយបន្ទាត់បោះ និងកូដ QR បើចង់បាន — ទម្រង់ A4។",
   },
+  "id-card-studio": {
+    en: "Design staff ID badges and event cards in batches — add photos, pick a layout, background and fonts, attach a QR code or barcode, add a back side, then export a PNG, a print-ready A4 PDF, or a ZIP of every card. Import people from CSV; everything runs locally in your browser with full Khmer support.",
+    km: "រចនាប័ណ្ណសម្គាល់បុគ្គលិក និងកាតព្រឹត្តិការណ៍ជាបាច់ — បន្ថែមរូបថត ជ្រើសប្លង់ ផ្ទៃខាងក្រោយ និងពុម្ពអក្សរ ភ្ជាប់កូដ QR ឬបាកូដ បន្ថែមផ្នែកខាងក្រោយ រួចនាំចេញជា PNG សន្លឹក A4 សម្រាប់បោះពុម្ព ឬ ZIP នៃកាតទាំងអស់។ នាំចូលមនុស្សពី CSV — ដំណើរការទាំងស្រុងក្នុងកម្មវិធីរុករក ជាមួយការគាំទ្រភាសាខ្មែរពេញលេញ។",
+  },
+  "rotation-bench": {
+    en: "Fix the orientation and skew of a scanned PDF in your browser — every page is auto-checked with OCR orientation detection, sideways and upside-down pages are corrected, crooked pages are auto-straightened (deskewed), and low-confidence pages are flagged for a one-click or bulk rotate. Rotation-only pages are exported losslessly by rewriting each page's rotation; only pages that need a fine straighten are re-rendered. Nothing is uploaded.",
+    km: "កែទិសដៅ និងភាពផ្អៀងនៃឯកសារ PDF ស្កេនក្នុងកម្មវិធីរុករករបស់អ្នក — គ្រប់ទំព័រត្រូវពិនិត្យស្វ័យប្រវត្តិដោយ OCR ទំព័រផ្ដេក និងបញ្ច្រាសត្រូវកែ ទំព័រផ្អៀងត្រូវតម្រង់ស្វ័យប្រវត្តិ ហើយទំព័រដែលមិនប្រាកដត្រូវសម្គាល់ឲ្យចុចបង្វិល (ម្ដង ឬច្រើន)។ ទំព័របង្វិលៗត្រូវនាំចេញដោយរក្សាគុណភាពដើម មានតែទំព័រដែលត្រូវតម្រង់ប៉ុណ្ណោះទើបបង្ហាញឡើងវិញ។ គ្មានអ្វីត្រូវផ្ទុកឡើងទេ។",
+  },
   "yaml-formatter": {
     en: "Validate and pretty-print YAML configuration files with clear error locations, or minify them to JSON.",
     km: "ផ្ទៀងផ្ទាត់ និងរៀបចំទម្រង់ YAML ឱ្យស្អាត ជាមួយទីតាំងកំហុសច្បាស់លាស់ ឬបង្រួមជា JSON។",
@@ -1287,6 +1295,8 @@ const HOWTO_TOOLS: Record<string, string[]> = {
   "certificate-generator": ["Enter organisation, award line, and date", "Paste recipient names (one per line)", "Pick a font and border color", "Download one PDF with a page per recipient"],
   "envelope-printer": ["Paste addresses separated by blank lines", "Choose DL, C6, or A4 label format", "Optionally add a sender block", "Download and print"],
   "event-ticket-sheet": ["Enter event title, date, venue, and price", "Set start number and quantity", "Add a QR link prefix if needed", "Download the numbered ticket sheets"],
+  "id-card-studio": ["Add people (or import a CSV) and upload each photo", "Pick a layout, background, fonts, and colors in the Design and Type tabs", "Set the ID fields and choose a QR code or barcode", "Export the active card as PNG, or all cards as an A4 PDF or ZIP"],
+  "rotation-bench": ["Drop or choose a scanned PDF", "Wait while pages are read and orientation and skew are auto-detected", "Click any flagged page to rotate it 90°, or open a page to fine-tune its straighten", "Export the corrected PDF (rotation-only pages stay lossless)"],
   "khmer-lyrics": ["Pick Sample or paste your khlyrics JSON", "Search by title, artist, or lyric", "Select a song to read its lyrics", "Copy the lyrics to use elsewhere"],
   "site-forensics": ["Enter a domain or URL", "Click Inspect", "Review DNS, HTTP, WHOIS, IP, and Wayback sections", "Check the source note about live data"],
   "flight-route-planner": ["Type an origin IATA code or city name", "Pick the airport from the suggestions", "Do the same for the destination", "Read the route distance and estimated cruise time"],
