@@ -5,6 +5,7 @@ import { ToolShell, Field, TextArea, Select, Row } from "@/components/ui/Shell";
 import { Button } from "@/components/ui/Output";
 import { CopyButton } from "@/components/CopyButton";
 import { recordExport, getWatermarkEnabled, drawWatermark } from "@/lib/export";
+import { downloadBlob } from "@/lib/download";
 import { useToolState } from "@/lib/storage";
 import { useLanguage } from "@/components/LanguageProvider";
 
@@ -178,11 +179,7 @@ export default function WordSearchGenerator() {
     if (getWatermarkEnabled()) drawWatermark(ctx, canvas.width, canvas.height);
     canvas.toBlob((blob) => {
       if (!blob) return;
-      const a = document.createElement("a");
-      a.href = URL.createObjectURL(blob);
-      a.download = "word-search.png";
-      a.click();
-      URL.revokeObjectURL(a.href);
+      downloadBlob(blob, "word-search.png");
       recordExport();
     }, "image/png");
   };

@@ -4,6 +4,7 @@ import { Download, Eraser, Upload } from "lucide-react";
 import { ToolShell, Field, Select, Row } from "@/components/ui/Shell";
 import { Button } from "@/components/ui/Output";
 import { useToolState } from "@/lib/storage";
+import { downloadBlob } from "@/lib/download";
 import { useLanguage } from "@/components/LanguageProvider";
 
 interface Art {
@@ -253,11 +254,7 @@ export default function PixelArtGenerator() {
     if (!canvas) return;
     canvas.toBlob((blob) => {
       if (!blob) return;
-      const a = document.createElement("a");
-      a.href = URL.createObjectURL(blob);
-      a.download = "pixel-art.png";
-      a.click();
-      setTimeout(() => URL.revokeObjectURL(a.href), 5000);
+      downloadBlob(blob, "pixel-art.png");
     }, "image/png");
   }
 

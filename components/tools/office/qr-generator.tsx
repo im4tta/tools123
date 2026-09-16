@@ -6,6 +6,7 @@ import { ToolShell, Field, TextInput, TextArea, Select, Row } from "@/components
 import { Button, Output } from "@/components/ui/Output";
 import { CopyButton } from "@/components/CopyButton";
 import { useToolState } from "@/lib/storage";
+import { downloadBlob, downloadDataUrl } from "@/lib/download";
 import { useLanguage } from "@/components/LanguageProvider";
 import { recordExport, watermarkImageDataUrl } from "@/lib/export";
 
@@ -1024,10 +1025,7 @@ export default function QrGenerator() {
     if (!octx) return;
     renderCanvas(octx, 2048, matrix, opts, logoImage, gmapsAsset?.img ?? null);
     const dataUrl = await watermarkImageDataUrl(out.toDataURL("image/png"), "image/png", includeWatermark);
-    const a = document.createElement("a");
-    a.href = dataUrl;
-    a.download = "qr-code.png";
-    a.click();
+    downloadDataUrl(dataUrl, "qr-code.png");
     recordExport();
   }
 
@@ -1035,12 +1033,7 @@ export default function QrGenerator() {
     if (!matrix) return;
     const source = buildSvg(2048, matrix, opts, s.social, s.logo, gmapsAsset?.dataUrl ?? null);
     const blob = new Blob([source], { type: "image/svg+xml" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "qr-code.svg";
-    a.click();
-    URL.revokeObjectURL(url);
+    downloadBlob(blob, "qr-code.svg");
     recordExport();
   }
 

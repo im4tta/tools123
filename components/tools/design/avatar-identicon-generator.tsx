@@ -4,6 +4,7 @@ import { Output, Button } from "@/components/ui/Output";
 import { useToolState } from "@/lib/storage";
 import { useLanguage } from "@/components/LanguageProvider";
 import { recordExport } from "@/lib/export";
+import { downloadDataUrl } from "@/lib/download";
 
 /** FNV-1a 32-bit hash (Fowler–Noll–Vo, public domain) — deterministic per string. */
 function fnv1a(str: string): number {
@@ -88,10 +89,7 @@ export default function AvatarIdenticonGenerator() {
     const ctx = canvas.getContext("2d");
     if (ctx) {
       ctx.drawImage(img, 0, 0, size, size);
-      const a = document.createElement("a");
-      a.href = canvas.toDataURL("image/png");
-      a.download = isInitials ? "avatar.png" : "identicon.png";
-      a.click();
+      downloadDataUrl(canvas.toDataURL("image/png"), isInitials ? "avatar.png" : "identicon.png");
       recordExport();
     }
     URL.revokeObjectURL(url);

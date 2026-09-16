@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { ToolShell, Field, Select, Row } from "@/components/ui/Shell";
 import { Button } from "@/components/ui/Output";
 import { useToolState } from "@/lib/storage";
+import { downloadDataUrl } from "@/lib/download";
 import { useLanguage } from "@/components/LanguageProvider";
 import { recordExport } from "@/lib/export";
 
@@ -69,10 +70,7 @@ export default function WebcamPhotoBooth() {
   }
 
   function downloadShot(url: string, index: number) {
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `photo-booth-${index + 1}.png`;
-    a.click();
+    downloadDataUrl(url, `photo-booth-${index + 1}.png`);
     recordExport();
   }
 

@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { ToolShell, Field, TextInput, TextArea } from "@/components/ui/Shell";
 import { useLanguage } from "@/components/LanguageProvider";
+import { downloadDataUrl } from "@/lib/download";
 import { useToolState } from "@/lib/storage";
 import { recordExport, watermarkImageDataUrl } from "@/lib/export";
 
@@ -257,10 +258,7 @@ export default function SocialPostGeneratorTool() {
       const canvas = await html2canvas(node, { scale: 2, useCORS: true, backgroundColor: null, logging: false });
       const url = canvas.toDataURL("image/png");
       const watermarked = await watermarkImageDataUrl(url, "image/png");
-      const a = document.createElement("a");
-      a.href = watermarked;
-      a.download = `social-post-${platform}.png`;
-      a.click();
+      downloadDataUrl(watermarked, `social-post-${platform}.png`);
       recordExport();
     } catch (err) {
       console.error("Social post export failed", err);

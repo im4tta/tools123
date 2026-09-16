@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { Download, Upload } from "lucide-react";
 import { ToolShell, TextArea, TextInput, Field, Row } from "@/components/ui/Shell";
 import { useToolState } from "@/lib/storage";
+import { downloadDataUrl } from "@/lib/download";
 import { useLanguage } from "@/components/LanguageProvider";
 import { recordExport, watermarkImageDataUrl } from "@/lib/export";
 
@@ -87,10 +88,7 @@ export default function SvgToPng() {
   async function download() {
     if (!result) return;
     const watermarked = await watermarkImageDataUrl(result, "image/png");
-    const a = document.createElement("a");
-    a.href = watermarked;
-    a.download = "image.png";
-    a.click();
+    downloadDataUrl(watermarked, "image.png");
     recordExport();
   }
 
