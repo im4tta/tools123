@@ -4,11 +4,13 @@ import { Download } from "lucide-react";
 
 import { BeforeAfterSlider } from "@/components/ui/BeforeAfterSlider";
 import { ToolShell, Field, Select } from "@/components/ui/Shell";
+import { useLanguage } from "@/components/LanguageProvider";
 import { Button } from "@/components/ui/Output";
 
 type Quality = "isnet_fp16" | "isnet" | "isnet_quint8";
 
 export default function BackgroundRemoverTool() {
+  const { text: t } = useLanguage();
   const [file, setFile] = useState<File | null>(null);
   const [originalUrl, setOriginalUrl] = useState<string | null>(null);
   const [resultUrl, setResultUrl] = useState<string | null>(null);
@@ -92,6 +94,13 @@ export default function BackgroundRemoverTool() {
           <img src={originalUrl} alt="Original" className="max-h-72 w-full rounded-md border border-[var(--ground-line)] object-contain" />
         </div>
       ) : null}
+      <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3 text-xs leading-relaxed text-[var(--ink-dim)]">
+        <div className="mb-1 font-medium text-[var(--ink)]">{t("Source & Credits", "ប្រភព និងការអរគុណ")}</div>
+        <ul className="list-inside list-disc space-y-0.5">
+          <li>{t("Background removal runs an AI model in your browser via @imgly/background-removal.", "ការលុបផ្ទៃខាងក្រោយដំណើរការគំរូ AI ក្នុងកម្មវិធីរុករករបស់អ្នកតាម @imgly/background-removal។")}</li>
+          <li>{t("Original Tools123 implementation; images are processed locally and never uploaded.", "ការសរសេរដើមរបស់ Tools123; រូបភាពត្រូវដំណើរការក្នុងម៉ាស៊ីន ហើយមិនផ្ទុកឡើងទេ។")}</li>
+        </ul>
+      </div>
     </ToolShell>
   );
 }

@@ -521,6 +521,13 @@ export default function NidCardPrintFormatter() {
 
       {/* Print styles */}
       <style>{`@media print { body * { visibility: hidden !important; } .print-section, .print-section * { visibility: visible !important; } .print-section { position: absolute; left: 0; top: 0; width: 100%; margin: 0; padding: 0; } .a4-preview { box-shadow: none !important; margin: 0 !important; padding: 1cm !important; width: 21cm !important; min-height: 29.7cm !important; } .card-layout-container { gap: 0.5cm !important; justify-content: flex-start !important; } }`}</style>
+      <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3 text-xs leading-relaxed text-[var(--ink-dim)]">
+        <div className="mb-1 font-medium text-[var(--ink)]">{text("Source & Credits", "ប្រភព និងការអរគុណ")}</div>
+        <ul className="list-inside list-disc space-y-0.5">
+          <li>{text("Word (.docx) export: docx (MIT). PDF export: jsPDF (MIT).", "នាំចេញ Word (.docx): docx (MIT)។ នាំចេញ PDF: jsPDF (MIT)។")}</li>
+          <li>{text("Original Tools123 implementation; images are processed locally and never uploaded.", "ការសរសេរដើមរបស់ Tools123; រូបភាពត្រូវដំណើរការក្នុងម៉ាស៊ីន ហើយមិនផ្ទុកឡើងទេ។")}</li>
+        </ul>
+      </div>
     </ToolShell>
   );
 }

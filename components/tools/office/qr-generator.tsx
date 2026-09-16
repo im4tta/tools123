@@ -1369,6 +1369,13 @@ export default function QrGenerator() {
       <p className="text-xs text-[var(--ink-faint)]">
         {text("QR scanning powered by jsQR (MIT) — github.com/cozmo/jsQR. QR generation by qrcode-generator (MIT).", "ការអាន QR ដោយប្រើ jsQR (MIT) — github.com/cozmo/jsQR។ ការបង្កើត QR ដោយ qrcode-generator (MIT)។")}
       </p>
+      <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3 text-xs leading-relaxed text-[var(--ink-dim)]">
+        <div className="mb-1 font-medium text-[var(--ink)]">{text("Source & Credits", "ប្រភព និងការអរគុណ")}</div>
+        <ul className="list-inside list-disc space-y-0.5">
+          <li>{text("Location picker: Leaflet (BSD-2-Clause) + OpenStreetMap tiles (© OpenStreetMap contributors). QR image decoding: jsQR (Apache-2.0).", "ឧបករណ៍ជ្រើសទីតាំង: Leaflet (BSD-2-Clause) + ផ្ទាំង OpenStreetMap (© អ្នករួមចំណែក OpenStreetMap)។ ការឌិកូដរូប QR: jsQR (Apache-2.0)។")}</li>
+          <li>{text("Original Tools123 implementation; QR codes are generated locally in your browser.", "ការសរសេរដើមរបស់ Tools123; កូដ QR ត្រូវបង្កើតក្នុងកម្មវិធីរុករករបស់អ្នក។")}</li>
+        </ul>
+      </div>
     </ToolShell>
   );
 }

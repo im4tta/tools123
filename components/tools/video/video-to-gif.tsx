@@ -2,6 +2,7 @@
 import { useRef, useState } from "react";
 import { Download } from "lucide-react";
 import { ToolShell, Field, Select, Row } from "@/components/ui/Shell";
+import { useLanguage } from "@/components/LanguageProvider";
 import { Button } from "@/components/ui/Output";
 import { useToolState } from "@/lib/storage";
 
@@ -12,6 +13,7 @@ interface Settings {
 }
 
 export default function VideoToGifTool() {
+  const { text: t } = useLanguage();
   const [s, setS] = useToolState<Settings>("video-to-gif", { fps: 10, width: 480, quality: 10 });
   const update = (patch: Partial<Settings>) => setS((prev) => ({ ...prev, ...patch }));
 
@@ -174,6 +176,13 @@ export default function VideoToGifTool() {
           )}
         </>
       )}
+      <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3 text-xs leading-relaxed text-[var(--ink-dim)]">
+        <div className="mb-1 font-medium text-[var(--ink)]">{t("Source & Credits", "ប្រភព និងការអរគុណ")}</div>
+        <ul className="list-inside list-disc space-y-0.5">
+          <li>{t("Animated GIF encoding: gif.js (MIT).", "ការអ៊ិនកូដ GIF មានចលនា: gif.js (MIT)។")}</li>
+          <li>{t("Original Tools123 implementation; video is processed locally and never uploaded.", "ការសរសេរដើមរបស់ Tools123; វីដេអូត្រូវដំណើរការក្នុងម៉ាស៊ីន ហើយមិនផ្ទុកឡើងទេ។")}</li>
+        </ul>
+      </div>
     </ToolShell>
   );
 }

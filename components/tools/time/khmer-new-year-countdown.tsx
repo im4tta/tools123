@@ -108,6 +108,13 @@ export default function KhmerNewYearCountdown() {
       <p className="text-xs text-[var(--ink-dim)]">
         {t("The animal year and Songkran moment follow the traditional Khmer lunisolar calendar (same calculation as the Khmer Full Lunar Date tool). The exact holiday dates are announced officially by the authorities each year.", "ឆ្នាំសត្វ និងពេលសង្រ្កាន្ត អនុវត្តតាមប្រតិទិនចន្ទគតិខ្មែរ (ក្បួនគណនាដូចគ្នានឹងឧបករណ៍ប្រតិទិនចន្ទគតិខ្មែរពេញលេញ)។ កាលបរិច្ឆេទបុណ្យផ្លូវការត្រូវប្រកាសដោយអាជ្ញាធររាល់ឆ្នាំ។")}
       </p>
+      <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3 text-xs leading-relaxed text-[var(--ink-dim)]">
+        <div className="mb-1 font-medium text-[var(--ink)]">{t("Source & Credits", "ប្រភព និងការអរគុណ")}</div>
+        <ul className="list-inside list-disc space-y-0.5">
+          <li>{t("Khmer lunar-date conversion: momentkh (Thyrith Sothearoth).", "ការបម្លែងកាលបរិច្ឆេទចន្ទគតិខ្មែរ: momentkh (ធីរិទ្ធ សុធារ៉ុត)។")}</li>
+          <li>{t("Original Tools123 implementation; runs locally in your browser.", "ការសរសេរដើមរបស់ Tools123; ដំណើរការក្នុងកម្មវិធីរុករករបស់អ្នក។")}</li>
+        </ul>
+      </div>
     </ToolShell>
   );
 }

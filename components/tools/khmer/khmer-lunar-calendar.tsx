@@ -145,6 +145,13 @@ export default function KhmerLunarCalendar() {
       <p className="text-xs text-[var(--ink-dim)]">
         {t("Approximate: computed in your browser from the traditional astronomical tables; individual editions of the Khmer calendar can differ by a day, and official holiday dates are announced by the authorities each year.", "ប្រហាក់ប្រហែល៖ គណនាក្នុងឧបករណ៍របស់អ្នកតាមតារាងតារាសាស្ត្រប្រពៃណី ប្រតិទិននីមួយៗអាចខុសមួយថ្ងៃ ហើយកាលបរិច្ឆេទបុណ្យផ្លូវការត្រូវប្រកាសដោយអាជ្ញាធររាល់ឆ្នាំ។")}
       </p>
+      <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3 text-xs leading-relaxed text-[var(--ink-dim)]">
+        <div className="mb-1 font-medium text-[var(--ink)]">{t("Source & Credits", "ប្រភព និងការអរគុណ")}</div>
+        <ul className="list-inside list-disc space-y-0.5">
+          <li>{t("Khmer lunar-date conversion: momentkh (Thyrith Sothearoth).", "ការបម្លែងកាលបរិច្ឆេទចន្ទគតិខ្មែរ: momentkh (ធីរិទ្ធ សុធារ៉ុត)។")}</li>
+          <li>{t("Original Tools123 implementation; runs locally in your browser.", "ការសរសេរដើមរបស់ Tools123; ដំណើរការក្នុងកម្មវិធីរុករករបស់អ្នក។")}</li>
+        </ul>
+      </div>
     </ToolShell>
   );
 }

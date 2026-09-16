@@ -100,6 +100,13 @@ export default function QrBatch() {
           </div>
         )}
       </div>
+      <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3 text-xs leading-relaxed text-[var(--ink-dim)]">
+        <div className="mb-1 font-medium text-[var(--ink)]">{t("Source & Credits", "ប្រភព និងការអរគុណ")}</div>
+        <ul className="list-inside list-disc space-y-0.5">
+          <li>{t("ZIP packaging: JSZip (MIT/GPL).", "ការខ្ចប់ ZIP: JSZip (MIT/GPL)។")}</li>
+          <li>{t("Original Tools123 implementation; QR codes are generated locally in your browser.", "ការសរសេរដើមរបស់ Tools123; កូដ QR ត្រូវបង្កើតក្នុងកម្មវិធីរុករករបស់អ្នក។")}</li>
+        </ul>
+      </div>
     </ToolShell>
   );
 }

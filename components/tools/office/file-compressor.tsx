@@ -2,6 +2,7 @@
 import { useRef, useState } from "react";
 import { Download, FileText, Image as ImageIcon, Package, X } from "lucide-react";
 import { ToolShell, Field, Select, Row } from "@/components/ui/Shell";
+import { useLanguage } from "@/components/LanguageProvider";
 import { Button } from "@/components/ui/Output";
 import { loadPdfJs, formatBytes } from "@/lib/pdfjs";
 import { useToolState } from "@/lib/storage";
@@ -155,6 +156,7 @@ async function compressPdf(file: File, s: Settings) {
 }
 
 export default function FileCompressorTool() {
+  const { text: t } = useLanguage();
   const [s, setS] = useToolState<Settings>("file-compressor", initial);
   const update = (patch: Partial<Settings>) => setS((prev) => ({ ...prev, ...patch, preset: "custom" }));
   const applyPreset = (p: Exclude<Preset, "custom">) => setS((prev) => ({ ...prev, preset: p, scale: PRESETS[p].scale, quality: PRESETS[p].quality }));
@@ -329,6 +331,13 @@ export default function FileCompressorTool() {
           </div>
         </div>
       )}
+      <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3 text-xs leading-relaxed text-[var(--ink-dim)]">
+        <div className="mb-1 font-medium text-[var(--ink)]">{t("Source & Credits", "ប្រភព និងការអរគុណ")}</div>
+        <ul className="list-inside list-disc space-y-0.5">
+          <li>{t("ZIP archives: JSZip (MIT/GPL). PDF handling: pdf-lib (MIT).", "ប័ណ្ណសារ ZIP: JSZip (MIT/GPL)។ ការដោះស្រាយ PDF: pdf-lib (MIT)។")}</li>
+          <li>{t("Original Tools123 implementation; files are processed locally and never uploaded.", "ការសរសេរដើមរបស់ Tools123; ឯកសារត្រូវដំណើរការក្នុងម៉ាស៊ីន ហើយមិនផ្ទុកឡើងទេ។")}</li>
+        </ul>
+      </div>
     </ToolShell>
   );
 }

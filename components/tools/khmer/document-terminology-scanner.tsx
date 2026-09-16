@@ -154,6 +154,13 @@ export default function DocumentTerminologyScanner() {
           <section className="rounded-2xl border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4"><h2 className="mb-3 font-display text-lg font-semibold text-[var(--ink)]">{t("Terminology report", "របាយការណ៍វាក្យស័ព្ទ")}</h2><div className="space-y-2">{occurrences.map((occurrence, index) => { const meta = statusMeta[occurrence.status]; const Icon = meta.icon; return <article key={`${occurrence.term}-${occurrence.line}-${index}`} className="rounded-xl border border-[var(--ground-line)] bg-[var(--ground)] p-3"><div className="flex items-start gap-3"><Icon size={17} className={`mt-0.5 shrink-0 ${meta.className}`} /><div className="min-w-0 flex-1"><div className="flex flex-wrap items-baseline justify-between gap-2"><strong className="font-mono-ui text-sm text-[var(--ink)]">{occurrence.term}</strong><span className={`text-[10px] font-bold uppercase ${meta.className}`}>{t(meta.label, meta.khmer)}</span></div>{occurrence.khmer && <p className="mt-1 font-khmer text-sm font-semibold text-[var(--gold)]">→ {occurrence.khmer}</p>}{occurrence.definition && <p className="mt-1 font-khmer text-xs leading-relaxed text-[var(--ink-dim)]">{occurrence.definition}</p>}<p className="mt-2 border-l-2 border-[var(--ground-line)] pl-2 text-xs leading-relaxed text-[var(--ink-faint)]"><span className="mr-2 font-mono-ui">{t(`Line ${occurrence.line}`, `បន្ទាត់ ${occurrence.line}`)}</span>{occurrence.context}</p></div></div></article>; })}</div></section>
         </>}
       </div>
+      <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3 text-xs leading-relaxed text-[var(--ink-dim)]">
+        <div className="mb-1 font-medium text-[var(--ink)]">{t("Source & Credits", "ប្រភព និងការអរគុណ")}</div>
+        <ul className="list-inside list-disc space-y-0.5">
+          <li>{t("Reads .docx/.xlsx (ZIP) archives: JSZip (MIT/GPL).", "អានប័ណ្ណសារ .docx/.xlsx (ZIP): JSZip (MIT/GPL)។")}</li>
+          <li>{t("Original Tools123 implementation; files are processed locally and never uploaded.", "ការសរសេរដើមរបស់ Tools123; ឯកសារត្រូវដំណើរការក្នុងម៉ាស៊ីន ហើយមិនផ្ទុកឡើងទេ។")}</li>
+        </ul>
+      </div>
     </ToolShell>
   );
 }

@@ -332,6 +332,13 @@ export default function RfaGenerator() {
         <Output label={text("Request for Approval", "សំណើសុំការអនុម័ត")} value={output} mono={false} />
       </div>
       <style jsx global>{`@media print { body * { visibility: hidden !important; } #rfa-preview, #rfa-preview * { visibility: visible !important; } #rfa-preview { position: absolute; inset: 0; width: 210mm; min-height: 297mm; max-width: none; box-shadow: none; print-color-adjust: exact; } @page { size: A4 portrait; margin: 15mm 20mm; } }`}</style>
+      <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3 text-xs leading-relaxed text-[var(--ink-dim)]">
+        <div className="mb-1 font-medium text-[var(--ink)]">{text("Source & Credits", "ប្រភព និងការអរគុណ")}</div>
+        <ul className="list-inside list-disc space-y-0.5">
+          <li>{text("PDF export: pdf-lib (MIT).", "នាំចេញ PDF: pdf-lib (MIT)។")}</li>
+          <li>{text("Original Tools123 implementation; runs locally in your browser — nothing is uploaded.", "ការសរសេរដើមរបស់ Tools123; ដំណើរការក្នុងកម្មវិធីរុករក — គ្មានការផ្ទុកឡើងទេ។")}</li>
+        </ul>
+      </div>
     </ToolShell>
   );
 }

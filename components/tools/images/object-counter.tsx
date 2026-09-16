@@ -294,6 +294,13 @@ export default function ObjectCounterTool() {
       <p className="text-[11px] leading-relaxed text-[var(--ink-faint)]">
         {t("AI mode uses YOLOS-tiny (COCO 2017, Apache-2.0) via Transformers.js — it detects 80+ known classes, but pill/tablet is NOT among them. For pills, coins, seeds or other uniform shapes, switch to Count by shape (blobs), which needs no model and runs entirely in your browser.", "របៀប AI ប្រើ YOLOS-tiny (COCO 2017, Apache-2.0) — រកឃើញ ៨០+ ប្រភេទដែលគេស្គាល់ ប៉ុន្តែថ្នាំ/គ្រាប់មិនមែនក្នុងបញ្ជីនោះទេ។ សម្រាប់ថ្នាំ កាក់ គ្រាប់ សូមប្តូរទៅរាប់តាមរូបរាង ដែលមិនត្រូវការម៉ូដេល ហើយដំណើរការពេញក្នុងកម្មវិធីរុករក។")}
       </p>
+      <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3 text-xs leading-relaxed text-[var(--ink-dim)]">
+        <div className="mb-1 font-medium text-[var(--ink)]">{t("Source & Credits", "ប្រភព និងការអរគុណ")}</div>
+        <ul className="list-inside list-disc space-y-0.5">
+          <li>{t("Object detection runs locally via Transformers.js (Apache-2.0, Hugging Face).", "ការរាវរកវត្ថុដំណើរការក្នុងម៉ាស៊ីនតាម Transformers.js (Apache-2.0, Hugging Face)។")}</li>
+          <li>{t("Original Tools123 implementation; images are processed locally and never uploaded.", "ការសរសេរដើមរបស់ Tools123; រូបភាពត្រូវដំណើរការក្នុងម៉ាស៊ីន ហើយមិនផ្ទុកឡើងទេ។")}</li>
+        </ul>
+      </div>
     </ToolShell>
   );
 }
