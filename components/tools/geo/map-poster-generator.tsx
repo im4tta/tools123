@@ -418,6 +418,13 @@ export default function MapPosterGenerator() {
       <p className="text-[11px] leading-relaxed text-[var(--ink-faint)]">
         {t("Live basemap · vector tiles (OpenFreeMap) are recolored into themes; raster providers apply the theme as a filter. Exported at your chosen size. Adapted from teetang.art (github.com/im4tta/teetang.art, MIT).", "ផ្ទៃខាងក្រោយផ្ទាល់ · ផ្ទាំងគំនូរវ៉ិចទ័រ (OpenFreeMap) ត្រូវបានពណ៌តាមប្រធានបទ ឯអ្នកផ្តល់ raster អនុវត្តប្រធានបទជាតម្រង។ នាំចេញតាមទំហំដែលអ្នកជ្រើសរើស។ កែសម្រួលពី teetang.art (github.com/im4tta/teetang.art, MIT)។")}
       </p>
+      <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3 text-xs leading-relaxed text-[var(--ink-dim)]">
+        <div className="mb-1 font-medium text-[var(--ink)]">{t("Source & Credits", "ប្រភព និងការអរគុណ")}</div>
+        <ul className="list-inside list-disc space-y-0.5">
+          <li>{t("Map rendering: MapLibre GL JS (BSD-3-Clause). Tiles © their providers: OpenStreetMap contributors, OpenMapTiles/OpenFreeMap, CARTO, and Esri.", "ការបង្ហាញផែនទី: MapLibre GL JS (BSD-3-Clause)។ ផ្ទាំង © ក្រុមហ៊ុនផ្គត់ផ្គង់: អ្នករួមចំណែក OpenStreetMap, OpenMapTiles/OpenFreeMap, CARTO និង Esri។")}</li>
+          <li>{t("Original Tools123 implementation; the selected provider serves the map tiles.", "ការសរសេរដើមរបស់ Tools123; ក្រុមហ៊ុនផ្គត់ផ្គង់ដែលបានជ្រើសផ្ដល់ផ្ទាំងផែនទី។")}</li>
+        </ul>
+      </div>
     </ToolShell>
   );
 }

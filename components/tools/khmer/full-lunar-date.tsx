@@ -1,6 +1,7 @@
 "use client";
 import { useMemo } from "react";
 import { ToolShell, TextInput, Field } from "@/components/ui/Shell";
+import { useLanguage } from "@/components/LanguageProvider";
 import { Output } from "@/components/ui/Output";
 import { useToolState } from "@/lib/storage";
 import { localIsoToday } from "@/lib/khmer-date";
@@ -10,6 +11,7 @@ const KH = "០១២៣៤៥៦៧៨៩";
 const toKh = (n: number) => String(n).split("").map((d) => (KH[Number(d)] ?? d)).join("");
 
 export default function FullLunarDate() {
+  const { text: t } = useLanguage();
   const [date, setDate] = useToolState("full-lunar-date:date", localIsoToday());
 
   const result = useMemo(() => {
@@ -77,6 +79,13 @@ export default function FullLunarDate() {
         with a naive &quot;add 543 / add one animal&quot; expectation around New Year. That is expected traditional-calendar behavior,
         not a bug.
       </p>
+      <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3 text-xs leading-relaxed text-[var(--ink-dim)]">
+        <div className="mb-1 font-medium text-[var(--ink)]">{t("Source & Credits", "ប្រភព និងការអរគុណ")}</div>
+        <ul className="list-inside list-disc space-y-0.5">
+          <li>{t("Khmer lunar-date conversion: momentkh (Thyrith Sothearoth).", "ការបម្លែងកាលបរិច្ឆេទចន្ទគតិខ្មែរ: momentkh (ធីរិទ្ធ សុធារ៉ុត)។")}</li>
+          <li>{t("Original Tools123 implementation; runs locally in your browser.", "ការសរសេរដើមរបស់ Tools123; ដំណើរការក្នុងកម្មវិធីរុករករបស់អ្នក។")}</li>
+        </ul>
+      </div>
     </ToolShell>
   );
 }

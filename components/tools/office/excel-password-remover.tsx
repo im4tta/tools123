@@ -192,6 +192,13 @@ export default function ExcelPasswordRemover() {
           {t("This removes worksheet and workbook protection passwords by editing the file's XML. It does not remove file-open (AES) encryption, and it does not recover the original password. Use only on files you own or are authorized to modify.", "ឧបករណ៍នេះដកពាក្យសម្ងាត់ការពារសន្លឹក និងសៀវភៅ ដោយកែសម្រួល XML របស់ឯកសារ។ វាមិនដកការអ៊ិនគ្រីបបើកឯកសារ (AES) និងមិនស្តារពាក្យសម្ងាត់ដើមឡើងវិញទេ។ ប្រើតែលើឯកសារដែលអ្នកជាម្ចាស់ ឬមានសិទ្ធិកែប្រែ។")}
         </p>
       </div>
+      <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3 text-xs leading-relaxed text-[var(--ink-dim)]">
+        <div className="mb-1 font-medium text-[var(--ink)]">{t("Source & Credits", "ប្រភព និងការអរគុណ")}</div>
+        <ul className="list-inside list-disc space-y-0.5">
+          <li>{t("Reads and rewrites the .xlsx (ZIP) container: JSZip (MIT/GPL).", "អាន និងសរសេរឡើងវិញនូវកុងតឺន័រ .xlsx (ZIP): JSZip (MIT/GPL)។")}</li>
+          <li>{t("Original Tools123 implementation; files are processed locally and never uploaded.", "ការសរសេរដើមរបស់ Tools123; ឯកសារត្រូវដំណើរការក្នុងម៉ាស៊ីន ហើយមិនផ្ទុកឡើងទេ។")}</li>
+        </ul>
+      </div>
     </ToolShell>
   );
 }

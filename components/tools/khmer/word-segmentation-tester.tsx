@@ -165,6 +165,13 @@ export default function KhmerWordSegmentationTester() {
           <a href="https://github.com/Socret360/claws" target="_blank" rel="noopener noreferrer" className="text-[var(--gold)] underline">{t("Source", "ប្រភព")}</a>
         </p>
       </aside>
+      <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3 text-xs leading-relaxed text-[var(--ink-dim)]">
+        <div className="mb-1 font-medium text-[var(--ink)]">{t("Source & Credits", "ប្រភព និងការអរគុណ")}</div>
+        <ul className="list-inside list-disc space-y-0.5">
+          <li>{t("Khmer word segmentation: khmer-nlp-toolkit.", "ការបំបែកពាក្យខ្មែរ: khmer-nlp-toolkit។")}</li>
+          <li>{t("Original Tools123 implementation; runs locally in your browser.", "ការសរសេរដើមរបស់ Tools123; ដំណើរការក្នុងកម្មវិធីរុករករបស់អ្នក។")}</li>
+        </ul>
+      </div>
     </ToolShell>
   );
 }

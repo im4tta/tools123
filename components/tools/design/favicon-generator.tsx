@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { Download } from "lucide-react";
 import { ToolShell } from "@/components/ui/Shell";
+import { useLanguage } from "@/components/LanguageProvider";
 import { Output, Button } from "@/components/ui/Output";
 import { recordExport } from "@/lib/export";
 
@@ -29,6 +30,7 @@ const SNIPPET = `<link rel="icon" type="image/png" sizes="32x32" href="/favicon-
 <link rel="manifest" href="/site.webmanifest">`;
 
 export default function FaviconGeneratorTool() {
+  const { text: t } = useLanguage();
   const [file, setFile] = useState<File | null>(null);
   const [rendered, setRendered] = useState<Rendered[]>([]);
   const [busy, setBusy] = useState(false);
@@ -139,6 +141,13 @@ export default function FaviconGeneratorTool() {
           <Output label="HTML to paste into <head>" value={SNIPPET} />
         </>
       )}
+      <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3 text-xs leading-relaxed text-[var(--ink-dim)]">
+        <div className="mb-1 font-medium text-[var(--ink)]">{t("Source & Credits", "ប្រភព និងការអរគុណ")}</div>
+        <ul className="list-inside list-disc space-y-0.5">
+          <li>{t("ZIP packaging: JSZip (MIT/GPL).", "ការខ្ចប់ ZIP: JSZip (MIT/GPL)។")}</li>
+          <li>{t("Original Tools123 implementation; runs locally in your browser — nothing is uploaded.", "ការសរសេរដើមរបស់ Tools123; ដំណើរការក្នុងកម្មវិធីរុករក — គ្មានការផ្ទុកឡើងទេ។")}</li>
+        </ul>
+      </div>
     </ToolShell>
   );
 }

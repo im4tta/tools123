@@ -89,6 +89,9 @@ export default function RootLayout({
                   <Link href="/acknowledgement" className="transition hover:text-[var(--gold)]">
                     Acknowledgements
                   </Link>
+                  <Link href="/privacy" className="transition hover:text-[var(--gold)]">
+                    Privacy
+                  </Link>
                   <Link href="/changelog" className="transition hover:text-[var(--gold)]">
                     Changelog
                   </Link>

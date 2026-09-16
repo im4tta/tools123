@@ -191,6 +191,13 @@ export default function RouteOnMap() {
       <p className="text-[11px] leading-relaxed text-[var(--ink-faint)]">
         {t("Live basemap · route drawn from real OurAirports coordinates (Public Domain); the great-circle line is illustrative, not the actual flight path.", "ផ្ទៃខាងក្រោយផ្ទាល់ · ផ្លូវគូសពីកូអរដោនេ OurAirports ពិតប្រាកដ (Public Domain) ជាបន្ទាត់ប្រហាក់ប្រហែល មិនមែនជាផ្លូវហោះពិតទេ។")}
       </p>
+      <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3 text-xs leading-relaxed text-[var(--ink-dim)]">
+        <div className="mb-1 font-medium text-[var(--ink)]">{t("Source & Credits", "ប្រភព និងការអរគុណ")}</div>
+        <ul className="list-inside list-disc space-y-0.5">
+          <li>{t("Map rendering: MapLibre GL JS (BSD-3-Clause). Tiles: © OpenFreeMap · © OpenStreetMap contributors.", "ការបង្ហាញផែនទី: MapLibre GL JS (BSD-3-Clause)។ ផ្ទាំង: © OpenFreeMap · © អ្នករួមចំណែក OpenStreetMap។")}</li>
+          <li>{t("Airport coordinates: OurAirports (public domain). Original Tools123 implementation.", "កូអរដោនេព្រលានយន្តហោះ: OurAirports (សាធារណៈ)។ ការសរសេរដើមរបស់ Tools123។")}</li>
+        </ul>
+      </div>
     </ToolShell>
   );
 }

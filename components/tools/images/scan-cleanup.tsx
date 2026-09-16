@@ -186,6 +186,13 @@ export default function ScanCleanup() {
           </div>
         </div>
       )}
+      <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3 text-xs leading-relaxed text-[var(--ink-dim)]">
+        <div className="mb-1 font-medium text-[var(--ink)]">{t("Source & Credits", "ប្រភព និងការអរគុណ")}</div>
+        <ul className="list-inside list-disc space-y-0.5">
+          <li>{t("PDF export: pdf-lib (MIT).", "នាំចេញ PDF: pdf-lib (MIT)។")}</li>
+          <li>{t("Original Tools123 implementation; images are processed locally and never uploaded.", "ការសរសេរដើមរបស់ Tools123; រូបភាពត្រូវដំណើរការក្នុងម៉ាស៊ីន ហើយមិនផ្ទុកឡើងទេ។")}</li>
+        </ul>
+      </div>
     </ToolShell>
   );
 }

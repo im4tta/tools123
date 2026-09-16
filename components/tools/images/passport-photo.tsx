@@ -272,6 +272,13 @@ export default function PassportPhoto() {
           </div>
         </div>
       )}
+      <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3 text-xs leading-relaxed text-[var(--ink-dim)]">
+        <div className="mb-1 font-medium text-[var(--ink)]">{t("Source & Credits", "ប្រភព និងការអរគុណ")}</div>
+        <ul className="list-inside list-disc space-y-0.5">
+          <li>{t("Optional background removal runs an AI model in your browser via @imgly/background-removal.", "ការលុបផ្ទៃខាងក្រោយ (ជាជម្រើស) ដំណើរការគំរូ AI ក្នុងកម្មវិធីរុករករបស់អ្នកតាម @imgly/background-removal។")}</li>
+          <li>{t("Original Tools123 implementation; photos are processed locally and never uploaded.", "ការសរសេរដើមរបស់ Tools123; រូបថតត្រូវដំណើរការក្នុងម៉ាស៊ីន ហើយមិនផ្ទុកឡើងទេ។")}</li>
+        </ul>
+      </div>
     </ToolShell>
   );
 }

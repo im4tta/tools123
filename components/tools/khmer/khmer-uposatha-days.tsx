@@ -321,6 +321,13 @@ export default function KhmerUposathaDays() {
           "ការគណនានេះជាតម្លៃប្រហាក់ប្រហែលនៃថ្ងៃសីលតាមប្រពៃណី៖ ថ្ងៃចន្ទគតិសម្រាប់រាល់ថ្ងៃ គណនាដោយបណ្ណាល័យ @thyrith/momentkh (អាជ្ញាបណ្ណ MIT — ប្រើម៉ាស៊ីនតែមួយជាមួយឧបករណ៍ប្រតិទិនចន្ទគតិប្រចាំខែ) ដែលតាមតារាងតារាសាស្ត្រខ្មែរប្រពៃណី; ប្រតិទិននីមួយៗអាចខុសមួយថ្ងៃ។ សូមផ្ទៀងផ្ទាត់ជាមួយប្រតិទិនវត្តក្នុងមូលដ្ឋាន មុនរៀបចំផែនការ។"
         )}
       </p>
+      <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3 text-xs leading-relaxed text-[var(--ink-dim)]">
+        <div className="mb-1 font-medium text-[var(--ink)]">{t("Source & Credits", "ប្រភព និងការអរគុណ")}</div>
+        <ul className="list-inside list-disc space-y-0.5">
+          <li>{t("Khmer lunar-date conversion: momentkh (Thyrith Sothearoth).", "ការបម្លែងកាលបរិច្ឆេទចន្ទគតិខ្មែរ: momentkh (ធីរិទ្ធ សុធារ៉ុត)។")}</li>
+          <li>{t("Original Tools123 implementation; runs locally in your browser.", "ការសរសេរដើមរបស់ Tools123; ដំណើរការក្នុងកម្មវិធីរុករករបស់អ្នក។")}</li>
+        </ul>
+      </div>
     </ToolShell>
   );
 }

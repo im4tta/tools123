@@ -253,6 +253,13 @@ export default function AdministrativeLetterBuilder() {
         </div>
       </div>
       <style jsx global>{`@media print { body * { visibility: hidden !important; } #khmer-letter-preview, #khmer-letter-preview * { visibility: visible !important; } #khmer-letter-preview { position: absolute; inset: 0; width: 210mm; min-height: 297mm; max-width: none; box-shadow: none; print-color-adjust: exact; } @page { size: A4 portrait; margin: 0; } }`}</style>
+      <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3 text-xs leading-relaxed text-[var(--ink-dim)]">
+        <div className="mb-1 font-medium text-[var(--ink)]">{text("Source & Credits", "ប្រភព និងការអរគុណ")}</div>
+        <ul className="list-inside list-disc space-y-0.5">
+          <li>{text("PDF export: pdf-lib (MIT).", "នាំចេញ PDF: pdf-lib (MIT)។")}</li>
+          <li>{text("Original Tools123 implementation; runs locally in your browser — nothing is uploaded.", "ការសរសេរដើមរបស់ Tools123; ដំណើរការក្នុងកម្មវិធីរុករក — គ្មានការផ្ទុកឡើងទេ។")}</li>
+        </ul>
+      </div>
     </ToolShell>
   );
 }

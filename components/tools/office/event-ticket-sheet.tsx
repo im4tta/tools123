@@ -314,6 +314,13 @@ export default function EventTicketSheet() {
           </div>
         </div>
       </div>
+      <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3 text-xs leading-relaxed text-[var(--ink-dim)]">
+        <div className="mb-1 font-medium text-[var(--ink)]">{t("Source & Credits", "ប្រភព និងការអរគុណ")}</div>
+        <ul className="list-inside list-disc space-y-0.5">
+          <li>{t("PDF with Khmer text shaping: HappyPDF (a pdf-lib fork, Seanghay Yath).", "PDF ជាមួយការរៀបអក្សរខ្មែរ: HappyPDF (fork របស់ pdf-lib, Seanghay Yath)។")}</li>
+          <li>{t("Original Tools123 implementation; runs locally in your browser — nothing is uploaded.", "ការសរសេរដើមរបស់ Tools123; ដំណើរការក្នុងកម្មវិធីរុករក — គ្មានការផ្ទុកឡើងទេ។")}</li>
+        </ul>
+      </div>
     </ToolShell>
   );
 }

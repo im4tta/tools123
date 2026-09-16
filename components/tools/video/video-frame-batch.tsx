@@ -132,6 +132,13 @@ export default function VideoFrameBatch() {
       <p className="text-[11px] leading-relaxed text-[var(--ink-faint)]">
         {t("Frames are captured by seeking the video locally and drawn to a canvas — nothing leaves your browser.", "រូបភាពត្រូវបានចាប់យកដោយការស្វែងរកវីដេអូក្នុងម៉ាស៊ីន និងគូរទៅក្នុង canvas — គ្មានអ្វីចាកចេញពីកម្មវិធីរុករកឡើយ។")}
       </p>
+      <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3 text-xs leading-relaxed text-[var(--ink-dim)]">
+        <div className="mb-1 font-medium text-[var(--ink)]">{t("Source & Credits", "ប្រភព និងការអរគុណ")}</div>
+        <ul className="list-inside list-disc space-y-0.5">
+          <li>{t("ZIP packaging: JSZip (MIT/GPL).", "ការខ្ចប់ ZIP: JSZip (MIT/GPL)។")}</li>
+          <li>{t("Original Tools123 implementation; video is processed locally and never uploaded.", "ការសរសេរដើមរបស់ Tools123; វីដេអូត្រូវដំណើរការក្នុងម៉ាស៊ីន ហើយមិនផ្ទុកឡើងទេ។")}</li>
+        </ul>
+      </div>
     </ToolShell>
   );
 }
