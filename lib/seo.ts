@@ -551,6 +551,10 @@ const TOOL_BLURBS: Record<string, ToolBlurb> = {
     en: "Black out sensitive text or images in a PDF and export a file where the covered content is truly gone — each page is flattened to an image so nothing can be copied out from underneath. Everything runs locally in your browser.",
     km: "លុបអត្ថបទ ឬរូបភាពសម្ងាត់ក្នុង PDF រួចនាំចេញឯកសារដែលមាតិកាដែលគ្របត្រូវលុបពិតប្រាកដ — គ្រប់ទំព័រត្រូវបំបែកជារូបភាព ដូច្នេះគ្មានអ្វីអាចចម្លងចេញពីខាងក្រោមបានទេ។ ដំណើរការក្នុងកម្មវិធីរុករករបស់អ្នក។",
   },
+  "pdf-page-remover": {
+    en: "Delete specific pages from a PDF and download the rest — type the page numbers or ranges to drop (like 1, 3, 5-8), or click page thumbnails to mark them, then export the trimmed file. Kept pages keep their original content and rotation. Everything runs locally in your browser; nothing is uploaded.",
+    km: "លុបទំព័រជាក់លាក់ចេញពី PDF រួចទាញយកទំព័រនៅសល់ — វាយលេខទំព័រ ឬចន្លោះដែលត្រូវលុប (ដូចជា 1, 3, 5-8) ឬចុចរូបតូចទំព័រដើម្បីសម្គាល់ រួចនាំចេញឯកសារដែលកាត់រួច។ ទំព័រដែលរក្សាទុករក្សាមាតិកា និងទិសដៅដើម។ ដំណើរការទាំងស្រុងក្នុងកម្មវិធីរុករក គ្មានការផ្ទុកឡើងទេ។",
+  },
   "payslip-generator": {
     en: "Turn payroll figures into a clean, printable bilingual (English + Khmer) payslip PDF. You enter each earning and deduction as a line item and the tool totals the net pay — amounts are yours, no tax or contribution rate is assumed. Khmer text is shaped correctly. Runs locally.",
     km: "បម្លែងតួលេខប្រាក់ខែទៅជាប័ណ្ណបើកប្រាក់ខែ PDF ពីរភាសា (អង់គ្លេស + ខ្មែរ) ស្អាត និងអាចបោះពុម្ព។ អ្នកបញ្ចូលប្រាក់ចំណូល និងការកាត់នីមួយៗ ហើយឧបករណ៍គណនាប្រាក់សុទ្ធ — តួលេខជារបស់អ្នក គ្មានការសន្មតអត្រាពន្ធ ឬ​ភាគទានណាមួយ។ អក្សរខ្មែរបង្ហាញត្រឹមត្រូវ។ ដំណើរការក្នុងម៉ាស៊ីន។",
@@ -1340,6 +1344,7 @@ const HOWTO_TOOLS: Record<string, string[]> = {
   "pdf-metadata-cleaner": ["Choose a PDF", "Review the title, author, producer, and dates it carries", "Edit any field, or click Strip all metadata", "Save the cleaned PDF"],
   "pdf-page-stamper": ["Choose a PDF", "Pick a format (page number, N of total, or Bates) and a position", "Adjust size, margin, colour, and whether to skip page 1", "Save the stamped PDF"],
   "pdf-redactor": ["Choose a PDF", "Drag boxes over anything sensitive on each page", "Use the page arrows to redact more pages", "Export — every page is flattened so covered content is truly removed"],
+  "pdf-page-remover": ["Choose a PDF", "Type the page numbers or ranges to remove (e.g. 1, 3, 5-8), or click page thumbnails to mark them", "Check how many pages will remain", "Export — the kept pages download as a new PDF"],
   "payslip-generator": ["Fill in the company and employee details", "Add each earning and deduction as a line item", "Check the gross, deductions, and net pay totals", "Download the bilingual payslip PDF"],
   "loan-amortization": ["Enter the loan amount, interest rate, and term", "Choose reducing-balance or flat, and a currency", "Read the monthly payment and totals", "Download the full schedule as CSV"],
   "passport-photo": ["Choose a portrait photo", "Pick a photo size and a background colour", "Position the face with zoom and move sliders", "Download the photo, or a print sheet of copies"],
