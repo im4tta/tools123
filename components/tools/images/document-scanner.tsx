@@ -3,6 +3,7 @@
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
 import { Download, RotateCcw, RotateCw } from "lucide-react";
 import { useLanguage } from "@/components/LanguageProvider";
+import { downloadBlob } from "@/lib/download";
 import { Button } from "@/components/ui/Output";
 import { Field, ToolShell } from "@/components/ui/Shell";
 import { drawWatermark, recordExport } from "@/lib/export";
@@ -165,12 +166,7 @@ export default function DocumentScanner() {
     try {
       const ctx = canvas.getContext("2d");
       if (ctx) drawWatermark(ctx, canvas.width, canvas.height);
-      const url = URL.createObjectURL(await canvasBlob(canvas));
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = "scanned-document.png";
-      link.click();
-      setTimeout(() => URL.revokeObjectURL(url), 0);
+      downloadBlob(await canvasBlob(canvas), "scanned-document.png");
       recordExport();
     } catch {
       setError("Could not export the PNG. / មិនអាចនាំចេញ PNG បានទេ។");

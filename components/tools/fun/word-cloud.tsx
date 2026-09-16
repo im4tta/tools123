@@ -3,6 +3,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Download, RefreshCw } from "lucide-react";
 import { ToolShell, TextArea, Field } from "@/components/ui/Shell";
 import { useLanguage } from "@/components/LanguageProvider";
+import { downloadDataUrl } from "@/lib/download";
 
 const STOPWORDS = new Set([
   "the", "and", "for", "are", "but", "not", "you", "all", "can", "her", "was", "one", "our", "out",
@@ -125,10 +126,7 @@ export default function WordCloud() {
   function download() {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const a = document.createElement("a");
-    a.href = canvas.toDataURL("image/png");
-    a.download = "word-cloud.png";
-    a.click();
+    downloadDataUrl(canvas.toDataURL("image/png"), "word-cloud.png");
   }
 
   return (

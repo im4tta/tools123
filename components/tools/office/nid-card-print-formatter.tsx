@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/Output";
 import { ToolShell } from "@/components/ui/Shell";
 import { useLanguage } from "@/components/LanguageProvider";
+import { downloadDataUrl } from "@/lib/download";
 import { useToolState } from "@/lib/storage";
 import { recordExport, watermarkImageDataUrl } from "@/lib/export";
 import {
@@ -222,10 +223,7 @@ export default function NidCardPrintFormatter() {
       ctx!.strokeRect(startX + cardW + gap, startY, cardW, cardH);
     }
 
-    const link = document.createElement("a");
-    link.download = "NID_Card_Layout.png";
-    link.href = await watermarkImageDataUrl(canvas.toDataURL("image/png"), "image/png");
-    link.click();
+    downloadDataUrl(await watermarkImageDataUrl(canvas.toDataURL("image/png"), "image/png"), "NID_Card_Layout.png");
     recordExport();
   };
 

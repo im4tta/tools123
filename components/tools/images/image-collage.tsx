@@ -4,6 +4,7 @@ import { Download, Trash2, Upload } from "lucide-react";
 import { ToolShell, Field, TextInput, Select, Row } from "@/components/ui/Shell";
 import { Button } from "@/components/ui/Output";
 import { useToolState } from "@/lib/storage";
+import { downloadBlob } from "@/lib/download";
 import { useLanguage } from "@/components/LanguageProvider";
 
 interface CollageImage {
@@ -101,11 +102,7 @@ export default function ImageCollage() {
     if (!canvas) return;
     canvas.toBlob((blob) => {
       if (!blob) return;
-      const a = document.createElement("a");
-      a.href = URL.createObjectURL(blob);
-      a.download = "collage.png";
-      a.click();
-      setTimeout(() => URL.revokeObjectURL(a.href), 5000);
+      downloadBlob(blob, "collage.png");
     }, "image/png");
   }
 

@@ -4,6 +4,7 @@ import { Download, Upload } from "lucide-react";
 import { ToolShell, TextArea, Field } from "@/components/ui/Shell";
 import { useToolState } from "@/lib/storage";
 import { useLanguage } from "@/components/LanguageProvider";
+import { downloadDataUrl } from "@/lib/download";
 
 export default function MemeGenerator() {
   const { text: t } = useLanguage();
@@ -86,10 +87,7 @@ export default function MemeGenerator() {
   function download() {
     const canvas = canvasRef.current;
     if (!canvas || !img) return;
-    const a = document.createElement("a");
-    a.href = canvas.toDataURL("image/png");
-    a.download = "meme.png";
-    a.click();
+    downloadDataUrl(canvas.toDataURL("image/png"), "meme.png");
   }
 
   return (

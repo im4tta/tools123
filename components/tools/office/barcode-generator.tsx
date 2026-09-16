@@ -90,6 +90,13 @@ export default function BarcodeGenerator() {
           <Download size={16} /> {t("Download SVG", "ទាញយក SVG")}
         </button>
       </div>
+      <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3 text-xs leading-relaxed text-[var(--ink-dim)]">
+        <div className="mb-1 font-medium text-[var(--ink)]">{t("Source & Credits", "ប្រភព និងការអរគុណ")}</div>
+        <ul className="list-inside list-disc space-y-0.5">
+          <li>{t("Barcode rendering: JsBarcode (MIT).", "ការបង្ហាញបាកូដ: JsBarcode (MIT)។")}</li>
+          <li>{t("Original Tools123 implementation; runs locally in your browser.", "ការសរសេរដើមរបស់ Tools123; ដំណើរការក្នុងកម្មវិធីរុករករបស់អ្នក។")}</li>
+        </ul>
+      </div>
     </ToolShell>
   );
 }

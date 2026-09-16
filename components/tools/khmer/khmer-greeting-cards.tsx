@@ -4,6 +4,7 @@ import { Download, ExternalLink } from "lucide-react";
 import { ToolShell, Field, Select, TextArea, TextInput, Row } from "@/components/ui/Shell";
 import { Button } from "@/components/ui/Output";
 import { useToolState } from "@/lib/storage";
+import { downloadDataUrl } from "@/lib/download";
 import { useLanguage } from "@/components/LanguageProvider";
 import { recordExport, watermarkImageDataUrl } from "@/lib/export";
 
@@ -134,10 +135,7 @@ export default function KhmerGreetingCards() {
   async function download() {
     if (!preview) return;
     const watermarked = await watermarkImageDataUrl(preview, "image/png");
-    const a = document.createElement("a");
-    a.href = watermarked;
-    a.download = `${template.id}-card.png`;
-    a.click();
+    downloadDataUrl(watermarked, `${template.id}-card.png`);
     recordExport();
   }
 

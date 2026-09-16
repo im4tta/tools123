@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { ToolShell, TextArea, Field, Select } from "@/components/ui/Shell";
 import { useToolState } from "@/lib/storage";
+import { useLanguage } from "@/components/LanguageProvider";
 
 const SAMPLES: Record<string, string> = {
   Quadratic: "x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}",
@@ -11,6 +12,7 @@ const SAMPLES: Record<string, string> = {
 };
 
 export default function LatexRenderer() {
+  const { text: t } = useLanguage();
   const [tex, setTex] = useToolState("latex-renderer:tex", SAMPLES["Quadratic"]);
   const [display, setDisplay] = useToolState<"inline" | "block">("latex-renderer:display", "block");
   const [html, setHtml] = useState("");
@@ -68,6 +70,13 @@ export default function LatexRenderer() {
             <div dangerouslySetInnerHTML={{ __html: html }} />
           )}
         </div>
+      </div>
+      <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3 text-xs leading-relaxed text-[var(--ink-dim)]">
+        <div className="mb-1 font-medium text-[var(--ink)]">{t("Source & Credits", "ប្រភព និងការអរគុណ")}</div>
+        <ul className="list-inside list-disc space-y-0.5">
+          <li>{t("Math typesetting: KaTeX (MIT).", "ការរៀបចំគណិតវិទ្យា: KaTeX (MIT)។")}</li>
+          <li>{t("Original Tools123 implementation; renders locally in your browser.", "ការសរសេរដើមរបស់ Tools123; បង្ហាញក្នុងកម្មវិធីរុករករបស់អ្នក។")}</li>
+        </ul>
       </div>
     </ToolShell>
   );

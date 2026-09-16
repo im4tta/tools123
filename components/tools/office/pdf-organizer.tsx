@@ -4,6 +4,7 @@ import { RotateCw, Trash2, Download, Undo2 } from "lucide-react";
 import { ToolShell } from "@/components/ui/Shell";
 import { Button } from "@/components/ui/Output";
 import { formatBytes, loadPdfJs } from "@/lib/pdfjs";
+import { useLanguage } from "@/components/LanguageProvider";
 
 interface PageItem {
   key: string;
@@ -14,6 +15,7 @@ interface PageItem {
 }
 
 export default function PdfOrganizerTool() {
+  const { text: t } = useLanguage();
   const [file, setFile] = useState<File | null>(null);
   const [pages, setPages] = useState<PageItem[]>([]);
   const [dragKey, setDragKey] = useState<string | null>(null);
@@ -168,6 +170,13 @@ export default function PdfOrganizerTool() {
           )}
         </>
       )}
+      <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3 text-xs leading-relaxed text-[var(--ink-dim)]">
+        <div className="mb-1 font-medium text-[var(--ink)]">{t("Source & Credits", "ប្រភព និងការអរគុណ")}</div>
+        <ul className="list-inside list-disc space-y-0.5">
+          <li>{t("Thumbnail rendering: pdf.js (Apache-2.0, Mozilla). Reordering/rebuilding: pdf-lib (MIT).", "ការបង្ហាញរូបតូច: pdf.js (Apache-2.0, Mozilla)។ ការរៀបចំ/សាងសង់ឡើងវិញ: pdf-lib (MIT)។")}</li>
+          <li>{t("Original Tools123 implementation; files are processed locally and never uploaded.", "ការសរសេរដើមរបស់ Tools123; ឯកសារត្រូវដំណើរការក្នុងម៉ាស៊ីន ហើយមិនផ្ទុកឡើងទេ។")}</li>
+        </ul>
+      </div>
     </ToolShell>
   );
 }

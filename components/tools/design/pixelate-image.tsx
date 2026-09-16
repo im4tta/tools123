@@ -4,6 +4,7 @@ import { Download, Upload } from "lucide-react";
 import { ToolShell, Field } from "@/components/ui/Shell";
 import { Button } from "@/components/ui/Output";
 import { useToolState } from "@/lib/storage";
+import { downloadBlob } from "@/lib/download";
 import { useLanguage } from "@/components/LanguageProvider";
 import { recordExport } from "@/lib/export";
 
@@ -88,11 +89,7 @@ export default function PixelateImage() {
     ctx.drawImage(small, 0, 0, canvas.width, canvas.height);
     canvas.toBlob((blob) => {
       if (!blob) return;
-      const a = document.createElement("a");
-      a.href = URL.createObjectURL(blob);
-      a.download = "pixelated.png";
-      a.click();
-      setTimeout(() => URL.revokeObjectURL(a.href), 5000);
+      downloadBlob(blob, "pixelated.png");
       recordExport();
     }, "image/png");
   };

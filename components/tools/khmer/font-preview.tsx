@@ -5,6 +5,7 @@ import { Copy, Download, Check } from "lucide-react";
 import { ToolShell } from "@/components/ui/Shell";
 import { useToolState } from "@/lib/storage";
 import { recordExport, watermarkImageDataUrl } from "@/lib/export";
+import { downloadDataUrl } from "@/lib/download";
 
 const FONTS = ["Noto Sans Khmer", "Noto Serif Khmer", "Battambang", "Kantumruy Pro"] as const;
 type FontName = (typeof FONTS)[number];
@@ -74,10 +75,7 @@ export default function FontPreview() {
         x += context.measureText(character).width + letterSpacing;
       }
     });
-    const link = document.createElement("a");
-    link.download = "khmer-font-preview.png";
-    link.href = await watermarkImageDataUrl(canvas.toDataURL("image/png"), "image/png");
-    link.click();
+    downloadDataUrl(await watermarkImageDataUrl(canvas.toDataURL("image/png"), "image/png"), "khmer-font-preview.png");
     recordExport();
   }
 

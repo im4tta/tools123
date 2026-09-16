@@ -4,6 +4,7 @@ import { Download } from "lucide-react";
 import { ToolShell, Field, TextInput, TextArea, Select, Row } from "@/components/ui/Shell";
 import { Button } from "@/components/ui/Output";
 import { useToolState } from "@/lib/storage";
+import { downloadDataUrl } from "@/lib/download";
 import { recordExport, watermarkImageDataUrl } from "@/lib/export";
 
 interface Settings {
@@ -189,10 +190,7 @@ export default function OgImageGeneratorTool() {
           onClick={async (e) => {
             e.preventDefault();
             const watermarked = await watermarkImageDataUrl(resultUrl, "image/png");
-            const a = document.createElement("a");
-            a.href = watermarked;
-            a.download = "og-image.png";
-            a.click();
+            downloadDataUrl(watermarked, "og-image.png");
             recordExport();
           }}
         >
