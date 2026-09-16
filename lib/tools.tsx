@@ -190,6 +190,7 @@ export const TOOLS: ToolDef[] = [
   { id: "csv-json", title: "CSV → JSON", category: "dev", keywords: ["csv", "json", "convert"], Component: load("dev", "csv-json") },
   { id: "cron-parser", title: "Cron Expression Explainer", category: "dev", keywords: ["cron", "schedule", "crontab"], Component: load("dev", "cron-parser") },
   { id: "cron-builder", title: "Cron Expression Builder", khmerTitle: "បង្កើត Cron Expression", addedOn: "2026-08-17T22:00:00+07:00", category: "dev", keywords: ["cron", "schedule", "builder", "crontab", "next run", "job", "កំណត់ពេល"], Component: load("dev", "cron-builder") },
+  { id: "chmod-calculator", title: "Chmod Permissions Calculator", khmerTitle: "គណនាសិទ្ធិឯកសារ chmod", addedOn: "2026-09-16T10:00:00+07:00", category: "dev", keywords: ["chmod", "permissions", "octal", "755", "644", "rwx", "symbolic", "unix", "linux", "file mode", "setuid", "setgid", "sticky", "សិទ្ធិ", "ឯកសារ"], Component: load("dev", "chmod-calculator") },
   { id: "css-specificity", title: "CSS Specificity Calculator", khmerTitle: "គណនាអាទិភាព CSS", addedOn: "2026-08-17T22:05:00+07:00", category: "dev", keywords: ["css", "specificity", "selector", "priority", "cascade", "a b c"], Component: load("dev", "css-specificity") },
   { id: "gitignore-generator", title: ".gitignore Generator", khmerTitle: "បង្កើត .gitignore", addedOn: "2026-08-17T22:10:00+07:00", category: "dev", keywords: ["gitignore", "git", "ignore", "node", "python", "template", "generator"], Component: load("dev", "gitignore-generator") },
   { id: "license-generator", title: "License Generator", khmerTitle: "បង្កើតអាជ្ញាបណ្ណ", addedOn: "2026-08-17T22:15:00+07:00", category: "dev", keywords: ["license", "mit", "apache", "gpl", "bsd", "open source", "copyright"], Component: load("dev", "license-generator") },
@@ -384,6 +385,7 @@ export const TOOLS: ToolDef[] = [
   // ---- Math (17) ----
   { id: "percentage-calculator", title: "Percentage Calculator", category: "math", keywords: ["percent", "percentage"], Component: load("math", "percentage-calculator") },
   { id: "base-converter", title: "Number Base Converter", category: "math", keywords: ["binary", "hex", "octal", "decimal"], Component: load("math", "base-converter") },
+  { id: "benford-analyzer", title: "Benford's Law Analyzer", khmerTitle: "វិភាគច្បាប់ Benford", addedOn: "2026-09-16T10:05:00+07:00", category: "math", keywords: ["benford", "leading digit", "first digit", "fraud detection", "forensic accounting", "anomaly", "distribution", "audit", "chi-square", "ច្បាប់ Benford", "ក្លែងបន្លំ"], Component: load("math", "benford-analyzer") },
   { id: "gcd-lcm", title: "GCD & LCM Calculator", category: "math", keywords: ["gcd", "lcm", "greatest common divisor"], Component: load("math", "gcd-lcm") },
   { id: "prime-checker", title: "Prime Number Checker & Factorizer", category: "math", keywords: ["prime", "factorize", "factors"], Component: load("math", "prime-checker") },
   { id: "fibonacci-generator", title: "Fibonacci Sequence Generator", category: "math", keywords: ["fibonacci", "sequence"], Component: load("math", "fibonacci-generator") },

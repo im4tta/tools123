@@ -95,12 +95,13 @@ export default function KhmerLayoutConverter() {
         mono={dir === "khmer2latin"}
       />
 
-      <p className="text-[11px] leading-relaxed text-[var(--ink-faint)]">
-        {t(
-          "Reference: the standard NIIDA Khmer keyboard layout (base + Shift layers). Layout data follows the Khmer (NIDA) keyboard tables (kbdkni) and Keyman's Khmer Angkor documentation. Punctuation and symbols vary by OS and input method, so proofread the result.",
-          "ឯកសារយោង៖ ប្លង់ក្ដារចុចខ្មែរស្ដង់ដារ NIIDA (ស្រទាប់ធម្មតា + Shift)។ ទិន្នន័យប្លង់តាមតារាងក្ដារចុច Khmer (NIDA) (kbdkni) និងឯកសារ Khmer Angkor របស់ Keyman។ វណ្ណយុត្តិ និងនិមិត្តសញ្ញាអាចខុសគ្នាតាមប្រព័ន្ធ និងវិធីបញ្ចូល ដូច្នេះសូមពិនិត្យលទ្ធផលឡើងវិញ។",
-        )}
-      </p>
+      <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3 text-xs leading-relaxed text-[var(--ink-dim)]">
+        <div className="mb-1 font-medium text-[var(--ink)]">{t("Source & Credits", "ប្រភព និងការអរគុណ")}</div>
+        <ul className="list-inside list-disc space-y-0.5">
+          <li>{t("Layout data follows the standard NIIDA Khmer keyboard tables — Microsoft Khmer (NIDA) (kbdkni) and Keyman's Khmer Angkor documentation.", "ទិន្នន័យប្លង់តាមតារាងក្ដារចុចខ្មែរ NIIDA ស្ដង់ដារ — Microsoft Khmer (NIDA) (kbdkni) និងឯកសារ Khmer Angkor របស់ Keyman។")}</li>
+          <li>{t("The key-remapping logic is an original Tools123 implementation. Punctuation and symbols vary by OS and input method, so proofread the result.", "តក្កវិជ្ជាបម្លែងគ្រាប់ចុចជាការសរសេរដើមរបស់ Tools123។ វណ្ណយុត្តិ និងនិមិត្តសញ្ញាអាចខុសគ្នាតាមប្រព័ន្ធ និងវិធីបញ្ចូល ដូច្នេះសូមពិនិត្យលទ្ធផលឡើងវិញ។")}</li>
+        </ul>
+      </div>
     </ToolShell>
   );
 }

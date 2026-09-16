@@ -183,6 +183,14 @@ const TOOL_BLURBS: Record<string, ToolBlurb> = {
     en: "A reference for the subscript (coeng / ជើងអក្សរ) form of every Khmer consonant — the stacked letter written below another with the invisible Coeng sign (U+17D2). Pick any base consonant to preview how each subscript stacks under it, filter by romanization or name, and copy the exact ្+consonant sequence for typing clusters like ស្ត or ក្ន.",
     km: "ឯកសារយោងសម្រាប់ទម្រង់ជើងអក្សរ (coeng / ជើងអក្សរ) នៃព្យញ្ជនៈខ្មែរនីមួយៗ — អក្សរដែលសរសេរនៅក្រោមអក្សរមួយទៀតដោយសញ្ញា Coeng ដែលមើលមិនឃើញ (U+17D2)។ ជ្រើសព្យញ្ជនៈគោលណាមួយ ដើម្បីមើលពីរបៀបជើងអក្សរតម្រួតនៅក្រោមវា ត្រងតាមអក្សរឡាតាំង ឬឈ្មោះ ហើយចម្លងលំដាប់ ្+ព្យញ្ជនៈ ត្រឹមត្រូវសម្រាប់វាយបន្សំដូចជា ស្ត ឬ ក្ន។",
   },
+  "chmod-calculator": {
+    en: "Convert Unix/Linux file permissions between the checkbox grid, the octal mode (755, 644, 4755…), and the symbolic string (rwxr-xr-x) — including the setuid, setgid, and sticky bits — and get the exact chmod command. Type an octal mode to decode it, or tick boxes to build one. Runs locally, nothing is sent anywhere.",
+    km: "បម្លែងសិទ្ធិឯកសារ Unix/Linux រវាងក្រឡាគូស លេខ octal (755, 644, 4755…) និងខ្សែអក្សរនិមិត្តសញ្ញា (rwxr-xr-x) — រួមទាំង setuid, setgid, និង sticky — ហើយទទួលបានពាក្យបញ្ជា chmod ត្រឹមត្រូវ។ វាយលេខ octal ដើម្បីឌិកូដ ឬគូសប្រអប់ដើម្បីបង្កើត។ ដំណើរការក្នុងម៉ាស៊ីន គ្មានការផ្ញើទៅណាទេ។",
+  },
+  "benford-analyzer": {
+    en: "Compare the leading-digit distribution of a set of numbers to Benford's law — where 1 leads about 30% of the time — with a bar chart and a chi-square check. A quick first-pass screen for accounting, election, or survey data that flags datasets worth a closer look; it is a heuristic, not proof of fraud, and bounded data legitimately does not follow it. Runs entirely in your browser.",
+    km: "ប្រៀបធៀបការបែងចែកលេខនាំមុខនៃសំណុំលេខនឹងច្បាប់ Benford — ដែលលេខ ១ នាំមុខប្រហែល ៣០% — ជាមួយតារាងរបារ និងការត្រួតពិនិត្យ chi-square។ ការត្រួតពិនិត្យដំបូងឆាប់រហ័សសម្រាប់ទិន្នន័យគណនេយ្យ ការបោះឆ្នោត ឬការស្ទង់មតិ ដែលសម្គាល់ទិន្នន័យគួរពិនិត្យបន្ថែម; វាជាការប៉ាន់ស្មាន មិនមែនជាភស្តុតាងនៃការក្លែងបន្លំ ហើយទិន្នន័យមានព្រំដែនស្របច្បាប់មិនអនុវត្តតាមវាទេ។ ដំណើរការក្នុងកម្មវិធីរុករករបស់អ្នក។",
+  },
   "khmer-loanword-dictionary": {
     en: "Look up common Khmer loanwords with their origin language, meaning, and usage examples.",
     km: "ស្វែងរកពាក្យកម្ចីខ្មែរទូទៅ ជាមួយភាសាប្រភព អត្ថន័យ និងឧទាហរណ៍ប្រើប្រាស់។",
@@ -1280,6 +1288,8 @@ const HOWTO_TOOLS: Record<string, string[]> = {
   "khmer-keyboard-layout": ["Click keys to type Khmer characters", "Toggle Shift for the shifted layer", "Or paste a character to find its key"],
   "khmer-layout-converter": ["Choose a direction: English layout → Khmer, or Khmer layout → English", "Paste the gibberish text you got from the wrong layout", "Read the recovered text in the output and copy it", "Use Swap to convert the result back the other way"],
   "khmer-coeng-chart": ["Pick a base consonant to preview subscripts stacked under it", "Browse the grid, or filter by romanization, name, or letter", "Click any subscript to copy its ្+consonant sequence", "Paste the sequence after a base letter to type a stacked cluster"],
+  "chmod-calculator": ["Tick read, write, and execute for owner, group, and others", "Add any special bits (setuid, setgid, sticky) you need", "Or type an octal mode like 755 to decode it into the grid", "Copy the octal mode, symbolic string, or the ready-made chmod command"],
+  "benford-analyzer": ["Paste your numbers, separated by spaces, commas, or new lines", "Compare the observed leading-digit bars against the Benford markers", "Check the χ² value against the 0.05 critical value (15.51)", "Treat a large deviation as a prompt to investigate, not proof of fraud"],
   "khmer-loanword-dictionary": ["Search a Khmer word or origin language", "Read its origin, meaning, and example"],
   "khmer-word-frequency": ["Paste Khmer text", "Read total, unique, and top-20 word frequencies"],
   "khmer-pronunciation-guide": ["Click a consonant or vowel", "Read its approximate sound and an example word"],

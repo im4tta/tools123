@@ -119,10 +119,18 @@ export default function KhmerCoengChart() {
 
       <p className="text-[11px] leading-relaxed text-[var(--ink-faint)]">
         {t(
-          "A subscript is written as the Coeng sign (U+17D2) followed by a consonant; the font renders it stacked below the previous letter. Consonant names, romanization, and series are from this tool set's Khmer romanization reference. ឡ has no subscript form.",
-          "ជើងអក្សរសរសេរដោយសញ្ញា Coeng (U+17D2) បន្តដោយព្យញ្ជនៈ ហើយពុម្ពអក្សរបង្ហាញវាតម្រួតនៅក្រោមអក្សរមុន។ ឈ្មោះព្យញ្ជនៈ អក្សរឡាតាំង និងស៊េរី យកតាមឯកសារយោងខ្មែររបស់ឧបករណ៍នេះ។ ឡ គ្មានទម្រង់ជើងអក្សរទេ។",
+          "A subscript is written as the Coeng sign (U+17D2) followed by a consonant; the font renders it stacked below the previous letter. ឡ has no subscript form.",
+          "ជើងអក្សរសរសេរដោយសញ្ញា Coeng (U+17D2) បន្តដោយព្យញ្ជនៈ ហើយពុម្ពអក្សរបង្ហាញវាតម្រួតនៅក្រោមអក្សរមុន។ ឡ គ្មានទម្រង់ជើងអក្សរទេ។",
         )}
       </p>
+
+      <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3 text-xs leading-relaxed text-[var(--ink-dim)]">
+        <div className="mb-1 font-medium text-[var(--ink)]">{t("Source & Credits", "ប្រភព និងការអរគុណ")}</div>
+        <ul className="list-inside list-disc space-y-0.5">
+          <li>{t("Subscript (coeng) forms are generated from Unicode (Coeng sign U+17D2).", "ទម្រង់ជើងអក្សរ (coeng) បង្កើតឡើងពី Unicode (សញ្ញា Coeng U+17D2)។")}</li>
+          <li>{t("Consonant names, romanization, and series reuse this app's Khmer romanization dataset (UNGEGN-based). Original Tools123 implementation.", "ឈ្មោះព្យញ្ជនៈ អក្សរឡាតាំង និងស៊េរី ប្រើទិន្នន័យរ៉ូម៉ានីយកម្មខ្មែររបស់កម្មវិធីនេះ (ផ្អែកលើ UNGEGN)។ ការសរសេរដើមរបស់ Tools123។")}</li>
+        </ul>
+      </div>
     </ToolShell>
   );
 }
