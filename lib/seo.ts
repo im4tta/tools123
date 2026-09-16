@@ -175,6 +175,14 @@ const TOOL_BLURBS: Record<string, ToolBlurb> = {
     en: "Explore the standard NIIDA Khmer keyboard layout, click keys to type, and find where any character sits.",
     km: "រកមើលប្លង់ក្តារចុចខ្មែរ NIIDA ស្តង់ដារ ចុចគ្រាប់ចុចដើម្បីវាយ និងស្វែងរកទីតាំងតួអក្សរណាមួយ។",
   },
+  "khmer-layout-converter": {
+    en: "Recover text you typed with the wrong keyboard layout active. Meant to type Khmer but got Latin gibberish (English layout was on), or meant to type English but got Khmer gibberish (NIIDA layout was on)? This remaps the keys to what you intended, using the standard NIIDA layout. Best-effort — letters and vowels remap reliably, some punctuation is approximate. Runs locally.",
+    km: "ទាញយកអក្សរដែលអ្នកវាយពេលបើកប្លង់ក្ដារចុចខុសវិញ។ ចង់វាយខ្មែរ តែទទួលបានអក្សរឡាតាំងច្របូកច្របល់ (ប្លង់អង់គ្លេសកំពុងបើក) ឬចង់វាយអង់គ្លេស តែទទួលបានអក្សរខ្មែរច្របូកច្របល់ (ប្លង់ NIIDA កំពុងបើក)? ឧបករណ៍នេះបម្លែងគ្រាប់ចុចទៅជាអ្វីដែលអ្នកចង់បាន តាមប្លង់ NIIDA ស្ដង់ដារ។ ជាការប៉ាន់ស្មាន — អក្សរ និងស្រៈបម្លែងបានត្រឹមត្រូវ ឯវណ្ណយុត្តិខ្លះប្រហែល។ ដំណើរការក្នុងម៉ាស៊ីន។",
+  },
+  "khmer-coeng-chart": {
+    en: "A reference for the subscript (coeng / ជើងអក្សរ) form of every Khmer consonant — the stacked letter written below another with the invisible Coeng sign (U+17D2). Pick any base consonant to preview how each subscript stacks under it, filter by romanization or name, and copy the exact ្+consonant sequence for typing clusters like ស្ត or ក្ន.",
+    km: "ឯកសារយោងសម្រាប់ទម្រង់ជើងអក្សរ (coeng / ជើងអក្សរ) នៃព្យញ្ជនៈខ្មែរនីមួយៗ — អក្សរដែលសរសេរនៅក្រោមអក្សរមួយទៀតដោយសញ្ញា Coeng ដែលមើលមិនឃើញ (U+17D2)។ ជ្រើសព្យញ្ជនៈគោលណាមួយ ដើម្បីមើលពីរបៀបជើងអក្សរតម្រួតនៅក្រោមវា ត្រងតាមអក្សរឡាតាំង ឬឈ្មោះ ហើយចម្លងលំដាប់ ្+ព្យញ្ជនៈ ត្រឹមត្រូវសម្រាប់វាយបន្សំដូចជា ស្ត ឬ ក្ន។",
+  },
   "khmer-loanword-dictionary": {
     en: "Look up common Khmer loanwords with their origin language, meaning, and usage examples.",
     km: "ស្វែងរកពាក្យកម្ចីខ្មែរទូទៅ ជាមួយភាសាប្រភព អត្ថន័យ និងឧទាហរណ៍ប្រើប្រាស់។",
@@ -1270,6 +1278,8 @@ const HOWTO_TOOLS: Record<string, string[]> = {
   "word-search-generator": ["Enter up to 12 words", "Pick a grid size and generate", "Print or copy the grid, with the solution list"],
   "khmer-address-parser": ["Paste or type a free-text address (Khmer or English)", "Click Parse", "Copy the structured fields or open it on Google Maps"],
   "khmer-keyboard-layout": ["Click keys to type Khmer characters", "Toggle Shift for the shifted layer", "Or paste a character to find its key"],
+  "khmer-layout-converter": ["Choose a direction: English layout → Khmer, or Khmer layout → English", "Paste the gibberish text you got from the wrong layout", "Read the recovered text in the output and copy it", "Use Swap to convert the result back the other way"],
+  "khmer-coeng-chart": ["Pick a base consonant to preview subscripts stacked under it", "Browse the grid, or filter by romanization, name, or letter", "Click any subscript to copy its ្+consonant sequence", "Paste the sequence after a base letter to type a stacked cluster"],
   "khmer-loanword-dictionary": ["Search a Khmer word or origin language", "Read its origin, meaning, and example"],
   "khmer-word-frequency": ["Paste Khmer text", "Read total, unique, and top-20 word frequencies"],
   "khmer-pronunciation-guide": ["Click a consonant or vowel", "Read its approximate sound and an example word"],

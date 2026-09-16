@@ -828,6 +828,8 @@ export const TOOLS: ToolDef[] = [
 
   // ---- Sep 4 2026 ----
   { id: "khmer-font-studio", title: "Khmer Font Studio", khmerTitle: "ស្ទូឌីយ៉ូពុម្ពអក្សរខ្មែរ", addedOn: "2026-09-04T10:00:00+07:00", category: "khmer", keywords: ["khmer font", "docx", "word", "font replace", "font converter", "Khmer OS", "Noto Sans Khmer", "ពុម្ពអក្សរ", "ជួសជុល", "ឯកសារ", "Word"], Component: load("khmer", "khmer-font-studio") },
+  { id: "khmer-layout-converter", title: "Khmer Keyboard Layout Converter", khmerTitle: "បម្លែងអក្សរពីប្លង់ក្ដារចុចខុស", addedOn: "2026-09-16T09:30:00+07:00", category: "khmer", keywords: ["wrong keyboard", "wrong layout", "fix typing", "gibberish", "mistyped", "niida", "english to khmer", "khmer to english", "remap", "ក្ដារចុចខុស", "បម្លែង", "ច្របូកច្របល់"], Component: load("khmer", "khmer-layout-converter") },
+  { id: "khmer-coeng-chart", title: "Khmer Subscript (Coeng) Chart", khmerTitle: "តារាងជើងអក្សរ", addedOn: "2026-09-16T09:35:00+07:00", category: "khmer", keywords: ["subscript", "coeng", "jeung", "stacked consonant", "cluster", "u+17d2", "consonant", "learn khmer", "ជើងអក្សរ", "ព្យញ្ជនៈ", "បន្សំ"], Component: load("khmer", "khmer-coeng-chart") },
 
   // ---- Data-driven unit-pair converters (generated, Batch 1) ----
   ...UNIT_PAIR_TOOLS,

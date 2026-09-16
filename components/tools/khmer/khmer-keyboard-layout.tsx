@@ -5,72 +5,7 @@ import { useLanguage } from "@/components/LanguageProvider";
 import { Field, TextArea, TextInput, ToolShell } from "@/components/ui/Shell";
 import { Button } from "@/components/ui/Output";
 import { useToolState } from "@/lib/storage";
-
-type KeyDef = { id: string; base: string; shift: string };
-
-// Curated NIIDA standard Khmer Unicode keyboard layout (base + Shift layers),
-// laid out on the physical US QWERTY positions.
-// Source: Microsoft "Khmer (NIDA)" keyboard tables (kbdkni.dll) and Keyman's
-// "Khmer Angkor" documentation, both of which follow the NiDA standard.
-const KEY_ROWS: KeyDef[][] = [
-  [
-    { id: "`", base: "«", shift: "»" },
-    { id: "1", base: "១", shift: "!" },
-    { id: "2", base: "២", shift: "ៗ" },
-    { id: "3", base: "៣", shift: "\"" },
-    { id: "4", base: "៤", shift: "៛" },
-    { id: "5", base: "៥", shift: "%" },
-    { id: "6", base: "៦", shift: "៍" },
-    { id: "7", base: "៧", shift: "័" },
-    { id: "8", base: "៨", shift: "៏" },
-    { id: "9", base: "៩", shift: "(" },
-    { id: "0", base: "០", shift: ")" },
-    { id: "-", base: "ឥ", shift: "៌" },
-    { id: "=", base: "ឲ", shift: "=" },
-  ],
-  [
-    { id: "q", base: "ឆ", shift: "ឈ" },
-    { id: "w", base: "ឹ", shift: "ឺ" },
-    { id: "e", base: "េ", shift: "ែ" },
-    { id: "r", base: "រ", shift: "ឬ" },
-    { id: "t", base: "ត", shift: "ទ" },
-    { id: "y", base: "យ", shift: "ួ" },
-    { id: "u", base: "ុ", shift: "ូ" },
-    { id: "i", base: "ិ", shift: "ី" },
-    { id: "o", base: "ោ", shift: "ៅ" },
-    { id: "p", base: "ផ", shift: "ភ" },
-    { id: "[", base: "ៀ", shift: "ឿ" },
-    { id: "]", base: "ឪ", shift: "ឧ" },
-  ],
-  [
-    { id: "a", base: "ា", shift: "ាំ" },
-    { id: "s", base: "ស", shift: "ៃ" },
-    { id: "d", base: "ដ", shift: "ឌ" },
-    { id: "f", base: "ថ", shift: "ធ" },
-    { id: "g", base: "ង", shift: "អ" },
-    { id: "h", base: "ហ", shift: "ះ" },
-    { id: "j", base: "្", shift: "ញ" },
-    { id: "k", base: "ក", shift: "គ" },
-    { id: "l", base: "ល", shift: "ឡ" },
-    { id: ";", base: "ើ", shift: "ោះ" },
-    { id: "'", base: "់", shift: "៉" },
-    { id: "\\", base: "ឮ", shift: "ឭ" },
-  ],
-  [
-    { id: "z", base: "ឋ", shift: "ឍ" },
-    { id: "x", base: "ខ", shift: "ឃ" },
-    { id: "c", base: "ច", shift: "ជ" },
-    { id: "v", base: "វ", shift: "េះ" },
-    { id: "b", base: "ប", shift: "ព" },
-    { id: "n", base: "ន", shift: "ណ" },
-    { id: "m", base: "ម", shift: "ំ" },
-    { id: ",", base: "ុំ", shift: "ុះ" },
-    { id: ".", base: "។", shift: "៕" },
-    { id: "/", base: "៊", shift: "?" },
-  ],
-];
-
-const ALL_KEYS = KEY_ROWS.flat();
+import { KEY_ROWS, ALL_KEYS, type KeyDef } from "@/lib/khmer-keyboard-niida";
 
 type FindMatch = { key: KeyDef; layer: "base" | "shift"; char: string };
 
