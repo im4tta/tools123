@@ -168,6 +168,13 @@ export default function ChmodCalculator() {
         <Output label={t("Symbolic", "និមិត្តសញ្ញា")} value={sym} />
         <Output label={t("Command", "ពាក្យបញ្ជា")} value={cmd} />
       </div>
+
+      <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3 text-xs leading-relaxed text-[var(--ink-dim)]">
+        <div className="mb-1 font-medium text-[var(--ink)]">{t("Source & Credits", "ប្រភព និងការអរគុណ")}</div>
+        <ul className="list-inside list-disc space-y-0.5">
+          <li>{t("Original Tools123 implementation of the standard Unix/POSIX file-mode (chmod) permission model — no third-party code or data.", "ការសរសេរដើមរបស់ Tools123 នៃគំរូសិទ្ធិឯកសារ Unix/POSIX ស្ដង់ដារ (chmod) — គ្មានកូដ ឬទិន្នន័យភាគីទីបី។")}</li>
+        </ul>
+      </div>
     </ToolShell>
   );
 }

@@ -141,6 +141,17 @@ export default function BenfordAnalyzer() {
           </div>
         </>
       )}
+
+      <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3 text-xs leading-relaxed text-[var(--ink-dim)]">
+        <div className="mb-1 font-medium text-[var(--ink)]">{t("Source & Credits", "ប្រភព និងការអរគុណ")}</div>
+        <ul className="list-inside list-disc space-y-0.5">
+          <li>
+            {t("Implements Benford's law, P(d) = log10(1 + 1/d) — first noted by Simon Newcomb (1881) and popularised by Frank Benford (1938):", "អនុវត្តច្បាប់ Benford, P(d) = log10(1 + 1/d) — កត់សម្គាល់ដំបូងដោយ Simon Newcomb (១៨៨១) និងធ្វើឲ្យល្បីដោយ Frank Benford (១៩៣៨)៖")}{" "}
+            <a className="underline" href="https://en.wikipedia.org/wiki/Benford%27s_law" target="_blank" rel="noreferrer">Benford&apos;s law</a>
+          </li>
+          <li>{t("Original Tools123 implementation. The χ² critical value 15.51 is the standard value for 8 degrees of freedom at α = 0.05.", "ការសរសេរដើមរបស់ Tools123។ តម្លៃវិបត្តិ χ² 15.51 ជាតម្លៃស្ដង់ដារសម្រាប់សេរីភាព ៨ ដឺក្រេ នៅ α = 0.05។")}</li>
+        </ul>
+      </div>
     </ToolShell>
   );
 }
