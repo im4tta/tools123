@@ -4,6 +4,7 @@ import { ArrowDown, ArrowUp, FileText, Trash2 } from "lucide-react";
 import { ToolShell } from "@/components/ui/Shell";
 import { Button } from "@/components/ui/Output";
 import { loadPdfJs, formatBytes } from "@/lib/pdfjs";
+import { useLanguage } from "@/components/LanguageProvider";
 
 interface Item {
   id: string;
@@ -33,6 +34,7 @@ async function makeThumb(file: File): Promise<{ thumb: string | null; pages: num
 }
 
 export default function PdfMergeTool() {
+  const { text: t } = useLanguage();
   const [items, setItems] = useState<Item[]>([]);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -153,6 +155,13 @@ export default function PdfMergeTool() {
           </a>
         </div>
       )}
+      <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3 text-xs leading-relaxed text-[var(--ink-dim)]">
+        <div className="mb-1 font-medium text-[var(--ink)]">{t("Source & Credits", "ប្រភព និងការអរគុណ")}</div>
+        <ul className="list-inside list-disc space-y-0.5">
+          <li>{t("Reading: pdf.js (Apache-2.0, Mozilla). Merging: pdf-lib (MIT).", "ការអាន: pdf.js (Apache-2.0, Mozilla)។ ការបញ្ចូលគ្នា: pdf-lib (MIT)។")}</li>
+          <li>{t("Original Tools123 implementation; files are processed locally and never uploaded.", "ការសរសេរដើមរបស់ Tools123; ឯកសារត្រូវដំណើរការក្នុងម៉ាស៊ីន ហើយមិនផ្ទុកឡើងទេ។")}</li>
+        </ul>
+      </div>
     </ToolShell>
   );
 }

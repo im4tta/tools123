@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/Output";
 import { loadPdfJs } from "@/lib/pdfjs";
 import { useToolState } from "@/lib/storage";
 import { recordExport } from "@/lib/export";
+import { useLanguage } from "@/components/LanguageProvider";
 
 interface PageImg {
   page: number;
@@ -17,6 +18,7 @@ interface Settings {
 }
 
 export default function PdfToImagesTool() {
+  const { text: t } = useLanguage();
   const [s, setS] = useToolState<Settings>("pdf-to-images", { scale: 2, format: "image/png" });
   const update = (patch: Partial<Settings>) => setS((prev) => ({ ...prev, ...patch }));
   const [file, setFile] = useState<File | null>(null);
@@ -114,6 +116,13 @@ export default function PdfToImagesTool() {
           </div>
         </>
       )}
+      <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3 text-xs leading-relaxed text-[var(--ink-dim)]">
+        <div className="mb-1 font-medium text-[var(--ink)]">{t("Source & Credits", "ប្រភព និងការអរគុណ")}</div>
+        <ul className="list-inside list-disc space-y-0.5">
+          <li>{t("Rendering: pdf.js (Apache-2.0, Mozilla). ZIP packaging: JSZip (MIT/GPL).", "ការបង្ហាញ: pdf.js (Apache-2.0, Mozilla)។ ការខ្ចប់ ZIP: JSZip (MIT/GPL)។")}</li>
+          <li>{t("Original Tools123 implementation; files are processed locally and never uploaded.", "ការសរសេរដើមរបស់ Tools123; ឯកសារត្រូវដំណើរការក្នុងម៉ាស៊ីន ហើយមិនផ្ទុកឡើងទេ។")}</li>
+        </ul>
+      </div>
     </ToolShell>
   );
 }

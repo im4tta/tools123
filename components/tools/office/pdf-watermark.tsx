@@ -5,6 +5,7 @@ import { ToolShell, Field, TextInput, Select, Row } from "@/components/ui/Shell"
 import { Button } from "@/components/ui/Output";
 import { loadPdfJs, formatBytes } from "@/lib/pdfjs";
 import { useToolState } from "@/lib/storage";
+import { useLanguage } from "@/components/LanguageProvider";
 
 interface Settings {
   text: string;
@@ -26,6 +27,7 @@ function hexToRgb01(hex: string) {
 }
 
 export default function PdfWatermarkTool() {
+  const { text: t } = useLanguage();
   const [s, setS] = useToolState<Settings>("pdf-watermark", initial);
   const update = (patch: Partial<Settings>) => setS((prev) => ({ ...prev, ...patch }));
   const [file, setFile] = useState<File | null>(null);
@@ -241,6 +243,13 @@ export default function PdfWatermarkTool() {
           </a>
         </div>
       )}
+      <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3 text-xs leading-relaxed text-[var(--ink-dim)]">
+        <div className="mb-1 font-medium text-[var(--ink)]">{t("Source & Credits", "ប្រភព និងការអរគុណ")}</div>
+        <ul className="list-inside list-disc space-y-0.5">
+          <li>{t("Preview rendering: pdf.js (Apache-2.0, Mozilla). Watermarking: pdf-lib (MIT).", "ការបង្ហាញ: pdf.js (Apache-2.0, Mozilla)។ ការដាក់ស្លាកទឹក: pdf-lib (MIT)។")}</li>
+          <li>{t("Original Tools123 implementation; files are processed locally and never uploaded.", "ការសរសេរដើមរបស់ Tools123; ឯកសារត្រូវដំណើរការក្នុងម៉ាស៊ីន ហើយមិនផ្ទុកឡើងទេ។")}</li>
+        </ul>
+      </div>
     </ToolShell>
   );
 }

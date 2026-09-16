@@ -5,6 +5,7 @@ import { ToolShell, Field, Select, Row } from "@/components/ui/Shell";
 import { Button } from "@/components/ui/Output";
 import { formatBytes } from "@/lib/pdfjs";
 import { useToolState } from "@/lib/storage";
+import { useLanguage } from "@/components/LanguageProvider";
 
 interface Item {
   id: string;
@@ -18,6 +19,7 @@ interface Settings {
 }
 
 export default function ImagesToPdfTool() {
+  const { text: t } = useLanguage();
   const [items, setItems] = useState<Item[]>([]);
   const [s, setS] = useToolState<Settings>("images-to-pdf", { pageSize: "auto", margin: 0 });
   const update = (patch: Partial<Settings>) => setS((prev) => ({ ...prev, ...patch }));
@@ -158,6 +160,13 @@ export default function ImagesToPdfTool() {
           </a>
         </div>
       )}
+      <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3 text-xs leading-relaxed text-[var(--ink-dim)]">
+        <div className="mb-1 font-medium text-[var(--ink)]">{t("Source & Credits", "ប្រភព និងការអរគុណ")}</div>
+        <ul className="list-inside list-disc space-y-0.5">
+          <li>{t("PDF assembly: pdf-lib (MIT).", "ការផ្គុំ PDF: pdf-lib (MIT)។")}</li>
+          <li>{t("Original Tools123 implementation; images are processed locally and never uploaded.", "ការសរសេរដើមរបស់ Tools123; រូបភាពត្រូវដំណើរការក្នុងម៉ាស៊ីន ហើយមិនផ្ទុកឡើងទេ។")}</li>
+        </ul>
+      </div>
     </ToolShell>
   );
 }
