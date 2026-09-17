@@ -5,6 +5,7 @@ import { Fragment, useEffect, useState } from "react";
 import { useLanguage } from "@/components/LanguageProvider";
 import { TextArea, ToolShell } from "@/components/ui/Shell";
 import { useToolState } from "@/lib/storage";
+import { assetUrl } from "@/lib/assets";
 
 type CtdaModule = {
   _ctda_init: () => number;
@@ -22,7 +23,10 @@ declare global {
   interface Window { createCtda?: (options?: { locateFile?: (path: string) => string }) => Promise<CtdaModule>; }
 }
 
-const MODEL_SCRIPT = "/vendor/coengtada/ctda.js";
+// The Coeng Ta/Da WASM (~2.5 MB) used to live in public/ but is now fetched
+// from the shared assets CDN — see lib/assets.ts — to keep it out of every
+// Vercel deployment. assetUrl() resolves to an absolute, CORS-enabled URL.
+const MODEL_SCRIPT = assetUrl("/vendor/coengtada/ctda.js");
 const DEFAULT_INPUT = "គ្របដណ្តប់លើផ្ទៃដី និងស្តីពីស្ថានភាពធាតុអាកាស។";
 
 function callString(module: CtdaModule, fn: (pointer: number) => number, text: string) {
@@ -75,7 +79,7 @@ export default function CoengTadaCorrector() {
     });
     void ready.then(async () => {
       if (!window.createCtda) throw new Error("The Coeng Ta/Da model API is unavailable.");
-      const instance = await window.createCtda({ locateFile: (path) => `/vendor/coengtada/${path}` });
+      const instance = await window.createCtda({ locateFile: (path) => assetUrl(`/vendor/coengtada/${path}`) });
       if (!instance._ctda_init()) throw new Error("The Coeng Ta/Da model could not initialize.");
       if (!cancelled) { setModule(instance); setLoading(false); }
     }).catch((cause: unknown) => { if (!cancelled) { setError(cause instanceof Error ? cause.message : "Model loading failed."); setLoading(false); } });

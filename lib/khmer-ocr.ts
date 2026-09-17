@@ -7,6 +7,7 @@
 
 import { InferenceSession, Tensor } from "onnxruntime-web";
 import { KIRI_VOCAB } from "@/lib/kiri-vocab";
+import { assetUrl } from "@/lib/assets";
 
 export type EngineId = "khmerocr" | "kiri";
 
@@ -24,9 +25,12 @@ export const ENGINES: EngineInfo[] = [
   { id: "kiri", label: "Kiri OCR", description: "Transformer encoder + CTC, 12M lines, mixed EN/KM", license: "Apache-2.0", author: "mrrtmob", source: "github.com/mrrtmob/kiri-ocr" },
 ];
 
+// These models used to live in public/ (~55 MB) but are now fetched from the
+// shared assets CDN — see lib/assets.ts — to keep them out of every Vercel
+// deployment. assetUrl() resolves to absolute, CORS-enabled URLs.
 export const MODEL_FILES: Record<EngineId, { det: string; rec: string }> = {
-  khmerocr: { det: "/models/khmerocr/det.onnx", rec: "/models/khmerocr/rec.onnx" },
-  kiri: { det: "/models/khmerocr/det.onnx", rec: "/models/kiri/rec.onnx" },
+  khmerocr: { det: assetUrl("/models/khmerocr/det.onnx"), rec: assetUrl("/models/khmerocr/rec.onnx") },
+  kiri: { det: assetUrl("/models/khmerocr/det.onnx"), rec: assetUrl("/models/kiri/rec.onnx") },
 };
 
 // The 98 Khmer character tokens (recovered from the reference TOKENS string).
