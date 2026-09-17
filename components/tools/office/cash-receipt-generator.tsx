@@ -8,7 +8,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Download, Wand2 } from "lucide-react";
 import { PDFDocument } from "happypdf";
-import { embedStudioFont, hexToColor, STUDIO_FONTS } from "@/lib/studio/pdfShared";
+import { embedStudioFont, hexToColor, STUDIO_FONTS, drawMixedText, measureMixedText } from "@/lib/studio/pdfShared";
 import { ToolShell, Field, TextInput, Select } from "@/components/ui/Shell";
 import { useToolState } from "@/lib/storage";
 import { useLanguage } from "@/components/LanguageProvider";
@@ -64,31 +64,32 @@ async function buildReceipt(d: {
   page.drawRectangle({ x: M - 12, y: 24, width: W - (M - 12) * 2, height: H - 48, borderColor: rule, borderWidth: 1 });
 
   let y = H - 60;
-  page.drawText(d.org || "Company", { x: M, y, font: bold, size: 16, color: ink });
-  page.drawText("CASH RECEIPT · បង្កាន់ដៃ", { x: right - reg.widthOfTextAtSize("CASH RECEIPT · បង្កាន់ដៃ", 12), y: y + 2, font: bold, size: 12, color: accent });
+  drawMixedText(page, d.org || "Company", { x: M, y, font: bold, size: 16, color: ink });
+  const titleStr = "CASH RECEIPT · បង្កាន់ដៃ";
+  drawMixedText(page, titleStr, { x: right - measureMixedText(bold, titleStr, 12), y: y + 2, font: bold, size: 12, color: accent });
   y -= 15;
-  if (d.orgAddr) page.drawText(d.orgAddr, { x: M, y, font: reg, size: 9.5, color: muted });
+  if (d.orgAddr) drawMixedText(page, d.orgAddr, { x: M, y, font: reg, size: 9.5, color: muted });
   const noStr = `No. ${d.receiptNo || "—"}`;
-  page.drawText(noStr, { x: right - reg.widthOfTextAtSize(noStr, 10), y, font: reg, size: 10, color: ink });
+  drawMixedText(page, noStr, { x: right - measureMixedText(reg, noStr, 10), y, font: reg, size: 10, color: ink });
   y -= 13;
-  const dateStr = `${d.date || "—"}`;
-  page.drawText(`Date · កាលបរិច្ឆេទ: ${dateStr}`, { x: right - reg.widthOfTextAtSize(`Date · កាលបរិច្ឆេទ: ${dateStr}`, 9.5), y, font: reg, size: 9.5, color: muted });
+  const dateStr = `Date · កាលបរិច្ឆេទ: ${d.date || "—"}`;
+  drawMixedText(page, dateStr, { x: right - measureMixedText(reg, dateStr, 9.5), y, font: reg, size: 9.5, color: muted });
   y -= 18;
   page.drawLine({ start: { x: M, y }, end: { x: right, y }, thickness: 1, color: rule });
   y -= 26;
 
   const rowLabel = (label: string, value: string, valueBold = false) => {
-    page.drawText(label, { x: M, y, font: reg, size: 10, color: muted });
-    page.drawText(value || "—", { x: M + 150, y, font: valueBold ? bold : reg, size: valueBold ? 12 : 11, color: ink });
+    drawMixedText(page, label, { x: M, y, font: reg, size: 10, color: muted });
+    drawMixedText(page, value || "—", { x: M + 150, y, font: valueBold ? bold : reg, size: valueBold ? 12 : 11, color: ink });
     page.drawLine({ start: { x: M + 148, y: y - 4 }, end: { x: right, y: y - 4 }, thickness: 0.5, color: rule, opacity: 0.7 });
     y -= 28;
   };
   rowLabel("Received from · បានទទួលពី", d.payer);
   rowLabel("The sum of · ចំនួនទឹកប្រាក់", money(numval(d.amount), d.currency), true);
   // amount in words
-  page.drawText("In words · ជាអក្សរ", { x: M, y, font: reg, size: 10, color: muted });
+  drawMixedText(page, "In words · ជាអក្សរ", { x: M, y, font: reg, size: 10, color: muted });
   const words = d.words || amountToWords(numval(d.amount), d.currency);
-  page.drawText(words, { x: M + 150, y, font: reg, size: 10, color: ink });
+  drawMixedText(page, words, { x: M + 150, y, font: reg, size: 10, color: ink });
   page.drawLine({ start: { x: M + 148, y: y - 4 }, end: { x: right, y: y - 4 }, thickness: 0.5, color: rule, opacity: 0.7 });
   y -= 28;
   rowLabel("For · សម្រាប់", d.purpose);
@@ -97,8 +98,8 @@ async function buildReceipt(d: {
   // signatures
   y = 66;
   page.drawLine({ start: { x: right - 170, y }, end: { x: right, y }, thickness: 0.75, color: rule });
-  page.drawText("Received by · អ្នកទទួលប្រាក់", { x: right - 170, y: y - 12, font: reg, size: 8.5, color: muted });
-  page.drawText("Keep this receipt as proof of payment.", { x: M, y: 38, font: reg, size: 7.5, color: muted });
+  drawMixedText(page, "Received by · អ្នកទទួលប្រាក់", { x: right - 170, y: y - 12, font: reg, size: 8.5, color: muted });
+  drawMixedText(page, "Keep this receipt as proof of payment.", { x: M, y: 38, font: reg, size: 7.5, color: muted });
 
   const bytes = await doc.save();
   return new Blob([bytes as BlobPart], { type: "application/pdf" });

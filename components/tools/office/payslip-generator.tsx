@@ -9,7 +9,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Download, Plus, Trash2 } from "lucide-react";
 import { PDFDocument, PageSizes } from "happypdf";
-import { embedStudioFont, hexToColor, STUDIO_FONTS } from "@/lib/studio/pdfShared";
+import { embedStudioFont, hexToColor, STUDIO_FONTS, drawMixedText, measureMixedText } from "@/lib/studio/pdfShared";
 import { ToolShell, Field, TextInput, Select } from "@/components/ui/Shell";
 import { useToolState } from "@/lib/storage";
 import { useLanguage } from "@/components/LanguageProvider";
@@ -54,18 +54,19 @@ async function buildPayslip(data: {
   const net = gross - totalDed;
 
   // Header
-  page.drawText(data.company || "Company", { x: M, y, font: bold, size: 18, color: ink });
-  page.drawText("PAYSLIP · ប័ណ្ណបើកប្រាក់ខែ", { x: right - reg.widthOfTextAtSize("PAYSLIP · ប័ណ្ណបើកប្រាក់ខែ", 12), y: y + 4, font: bold, size: 12, color: accent });
+  drawMixedText(page, data.company || "Company", { x: M, y, font: bold, size: 18, color: ink });
+  const titleStr = "PAYSLIP · ប័ណ្ណបើកប្រាក់ខែ";
+  drawMixedText(page, titleStr, { x: right - measureMixedText(bold, titleStr, 12), y: y + 4, font: bold, size: 12, color: accent });
   y -= 16;
-  if (data.companyAddr) { page.drawText(data.companyAddr, { x: M, y, font: reg, size: 9.5, color: muted }); }
+  if (data.companyAddr) { drawMixedText(page, data.companyAddr, { x: M, y, font: reg, size: 9.5, color: muted }); }
   y -= 18;
   page.drawLine({ start: { x: M, y }, end: { x: right, y }, thickness: 1, color: rule });
   y -= 22;
 
   // Employee / period block
   const label = (t: string, v: string, x: number, yy: number) => {
-    page.drawText(t, { x, y: yy, font: reg, size: 8.5, color: muted });
-    page.drawText(v || "—", { x, y: yy - 13, font: bold, size: 11, color: ink });
+    drawMixedText(page, t, { x, y: yy, font: reg, size: 8.5, color: muted });
+    drawMixedText(page, v || "—", { x, y: yy - 13, font: bold, size: 11, color: ink });
   };
   label("Employee · បុគ្គលិក", data.empName, M, y);
   label("Employee ID · លេខសម្គាល់", data.empId, M + 200, y);
@@ -85,23 +86,23 @@ async function buildPayslip(data: {
 
   const drawTable = (x: number, title: string, items: Line[], totalLabel: string, total: number) => {
     let ty = topY;
-    page.drawText(title, { x, y: ty, font: bold, size: 10.5, color: accent });
+    drawMixedText(page, title, { x, y: ty, font: bold, size: 10.5, color: accent });
     ty -= 6;
     page.drawLine({ start: { x, y: ty }, end: { x: x + colW, y: ty }, thickness: 0.75, color: rule });
     ty -= 16;
     const rows = items.filter((l) => l.label || num(l.amount));
-    if (rows.length === 0) { page.drawText("—", { x, y: ty, font: reg, size: 10, color: muted }); ty -= 16; }
+    if (rows.length === 0) { drawMixedText(page, "—", { x, y: ty, font: reg, size: 10, color: muted }); ty -= 16; }
     for (const l of rows) {
-      page.drawText(l.label || "—", { x, y: ty, font: reg, size: 10, color: ink });
+      drawMixedText(page, l.label || "—", { x, y: ty, font: reg, size: 10, color: ink });
       const amt = money(num(l.amount), data.currency);
-      page.drawText(amt, { x: x + colW - reg.widthOfTextAtSize(amt, 10), y: ty, font: reg, size: 10, color: ink });
+      drawMixedText(page, amt, { x: x + colW - measureMixedText(reg, amt, 10), y: ty, font: reg, size: 10, color: ink });
       ty -= 16;
     }
     ty -= 4;
     page.drawLine({ start: { x, y: ty + 8 }, end: { x: x + colW, y: ty + 8 }, thickness: 0.75, color: rule });
-    page.drawText(totalLabel, { x, y: ty - 4, font: bold, size: 10, color: ink });
+    drawMixedText(page, totalLabel, { x, y: ty - 4, font: bold, size: 10, color: ink });
     const tot = money(total, data.currency);
-    page.drawText(tot, { x: x + colW - bold.widthOfTextAtSize(tot, 10), y: ty - 4, font: bold, size: 10, color: ink });
+    drawMixedText(page, tot, { x: x + colW - measureMixedText(bold, tot, 10), y: ty - 4, font: bold, size: 10, color: ink });
     return ty - 4;
   };
 
@@ -112,18 +113,18 @@ async function buildPayslip(data: {
   // Net pay box
   const boxH = 44;
   page.drawRectangle({ x: M, y: y - boxH + 14, width: right - M, height: boxH, color: hexToColor("#f4eddb") });
-  page.drawText("NET PAY · ប្រាក់សុទ្ធ", { x: M + 14, y: y - 8, font: bold, size: 13, color: ink });
+  drawMixedText(page, "NET PAY · ប្រាក់សុទ្ធ", { x: M + 14, y: y - 8, font: bold, size: 13, color: ink });
   const netStr = money(net, data.currency);
-  page.drawText(netStr, { x: right - 14 - bold.widthOfTextAtSize(netStr, 16), y: y - 10, font: bold, size: 16, color: accent });
+  drawMixedText(page, netStr, { x: right - 14 - measureMixedText(bold, netStr, 16), y: y - 10, font: bold, size: 16, color: accent });
   y -= boxH + 40;
 
   // Signatures
   page.drawLine({ start: { x: M, y }, end: { x: M + 150, y }, thickness: 0.75, color: rule });
   page.drawLine({ start: { x: right - 150, y }, end: { x: right, y }, thickness: 0.75, color: rule });
-  page.drawText("Employee · បុគ្គលិក", { x: M, y: y - 12, font: reg, size: 8.5, color: muted });
-  page.drawText("Employer · និយោជក", { x: right - 150, y: y - 12, font: reg, size: 8.5, color: muted });
+  drawMixedText(page, "Employee · បុគ្គលិក", { x: M, y: y - 12, font: reg, size: 8.5, color: muted });
+  drawMixedText(page, "Employer · និយោជក", { x: right - 150, y: y - 12, font: reg, size: 8.5, color: muted });
 
-  page.drawText("Generated with 123tool.app — figures are user-entered, not an official statement.", { x: M, y: 40, font: reg, size: 7.5, color: muted });
+  drawMixedText(page, "Generated with 123tool.app — figures are user-entered, not an official statement.", { x: M, y: 40, font: reg, size: 7.5, color: muted });
 
   const bytes = await doc.save();
   return new Blob([bytes as BlobPart], { type: "application/pdf" });

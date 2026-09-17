@@ -1,5 +1,58 @@
 import { rgb, wrapText, type Color, type PDFFont } from "happypdf";
 
+// HappyPDF (0.1.0) mis-shapes a single drawText run that mixes Khmer with
+// Latin/other scripts — the Khmer coeng (subscript) clusters break because
+// HarfBuzz needs the run itemised by script. These helpers split a string into
+// maximal single-script runs (Khmer vs the rest) and draw/measure each run on
+// its own, which shapes each correctly and lays them out left to right.
+const isKhmerCodePoint = (cp: number): boolean =>
+  (cp >= 0x1780 && cp <= 0x17ff) || (cp >= 0x19e0 && cp <= 0x19ff) || cp === 0x200b;
+
+function scriptRuns(text: string): string[] {
+  const runs: string[] = [];
+  let current = "";
+  let currentIsKhmer: boolean | null = null;
+  for (const ch of text) {
+    const khmer = isKhmerCodePoint(ch.codePointAt(0) ?? 0);
+    if (currentIsKhmer === null || khmer === currentIsKhmer) {
+      current += ch;
+      currentIsKhmer = khmer;
+    } else {
+      runs.push(current);
+      current = ch;
+      currentIsKhmer = khmer;
+    }
+  }
+  if (current) runs.push(current);
+  return runs;
+}
+
+/** Total width of a (possibly mixed-script) string, measured per single-script run. */
+export function measureMixedText(font: PDFFont, text: string, size: number): number {
+  return scriptRuns(text).reduce((width, run) => width + font.widthOfTextAtSize(run, size), 0);
+}
+
+type MixedTextPage = {
+  drawText: (text: string, opts: { x: number; y: number; font: PDFFont; size: number; color?: Color }) => void;
+};
+
+/**
+ * Draw a string that may mix Khmer and Latin, shaping each script run correctly.
+ * Use in place of `page.drawText` for any label that can contain both scripts
+ * (e.g. "Received from · បានទទួលពី"). Pure single-script strings draw as one run.
+ */
+export function drawMixedText(
+  page: MixedTextPage,
+  text: string,
+  opts: { x: number; y: number; font: PDFFont; size: number; color?: Color },
+): void {
+  let cursorX = opts.x;
+  for (const run of scriptRuns(text)) {
+    page.drawText(run, { ...opts, x: cursorX });
+    cursorX += opts.font.widthOfTextAtSize(run, opts.size);
+  }
+}
+
 export function hexToColor(hex: string): Color {
   const clean = hex.replace("#", "");
   const r = parseInt(clean.substring(0, 2), 16) / 255;
