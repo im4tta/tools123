@@ -585,7 +585,7 @@ export default function Home() {
           <>
             <span className="aurora-eyebrow">
               <span className="aurora-pip" />
-              {t(`${TOTAL} free tools · built for Khmer`, `ឧបករណ៍ឥតគិតថ្លៃ ${toKh(TOTAL)} · សម្រាប់ភាសាខ្មែរ`)}
+              {t(`${TOTAL} free tools · built for everyone`, `ឧបករណ៍ឥតគិតថ្លៃ ${toKh(TOTAL)} · សម្រាប់អ្នកគ្រប់គ្នា`)}
             </span>
             <h1 className="aurora-h1">
               {t("All your tools,", "ឧបករណ៍ទាំងអស់")}<br />
