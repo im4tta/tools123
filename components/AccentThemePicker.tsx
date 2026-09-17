@@ -8,7 +8,7 @@ import { useLanguage } from "@/components/LanguageProvider";
 /** Dropdown picker for the app's accent color themes (Cambodian places). */
 export function AccentThemePicker({ className = "" }: { className?: string }) {
   const { text: t } = useLanguage();
-  const { accent, setAccent } = useTheme();
+  const { accent, setAccent, homeDesign, setHomeDesign } = useTheme();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -46,6 +46,28 @@ export function AccentThemePicker({ className = "" }: { className?: string }) {
       </button>
       {open && (
         <div className="absolute right-0 z-50 mt-2 w-48 overflow-hidden rounded-lg border border-[var(--ground-line)] bg-[var(--ground-raised)] shadow-lg">
+          <p className="border-b border-[var(--ground-line)] px-3 py-2 text-[10px] font-semibold uppercase tracking-wide text-[var(--ink-faint)]">
+            {t("Home design", "ការរចនាទំព័រដើម")}
+          </p>
+          <div className="grid grid-cols-2 gap-1 border-b border-[var(--ground-line)] p-1.5">
+            {([
+              { id: "aurora", label: t("New", "ថ្មី") },
+              { id: "classic", label: t("Classic", "ក្បាលដើម") },
+            ] as const).map((opt) => (
+              <button
+                key={opt.id}
+                type="button"
+                onClick={() => { setHomeDesign(opt.id); setOpen(false); }}
+                className={`rounded-md px-2 py-1.5 text-xs font-medium transition ${
+                  homeDesign === opt.id
+                    ? "bg-[var(--gold)]/15 text-[var(--gold)] ring-1 ring-[var(--gold)]/40"
+                    : "text-[var(--ink-dim)] hover:bg-[var(--ground-raised-hi)] hover:text-[var(--ink)]"
+                }`}
+              >
+                {opt.label}
+              </button>
+            ))}
+          </div>
           <p className="border-b border-[var(--ground-line)] px-3 py-2 text-[10px] font-semibold uppercase tracking-wide text-[var(--ink-faint)]">
             {t("Accent theme", "ពណ៌ប្រធានបទ")}
           </p>

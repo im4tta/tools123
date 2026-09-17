@@ -22,16 +22,25 @@ export const ACCENTS: { id: Accent; label: string; km: string; swatch: string }[
 
 const ACCENT_KEY = "toolbox123:accent";
 
+/** Homepage layout skin: "aurora" is the new search-first design (default), "classic" is the original. */
+export type HomeDesign = "aurora" | "classic";
+const HOME_DESIGN_KEY = "toolbox123:home-design";
+function applyHomeDesign(design: HomeDesign) {
+  document.documentElement.setAttribute("data-home", design);
+}
+
 function isEditableTarget(target: EventTarget | null) {
   return target instanceof HTMLElement && (target.isContentEditable || Boolean(target.closest("input, textarea, select, [contenteditable='true']")));
 }
 
-const ThemeContext = createContext<{ theme: Theme; toggle: () => void; setTheme: (t: Theme) => void; accent: Accent; setAccent: (a: Accent) => void }>({
+const ThemeContext = createContext<{ theme: Theme; toggle: () => void; setTheme: (t: Theme) => void; accent: Accent; setAccent: (a: Accent) => void; homeDesign: HomeDesign; setHomeDesign: (d: HomeDesign) => void }>({
   theme: "dark",
   toggle: () => {},
   setTheme: () => {},
   accent: "classic",
   setAccent: () => {},
+  homeDesign: "aurora",
+  setHomeDesign: () => {},
 });
 
 function applyAccent(accent: Accent) {
@@ -42,6 +51,7 @@ function applyAccent(accent: Accent) {
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setThemeState] = useState<Theme>("dark");
   const [accent, setAccentState] = useState<Accent>("classic");
+  const [homeDesign, setHomeDesignState] = useState<HomeDesign>("aurora");
 
   useEffect(() => {
     const stored = window.localStorage.getItem(THEME_KEY) as Theme | null;
@@ -55,6 +65,9 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     const storedAccent = (window.localStorage.getItem(ACCENT_KEY) as Accent | null) ?? "classic";
     setAccentState(storedAccent);
     applyAccent(storedAccent);
+    const storedDesign = (window.localStorage.getItem(HOME_DESIGN_KEY) as HomeDesign | null) ?? "aurora";
+    setHomeDesignState(storedDesign);
+    applyHomeDesign(storedDesign);
   }, []);
 
   const setTheme = useCallback((t: Theme) => {
@@ -78,6 +91,16 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
+  const setHomeDesign = useCallback((d: HomeDesign) => {
+    setHomeDesignState(d);
+    applyHomeDesign(d);
+    try {
+      window.localStorage.setItem(HOME_DESIGN_KEY, d);
+    } catch {
+      // ignore
+    }
+  }, []);
+
   const toggle = useCallback(() => {
     setTheme(theme === "dark" ? "light" : "dark");
   }, [theme, setTheme]);
@@ -93,7 +116,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     return () => document.removeEventListener("keydown", onKeyDown);
   }, [toggle]);
 
-  return <ThemeContext.Provider value={{ theme, toggle, setTheme, accent, setAccent }}>{children}</ThemeContext.Provider>;
+  return <ThemeContext.Provider value={{ theme, toggle, setTheme, accent, setAccent, homeDesign, setHomeDesign }}>{children}</ThemeContext.Provider>;
 }
 
 export function useTheme() {
@@ -110,6 +133,8 @@ export const themeInitScript = `
     document.documentElement.style.colorScheme = theme;
     var accent = localStorage.getItem('${ACCENT_KEY}');
     if (accent && accent !== 'classic') document.documentElement.setAttribute('data-accent', accent);
+    var home = localStorage.getItem('${HOME_DESIGN_KEY}') || 'aurora';
+    document.documentElement.setAttribute('data-home', home);
   } catch (e) {}
 })();
 `;

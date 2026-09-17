@@ -520,3 +520,105 @@ body {
   --color-bone-dim: var(--bone-dim);
   --color-bone-faint: var(--bone-faint);
 }
+
+/* ============================================================
+   Aurora — the search-first homepage skin (data-home="aurora").
+   Scoped to the homepage (.home-main and its aurora hero classes) so
+   tool pages and the "classic" skin are untouched. Toggle lives in the
+   theme menu (AccentThemePicker). Latin uses Manrope; Khmer falls
+   through to Kantumruy Pro.
+   ============================================================ */
+:root[data-home="aurora"] .home-main {
+  font-family: var(--font-manrope), var(--font-kantumruy-pro), var(--font-siemreap), ui-sans-serif, system-ui, sans-serif;
+}
+:root[data-home="aurora"] .home-main .font-display {
+  font-family: var(--font-manrope), var(--font-kantumruy-pro), ui-sans-serif, sans-serif;
+}
+
+/* Hero */
+:root[data-home="aurora"] .aurora-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: var(--gold);
+  background: color-mix(in srgb, var(--gold) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--gold) 34%, transparent);
+  border-radius: 100px;
+  padding: 6px 13px;
+}
+:root[data-home="aurora"] .aurora-pip {
+  height: 6px;
+  width: 6px;
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--gold) 18%, transparent);
+}
+:root[data-home="aurora"] .aurora-h1 {
+  font-size: clamp(29px, 5.8vw, 47px);
+  line-height: 1.06;
+  letter-spacing: -0.025em;
+  font-weight: 800;
+  margin: 20px auto 0;
+  max-width: 640px;
+  text-wrap: balance;
+  color: var(--ink);
+}
+:root[data-home="aurora"] .aurora-accent {
+  color: var(--gold);
+}
+:root[data-home="aurora"] .aurora-sub {
+  margin: 16px auto 0;
+  max-width: 56ch;
+  color: var(--ink-dim);
+  font-size: clamp(14px, 2.2vw, 16px);
+  line-height: 1.55;
+}
+
+/* Search — enlarge the shared UniversalInput inside the aurora hero */
+:root[data-home="aurora"] .aurora-search {
+  margin-top: 26px;
+}
+:root[data-home="aurora"] .aurora-search > section {
+  max-width: 600px;
+  border-radius: 16px;
+  box-shadow: 0 14px 36px rgba(20, 16, 10, 0.1);
+}
+:root[data-home="aurora"] .aurora-search input {
+  font-size: 15px;
+}
+
+/* Example chips */
+:root[data-home="aurora"] .aurora-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 16px;
+}
+:root[data-home="aurora"] .aurora-chip {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--ink-dim);
+  border: 1px solid var(--ground-line);
+  border-radius: 100px;
+  padding: 7px 13px;
+  background: var(--ground-raised);
+  cursor: pointer;
+  transition: color 0.12s, border-color 0.12s, background 0.12s;
+}
+:root[data-home="aurora"] .aurora-chip:hover {
+  color: var(--ink);
+  border-color: color-mix(in srgb, var(--gold) 42%, transparent);
+  background: color-mix(in srgb, var(--gold) 10%, transparent);
+}
+
+/* Tool cards — a touch more roundness + a soft lift on hover */
+:root[data-home="aurora"] .home-main .tool-card {
+  border-radius: 12px;
+}
+:root[data-home="aurora"] .home-main .tool-card:hover {
+  box-shadow: 0 10px 26px rgba(20, 16, 10, 0.09);
+}
