@@ -5,24 +5,9 @@ import { ToolShell, Field, TextInput, Select } from "@/components/ui/Shell";
 import { Output } from "@/components/ui/Output";
 import { useToolState } from "@/lib/storage";
 import { useLanguage } from "@/components/LanguageProvider";
+import { crc16ccitt, tlv } from "@/lib/khqr";
 
 qrcode.stringToBytes = qrcode.stringToBytesFuncs["UTF-8"];
-
-function tlv(tag: string, value: string): string {
-  const bytes = new TextEncoder().encode(value);
-  return `${tag}${bytes.length.toString(16).padStart(2, "0")}${value}`;
-}
-
-function crc16ccitt(payload: string): string {
-  let crc = 0xffff;
-  for (let i = 0; i < payload.length; i++) {
-    crc ^= payload.charCodeAt(i) << 8;
-    for (let j = 0; j < 8; j++) {
-      crc = crc & 0x8000 ? ((crc << 1) ^ 0x1021) & 0xffff : (crc << 1) & 0xffff;
-    }
-  }
-  return crc.toString(16).toUpperCase().padStart(4, "0");
-}
 
 function buildKhqr(opts: {
   type: string;
