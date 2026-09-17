@@ -714,10 +714,10 @@ export function ObsidianGraph({
             : null;
         }
       } else if (pointers.size === 2) {
-        // A second finger supersedes a single-finger node drag or pan. Mobile
-        // intentionally keeps a fixed graph scale; two fingers are ignored
-        // until one lifts, preventing accidental pinch zoom while typing or
-        // navigating on touch devices.
+        // A second finger supersedes a single-finger node drag or pan and
+        // begins a two-finger pinch-zoom + pan. This works on touch devices
+        // too — the canvas has touch-action: none, so a two-finger gesture is
+        // captured here rather than zooming the page.
         dragRef.current.id = null;
         dragRef.current.panning = false;
         dragRef.current.moved = true;
@@ -725,7 +725,7 @@ export function ObsidianGraph({
           clusterFollowRef.current.active = false;
           clusterFollowRef.current.frames = 0;
         }
-        if (!isMobile) startPinch();
+        startPinch();
       }
       invalidateCanvas();
     }
@@ -748,7 +748,7 @@ export function ObsidianGraph({
       pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
 
       if (pointers.size >= 2) {
-        if (isMobile || !pinch) return;
+        if (!pinch) return;
         const pts = activePoints();
         const mid = midpoint(pts);
         const dist = Math.max(1, distance(pts));
