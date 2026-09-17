@@ -7,6 +7,26 @@ type ToolBlurb = {
 };
 
 const TOOL_BLURBS: Record<string, ToolBlurb> = {
+  "pdf-sign": {
+    en: "Add a signature to a PDF without printing it — draw with a finger or mouse, or type your name, then click where it goes on the page, size it, and download the signed file. The rest of the document is copied untouched and nothing is uploaded.",
+    km: "បន្ថែមហត្ថលេខាទៅលើ PDF ដោយមិនចាំបាច់បោះពុម្ព — គូរដោយម្រាមដៃ ឬកណ្តុរ ឬវាយឈ្មោះ រួចចុចលើទីតាំងក្នុងទំព័រ កំណត់ទំហំ ហើយទាញយក។ ផ្នែកផ្សេងទៀតនៃឯកសារនៅដដែល ហើយគ្មានការផ្ទុកឡើងទេ។",
+  },
+  "pdf-text-extractor": {
+    en: "Pull the selectable text out of a PDF page by page, then copy it or save it as a .txt file. Lines are rebuilt in reading order so Khmer and English come out in sequence, and a scanned PDF with no text layer is flagged instead of returning an empty box.",
+    km: "ស្រង់អត្ថបទដែលអាចជ្រើសបានចេញពី PDF មួយទំព័រម្តងៗ រួចចម្លង ឬរក្សាទុកជា .txt។ បន្ទាត់ត្រូវរៀបតាមលំដាប់អាន ដូច្នេះអក្សរខ្មែរ និងអង់គ្លេសចេញត្រឹមត្រូវ ហើយឯកសារស្កេនគ្មានស្រទាប់អត្ថបទត្រូវបានប្រាប់ជូន។",
+  },
+  "pdf-compare": {
+    en: "See exactly what changed between two versions of a PDF. Both files are reduced to text, aligned page by page and diffed — added lines in green, removed lines in red, and pages present in only one file called out. Useful for contracts, quotes and revised reports.",
+    km: "មើលឱ្យច្បាស់ថាអ្វីបានផ្លាស់ប្តូររវាង PDF ពីរជំនាន់។ ឯកសារទាំងពីរត្រូវស្រង់អត្ថបទ រៀបតាមទំព័រ រួចប្រៀបធៀប — បន្ទាត់បន្ថែមពណ៌បៃតង បន្ទាត់ដកចេញពណ៌ក្រហម។ មានប្រយោជន៍សម្រាប់កិច្ចសន្យា និងរបាយការណ៍កែសម្រួល។",
+  },
+  "pdf-crop": {
+    en: "Trim the white margins off every page of a PDF. Set how much to cut from each edge, watch the live preview, and download the cropped file — handy for tightening scans before printing. Page content is never re-rendered, so nothing loses quality.",
+    km: "កាត់គែមសនៅជុំវិញគ្រប់ទំព័រនៃ PDF។ កំណត់ចំនួនកាត់ពីគែមនីមួយៗ មើលការមើលជាមុន ហើយទាញយក — មានប្រយោជន៍សម្រាប់រៀបចំរូបស្កេនមុនបោះពុម្ព។ មាតិកាទំព័រមិនបង្ហាញឡើងវិញទេ ដូច្នេះគុណភាពមិនបាត់បង់។",
+  },
+  "unit-price-comparator": {
+    en: "Work out which pack size is genuinely cheaper. Enter the price and size of each option — 500 g, 1.2 kg, a 6-pack of 330 ml — and every one is converted to the same base unit, ranked, and compared with the cheapest so the real value is obvious.",
+    km: "ដឹងថាទំហំកញ្ចប់ណាថោកជាងពិតប្រាកដ។ បញ្ចូលតម្លៃ និងទំហំនៃជម្រើសនីមួយៗ — ៥០០ ក្រាម ១.២ គីឡូ ឬកញ្ចប់ ៦ នៃ ៣៣០ មល — រួចទាំងអស់បម្លែងទៅឯកតាដូចគ្នា រៀបលំដាប់ និងប្រៀបធៀបនឹងតម្លៃថោកបំផុត។",
+  },
   "khqr-decoder": {
     en: "Paste a KHQR / Bakong payment payload and see it broken into labelled EMVCo data objects — merchant name, Bakong account, amount, currency, and city — with the CRC checksum verified. Everything is parsed locally in your browser; nothing is uploaded.",
     km: "បិទភ្ជាប់ទិន្នន័យ KHQR / Bakong រួចមើលវាបំបែកជាវត្ថុទិន្នន័យ EMVCo មានស្លាក — ឈ្មោះអាជីវករ គណនី Bakong ចំនួនទឹកប្រាក់ រូបិយប័ណ្ណ និងទីក្រុង — ព្រមទាំងផ្ទៀងផ្ទាត់ផលបូក CRC។ ទាំងអស់ត្រូវបានញែកនៅក្នុងកម្មវិធីរុករករបស់អ្នក គ្មានការផ្ទុកឡើងទេ។",
@@ -1251,6 +1271,11 @@ export function toolHowToUse(tool: ToolDef): { en: string[]; km: string[] } {
 
 /** Curated tools that get HowTo structured data (their steps are well-defined). */
 const HOWTO_TOOLS: Record<string, string[]> = {
+  "pdf-sign": ["Draw your signature on the pad, or switch to Type and enter your name", "Choose the PDF you want to sign", "Click the spot on the page where the signature belongs and set its width", "Download the signed PDF"],
+  "pdf-text-extractor": ["Choose a PDF", "Read the extracted text, page by page, and toggle page-break markers if you want them", "Copy the text or download it as a .txt file"],
+  "pdf-compare": ["Choose the original PDF as A and the revised one as B", "Read the summary: how many pages differ and how many lines were added or removed", "Scroll the page-by-page diff — green is added, red is removed — and tick “Show unchanged lines” for full context"],
+  "pdf-crop": ["Choose a PDF", "Enter how much to trim from the top, right, bottom and left as a percentage", "Check the shaded preview of what gets cut, then download the cropped PDF"],
+  "unit-price-comparator": ["Pick what you are comparing by — weight, volume, count or length", "Enter the price, size and unit for each option (add the pack count for multi-buys)", "Read the price per base unit; the cheapest is highlighted and the rest show how much more they cost"],
   "khqr-decoder": ["Paste the KHQR payload — the text a KHQR image scans to (starts with 0002…)", "Read the summary: merchant, Bakong account, amount, currency, and city", "Check the CRC verdict and the full labelled breakdown of every EMVCo data object"],
   "khmer-speech-time": ["Paste your Khmer script", "Pick a speaking pace or enter a custom syllables-per-minute rate and per-sentence pause", "Read the estimated read-aloud time, syllable count, and time at each pace"],
   "khmer-subtitle-chunker": ["Paste your Khmer script", "Set the maximum line width, speaking pace, gap, and minimum cue duration", "Review the timed cues and copy the SRT"],
