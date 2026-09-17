@@ -52,7 +52,7 @@ export function AccentThemePicker({ className = "" }: { className?: string }) {
           <div className="grid grid-cols-2 gap-1 border-b border-[var(--ground-line)] p-1.5">
             {([
               { id: "aurora", label: t("New", "ថ្មី") },
-              { id: "classic", label: t("Classic", "ក្បាលដើម") },
+              { id: "classic", label: t("Classic", "បែបដើម") },
             ] as const).map((opt) => (
               <button
                 key={opt.id}

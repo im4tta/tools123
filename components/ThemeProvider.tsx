@@ -8,7 +8,7 @@ const THEME_KEY = "toolbox123:theme";
 /** Accent themes named after Cambodian places; layered on top of dark/light. */
 export type Accent = "classic" | "angkor" | "tonlesap" | "mekong" | "kohrong" | "preahvihear" | "bokor" | "kampot" | "battambang" | "sihanoukville";
 export const ACCENTS: { id: Accent; label: string; km: string; swatch: string }[] = [
-  { id: "classic", label: "Classic", km: "ក្បាលដើម", swatch: "#c9a24b" },
+  { id: "classic", label: "Classic", km: "បែបដើម", swatch: "#c9a24b" },
   { id: "angkor", label: "Angkor", km: "អង្គរ", swatch: "#d4a94e" },
   { id: "tonlesap", label: "Tonlé Sap", km: "ទន្លេសាប", swatch: "#46b5cf" },
   { id: "mekong", label: "Mekong", km: "ទន្លេមេគង្គ", swatch: "#52b788" },
