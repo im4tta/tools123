@@ -583,7 +583,10 @@ export default function Home() {
             {t("adding more tools everyday", "បន្ថែមឧបករណ៍រាល់ថ្ងៃ")}
           </span>
         </div>
-         <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-[var(--ink-dim)]">
+         <h1 className="mx-auto mt-3 max-w-2xl font-display text-2xl font-semibold leading-tight text-[var(--ink)] sm:text-3xl">
+          {t("All your tools, in one place", "ឧបករណ៍ទាំងអស់ នៅកន្លែងតែមួយ")}
+        </h1>
+         <p className="mx-auto mt-2 max-w-lg text-sm leading-relaxed text-[var(--ink-dim)]">
           {t("Office, development, text, math, Khmer language, geospatial, network, security, design, and time utilities — all searchable in one place.", "ឧបករណ៍សម្រាប់ការិយាល័យ អ្នកអភិវឌ្ឍន៍ អត្ថបទ គណិតវិទ្យា ភាសាខ្មែរ ភូមិសាស្ត្រ បណ្តាញ សុវត្ថិភាព ការរចនា និងពេលវេលា — ស្វែងរក និងប្រើប្រាស់បានយ៉ាងងាយស្រួល។")}
         </p>
          <p className="mx-auto mt-1 max-w-lg text-xs leading-relaxed text-[var(--ink-faint)]">
@@ -617,41 +620,10 @@ export default function Home() {
        <HomeSpotlightCarousel />
        </div>
 
-      {filter === "" && (
-        <section className="why-123tool relative mx-auto mt-12 max-w-[77rem] px-5 sm:px-10">
-          <div className="mb-3 flex flex-wrap items-baseline gap-2 border-b border-[var(--ground-line)] pb-2">
-            <h2 className="font-display text-sm font-medium text-[var(--ink)]">{t("Why 123tool?", "ហេតុអ្វីបានជា ១២៣?")}</h2>
-            <span className="text-xs text-[var(--ink-faint)]">{t("Free, private, and built for Khmer speakers", "ឥតគិតថ្លៃ ឯកជន និងបង្កើតសម្រាប់អ្នកនិយាយភាសាខ្មែរ")}</span>
-          </div>
-          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
-            {WHY_FEATURES.map((f) => {
-              const Icon = f.icon;
-              return (
-                <div key={f.en} className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4">
-                  <Icon size={17} className="text-[var(--gold)]" />
-                  <div className="mt-2 text-sm font-semibold text-[var(--ink)]">{t(f.en, f.km)}</div>
-                  <p className="mt-1 text-xs leading-relaxed text-[var(--ink-dim)]">{t(f.descEn, f.descKm)}</p>
-                </div>
-              );
-            })}
-          </div>
-          <div className="mt-5 flex flex-wrap items-center justify-center gap-x-8 gap-y-2 text-xs text-[var(--ink-dim)]">
-            <span className="flex items-baseline gap-1.5">
-              <span className="font-display text-base font-semibold text-[var(--gold)]">{toKh(TOTAL)}</span>
-              {t("tools", "ឧបករណ៍")}
-            </span>
-            <span className="hidden h-3 w-px bg-[var(--ground-line)] sm:block" />
-            <span className="flex items-center gap-1.5"><ShieldCheck size={13} className="text-[var(--gold)]" />{t("100% in your browser", "១០០% នៅក្នុងកម្មវិធីរុករករបស់អ្នក")}</span>
-            <span className="hidden h-3 w-px bg-[var(--ground-line)] sm:block" />
-            <span className="flex items-center gap-1.5"><Languages size={13} className="text-[var(--gold)]" />{t("Bilingual: English · ខ្មែរ", "ពីរភាសា៖ អង់គ្លេស · ខ្មែរ")}</span>
-          </div>
-        </section>
-      )}
-
       {filter === "" && dailyAddition.date && dailyAddition.tools.length > 0 && (
         <div className="recently-added relative mx-auto mt-12 max-w-[77rem] px-5 sm:px-10">
           <div className="mb-3 flex flex-wrap items-baseline gap-2 border-b border-[var(--ground-line)] pb-2">
-            <h2 className="font-display text-sm font-medium text-[var(--ink)]">
+            <h2 className="font-display text-base font-semibold text-[var(--ink)]">
               {t("Added this week", "បានបន្ថែមសប្តាហ៍នេះ")}
             </h2>
             <span className="text-xs text-[var(--ink-faint)]">
@@ -675,7 +647,7 @@ export default function Home() {
       {isColdStart && filter === "" && (
         <div className="relative mx-auto mt-12 max-w-[77rem] px-5 sm:px-10">
           <div className="mb-3 flex items-baseline gap-2 border-b border-[var(--ground-line)] pb-2">
-            <h2 className="font-display text-sm font-medium text-[var(--ink)]">{t("Start here", "ចាប់ផ្តើមនៅទីនេះ")}</h2>
+            <h2 className="font-display text-base font-semibold text-[var(--ink)]">{t("Start here", "ចាប់ផ្តើមនៅទីនេះ")}</h2>
             <span className="text-xs text-[var(--ink-faint)]">{t("a few useful tools to try", "ឧបករណ៍ណែនាំសម្រាប់សាកល្បង")}</span>
           </div>
           <div className="tool-list-scroll">
@@ -688,7 +660,7 @@ export default function Home() {
         <div className="relative mx-auto mt-12 max-w-[77rem] px-5 sm:px-10">
           <div className="mb-3 flex items-baseline gap-2 border-b border-[var(--ground-line)] pb-2">
             <Star size={13} className="text-[var(--gold)]" fill="currentColor" />
-            <h2 className="font-display text-sm font-medium text-[var(--ink)]">{t("Favorites", "ចំណូលចិត្ត")}</h2>
+            <h2 className="font-display text-base font-semibold text-[var(--ink)]">{t("Favorites", "ចំណូលចិត្ត")}</h2>
           </div>
           <div className="tool-list-scroll">
             <ToolGrid tools={favoriteTools} onSelect={setActiveId} favorites={favorites} onToggleFavorite={toggleFavorite} />
@@ -709,7 +681,7 @@ export default function Home() {
       {recentTools.length > 0 && filter === "" && (
         <div className="relative mx-auto mt-10 max-w-[77rem] px-5 sm:px-10">
           <div className="mb-3 flex items-baseline gap-2 border-b border-[var(--ground-line)] pb-2">
-            <h2 className="font-display text-sm font-medium text-[var(--ink)]">{t("Recently used", "បានប្រើថ្មីៗ")}</h2>
+            <h2 className="font-display text-base font-semibold text-[var(--ink)]">{t("Recently used", "បានប្រើថ្មីៗ")}</h2>
           </div>
           <div className="tool-list-scroll">
             <ToolGrid tools={recentTools} onSelect={setActiveId} favorites={favorites} onToggleFavorite={toggleFavorite} />
@@ -720,7 +692,7 @@ export default function Home() {
       {hasUsage && mostUsedTools.length > 0 && filter === "" && (
         <div className="relative mx-auto mt-10 max-w-[77rem] px-5 sm:px-10">
           <div className="mb-3 flex items-baseline gap-2 border-b border-[var(--ground-line)] pb-2">
-            <h2 className="font-display text-sm font-medium text-[var(--ink)]">{t("Most used", "បានប្រើច្រើនបំផុត")}</h2>
+            <h2 className="font-display text-base font-semibold text-[var(--ink)]">{t("Most used", "បានប្រើច្រើនបំផុត")}</h2>
             <span className="text-xs text-[var(--ink-faint)]">{t("from your own usage", "ពីការប្រើប្រាស់របស់អ្នក")}</span>
           </div>
           <div className="tool-list-scroll">
@@ -749,9 +721,9 @@ export default function Home() {
                 });
           return (
             <div key={cat} id={`cat-${cat}`} className="mb-10 scroll-mt-20">
-              <div className="mb-3 flex items-baseline gap-3 border-b border-[var(--ground-line)] pb-2">
-                <span className="h-1.5 w-1.5 rounded-full" style={{ background: meta.color }} />
-                <h2 className="font-display text-sm font-medium text-[var(--ink)]">{t(meta.label, meta.khmer)}</h2>
+              <div className="mb-3 flex items-center gap-2.5 border-b border-[var(--ground-line)] pb-2">
+                <span className="h-2 w-2 rounded-full" style={{ background: meta.color }} />
+                <h2 className="font-display text-base font-semibold text-[var(--ink)]">{t(meta.label, meta.khmer)}</h2>
                 {catSearchOpen[cat] && (
                   <input
                     value={query}
@@ -802,13 +774,46 @@ export default function Home() {
           <p className="py-16 text-center text-sm text-[var(--ink-faint)]">{t(`No tool matches “${filter}”.`, `រកមិនឃើញឧបករណ៍ដែលត្រូវនឹង “${filter}” ទេ។`)}</p>
         )}
       </div>
+
+      {filter === "" && (
+        <section className="why-123tool relative mx-auto mt-16 max-w-[77rem] px-5 sm:px-10">
+          <div className="rounded-2xl border border-[var(--ground-line)] bg-[var(--ground-raised)]/40 px-5 py-8 sm:px-8">
+            <div className="mb-6 text-center">
+              <h2 className="font-display text-lg font-semibold text-[var(--ink)]">{t("Why 123tool?", "ហេតុអ្វីបានជា ១២៣?")}</h2>
+              <p className="mt-1 text-xs text-[var(--ink-faint)]">{t("Free, private, and built for Khmer speakers", "ឥតគិតថ្លៃ ឯកជន និងបង្កើតសម្រាប់អ្នកនិយាយភាសាខ្មែរ")}</p>
+            </div>
+            <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2 lg:grid-cols-3">
+              {WHY_FEATURES.map((f) => {
+                const Icon = f.icon;
+                return (
+                  <div key={f.en} className="rounded-xl border border-[var(--ground-line)] bg-[var(--ground)] p-4 transition hover:border-[var(--gold-dim)]">
+                    <Icon size={18} className="text-[var(--gold)]" />
+                    <div className="mt-2 text-sm font-semibold text-[var(--ink)]">{t(f.en, f.km)}</div>
+                    <p className="mt-1 text-xs leading-relaxed text-[var(--ink-dim)]">{t(f.descEn, f.descKm)}</p>
+                  </div>
+                );
+              })}
+            </div>
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-x-8 gap-y-2 text-xs text-[var(--ink-dim)]">
+              <span className="flex items-baseline gap-1.5">
+                <span className="font-display text-base font-semibold text-[var(--gold)]">{toKh(TOTAL)}</span>
+                {t("tools", "ឧបករណ៍")}
+              </span>
+              <span className="hidden h-3 w-px bg-[var(--ground-line)] sm:block" />
+              <span className="flex items-center gap-1.5"><ShieldCheck size={13} className="text-[var(--gold)]" />{t("100% in your browser", "១០០% នៅក្នុងកម្មវិធីរុករករបស់អ្នក")}</span>
+              <span className="hidden h-3 w-px bg-[var(--ground-line)] sm:block" />
+              <span className="flex items-center gap-1.5"><Languages size={13} className="text-[var(--gold)]" />{t("Bilingual: English · ខ្មែរ", "ពីរភាសា៖ អង់គ្លេស · ខ្មែរ")}</span>
+            </div>
+          </div>
+        </section>
+      )}
       </>
       )}
 
       {filter === "" && localDevTools.length > 0 && (
         <section className="relative mx-auto mt-10 max-w-[77rem] px-5 sm:px-10">
           <div className="mb-3 flex items-baseline gap-2 border-b border-[var(--ground-line)] pb-2">
-            <h2 className="font-display text-sm font-medium text-[var(--ink)]">{t("Tools from local/Int'l developers", "ឧបករណ៍ពីអ្នកអភិវឌ្ឍន៍ក្នុងស្រុក/អន្តរជាតិ")}</h2>
+            <h2 className="font-display text-base font-semibold text-[var(--ink)]">{t("Tools from local/Int'l developers", "ឧបករណ៍ពីអ្នកអភិវឌ្ឍន៍ក្នុងស្រុក/អន្តរជាតិ")}</h2>
             <span className="text-xs text-[var(--ink-faint)]">{t("Verified local projects and references", "គម្រោង និងប្រភពក្នុងស្រុកដែលបានផ្ទៀងផ្ទាត់")}</span>
           </div>
           <ToolGrid tools={localDevTools} onSelect={setActiveId} favorites={favorites} onToggleFavorite={toggleFavorite} showCredits />
