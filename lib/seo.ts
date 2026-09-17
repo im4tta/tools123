@@ -7,6 +7,10 @@ type ToolBlurb = {
 };
 
 const TOOL_BLURBS: Record<string, ToolBlurb> = {
+  "khqr-decoder": {
+    en: "Paste a KHQR / Bakong payment payload and see it broken into labelled EMVCo data objects — merchant name, Bakong account, amount, currency, and city — with the CRC checksum verified. Everything is parsed locally in your browser; nothing is uploaded.",
+    km: "បិទភ្ជាប់ទិន្នន័យ KHQR / Bakong រួចមើលវាបំបែកជាវត្ថុទិន្នន័យ EMVCo មានស្លាក — ឈ្មោះអាជីវករ គណនី Bakong ចំនួនទឹកប្រាក់ រូបិយប័ណ្ណ និងទីក្រុង — ព្រមទាំងផ្ទៀងផ្ទាត់ផលបូក CRC។ ទាំងអស់ត្រូវបានញែកនៅក្នុងកម្មវិធីរុករករបស់អ្នក គ្មានការផ្ទុកឡើងទេ។",
+  },
   "khmer-speech-time": {
     en: "Estimate how long a Khmer passage takes to read aloud for voice-overs, subtitles, and speeches — exact syllable count with an adjustable speaking pace and cross-pace comparison.",
     km: "ប៉ាន់ស្មានរយៈពេលអានឮៗនៃអត្ថបទខ្មែរសម្រាប់ការថតសំឡេង ចំណងជើងរង និងសុន្ទរកថា — ចំនួនព្យាង្គជាក់លាក់ ជាមួយល្បឿននិយាយអាចកែបាន និងការប្រៀបធៀបល្បឿន។",
@@ -1247,6 +1251,7 @@ export function toolHowToUse(tool: ToolDef): { en: string[]; km: string[] } {
 
 /** Curated tools that get HowTo structured data (their steps are well-defined). */
 const HOWTO_TOOLS: Record<string, string[]> = {
+  "khqr-decoder": ["Paste the KHQR payload — the text a KHQR image scans to (starts with 0002…)", "Read the summary: merchant, Bakong account, amount, currency, and city", "Check the CRC verdict and the full labelled breakdown of every EMVCo data object"],
   "khmer-speech-time": ["Paste your Khmer script", "Pick a speaking pace or enter a custom syllables-per-minute rate and per-sentence pause", "Read the estimated read-aloud time, syllable count, and time at each pace"],
   "khmer-subtitle-chunker": ["Paste your Khmer script", "Set the maximum line width, speaking pace, gap, and minimum cue duration", "Review the timed cues and copy the SRT"],
   "khmer-glyph-picker": ["Search by romanisation, Unicode name, or U+ code (or browse the sections)", "Click a glyph to add it to the compose box, or double-click to copy just that one", "Copy the composed text"],
