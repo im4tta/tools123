@@ -20,6 +20,7 @@ import { AccentThemePicker } from "@/components/AccentThemePicker";
 import { ObsidianGraph } from "@/components/ObsidianGraph";
 import { TOOLS, CATEGORY_META, CATEGORY_ORDER, Category } from "@/lib/tools";
 import { toolHref } from "@/lib/toolRoutes";
+import { toolWhatItDoes } from "@/lib/seo";
 import { useLocalStorage, STORAGE_KEYS, type ToolCollection } from "@/lib/storage";
 import { mostUsedToolIds } from "@/lib/export";
 
@@ -666,6 +667,7 @@ export default function Home() {
             favorites={favorites}
             onToggleFavorite={toggleFavorite}
             showNewBadge
+            showBlurb
           />
         </div>
       )}
@@ -791,7 +793,7 @@ export default function Home() {
                 </span>
               </div>
               <div className="tool-list-scroll">
-                <ToolGrid tools={sorted} onSelect={setActiveId} favorites={favorites} onToggleFavorite={toggleFavorite} />
+                <ToolGrid tools={sorted} onSelect={setActiveId} favorites={favorites} onToggleFavorite={toggleFavorite} showBlurb />
               </div>
             </div>
           );
@@ -825,6 +827,7 @@ function ToolGrid({
   onToggleFavorite,
   showNewBadge = false,
   showCredits = false,
+  showBlurb = false,
 }: {
   tools: typeof TOOLS;
   onSelect: (id: string) => void;
@@ -832,26 +835,39 @@ function ToolGrid({
   onToggleFavorite: (id: string) => void;
   showNewBadge?: boolean;
   showCredits?: boolean;
+  showBlurb?: boolean;
 }) {
   const { text: t } = useLanguage();
   return (
     <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
       {tools.map((tool) => {
         const isFav = favorites.includes(tool.id);
+        const blurb = showBlurb ? toolWhatItDoes(tool) : null;
         return (
           <div
             key={tool.id}
             className="tool-card group flex items-center gap-1 rounded-md border border-transparent pr-1 text-left text-sm text-[var(--ink-dim)] transition hover:border-[var(--ground-line)] hover:bg-[var(--ground-raised)] hover:text-[var(--ink)]"
           >
-            <button onClick={() => onSelect(tool.id)} className="min-w-0 flex-1 px-3 py-2 text-left">
+            {/* Real crawlable link to the tool's canonical URL; left-click keeps the
+                in-page SPA behaviour, while modified/middle clicks open a new tab. */}
+            <a
+              href={toolHref(tool.id)}
+              onClick={(event) => {
+                if (event.metaKey || event.ctrlKey || event.shiftKey || event.button !== 0) return;
+                event.preventDefault();
+                onSelect(tool.id);
+              }}
+              className="min-w-0 flex-1 px-3 py-2 text-left"
+            >
               <span className="flex items-center gap-2">{t(tool.title, tool.khmerTitle ?? tool.title)}
               {showNewBadge && (
                 <span className="new-tool-badge shrink-0 rounded border border-[var(--gold-dim)] px-1 py-0.5 text-[9px] font-semibold leading-none text-[var(--gold)]">
                   {t("NEW", "ថ្មី")}
                 </span>
               )}</span>
+              {blurb && <span className="mt-0.5 block truncate text-[11px] font-normal text-[var(--ink-faint)]">{t(blurb.en, blurb.km)}</span>}
               {showCredits && tool.localProject && <span className="mt-0.5 block truncate text-[10px] text-[var(--ink-faint)]">{tool.localProject.author} · {tool.localProject.license}{tool.localProject.relationship === "inspired" ? " · Inspired / independent" : tool.localProject.relationship === "adapted" ? " · Adapted" : tool.localProject.relationship === "integrated" ? " · Integrated" : ""}</span>}
-            </button>
+            </a>
             {showCredits && tool.localProject && <a href={tool.localProject.repository} target="_blank" rel="noopener noreferrer" onClick={(event) => event.stopPropagation()} className="shrink-0 rounded px-1.5 py-1 text-[10px] text-[var(--ink-faint)] underline hover:text-[var(--gold)]">GitHub</a>}
             <button
               onClick={() => onToggleFavorite(tool.id)}
