@@ -111,6 +111,10 @@ const TOOL_BLURBS: Record<string, ToolBlurb> = {
     en: "Break a Khmer sentence into words and label each word's part of speech — noun, verb, adjective, pronoun, and more — with a colour-coded view and bilingual legend. Segmentation uses split-khmer; parts of speech come from an offline common-vocabulary lexicon. A learning and analysis aid built on Khmer open-source NLP.",
     km: "បំបែកប្រយោគខ្មែរជាពាក្យៗ ហើយដាក់ស្លាកថ្នាក់ពាក្យ — នាម កិរិយាសព្ទ គុណនាម សព្វនាម និងច្រើនទៀត — ជាមួយទិដ្ឋភាពដាក់ពណ៌ និងតារាងពន្យល់ពីរភាសា។ ការបំបែកពាក្យប្រើ split-khmer ឯថ្នាក់ពាក្យមកពីវចនានុក្រមពាក្យធម្មតាក្រៅបណ្តាញ។ ជាឧបករណ៍សិក្សា និងវិភាគ ស្ថាបនាលើ NLP ប្រភពបើកចំហខ្មែរ។",
   },
+  "khmer-readability-analyzer": {
+    en: "Measure how easy a Khmer text is to read. It segments the text with split-khmer, counts sentences, words, and syllables, and reports average sentence length, average word length, vocabulary variety, and a plain difficulty band (Easy / Moderate / Complex). For teachers, writers, and editors checking a passage fits its audience — all computed in your browser.",
+    km: "វាស់ថាតើអត្ថបទខ្មែរងាយអានកម្រិតណា។ វាបំបែកអត្ថបទដោយ split-khmer រាប់ប្រយោគ ពាក្យ និងព្យាង្គ ហើយរាយការណ៍ប្រវែងប្រយោគមធ្យម ប្រវែងពាក្យមធ្យម ភាពសម្បូរវាក្យស័ព្ទ និងកម្រិតលំបាកសាមញ្ញ (ងាយស្រួល / មធ្យម / ស្មុគស្មាញ)។ សម្រាប់គ្រូ អ្នកនិពន្ធ និងអ្នកកែសម្រួល — គណនាទាំងអស់ក្នុងកម្មវិធីរុករក។",
+  },
   "khmer-sorter": {
     en: "Sort Khmer text lines or words into an approximate dictionary order with this bilingual tool.",
     km: "រៀបតម្រៀបបន្ទាត់ ឬពាក្យអត្ថបទខ្មែរតាមលំដាប់វចនានុក្រមប្រហាក់ប្រហែល ជាមួយឧបករណ៍ជាពីរភាសានេះ។",
@@ -610,6 +614,10 @@ const TOOL_BLURBS: Record<string, ToolBlurb> = {
   "loan-amortization": {
     en: "See a month-by-month breakdown of principal and interest for a loan — reducing-balance (standard amortizing) or flat method — with the monthly payment, total interest, total paid, and a downloadable CSV. All figures are yours; no lender rates are assumed.",
     km: "មើលការបំបែកប្រាក់ដើម និងការប្រាក់ជារៀងរាល់ខែសម្រាប់ប្រាក់កម្ចី — វិធីបញ្ចុះសមតុល្យ (ស្តង់ដារ) ឬវិធីថេរ — ជាមួយការបង់ប្រចាំខែ ការប្រាក់សរុប សរុបត្រូវបង់ និង CSV ទាញយកបាន។ តួលេខជារបស់អ្នក; គ្មានការសន្មតអត្រាកម្ចីណាមួយ។",
+  },
+  "true-loan-cost": {
+    en: "Reveal the real interest rate hidden in a “flat rate” loan or shop instalment. Enter the flat rate you were quoted — or just the monthly payment they want — and see the true effective annual (reducing-balance) rate, which is often nearly double the flat rate, plus exactly how much extra you pay. Everything is calculated in your browser; no rates are looked up.",
+    km: "បង្ហាញអត្រាការប្រាក់ពិតដែលលាក់ក្នុងប្រាក់កម្ចី «អត្រាថេរ» ឬការបង់រំលស់តាមហាង។ បញ្ចូលអត្រាថេរដែលគេប្រាប់ ឬគ្រាន់តែប្រាក់បង់ប្រចាំខែ រួចមើលអត្រាការប្រាក់ពិតប្រចាំឆ្នាំ (បញ្ចុះសមតុល្យ) ដែលច្រើនតែស្ទើរតែទ្វេដងនៃអត្រាថេរ ព្រមទាំងចំនួនប្រាក់បន្ថែមដែលអ្នកបង់។ គណនាទាំងអស់ក្នុងកម្មវិធីរុករក គ្មានការរកមើលអត្រាទេ។",
   },
   "passport-photo": {
     en: "Crop a portrait to a common ID- or passport-photo size, optionally replace the background with a plain colour (matting runs locally on your device), and export a single photo or a print-ready sheet of copies at 300 DPI. Sizes are common presets — check your document's exact requirement. Nothing is uploaded.",
@@ -1302,6 +1310,7 @@ const HOWTO_TOOLS: Record<string, string[]> = {
   "administrative-hierarchy": ["Type a province, district, commune, or village name (English, Khmer, or code)", "Pick the matching result to fill the full address path", "Or browse level by level with the four dropdowns", "Copy the selected path and administrative codes"],
   "cambodia-place-finder": ["Type a place name — province, district, commune, or village — in English, Khmer, or code", "Read the instant answer card: its full location path and postal code", "For distance, pick a From and To province to see the approximate straight-line kilometres between them"],
   "khmer-sentence-analyzer": ["Type or paste a Khmer sentence (or tap an example)", "Read the colour-coded breakdown: each word is underlined and labelled with its part of speech", "Check the legend and counts for the parts of speech found, and copy the word-by-word tags"],
+  "khmer-readability-analyzer": ["Paste a Khmer paragraph or longer text", "Read the difficulty band and the metrics — sentences, words, syllables, words per sentence, syllables per word, and lexical variety", "Copy the figures, or shorten sentences and simplify words to bring the difficulty down"],
   "khmer-sorter": ["Paste or type your Khmer text", "Choose to sort lines or words", "Copy the sorted output"],
   "khmer-text-stats": ["Paste or type your Khmer text", "Read the word, character, consonant, vowel, and digit counts"],
   "json-diff": ["Paste JSON document A", "Paste JSON document B", "Review the added, removed, and changed paths"],
@@ -1407,6 +1416,7 @@ const HOWTO_TOOLS: Record<string, string[]> = {
   "pdf-page-remover": ["Choose a PDF", "Type the page numbers or ranges to remove (e.g. 1, 3, 5-8), or click page thumbnails to mark them", "Check how many pages will remain", "Export — the kept pages download as a new PDF"],
   "payslip-generator": ["Fill in the company and employee details", "Add each earning and deduction as a line item", "Check the gross, deductions, and net pay totals", "Download the bilingual payslip PDF"],
   "loan-amortization": ["Enter the loan amount, interest rate, and term", "Choose reducing-balance or flat, and a currency", "Read the monthly payment and totals", "Download the full schedule as CSV"],
+  "true-loan-cost": ["Enter the amount borrowed and the term in months", "Pick what you know — a flat interest rate, or the monthly payment they want", "Read the true effective annual rate, the monthly payment, and how much extra you pay", "Check the warning if the effective rate is very high"],
   "passport-photo": ["Choose a portrait photo", "Pick a photo size and a background colour", "Position the face with zoom and move sliders", "Download the photo, or a print sheet of copies"],
   "scan-cleanup": ["Choose one or more document photos", "Pick black & white, grayscale, or colour, and leave Auto-straighten on", "Check the cleaned previews and adjust ink strength", "Export the multipage PDF"],
   "print-studio": ["Import images, and/or type or pick characters from the Khmer/Latin/symbol/emoji palette", "Style typed characters with a fill and outline", "Choose pack-per-sheet or one-per-sheet, size, margin, and resolution", "Export a print-ready PDF or a ZIP of PNG sheets"],
