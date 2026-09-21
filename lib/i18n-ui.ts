@@ -17,6 +17,10 @@ const LABELS: Entry[] = [
   ["grams (g)", "ក្រាម (g)"], ["kilograms (kg)", "គីឡូក្រាម (kg)"], ["milligrams (mg)", "មិល្លីក្រាម (mg)"],
   ["millilitres (ml)", "មិល្លីលីត្រ (ml)"], ["litres (L)", "លីត្រ (L)"],
   ["centimetres (cm)", "សង់ទីម៉ែត្រ (cm)"], ["metres (m)", "ម៉ែត្រ (m)"], ["pieces", "ដុំ"],
+  // --- Loan / finance option labels (dropdowns) ---
+  ["USD ($)", "ដុល្លារ ($)"], ["KHR (៛)", "រៀល (៛)"],
+  ["A flat interest rate", "អត្រាការប្រាក់ថេរ"], ["The monthly payment", "ចំនួនប្រាក់បង់ប្រចាំខែ"],
+  ["% per month", "% ក្នុងមួយខែ"], ["% per year", "% ក្នុងមួយឆ្នាំ"],
   // --- Geometry & size ---
   ["Width", "ទទឹង"], ["Height", "កម្ពស់"], ["Ratio", "សមាមាត្រ"], ["Scale to new width", "ប្តូរទំហំតាមទទឹងថ្មី"], ["Resulting height", "កម្ពស់លទ្ធផល"],
   ["Width (px)", "ទទឹង (px)"], ["Max width (px)", "ទទឹងធំបំផុត (px)"], ["Output width (px)", "ទទឹងលទ្ធផល (px)"], ["Size (px)", "ទំហំ (px)"],
