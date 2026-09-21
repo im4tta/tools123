@@ -1,5 +1,5 @@
 "use client";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { MapPin, Navigation } from "lucide-react";
 import addressData from "@/data/address_data.json";
 import postalCodes from "@/data/postal_codes.json";
