@@ -103,6 +103,10 @@ const TOOL_BLURBS: Record<string, ToolBlurb> = {
     en: "Browse Cambodia's 25 provinces/capital, 210 districts, 1,661 communes, and 14,546 villages, or type to search any address by English, Khmer, or administrative code.",
     km: "រកមើលរាជធានី-ខេត្តទាំង ២៥ ក្រុង-ស្រុក-ខណ្ឌចំនួន ២១០ ឃុំ-សង្កាត់ចំនួន ១,៦៦១ និងភូមិចំនួន ១៤,៥៤៦ ឬវាយដើម្បីស្វែងរកអាសយដ្ឋានតាមឈ្មោះខ្មែរ អង់គ្លេស ឬលេខកូដរដ្ឋបាល។",
   },
+  "cambodia-place-finder": {
+    en: "Ask where any place in Cambodia is and get an instant answer — its full location (province › district › commune › village) and postal code — plus the straight-line distance between any two provinces. Search all 14,546 villages by English, Khmer, or code.",
+    km: "សួរថាទីកន្លែងណាមួយក្នុងកម្ពុជាស្ថិតនៅឯណា ហើយទទួលបានចម្លើយភ្លាមៗ — ទីតាំងពេញលេញ (ខេត្ត › ស្រុក › ឃុំ › ភូមិ) និងលេខកូដប្រៃសណីយ៍ — ព្រមទាំងចម្ងាយបន្ទាត់ត្រង់រវាងខេត្តពីរណាមួយ។ ស្វែងរកភូមិទាំង ១៤,៥៤៦ តាមឈ្មោះខ្មែរ អង់គ្លេស ឬលេខកូដ។",
+  },
   "khmer-sorter": {
     en: "Sort Khmer text lines or words into an approximate dictionary order with this bilingual tool.",
     km: "រៀបតម្រៀបបន្ទាត់ ឬពាក្យអត្ថបទខ្មែរតាមលំដាប់វចនានុក្រមប្រហាក់ប្រហែល ជាមួយឧបករណ៍ជាពីរភាសានេះ។",
@@ -1292,6 +1296,7 @@ const HOWTO_TOOLS: Record<string, string[]> = {
   "cambodia-working-days": ["Choose count-between or add-working-days mode", "Enter the date(s) or number of working days", "Read the result with weekends and Cambodian public holidays excluded"],
   "contract-time-progress-calculator": ["Enter the start (commencement) date, contract duration in days, and any approved extension of time", "Set the reporting cut-off date (or use Set cut-off to today) and pick the counting rule", "Read the expected completion date, time elapsed, and time remaining, and verify the day count month by month"],
   "administrative-hierarchy": ["Type a province, district, commune, or village name (English, Khmer, or code)", "Pick the matching result to fill the full address path", "Or browse level by level with the four dropdowns", "Copy the selected path and administrative codes"],
+  "cambodia-place-finder": ["Type a place name — province, district, commune, or village — in English, Khmer, or code", "Read the instant answer card: its full location path and postal code", "For distance, pick a From and To province to see the approximate straight-line kilometres between them"],
   "khmer-sorter": ["Paste or type your Khmer text", "Choose to sort lines or words", "Copy the sorted output"],
   "khmer-text-stats": ["Paste or type your Khmer text", "Read the word, character, consonant, vowel, and digit counts"],
   "json-diff": ["Paste JSON document A", "Paste JSON document B", "Review the added, removed, and changed paths"],

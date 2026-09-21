@@ -80,6 +80,14 @@ const LABELS: Entry[] = [
 ];
 
 const KHMER_LABELS: Entry[] = [
+  // --- Provinces / capital (for dropdowns; matches lib/cambodia-geo.ts) ---
+  ["Phnom Penh", "ភ្នំពេញ"], ["Banteay Meanchey", "បន្ទាយមានជ័យ"], ["Battambang", "បាត់ដំបង"],
+  ["Kampong Cham", "កំពង់ចាម"], ["Kampong Chhnang", "កំពង់ឆ្នាំង"], ["Kampong Speu", "កំពង់ស្ពឺ"],
+  ["Kampong Thom", "កំពង់ធំ"], ["Kampot", "កំពត"], ["Kandal", "កណ្តាល"], ["Kep", "កែប"],
+  ["Koh Kong", "កោះកុង"], ["Kratie", "ក្រចេះ"], ["Mondulkiri", "មណ្ឌលគិរី"], ["Oddar Meanchey", "ឧត្តរមានជ័យ"],
+  ["Pailin", "ប៉ៃលិន"], ["Preah Sihanouk", "ព្រះសីហនុ"], ["Preah Vihear", "ព្រះវិហារ"], ["Prey Veng", "ព្រៃវែង"],
+  ["Pursat", "ពោធិ៍សាត់"], ["Ratanakiri", "រតនគិរី"], ["Siem Reap", "សៀមរាប"], ["Stung Treng", "ស្ទឹងត្រែង"],
+  ["Svay Rieng", "ស្វាយរៀង"], ["Takeo", "តាកែវ"], ["Tboung Khmum", "ត្បូងឃ្មុំ"],
   ["Province / Capital", "រាជធានី / ខេត្ត"], ["District", "ក្រុង / ស្រុក / ខណ្ឌ"], ["Commune / Sangkat", "ឃុំ / សង្កាត់"], ["Village", "ភូមិ"],
   ["Administrative code", "លេខកូដរដ្ឋបាល"], ["Gregorian year", "ឆ្នាំគ្រិស្តសករាជ"], ["Buddhist Era", "ពុទ្ធសករាជ"],
   ["Gregorian date", "កាលបរិច្ឆេទគ្រិស្តសករាជ"], ["Full Khmer date", "កាលបរិច្ឆេទខ្មែរពេញលេញ"],
