@@ -91,6 +91,16 @@ const HOME_CHIPS: { q: string; en: string; km: string }[] = [
   { q: "postal code", en: "Postal code", km: "លេខប្រៃសណីយ៍" },
 ];
 
+// Curated "Popular tools" for the Focus homepage design — the ones people reach
+// for most, across a mix of categories. Missing IDs are skipped gracefully.
+const POPULAR_IDS = [
+  "pdf-merge", "khqr-decoder", "background-remover", "digit-converter",
+  "image-optimizer", "qr-generator", "json-formatter", "postal-code-finder",
+  "file-compressor", "base64", "word-counter", "color-converter",
+  "hash", "jwt-decoder", "timestamp", "riel-usd",
+  "qr-decoder", "cambodia-place-finder",
+];
+
 const WHY_FEATURES = [
   {
     icon: ShieldCheck,
@@ -144,6 +154,9 @@ interface Viewpoint {
 export default function Home() {
   const { text: t } = useLanguage();
   const { homeDesign } = useTheme();
+  // Aurora and Focus share the search-first hero; only Classic differs.
+  const auroraHero = homeDesign !== "classic";
+  const popularTools = useMemo(() => POPULAR_IDS.map((id) => TOOLS.find((tool) => tool.id === id)).filter(Boolean) as typeof TOOLS, []);
   const router = useRouter();
   const [paletteOpen, setPaletteOpen] = useState(false);
   const [activeId, setActiveIdRaw] = useState<string | null>(null);
@@ -580,8 +593,8 @@ export default function Home() {
       {viewMode === "grid" && (
       <>
        <div className="relative mx-auto min-h-0 max-w-[77rem] px-5 sm:px-10 xl:min-h-[20rem]">
-       <div className={homeDesign === "aurora" ? "aurora-hero relative mx-auto mt-7 max-w-2xl text-center" : "home-hero relative mx-auto mt-8 max-w-3xl text-center"}>
-        {homeDesign === "aurora" ? (
+       <div className={auroraHero ? "aurora-hero relative mx-auto mt-7 max-w-2xl text-center" : "home-hero relative mx-auto mt-8 max-w-3xl text-center"}>
+        {auroraHero ? (
           <>
             <span className="aurora-eyebrow">
               <span className="aurora-pip" />
@@ -624,10 +637,10 @@ export default function Home() {
           </>
         )}
 
-         <div className={homeDesign === "aurora" ? "aurora-search" : undefined}>
+         <div className={auroraHero ? "aurora-search" : undefined}>
            <UniversalInput value={filter} onChange={setFilter} />
          </div>
-         {homeDesign === "aurora" && (
+         {auroraHero && (
            <div className="aurora-chips">
              {HOME_CHIPS.map((c) => (
                <button key={c.q} type="button" className="aurora-chip" onClick={() => setFilter(c.q)}>
@@ -659,10 +672,14 @@ export default function Home() {
            </div>
           )}
        </div>
-       <HomeSpotlightCarousel />
+       {homeDesign !== "focus" && <HomeSpotlightCarousel />}
        </div>
 
-      {filter === "" && dailyAddition.date && dailyAddition.tools.length > 0 && (
+      {homeDesign === "focus" && filter === "" && (
+        <FocusPopular tools={popularTools} onSelect={setActiveId} />
+      )}
+
+      {homeDesign !== "focus" && filter === "" && dailyAddition.date && dailyAddition.tools.length > 0 && (
         <div className="recently-added relative mx-auto mt-12 max-w-[77rem] px-5 sm:px-10">
           <div className="mb-3 flex flex-wrap items-baseline gap-2 border-b border-[var(--ground-line)] pb-2">
             <h2 className="font-display text-base font-semibold text-[var(--ink)]">
@@ -686,7 +703,7 @@ export default function Home() {
         </div>
       )}
 
-      {isColdStart && filter === "" && (
+      {homeDesign !== "focus" && isColdStart && filter === "" && (
         <div className="relative mx-auto mt-12 max-w-[77rem] px-5 sm:px-10">
           <div className="mb-3 flex items-baseline gap-2 border-b border-[var(--ground-line)] pb-2">
             <h2 className="font-display text-base font-semibold text-[var(--ink)]">{t("Start here", "ចាប់ផ្តើមនៅទីនេះ")}</h2>
@@ -698,7 +715,7 @@ export default function Home() {
         </div>
       )}
 
-      {favoriteTools.length > 0 && filter === "" && (
+      {homeDesign !== "focus" && favoriteTools.length > 0 && filter === "" && (
         <div className="relative mx-auto mt-12 max-w-[77rem] px-5 sm:px-10">
           <div className="mb-3 flex items-baseline gap-2 border-b border-[var(--ground-line)] pb-2">
             <Star size={13} className="text-[var(--gold)]" fill="currentColor" />
@@ -710,7 +727,7 @@ export default function Home() {
         </div>
       )}
 
-      {collections.length > 0 && filter === "" && (
+      {homeDesign !== "focus" && collections.length > 0 && filter === "" && (
         <CollectionsSection
           collections={collections}
           setCollections={setCollections}
@@ -720,7 +737,7 @@ export default function Home() {
         />
       )}
 
-      {recentTools.length > 0 && filter === "" && (
+      {homeDesign !== "focus" && recentTools.length > 0 && filter === "" && (
         <div className="relative mx-auto mt-10 max-w-[77rem] px-5 sm:px-10">
           <div className="mb-3 flex items-baseline gap-2 border-b border-[var(--ground-line)] pb-2">
             <h2 className="font-display text-base font-semibold text-[var(--ink)]">{t("Recently used", "បានប្រើថ្មីៗ")}</h2>
@@ -731,7 +748,7 @@ export default function Home() {
         </div>
       )}
 
-      {hasUsage && mostUsedTools.length > 0 && filter === "" && (
+      {homeDesign !== "focus" && hasUsage && mostUsedTools.length > 0 && filter === "" && (
         <div className="relative mx-auto mt-10 max-w-[77rem] px-5 sm:px-10">
           <div className="mb-3 flex items-baseline gap-2 border-b border-[var(--ground-line)] pb-2">
             <h2 className="font-display text-base font-semibold text-[var(--ink)]">{t("Most used", "បានប្រើច្រើនបំផុត")}</h2>
@@ -743,6 +760,7 @@ export default function Home() {
         </div>
       )}
 
+      {!(homeDesign === "focus" && filter === "") && (
       <div className="relative mx-auto mt-12 max-w-[77rem] px-5 sm:px-10">
         {CATEGORY_ORDER.map((cat) => {
           const tools = filteredByCategory.get(cat);
@@ -816,8 +834,9 @@ export default function Home() {
           <p className="py-16 text-center text-sm text-[var(--ink-faint)]">{t(`No tool matches “${filter}”.`, `រកមិនឃើញឧបករណ៍ដែលត្រូវនឹង “${filter}” ទេ។`)}</p>
         )}
       </div>
+      )}
 
-      {filter === "" && (
+      {homeDesign !== "focus" && filter === "" && (
         <section className="why-123tool relative mx-auto mt-16 max-w-[77rem] px-5 sm:px-10">
           <div className="rounded-2xl border border-[var(--ground-line)] bg-[var(--ground-raised)]/40 px-5 py-8 sm:px-8">
             <div className="mb-6 text-center">
@@ -852,7 +871,7 @@ export default function Home() {
       </>
       )}
 
-      {filter === "" && localDevTools.length > 0 && (
+      {homeDesign !== "focus" && filter === "" && localDevTools.length > 0 && (
         <section className="relative mx-auto mt-10 max-w-[77rem] px-5 sm:px-10">
           <div className="mb-3 flex items-baseline gap-2 border-b border-[var(--ground-line)] pb-2">
             <h2 className="font-display text-base font-semibold text-[var(--ink)]">{t("Tools from local/Int'l developers", "ឧបករណ៍ពីអ្នកអភិវឌ្ឍន៍ក្នុងស្រុក/អន្តរជាតិ")}</h2>
@@ -864,6 +883,52 @@ export default function Home() {
 
       <CommandPalette open={paletteOpen} onOpenChange={setPaletteOpen} onSelect={setActiveId} />
     </main>
+  );
+}
+
+// The Focus homepage design: a curated grid of popular tools, each card led by
+// its category (coloured dot + label), then the tool's name, Khmer name, and a
+// two-line description.
+function FocusPopular({ tools, onSelect }: { tools: typeof TOOLS; onSelect: (id: string) => void }) {
+  const { text: t, mode } = useLanguage();
+  return (
+    <div className="relative mx-auto mt-10 max-w-[77rem] px-5 sm:px-10">
+      <div className="mb-4 flex flex-wrap items-baseline gap-x-2 gap-y-1 border-b border-[var(--ground-line)] pb-3">
+        <h2 className="font-display text-xl font-semibold text-[var(--ink)]">{t("Popular tools", "ឧបករណ៍ពេញនិយម")}</h2>
+        <span className="text-sm text-[var(--ink-faint)]">{t("the ones people reach for", "ឧបករណ៍ដែលគេប្រើញឹកញាប់")}</span>
+        <span className="ml-auto text-sm text-[var(--ink-faint)]">{t(`${tools.length} tools`, `ឧបករណ៍ ${toKh(tools.length)}`)}</span>
+      </div>
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+        {tools.map((tool) => {
+          const meta = CATEGORY_META[tool.category];
+          const blurb = toolWhatItDoes(tool);
+          const primary = mode === "km" ? (tool.khmerTitle ?? tool.title) : tool.title;
+          const secondary = mode === "km" ? tool.title : tool.khmerTitle;
+          return (
+            <a
+              key={tool.id}
+              href={toolHref(tool.id)}
+              onClick={(event) => {
+                if (event.metaKey || event.ctrlKey || event.shiftKey || event.button !== 0) return;
+                event.preventDefault();
+                onSelect(tool.id);
+              }}
+              className="group rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4 transition hover:-translate-y-0.5 hover:border-[var(--gold-dim)] hover:bg-[var(--ground-raised-hi)]"
+            >
+              <div className="flex items-center gap-1.5">
+                <span className="h-1.5 w-1.5 shrink-0 rounded-full" style={{ background: meta.color }} />
+                <span className="text-[10px] font-semibold uppercase tracking-wide" style={{ color: meta.color }}>{t(meta.label, meta.khmer)}</span>
+              </div>
+              <div className="mt-2 font-display text-base font-semibold text-[var(--ink)]">{primary}</div>
+              {secondary && secondary !== primary && (
+                <div lang={mode === "km" ? undefined : "km"} className={mode === "km" ? "text-xs text-[var(--ink-faint)]" : "font-khmer text-sm text-[var(--gold)]"}>{secondary}</div>
+              )}
+              {blurb && <p className="focus-pop-desc mt-1.5 text-xs leading-relaxed text-[var(--ink-dim)]">{t(blurb.en, blurb.km)}</p>}
+            </a>
+          );
+        })}
+      </div>
+    </div>
   );
 }
 

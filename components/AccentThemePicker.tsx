@@ -49,10 +49,11 @@ export function AccentThemePicker({ className = "" }: { className?: string }) {
           <p className="border-b border-[var(--ground-line)] px-3 py-2 text-[10px] font-semibold uppercase tracking-wide text-[var(--ink-faint)]">
             {t("Home design", "ការរចនាទំព័រដើម")}
           </p>
-          <div className="grid grid-cols-2 gap-1 border-b border-[var(--ground-line)] p-1.5">
+          <div className="grid grid-cols-3 gap-1 border-b border-[var(--ground-line)] p-1.5">
             {([
               { id: "aurora", label: t("New", "ថ្មី") },
               { id: "classic", label: t("Classic", "បែបដើម") },
+              { id: "focus", label: t("Focus", "ផ្តោត") },
             ] as const).map((opt) => (
               <button
                 key={opt.id}

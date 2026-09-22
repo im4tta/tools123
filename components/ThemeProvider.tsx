@@ -22,8 +22,9 @@ export const ACCENTS: { id: Accent; label: string; km: string; swatch: string }[
 
 const ACCENT_KEY = "toolbox123:accent";
 
-/** Homepage layout skin: "aurora" is the new search-first design (default), "classic" is the original. */
-export type HomeDesign = "aurora" | "classic";
+/** Homepage layout skin: "aurora" is the search-first design (default), "classic" is the original,
+ * "focus" is a minimal search + Popular-tools design. */
+export type HomeDesign = "aurora" | "classic" | "focus";
 const HOME_DESIGN_KEY = "toolbox123:home-design";
 function applyHomeDesign(design: HomeDesign) {
   document.documentElement.setAttribute("data-home", design);
