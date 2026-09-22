@@ -7,6 +7,54 @@ type ToolBlurb = {
 };
 
 const TOOL_BLURBS: Record<string, ToolBlurb> = {
+  "pdf-merge": {
+    en: "Combine several PDF files into a single document, reorder them, and download the result — all in your browser, nothing uploaded.",
+    km: "បញ្ចូលឯកសារ PDF ច្រើនទៅជាឯកសារតែមួយ រៀបលំដាប់ ហើយទាញយកលទ្ធផល — ទាំងអស់ក្នុងកម្មវិធីរុករករបស់អ្នក គ្មានការផ្ទុកឡើងទេ។",
+  },
+  "background-remover": {
+    en: "Erase the background from any photo automatically and download a clean cut-out — processed on your device, nothing uploaded.",
+    km: "លុបផ្ទៃខាងក្រោយចេញពីរូបភាពដោយស្វ័យប្រវត្តិ ហើយទាញយករូបភាពច្បាស់ — ដំណើរការនៅលើឧបករណ៍របស់អ្នក គ្មានការផ្ទុកឡើងទេ។",
+  },
+  "image-optimizer": {
+    en: "Resize and compress images to a target size or format (WebP, JPEG, PNG) without leaving your device.",
+    km: "ប្តូរទំហំ និងបង្រួមរូបភាពទៅតាមទំហំ ឬទម្រង់គោលដៅ (WebP, JPEG, PNG) ដោយមិនចាំបាច់ចាកចេញពីឧបករណ៍របស់អ្នក។",
+  },
+  "qr-generator": {
+    en: "Make a QR code for a link, text, Wi-Fi, or contact — then export it as PNG or SVG.",
+    km: "បង្កើតកូដ QR សម្រាប់តំណ អត្ថបទ Wi-Fi ឬទំនាក់ទំនង — រួចនាំចេញជា PNG ឬ SVG។",
+  },
+  "json-formatter": {
+    en: "Format, validate, and minify JSON with clear error messages so broken data is easy to spot.",
+    km: "រៀបចំទម្រង់ ផ្ទៀងផ្ទាត់ និងបង្រួម JSON ជាមួយសារកំហុសច្បាស់លាស់ ដើម្បីមើលឃើញទិន្នន័យខូចយ៉ាងងាយ។",
+  },
+  "file-compressor": {
+    en: "Shrink PDFs and images to a smaller file size, right in your browser — no upload required.",
+    km: "បង្រួម PDF និងរូបភាពឲ្យតូចជាង ក្នុងកម្មវិធីរុករករបស់អ្នក — មិនចាំបាច់ផ្ទុកឡើងទេ។",
+  },
+  "word-counter": {
+    en: "Count words, characters, and sentences in your text as you type.",
+    km: "រាប់ពាក្យ តួអក្សរ និងប្រយោគក្នុងអត្ថបទរបស់អ្នកពេលកំពុងវាយ។",
+  },
+  "color-converter": {
+    en: "Convert a colour between HEX, RGB, and HSL and preview it instantly.",
+    km: "បម្លែងពណ៌រវាង HEX, RGB និង HSL ហើយមើលជាមុនភ្លាមៗ។",
+  },
+  "hash": {
+    en: "Generate SHA-256, SHA-1, or MD5 hashes from text or a file, in your browser.",
+    km: "បង្កើត hash បែប SHA-256, SHA-1 ឬ MD5 ពីអត្ថបទ ឬឯកសារ ក្នុងកម្មវិធីរុករករបស់អ្នក។",
+  },
+  "jwt-decoder": {
+    en: "Decode a JSON Web Token to read its header, payload, and claims — nothing is sent anywhere.",
+    km: "បកស្រាយ JWT ដើម្បីអានក្បាល ខ្លឹមសារ និង claims របស់វា — គ្មានការបញ្ជូនទៅណាទេ។",
+  },
+  "timestamp": {
+    en: "Convert between Unix timestamps and human-readable dates in any time zone.",
+    km: "បម្លែងរវាងត្រាពេលវេលា Unix និងកាលបរិច្ឆេទដែលមនុស្សអានបាន គ្រប់តំបន់ពេលវេលា។",
+  },
+  "qr-decoder": {
+    en: "Read a QR code from an image or your clipboard and see exactly what it contains.",
+    km: "អានកូដ QR ពីរូបភាព ឬក្តារតម្បៀតខ្ទាស់ ហើយមើលឃើញអ្វីដែលវាផ្ទុក។",
+  },
   "pdf-sign": {
     en: "Add a signature to a PDF without printing it — draw with a finger or mouse, or type your name, then click where it goes on the page, size it, and download the signed file. The rest of the document is copied untouched and nothing is uploaded.",
     km: "បន្ថែមហត្ថលេខាទៅលើ PDF ដោយមិនចាំបាច់បោះពុម្ព — គូរដោយម្រាមដៃ ឬកណ្តុរ ឬវាយឈ្មោះ រួចចុចលើទីតាំងក្នុងទំព័រ កំណត់ទំហំ ហើយទាញយក។ ផ្នែកផ្សេងទៀតនៃឯកសារនៅដដែល ហើយគ្មានការផ្ទុកឡើងទេ។",
