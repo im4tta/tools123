@@ -73,6 +73,11 @@ const I18N = {
     mat_bronze: "សំរឹទ្ធបុរាណ (Antique Bronze)",
     mat_gold: "មាសទឹកដប់ (Metallic Gold)",
     mat_normal: "ផែនទី Normal Shader",
+    mat_toon: "តូន (Toon)",
+    mat_plastic: "ប្លាស្ទិច (Plastic)",
+    mat_metal: "លោហៈ (Metal)",
+    exploded_view: "ទិដ្ឋភាពញែកចេញ (Exploded)",
+    exploded_hint: "អូសដើម្បីញែកគ្រឿងម៉ូដែលចេញពីគ្នា",
     lighting: "ពន្លឺ & បរិយាកាស",
     light_intensity: "កម្រិតពន្លឺ (Intensity)",
     env_background: "ពណ៌ផ្ទៃខាងក្រោយ",
@@ -124,6 +129,11 @@ const I18N = {
     mat_bronze: "Antique Bronze",
     mat_gold: "Metallic Gold",
     mat_normal: "Normal Map Shader",
+    mat_toon: "Toon",
+    mat_plastic: "Plastic",
+    mat_metal: "Metal",
+    exploded_view: "Exploded View",
+    exploded_hint: "Drag to separate the model's parts",
     lighting: "Lighting & Environment",
     light_intensity: "Light Intensity",
     env_background: "Background Color",
@@ -595,6 +605,7 @@ export default function ModelPreviewTool() {
   const [boundingBox, setBoundingBox] = useState<boolean>(false);
   const [shadows, setShadows] = useState<boolean>(true);
   const [materialOverride, setMaterialOverride] = useState<string>('original');
+  const [explode, setExplode] = useState<number>(0);
   const [lightIntensity, setLightIntensity] = useState<number>(1.2);
   const [bgColor, setBgColor] = useState<string>('#0b0f19');
   const themeGround = useMemo(() => {
@@ -884,6 +895,26 @@ export default function ModelPreviewTool() {
     threeRef.current.currentGroup = modelGroup;
     threeRef.current.bboxHelper = bboxHelper;
     scene.add(modelGroup);
+
+    // Record each mesh's rest position and an outward direction (from the model
+    // centre to the part centre) so the Exploded View slider can push parts
+    // apart. The direction is converted into the mesh's parent-local frame so it
+    // moves outward in world space regardless of any nested transforms.
+    modelGroup.updateMatrixWorld(true);
+    const explodeCenter = new THREE.Box3().setFromObject(modelGroup).getCenter(new THREE.Vector3());
+    modelGroup.traverse((child: any) => {
+      if (child.isMesh) {
+        const meshCenter = new THREE.Box3().setFromObject(child).getCenter(new THREE.Vector3());
+        const worldDir = meshCenter.sub(explodeCenter);
+        const parent = child.parent;
+        const q = parent.getWorldQuaternion(new THREE.Quaternion()).invert();
+        const s = parent.getWorldScale(new THREE.Vector3());
+        const localDir = worldDir.applyQuaternion(q).divide(new THREE.Vector3(s.x || 1, s.y || 1, s.z || 1));
+        child.userData.__origPos = child.position.clone();
+        child.userData.__explodeDir = localDir;
+        if (explode > 0) child.position.copy(child.userData.__origPos).addScaledVector(localDir, explode);
+      }
+    });
 
     // Compute Stats
     let verticesCount = 0;
@@ -1186,10 +1217,28 @@ export default function ModelPreviewTool() {
           child.material = new THREE.MeshStandardMaterial({ color: 0xf59e0b, roughness: 0.2, metalness: 0.95 });
         } else if (materialOverride === 'normal') {
           child.material = new THREE.MeshNormalMaterial();
+        } else if (materialOverride === 'toon') {
+          child.material = new THREE.MeshToonMaterial({ color: 0x9fb0c3 });
+        } else if (materialOverride === 'plastic') {
+          child.material = new THREE.MeshStandardMaterial({ color: 0xf1f5f9, roughness: 0.35, metalness: 0.0 });
+        } else if (materialOverride === 'metal') {
+          child.material = new THREE.MeshStandardMaterial({ color: 0xcbd5e1, roughness: 0.15, metalness: 1.0 });
         }
+        if (materialOverride !== 'original' && child.material) child.material.wireframe = wireframe;
       }
     });
-  }, [materialOverride]);
+  }, [materialOverride, wireframe]);
+
+  // Exploded view: push each part outward from the model centre.
+  useEffect(() => {
+    const { currentGroup } = threeRef.current;
+    if (!currentGroup) return;
+    currentGroup.traverse((child: any) => {
+      if (child.isMesh && child.userData.__origPos && child.userData.__explodeDir) {
+        child.position.copy(child.userData.__origPos).addScaledVector(child.userData.__explodeDir, explode);
+      }
+    });
+  }, [explode]);
 
   useEffect(() => {
     const { currentGroup } = threeRef.current;
@@ -1347,7 +1396,8 @@ export default function ModelPreviewTool() {
   return (
     <ToolShell
       title="3D Model Previewer"
-      description="Live Three.js viewport for procedural TypeScript model factories and 3D files. Pick a preset, drop in a .ts/.tsx/.glb/.gltf/.obj/.stl file, or render the loaded script as 3D."
+      description="Live Three.js viewport for procedural TypeScript model factories and 3D files. Pick a preset, drop in a .ts/.tsx/.glb/.gltf/.obj/.stl file, or render the loaded script as 3D. Orbit the model, switch shading modes (original, clay, plastic, bronze, gold, metal, toon, normal), toggle wireframe, and use the exploded view to pull the parts apart."
+      descriptionKm="ទិដ្ឋភាព Three.js ផ្ទាល់សម្រាប់ម៉ូដែល TypeScript និងឯកសារ 3D។ ជ្រើសគំរូ ទម្លាក់ឯកសារ .ts/.tsx/.glb/.gltf/.obj/.stl ឬបង្ហាញស្គ្រីបជា 3D។ បង្វិលម៉ូដែល ប្តូររបៀបស្រមោល (ដើម ដីឥដ្ឋ ប្លាស្ទិច សំរឹទ្ធ មាស លោហៈ តូន normal) បើកលួសក្រឡា និងប្រើទិដ្ឋភាពញែកចេញដើម្បីទាញគ្រឿងម៉ូដែលចេញពីគ្នា។"
     >
       {/* Action bar */}
       <div className="flex flex-wrap items-center gap-2">
@@ -1460,10 +1510,32 @@ export default function ModelPreviewTool() {
             <Select value={materialOverride} onChange={(e) => setMaterialOverride(e.target.value)}>
               <option value="original">{t.mat_original}</option>
               <option value="clay">{t.mat_clay}</option>
+              <option value="plastic">{t.mat_plastic}</option>
               <option value="bronze">{t.mat_bronze}</option>
               <option value="gold">{t.mat_gold}</option>
+              <option value="metal">{t.mat_metal}</option>
+              <option value="toon">{t.mat_toon}</option>
               <option value="normal">{t.mat_normal}</option>
             </Select>
+          </Field>
+
+          <Field label={t.exploded_view}>
+            <div className="space-y-2 rounded-lg border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3">
+              <div className="flex items-center justify-between text-xs">
+                <span className="text-[var(--ink-dim)]">{t.exploded_view}</span>
+                <span className="font-mono text-[var(--gold)]">{Math.round(explode * 100)}%</span>
+              </div>
+              <input
+                type="range"
+                min="0"
+                max="1.5"
+                step="0.01"
+                value={explode}
+                onChange={(e) => setExplode(parseFloat(e.target.value))}
+                className="w-full accent-[var(--gold)]"
+              />
+              <p className="text-[10px] text-[var(--ink-faint)]">{t.exploded_hint}</p>
+            </div>
           </Field>
 
           <Field label={t.lighting}>
