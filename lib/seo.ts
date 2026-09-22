@@ -115,6 +115,26 @@ const TOOL_BLURBS: Record<string, ToolBlurb> = {
     en: "Measure how easy a Khmer text is to read. It segments the text with split-khmer, counts sentences, words, and syllables, and reports average sentence length, average word length, vocabulary variety, and a plain difficulty band (Easy / Moderate / Complex). For teachers, writers, and editors checking a passage fits its audience — all computed in your browser.",
     km: "វាស់ថាតើអត្ថបទខ្មែរងាយអានកម្រិតណា។ វាបំបែកអត្ថបទដោយ split-khmer រាប់ប្រយោគ ពាក្យ និងព្យាង្គ ហើយរាយការណ៍ប្រវែងប្រយោគមធ្យម ប្រវែងពាក្យមធ្យម ភាពសម្បូរវាក្យស័ព្ទ និងកម្រិតលំបាកសាមញ្ញ (ងាយស្រួល / មធ្យម / ស្មុគស្មាញ)។ សម្រាប់គ្រូ អ្នកនិពន្ធ និងអ្នកកែសម្រួល — គណនាទាំងអស់ក្នុងកម្មវិធីរុករក។",
   },
+  "khmer-summarizer": {
+    en: "Shorten a long Khmer text to its most important sentences. It segments with split-khmer, finds the words that recur most, and keeps the sentences richest in those terms — an extractive summary that selects real sentences from your text (never rewritten or invented), all in your browser.",
+    km: "បង្រួញអត្ថបទខ្មែរវែងឲ្យនៅតែប្រយោគសំខាន់បំផុត។ វាបំបែកដោយ split-khmer រកពាក្យលេចឡើងញឹកញាប់ ហើយរក្សាប្រយោគដែលមានពាក្យទាំងនោះច្រើន — ជាការសង្ខេបបែបជ្រើសរើសប្រយោគពិតពីអត្ថបទរបស់អ្នក (មិនសរសេរឡើងវិញ ឬបង្កើតថ្មី) ក្នុងកម្មវិធីរុករក។",
+  },
+  "khmer-keyword-extractor": {
+    en: "Find what a Khmer text is about. It segments with split-khmer, drops grammatical function words, and ranks the remaining content words by frequency, plus the most common two-word phrases. Great for tags, SEO, indexing, and a quick gist — computed in your browser.",
+    km: "ស្វែងយល់ថាអត្ថបទខ្មែរនិយាយអំពីអ្វី។ វាបំបែកដោយ split-khmer លុបពាក្យវេយ្យាករណ៍ ហើយតម្រៀបពាក្យខ្លឹមសារតាមចំនួនលេចឡើង ព្រមទាំងឃ្លាពីរពាក្យញឹកញាប់បំផុត។ ល្អសម្រាប់ស្លាក SEO លិបិក្រម និងខ្លឹមសាររហ័ស — គណនាក្នុងកម្មវិធីរុករក។",
+  },
+  "khmer-concordance": {
+    en: "See every place a word appears in a Khmer text, each with the words around it (a keyword-in-context / KWIC view). Segmented with split-khmer, it lines up every occurrence so you can study usage, compare senses, or check consistency — for students, translators, and editors.",
+    km: "មើលគ្រប់កន្លែងដែលពាក្យមួយលេចឡើងក្នុងអត្ថបទខ្មែរ ជាមួយពាក្យនៅជុំវិញ (ទិដ្ឋភាព KWIC)។ បំបែកដោយ split-khmer វារៀបរាល់ការលេចឡើង ដើម្បីឲ្យអ្នកសិក្សាការប្រើ ប្រៀបធៀបន័យ ឬពិនិត្យភាពស៊ីសង្វាក់ — សម្រាប់សិស្ស អ្នកបកប្រែ និងអ្នកកែសម្រួល។",
+  },
+  "khmer-sentence-complexity": {
+    en: "Spot the sentences that are too long to read comfortably. It splits your Khmer text into sentences, counts the words in each, and colours them green, amber, or red so you can find and shorten the heavy ones — a practical editing aid for clear, readable Khmer.",
+    km: "រកប្រយោគដែលវែងពេកពិបាកអាន។ វាបំបែកអត្ថបទខ្មែរជាប្រយោគ រាប់ចំនួនពាក្យ ហើយដាក់ពណ៌បៃតង លឿង ឬក្រហម ដើម្បីឲ្យអ្នករក និងបង្រួញប្រយោគធ្ងន់ — ជាឧបករណ៍កែសម្រួលជាក់ស្តែងសម្រាប់ខ្មែរច្បាស់ និងងាយអាន។",
+  },
+  "khmer-invisible-cleaner": {
+    en: "Find and remove the hidden characters that quietly break Khmer text — byte-order marks, zero-width joiners, direction marks, and stray non-breaking spaces from PDFs, Facebook, and copy-paste that make search fail, forms reject input, and identical-looking strings refuse to match. Zero-width spaces, often intentional in Khmer, are a separate opt-in.",
+    km: "រក និងលុបតួអក្សរមើលមិនឃើញ ដែលធ្វើឲ្យអត្ថបទខ្មែរខូចដោយស្ងាត់ៗ — សញ្ញា BOM, zero-width joiner, សញ្ញាទិសដៅ និងដកឃ្លាមិនបំបែក ពី PDF, Facebook និងការចម្លង ដែលធ្វើឲ្យស្វែងរកបរាជ័យ ទម្រង់មិនទទួល និងអក្សរដូចគ្នាមិនផ្គូផ្គង។ ចន្លោះ zero-width ដែលជារឿយៗមានចេតនាក្នុងភាសាខ្មែរ ជាជម្រើសដាច់ដោយឡែក។",
+  },
   "khmer-sorter": {
     en: "Sort Khmer text lines or words into an approximate dictionary order with this bilingual tool.",
     km: "រៀបតម្រៀបបន្ទាត់ ឬពាក្យអត្ថបទខ្មែរតាមលំដាប់វចនានុក្រមប្រហាក់ប្រហែល ជាមួយឧបករណ៍ជាពីរភាសានេះ។",
@@ -1311,6 +1331,11 @@ const HOWTO_TOOLS: Record<string, string[]> = {
   "cambodia-place-finder": ["Type a place name — province, district, commune, or village — in English, Khmer, or code", "Read the instant answer card: its full location path and postal code", "For distance, pick a From and To province to see the approximate straight-line kilometres between them"],
   "khmer-sentence-analyzer": ["Type or paste a Khmer sentence (or tap an example)", "Read the colour-coded breakdown: each word is underlined and labelled with its part of speech", "Check the legend and counts for the parts of speech found, and copy the word-by-word tags"],
   "khmer-readability-analyzer": ["Paste a Khmer paragraph or longer text", "Read the difficulty band and the metrics — sentences, words, syllables, words per sentence, syllables per word, and lexical variety", "Copy the figures, or shorten sentences and simplify words to bring the difficulty down"],
+  "khmer-summarizer": ["Paste a Khmer article or passage of at least two sentences", "Pick how short the summary should be — about a third, a half, or the top 3 sentences", "Read the extractive summary (real sentences kept in order) and copy it"],
+  "khmer-keyword-extractor": ["Paste Khmer text", "Read the ranked keywords (single content words) and the top two-word phrases", "Copy the keyword list for tags, SEO, or indexing"],
+  "khmer-concordance": ["Paste your Khmer text", "Type the word you want to study", "Read every occurrence lined up with the words around it, keyword highlighted in the middle"],
+  "khmer-sentence-complexity": ["Paste your Khmer text", "Read the stats and the sentence-by-sentence list — green is short, amber medium, red long", "Rewrite or split the red sentences to make the text easier to read"],
+  "khmer-invisible-cleaner": ["Paste text that might contain hidden characters", "Read the report of what was found (BOM, zero-width joiners, direction marks, non-breaking spaces)", "Toggle whether to also remove word-break spaces (ZWSP), then copy the cleaned text"],
   "khmer-sorter": ["Paste or type your Khmer text", "Choose to sort lines or words", "Copy the sorted output"],
   "khmer-text-stats": ["Paste or type your Khmer text", "Read the word, character, consonant, vowel, and digit counts"],
   "json-diff": ["Paste JSON document A", "Paste JSON document B", "Review the added, removed, and changed paths"],
