@@ -183,6 +183,14 @@ const TOOL_BLURBS: Record<string, ToolBlurb> = {
     en: "Find and remove the hidden characters that quietly break Khmer text — byte-order marks, zero-width joiners, direction marks, and stray non-breaking spaces from PDFs, Facebook, and copy-paste that make search fail, forms reject input, and identical-looking strings refuse to match. Zero-width spaces, often intentional in Khmer, are a separate opt-in.",
     km: "រក និងលុបតួអក្សរមើលមិនឃើញ ដែលធ្វើឲ្យអត្ថបទខ្មែរខូចដោយស្ងាត់ៗ — សញ្ញា BOM, zero-width joiner, សញ្ញាទិសដៅ និងដកឃ្លាមិនបំបែក ពី PDF, Facebook និងការចម្លង ដែលធ្វើឲ្យស្វែងរកបរាជ័យ ទម្រង់មិនទទួល និងអក្សរដូចគ្នាមិនផ្គូផ្គង។ ចន្លោះ zero-width ដែលជារឿយៗមានចេតនាក្នុងភាសាខ្មែរ ជាជម្រើសដាច់ដោយឡែក។",
   },
+  "khmer-spell-suggester": {
+    en: "Type a Khmer word and, if it isn't in the dictionary, get the closest real words — ranked by how few letters need changing. A quick way to catch a typo or find the right spelling of a word you half-remember, checked against ~1,850 common Khmer words in your browser.",
+    km: "វាយពាក្យខ្មែរ ហើយបើវាមិនមានក្នុងវចនានុក្រម អ្នកទទួលបានពាក្យពិតជិតបំផុត — តម្រៀបតាមចំនួនតួអក្សរដែលត្រូវផ្លាស់ប្តូរតិចបំផុត។ ជាមធ្យោបាយរហ័សដើម្បីចាប់កំហុស ឬរកអក្ខរាវិរុទ្ធត្រឹមត្រូវ ផ្ទៀងផ្ទាត់នឹងពាក្យខ្មែរធម្មតាប្រមាណ ១,៨៥០ ក្នុងកម្មវិធីរុករក។",
+  },
+  "khmer-word-pattern": {
+    en: "Find real Khmer words that match a pattern — starting with, containing, or ending with certain letters, and/or a set number of syllables. Handy for crosswords, poems with a fixed metre, word games, and learners hunting for the right word. Searches ~1,850 common Khmer words.",
+    km: "ស្វែងរកពាក្យខ្មែរពិតដែលត្រូវនឹងលំនាំ — ចាប់ផ្តើមដោយ មានផ្ទុក ឬបញ្ចប់ដោយតួអក្សរ និង/ឬចំនួនព្យាង្គជាក់លាក់។ មានប្រយោជន៍សម្រាប់ល្បែងផ្គុំពាក្យ កំណាព្យតាមចង្វាក់ ល្បែងពាក្យ និងអ្នករៀន។ ស្វែងរកក្នុងពាក្យខ្មែរធម្មតាប្រមាណ ១,៨៥០។",
+  },
   "khmer-sorter": {
     en: "Sort Khmer text lines or words into an approximate dictionary order with this bilingual tool.",
     km: "រៀបតម្រៀបបន្ទាត់ ឬពាក្យអត្ថបទខ្មែរតាមលំដាប់វចនានុក្រមប្រហាក់ប្រហែល ជាមួយឧបករណ៍ជាពីរភាសានេះ។",
@@ -1384,6 +1392,8 @@ const HOWTO_TOOLS: Record<string, string[]> = {
   "khmer-concordance": ["Paste your Khmer text", "Type the word you want to study", "Read every occurrence lined up with the words around it, keyword highlighted in the middle"],
   "khmer-sentence-complexity": ["Paste your Khmer text", "Read the stats and the sentence-by-sentence list — green is short, amber medium, red long", "Rewrite or split the red sentences to make the text easier to read"],
   "khmer-invisible-cleaner": ["Paste text that might contain hidden characters", "Read the report of what was found (BOM, zero-width joiners, direction marks, non-breaking spaces)", "Toggle whether to also remove word-break spaces (ZWSP), then copy the cleaned text"],
+  "khmer-spell-suggester": ["Type a Khmer word you're unsure about", "If it's in the dictionary you'll see a tick; otherwise read the closest words ranked by how few letters differ", "Click a suggestion to replace your input with it"],
+  "khmer-word-pattern": ["Enter any combination of starts-with, contains, ends-with, and a syllable count", "Read the list of matching Khmer words", "Copy the list — useful for crosswords, poems, and word games"],
   "khmer-sorter": ["Paste or type your Khmer text", "Choose to sort lines or words", "Copy the sorted output"],
   "khmer-text-stats": ["Paste or type your Khmer text", "Read the word, character, consonant, vowel, and digit counts"],
   "json-diff": ["Paste JSON document A", "Paste JSON document B", "Review the added, removed, and changed paths"],

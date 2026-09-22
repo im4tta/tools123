@@ -68,6 +68,21 @@ function loadPlaceIndex(): Promise<PlaceEntry[]> {
   return placeIndexPromise;
 }
 
+// A lazily-loaded list of ~1,850 common Khmer words for the search's "did you
+// mean…" autocomplete. Kept out of the initial bundle; loaded the first time a
+// Khmer character is typed.
+let khmerWords: string[] | null = null;
+let khmerWordsPromise: Promise<string[]> | null = null;
+function loadKhmerWords(): Promise<string[]> {
+  if (!khmerWordsPromise) {
+    khmerWordsPromise = import("@/data/khmer-words.json").then((mod) => {
+      khmerWords = (mod.default ?? mod) as string[];
+      return khmerWords;
+    });
+  }
+  return khmerWordsPromise;
+}
+
 // A small, hand-picked set of broadly useful tools shown to first-time visitors
 // who have no favorites or recents yet — gives an immediate sense of what the
 // workbench can do instead of a cold wall of 13 categories.
@@ -82,6 +97,8 @@ const STARTER_TOOL_IDS = [
 
 // Example queries shown as chips under the aurora search hero — each just
 // pre-fills the search box so the fastest path to a tool stays one tap away.
+// Pool of quick-search chips shown under the search box. A random handful is
+// shown each visit (see HOME_CHIP_COUNT) so people keep discovering tools.
 const HOME_CHIPS: { q: string; en: string; km: string }[] = [
   { q: "merge pdf", en: "Merge PDF", km: "បញ្ចូល PDF" },
   { q: "khmer digits", en: "Khmer digits", km: "លេខខ្មែរ" },
@@ -89,7 +106,33 @@ const HOME_CHIPS: { q: string; en: string; km: string }[] = [
   { q: "background", en: "Remove background", km: "លុបផ្ទៃខាងក្រោយ" },
   { q: "json", en: "Format JSON", km: "JSON" },
   { q: "postal code", en: "Postal code", km: "លេខប្រៃសណីយ៍" },
+  { q: "qr code", en: "QR code", km: "កូដ QR" },
+  { q: "word count", en: "Word count", km: "រាប់ពាក្យ" },
+  { q: "compress", en: "Compress file", km: "បង្រួមឯកសារ" },
+  { q: "color", en: "Color converter", km: "បម្លែងពណ៌" },
+  { q: "resize image", en: "Resize image", km: "ប្តូរទំហំរូប" },
+  { q: "riel", en: "Riel ↔ USD", km: "រៀល ↔ ដុល្លារ" },
+  { q: "romanize", en: "Romanize Khmer", km: "សូរខ្មែរ" },
+  { q: "timestamp", en: "Timestamp", km: "ត្រាពេលវេលា" },
+  { q: "base64", en: "Base64", km: "Base64" },
+  { q: "hash", en: "Hash", km: "Hash" },
+  { q: "age", en: "Age calculator", km: "គណនាអាយុ" },
+  { q: "distance", en: "Place distance", km: "ចម្ងាយទីកន្លែង" },
+  { q: "sentence", en: "Analyze sentence", km: "វិភាគប្រយោគ" },
+  { q: "loan", en: "True loan cost", km: "តម្លៃកម្ចីពិត" },
+  { q: "lunar", en: "Khmer lunar date", km: "ថ្ងៃចន្ទគតិ" },
+  { q: "summarize", en: "Summarize Khmer", km: "សង្ខេបខ្មែរ" },
 ];
+const HOME_CHIP_COUNT = 6;
+
+function shuffle<T>(items: T[]): T[] {
+  const a = [...items];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
 
 // Curated "Popular tools" for the Focus homepage design — the ones people reach
 // for most, across a mix of categories. Missing IDs are skipped gracefully.
@@ -175,6 +218,36 @@ export default function Home() {
       alive = false;
     };
   }, []);
+
+  // Randomise the quick-search chips on each visit. Start from a stable slice so
+  // server and client markup match, then shuffle once after hydration.
+  const [chips, setChips] = useState(() => HOME_CHIPS.slice(0, HOME_CHIP_COUNT));
+  useEffect(() => { setChips(shuffle(HOME_CHIPS).slice(0, HOME_CHIP_COUNT)); }, []); // eslint-disable-line react-hooks/set-state-in-effect
+
+  // Khmer word autocomplete: load the word list the first time a Khmer character
+  // appears in the query, then offer "did you mean…" completions.
+  const [khmerWordsReady, setKhmerWordsReady] = useState(false);
+  const queryHasKhmer = /[ក-៿]/.test(filter);
+  useEffect(() => {
+    if (!queryHasKhmer || khmerWordsReady) return;
+    let alive = true;
+    loadKhmerWords().then(() => { if (alive) setKhmerWordsReady(true); }).catch(() => {});
+    return () => { alive = false; };
+  }, [queryHasKhmer, khmerWordsReady]);
+
+  const wordSuggestions = useMemo(() => {
+    const q = filter.trim();
+    if (!queryHasKhmer || !khmerWordsReady || !khmerWords || [...q].length < 1) return [] as string[];
+    const starts: string[] = [];
+    const contains: string[] = [];
+    for (const w of khmerWords) {
+      if (w === q) continue;
+      if (w.startsWith(q)) starts.push(w);
+      else if (w.includes(q)) contains.push(w);
+      if (starts.length >= 8) break;
+    }
+    return [...starts, ...contains].slice(0, 8);
+  }, [filter, queryHasKhmer, khmerWordsReady]);
   const [graphFocusCategory, setGraphFocusCategory] = useState<Category | null>(null);
   const { value: viewMode, setValue: setViewMode } = useLocalStorage<"grid" | "graph">(
     STORAGE_KEYS.viewMode,
@@ -224,7 +297,9 @@ export default function Home() {
     if (/(?:^|\s)(?:\+?855|0[1-9]\d{7,8})(?:\s|$)/.test(value)) push("phone-formatter", "phone-number-cleaner");
     if (/^\d{6}$/.test(value)) push("administrative-code-decoder", "postal-code-finder", "province-lookup");
     if (/\b(plate|license|number plate|ស្លាកលេខ)\b/i.test(value) || /\d{1,2}[A-Z]{1,3}[- ]?\d{3,5}/i.test(value)) push("government-plate-parser", "government-plate-lookup", "vehicle-plate", "khmer-numerology");
-    if (/[\u1780-\u17ff]/.test(value)) push("khmer-unicode-normalizer", "khmer-lexicon", "khmer-word-counter");
+    // A Khmer word or phrase \u2014 surface the tools that help you look it up,
+    // analyse it, correct it, or convert it.
+    if (/[\u1780-\u17ff]/.test(value)) push("khmer-lexicon", "khmer-homophone-corrector", "khmer-sentence-analyzer", "romanization", "khmer-word-counter", "khmer-unicode-normalizer");
     try { JSON.parse(value); push("json-formatter", "json-to-typescript", "json-data-converter"); } catch { /* not JSON */ }
     if (/^\s*[{[]/.test(value) && /\}\s*$|\]\s*$/.test(value)) push("json-formatter", "jsonl-validator");
 
@@ -642,9 +717,28 @@ export default function Home() {
          </div>
          {auroraHero && (
            <div className="aurora-chips">
-             {HOME_CHIPS.map((c) => (
+             {chips.map((c) => (
                <button key={c.q} type="button" className="aurora-chip" onClick={() => setFilter(c.q)}>
                  {t(c.en, c.km)}
+               </button>
+             ))}
+           </div>
+         )}
+
+         {wordSuggestions.length > 0 && (
+           <div className="mx-auto mt-2 flex w-full max-w-xl flex-wrap items-center justify-center gap-1.5">
+             <span className="text-[10px] font-semibold uppercase tracking-wide text-[var(--ink-faint)]">
+               {t("Did you mean", "តើអ្នកចង់មានន័យថា")}
+             </span>
+             {wordSuggestions.map((w) => (
+               <button
+                 key={w}
+                 type="button"
+                 onClick={() => setFilter(w)}
+                 lang="km"
+                 className="rounded-full border border-[var(--ground-line)] bg-[var(--ground-raised)] px-2.5 py-1 font-khmer text-[13px] text-[var(--ink-dim)] transition hover:border-[var(--gold-dim)] hover:text-[var(--gold)]"
+               >
+                 {w}
                </button>
              ))}
            </div>
