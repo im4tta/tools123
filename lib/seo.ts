@@ -231,6 +231,46 @@ const TOOL_BLURBS: Record<string, ToolBlurb> = {
     en: "Strip the vowels, subscripts (coeng), and diacritics from Khmer text to leave just the bare consonant skeleton — the 'bones' of each word. Useful for studying word structure, building keys for fuzzy search, and comparing similar-sounding words.",
     km: "ដកស្រៈ ជើង និងវណ្ណយុត្តចេញពីអត្ថបទខ្មែរ ទុកតែគ្រោងព្យញ្ជនៈសុទ្ធ — «ឆ្អឹង» នៃពាក្យនីមួយៗ។ មានប្រយោជន៍សម្រាប់សិក្សារចនាសម្ព័ន្ធពាក្យ បង្កើតកូនសោសម្រាប់ស្វែងរកប្រហាក់ប្រហែល និងប្រៀបធៀបពាក្យស្តាប់ស្រដៀងគ្នា។",
   },
+  "mesh-gradient-generator": {
+    en: "Generate soft, multi-colour mesh gradients — the smooth, blurry blends used as hero and card backgrounds. Randomise until you like one, adjust the number of colour points, then copy the CSS or download a PNG. Everything is generated in your browser.",
+    km: "បង្កើតជម្រាលពណ៌មេសពហុពណ៌ដ៏ទន់ភ្លន់ — ការលាយពណ៌រលោងព្រិលៗដែលប្រើជាផ្ទៃខាងក្រោយ។ ចាក់ឆ្នោតរហូតដល់អ្នកពេញចិត្ត កែចំនួនចំណុចពណ៌ រួចចម្លង CSS ឬទាញយក PNG។ អ្វីៗបង្កើតក្នុងកម្មវិធីរុករក។",
+  },
+  "svg-blob-generator": {
+    en: "Create smooth, organic blob shapes for backgrounds, avatars, and illustrations. Randomise the shape, tune how many points and how wobbly it is, pick a solid or gradient fill, then copy the SVG or download SVG/PNG. Runs entirely in your browser.",
+    km: "បង្កើតរូបរាងប្លុបរលោងធម្មជាតិសម្រាប់ផ្ទៃខាងក្រោយ រូបតំណាង និងរូបភាព។ ចាក់ឆ្នោតរូបរាង កែចំនួនចំណុច និងកម្រិតរលាក់ ជ្រើសពណ៌តាន់ ឬជម្រាល រួចចម្លង SVG ឬទាញយក SVG/PNG។ ដំណើរការទាំងស្រុងក្នុងកម្មវិធីរុករក។",
+  },
+  "svg-wave-generator": {
+    en: "Make layered wave shapes for section dividers, page headers, and footers — the smooth curved edges between coloured blocks on modern websites. Set layers, height, and colours, shuffle for a new shape, then copy the SVG or download SVG/PNG.",
+    km: "បង្កើតរូបរលកជាស្រទាប់សម្រាប់បំបែកផ្នែក ក្បាល និងជើងទំព័រ — គែមកោងរលោងរវាងប្លុកពណ៌នៅលើគេហទំព័រទំនើប។ កំណត់ស្រទាប់ កម្ពស់ និងពណ៌ ចាក់ឆ្នោតរូបរាងថ្មី រួចចម្លង SVG ឬទាញយក SVG/PNG។",
+  },
+  "low-poly-generator": {
+    en: "Generate faceted low-poly backgrounds — the triangulated 'crystal' gradients popular for hero sections, wallpapers, and cover images. Choose two colours, set the triangle size and jitter, shuffle, then copy the SVG or download SVG/PNG.",
+    km: "បង្កើតផ្ទៃខាងក្រោយ low-poly ជាមុខ — ជម្រាល «គ្រីស្តាល់» ត្រីកោណដែលពេញនិយមសម្រាប់ផ្នែកសំខាន់ ផ្ទាំងរូបភាព និងរូបគម្រប។ ជ្រើសពណ៌ពីរ កំណត់ទំហំត្រីកោណ និងការរើ ចាក់ឆ្នោត រួចចម្លង SVG ឬទាញយក SVG/PNG។",
+  },
+  "tessellation-generator": {
+    en: "Create seamless tiling patterns from geometric shapes — triangles, diamonds, chevrons, fish scales, and crosses — for backgrounds and textures. Pick two colours and the tile size, then copy the SVG (a repeating pattern) or download SVG/PNG.",
+    km: "បង្កើតលំនាំក្រាលឥតថ្នេរពីរូបរាងធរណីមាត្រ — ត្រីកោណ ពេជ្រ ស្នៀត ស្រកាត្រី និងឈើឆ្កាង — សម្រាប់ផ្ទៃខាងក្រោយ និងវាយនភាព។ ជ្រើសពណ៌ពីរ និងទំហំក្រឡា រួចចម្លង SVG ឬទាញយក SVG/PNG។",
+  },
+  "obsidian-callout-builder": {
+    en: "Build Obsidian callouts (admonitions) visually and copy the Markdown. Pick a type — note, tip, warning, danger, quote, and more — add a title and body, choose whether it's foldable, and see a live preview. Runs in your browser.",
+    km: "បង្កើត Callout (admonition) សម្រាប់ Obsidian ដោយមើលឃើញ ហើយចម្លង Markdown។ ជ្រើសប្រភេទ — note, tip, warning, danger, quote និងច្រើនទៀត — បន្ថែមចំណងជើង និងខ្លឹមសារ ជ្រើសថាតើអាចបត់បាន និងមើលការបង្ហាញផ្ទាល់។ ដំណើរការក្នុងកម្មវិធីរុករក។",
+  },
+  "obsidian-canvas-generator": {
+    en: "Turn a list of notes into an Obsidian Canvas (.canvas) file. Write one card per line, choose a grid layout and colour, optionally chain cards with arrows, then download the .canvas file and open it in Obsidian. Runs in your browser.",
+    km: "បម្លែងបញ្ជីកំណត់ត្រាទៅជាឯកសារ Obsidian Canvas (.canvas)។ សរសេរមួយកាតក្នុងមួយបន្ទាត់ ជ្រើសប្លង់ក្រឡា និងពណ៌ ភ្ជាប់កាតដោយព្រួញតាមជម្រើស រួចទាញយកឯកសារ .canvas ហើយបើកក្នុង Obsidian។ ដំណើរការក្នុងកម្មវិធីរុករក។",
+  },
+  "obsidian-frontmatter-builder": {
+    en: "Build the YAML frontmatter (properties) block for an Obsidian note without hand-writing YAML. Add title, tags, aliases, dates, checkboxes, and custom properties with the right type, and copy a clean, correctly-quoted --- block.",
+    km: "បង្កើតប្លុក YAML frontmatter (properties) សម្រាប់កំណត់ត្រា Obsidian ដោយមិនចាំបាច់សរសេរ YAML ដោយដៃ។ បន្ថែមចំណងជើង ស្លាក ឈ្មោះក្លែង កាលបរិច្ឆេទ ប្រអប់ធីក និង property ផ្ទាល់ខ្លួន ហើយចម្លងប្លុក --- ស្អាតត្រឹមត្រូវ។",
+  },
+  "wikilink-converter": {
+    en: "Convert between Obsidian-style wikilinks [[note|alias]] and standard Markdown links [alias](note.md), in both directions. Internal note links are converted while real external URLs are left untouched. Runs in your browser.",
+    km: "បម្លែងរវាង wikilink បែប Obsidian [[note|alias]] និងតំណ Markdown ស្តង់ដារ [alias](note.md) ទាំងសងខាង។ តំណកំណត់ត្រាខាងក្នុងត្រូវបម្លែង ចំណែក URL ខាងក្រៅពិតត្រូវទុកដដែល។ ដំណើរការក្នុងកម្មវិធីរុករក។",
+  },
+  "dataview-query-builder": {
+    en: "Build Dataview queries for Obsidian without memorising the syntax. Choose TABLE, LIST, or TASK, set the source (a #tag, folder, or link), add WHERE conditions, sorting, and a limit, then copy a ready-to-paste dataview code block.",
+    km: "បង្កើត Dataview query សម្រាប់ Obsidian ដោយមិនចាំបាច់ចងចាំវាក្យសម្ព័ន្ធ។ ជ្រើស TABLE, LIST ឬ TASK កំណត់ប្រភព (#tag, folder ឬ link) បន្ថែមលក្ខខណ្ឌ WHERE ការតម្រៀប និងដែនកំណត់ រួចចម្លងប្លុកកូដ dataview ត្រៀមបិទភ្ជាប់។",
+  },
   "khmer-sorter": {
     en: "Sort Khmer text lines or words into an approximate dictionary order with this bilingual tool.",
     km: "រៀបតម្រៀបបន្ទាត់ ឬពាក្យអត្ថបទខ្មែរតាមលំដាប់វចនានុក្រមប្រហាក់ប្រហែល ជាមួយឧបករណ៍ជាពីរភាសានេះ។",
@@ -1444,6 +1484,16 @@ const HOWTO_TOOLS: Record<string, string[]> = {
   "khmer-vocabulary-comparison": ["Paste one text in A and another in B", "See which words are shared, only in A, or only in B", "Read the overlap percentage; copy any column"],
   "khmer-text-spacer": ["Paste Khmer text that has no spaces", "Choose to separate by word or by syllable, and pick a separator", "Copy the spaced text"],
   "khmer-consonant-skeleton": ["Paste or type Khmer text", "Choose whether to keep independent vowels", "Copy the consonant-only skeleton"],
+  "mesh-gradient-generator": ["Press Randomize until you like a gradient", "Adjust the number of colour points", "Copy the CSS or download a PNG/SVG"],
+  "svg-blob-generator": ["Randomize to get a new blob shape", "Tune the points, wobble, and colours", "Copy the SVG or download SVG/PNG"],
+  "svg-wave-generator": ["Choose the number of layers and colours", "Shuffle for a new wave and set the height", "Copy the SVG or download SVG/PNG"],
+  "low-poly-generator": ["Pick two gradient colours", "Set the triangle size and jitter, then shuffle", "Copy the SVG or download SVG/PNG"],
+  "tessellation-generator": ["Choose a shape (triangles, scales, chevron…)", "Set the tile size and two colours", "Copy the seamless SVG or download SVG/PNG"],
+  "obsidian-callout-builder": ["Pick a callout type and add a title and body", "Choose whether it folds", "Copy the Markdown into your Obsidian note"],
+  "obsidian-canvas-generator": ["Type one card per line (or blank line between cards)", "Choose columns, colour, and whether to connect them", "Download the .canvas file and open it in Obsidian"],
+  "obsidian-frontmatter-builder": ["Fill in title, tags, and other properties", "Add custom properties and pick each one's type", "Copy the --- frontmatter block to the top of your note"],
+  "wikilink-converter": ["Paste Markdown or wikilink text", "Pick the conversion direction and options", "Copy the converted output"],
+  "dataview-query-builder": ["Choose TABLE, LIST, or TASK and the source", "Add WHERE conditions, sorting, and a limit", "Copy the dataview code block into your note"],
   "khmer-sorter": ["Paste or type your Khmer text", "Choose to sort lines or words", "Copy the sorted output"],
   "khmer-text-stats": ["Paste or type your Khmer text", "Read the word, character, consonant, vowel, and digit counts"],
   "json-diff": ["Paste JSON document A", "Paste JSON document B", "Review the added, removed, and changed paths"],
