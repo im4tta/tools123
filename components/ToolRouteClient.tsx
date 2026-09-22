@@ -3,9 +3,10 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
-import { ArrowLeft, Search, ShieldCheck, Star, Trash2 } from "lucide-react";
+import { ArrowLeft, ShieldCheck, Star, Trash2 } from "lucide-react";
 import { CollectionsPicker } from "@/components/CollectionsPicker";
 import { CommandPalette } from "@/components/CommandPalette";
+import { ToolHeaderSearch } from "@/components/ToolHeaderSearch";
 import { HeaderInfo } from "@/components/HeaderInfo";
 import { ToolFaq } from "@/components/ToolFaq";
 import { LanguageToggle } from "@/components/LanguageToggle";
@@ -92,7 +93,7 @@ export function ToolRouteClient({ toolId }: { toolId: string }) {
           <Link href="/" className="flex shrink-0 items-center gap-1.5 text-sm text-[var(--ink-dim)] hover:text-[var(--ink)]">
             <ArrowLeft size={15} /><span className="tool-route-back-label">{t("All tools", "ឧបករណ៍ទាំងអស់")}</span>
           </Link>
-          <span className="tool-route-title min-w-0 flex-1 truncate text-xs font-medium text-[var(--ink-dim)]" title={localizedTitle}>{localizedTitle}</span>
+          <ToolHeaderSearch key={localizedTitle} currentToolId={tool.id} label={localizedTitle} />
           <div className="tool-route-actions flex shrink-0 items-center gap-2">
             <button
               type="button"
@@ -123,14 +124,6 @@ export function ToolRouteClient({ toolId }: { toolId: string }) {
               className="flex h-8 w-8 items-center justify-center rounded-md border border-[var(--ground-line)] text-[var(--ink-faint)] transition hover:border-[var(--danger)]/50 hover:text-[var(--danger)]"
             >
               <Trash2 size={14} />
-            </button>
-            <button
-              type="button"
-              onClick={() => setPaletteOpen(true)}
-              aria-label={t("Find a tool", "ស្វែងរកឧបករណ៍")}
-              className="flex items-center gap-2 rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-1.5 text-xs text-[var(--ink-dim)]"
-            >
-              <Search size={13} /><span className="hidden sm:inline">{t("Find a tool…", "ស្វែងរកឧបករណ៍…")}</span>
             </button>
             <HeaderInfo />
             <AccentThemePicker />

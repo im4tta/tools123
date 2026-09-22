@@ -68,10 +68,8 @@
     padding-inline: max(0.625rem, env(safe-area-inset-left));
   }
   .tool-route-back-label { display: none; }
-  .tool-route-title {
-    display: block;
+  .tool-route-search input {
     font-family: "Noto Sans Khmer", "Khmer OS", ui-sans-serif, sans-serif;
-    font-size: 0.7rem;
   }
   .tool-route-actions { gap: 0.25rem; }
   .tool-route-actions > button:nth-child(2) {
@@ -113,7 +111,6 @@
   .category-ticker { min-width: 2.75rem; }
   .home-nav-actions [role="group"] button,
   .tool-route-actions [role="group"] button { padding-inline: 0.3rem; }
-  .tool-route-title { font-size: 0.65rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
