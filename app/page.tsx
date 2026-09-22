@@ -296,6 +296,10 @@ export default function Home() {
     if (/\b(bcg|hepb?|opv|ipv|dpt|hib|pcv|mr|measles|rubella|je|japanese encephalitis|vitamin\s*a|deworming|vaccine|vaccination|ថ្នាំបង្ការ|វីតាមីន)\b/i.test(value)) push("yellow-card-tracker");
     if (/(?:^|\s)(?:\+?855|0[1-9]\d{7,8})(?:\s|$)/.test(value)) push("phone-formatter", "phone-number-cleaner");
     if (/^\d{6}$/.test(value)) push("administrative-code-decoder", "postal-code-finder", "province-lookup");
+    // A money amount / bare number (e.g. 1,917,590.55, $50000, 100.50, ១,៩១៧) —
+    // recommend the tools that spell it out in words, English and Khmer.
+    if (/^[$€£៛]?\s*[\d០-៩][\d០-៩,\s]*(?:[.។][\d០-៩]+)?\s*(?:usd|khr|riel|dollars?|cents?|រៀល|ដុល្លារ|សេន)?$/i.test(value)
+      && value.replace(/[^\d០-៩]/g, "").length >= 2) push("currency-to-words", "number-spellout", "riel-usd");
     if (/\b(plate|license|number plate|ស្លាកលេខ)\b/i.test(value) || /\d{1,2}[A-Z]{1,3}[- ]?\d{3,5}/i.test(value)) push("government-plate-parser", "government-plate-lookup", "vehicle-plate", "khmer-numerology");
     // A Khmer word or phrase \u2014 surface the tools that help you look it up,
     // analyse it, correct it, or convert it.

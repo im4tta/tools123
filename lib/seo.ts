@@ -183,6 +183,10 @@ const TOOL_BLURBS: Record<string, ToolBlurb> = {
     en: "Find and remove the hidden characters that quietly break Khmer text — byte-order marks, zero-width joiners, direction marks, and stray non-breaking spaces from PDFs, Facebook, and copy-paste that make search fail, forms reject input, and identical-looking strings refuse to match. Zero-width spaces, often intentional in Khmer, are a separate opt-in.",
     km: "រក និងលុបតួអក្សរមើលមិនឃើញ ដែលធ្វើឲ្យអត្ថបទខ្មែរខូចដោយស្ងាត់ៗ — សញ្ញា BOM, zero-width joiner, សញ្ញាទិសដៅ និងដកឃ្លាមិនបំបែក ពី PDF, Facebook និងការចម្លង ដែលធ្វើឲ្យស្វែងរកបរាជ័យ ទម្រង់មិនទទួល និងអក្សរដូចគ្នាមិនផ្គូផ្គង។ ចន្លោះ zero-width ដែលជារឿយៗមានចេតនាក្នុងភាសាខ្មែរ ជាជម្រើសដាច់ដោយឡែក។",
   },
+  "currency-to-words": {
+    en: "Spell out a money amount in English words for cheques, invoices, and contracts. For example 1,917,590.55 becomes “United States Dollars One Million Nine Hundred Seventeen Thousand Five Hundred Ninety and Fifty-five Cents”. Pick the currency and subunit, the style, hyphen or space between compound numbers, and Title, Sentence, UPPERCASE, or lowercase.",
+    km: "សរសេរចំនួនទឹកប្រាក់ជាអក្សរអង់គ្លេស សម្រាប់មូលប្បទានប័ត្រ វិក្កយបត្រ និងកិច្ចសន្យា។ ឧទាហរណ៍ 1,917,590.55 ក្លាយជា “United States Dollars One Million Nine Hundred Seventeen Thousand Five Hundred Ninety and Fifty-five Cents”។ ជ្រើសរូបិយប័ណ្ណ និងឯកតារង ទម្រង់ សញ្ញាចុច ឬចន្លោះ និងទំហំអក្សរ Title, Sentence, ធំ ឬតូច។",
+  },
   "khmer-spell-suggester": {
     en: "Type a Khmer word and, if it isn't in the dictionary, get the closest real words — ranked by how few letters need changing. A quick way to catch a typo or find the right spelling of a word you half-remember, checked against ~1,850 common Khmer words in your browser.",
     km: "វាយពាក្យខ្មែរ ហើយបើវាមិនមានក្នុងវចនានុក្រម អ្នកទទួលបានពាក្យពិតជិតបំផុត — តម្រៀបតាមចំនួនតួអក្សរដែលត្រូវផ្លាស់ប្តូរតិចបំផុត។ ជាមធ្យោបាយរហ័សដើម្បីចាប់កំហុស ឬរកអក្ខរាវិរុទ្ធត្រឹមត្រូវ ផ្ទៀងផ្ទាត់នឹងពាក្យខ្មែរធម្មតាប្រមាណ ១,៨៥០ ក្នុងកម្មវិធីរុករក។",
@@ -1472,6 +1476,7 @@ const HOWTO_TOOLS: Record<string, string[]> = {
   "khmer-concordance": ["Paste your Khmer text", "Type the word you want to study", "Read every occurrence lined up with the words around it, keyword highlighted in the middle"],
   "khmer-sentence-complexity": ["Paste your Khmer text", "Read the stats and the sentence-by-sentence list — green is short, amber medium, red long", "Rewrite or split the red sentences to make the text easier to read"],
   "khmer-invisible-cleaner": ["Paste text that might contain hidden characters", "Read the report of what was found (BOM, zero-width joiners, direction marks, non-breaking spaces)", "Toggle whether to also remove word-break spaces (ZWSP), then copy the cleaned text"],
+  "currency-to-words": ["Type or paste the amount, e.g. 1,917,590.55", "Set the currency name, subunit, and style", "Pick the letter case and hyphen/space, then copy the words"],
   "khmer-spell-suggester": ["Type a Khmer word you're unsure about", "If it's in the dictionary you'll see a tick; otherwise read the closest words ranked by how few letters differ", "Click a suggestion to replace your input with it"],
   "khmer-word-pattern": ["Enter any combination of starts-with, contains, ends-with, and a syllable count", "Read the list of matching Khmer words", "Copy the list — useful for crosswords, poems, and word games"],
   "khmer-anagram-finder": ["Type or paste the Khmer letters you have", "Choose exact anagrams or any words made from those letters", "Read and copy the real dictionary words you can spell"],

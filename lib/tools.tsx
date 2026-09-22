@@ -579,7 +579,7 @@ export const TOOLS: ToolDef[] = [
   { id: "serial-date-converter", title: "Excel Serial & Julian Day Converter", khmerTitle: "បម្លែងលេខស៊េរីកាលបរិច្ឆេទ", addedOn: "2026-08-31T17:15:00+07:00", category: "time", keywords: ["excel serial", "julian day", "date", "mjd", "convert", "number"], Component: load("time", "serial-date-converter") },
 
   // ---- Documents (8) ----
-  { id: "currency-to-words", title: "Currency Amount to Words", category: "office", keywords: ["cheque", "invoice", "amount", "spell out"], Component: load("office", "currency-to-words") },
+  { id: "currency-to-words", title: "Currency Amount to Words", khmerTitle: "សរសេរចំនួនទឹកប្រាក់ជាអក្សរ (អង់គ្លេស)", keywords: ["cheque", "check", "invoice", "amount", "spell out", "number to words", "amount in words", "dollars", "united states dollars", "cents", "title case", "uppercase", "sentence case", "bank", "contract", "សរសេរជាអក្សរ", "ទឹកប្រាក់"], category: "office", Component: load("office", "currency-to-words") },
   { id: "document-number-generator", title: "Document / Invoice Number Generator", category: "office", keywords: ["invoice number", "reference number", "sequence"], Component: load("office", "document-number-generator") },
   { id: "pdf-info", title: "PDF Info & Preview", category: "office", keywords: ["pdf", "page count", "metadata", "thumbnail"], Component: load("office", "pdf-info") },
   { id: "pdf-merge", title: "PDF Merge", category: "office", keywords: ["pdf", "merge", "combine", "join"], Component: load("office", "pdf-merge") },
