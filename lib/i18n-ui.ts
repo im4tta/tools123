@@ -17,6 +17,8 @@ const LABELS: Entry[] = [
   ["grams (g)", "ក្រាម (g)"], ["kilograms (kg)", "គីឡូក្រាម (kg)"], ["milligrams (mg)", "មិល្លីក្រាម (mg)"],
   ["millilitres (ml)", "មិល្លីលីត្រ (ml)"], ["litres (L)", "លីត្រ (L)"],
   ["centimetres (cm)", "សង់ទីម៉ែត្រ (cm)"], ["metres (m)", "ម៉ែត្រ (m)"], ["pieces", "ដុំ"],
+  // --- Summary length option labels (dropdown) ---
+  ["About one third", "ប្រហែលមួយភាគបី"], ["About one half", "ប្រហែលពាក់កណ្តាល"], ["Shortest (top 3 sentences)", "ខ្លីបំផុត (៣ ប្រយោគ)"],
   // --- Loan / finance option labels (dropdowns) ---
   ["USD ($)", "ដុល្លារ ($)"], ["KHR (៛)", "រៀល (៛)"],
   ["A flat interest rate", "អត្រាការប្រាក់ថេរ"], ["The monthly payment", "ចំនួនប្រាក់បង់ប្រចាំខែ"],
