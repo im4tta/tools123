@@ -11,6 +11,16 @@ function findTool(slug: string) {
   return TOOLS.find((tool) => tool.id === id);
 }
 
+// Pre-render every tool page at build time so they are served straight from
+// the CDN as static HTML instead of being rendered on demand on every request.
+// This removes the per-visit origin hit that dominated Fast Origin Transfer.
+// The page output depends only on the (build-time constant) tool registry, so
+// static generation is correct. Alias slugs and unknown ids still resolve
+// on-demand (dynamicParams defaults to true) and 404 via notFound().
+export function generateStaticParams() {
+  return TOOLS.map((tool) => ({ toolId: toolHref(tool.id).replace(/^\//, "") }));
+}
+
 export async function generateMetadata({ params }: { params: Promise<{ toolId: string }> }): Promise<Metadata> {
   const { toolId } = await params;
   const tool = findTool(toolId);
