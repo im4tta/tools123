@@ -1,6 +1,10 @@
 import { BASE_URL, toolUrl } from "@/lib/site";
 import { CATEGORY_META, TOOLS } from "@/lib/tools";
 
+// The content is derived only from the build-time tool registry, so serve it as
+// a static file from the CDN rather than regenerating it on every request.
+export const dynamic = "force-static";
+
 export function GET() {
   const lines: string[] = [];
   lines.push("# 123 Toolbox");

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useSyncExternalStore } from "react";
 import { ArrowLeft, ShieldCheck, Star, Trash2 } from "lucide-react";
 import { CollectionsPicker } from "@/components/CollectionsPicker";
 import { CommandPalette } from "@/components/CommandPalette";
@@ -24,6 +24,12 @@ export function ToolRouteClient({ toolId }: { toolId: string }) {
   const { mode, text: t } = useLanguage();
   const router = useRouter();
   const [paletteOpen, setPaletteOpen] = useState(false);
+  // Render the interactive tool only on the client. This lets every tool page
+  // be pre-rendered to static HTML at build time (served from the CDN, no
+  // per-request origin render) even though some tool components use browser-only
+  // APIs like document/canvas during render. The SEO chrome — title, description,
+  // FAQ, related tools and JSON-LD — still server-renders.
+  const isClient = useSyncExternalStore(() => () => {}, () => true, () => false);
   const { value: favorites, setValue: setFavorites } = useLocalStorage<string[]>(STORAGE_KEYS.favorites, []);
   const { value: collections, setValue: setCollections } = useLocalStorage<ToolCollection[]>(STORAGE_KEYS.collections, []);
   const { setValue: setRecents } = useLocalStorage<string[]>(STORAGE_KEYS.recents, []);
@@ -132,7 +138,7 @@ export function ToolRouteClient({ toolId }: { toolId: string }) {
           </div>
         </div>
       </header>
-      <div className="fade-rise"><ToolComponent /></div>
+      <div className="fade-rise">{isClient ? <ToolComponent /> : <div className="py-16 text-center text-sm text-[var(--ink-faint)]">{t("Loading…", "កំពុងផ្ទុក…")}</div>}</div>
       <ToolFaq tool={tool} />
       {relatedTools.length > 0 && (
         <section className="mx-auto mt-10 max-w-6xl">
