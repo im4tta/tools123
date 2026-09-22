@@ -52,6 +52,8 @@ const LABELS: Entry[] = [
   ["Base (px)", "មូលដ្ឋាន (px)"], ["Steps", "ជំហាន"], ["Font size", "ទំហំអក្សរ"],
   // --- Generic input & output ---
   ["Preview", "មើលជាមុន"], ["Result", "លទ្ធផល"], ["Input", "ទិន្នន័យបញ្ចូល"], ["Output", "លទ្ធផល"],
+  // --- Khmer tool output labels ---
+  ["Redacted text", "អត្ថបទដែលបានបិទបាំង"], ["Spaced text", "អត្ថបទដកឃ្លា"], ["Consonant skeleton", "គ្រោងព្យញ្ជនៈ"],
   ["Input text", "អត្ថបទបញ្ចូល"], ["Input JSON", "ទិន្នន័យ JSON បញ្ចូល"], ["CSV input", "ទិន្នន័យ CSV បញ្ចូល"],
   ["Original", "ដើម"], ["Modified", "បានកែប្រែ"], ["Text", "អត្ថបទ"], ["Value", "តម្លៃ"], ["Count", "ចំនួន"], ["Unit", "ឯកតា"],
   ["Mode", "របៀប"], ["Format", "ទម្រង់"], ["Output format", "ទម្រង់លទ្ធផល"], ["Export format", "ទម្រង់នាំចេញ"],

@@ -191,6 +191,46 @@ const TOOL_BLURBS: Record<string, ToolBlurb> = {
     en: "Find real Khmer words that match a pattern — starting with, containing, or ending with certain letters, and/or a set number of syllables. Handy for crosswords, poems with a fixed metre, word games, and learners hunting for the right word. Searches ~1,850 common Khmer words.",
     km: "ស្វែងរកពាក្យខ្មែរពិតដែលត្រូវនឹងលំនាំ — ចាប់ផ្តើមដោយ មានផ្ទុក ឬបញ្ចប់ដោយតួអក្សរ និង/ឬចំនួនព្យាង្គជាក់លាក់។ មានប្រយោជន៍សម្រាប់ល្បែងផ្គុំពាក្យ កំណាព្យតាមចង្វាក់ ល្បែងពាក្យ និងអ្នករៀន។ ស្វែងរកក្នុងពាក្យខ្មែរធម្មតាប្រមាណ ១,៨៥០។",
   },
+  "khmer-anagram-finder": {
+    en: "Enter a set of Khmer letters and find real words you can spell from them — exact anagrams that use every letter, or shorter words using only some. Great for word games, unscrambling puzzles, and vocabulary practice. Checks ~1,850 common Khmer words in your browser.",
+    km: "បញ្ចូលក្រុមអក្សរខ្មែរ ហើយស្វែងរកពាក្យពិតដែលអ្នកអាចផ្គុំបាន — ច្របូកត្រង់ៗដែលប្រើគ្រប់អក្សរ ឬពាក្យខ្លីៗដែលប្រើតែខ្លះ។ ល្អសម្រាប់ល្បែងពាក្យ ការស្រាយអក្សរ និងការអនុវត្តវាក្យសព្ទ។ ផ្ទៀងផ្ទាត់នឹងពាក្យខ្មែរធម្មតាប្រមាណ ១,៨៥០ ក្នុងកម្មវិធីរុករក។",
+  },
+  "khmer-minimal-pairs": {
+    en: "Type a Khmer word and find real words that differ from it by exactly one letter in the same position — its minimal pairs. A classic teaching aid for spelling and pronunciation drills, searching ~1,850 common Khmer words in your browser.",
+    km: "វាយពាក្យខ្មែរ ហើយស្វែងរកពាក្យពិតដែលខុសគ្នាត្រឹមតែមួយអក្សរនៅទីតាំងដូចគ្នា — គូពាក្យប្រហែលរបស់វា។ ជាឧបករណ៍បង្រៀនបុរាណសម្រាប់លំហាត់អក្ខរាវិរុទ្ធ និងការបញ្ចេញសំឡេង ស្វែងរកក្នុងពាក្យខ្មែរធម្មតាប្រមាណ ១,៨៥០ ក្នុងកម្មវិធីរុករក។",
+  },
+  "khmer-pii-redactor": {
+    en: "Paste any text and automatically mask personal details before sharing: phone numbers, email addresses, links, and long ID or card numbers. Everything runs in your browser — nothing is uploaded — with a choice of readable labels or solid blocks.",
+    km: "បិទភ្ជាប់អត្ថបទណាមួយ ហើយបិទបាំងព័ត៌មានផ្ទាល់ខ្លួនដោយស្វ័យប្រវត្តិមុនចែករំលែក៖ លេខទូរស័ព្ទ អ៊ីមែល តំណ និងលេខសម្គាល់ ឬលេខកាតវែងៗ។ អ្វីៗដំណើរការក្នុងកម្មវិធីរុករក — គ្មានការផ្ញើឡើងទេ — ដោយមានជម្រើសស្លាកអានបាន ឬប្លុកតាន់។",
+  },
+  "khmer-script-highlighter": {
+    en: "Paste Khmer text and see every part of the script colour-coded: base consonants, subscripts (coeng), vowel signs, independent vowels, diacritics, and digits. A visual aid for learners, teachers, and font designers. Runs in your browser.",
+    km: "បិទភ្ជាប់អត្ថបទខ្មែរ ហើយមើលឃើញគ្រប់ផ្នែកនៃអក្សរដាក់ពណ៌៖ ព្យញ្ជនៈ ជើង ស្រៈ ស្រៈពេញតួ វណ្ណយុត្ត និងលេខ។ ជាជំនួយមើលឃើញសម្រាប់អ្នករៀន គ្រូ និងអ្នករចនាពុម្ពអក្សរ។ ដំណើរការក្នុងកម្មវិធីរុករក។",
+  },
+  "khmer-math-worksheet": {
+    en: "Generate printable arithmetic practice sheets written in Khmer numerals (០–៩) — addition, subtraction, multiplication, division, or a mix. Set the range and number of problems, flip to an answer key, and print. Made for Cambodian teachers and parents.",
+    km: "បង្កើតសន្លឹកលំហាត់គណិតសម្រាប់បោះពុម្ព សរសេរជាលេខខ្មែរ (០–៩) — បូក ដក គុណ ចែក ឬលាយ។ កំណត់ជួរ និងចំនួនលំហាត់ បើកមើលកន្លែងចម្លើយ ហើយបោះពុម្ព។ ធ្វើឡើងសម្រាប់គ្រូ និងឪពុកម្តាយខ្មែរ។",
+  },
+  "khmer-reverse-dictionary": {
+    en: "Know the meaning but not the word? Type a Khmer keyword that describes what you mean, and this searches inside dictionary definitions and examples to find the matching words — the opposite of a normal lookup. Covers ~620 headwords, all in your browser.",
+    km: "ដឹងន័យ តែមិនដឹងពាក្យ? វាយពាក្យគន្លឹះខ្មែរដែលពណ៌នាអ្វីដែលអ្នកចង់និយាយ ហើយឧបករណ៍នេះស្វែងរកក្នុងនិយមន័យ និងឧទាហរណ៍នៃវចនានុក្រម ដើម្បីរកពាក្យត្រូវគ្នា — ផ្ទុយពីការស្វែងរកធម្មតា។ គ្របដណ្តប់ពាក្យប្រមាណ ៦២០ ក្នុងកម្មវិធីរុករក។",
+  },
+  "khmer-word-of-the-day": {
+    en: "Learn one Khmer word at a time. See today's word, recall its meaning, then reveal the definition, pronunciation, an example, and related words — or shuffle to a new random word for flashcard-style study. Drawn from an offline dictionary of ~620 words.",
+    km: "រៀនពាក្យខ្មែរម្តងមួយ។ មើលពាក្យប្រចាំថ្ងៃ នឹកន័យរបស់វា រួចបង្ហាញនិយមន័យ ការបញ្ចេញសំឡេង ឧទាហរណ៍ និងពាក្យពាក់ព័ន្ធ — ឬចាក់ឆ្នោតទៅពាក្យថ្មីសម្រាប់សិក្សាបែបសន្លឹកសំណួរ។ ដកស្រង់ពីវចនានុក្រមក្រៅបណ្តាញប្រមាណ ៦២០ ពាក្យ។",
+  },
+  "khmer-vocabulary-comparison": {
+    en: "Paste two Khmer texts and compare the words they use — which words they share, which appear only in the first, and which only in the second, with an overlap percentage. Useful for comparing drafts, checking translations, and grading vocabulary.",
+    km: "បិទភ្ជាប់អត្ថបទខ្មែរពីរ ហើយប្រៀបធៀបពាក្យដែលពួកវាប្រើ — ពាក្យណារួមគ្នា ពាក្យណាមានតែក្នុងទីមួយ និងពាក្យណាមានតែក្នុងទីពីរ ជាមួយភាគរយត្រួតស៊ី។ មានប្រយោជន៍សម្រាប់ប្រៀបធៀបព្រាង ពិនិត្យការបកប្រែ និងវាយតម្លៃវាក្យសព្ទ។",
+  },
+  "khmer-text-spacer": {
+    en: "Khmer is written without spaces between words. This inserts a visible separator between each word — or each syllable, as a reading aid — while keeping your punctuation and line breaks. Choose a space, dot, bullet, or bar. Runs in your browser.",
+    km: "ភាសាខ្មែរសរសេរដោយគ្មានចន្លោះរវាងពាក្យ។ ឧបករណ៍នេះបញ្ចូលសញ្ញាបំបែកមើលឃើញរវាងពាក្យនីមួយៗ — ឬព្យាង្គនីមួយៗ ជាជំនួយអាន — ដោយរក្សាសញ្ញាវណ្ណយុត្ត និងការចុះបន្ទាត់។ ជ្រើសរើសចន្លោះ ចំណុច ចំណុចមូល ឬបន្ទាត់។ ដំណើរការក្នុងកម្មវិធីរុករក។",
+  },
+  "khmer-consonant-skeleton": {
+    en: "Strip the vowels, subscripts (coeng), and diacritics from Khmer text to leave just the bare consonant skeleton — the 'bones' of each word. Useful for studying word structure, building keys for fuzzy search, and comparing similar-sounding words.",
+    km: "ដកស្រៈ ជើង និងវណ្ណយុត្តចេញពីអត្ថបទខ្មែរ ទុកតែគ្រោងព្យញ្ជនៈសុទ្ធ — «ឆ្អឹង» នៃពាក្យនីមួយៗ។ មានប្រយោជន៍សម្រាប់សិក្សារចនាសម្ព័ន្ធពាក្យ បង្កើតកូនសោសម្រាប់ស្វែងរកប្រហាក់ប្រហែល និងប្រៀបធៀបពាក្យស្តាប់ស្រដៀងគ្នា។",
+  },
   "khmer-sorter": {
     en: "Sort Khmer text lines or words into an approximate dictionary order with this bilingual tool.",
     km: "រៀបតម្រៀបបន្ទាត់ ឬពាក្យអត្ថបទខ្មែរតាមលំដាប់វចនានុក្រមប្រហាក់ប្រហែល ជាមួយឧបករណ៍ជាពីរភាសានេះ។",
@@ -1394,6 +1434,16 @@ const HOWTO_TOOLS: Record<string, string[]> = {
   "khmer-invisible-cleaner": ["Paste text that might contain hidden characters", "Read the report of what was found (BOM, zero-width joiners, direction marks, non-breaking spaces)", "Toggle whether to also remove word-break spaces (ZWSP), then copy the cleaned text"],
   "khmer-spell-suggester": ["Type a Khmer word you're unsure about", "If it's in the dictionary you'll see a tick; otherwise read the closest words ranked by how few letters differ", "Click a suggestion to replace your input with it"],
   "khmer-word-pattern": ["Enter any combination of starts-with, contains, ends-with, and a syllable count", "Read the list of matching Khmer words", "Copy the list — useful for crosswords, poems, and word games"],
+  "khmer-anagram-finder": ["Type or paste the Khmer letters you have", "Choose exact anagrams or any words made from those letters", "Read and copy the real dictionary words you can spell"],
+  "khmer-minimal-pairs": ["Type one Khmer word", "Read the real words that differ from it by exactly one letter", "The changed letter is highlighted in each result"],
+  "khmer-pii-redactor": ["Paste text containing personal details", "Toggle which categories to mask (phone, email, link, ID) and the mask style", "Copy the redacted text — nothing is uploaded"],
+  "khmer-script-highlighter": ["Paste or type Khmer text", "See each part colour-coded: consonants, subscripts, vowels, diacritics, and digits", "Read the legend counts for a breakdown"],
+  "khmer-math-worksheet": ["Pick the operation, number range, and how many problems", "Regenerate for a fresh set, or flip to the answer key", "Print or save as PDF"],
+  "khmer-reverse-dictionary": ["Type a Khmer keyword describing the meaning you want", "Read the words whose definitions or examples mention it", "Pick the word that fits"],
+  "khmer-word-of-the-day": ["See today's word and try to recall its meaning", "Reveal the definition, pronunciation, and example", "Shuffle to a new random word to keep studying"],
+  "khmer-vocabulary-comparison": ["Paste one text in A and another in B", "See which words are shared, only in A, or only in B", "Read the overlap percentage; copy any column"],
+  "khmer-text-spacer": ["Paste Khmer text that has no spaces", "Choose to separate by word or by syllable, and pick a separator", "Copy the spaced text"],
+  "khmer-consonant-skeleton": ["Paste or type Khmer text", "Choose whether to keep independent vowels", "Copy the consonant-only skeleton"],
   "khmer-sorter": ["Paste or type your Khmer text", "Choose to sort lines or words", "Copy the sorted output"],
   "khmer-text-stats": ["Paste or type your Khmer text", "Read the word, character, consonant, vowel, and digit counts"],
   "json-diff": ["Paste JSON document A", "Paste JSON document B", "Review the added, removed, and changed paths"],
