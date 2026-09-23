@@ -40,7 +40,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
   title: "123 Toolbox — ប្រអប់ឧបករណ៍ ១២៣",
   description:
-    "430+ free browser-based tools for PDF, images, developers, designers, Khmer language, and everyday work. ឧបករណ៍អនឡាញឥតគិតថ្លៃជាង ៤០០ មុខ។",
+    "800+ free browser-based tools for PDF, images, developers, designers, Khmer language, and everyday work. ឧបករណ៍អនឡាញឥតគិតថ្លៃជាង ៨០០ មុខ។",
   alternates: {
     canonical: BASE_URL,
     languages: {
@@ -53,7 +53,7 @@ export const metadata: Metadata = {
     type: "website",
     title: "123 Toolbox — ប្រអប់ឧបករណ៍ ១២៣",
     description:
-      "430+ free browser-based tools for PDF, images, developers, designers, Khmer language, and everyday work.",
+      "800+ free browser-based tools for PDF, images, developers, designers, Khmer language, and everyday work.",
     url: BASE_URL,
     siteName: "123 Toolbox",
     locale: "en_US",

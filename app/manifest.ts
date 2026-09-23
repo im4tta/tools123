@@ -5,7 +5,7 @@ export default function manifest(): MetadataRoute.Manifest {
     name: "១២៣ Toolbox — Free online PDF, image & Khmer language tools",
     short_name: "១២៣ Toolbox",
     description:
-      "380+ free browser-based tools: merge & compress PDFs, remove image backgrounds, convert Khmer digits, generate QR codes, and more.",
+      "800+ free browser-based tools: merge & compress PDFs, remove image backgrounds, convert Khmer digits, generate QR codes, and more.",
     start_url: "/",
     scope: "/",
     display: "standalone",

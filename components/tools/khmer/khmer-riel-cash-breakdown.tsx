@@ -4,11 +4,11 @@ import { useMemo } from "react";
 import { useLanguage } from "@/components/LanguageProvider";
 import { Field, TextInput, ToolShell } from "@/components/ui/Shell";
 import { useToolState } from "@/lib/storage";
+import { DEFAULT_RIEL_DENOMS, greedyBreakdown, parseDenoms } from "@/lib/khmer-money";
 
-// Greedy note breakdown for a KHR amount. The default denominations are the
-// commonly circulating National Bank of Cambodia riel banknotes, but the list
+// Greedy note breakdown for a KHR amount. The default denominations (see
+// lib/khmer-money.ts) are the commonly circulating riel banknotes, but the list
 // is fully EDITABLE — treat it as a starting point, not an authoritative set.
-const DEFAULT_DENOMS = "100, 500, 1000, 2000, 5000, 10000, 20000, 50000, 100000";
 
 function riel(n: number): string {
   return n.toLocaleString("en-US") + " ៛";
@@ -17,20 +17,12 @@ function riel(n: number): string {
 export default function KhmerRielCashBreakdown() {
   const { text: t } = useLanguage();
   const [amount, setAmount] = useToolState("riel-cash:amount", "137500");
-  const [denomText, setDenomText] = useToolState("riel-cash:denoms", DEFAULT_DENOMS);
+  const [denomText, setDenomText] = useToolState("riel-cash:denoms", DEFAULT_RIEL_DENOMS);
 
   const result = useMemo(() => {
-    const denoms = [...new Set(
-      denomText.split(/[,\s]+/).map((d) => Math.floor(Number(d.trim()))).filter((d) => Number.isFinite(d) && d > 0)
-    )].sort((a, b) => b - a);
-    let remaining = Math.max(0, Math.floor(Number(amount) || 0));
-    const target = remaining;
-    const rows: { denom: number; count: number; subtotal: number }[] = [];
-    for (const denom of denoms) {
-      const count = Math.floor(remaining / denom);
-      remaining -= count * denom;
-      if (count > 0) rows.push({ denom, count, subtotal: count * denom });
-    }
+    const denoms = parseDenoms(denomText);
+    const target = Math.max(0, Math.floor(Number(amount) || 0));
+    const { rows, remainder: remaining } = greedyBreakdown(target, denoms);
     const totalNotes = rows.reduce((s, r) => s + r.count, 0);
     return { rows, remainder: remaining, target, totalNotes, hasDenoms: denoms.length > 0 };
   }, [amount, denomText]);

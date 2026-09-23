@@ -57,7 +57,7 @@ const LABELS: Entry[] = [
   ["Repaired text", "អត្ថបទដែលបានជួសជុល"], ["JavaScript snippet", "កូដ JavaScript"], ["Missing keys for translator (JSON)", "key ដែលបាត់សម្រាប់អ្នកបកប្រែ (JSON)"],
   ["Your acrostic (starter words)", "កំណាព្យអក្សរផ្តើមរបស់អ្នក (ពាក្យចាប់ផ្តើម)"],
   ["Paste text like áž€áž¶ or %E1%9E%80…", "បិទភ្ជាប់អត្ថបទដូចជា áž€áž¶ ឬ %E1%9E%80…"], ["Paste a Khmer reading passage…", "បិទភ្ជាប់អត្ថបទអានខ្មែរ…"],
-  ["e.g. កម្ពុជា", "ឧ. កម្ពុជា"], ["Paste or type Khmer text…", "បិទភ្ជាប់ ឬវាយអត្ថបទខ្មែរ…"],
+  ["e.g. កម្ពុជា", "ឧ. កម្ពុជា"], ["Paste or type Khmer text…", "បិទភ្ជាប់ ឬវាយអត្ថបទខ្មែរ…"], ["e.g. Sokha & Dara wedding", "ឧ. មង្គលការ សុខា និង ដារ៉ា"], ["e.g. 4000", "ឧ. 4000"],
   // --- Property / field type option labels (Obsidian & data tools) ---
   ["List", "បញ្ជី"], ["Number", "លេខ"], ["Checkbox", "ប្រអប់ធីក"], ["Date", "កាលបរិច្ឆេទ"],
   ["Input text", "អត្ថបទបញ្ចូល"], ["Input JSON", "ទិន្នន័យ JSON បញ្ចូល"], ["CSV input", "ទិន្នន័យ CSV បញ្ចូល"],
