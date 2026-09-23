@@ -275,6 +275,46 @@ const TOOL_BLURBS: Record<string, ToolBlurb> = {
     en: "Generate a memorable, strong password: random Khmer words you remember, stored as the Latin keys you'd press to type them on the NIDA Khmer keyboard. Uses cryptographic randomness, shows estimated entropy, and never saves or sends anything.",
     km: "បង្កើតពាក្យសម្ងាត់ខ្លាំងដែលងាយចងចាំ៖ ពាក្យខ្មែរចៃដន្យដែលអ្នកចងចាំ រក្សាទុកជាគ្រាប់ចុចឡាតាំងដែលអ្នកនឹងចុចដើម្បីវាយវាលើក្ដារចុចខ្មែរ NIDA។ ប្រើភាពចៃដន្យគ្រីបតូ បង្ហាញ entropy ប៉ាន់ស្មាន ហើយមិនរក្សាទុក ឬផ្ញើអ្វីទេ។",
   },
+  "khmer-vocab-quiz": {
+    en: "A multiple-choice Khmer vocabulary quiz: see a word and pick its meaning, or read a meaning and pick the word. Questions come from the app's offline Khmer dictionary, with a running score and best streak.",
+    km: "ល្បែងសំណួរពហុជម្រើសអំពីវាក្យសព្ទខ្មែរ៖ មើលពាក្យ ហើយជ្រើសន័យ ឬអានន័យ ហើយជ្រើសពាក្យ។ សំណួរមកពីវចនានុក្រមខ្មែរក្រៅបណ្តាញរបស់កម្មវិធី មានពិន្ទុ និងចំនួនត្រូវជាប់ៗល្អបំផុត។",
+  },
+  "khmer-word-chain": {
+    en: "Play word chain in Khmer against the computer: each word must start with the last syllable (or its first letter) of the previous word, with no repeats. Words are checked against an offline Khmer word list.",
+    km: "លេងល្បែងតពាក្យជាភាសាខ្មែរជាមួយកុំព្យូទ័រ៖ ពាក្យនីមួយៗត្រូវចាប់ផ្តើមដោយព្យាង្គចុងក្រោយ (ឬអក្សរដំបូងរបស់វា) នៃពាក្យមុន ហើយមិនអាចប្រើដដែល។ ពាក្យត្រូវផ្ទៀងផ្ទាត់នឹងបញ្ជីពាក្យខ្មែរក្រៅបណ្តាញ។",
+  },
+  "khmer-wordle": {
+    en: "Guess the hidden Khmer word in six tries, one syllable per square. Colours show right-place syllables, syllables elsewhere in the word, and a Khmer-specific same-first-letter hint. Choose 2- to 4-syllable words.",
+    km: "ទាយពាក្យខ្មែរដែលលាក់ក្នុងការសាកប្រាំមួយដង ព្យាង្គមួយក្នុងមួយប្រអប់។ ពណ៌បង្ហាញព្យាង្គនៅកន្លែងត្រូវ ព្យាង្គនៅកន្លែងផ្សេងក្នុងពាក្យ និងជំនួយអក្សរដំបូងដូចគ្នាសម្រាប់ខ្មែរ។ ជ្រើសពាក្យ ២ ដល់ ៤ ព្យាង្គ។",
+  },
+  "khmer-series-quiz": {
+    en: "Learn which Khmer consonants are 1st series (â) and which are 2nd series (ô) — the rule that decides how every vowel is read. Work through all 33 modern consonants and review the ones you missed.",
+    km: "រៀនថាព្យញ្ជនៈខ្មែរណាជាស៊េរីទី១ (អ) និងណាជាស៊េរីទី២ (អូ) — ច្បាប់ដែលកំណត់របៀបអានស្រៈគ្រប់តួ។ ឆ្លងកាត់ព្យញ្ជនៈសម័យទំនើបទាំង ៣៣ ហើយរំលឹកតួដែលអ្នកឆ្លើយខុស។",
+  },
+  "khmer-number-quiz": {
+    en: "Practise reading numbers in Khmer: match Khmer numerals to their words or words to numerals, up to 100,000, in the modern style or with the traditional ម៉ឺន and សែន place names.",
+    km: "អនុវត្តការអានលេខជាភាសាខ្មែរ៖ ផ្គូផ្គងលេខខ្មែរទៅនឹងពាក្យ ឬពាក្យទៅនឹងលេខ រហូតដល់ ១០០,០០០ តាមរបៀបទំនើប ឬជាមួយឈ្មោះខ្ទង់ ម៉ឺន និង សែន បែបប្រពៃណី។",
+  },
+  "khmer-reading-speed": {
+    en: "Time yourself reading a Khmer passage and get your speed in words and syllables per minute, with a history of recent attempts to track progress. Use the sample text or your own.",
+    km: "កំណត់ពេលអានអត្ថបទខ្មែររបស់អ្នក ហើយទទួលបានល្បឿនជាពាក្យ និងព្យាង្គក្នុងមួយនាទី ព្រមទាំងប្រវត្តិការសាកល្បងថ្មីៗ ដើម្បីតាមដានការរីកចម្រើន។ ប្រើអត្ថបទគំរូ ឬអត្ថបទផ្ទាល់ខ្លួន។",
+  },
+  "khmer-guided-reader": {
+    en: "A reading aid for children and new Khmer readers: a highlight moves through any passage one word or syllable at a time at the speed you choose, in large type, with pause and step controls.",
+    km: "ជំនួយការអានសម្រាប់កុមារ និងអ្នកទើបរៀនអានខ្មែរ៖ ពន្លឺរំកិលកាត់អត្ថបទណាមួយម្តងមួយពាក្យ ឬព្យាង្គ តាមល្បឿនដែលអ្នកជ្រើស ជាអក្សរធំ មានប៊ូតុងផ្អាក និងរំកិលម្តងមួយជំហាន។",
+  },
+  "khmer-gift-ledger": {
+    en: "Record the gift envelopes (ចំណងដៃ) from a wedding or ceremony — guest, side, and amount in dollars and/or riel — with totals, search, CSV export, and printing. Saved privately in your browser.",
+    km: "កត់ត្រាស្រោមសំបុត្រចំណងដៃពីពិធីមង្គលការ ឬពិធីផ្សេងៗ — ភ្ញៀវ ខាង និងចំនួនជាដុល្លារ និង/ឬរៀល — មានចំនួនសរុប ការស្វែងរក ការនាំចេញ CSV និងការបោះពុម្ព។ រក្សាទុកដោយឯកជនក្នុងកម្មវិធីរុករករបស់អ្នក។",
+  },
+  "khmer-mixed-change": {
+    en: "Work out change when prices and payments mix US dollars and riel: enter the price, what was paid, and the shop's rate, and get the change in riel or whole dollars plus riel, with the notes to hand over and any rounding shown.",
+    km: "គណនាប្រាក់អាប់នៅពេលតម្លៃ និងការបង់ប្រាក់លាយដុល្លារ និងរៀល៖ បញ្ចូលតម្លៃ ប្រាក់ដែលបានបង់ និងអត្រារបស់ហាង ហើយទទួលបានប្រាក់អាប់ជារៀល ឬដុល្លារគត់បូករៀល ព្រមទាំងក្រដាសប្រាក់ដែលត្រូវអាប់ និងការបង្គត់។",
+  },
+  "khmer-tontine-planner": {
+    en: "Plan a rotating savings group (ហ៊ុយ): who collects each round, what each member pays, and everyone's total paid, received, and net — for a fixed rotation or a discount-bid model. A planning aid; group rules vary.",
+    km: "រៀបចំក្រុមសន្សំវិលជុំ (ហ៊ុយ)៖ អ្នកណាទទួលក្នុងវគ្គនីមួយៗ សមាជិកម្នាក់ៗបង់ប៉ុន្មាន និងសរុបបង់ ទទួល និងចំណេញ/ខាតរបស់ម្នាក់ៗ — សម្រាប់ការវិលជុំថេរ ឬម៉ូដែលដេញការបញ្ចុះ។ ជាជំនួយរៀបចំផែនការ ច្បាប់ក្រុមខុសៗគ្នា។",
+  },
   "mesh-gradient-generator": {
     en: "Generate soft, multi-colour mesh gradients — the smooth, blurry blends used as hero and card backgrounds. Randomise until you like one, adjust the number of colour points, then copy the CSS or download a PNG. Everything is generated in your browser.",
     km: "បង្កើតជម្រាលពណ៌មេសពហុពណ៌ដ៏ទន់ភ្លន់ — ការលាយពណ៌រលោងព្រិលៗដែលប្រើជាផ្ទៃខាងក្រោយ។ ចាក់ឆ្នោតរហូតដល់អ្នកពេញចិត្ត កែចំនួនចំណុចពណ៌ រួចចម្លង CSS ឬទាញយក PNG។ អ្វីៗបង្កើតក្នុងកម្មវិធីរុករក។",
@@ -1539,6 +1579,16 @@ const HOWTO_TOOLS: Record<string, string[]> = {
   "khmer-word-search": ["Enter Khmer words (one per line) or draw random dictionary words", "Pick the grid size and whether to include diagonals", "Print the puzzle, then show answers for the key"],
   "khmer-acrostic-helper": ["Type a Khmer name or word", "Choose exact-cluster or same-first-letter suggestions", "Click a word for each line and copy your acrostic starters"],
   "khmer-keyboard-passphrase": ["Choose how many words and the separator", "Press Generate", "Remember the Khmer words and copy the Latin keystrokes as your password"],
+  "khmer-vocab-quiz": ["Choose word → meaning or meaning → word", "Press Start and pick one of four answers", "See the correct answer, then go to the next question"],
+  "khmer-word-chain": ["Choose the easier (same first letter) or harder (same syllable) rule", "Press Start; the computer plays the first word", "Type a word that starts where the last one ended — run the computer out of words to win"],
+  "khmer-wordle": ["Pick a word length (2–4 syllables) and press Start", "Type a real Khmer word of that length and press Guess", "Use the colours to narrow it down within six tries"],
+  "khmer-series-quiz": ["Press Start to see the 33 consonants in random order", "Choose 1st or 2nd series for each letter", "Read the name and IPA, then review the letters you missed at the end"],
+  "khmer-number-quiz": ["Choose number → words or words → number, the range, and the word style", "Press Start and pick the matching answer", "Check the full reading, then continue"],
+  "khmer-reading-speed": ["Use the sample passage or paste your own", "Press Start reading, read at your normal pace, then press Done", "Read your words and syllables per minute and compare with past attempts"],
+  "khmer-guided-reader": ["Paste a passage or keep the sample", "Choose word or syllable steps, a speed, and a text size", "Press Start and read along with the highlight; pause or step as needed"],
+  "khmer-gift-ledger": ["Optionally name the event", "Add each envelope: guest name, side, and the amount in USD and/or riel", "Review totals, search, and export a CSV or print the list"],
+  "khmer-mixed-change": ["Enter the shop's exchange rate", "Enter the price and what the customer paid, in USD and/or riel", "Choose all-riel or dollars-plus-riel change and read the amount and notes to give"],
+  "khmer-tontine-planner": ["List the members in payout order and set the contribution", "Choose fixed rotation or the bid model (and enter each round's bid)", "Read the round schedule and each member's paid, received, and net totals"],
   "mesh-gradient-generator": ["Press Randomize until you like a gradient", "Adjust the number of colour points", "Copy the CSS or download a PNG/SVG"],
   "svg-blob-generator": ["Randomize to get a new blob shape", "Tune the points, wobble, and colours", "Copy the SVG or download SVG/PNG"],
   "svg-wave-generator": ["Choose the number of layers and colours", "Shuffle for a new wave and set the height", "Copy the SVG or download SVG/PNG"],
