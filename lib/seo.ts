@@ -235,6 +235,46 @@ const TOOL_BLURBS: Record<string, ToolBlurb> = {
     en: "Strip the vowels, subscripts (coeng), and diacritics from Khmer text to leave just the bare consonant skeleton — the 'bones' of each word. Useful for studying word structure, building keys for fuzzy search, and comparing similar-sounding words.",
     km: "ដកស្រៈ ជើង និងវណ្ណយុត្តចេញពីអត្ថបទខ្មែរ ទុកតែគ្រោងព្យញ្ជនៈសុទ្ធ — «ឆ្អឹង» នៃពាក្យនីមួយៗ។ មានប្រយោជន៍សម្រាប់សិក្សារចនាសម្ព័ន្ធពាក្យ បង្កើតកូនសោសម្រាប់ស្វែងរកប្រហាក់ប្រហែល និងប្រៀបធៀបពាក្យស្តាប់ស្រដៀងគ្នា។",
   },
+  "khmer-mojibake-fixer": {
+    en: "Repair garbled Khmer text like “áž€áž¶” or “%E1%9E%80” — UTF-8 that was read with the wrong encoding in a database, CSV, email, or website. Undoes single and double mis-encoding plus percent-encoded and escaped bytes, and warns when data was already lost. Runs in your browser.",
+    km: "ជួសជុលអត្ថបទខ្មែរខូចដូចជា «áž€áž¶» ឬ «%E1%9E%80» — UTF-8 ដែលត្រូវបានអានដោយការអ៊ិនកូដខុសក្នុងមូលដ្ឋានទិន្នន័យ CSV អ៊ីមែល ឬគេហទំព័រ។ ត្រឡប់ការអ៊ិនកូដខុសម្តង ឬពីរដង ព្រមទាំងបៃអ៊ិនកូដភាគរយ និង escape ហើយព្រមានពេលទិន្នន័យបាត់រួចហើយ។ ដំណើរការក្នុងកម្មវិធីរុករក។",
+  },
+  "khmer-i18n-checker": {
+    en: "Compare an English source JSON with its Khmer translation (i18next, react-intl, vue-i18n, Laravel …) and list missing or orphaned keys, empty or untranslated strings, values with no Khmer script, lost placeholders, mismatched HTML tags, and stray spaces. Export missing keys for your translator. Nothing is uploaded.",
+    km: "ប្រៀបធៀប JSON ប្រភពអង់គ្លេសជាមួយការបកប្រែខ្មែរ (i18next, react-intl, vue-i18n, Laravel …) ហើយរាយ key ដែលបាត់ ឬនៅសល់ ខ្សែអក្សរទទេ ឬមិនទាន់បកប្រែ តម្លៃគ្មានអក្សរខ្មែរ placeholder ដែលបាត់ ស្លាក HTML មិនត្រូវគ្នា និងចន្លោះលើស។ នាំចេញ key ដែលបាត់សម្រាប់អ្នកបកប្រែ។ គ្មានការផ្ញើឡើងទេ។",
+  },
+  "khmer-safe-truncator": {
+    en: "Shorten Khmer text to a character, code-point, UTF-16, or UTF-8 byte limit without splitting a cluster — no dangling subscripts, orphan vowels, or broken bytes. Compare with a naive cut, optionally stop on a word boundary, and copy a ready JavaScript snippet.",
+    km: "កាត់អត្ថបទខ្មែរឱ្យខ្លីតាមដែនកំណត់តួអក្សរ code point UTF-16 ឬបៃ UTF-8 ដោយមិនបំបែកក្រុមអក្សរ — គ្មានជើងអណ្តែត ស្រៈកំព្រា ឬបៃខូច។ ប្រៀបធៀបជាមួយការកាត់ធម្មតា ជាជម្រើសឈប់នៅព្រំដែនពាក្យ ហើយចម្លងកូដ JavaScript ដែលត្រៀមរួច។",
+  },
+  "khmer-regex-builder": {
+    en: "A library of Khmer regular expressions — consonants, vowels, subscripts, Khmer digits, punctuation, name fields, and error checks like a vowel with no base or a dangling coeng. Test them live on your text and copy snippets for JavaScript, Python, PHP, Java, or Go.",
+    km: "បណ្ណាល័យ regular expression ខ្មែរ — ព្យញ្ជនៈ ស្រៈ ជើង លេខខ្មែរ វណ្ណយុត្តិ វាលឈ្មោះ និងការពិនិត្យកំហុសដូចជាស្រៈគ្មានតួគោល ឬជើងអណ្តែត។ សាកល្បងផ្ទាល់លើអត្ថបទរបស់អ្នក ហើយចម្លងកូដសម្រាប់ JavaScript, Python, PHP, Java ឬ Go។",
+  },
+  "khmer-intl-playground": {
+    en: "See what your browser's built-in JavaScript Intl APIs output for the Khmer locale — numbers, riel and dollar currency, dates, relative time, lists, plural rules, display names, sorting, and word segmentation — with Khmer or Arabic digits and the Buddhist calendar, each beside copy-ready code.",
+    km: "មើលអ្វីដែល API Intl របស់ JavaScript ក្នុងកម្មវិធីរុករកបង្កើតសម្រាប់ locale ខ្មែរ — លេខ រូបិយប័ណ្ណរៀល និងដុល្លារ កាលបរិច្ឆេទ ពេលវេលាប្រៀបធៀប បញ្ជី ច្បាប់ពហុវចនៈ ឈ្មោះបង្ហាញ ការតម្រៀប និងការបំបែកពាក្យ — ជាមួយលេខខ្មែរ ឬអារ៉ាប់ និងប្រតិទិនពុទ្ធសករាជ នីមួយៗនៅក្បែរកូដត្រៀមចម្លង។",
+  },
+  "khmer-test-strings": {
+    en: "Curated tricky Khmer strings for testing software and fonts — stacked subscripts, split vowels, look-alike spellings, Khmer digits and the riel sign, zero-width spaces, invalid sequences, and deprecated code points — with explanations, exact code points, lengths in four units, and JSON fixture export.",
+    km: "ខ្សែអក្សរខ្មែរពិបាកៗសម្រាប់សាកល្បងកម្មវិធី និងពុម្ពអក្សរ — ជើងជាន់ ស្រៈបំបែក អក្ខរាវិរុទ្ធមើលដូចគ្នា លេខខ្មែរ និងសញ្ញារៀល ចន្លោះសូន្យ លំដាប់មិនត្រឹមត្រូវ និង code point ដែលលុបចោល — ជាមួយការពន្យល់ code point ពិតប្រាកដ ប្រវែងជាបួនឯកតា និងការនាំចេញ JSON fixture។",
+  },
+  "khmer-cloze-generator": {
+    en: "Turn any Khmer passage into a printable fill-in-the-blank reading exercise: blank every Nth word or a random share, skip small grammar words, add a shuffled word bank, and show the answer key. Built for Khmer teachers and learners.",
+    km: "បម្លែងអត្ថបទខ្មែរណាមួយទៅជាលំហាត់អានបំពេញចន្លោះសម្រាប់បោះពុម្ព៖ លុបរៀងរាល់ពាក្យទី N ឬភាគរយចៃដន្យ រំលងពាក្យវេយ្យាករណ៍តូចៗ បន្ថែមបញ្ជីពាក្យច្របល់ ហើយបង្ហាញចម្លើយ។ បង្កើតសម្រាប់គ្រូ និងអ្នករៀនភាសាខ្មែរ។",
+  },
+  "khmer-word-search": {
+    en: "Build a printable Khmer word-search puzzle where every square holds a whole syllable cluster, so subscripts and vowels are never split. Use your own vocabulary or random dictionary words, pick the grid size and directions, and print with or without answers.",
+    km: "បង្កើតល្បែងស្វែងរកពាក្យខ្មែរសម្រាប់បោះពុម្ព ដែលប្រអប់នីមួយៗផ្ទុកក្រុមអក្សរពេញ ដូច្នេះជើង និងស្រៈមិនត្រូវបំបែក។ ប្រើវាក្យសព្ទផ្ទាល់ខ្លួន ឬពាក្យចៃដន្យពីវចនានុក្រម ជ្រើសទំហំក្រឡា និងទិស ហើយបោះពុម្ពដោយមាន ឬគ្មានចម្លើយ។",
+  },
+  "khmer-acrostic-helper": {
+    en: "Write a Khmer acrostic poem: type a name or word and get real dictionary words that start with each of its syllable clusters (or the same first letter) to begin each line. Handy for birthday cards, wedding verses, and school poems.",
+    km: "សរសេរកំណាព្យអក្សរផ្តើមខ្មែរ៖ វាយឈ្មោះ ឬពាក្យ ហើយទទួលបានពាក្យពិតពីវចនានុក្រមដែលចាប់ផ្តើមដោយក្រុមអក្សរនីមួយៗ (ឬអក្សរដំបូងដូចគ្នា) ដើម្បីចាប់ផ្តើមបន្ទាត់នីមួយៗ។ ងាយស្រួលសម្រាប់កាតខួបកំណើត កំណាព្យមង្គលការ និងកំណាព្យសាលា។",
+  },
+  "khmer-keyboard-passphrase": {
+    en: "Generate a memorable, strong password: random Khmer words you remember, stored as the Latin keys you'd press to type them on the NIDA Khmer keyboard. Uses cryptographic randomness, shows estimated entropy, and never saves or sends anything.",
+    km: "បង្កើតពាក្យសម្ងាត់ខ្លាំងដែលងាយចងចាំ៖ ពាក្យខ្មែរចៃដន្យដែលអ្នកចងចាំ រក្សាទុកជាគ្រាប់ចុចឡាតាំងដែលអ្នកនឹងចុចដើម្បីវាយវាលើក្ដារចុចខ្មែរ NIDA។ ប្រើភាពចៃដន្យគ្រីបតូ បង្ហាញ entropy ប៉ាន់ស្មាន ហើយមិនរក្សាទុក ឬផ្ញើអ្វីទេ។",
+  },
   "mesh-gradient-generator": {
     en: "Generate soft, multi-colour mesh gradients — the smooth, blurry blends used as hero and card backgrounds. Randomise until you like one, adjust the number of colour points, then copy the CSS or download a PNG. Everything is generated in your browser.",
     km: "បង្កើតជម្រាលពណ៌មេសពហុពណ៌ដ៏ទន់ភ្លន់ — ការលាយពណ៌រលោងព្រិលៗដែលប្រើជាផ្ទៃខាងក្រោយ។ ចាក់ឆ្នោតរហូតដល់អ្នកពេញចិត្ត កែចំនួនចំណុចពណ៌ រួចចម្លង CSS ឬទាញយក PNG។ អ្វីៗបង្កើតក្នុងកម្មវិធីរុករក។",
@@ -1489,6 +1529,16 @@ const HOWTO_TOOLS: Record<string, string[]> = {
   "khmer-vocabulary-comparison": ["Paste one text in A and another in B", "See which words are shared, only in A, or only in B", "Read the overlap percentage; copy any column"],
   "khmer-text-spacer": ["Paste Khmer text that has no spaces", "Choose to separate by word or by syllable, and pick a separator", "Copy the spaced text"],
   "khmer-consonant-skeleton": ["Paste or type Khmer text", "Choose whether to keep independent vowels", "Copy the consonant-only skeleton"],
+  "khmer-mojibake-fixer": ["Paste the garbled text (e.g. áž€áž¶ or %E1%9E%80)", "Leave the repairs you want switched on", "Copy the repaired Khmer text and read what was fixed"],
+  "khmer-i18n-checker": ["Paste your English source JSON on the left", "Paste your Khmer JSON on the right", "Review the issues by type and copy the missing-keys JSON for your translator"],
+  "khmer-safe-truncator": ["Paste Khmer text", "Choose the unit your system limits (characters, code points, UTF-16, or UTF-8 bytes) and the maximum", "Copy the safe result or the JavaScript snippet"],
+  "khmer-regex-builder": ["Pick a pattern from the Khmer library or type your own", "Check the highlighted matches in the test text", "Choose your language and copy the code snippet"],
+  "khmer-intl-playground": ["Choose km or km-KH, Khmer or Arabic digits, and the calendar", "Enter a number and a date", "Read each live output and copy the code beside it"],
+  "khmer-test-strings": ["Filter by category", "Copy individual strings, or read their code points and lengths", "Export them all as JSON fixtures for your tests"],
+  "khmer-cloze-generator": ["Paste a Khmer passage", "Choose every Nth word or a random share, and whether to skip grammar words", "Print the worksheet, then show the answers to mark it"],
+  "khmer-word-search": ["Enter Khmer words (one per line) or draw random dictionary words", "Pick the grid size and whether to include diagonals", "Print the puzzle, then show answers for the key"],
+  "khmer-acrostic-helper": ["Type a Khmer name or word", "Choose exact-cluster or same-first-letter suggestions", "Click a word for each line and copy your acrostic starters"],
+  "khmer-keyboard-passphrase": ["Choose how many words and the separator", "Press Generate", "Remember the Khmer words and copy the Latin keystrokes as your password"],
   "mesh-gradient-generator": ["Press Randomize until you like a gradient", "Adjust the number of colour points", "Copy the CSS or download a PNG/SVG"],
   "svg-blob-generator": ["Randomize to get a new blob shape", "Tune the points, wobble, and colours", "Copy the SVG or download SVG/PNG"],
   "svg-wave-generator": ["Choose the number of layers and colours", "Shuffle for a new wave and set the height", "Copy the SVG or download SVG/PNG"],

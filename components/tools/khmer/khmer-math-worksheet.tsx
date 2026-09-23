@@ -3,6 +3,7 @@ import { useMemo, useState } from "react";
 import { Printer, RefreshCw } from "lucide-react";
 import { useLanguage } from "@/components/LanguageProvider";
 import { ToolShell } from "@/components/ui/Shell";
+import { Pill, PillGroup } from "@/components/ui/Pill";
 import { useToolState } from "@/lib/storage";
 
 const KH = "០១២៣៤៥៦៧៨៩";
@@ -109,26 +110,5 @@ export default function KhmerMathWorksheet() {
         )}</p>
       </section>
     </ToolShell>
-  );
-}
-
-function PillGroup({ label, children }: { label: string; children: React.ReactNode }) {
-  return (
-    <div>
-      <span className="mb-1.5 block text-xs font-medium uppercase tracking-wide text-[var(--ink-dim)]">{label}</span>
-      <div className="flex flex-wrap gap-2">{children}</div>
-    </div>
-  );
-}
-
-function Pill({ active, onClick, children }: { active: boolean; onClick: () => void; children: React.ReactNode }) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      className={`rounded-md border px-3 py-1.5 text-xs font-medium transition ${active ? "border-[var(--gold)] bg-[var(--gold)]/10 text-[var(--gold)]" : "border-[var(--ground-line)] text-[var(--ink-dim)] hover:border-[var(--ink-faint)]"}`}
-    >
-      {children}
-    </button>
   );
 }

@@ -54,6 +54,10 @@ const LABELS: Entry[] = [
   ["Preview", "មើលជាមុន"], ["Result", "លទ្ធផល"], ["Input", "ទិន្នន័យបញ្ចូល"], ["Output", "លទ្ធផល"],
   // --- Khmer tool output labels ---
   ["Redacted text", "អត្ថបទដែលបានបិទបាំង"], ["Spaced text", "អត្ថបទដកឃ្លា"], ["Consonant skeleton", "គ្រោងព្យញ្ជនៈ"],
+  ["Repaired text", "អត្ថបទដែលបានជួសជុល"], ["JavaScript snippet", "កូដ JavaScript"], ["Missing keys for translator (JSON)", "key ដែលបាត់សម្រាប់អ្នកបកប្រែ (JSON)"],
+  ["Your acrostic (starter words)", "កំណាព្យអក្សរផ្តើមរបស់អ្នក (ពាក្យចាប់ផ្តើម)"],
+  ["Paste text like áž€áž¶ or %E1%9E%80…", "បិទភ្ជាប់អត្ថបទដូចជា áž€áž¶ ឬ %E1%9E%80…"], ["Paste a Khmer reading passage…", "បិទភ្ជាប់អត្ថបទអានខ្មែរ…"],
+  ["e.g. កម្ពុជា", "ឧ. កម្ពុជា"], ["Paste or type Khmer text…", "បិទភ្ជាប់ ឬវាយអត្ថបទខ្មែរ…"],
   // --- Property / field type option labels (Obsidian & data tools) ---
   ["List", "បញ្ជី"], ["Number", "លេខ"], ["Checkbox", "ប្រអប់ធីក"], ["Date", "កាលបរិច្ឆេទ"],
   ["Input text", "អត្ថបទបញ្ចូល"], ["Input JSON", "ទិន្នន័យ JSON បញ្ចូល"], ["CSV input", "ទិន្នន័យ CSV បញ្ចូល"],
