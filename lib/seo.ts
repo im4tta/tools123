@@ -315,6 +315,10 @@ const TOOL_BLURBS: Record<string, ToolBlurb> = {
     en: "Plan a rotating savings group (ហ៊ុយ): who collects each round, what each member pays, and everyone's total paid, received, and net — for a fixed rotation or a discount-bid model. A planning aid; group rules vary.",
     km: "រៀបចំក្រុមសន្សំវិលជុំ (ហ៊ុយ)៖ អ្នកណាទទួលក្នុងវគ្គនីមួយៗ សមាជិកម្នាក់ៗបង់ប៉ុន្មាន និងសរុបបង់ ទទួល និងចំណេញ/ខាតរបស់ម្នាក់ៗ — សម្រាប់ការវិលជុំថេរ ឬម៉ូដែលដេញការបញ្ចុះ។ ជាជំនួយរៀបចំផែនការ ច្បាប់ក្រុមខុសៗគ្នា។",
   },
+  "khmer-spoonerisms": {
+    en: "Browse, search, and quiz yourself on Khmer spoonerisms (ពាក្យគន្លាស់កាត់) — wordplay that swaps sounds between syllables — with 100+ examples by category, your own additions, and a downloadable poster image in the classic style.",
+    km: "រុករក ស្វែងរក និងល្បងប្រាជ្ញាខ្លួនឯងលើពាក្យគន្លាស់កាត់ខ្មែរ — ការលេងពាក្យដែលប្តូរសំឡេងរវាងព្យាង្គ — ជាមួយឧទាហរណ៍ជាង ១០០ តាមប្រភេទ ពាក្យដែលអ្នកបន្ថែមផ្ទាល់ និងរូបភាពផ្ទាំងបដាសម្រាប់ទាញយកតាមបែបបុរាណ។",
+  },
   "mesh-gradient-generator": {
     en: "Generate soft, multi-colour mesh gradients — the smooth, blurry blends used as hero and card backgrounds. Randomise until you like one, adjust the number of colour points, then copy the CSS or download a PNG. Everything is generated in your browser.",
     km: "បង្កើតជម្រាលពណ៌មេសពហុពណ៌ដ៏ទន់ភ្លន់ — ការលាយពណ៌រលោងព្រិលៗដែលប្រើជាផ្ទៃខាងក្រោយ។ ចាក់ឆ្នោតរហូតដល់អ្នកពេញចិត្ត កែចំនួនចំណុចពណ៌ រួចចម្លង CSS ឬទាញយក PNG។ អ្វីៗបង្កើតក្នុងកម្មវិធីរុករក។",
@@ -1589,6 +1593,7 @@ const HOWTO_TOOLS: Record<string, string[]> = {
   "khmer-gift-ledger": ["Optionally name the event", "Add each envelope: guest name, side, and the amount in USD and/or riel", "Review totals, search, and export a CSV or print the list"],
   "khmer-mixed-change": ["Enter the shop's exchange rate", "Enter the price and what the customer paid, in USD and/or riel", "Choose all-riel or dollars-plus-riel change and read the amount and notes to give"],
   "khmer-tontine-planner": ["List the members in payout order and set the contribution", "Choose fixed rotation or the bid model (and enter each round's bid)", "Read the round schedule and each member's paid, received, and net totals"],
+  "khmer-spoonerisms": ["Browse the word list, search, or filter by category", "Open Quiz to guess the real meaning behind 10 spoonerisms", "Open Poster image, pick up to six entries, and download the PNG"],
   "mesh-gradient-generator": ["Press Randomize until you like a gradient", "Adjust the number of colour points", "Copy the CSS or download a PNG/SVG"],
   "svg-blob-generator": ["Randomize to get a new blob shape", "Tune the points, wobble, and colours", "Copy the SVG or download SVG/PNG"],
   "svg-wave-generator": ["Choose the number of layers and colours", "Shuffle for a new wave and set the height", "Copy the SVG or download SVG/PNG"],
