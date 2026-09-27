@@ -10,6 +10,7 @@ import { themeInitScript } from "@/components/ThemeProvider";
 import { ScrollToTopButton } from "@/components/ScrollToTopButton";
 import { ScrollToBottomButton } from "@/components/ScrollToBottomButton";
 import { MobileBottomNav } from "@/components/MobileBottomNav";
+import { AppRuntime } from "@/components/AppRuntime";
 import { SponsorButton } from "@/components/SponsorButton";
 import { WatermarkToggle } from "@/components/WatermarkToggle";
 import { ShareToast } from "@/components/ShareToast";
@@ -120,6 +121,7 @@ export default function RootLayout({
           <ScrollToBottomButton />
           <ScrollToTopButton />
           <MobileBottomNav />
+          <AppRuntime />
           <ShareToast />
         </AppProviders>
         <Analytics />

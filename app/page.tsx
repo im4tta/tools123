@@ -27,6 +27,7 @@ const ObsidianGraph = dynamic(() => import("@/components/ObsidianGraph").then((m
 });
 import { TOOLS, CATEGORY_META, CATEGORY_ORDER, Category } from "@/lib/tools";
 import { LazyTool } from "@/lib/tool-components";
+import { ToolErrorBoundary } from "@/components/ToolErrorBoundary";
 import { toolHref } from "@/lib/toolRoutes";
 import { toolWhatItDoes } from "@/lib/seo";
 import { useLocalStorage, STORAGE_KEYS, type ToolCollection } from "@/lib/storage";
@@ -609,7 +610,7 @@ export default function Home() {
           </div>
         </div>
         <div key={active.id} className="fade-rise">
-          <LazyTool tool={active} />
+          <ToolErrorBoundary><LazyTool tool={active} /></ToolErrorBoundary>
         </div>
         <CommandPalette open={paletteOpen} onOpenChange={setPaletteOpen} onSelect={setActiveId} />
       </main>

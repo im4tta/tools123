@@ -17,6 +17,7 @@ import { AccentThemePicker } from "@/components/AccentThemePicker";
 import { STORAGE_KEYS, storage, useLocalStorage, type ToolCollection } from "@/lib/storage";
 import { TOOLS } from "@/lib/tools";
 import { LazyTool } from "@/lib/tool-components";
+import { ToolErrorBoundary } from "@/components/ToolErrorBoundary";
 import { toolHref } from "@/lib/toolRoutes";
 import { recordToolUse } from "@/lib/export";
 import { recommendationsFor } from "@/lib/recommendations";
@@ -159,7 +160,7 @@ export function ToolRouteClient({ toolId, faq }: { toolId: string; faq: ToolFaqT
           until the tool's own chunk has loaded, so the page neither flashes nor jumps. */}
       <div className="fade-rise">
         {isClient
-          ? <LazyTool tool={tool} fallback={placeholder} />
+          ? <ToolErrorBoundary><LazyTool tool={tool} fallback={placeholder} /></ToolErrorBoundary>
           : placeholder}
       </div>
       <ToolFaq tool={tool} faq={faq} />
