@@ -534,7 +534,7 @@ export default function App() {
 
       {/* Floating Toast Notification */}
       {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-50 bg-[var(--ground-raised)]/95 border border-[var(--teal)]/50 text-[var(--teal)] px-4 py-3 rounded-2xl shadow-2xl backdrop-blur-md flex items-center gap-3 text-xs font-semibold animate-in fade-in slide-in-from-bottom-3">
+        <div className="floating-toast fixed bottom-6 right-6 z-50 bg-[var(--ground-raised)]/95 border border-[var(--teal)]/50 text-[var(--teal)] px-4 py-3 rounded-2xl shadow-2xl backdrop-blur-md flex items-center gap-3 text-xs font-semibold animate-in fade-in slide-in-from-bottom-3">
           <CheckCircle2 className="w-4 h-4 text-[var(--teal)] shrink-0" />
           <span>{toastMessage}</span>
         </div>

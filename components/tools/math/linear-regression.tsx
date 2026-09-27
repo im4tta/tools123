@@ -189,7 +189,7 @@ export default function LinearRegression() {
 
           {view && (
             <div className="overflow-x-auto rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3">
-              <svg viewBox={`0 0 ${view.W} ${view.H}`} width="100%" height="auto" role="img" aria-label="Scatter plot with trend line">
+              <svg viewBox={`0 0 ${view.W} ${view.H}`} width="100%" className="h-auto" role="img" aria-label="Scatter plot with trend line">
                 {trendLine && <path d={trendLine} fill="none" stroke="var(--gold)" strokeWidth="2" />}
                 {result.ok &&
                   result.points.map((p, i) => (

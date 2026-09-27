@@ -198,13 +198,13 @@ export default function ConstructionWaterGlossary() {
         )}
         {results.map((t) => (
           <div key={t.en} className="flex items-start justify-between gap-3 rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 text-sm">
-            <div>
+            <div className="min-w-0">
               <div className="font-medium text-[var(--ink)]">{t.en}</div>
               {t.note && <div className="mt-0.5 text-xs text-[var(--ink-dim)]">{t.note}</div>}
               <div className="mt-1 text-[10px] uppercase tracking-wide text-[var(--ink-faint)]">{t.category}</div>
             </div>
-            <div className="flex shrink-0 items-center gap-2">
-              <div className="whitespace-nowrap font-medium text-[var(--gold)]">{t.km}</div>
+            <div className="flex min-w-0 items-center gap-2 sm:shrink-0">
+              <div className="text-right font-medium text-[var(--gold)] sm:whitespace-nowrap">{t.km}</div>
               <CopyButton text={formatEntry(t)} compact fields={buildFields(t)} />
             </div>
           </div>

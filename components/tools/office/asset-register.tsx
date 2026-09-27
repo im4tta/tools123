@@ -98,7 +98,7 @@ export default function AssetRegister() {
       description="Maintain a temporary office asset register, review status and value totals, and export CSV without storing business data."
       descriptionKm="រៀបចំបញ្ជីសម្ភារៈការិយាល័យបណ្ដោះអាសន្ន ពិនិត្យស្ថានភាព និងតម្លៃសរុប ហើយនាំចេញ CSV ដោយមិនរក្សាទុកទិន្នន័យអាជីវកម្ម។"
     >
-      <div className="overflow-x-auto rounded-md border border-[var(--ground-line)]">
+      <div className="relative overflow-x-auto rounded-md border border-[var(--ground-line)]">
         <table className="min-w-[980px] w-full text-left text-sm">
           <thead className="bg-[var(--ground-raised)] text-xs text-[var(--ink-dim)]">
             <tr>

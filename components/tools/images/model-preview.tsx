@@ -1740,7 +1740,7 @@ export default function ModelPreviewTool() {
 
       {/* Notification Toast */}
       {toast && (
-        <div className="fixed bottom-6 right-6 z-50 flex items-center gap-2 rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)] px-4 py-3 text-xs font-medium shadow-2xl fade-rise">
+        <div className="floating-toast fixed bottom-6 right-6 z-50 flex items-center gap-2 rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)] px-4 py-3 text-xs font-medium shadow-2xl fade-rise">
           {toast.type === 'error' ? (
             <AlertCircle size={18} className="shrink-0 text-[var(--danger)]" />
           ) : (

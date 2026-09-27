@@ -40,7 +40,7 @@ export function CopyButton({ text, compact = false, className = "", dropdown, fi
         onClick={() => { if (hasMenu) setOpen(!open); else void copyText(text); }}
         aria-label={label}
         title={label}
-        className={`inline-flex items-center justify-center gap-1.5 rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-1.5 text-xs text-[var(--ink-faint)] transition hover:border-[var(--gold-dim)] hover:text-[var(--gold)] disabled:opacity-40 ${className}`}
+        className={`ui-touch inline-flex items-center justify-center gap-1.5 rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-1.5 text-xs text-[var(--ink-faint)] transition hover:border-[var(--gold-dim)] hover:text-[var(--gold)] disabled:opacity-40 ${className}`}
       >
         <Copy size={13} />{!compact && <span>{label}</span>}
         {hasMenu && <ChevronDown size={11} className={`transition ${open ? "rotate-180" : ""}`} />}

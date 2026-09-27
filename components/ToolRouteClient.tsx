@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState, useSyncExternalStore } from "react";
-import { ArrowLeft, ShieldCheck, Star, Trash2 } from "lucide-react";
+import { ArrowLeft, MoreHorizontal, ShieldCheck, Star, Trash2 } from "lucide-react";
 import { CollectionsPicker } from "@/components/CollectionsPicker";
 import { CommandPalette } from "@/components/CommandPalette";
 import { ToolHeaderSearch } from "@/components/ToolHeaderSearch";
@@ -26,6 +26,9 @@ export function ToolRouteClient({ toolId, faq }: { toolId: string; faq: ToolFaqT
   const { mode, text: t } = useLanguage();
   const router = useRouter();
   const [paletteOpen, setPaletteOpen] = useState(false);
+  // Phones show only back, search, favorite and a ⋯ button; the other header controls live in a
+  // tray below the header that this toggles. On larger screens they are always inline.
+  const [moreOpen, setMoreOpen] = useState(false);
   // Render the interactive tool only on the client. This lets every tool page
   // be pre-rendered to static HTML at build time (served from the CDN, no
   // per-request origin render) even though some tool components use browser-only
@@ -98,7 +101,7 @@ export function ToolRouteClient({ toolId, faq }: { toolId: string; faq: ToolFaqT
     <main className="min-h-screen px-5 pb-16 pt-24 sm:px-10">
       <header className="fixed inset-x-0 top-0 z-40 border-b border-[var(--ground-line)] bg-[color:color-mix(in_srgb,var(--ground)_90%,transparent)] backdrop-blur-xl">
         <div className="tool-route-header-inner mx-auto flex h-14 max-w-[77rem] items-center gap-3 px-5 sm:px-10">
-          <Link href="/" className="flex shrink-0 items-center gap-1.5 text-sm text-[var(--ink-dim)] hover:text-[var(--ink)]">
+          <Link href="/" aria-label={t("All tools", "ឧបករណ៍ទាំងអស់")} className="tool-route-back flex shrink-0 items-center gap-1.5 text-sm text-[var(--ink-dim)] hover:text-[var(--ink)]">
             <ArrowLeft size={15} /><span className="tool-route-back-label">{t("All tools", "ឧបករណ៍ទាំងអស់")}</span>
           </Link>
           <ToolHeaderSearch key={localizedTitle} currentToolId={tool.id} label={localizedTitle} />
@@ -107,36 +110,48 @@ export function ToolRouteClient({ toolId, faq }: { toolId: string; faq: ToolFaqT
               type="button"
               onClick={toggleFavorite}
               aria-label={isFavorite ? t("Remove from favorites", "ដកចេញពីចំណូលចិត្ត") : t("Add to favorites", "បន្ថែមទៅចំណូលចិត្ត")}
-              className={`flex h-8 w-8 items-center justify-center rounded-md border ${isFavorite ? "border-[var(--gold)] text-[var(--gold)]" : "border-[var(--ground-line)] text-[var(--ink-faint)]"}`}
+              className={`tool-route-icon flex h-8 w-8 items-center justify-center rounded-md border ${isFavorite ? "border-[var(--gold)] text-[var(--gold)]" : "border-[var(--ground-line)] text-[var(--ink-faint)]"}`}
             >
               <Star size={14} fill={isFavorite ? "currentColor" : "none"} />
             </button>
-            <CollectionsPicker
-              toolId={tool.id}
-              favorites={favorites}
-              onToggleFavorite={(id) => {
-                const nextFavorite = !favorites.includes(id);
-                setFavorites((items) => nextFavorite ? [id, ...items.filter((item) => item !== id)] : items.filter((item) => item !== id));
-                if (workspaceId !== "all") setWorkspaceProfiles((profiles) => profiles.map((profile) => profile.id === workspaceId
-                  ? { ...profile, favoriteToolIds: nextFavorite ? [id, ...profile.favoriteToolIds.filter((item) => item !== id)] : profile.favoriteToolIds.filter((item) => item !== id) }
-                  : profile));
-              }}
-              collections={collections}
-              setCollections={setCollections}
-            />
+            <div id="tool-route-more" className={`tool-route-more items-center gap-2 sm:flex ${moreOpen ? "flex" : "hidden"}`}>
+              <CollectionsPicker
+                toolId={tool.id}
+                favorites={favorites}
+                onToggleFavorite={(id) => {
+                  const nextFavorite = !favorites.includes(id);
+                  setFavorites((items) => nextFavorite ? [id, ...items.filter((item) => item !== id)] : items.filter((item) => item !== id));
+                  if (workspaceId !== "all") setWorkspaceProfiles((profiles) => profiles.map((profile) => profile.id === workspaceId
+                    ? { ...profile, favoriteToolIds: nextFavorite ? [id, ...profile.favoriteToolIds.filter((item) => item !== id)] : profile.favoriteToolIds.filter((item) => item !== id) }
+                    : profile));
+                }}
+                collections={collections}
+                setCollections={setCollections}
+              />
+              <button
+                type="button"
+                onClick={clearSavedToolData}
+                aria-label={t("Clear all app data", "លុបទិន្នន័យកម្មវិធីទាំងអស់")}
+                title={t("Clear all app data", "លុបទិន្នន័យកម្មវិធីទាំងអស់")}
+                className="flex h-8 w-8 items-center justify-center rounded-md border border-[var(--ground-line)] text-[var(--ink-faint)] transition hover:border-[var(--danger)]/50 hover:text-[var(--danger)]"
+              >
+                <Trash2 size={14} />
+              </button>
+              <HeaderInfo />
+              <AccentThemePicker />
+              <LanguageToggle />
+              <ThemeToggle />
+            </div>
             <button
               type="button"
-              onClick={clearSavedToolData}
-               aria-label={t("Clear all app data", "លុបទិន្នន័យកម្មវិធីទាំងអស់")}
-               title={t("Clear all app data", "លុបទិន្នន័យកម្មវិធីទាំងអស់")}
-              className="flex h-8 w-8 items-center justify-center rounded-md border border-[var(--ground-line)] text-[var(--ink-faint)] transition hover:border-[var(--danger)]/50 hover:text-[var(--danger)]"
+              onClick={() => setMoreOpen((open) => !open)}
+              aria-expanded={moreOpen}
+              aria-controls="tool-route-more"
+              aria-label={moreOpen ? t("Hide more options", "លាក់ជម្រើសបន្ថែម") : t("More options", "ជម្រើសបន្ថែម")}
+              className={`tool-route-icon flex h-8 w-8 items-center justify-center rounded-md border sm:hidden ${moreOpen ? "border-[var(--gold-dim)] text-[var(--gold)]" : "border-[var(--ground-line)] text-[var(--ink-faint)]"}`}
             >
-              <Trash2 size={14} />
+              <MoreHorizontal size={16} />
             </button>
-            <HeaderInfo />
-            <AccentThemePicker />
-            <LanguageToggle />
-            <ThemeToggle />
           </div>
         </div>
       </header>

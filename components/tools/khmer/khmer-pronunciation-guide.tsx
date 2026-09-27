@@ -39,7 +39,7 @@ const CONSONANTS: Consonant[] = [
   { letter: "ឋ", roman: "thâ", sound: "t as in top (retroflex)", series: 1, example: "ឋាន", gloss: { en: "place", km: "ឋាន" } },
   { letter: "ឌ", roman: "dô", sound: "d as in dog, low tone", series: 2, example: "ឌីវីឌី", gloss: { en: "DVD", km: "ឌីវីឌី" } },
   { letter: "ឍ", roman: "thô", sound: "t as in top, low tone (rare letter)", series: 2, example: "វឌ្ឍនៈ", gloss: { en: "development", km: "វឌ្ឍនៈ" } },
-  { letter: "ណ", roman: "nâ", sound: "n as in no (retroflex)", series: 2, example: "ណាស់", gloss: { en: "very", km: "ណាស់" } },
+  { letter: "ណ", roman: "nâ", sound: "n as in no (retroflex)", series: 1, example: "ណាស់", gloss: { en: "very", km: "ណាស់" } },
   { letter: "ត", roman: "tâ", sound: "t as in stop (unaspirated)", series: 1, example: "ត្រី", gloss: { en: "fish", km: "ត្រី" } },
   { letter: "ថ", roman: "thâ", sound: "t as in top (aspirated)", series: 1, example: "ថ្ម", gloss: { en: "stone / rock", km: "ថ្ម" } },
   { letter: "ទ", roman: "tô", sound: "t, low tone", series: 2, example: "ទឹក", gloss: { en: "water", km: "ទឹក" } },
@@ -51,12 +51,12 @@ const CONSONANTS: Consonant[] = [
   { letter: "ភ", roman: "phô", sound: "p as in put, aspirated, low tone", series: 2, example: "ភ្នំ", gloss: { en: "mountain", km: "ភ្នំ" } },
   { letter: "ម", roman: "mô", sound: "m as in man", series: 2, example: "មេឃ", gloss: { en: "sky", km: "មេឃ" } },
   { letter: "យ", roman: "yô", sound: "y as in yes", series: 2, example: "យប់", gloss: { en: "night", km: "យប់" } },
-  { letter: "រ", roman: "rô", sound: "r as in run (often flapped)", series: 1, example: "រៀន", gloss: { en: "to learn", km: "រៀន" } },
+  { letter: "រ", roman: "rô", sound: "r as in run (often flapped)", series: 2, example: "រៀន", gloss: { en: "to learn", km: "រៀន" } },
   { letter: "ល", roman: "lô", sound: "l as in love", series: 2, example: "លុយ", gloss: { en: "money", km: "លុយ" } },
   { letter: "វ", roman: "vô", sound: "v as in van", series: 2, example: "វែង", gloss: { en: "long", km: "វែង" } },
   { letter: "ស", roman: "sâ", sound: "s as in see", series: 1, example: "ស្រី", gloss: { en: "woman", km: "ស្រី" } },
   { letter: "ហ", roman: "hâ", sound: "h as in hat", series: 1, example: "ហោះ", gloss: { en: "to fly", km: "ហោះ" } },
-  { letter: "ឡ", roman: "lâ", sound: "l as in love", series: 2, example: "ឡាន", gloss: { en: "car", km: "ឡាន" } },
+  { letter: "ឡ", roman: "lâ", sound: "l as in love", series: 1, example: "ឡាន", gloss: { en: "car", km: "ឡាន" } },
   { letter: "អ", roman: "ʼâ", sound: "silent / glottal stop before a vowel", series: 1, example: "អាច", gloss: { en: "can / able", km: "អាច" } },
 ];
 

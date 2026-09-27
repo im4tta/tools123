@@ -37,7 +37,7 @@ export function ScrollToTopButton() {
       aria-label={t("Go to top", "ទៅកាន់ផ្នែកខាងលើ")}
       aria-keyshortcuts="U"
       title={`${t("Go to top", "ទៅកាន់ផ្នែកខាងលើ")} (U)`}
-      className="fixed bottom-5 right-5 z-40 flex h-10 w-10 items-center justify-center rounded-full border border-[var(--gold-dim)] bg-[var(--ground-raised)] text-[var(--gold)] shadow-xl transition hover:-translate-y-0.5 hover:bg-[var(--ground-raised-hi)]"
+      className="floating-corner-button fixed bottom-5 right-5 z-40 flex h-10 w-10 items-center justify-center rounded-full border border-[var(--gold-dim)] bg-[var(--ground-raised)] text-[var(--gold)] shadow-xl transition hover:-translate-y-0.5 hover:bg-[var(--ground-raised-hi)]"
     >
       <ArrowUp size={17} />
     </button>

@@ -191,7 +191,7 @@ export default function ZScoreCalculator() {
 
           {svg && (
             <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3">
-              <svg viewBox={`0 0 ${svg.W} ${svg.H}`} width="100%" height="auto" role="img" aria-label="Standard normal curve with shaded left tail">
+              <svg viewBox={`0 0 ${svg.W} ${svg.H}`} width="100%" className="h-auto" role="img" aria-label="Standard normal curve with shaded left tail">
                 <path d={svg.area} fill="var(--gold)" opacity="0.35" />
                 <path d={svg.curve} fill="none" stroke="var(--ink)" strokeWidth="1.5" />
                 <line x1={svg.zX} y1="0" x2={svg.zX} y2={svg.H} stroke="var(--gold)" strokeWidth="1.5" strokeDasharray="4 3" />

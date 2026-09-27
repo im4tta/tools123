@@ -9,6 +9,7 @@ import { AppProviders } from "@/components/AppProviders";
 import { themeInitScript } from "@/components/ThemeProvider";
 import { ScrollToTopButton } from "@/components/ScrollToTopButton";
 import { ScrollToBottomButton } from "@/components/ScrollToBottomButton";
+import { MobileBottomNav } from "@/components/MobileBottomNav";
 import { SponsorButton } from "@/components/SponsorButton";
 import { WatermarkToggle } from "@/components/WatermarkToggle";
 import { ShareToast } from "@/components/ShareToast";
@@ -36,8 +37,9 @@ const jetBrainsMono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-jet
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
+  // Pinch-zoom stays enabled for accessibility; mobile.css keeps form fields at 16px so iOS
+  // does not auto-zoom on focus. viewport-fit lets the bottom nav respect the home indicator.
+  viewportFit: "cover",
 };
 
 export const metadata: Metadata = {
@@ -117,6 +119,7 @@ export default function RootLayout({
           </div>
           <ScrollToBottomButton />
           <ScrollToTopButton />
+          <MobileBottomNav />
           <ShareToast />
         </AppProviders>
         <Analytics />

@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { Command } from "cmdk";
-import { ArrowRight, Search } from "lucide-react";
+import { ArrowRight, Search, X } from "lucide-react";
 import { useLanguage } from "@/components/LanguageProvider";
+import { OPEN_SEARCH_EVENT } from "@/lib/app-events";
 import { CATEGORY_META, CATEGORY_ORDER, TOOLS } from "@/lib/tools";
 
 const KH_DIGITS = "០១២៣៤៥៦៧៨៩";
@@ -38,8 +39,18 @@ export function CommandPalette({
       }
       if (e.key === "Escape") onOpenChange(false);
     }
+    // The mobile bottom nav asks the page's palette to open; claiming the event tells it not to
+    // open its own fallback palette.
+    function onOpenRequest(e: Event) {
+      e.preventDefault();
+      onOpenChange(true);
+    }
     document.addEventListener("keydown", onKey);
-    return () => document.removeEventListener("keydown", onKey);
+    document.addEventListener(OPEN_SEARCH_EVENT, onOpenRequest);
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.removeEventListener(OPEN_SEARCH_EVENT, onOpenRequest);
+    };
   }, [open, onOpenChange]);
 
   if (!open) return null;
@@ -62,7 +73,10 @@ export function CommandPalette({
               placeholder={t(`Search ${TOOLS.length} tools…`, `ស្វែងរកឧបករណ៍ ${toKh(TOOLS.length)} មុខ…`)}
               className="w-full bg-transparent text-sm text-[var(--ink)] outline-none placeholder:text-[var(--ink-faint)]"
             />
-            <kbd className="rounded border border-[var(--ground-line)] px-1.5 py-0.5 text-[10px] text-[var(--ink-faint)]">esc</kbd>
+            <kbd className="hidden rounded border border-[var(--ground-line)] px-1.5 py-0.5 text-[10px] text-[var(--ink-faint)] sm:inline">esc</kbd>
+            <button type="button" onClick={() => onOpenChange(false)} aria-label={t("Close search", "បិទការស្វែងរក")} className="-mr-2 flex h-11 w-11 shrink-0 items-center justify-center rounded-md text-[var(--ink-dim)] sm:hidden">
+              <X size={18} />
+            </button>
           </div>
           <Command.List className="command-palette-list max-h-[60vh] overflow-y-auto p-2">
             <Command.Empty className="px-3 py-6 text-center text-sm text-[var(--ink-faint)]">

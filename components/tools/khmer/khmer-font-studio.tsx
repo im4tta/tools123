@@ -1054,7 +1054,7 @@ export default function KhmerFontStudio() {
 
       {/* ── Toast stack ──────────────────────────────────────── */}
       {toasts.length > 0 && (
-        <div className="pointer-events-none fixed bottom-6 left-1/2 z-50 flex -translate-x-1/2 flex-col items-center gap-2"
+        <div className="floating-toast pointer-events-none fixed bottom-6 left-1/2 z-50 flex -translate-x-1/2 flex-col items-center gap-2"
           aria-live="assertive">
           {toasts.map((msg, i) => (
             <div key={i} className="pointer-events-auto flex items-center gap-2 rounded-full border border-[var(--ground-line)] bg-[var(--ground-raised)] px-4 py-2 text-sm text-[var(--ink)] shadow-lg">

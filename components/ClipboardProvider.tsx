@@ -48,7 +48,7 @@ export function ClipboardProvider({ children }: { children: ReactNode }) {
     <ClipboardContext.Provider value={{ copyText }}>
       {children}
       {toast && (
-        <div role="status" aria-live="polite" className={`fixed bottom-5 left-1/2 z-[100] flex -translate-x-1/2 items-center gap-2 rounded-lg border px-4 py-2.5 text-sm shadow-2xl backdrop-blur ${toast.error ? "border-[var(--danger)]/50 bg-[var(--danger)]/15 text-[var(--danger)]" : "border-[var(--gold-dim)] bg-[var(--ground-raised)]/95 text-[var(--ink)]"}`}>
+        <div role="status" aria-live="polite" className={`floating-toast fixed bottom-5 left-1/2 z-[100] flex -translate-x-1/2 items-center gap-2 rounded-lg border px-4 py-2.5 text-sm shadow-2xl backdrop-blur ${toast.error ? "border-[var(--danger)]/50 bg-[var(--danger)]/15 text-[var(--danger)]" : "border-[var(--gold-dim)] bg-[var(--ground-raised)]/95 text-[var(--ink)]"}`}>
           {toast.error ? <CircleAlert size={16} /> : <CheckCircle2 size={16} className="text-[var(--gold)]" />}
           {toast.message}
         </div>
