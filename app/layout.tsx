@@ -22,9 +22,13 @@ const kantumruyPro = Kantumruy_Pro({
   variable: "--font-kantumruy-pro",
   display: "swap",
 });
-const moul = Moul({ weight: "400", subsets: ["khmer", "latin"], variable: "--font-moul", display: "swap" });
-const siemreap = Siemreap({ weight: "400", subsets: ["khmer"], variable: "--font-siemreap", display: "swap" });
-const spaceGrotesk = Space_Grotesk({ subsets: ["latin"], variable: "--font-space-grotesk", display: "swap" });
+// Only the faces needed for the first paint are preloaded: Kantumruy Pro (all text), JetBrains Mono
+// (inputs/outputs) and Manrope (homepage hero — loading it late made the hero re-wrap and jump).
+// The rest are secondary or fallback faces: they still load as soon as a page uses
+// them, but no longer compete with the page's own resources on every visit (important on mobile).
+const moul = Moul({ weight: "400", subsets: ["khmer", "latin"], variable: "--font-moul", display: "swap", preload: false });
+const siemreap = Siemreap({ weight: "400", subsets: ["khmer"], variable: "--font-siemreap", display: "swap", preload: false });
+const spaceGrotesk = Space_Grotesk({ subsets: ["latin"], variable: "--font-space-grotesk", display: "swap", preload: false });
 // Manrope — Latin display/UI face for the "aurora" homepage skin (Khmer falls through to Kantumruy Pro).
 const manrope = Manrope({ subsets: ["latin"], variable: "--font-manrope", display: "swap" });
 const jetBrainsMono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-jetbrains-mono", display: "swap" });
@@ -71,7 +75,6 @@ export default function RootLayout({
       className={`${kantumruyPro.variable} ${moul.variable} ${siemreap.variable} ${spaceGrotesk.variable} ${manrope.variable} ${jetBrainsMono.variable}`}
     >
       <head>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" />
         <script suppressHydrationWarning dangerouslySetInnerHTML={{ __html: themeInitScript }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: SITE_JSON_LD }} />
       </head>

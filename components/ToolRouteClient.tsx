@@ -8,19 +8,21 @@ import { CollectionsPicker } from "@/components/CollectionsPicker";
 import { CommandPalette } from "@/components/CommandPalette";
 import { ToolHeaderSearch } from "@/components/ToolHeaderSearch";
 import { HeaderInfo } from "@/components/HeaderInfo";
-import { ToolFaq } from "@/components/ToolFaq";
+import { ToolFaq, type ToolFaqText } from "@/components/ToolFaq";
+import { ToolShellPlaceholder } from "@/components/ui/Shell";
 import { LanguageToggle } from "@/components/LanguageToggle";
 import { useLanguage } from "@/components/LanguageProvider";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { AccentThemePicker } from "@/components/AccentThemePicker";
 import { STORAGE_KEYS, storage, useLocalStorage, type ToolCollection } from "@/lib/storage";
 import { TOOLS } from "@/lib/tools";
+import { LazyTool } from "@/lib/tool-components";
 import { toolHref } from "@/lib/toolRoutes";
 import { recordToolUse } from "@/lib/export";
 import { recommendationsFor } from "@/lib/recommendations";
 import { DEFAULT_WORKSPACE_PROFILES, type WorkspaceProfile } from "@/lib/workspaces";
 
-export function ToolRouteClient({ toolId }: { toolId: string }) {
+export function ToolRouteClient({ toolId, faq }: { toolId: string; faq: ToolFaqText }) {
   const { mode, text: t } = useLanguage();
   const router = useRouter();
   const [paletteOpen, setPaletteOpen] = useState(false);
@@ -62,7 +64,6 @@ export function ToolRouteClient({ toolId }: { toolId: string }) {
     storage.clearAll();
     window.location.reload();
   }
-  const ToolComponent = tool.Component;
   const isFavorite = favorites.includes(tool.id);
   function toggleFavorite() {
     const nextFavorite = !isFavorite;
@@ -73,6 +74,7 @@ export function ToolRouteClient({ toolId }: { toolId: string }) {
         : profile));
     }
   }
+  const placeholder = <ToolShellPlaceholder title={tool.title} khmerTitle={tool.khmerTitle} description={faq.what.en} descriptionKm={faq.what.km} />;
   const khmerTitle = tool.khmerTitle ?? tool.title;
   const localizedTitle = mode === "en" ? tool.title : mode === "km" ? khmerTitle : `${tool.title} — ${khmerTitle}`;
   const configuredRecommendations = recommendationsFor(tool.id)
@@ -138,8 +140,14 @@ export function ToolRouteClient({ toolId }: { toolId: string }) {
           </div>
         </div>
       </header>
-      <div className="fade-rise">{isClient ? <ToolComponent /> : <div className="py-16 text-center text-sm text-[var(--ink-faint)]">{t("Loading…", "កំពុងផ្ទុក…")}</div>}</div>
-      <ToolFaq tool={tool} />
+      {/* The placeholder is server-rendered (title + summary visible in the first HTML) and stays
+          until the tool's own chunk has loaded, so the page neither flashes nor jumps. */}
+      <div className="fade-rise">
+        {isClient
+          ? <LazyTool tool={tool} fallback={placeholder} />
+          : placeholder}
+      </div>
+      <ToolFaq tool={tool} faq={faq} />
       {relatedTools.length > 0 && (
         <section className="mx-auto mt-10 max-w-6xl">
           <h2 className="font-display text-lg font-medium text-[var(--ink)]">{t("Next recommended tools", "ឧបករណ៍ណែនាំបន្ទាប់")}</h2>

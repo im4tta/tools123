@@ -1,5 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
+// KaTeX's stylesheet ships with this tool only (it used to be a render-blocking CDN link on every page).
+import "katex/dist/katex.min.css";
 import { ToolShell, TextArea, Field, Select } from "@/components/ui/Shell";
 import { useToolState } from "@/lib/storage";
 import { useLanguage } from "@/components/LanguageProvider";

@@ -153,7 +153,7 @@ function parseRegistry() {
     const trimmed = line.trim();
     if (trimmed.startsWith("//") || trimmed.startsWith("...") || trimmed === "") continue;
     if (trimmed.includes("${")) continue; // generated pair-template lines, not concrete defs
-    const entry = trimmed.match(/^\{ id: "([^"]+)",[^\n]*?Component: load\("(\w+)", "([^"]+)"\) \},?$/);
+    const entry = trimmed.match(/^\{ id: "([^"]+)",[^\n]*?module: "(\w+)\/([^"]+)" \},?$/);
     if (entry) {
       tools.push({ id: entry[1], category: entry[2], file: `${entry[2]}/${entry[3]}` });
       continue;

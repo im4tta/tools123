@@ -1,5 +1,6 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -18,8 +19,14 @@ import { useLanguage } from "@/components/LanguageProvider";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { AccentThemePicker } from "@/components/AccentThemePicker";
 import { useTheme } from "@/components/ThemeProvider";
-import { ObsidianGraph } from "@/components/ObsidianGraph";
+// The graph view is ~1,200 lines of canvas code that only runs after switching to graph
+// mode, so load it on demand instead of with every homepage visit.
+const ObsidianGraph = dynamic(() => import("@/components/ObsidianGraph").then((m) => m.ObsidianGraph), {
+  ssr: false,
+  loading: () => <div className="h-full w-full rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)]" />,
+});
 import { TOOLS, CATEGORY_META, CATEGORY_ORDER, Category } from "@/lib/tools";
+import { LazyTool } from "@/lib/tool-components";
 import { toolHref } from "@/lib/toolRoutes";
 import { toolWhatItDoes } from "@/lib/seo";
 import { useLocalStorage, STORAGE_KEYS, type ToolCollection } from "@/lib/storage";
@@ -406,9 +413,19 @@ export default function Home() {
     if (!badge || !dot) return;
     const b: HTMLSpanElement = badge;
     const d: HTMLSpanElement = dot;
+    // Respect reduced-motion, and stop after a few beats: a never-ending rAF loop animating
+    // box-shadow repainted every frame for as long as the homepage was open.
+    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
     let raf: number;
     const start = performance.now();
+    const STOP_AFTER_MS = 2400 * 3;
     function tick(now: number) {
+      if (now - start > STOP_AFTER_MS) {
+        b.style.transform = "";
+        b.style.boxShadow = "";
+        d.style.opacity = "";
+        return;
+      }
       const t = ((now - start) / 1000) % 2.4 / 2.4;
       let scale: number, glow: number;
       if (t < 0.12) {
@@ -550,7 +567,6 @@ export default function Home() {
   }
 
   if (active) {
-    const ActiveComponent = active.Component;
     const isFav = favorites.includes(active.id);
     return (
       <main className="min-h-screen px-5 py-10 sm:px-10">
@@ -593,7 +609,7 @@ export default function Home() {
           </div>
         </div>
         <div key={active.id} className="fade-rise">
-          <ActiveComponent />
+          <LazyTool tool={active} />
         </div>
         <CommandPalette open={paletteOpen} onOpenChange={setPaletteOpen} onSelect={setActiveId} />
       </main>
@@ -878,7 +894,7 @@ export default function Home() {
                   return sortMode === "asc" ? ta.localeCompare(tb) : tb.localeCompare(ta);
                 });
           return (
-            <div key={cat} id={`cat-${cat}`} className="mb-10 scroll-mt-20">
+            <div key={cat} id={`cat-${cat}`} className="home-cat-section mb-10 scroll-mt-20">
               <div className="mb-3 flex items-center gap-2.5 border-b border-[var(--ground-line)] pb-2">
                 <span className="h-2 w-2 rounded-full" style={{ background: meta.color }} />
                 <h2 className="font-display text-base font-semibold text-[var(--ink)]">{t(meta.label, meta.khmer)}</h2>

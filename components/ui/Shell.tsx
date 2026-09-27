@@ -27,6 +27,15 @@ export function ToolShell({
   descriptionKm?: string;
   children: ReactNode;
 }) {
+  return (
+    <div className="mx-auto w-full max-w-6xl">
+      <ShellHeader title={title} khmerTitle={khmerTitle} description={description} descriptionKm={descriptionKm} />
+      <div className="space-y-5">{children}</div>
+    </div>
+  );
+}
+
+function ShellHeader({ title, khmerTitle, description, descriptionKm }: { title: string; khmerTitle?: string; description: string; descriptionKm?: string }) {
   const { mode, ui } = useLanguage();
   const resolvedKhmerTitle = khmerTitle ?? toKhmerToolTitle(title);
   const localizedTitle = mode === "km" ? resolvedKhmerTitle : mode === "en" || mode === "bi" ? title : ui(title);
@@ -40,18 +49,36 @@ export function ToolShell({
           ? description
           : ui(description);
   return (
-    <div className="mx-auto w-full max-w-6xl">
-      <header className="mb-8">
-        <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-          <h1 className="font-display text-2xl font-semibold text-[var(--ink)]">{localizedTitle}</h1>
-          {mode === "bi" && resolvedKhmerTitle !== title && (
-            <span lang="km" className="font-khmer text-lg text-[var(--gold)]">{resolvedKhmerTitle}</span>
-          )}
-        </div>
-        <div aria-hidden className="mt-3 h-[3px] w-10 rounded-full bg-gradient-to-r from-[var(--gold)] to-transparent" />
-        <p className="mt-3 text-sm leading-relaxed text-[var(--ink-dim)]">{localizedDescription}</p>
-      </header>
-      <div className="space-y-5">{children}</div>
+    <header className="mb-8">
+      <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+        <h1 className="font-display text-2xl font-semibold text-[var(--ink)]">{localizedTitle}</h1>
+        {mode === "bi" && resolvedKhmerTitle !== title && (
+          <span lang="km" className="font-khmer text-lg text-[var(--gold)]">{resolvedKhmerTitle}</span>
+        )}
+      </div>
+      <div aria-hidden className="mt-3 h-[3px] w-10 rounded-full bg-gradient-to-r from-[var(--gold)] to-transparent" />
+      <p className="mt-3 text-sm leading-relaxed text-[var(--ink-dim)]">{localizedDescription}</p>
+    </header>
+  );
+}
+
+/**
+ * Server-renderable stand-in shown while a tool's code downloads: the same header as ToolShell
+ * (so the title is visible immediately and doesn't move when the tool arrives) plus a
+ * fixed-height skeleton that reserves space and prevents the page from jumping.
+ */
+export function ToolShellPlaceholder({ title, khmerTitle, description, descriptionKm }: { title: string; khmerTitle?: string; description: string; descriptionKm?: string }) {
+  const { text } = useLanguage();
+  return (
+    <div className="mx-auto w-full max-w-6xl" aria-busy="true">
+      <ShellHeader title={title} khmerTitle={khmerTitle} description={description} descriptionKm={descriptionKm} />
+      <div className="min-h-[55vh] space-y-4" role="status">
+        <span className="sr-only">{text("Loading the tool…", "កំពុងផ្ទុកឧបករណ៍…")}</span>
+        <div className="tool-skeleton h-11 rounded-md" />
+        <div className="tool-skeleton h-28 rounded-md" />
+        <div className="grid grid-cols-2 gap-3"><div className="tool-skeleton h-11 rounded-md" /><div className="tool-skeleton h-11 rounded-md" /></div>
+        <div className="tool-skeleton h-20 rounded-md" />
+      </div>
     </div>
   );
 }

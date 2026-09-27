@@ -12,7 +12,11 @@
 .recently-added .tool-card:nth-child(8) { animation-delay: 315ms; }
 .recently-added .tool-card:nth-child(9) { animation-delay: 360ms; }
 .recently-added .tool-card:nth-child(10) { animation-delay: 405ms; }
-.new-tool-badge { animation: new-tool-glow 2.4s ease-in-out infinite; }
+.new-tool-badge { animation: new-tool-glow 2.4s ease-in-out 3; }
+/* Phones: no looping glow at all — the NEW label is enough and repaints drain battery. */
+@media (max-width: 640px) {
+  .new-tool-badge { animation: none; }
+}
 
 @keyframes recently-added-rise {
   from { opacity: 0; transform: translateY(10px) scale(0.985); }
