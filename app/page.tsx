@@ -28,6 +28,7 @@ const ObsidianGraph = dynamic(() => import("@/components/ObsidianGraph").then((m
 import { TOOLS, CATEGORY_META, CATEGORY_ORDER, Category } from "@/lib/tools";
 import { LazyTool } from "@/lib/tool-components";
 import { ToolErrorBoundary } from "@/components/ToolErrorBoundary";
+import { LangText } from "@/components/LangText";
 import { toolHref } from "@/lib/toolRoutes";
 import { toolWhatItDoes } from "@/lib/seo";
 import { useLocalStorage, STORAGE_KEYS, type ToolCollection } from "@/lib/storage";
@@ -644,7 +645,7 @@ export default function Home() {
                     }
                   >
                     <span className="h-1.5 w-1.5 rounded-full" style={{ background: CATEGORY_META[cat].color }} />
-                    {t(CATEGORY_META[cat].label, CATEGORY_META[cat].khmer)}
+                    <LangText en={CATEGORY_META[cat].label} km={CATEGORY_META[cat].khmer} />
                   </button>
                 );
               })}
@@ -694,14 +695,14 @@ export default function Home() {
           <>
             <span className="aurora-eyebrow">
               <span className="aurora-pip" />
-              {t(`${TOTAL} free tools · built for everyone`, `ឧបករណ៍ឥតគិតថ្លៃ ${toKh(TOTAL)} · សម្រាប់អ្នកគ្រប់គ្នា`)}
+              <LangText en={`${TOTAL} free tools · built for everyone`} km={`ឧបករណ៍ឥតគិតថ្លៃ ${toKh(TOTAL)} · សម្រាប់អ្នកគ្រប់គ្នា`} />
             </span>
             <h1 className="aurora-h1">
-              {t("All your tools,", "ឧបករណ៍ទាំងអស់")}<br />
-              <span className="aurora-accent">{t("right in your browser", "ក្នុងកម្មវិធីរុករករបស់អ្នក")}</span>
+              <LangText en="All your tools," km="ឧបករណ៍ទាំងអស់" /><br />
+              <span className="aurora-accent"><LangText en="right in your browser" km="ក្នុងកម្មវិធីរុករករបស់អ្នក" /></span>
             </h1>
             <p className="aurora-sub">
-              {t("PDF, image, developer, math, and Khmer-language utilities — private, free, and instant. No accounts, nothing uploaded.", "ឧបករណ៍ PDF រូបភាព អ្នកអភិវឌ្ឍន៍ គណិតវិទ្យា និងភាសាខ្មែរ — ឯកជន ឥតគិតថ្លៃ និងភ្លាមៗ។ មិនចាំបាច់គណនី គ្មានការផ្ទុកឡើង។")}
+              <LangText en="PDF, image, developer, math, and Khmer-language utilities — private, free, and instant. No accounts, nothing uploaded." km="ឧបករណ៍ PDF រូបភាព អ្នកអភិវឌ្ឍន៍ គណិតវិទ្យា និងភាសាខ្មែរ — ឯកជន ឥតគិតថ្លៃ និងភ្លាមៗ។ មិនចាំបាច់គណនី គ្មានការផ្ទុកឡើង។" />
             </p>
           </>
         ) : (
@@ -740,7 +741,7 @@ export default function Home() {
            <div className="aurora-chips">
              {chips.map((c) => (
                <button key={c.q} type="button" className="aurora-chip" onClick={() => setFilter(c.q)}>
-                 {t(c.en, c.km)}
+                 <LangText en={c.en} km={c.km} />
                </button>
              ))}
            </div>

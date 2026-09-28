@@ -7,6 +7,7 @@ import "./mobile.css";
 import "./mobile-carousel.css";
 import { AppProviders } from "@/components/AppProviders";
 import { themeInitScript } from "@/components/ThemeProvider";
+import { languageInitScript } from "@/lib/language-init";
 import { ScrollToTopButton } from "@/components/ScrollToTopButton";
 import { ScrollToBottomButton } from "@/components/ScrollToBottomButton";
 import { MobileBottomNav } from "@/components/MobileBottomNav";
@@ -79,6 +80,7 @@ export default function RootLayout({
     >
       <head>
         <script suppressHydrationWarning dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+        <script suppressHydrationWarning dangerouslySetInnerHTML={{ __html: languageInitScript }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: SITE_JSON_LD }} />
       </head>
       <body className="antialiased">

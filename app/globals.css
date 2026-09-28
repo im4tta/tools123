@@ -655,3 +655,12 @@ body {
   content-visibility: auto;
   contain-intrinsic-size: auto 640px;
 }
+
+/* LangText variants (components/LangText.tsx): the bilingual one shows until <html data-language>
+   says otherwise, which the inline language script sets before the first paint. */
+.lang-only-en,
+.lang-only-km { display: none; }
+:root[data-language="en"] .lang-only-en,
+:root[data-language="km"] .lang-only-km { display: inline; }
+:root[data-language="en"] .lang-only-bi,
+:root[data-language="km"] .lang-only-bi { display: none; }
