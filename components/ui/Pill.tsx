@@ -20,7 +20,7 @@ export function Pill({ active, onClick, children }: { active: boolean; onClick: 
       type="button"
       aria-pressed={active}
       onClick={onClick}
-      className={`rounded-md border px-3 py-1.5 text-xs font-medium transition ${active ? "border-[var(--gold)] bg-[var(--gold)]/10 text-[var(--gold)]" : "border-[var(--ground-line)] text-[var(--ink-dim)] hover:border-[var(--ink-faint)]"}`}
+      className={`ui-touch rounded-md border px-3 py-1.5 text-xs font-medium transition ${active ? "border-[var(--gold)] bg-[var(--gold)]/10 text-[var(--gold)]" : "border-[var(--ground-line)] text-[var(--ink-dim)] hover:border-[var(--ink-faint)]"}`}
     >
       {children}
     </button>
@@ -34,7 +34,7 @@ export function PillAction({ onClick, children, disabled }: { onClick: () => voi
       type="button"
       onClick={onClick}
       disabled={disabled}
-      className="flex items-center gap-1.5 rounded-md border border-[var(--ground-line)] px-3 py-1.5 text-xs font-medium text-[var(--ink-dim)] transition hover:border-[var(--ink-faint)] disabled:opacity-40"
+      className="ui-touch flex items-center gap-1.5 rounded-md border border-[var(--ground-line)] px-3 py-1.5 text-xs font-medium text-[var(--ink-dim)] transition hover:border-[var(--ink-faint)] disabled:opacity-40"
     >
       {children}
     </button>

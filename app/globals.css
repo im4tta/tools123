@@ -271,7 +271,9 @@ body {
 /* NEW badge: a slow, low-key gold breath so freshly added tools catch the eye.
    The site-wide reduced-motion reset above stills this to a static soft glow. */
 .new-tool-badge {
-  animation: new-badge-breath 2.8s ease-in-out infinite;
+  /* A few breaths, then rest: an infinite box-shadow animation on every NEW badge (50+ on
+     the homepage) forced a full repaint each frame and kept phones busy for seconds. */
+  animation: new-badge-breath 2.8s ease-in-out 3;
 }
 @keyframes new-badge-breath {
   0%,
@@ -631,3 +633,34 @@ body {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+
+/* Placeholder blocks shown while a tool's code loads (ToolShellPlaceholder). */
+.tool-skeleton {
+  background: linear-gradient(90deg, var(--ground-raised) 0%, var(--ground-raised-hi, var(--ground-raised)) 50%, var(--ground-raised) 100%);
+  background-size: 200% 100%;
+  animation: tool-skeleton-shimmer 1.4s ease-in-out infinite;
+}
+@keyframes tool-skeleton-shimmer {
+  from { background-position: 100% 0; }
+  to { background-position: -100% 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tool-skeleton { animation: none; }
+}
+
+/* Homepage category sections: let the browser skip layout/paint for sections that are off
+   screen. The markup (and every crawlable tool link) stays in the HTML; only rendering work
+   is deferred until a section scrolls near the viewport. */
+.home-cat-section {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 640px;
+}
+
+/* LangText variants (components/LangText.tsx): the bilingual one shows until <html data-language>
+   says otherwise, which the inline language script sets before the first paint. */
+.lang-only-en,
+.lang-only-km { display: none; }
+:root[data-language="en"] .lang-only-en,
+:root[data-language="km"] .lang-only-km { display: inline; }
+:root[data-language="en"] .lang-only-bi,
+:root[data-language="km"] .lang-only-bi { display: none; }

@@ -9,7 +9,9 @@
     "start": "next start",
     "lint": "eslint",
     "mcp": "node mcp/server.mjs",
-    "audit:network": "node scripts/audit-network.mjs"
+    "audit:network": "node scripts/audit-network.mjs",
+    "audit:mobile": "node scripts/audit-mobile.mjs",
+    "check:bundle": "node scripts/check-bundle-budget.mjs"
   },
   "dependencies": {
     "@huggingface/transformers": "^4.2.0",

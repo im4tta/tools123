@@ -1,5 +1,6 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -18,8 +19,16 @@ import { useLanguage } from "@/components/LanguageProvider";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { AccentThemePicker } from "@/components/AccentThemePicker";
 import { useTheme } from "@/components/ThemeProvider";
-import { ObsidianGraph } from "@/components/ObsidianGraph";
+// The graph view is ~1,200 lines of canvas code that only runs after switching to graph
+// mode, so load it on demand instead of with every homepage visit.
+const ObsidianGraph = dynamic(() => import("@/components/ObsidianGraph").then((m) => m.ObsidianGraph), {
+  ssr: false,
+  loading: () => <div className="h-full w-full rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)]" />,
+});
 import { TOOLS, CATEGORY_META, CATEGORY_ORDER, Category } from "@/lib/tools";
+import { LazyTool } from "@/lib/tool-components";
+import { ToolErrorBoundary } from "@/components/ToolErrorBoundary";
+import { LangText } from "@/components/LangText";
 import { toolHref } from "@/lib/toolRoutes";
 import { toolWhatItDoes } from "@/lib/seo";
 import { useLocalStorage, STORAGE_KEYS, type ToolCollection } from "@/lib/storage";
@@ -406,9 +415,19 @@ export default function Home() {
     if (!badge || !dot) return;
     const b: HTMLSpanElement = badge;
     const d: HTMLSpanElement = dot;
+    // Respect reduced-motion, and stop after a few beats: a never-ending rAF loop animating
+    // box-shadow repainted every frame for as long as the homepage was open.
+    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) return;
     let raf: number;
     const start = performance.now();
+    const STOP_AFTER_MS = 2400 * 3;
     function tick(now: number) {
+      if (now - start > STOP_AFTER_MS) {
+        b.style.transform = "";
+        b.style.boxShadow = "";
+        d.style.opacity = "";
+        return;
+      }
       const t = ((now - start) / 1000) % 2.4 / 2.4;
       let scale: number, glow: number;
       if (t < 0.12) {
@@ -550,7 +569,6 @@ export default function Home() {
   }
 
   if (active) {
-    const ActiveComponent = active.Component;
     const isFav = favorites.includes(active.id);
     return (
       <main className="min-h-screen px-5 py-10 sm:px-10">
@@ -593,7 +611,7 @@ export default function Home() {
           </div>
         </div>
         <div key={active.id} className="fade-rise">
-          <ActiveComponent />
+          <ToolErrorBoundary><LazyTool tool={active} /></ToolErrorBoundary>
         </div>
         <CommandPalette open={paletteOpen} onOpenChange={setPaletteOpen} onSelect={setActiveId} />
       </main>
@@ -627,7 +645,7 @@ export default function Home() {
                     }
                   >
                     <span className="h-1.5 w-1.5 rounded-full" style={{ background: CATEGORY_META[cat].color }} />
-                    {t(CATEGORY_META[cat].label, CATEGORY_META[cat].khmer)}
+                    <LangText en={CATEGORY_META[cat].label} km={CATEGORY_META[cat].khmer} />
                   </button>
                 );
               })}
@@ -677,14 +695,14 @@ export default function Home() {
           <>
             <span className="aurora-eyebrow">
               <span className="aurora-pip" />
-              {t(`${TOTAL} free tools · built for everyone`, `ឧបករណ៍ឥតគិតថ្លៃ ${toKh(TOTAL)} · សម្រាប់អ្នកគ្រប់គ្នា`)}
+              <LangText en={`${TOTAL} free tools · built for everyone`} km={`ឧបករណ៍ឥតគិតថ្លៃ ${toKh(TOTAL)} · សម្រាប់អ្នកគ្រប់គ្នា`} />
             </span>
             <h1 className="aurora-h1">
-              {t("All your tools,", "ឧបករណ៍ទាំងអស់")}<br />
-              <span className="aurora-accent">{t("right in your browser", "ក្នុងកម្មវិធីរុករករបស់អ្នក")}</span>
+              <LangText en="All your tools," km="ឧបករណ៍ទាំងអស់" /><br />
+              <span className="aurora-accent"><LangText en="right in your browser" km="ក្នុងកម្មវិធីរុករករបស់អ្នក" /></span>
             </h1>
             <p className="aurora-sub">
-              {t("PDF, image, developer, math, and Khmer-language utilities — private, free, and instant. No accounts, nothing uploaded.", "ឧបករណ៍ PDF រូបភាព អ្នកអភិវឌ្ឍន៍ គណិតវិទ្យា និងភាសាខ្មែរ — ឯកជន ឥតគិតថ្លៃ និងភ្លាមៗ។ មិនចាំបាច់គណនី គ្មានការផ្ទុកឡើង។")}
+              <LangText en="PDF, image, developer, math, and Khmer-language utilities — private, free, and instant. No accounts, nothing uploaded." km="ឧបករណ៍ PDF រូបភាព អ្នកអភិវឌ្ឍន៍ គណិតវិទ្យា និងភាសាខ្មែរ — ឯកជន ឥតគិតថ្លៃ និងភ្លាមៗ។ មិនចាំបាច់គណនី គ្មានការផ្ទុកឡើង។" />
             </p>
           </>
         ) : (
@@ -723,7 +741,7 @@ export default function Home() {
            <div className="aurora-chips">
              {chips.map((c) => (
                <button key={c.q} type="button" className="aurora-chip" onClick={() => setFilter(c.q)}>
-                 {t(c.en, c.km)}
+                 <LangText en={c.en} km={c.km} />
                </button>
              ))}
            </div>
@@ -878,7 +896,7 @@ export default function Home() {
                   return sortMode === "asc" ? ta.localeCompare(tb) : tb.localeCompare(ta);
                 });
           return (
-            <div key={cat} id={`cat-${cat}`} className="mb-10 scroll-mt-20">
+            <div key={cat} id={`cat-${cat}`} className="home-cat-section mb-10 scroll-mt-20">
               <div className="mb-3 flex items-center gap-2.5 border-b border-[var(--ground-line)] pb-2">
                 <span className="h-2 w-2 rounded-full" style={{ background: meta.color }} />
                 <h2 className="font-display text-base font-semibold text-[var(--ink)]">{t(meta.label, meta.khmer)}</h2>

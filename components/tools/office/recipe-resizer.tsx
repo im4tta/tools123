@@ -120,7 +120,7 @@ export default function RecipeResizer() {
         mono={false}
       />
 
-      <div className="overflow-x-auto rounded-md border border-[var(--ground-line)]">
+      <div className="relative overflow-x-auto rounded-md border border-[var(--ground-line)]">
         <table className="w-full min-w-[760px] text-left text-sm">
           <thead className="bg-[var(--ground-raised)] text-xs text-[var(--ink-dim)]">
             <tr>

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ToolRouteClient } from "@/components/ToolRouteClient";
-import { toolDescription, toolJsonLd, toolBreadcrumbLd, toolFaqLd, toolHowToLd } from "@/lib/seo";
+import { toolDescription, toolJsonLd, toolBreadcrumbLd, toolFaqLd, toolHowToLd, toolHowToUse, toolWhatItDoes } from "@/lib/seo";
 import { TOOLS } from "@/lib/tools";
 import { resolveToolId, toolHref } from "@/lib/toolRoutes";
 import { BASE_URL, toolUrl } from "@/lib/site";
@@ -84,7 +84,7 @@ export default async function ToolPage({ params }: { params: Promise<{ toolId: s
           dangerouslySetInnerHTML={{ __html: JSON.stringify(howToLd).replace(/</g, "\\u003c") }}
         />
       )}
-      <ToolRouteClient toolId={tool.id} />
+      <ToolRouteClient toolId={tool.id} faq={{ what: toolWhatItDoes(tool), how: toolHowToUse(tool) }} />
     </>
   );
 }

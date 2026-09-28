@@ -112,7 +112,7 @@ export default function AttendanceSheet() {
         </Field>
       </div>
 
-      <div className="overflow-x-auto rounded-md border border-[var(--ground-line)]">
+      <div className="relative overflow-x-auto rounded-md border border-[var(--ground-line)]">
         <table className="min-w-[860px] w-full text-left text-sm">
           <thead className="bg-[var(--ground-raised)] text-xs text-[var(--ink-dim)]">
             <tr>

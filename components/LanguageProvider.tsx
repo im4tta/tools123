@@ -32,7 +32,7 @@ function readLocaleCookie(): LanguageMode | null {
 }
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  const { value: mode, setValue: setMode } = useLocalStorage<LanguageMode>(STORAGE_KEYS.language, "bi");
+  const { value: mode, setValue: setMode, hydrated } = useLocalStorage<LanguageMode>(STORAGE_KEYS.language, "bi");
   // Lazily-loaded dictionary for the active non-EN/KM language. Keyed by the
   // English string; missing entries fall back to English (progressive i18n).
   const [dict, setDict] = useState<Record<string, string>>({});
@@ -72,6 +72,8 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   }, [mode]);
 
   useEffect(() => {
+    // Until the saved choice is read, keep what the inline language script already set on <html>.
+    if (!hydrated) return;
     if (mode === "bi") {
       document.documentElement.lang = "km";
       document.documentElement.dataset.script = "khmer";
@@ -83,7 +85,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
       }
     }
     document.documentElement.dataset.language = mode;
-  }, [mode]);
+  }, [mode, hydrated]);
 
   const text = (en: string, km: string) => {
     if (mode === "en" || en === km) return en;
@@ -96,7 +98,8 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     if (mode === "en") return value;
     const km = uiKm(value);
     if (mode === "km") return km ?? value;
-    if (mode === "bi") return `${value} / ${km ?? value}`;
+    // Untranslated (or already-localized) strings pass through once instead of becoming "X / X".
+    if (mode === "bi") return km ? `${value} / ${km}` : value;
     return dict[value] ?? value;
   };
 

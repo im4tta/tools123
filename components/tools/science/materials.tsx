@@ -1746,7 +1746,7 @@ export default function MaterialsApp() {
 
       {/* FLOATING COMPARISON BAR */}
       {compareList.length > 0 && (
-        <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 bg-[var(--ground-raised)] text-[var(--ink)] px-4 py-2.5 rounded-2xl shadow-2xl flex items-center gap-3 border border-[var(--ground-line)] text-xs">
+        <div className="floating-toast fixed bottom-4 left-1/2 -translate-x-1/2 z-40 bg-[var(--ground-raised)] text-[var(--ink)] px-4 py-2.5 rounded-2xl shadow-2xl flex items-center gap-3 border border-[var(--ground-line)] text-xs">
           <Scale className="w-4 h-4 text-blue-400" />
           <span>{compareList.length} / 2 {t.compare}</span>
           <button

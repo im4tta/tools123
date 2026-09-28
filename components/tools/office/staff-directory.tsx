@@ -159,7 +159,7 @@ export default function StaffDirectory() {
         <span className="pb-2 text-xs text-[var(--ink-faint)]">{text(`${visibleRecords.length} of ${records.length} staff`, `បុគ្គលិក ${visibleRecords.length} នាក់ ក្នុងចំណោម ${records.length} នាក់`)}</span>
       </div>
 
-      <div className="overflow-x-auto rounded-md border border-[var(--ground-line)]">
+      <div className="relative overflow-x-auto rounded-md border border-[var(--ground-line)]">
         <table className="w-full min-w-[760px] text-left text-sm">
           <thead className="bg-[var(--ground-raised)] text-xs text-[var(--ink-dim)]">
             <tr>

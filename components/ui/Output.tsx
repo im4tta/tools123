@@ -56,7 +56,7 @@ export function Button({
   return (
     <button
       {...props}
-      className={`rounded-md bg-[var(--gold)] px-4 py-2 text-sm font-medium text-[#0a0c0d] transition hover:bg-[var(--gold-dim)] disabled:opacity-40 ${props.className ?? ""}`}
+      className={`ui-touch rounded-md bg-[var(--gold)] px-4 py-2 text-sm font-medium text-[#0a0c0d] transition hover:bg-[var(--gold-dim)] disabled:opacity-40 ${props.className ?? ""}`}
     >
       {typeof children === "string" ? ui(children) : children}
     </button>

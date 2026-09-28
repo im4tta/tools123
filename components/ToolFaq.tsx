@@ -3,8 +3,14 @@
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { useLanguage } from "@/components/LanguageProvider";
-import { toolHowToUse, toolWhatItDoes } from "@/lib/seo";
 import type { ToolDef } from "@/lib/tools";
+
+/** This tool's FAQ text, computed on the server (lib/seo) and passed down so the client
+ *  bundle doesn't carry every tool's blurbs and how-to steps. */
+export interface ToolFaqText {
+  what: { en: string; km: string };
+  how: { en: string[]; km: string[] };
+}
 
 interface FaqItem {
   q: string;
@@ -13,13 +19,12 @@ interface FaqItem {
   aKm: string;
 }
 
-export function ToolFaq({ tool }: { tool: ToolDef }) {
+export function ToolFaq({ tool, faq }: { tool: ToolDef; faq: ToolFaqText }) {
   const { text } = useLanguage();
   const [openIndex, setOpenIndex] = useState<number | null>(0);
   const title = tool.title;
   const name = tool.khmerTitle ?? tool.title;
-  const what = toolWhatItDoes(tool);
-  const how = toolHowToUse(tool);
+  const { what, how } = faq;
 
   const items: FaqItem[] = [
     {
