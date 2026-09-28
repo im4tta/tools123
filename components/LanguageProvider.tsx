@@ -96,7 +96,8 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     if (mode === "en") return value;
     const km = uiKm(value);
     if (mode === "km") return km ?? value;
-    if (mode === "bi") return `${value} / ${km ?? value}`;
+    // Untranslated (or already-localized) strings pass through once instead of becoming "X / X".
+    if (mode === "bi") return km ? `${value} / ${km}` : value;
     return dict[value] ?? value;
   };
 

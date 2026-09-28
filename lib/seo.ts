@@ -315,6 +315,38 @@ const TOOL_BLURBS: Record<string, ToolBlurb> = {
     en: "Plan a rotating savings group (ហ៊ុយ): who collects each round, what each member pays, and everyone's total paid, received, and net — for a fixed rotation or a discount-bid model. A planning aid; group rules vary.",
     km: "រៀបចំក្រុមសន្សំវិលជុំ (ហ៊ុយ)៖ អ្នកណាទទួលក្នុងវគ្គនីមួយៗ សមាជិកម្នាក់ៗបង់ប៉ុន្មាន និងសរុបបង់ ទទួល និងចំណេញ/ខាតរបស់ម្នាក់ៗ — សម្រាប់ការវិលជុំថេរ ឬម៉ូដែលដេញការបញ្ចុះ។ ជាជំនួយរៀបចំផែនការ ច្បាប់ក្រុមខុសៗគ្នា។",
   },
+  "khmer-crossword": {
+    en: "Make and solve Khmer crosswords with one syllable cluster per square — build one from the offline lexicon, whose Khmer definitions become the clues, or from your own word list, then check answers and print it for class.",
+    km: "បង្កើត និងដោះស្រាយល្បែងពាក្យខ្វែងខ្មែរ មួយព្យាង្គក្នុងមួយប្រអប់ — បង្កើតពីវចនានុក្រមក្រៅបណ្តាញ ដែលនិយមន័យខ្មែរក្លាយជាតម្រុយ ឬពីបញ្ជីពាក្យរបស់អ្នក រួចពិនិត្យចម្លើយ និងបោះពុម្ពសម្រាប់ថ្នាក់រៀន។",
+  },
+  "khmer-word-ladder": {
+    en: "Climb from one Khmer word to another by changing one syllable cluster at a time, with every step a real word. Play random puzzles with hints, or find the shortest ladder between any two words.",
+    km: "ឡើងពីពាក្យខ្មែរមួយទៅពាក្យមួយទៀត ដោយប្តូរមួយព្យាង្គម្តងៗ ហើយជំហាននីមួយៗជាពាក្យពិត។ លេងល្បែងចៃដន្យមានជំនួយ ឬរកជណ្ដើរខ្លីបំផុតរវាងពាក្យពីរ។",
+  },
+  "khmer-leitner-flashcards": {
+    en: "Study Khmer words and their Khmer definitions with Leitner spaced repetition: known cards come back after longer gaps, missed cards return in the same session, and progress is saved on your device.",
+    km: "រៀនពាក្យខ្មែរ និងនិយមន័យខ្មែរ ដោយការរំលឹកតាមចន្លោះពេលបែប Leitner៖ កាតដែលស្គាល់ត្រឡប់មកក្រោយចន្លោះពេលវែងជាងមុន កាតដែលភ្លេចត្រឡប់មកក្នុងវគ្គដដែល ហើយវឌ្ឍនភាពរក្សាទុកលើឧបករណ៍របស់អ្នក។",
+  },
+  "khmer-alphabet-order": {
+    en: "A quick game for learning the Khmer consonant order: tap 5, 8, 12 or all 33 letters from ក to អ as fast as you can and beat your best clean time.",
+    km: "ល្បែងរហ័សសម្រាប់រៀនលំដាប់ព្យញ្ជនៈខ្មែរ៖ ចុចអក្សរ ៥ ៨ ១២ ឬទាំង ៣៣ ពី ក ដល់ អ ឱ្យលឿនតាមដែលអាច ហើយបំបែកពេលល្អបំផុតរបស់អ្នក។",
+  },
+  "khmer-coeng-quiz": {
+    en: "Practise Khmer subscript (ជើង) forms: match a stacked subscript to its consonant or a consonant to its subscript, with look-alike ្ត / ្ដ never shown together.",
+    km: "ហាត់ជើងអក្សរខ្មែរ៖ ផ្គូផ្គងជើងទៅនឹងព្យញ្ជនៈរបស់វា ឬព្យញ្ជនៈទៅនឹងជើងរបស់វា ដោយ ្ត / ្ដ ដែលមើលទៅដូចគ្នា មិនបង្ហាញជាមួយគ្នាទេ។",
+  },
+  "khmer-syllable-builder": {
+    en: "Assemble a Khmer syllable from consonant, subscripts, register shifter, vowel and final sign, and see it in correct Unicode order with code points and an approximate romanization.",
+    km: "ផ្គុំព្យាង្គខ្មែរពីព្យញ្ជនៈ ជើង សញ្ញាប្តូរស៊េរី ស្រៈ និងសញ្ញាចុងក្រោយ ហើយមើលវាតាមលំដាប់យូនីកូដត្រឹមត្រូវ ជាមួយលេខកូដ និងការបកជាអក្សរឡាតាំងប្រហាក់ប្រហែល។",
+  },
+  "khmer-keyboard-lessons": {
+    en: "Learn the Khmer NIDA keyboard row by row with short drills, a mini keyboard showing the next key, and characters-per-minute scores — even without a Khmer keyboard installed.",
+    km: "រៀនក្ដារចុចខ្មែរ NIDA ម្តងមួយជួរ ជាមួយលំហាត់ខ្លីៗ ក្ដារចុចតូចបង្ហាញគ្រាប់ចុចបន្ទាប់ និងពិន្ទុតួអក្សរក្នុងមួយនាទី — ទោះបីមិនទាន់ដំឡើងក្ដារចុចខ្មែរក៏ដោយ។",
+  },
+  "khmer-number-bingo": {
+    en: "Play 75-ball bingo in Khmer numerals: a caller that shows each number and its Khmer words (read aloud when a Khmer voice is available) plus self-marking, printable cards.",
+    km: "លេងប៊ីងហ្គោ ៧៥ គ្រាប់ជាលេខខ្មែរ៖ កម្មវិធីហៅលេខដែលបង្ហាញលេខនីមួយៗ និងពាក្យខ្មែររបស់វា (អានឮៗ នៅពេលមានសំឡេងខ្មែរ) និងកាតដែលគូសដោយខ្លួនឯង និងអាចបោះពុម្ពបាន។",
+  },
   "khmer-spoonerisms": {
     en: "Browse, search, and quiz yourself on Khmer spoonerisms (ពាក្យគន្លាស់កាត់) — wordplay that swaps sounds between syllables — with 100+ examples by category, your own additions, and a downloadable poster image in the classic style.",
     km: "រុករក ស្វែងរក និងល្បងប្រាជ្ញាខ្លួនឯងលើពាក្យគន្លាស់កាត់ខ្មែរ — ការលេងពាក្យដែលប្តូរសំឡេងរវាងព្យាង្គ — ជាមួយឧទាហរណ៍ជាង ១០០ តាមប្រភេទ ពាក្យដែលអ្នកបន្ថែមផ្ទាល់ និងរូបភាពផ្ទាំងបដាសម្រាប់ទាញយកតាមបែបបុរាណ។",
@@ -1593,6 +1625,14 @@ const HOWTO_TOOLS: Record<string, string[]> = {
   "khmer-gift-ledger": ["Optionally name the event", "Add each envelope: guest name, side, and the amount in USD and/or riel", "Review totals, search, and export a CSV or print the list"],
   "khmer-mixed-change": ["Enter the shop's exchange rate", "Enter the price and what the customer paid, in USD and/or riel", "Choose all-riel or dollars-plus-riel change and read the amount and notes to give"],
   "khmer-tontine-planner": ["List the members in payout order and set the contribution", "Choose fixed rotation or the bid model (and enter each round's bid)", "Read the round schedule and each member's paid, received, and net totals"],
+  "khmer-crossword": ["Choose the Khmer lexicon or type your own word = clue lines", "Tap New layout until you like the grid, then fill one syllable per square", "Use Check answers or Show answers, and Print for class"],
+  "khmer-word-ladder": ["Pick a word length and start a new puzzle", "Type a word that changes one syllable of the last word, using Hint if stuck", "Reach the target word, or switch to Solver to find the shortest ladder"],
+  "khmer-leitner-flashcards": ["Optionally choose a first letter and how many new cards to add", "Start a session, read the word, then tap Show meaning", "Mark Knew it or Didn't know; come back when more cards are due"],
+  "khmer-alphabet-order": ["Choose how many letters per round", "Tap the letters in dictionary order from ក to អ", "Finish without mistakes to set your best time"],
+  "khmer-coeng-quiz": ["Choose subscript → consonant or consonant → subscript", "Pick the matching answer for each of the 12 questions", "Review the subscripts you missed at the end"],
+  "khmer-syllable-builder": ["Pick a consonant, then optional subscripts, shifter, vowel and final sign", "Read the built syllable, its code points and approximate reading", "Copy it or add it to a word"],
+  "khmer-keyboard-lessons": ["Choose a keyboard row and the normal or Shift layer", "Type the drill, following the highlighted key on the mini keyboard", "Check your characters per minute and accuracy, then try a new drill"],
+  "khmer-number-bingo": ["Choose how many cards to show or print", "Press Call number for each ball; the number and its Khmer words appear", "Cards mark themselves and show BINGO when a line is complete"],
   "khmer-spoonerisms": ["Browse the word list, search, or filter by category", "Open Quiz to guess the real meaning behind 10 spoonerisms", "Open Poster image, pick up to six entries, and download the PNG"],
   "mesh-gradient-generator": ["Press Randomize until you like a gradient", "Adjust the number of colour points", "Copy the CSS or download a PNG/SVG"],
   "svg-blob-generator": ["Randomize to get a new blob shape", "Tune the points, wobble, and colours", "Copy the SVG or download SVG/PNG"],
