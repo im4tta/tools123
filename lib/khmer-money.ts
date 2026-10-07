@@ -33,6 +33,21 @@ export function greedyBreakdown(amount: number, denoms: number[]): { rows: Break
   return { rows, remainder: remaining };
 }
 
+/** Commonly used US dollar note values, editable like the riel list (not an official list). */
+export const DEFAULT_USD_DENOMS = "1, 2, 5, 10, 20, 50, 100";
+
+/**
+ * Totals a cash count (notes per denomination). Counts are clamped to whole numbers ≥ 0, so a
+ * half-typed or negative field never produces a wrong total.
+ */
+export function cashTotal(counts: Record<string, number>, denoms: number[]): { rows: BreakdownRow[]; total: number; notes: number } {
+  const rows = denoms.map((denom) => {
+    const count = Math.max(0, Math.floor(Number(counts[String(denom)]) || 0));
+    return { denom, count, subtotal: count * denom };
+  });
+  return { rows, total: rows.reduce((s, r) => s + r.subtotal, 0), notes: rows.reduce((s, r) => s + r.count, 0) };
+}
+
 // ---------------------------------------------------------------------------
 // Mixed USD / KHR change
 // ---------------------------------------------------------------------------

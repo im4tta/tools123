@@ -347,6 +347,38 @@ const TOOL_BLURBS: Record<string, ToolBlurb> = {
     en: "Play 75-ball bingo in Khmer numerals: a caller that shows each number and its Khmer words (read aloud when a Khmer voice is available) plus self-marking, printable cards.",
     km: "លេងប៊ីងហ្គោ ៧៥ គ្រាប់ជាលេខខ្មែរ៖ កម្មវិធីហៅលេខដែលបង្ហាញលេខនីមួយៗ និងពាក្យខ្មែររបស់វា (អានឮៗ នៅពេលមានសំឡេងខ្មែរ) និងកាតដែលគូសដោយខ្លួនឯង និងអាចបោះពុម្ពបាន។",
   },
+  "khmer-spelling-bee": {
+    en: "Make as many Khmer words as you can from a hive of 6–7 letters, always using the centre letter — at least one word uses them all. Answers come from the offline word list.",
+    km: "បង្កើតពាក្យខ្មែរឱ្យបានច្រើនពីសំបុកអក្សរ ៦–៧ តួ ដោយប្រើអក្សរកណ្តាលជានិច្ច — យ៉ាងហោចណាស់មានពាក្យមួយប្រើគ្រប់អក្សរ។ ចម្លើយមកពីបញ្ជីពាក្យក្រៅបណ្តាញ។",
+  },
+  "khmer-hangman": {
+    en: "Guess a hidden Khmer word one consonant at a time with seven lives; vowel signs fill in by themselves and the word's Khmer dictionary definition is there as a clue.",
+    km: "ទាយពាក្យខ្មែរដែលលាក់ ម្តងមួយព្យញ្ជនៈ ជាមួយជីវិតប្រាំពីរ ស្រៈបំពេញដោយខ្លួនឯង ហើយនិយមន័យវចនានុក្រមខ្មែររបស់ពាក្យមានជាតម្រុយ។",
+  },
+  "khmer-word-grid": {
+    en: "Find Khmer words in a 4×4 grid of syllables by tracing touching squares, against the clock or untimed, then see every word the grid held.",
+    km: "រកពាក្យខ្មែរក្នុងក្រឡាព្យាង្គ ៤×៤ ដោយគូសប្រអប់ដែលនៅជាប់គ្នា ប្រកួតនឹងពេល ឬគ្មានកំណត់ពេល រួចមើលពាក្យទាំងអស់ដែលមានក្នុងក្រឡា។",
+  },
+  "khmer-matching-pairs": {
+    en: "A memory card game for learning Khmer: match consonants with their names or subscripts, digits with Khmer numerals, or numerals with their words.",
+    km: "ល្បែងកាតចងចាំសម្រាប់រៀនភាសាខ្មែរ៖ ផ្គូផ្គងព្យញ្ជនៈជាមួយឈ្មោះ ឬជើង លេខជាមួយលេខខ្មែរ ឬលេខខ្មែរជាមួយពាក្យ។",
+  },
+  "khmer-clock-game": {
+    en: "Read an analog clock and pick how the time is said in Khmer, in Khmer numerals or number words, with 15-, 5- or 1-minute steps.",
+    km: "មើលនាឡិកាមានទ្រនិច ហើយជ្រើសរបៀបនិយាយម៉ោងជាភាសាខ្មែរ ជាលេខខ្មែរ ឬពាក្យលេខ ជាមួយជំហាន ១៥ ៥ ឬ ១ នាទី។",
+  },
+  "khmer-cash-counter": {
+    en: "Count a pile of riel and dollar notes with + / − buttons and get instant totals, plus an all-in-riel total at the exchange rate you type.",
+    km: "រាប់ក្រដាសប្រាក់រៀល និងដុល្លារដោយប៊ូតុង + / − ហើយទទួលបានសរុបភ្លាមៗ ព្រមទាំងសរុបជារៀលតាមអត្រាដែលអ្នកវាយ។",
+  },
+  "khmer-math-drill": {
+    en: "Ten quick arithmetic questions written in Khmer numerals, answered on a Khmer number pad — add, subtract, multiply or divide, with best times for perfect rounds.",
+    km: "សំណួរគណិតរហ័សដប់ សរសេរជាលេខខ្មែរ ឆ្លើយលើបន្ទះលេខខ្មែរ — បូក ដក គុណ ឬចែក ជាមួយពេលល្អបំផុតសម្រាប់ជុំដែលត្រូវទាំងអស់។",
+  },
+  "khmer-vowel-quiz": {
+    en: "Learn how each Khmer vowel sign is read after 1st- and 2nd-series consonants: see a syllable and pick its reading, with the other-series reading always among the options.",
+    km: "រៀនរបៀបអានស្រៈខ្មែរនីមួយៗបន្ទាប់ពីព្យញ្ជនៈស៊េរីទី១ និងទី២៖ មើលព្យាង្គ ហើយជ្រើសការអានរបស់វា ដោយការអានតាមស៊េរីផ្សេងតែងតែមាននៅក្នុងជម្រើស។",
+  },
   "khmer-spoonerisms": {
     en: "Browse, search, and quiz yourself on Khmer spoonerisms (ពាក្យគន្លាស់កាត់) — wordplay that swaps sounds between syllables — with 100+ examples by category, your own additions, and a downloadable poster image in the classic style.",
     km: "រុករក ស្វែងរក និងល្បងប្រាជ្ញាខ្លួនឯងលើពាក្យគន្លាស់កាត់ខ្មែរ — ការលេងពាក្យដែលប្តូរសំឡេងរវាងព្យាង្គ — ជាមួយឧទាហរណ៍ជាង ១០០ តាមប្រភេទ ពាក្យដែលអ្នកបន្ថែមផ្ទាល់ និងរូបភាពផ្ទាំងបដាសម្រាប់ទាញយកតាមបែបបុរាណ។",
@@ -1633,6 +1665,14 @@ const HOWTO_TOOLS: Record<string, string[]> = {
   "khmer-syllable-builder": ["Pick a consonant, then optional subscripts, shifter, vowel and final sign", "Read the built syllable, its code points and approximate reading", "Copy it or add it to a word"],
   "khmer-keyboard-lessons": ["Choose a keyboard row and the normal or Shift layer", "Type the drill, following the highlighted key on the mini keyboard", "Check your characters per minute and accuracy, then try a new drill"],
   "khmer-number-bingo": ["Choose how many cards to show or print", "Press Call number for each ball; the number and its Khmer words appear", "Cards mark themselves and show BINGO when a line is complete"],
+  "khmer-spelling-bee": ["Press New puzzle to get a hive of letters", "Tap letters and vowel signs (or type) to build a word that uses the centre letter, then Enter", "Find as many words as you can; Show answers reveals the rest"],
+  "khmer-hangman": ["Press New word", "Tap consonants to guess; correct ones reveal their syllables", "Use Show clue for the dictionary definition before your seven lives run out"],
+  "khmer-word-grid": ["Pick a time limit and press New grid", "Tap touching squares in order to spell a word, then Submit word", "When time runs out (or you press Finish), see every word in the grid"],
+  "khmer-matching-pairs": ["Choose what to match and how many pairs", "Flip two cards at a time to find matching pairs", "Clear the board in as few moves as you can"],
+  "khmer-clock-game": ["Choose the minute steps and whether answers use numerals or words", "Read the clock and the day part under it", "Pick the matching Khmer phrase for each of 10 clocks"],
+  "khmer-cash-counter": ["Tap + or − (or type) the number of notes for each value", "Read the riel and dollar totals at the top", "Optionally type your exchange rate to see everything in riel, then copy the summary"],
+  "khmer-math-drill": ["Choose an operation and the number range", "Answer each question on the Khmer number pad or keyboard", "Review your answers and try to beat your best perfect-round time"],
+  "khmer-vowel-quiz": ["Press Start quiz", "Look at the syllable and its consonant series, then pick the reading", "Check the reading and IPA after each answer"],
   "khmer-spoonerisms": ["Browse the word list, search, or filter by category", "Open Quiz to guess the real meaning behind 10 spoonerisms", "Open Poster image, pick up to six entries, and download the PNG"],
   "mesh-gradient-generator": ["Press Randomize until you like a gradient", "Adjust the number of colour points", "Copy the CSS or download a PNG/SVG"],
   "svg-blob-generator": ["Randomize to get a new blob shape", "Tune the points, wobble, and colours", "Copy the SVG or download SVG/PNG"],
