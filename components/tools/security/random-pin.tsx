@@ -1,11 +1,11 @@
 "use client";
 import { ToolShell, TextInput, Field } from "@/components/ui/Shell";
 import { Output, Button } from "@/components/ui/Output";
-import { useToolState } from "@/lib/storage";
+import { useToolState, useSensitiveToolState } from "@/lib/storage";
 
 export default function RandomPin() {
   const [digits, setDigits] = useToolState("random-pin:digits", "6");
-  const [pin, setPin] = useToolState("random-pin:pin", "");
+  const [pin, setPin] = useSensitiveToolState("random-pin:pin", "");
 
   function generate() {
     const n = Math.max(3, Math.min(20, Number(digits) || 6));

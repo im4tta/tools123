@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { CheckCircle2, XCircle } from "lucide-react";
 import { ToolShell, Field, TextInput, Select, Row } from "@/components/ui/Shell";
 import { Button } from "@/components/ui/Output";
-import { useToolState } from "@/lib/storage";
+import { useToolState, useSensitiveToolState } from "@/lib/storage";
 import { useLanguage } from "@/components/LanguageProvider";
 
 const B32_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
@@ -56,7 +56,7 @@ const secondsLeft = () => 30 - (Math.floor(Date.now() / 1000) % 30);
 
 export default function TotpAuthenticator() {
   const { text: t } = useLanguage();
-  const [secret, setSecret] = useToolState("totp:secret", "");
+  const [secret, setSecret] = useSensitiveToolState("totp:secret", "");
   const [mode, setMode] = useToolState<"totp" | "hotp">("totp:mode", "totp");
   const [counter, setCounter] = useToolState("totp:counter", 0);
   const [code, setCode] = useState("");
@@ -124,7 +124,7 @@ export default function TotpAuthenticator() {
     >
       <div className="space-y-4">
         <Row>
-          <Field label={t("Secret key (Base32)", "សោសម្ងាត់ (Base32)")}>
+          <Field label={t("Secret key (Base32)", "សោសម្ងាត់ (Base32)")} hint="Not saved" hintKm="មិនរក្សាទុក">
             <TextInput
               value={secret}
               onChange={(e) => setSecret(e.target.value)}

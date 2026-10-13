@@ -1,10 +1,10 @@
 "use client";
 import { useMemo } from "react";
 import { ToolShell, TextInput, Field } from "@/components/ui/Shell";
-import { useToolState } from "@/lib/storage";
+import { useSensitiveToolState } from "@/lib/storage";
 
 export default function PasswordStrength() {
-  const [pw, setPw] = useToolState("password-strength:pw", "");
+  const [pw, setPw] = useSensitiveToolState("password-strength:pw", "");
 
   const { score, label, entropy } = useMemo(() => {
     let poolSize = 0;
@@ -27,7 +27,7 @@ export default function PasswordStrength() {
 
   return (
     <ToolShell title="Password Strength Estimator" description="Estimates strength from length, character variety, and entropy. Nothing is sent anywhere.">
-      <Field label="Password"><TextInput type="text" value={pw} onChange={(e) => setPw(e.target.value)} className="font-mono-ui" /></Field>
+      <Field label="Password" hint="Not saved" hintKm="មិនរក្សាទុក"><TextInput type="text" value={pw} onChange={(e) => setPw(e.target.value)} className="font-mono-ui" /></Field>
       <div className="h-2 overflow-hidden rounded bg-[var(--ground-raised)]">
         <div className="h-full rounded transition-all" style={{ width: `${(score / 5) * 100}%`, background: colors[score] }} />
       </div>
