@@ -3,6 +3,7 @@ import { useMemo } from "react";
 import { ToolShell, TextArea, Field } from "@/components/ui/Shell";
 import { Output } from "@/components/ui/Output";
 import { useToolState } from "@/lib/storage";
+import { escapeHtml } from "@/lib/safe-html";
 
 const SAMPLE = `<vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="24dp"
@@ -14,8 +15,10 @@ const SAMPLE = `<vector xmlns:android="http://schemas.android.com/apk/res/androi
       android:pathData="M12,2 L15,8.5 L22,9.3 L17,14.1 L18.2,21 L12,17.6 L5.8,21 L7,14.1 L2,9.3 L9,8.5 Z"/>
 </vector>`;
 
+// Values are escaped here because they are interpolated into SVG markup that is rendered.
 function attr(el: Element, name: string): string | null {
-  return el.getAttribute(`android:${name}`) ?? el.getAttribute(name);
+  const value = el.getAttribute(`android:${name}`) ?? el.getAttribute(name);
+  return value === null ? null : escapeHtml(value);
 }
 
 function numAttr(el: Element, name: string, fallback = 0): number {

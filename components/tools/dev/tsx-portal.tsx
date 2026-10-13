@@ -145,7 +145,9 @@ export default function TsxPortal() {
   // Listen for iframe messages
   useEffect(() => {
     const onMessage = (e: MessageEvent) => {
-      if (!e.data) return;
+      // Only trust messages from our own preview frame (it runs with an opaque origin, so
+      // e.origin is "null" and cannot be used to identify it).
+      if (e.source !== iframeRef.current?.contentWindow || !e.data) return;
       if (e.data.type === "tsx-portal-ok") {
         setStatus("ok");
         setStatusText(t("rendered", "បានបង្ហាញ"));
@@ -329,10 +331,10 @@ export default function TsxPortal() {
 
     const html = `<!DOCTYPE html>
 <html><head><meta charset="utf-8" />
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"><\/script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"><\/script>
-<script src="https://cdn.jsdelivr.net/npm/lucide-react@0.436.0/dist/umd/lucide-react.min.js"><\/script>
-<script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.13/dist/html-to-image.js"><\/script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js" crossorigin="anonymous"><\/script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js" crossorigin="anonymous"><\/script>
+<script src="https://cdn.jsdelivr.net/npm/lucide-react@0.436.0/dist/umd/lucide-react.min.js" crossorigin="anonymous"><\/script>
+<script src="https://cdn.jsdelivr.net/npm/html-to-image@1.11.13/dist/html-to-image.js" crossorigin="anonymous"><\/script>
 <script src="https://cdn.tailwindcss.com"><\/script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;600;700&display=swap" rel="stylesheet">
@@ -344,6 +346,8 @@ export default function TsxPortal() {
 <body>
 <div id="root"></div>
 <script>
+// CDN scripts load with crossorigin="anonymous" so errors thrown through React are reported in
+// full instead of being masked as "Script error.".
 window.onerror=function(msg,src,line,col,err){
   parent.postMessage({type:'tsx-portal-error',message:(err&&err.stack)||msg},'*');return true;
 };
@@ -525,7 +529,9 @@ try{
               ref={iframeRef}
               className="flex-1 w-full border-none"
               title="preview"
-              sandbox="allow-scripts allow-same-origin allow-modals"
+              // No allow-same-origin: previewed code gets an opaque origin, so it cannot read this
+              // app's storage or script the parent page.
+              sandbox="allow-scripts allow-modals allow-downloads"
             />
           </div>
         </div>

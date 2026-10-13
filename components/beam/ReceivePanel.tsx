@@ -156,7 +156,9 @@ export function ReceivePanel({ lang }: { lang: BeamLang }) {
     if (isText) {
       setResult({ isText: true, text: new TextDecoder().decode(assembled), ok });
     } else {
-      const blob = new Blob([assembled.buffer as ArrayBuffer], { type: meta.mime || 'application/octet-stream' });
+      // The MIME type comes from the sender, so never use it for the blob: a same-origin blob URL
+      // with text/html or image/svg+xml would run in this app's origin if opened in a tab.
+      const blob = new Blob([assembled.buffer as ArrayBuffer], { type: 'application/octet-stream' });
       setResult({ isText: false, filename: meta.name, mime: meta.mime, blobUrl: URL.createObjectURL(blob), totalLen: meta.totalLen, ok });
     }
   }

@@ -25,6 +25,7 @@ import { useLanguage } from "@/components/LanguageProvider";
 import { ToolShell, Field, Select } from "@/components/ui/Shell";
 import { Button } from "@/components/ui/Output";
 import { recordExport, watermarkImageDataUrl } from "@/lib/export";
+import { SandboxScriptError, ThreeScriptSandbox, type SandboxFrameChange } from "@/lib/three-script-sandbox";
 
 // Declare THREE on window for loaded external scripts
 declare global {
@@ -606,6 +607,12 @@ export default function ModelPreviewTool() {
   const [shadows, setShadows] = useState<boolean>(true);
   const [materialOverride, setMaterialOverride] = useState<string>('original');
   const [explode, setExplode] = useState<number>(0);
+  // Latest explode amount for sandbox animation frames, which arrive outside React renders.
+  const explodeRef = useRef(explode);
+  useEffect(() => { explodeRef.current = explode; }, [explode]);
+  // The sandbox running the current live script (see lib/three-script-sandbox).
+  const sandboxRef = useRef<ThreeScriptSandbox | null>(null);
+  useEffect(() => () => { sandboxRef.current?.dispose(); sandboxRef.current = null; }, []);
   const [lightIntensity, setLightIntensity] = useState<number>(1.2);
   const [bgColor, setBgColor] = useState<string>('#0b0f19');
   const themeGround = useMemo(() => {
@@ -959,6 +966,8 @@ export default function ModelPreviewTool() {
 
   const clearLiveScriptState = () => {
     threeRef.current.tickFn = null;
+    sandboxRef.current?.dispose();
+    sandboxRef.current = null;
     setScriptError(null);
     if (threeRef.current.customLights && threeRef.current.scene) {
       threeRef.current.scene.remove(threeRef.current.customLights);
@@ -1099,6 +1108,33 @@ export default function ModelPreviewTool() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [libsReady]);
 
+  /** Applies one sandboxed animation step (see SandboxFrameChange) to the host scene's copy. */
+  const applySandboxFrame = (changes: SandboxFrameChange[], byUuid: Map<string, any>, root: any, centerOffset: any) => {
+    for (const [uuid, px, py, pz, qx, qy, qz, qw, sx, sy, sz, visible, color, emissive, emissiveIntensity, opacity] of changes) {
+      const obj = byUuid.get(uuid);
+      if (!obj) continue;
+      if (obj === root) {
+        obj.position.set(px + centerOffset.x, py + centerOffset.y, pz + centerOffset.z);
+      } else if (obj.userData.__origPos && obj.userData.__explodeDir) {
+        obj.userData.__origPos.set(px, py, pz);
+        obj.position.copy(obj.userData.__origPos).addScaledVector(obj.userData.__explodeDir, explodeRef.current);
+      } else {
+        obj.position.set(px, py, pz);
+      }
+      obj.quaternion.set(qx, qy, qz, qw);
+      obj.scale.set(sx, sy, sz);
+      obj.visible = visible === 1;
+      if (color === undefined) continue;
+      // Shading-mode overrides swap materials; keep the original one in sync underneath.
+      const material = threeRef.current.originalMaterials.get(uuid) ?? obj.material;
+      if (!material || Array.isArray(material)) continue;
+      if (color >= 0 && material.color) material.color.setHex(color);
+      if (emissive >= 0 && material.emissive) material.emissive.setHex(emissive);
+      if (emissiveIntensity >= 0) material.emissiveIntensity = emissiveIntensity;
+      if (opacity >= 0) material.opacity = opacity;
+    }
+  };
+
   /**
    * Compiles an uploaded/edited .ts or .tsx source string in-browser (via
    * Babel standalone: typescript -> commonjs) and executes it with `THREE`
@@ -1132,52 +1168,49 @@ export default function ModelPreviewTool() {
         filename: 'live-script.tsx'
       }).code;
 
-      // Minimal CommonJS sandbox: `import * as THREE from 'three'` resolves
-      // to the already-loaded global THREE build; nothing else is resolvable.
-      const sandboxModule: { exports: any } = { exports: {} };
-      const sandboxRequire = (id: string) => {
-        if (id === 'three') return THREE;
-        throw new Error(`Cannot resolve module "${id}" in the browser preview sandbox.`);
-      };
-
-      const factory = new Function('exports', 'require', 'module', 'THREE', transformed);
-      factory(sandboxModule.exports, sandboxRequire, sandboxModule, THREE);
-
-      const mod = sandboxModule.exports;
-      const keys = Object.keys(mod);
-      const modelFactoryKey = keys.find((k) => /^create.*Model$/.test(k) && typeof mod[k] === 'function');
-
-      if (!modelFactoryKey) {
-        throw new Error(t.no_factory_found);
+      // The compiled script runs in an opaque-origin sandboxed iframe (lib/three-script-sandbox)
+      // rather than in this page, so it cannot touch the app's storage or DOM. Its model comes
+      // back as Three.js JSON; animation ticks run in the sandbox and stream changes back.
+      const sandbox = new ThreeScriptSandbox();
+      let result;
+      try {
+        result = await sandbox.run(transformed, { shadows });
+      } catch (err) {
+        sandbox.dispose();
+        if (err instanceof SandboxScriptError && err.code === 'no-factory') throw new Error(t.no_factory_found);
+        throw err;
       }
 
-      const group = mod[modelFactoryKey]({ shadows });
-      if (!group || !group.isObject3D) {
-        throw new Error(`"${modelFactoryKey}()" did not return a THREE.Object3D / Group.`);
-      }
-
-      // Optional companion exports, following the same convention used
-      // across these generated model scripts (see smartphone.ts).
-      const lightsKey = keys.find((k) => /LookDevLights$/.test(k) && typeof mod[k] === 'function');
-      const bgKey = keys.find((k) => /^make.*Background$/.test(k) && typeof mod[k] === 'function');
+      const loader = new THREE.ObjectLoader();
+      const group = loader.parse(result.group);
+      const modelFactoryKey = result.factoryKey;
+      const byUuid = new Map<string, any>();
+      group.traverse((obj: any) => byUuid.set(obj.uuid, obj));
 
       clearLiveScriptState();
+      sandboxRef.current = sandbox;
+      const restPosition = group.position.clone();
       processAndCenterModel(group, name);
+      const centerOffset = group.position.clone().sub(restPosition);
 
-      if (lightsKey && threeRef.current.scene) {
-        const customLights = mod[lightsKey]();
+      if (result.lights && threeRef.current.scene) {
+        const customLights = loader.parse(result.lights);
         threeRef.current.scene.add(customLights);
         threeRef.current.customLights = customLights;
       }
 
-      if (bgKey) {
-        const bg = mod[bgKey]();
-        if (threeRef.current.scene) threeRef.current.scene.background = bg;
-        if (bg && bg.getHexString) setBgColor('#' + bg.getHexString());
+      if (result.backgroundHex) {
+        if (threeRef.current.scene) threeRef.current.scene.background = new THREE.Color('#' + result.backgroundHex);
+        setBgColor('#' + result.backgroundHex);
       }
 
-      if (typeof group.userData?.tick === 'function') {
-        threeRef.current.tickFn = group.userData.tick;
+      if (result.animated) {
+        sandbox.onFrame = (changes) => applySandboxFrame(changes, byUuid, group, centerOffset);
+        sandbox.onError = (message) => {
+          threeRef.current.tickFn = null;
+          setScriptError(message);
+        };
+        threeRef.current.tickFn = (dt, elapsed) => sandbox.tick(dt, elapsed);
       }
 
       showToast(text(`Rendered "${modelFactoryKey}" from ${name}!`, `បានបង្ហាញ "${modelFactoryKey}" ពី ${name}!`), 'success');
