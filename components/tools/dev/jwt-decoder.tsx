@@ -2,7 +2,7 @@
 import { useMemo } from "react";
 import { ToolShell, TextArea, Field } from "@/components/ui/Shell";
 import { Output } from "@/components/ui/Output";
-import { useToolState } from "@/lib/storage";
+import { useSensitiveToolState } from "@/lib/storage";
 
 function b64urlDecode(s: string) {
   const pad = s.length % 4 === 0 ? "" : "=".repeat(4 - (s.length % 4));
@@ -11,7 +11,7 @@ function b64urlDecode(s: string) {
 }
 
 export default function JwtDecoder() {
-  const [token, setToken] = useToolState("jwt-decoder:token", "");
+  const [token, setToken] = useSensitiveToolState("jwt-decoder:token", "");
 
   const { header, payload, error } = useMemo(() => {
     if (!token.trim()) return { header: "", payload: "", error: false };
@@ -28,7 +28,7 @@ export default function JwtDecoder() {
 
   return (
     <ToolShell title="JWT Decoder" description="Decode a JSON Web Token's header and payload locally. Signature is not verified.">
-      <Field label="Token">
+      <Field label="Token" hint="Not saved" hintKm="មិនរក្សាទុក">
         <TextArea rows={4} value={token} onChange={(e) => setToken(e.target.value)} placeholder="eyJhbGciOi..." />
       </Field>
       <Output label="Header" value={header} error={error && !header} />

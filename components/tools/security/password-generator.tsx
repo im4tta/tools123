@@ -1,7 +1,7 @@
 "use client";
 import { ToolShell, TextInput, Field, Row } from "@/components/ui/Shell";
 import { Output, Button } from "@/components/ui/Output";
-import { useToolState } from "@/lib/storage";
+import { useToolState, useSensitiveToolState } from "@/lib/storage";
 
 const SETS = { lower: "abcdefghijkmnopqrstuvwxyz", upper: "ABCDEFGHJKLMNPQRSTUVWXYZ", digits: "23456789", symbols: "!@#$%^&*_-+=?" };
 
@@ -10,7 +10,7 @@ export default function PasswordGenerator() {
   const [useUpper, setUseUpper] = useToolState("password-generator:useUpper", true);
   const [useDigits, setUseDigits] = useToolState("password-generator:useDigits", true);
   const [useSymbols, setUseSymbols] = useToolState("password-generator:useSymbols", true);
-  const [result, setResult] = useToolState("password-generator:result", "");
+  const [result, setResult] = useSensitiveToolState("password-generator:result", "");
 
   function generate() {
     const pool = [SETS.lower, useUpper && SETS.upper, useDigits && SETS.digits, useSymbols && SETS.symbols]

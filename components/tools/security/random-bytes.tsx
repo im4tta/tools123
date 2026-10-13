@@ -1,12 +1,12 @@
 "use client";
 import { ToolShell, TextInput, Field, Select, Row } from "@/components/ui/Shell";
 import { Output, Button } from "@/components/ui/Output";
-import { useToolState } from "@/lib/storage";
+import { useToolState, useSensitiveToolState } from "@/lib/storage";
 
 export default function RandomBytes() {
   const [length, setLength] = useToolState("random-bytes:length", "32");
   const [encoding, setEncoding] = useToolState<"hex" | "base64">("random-bytes:encoding", "hex");
-  const [result, setResult] = useToolState("random-bytes:result", "");
+  const [result, setResult] = useSensitiveToolState("random-bytes:result", "");
 
   function generate() {
     const n = Math.max(1, Math.min(1024, Number(length) || 32));

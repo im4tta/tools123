@@ -2,7 +2,7 @@
 import { useMemo } from "react";
 import { ToolShell, Field, TextInput, Select, Row } from "@/components/ui/Shell";
 import { Output } from "@/components/ui/Output";
-import { useToolState } from "@/lib/storage";
+import { useSensitiveToolState } from "@/lib/storage";
 
 interface State {
   number: string;
@@ -11,7 +11,7 @@ interface State {
 }
 
 export default function CardMaskerTool() {
-  const [s, setS] = useToolState<State>("card-masker", { number: "4111 1111 1111 1234", visibleDigits: 4, maskChar: "•" });
+  const [s, setS] = useSensitiveToolState<State>("card-masker", { number: "4111 1111 1111 1234", visibleDigits: 4, maskChar: "•" });
   const update = (patch: Partial<State>) => setS((prev) => ({ ...prev, ...patch }));
 
   const masked = useMemo(() => {
@@ -29,7 +29,7 @@ export default function CardMaskerTool() {
       title="Credit Card Number Masker"
       description="Mask all but the last few digits of a card number — for screenshots, docs, or support tickets. Nothing here is sent anywhere; it all stays in your browser."
     >
-      <Field label="Card number">
+      <Field label="Card number" hint="Not saved" hintKm="មិនរក្សាទុក">
         <TextInput value={s.number} onChange={(e) => update({ number: e.target.value })} />
       </Field>
       <Row>

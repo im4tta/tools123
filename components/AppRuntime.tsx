@@ -2,14 +2,20 @@
 
 import { useEffect } from "react";
 import { isChunkLoadError, reloadOnceForChunkError } from "@/lib/chunk-errors";
+import { purgeSensitiveToolState } from "@/lib/storage";
 
 /**
  * App-wide runtime safety nets, rendered once from the root layout:
  * - registers the offline service worker (public/sw.js) in production builds only, after load
  *   so it never competes with the first paint;
- * - reloads once when a JS chunk from an older deploy fails to load.
+ * - reloads once when a JS chunk from an older deploy fails to load;
+ * - deletes secrets that older versions saved to localStorage (see SENSITIVE_TOOL_STATE_IDS).
  */
 export function AppRuntime() {
+  useEffect(() => {
+    purgeSensitiveToolState();
+  }, []);
+
   useEffect(() => {
     if (process.env.NODE_ENV !== "production" || !("serviceWorker" in navigator)) return;
     const register = () => {

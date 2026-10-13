@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { ToolShell, Field, TextInput, TextArea, Select } from "@/components/ui/Shell";
 import { Output, Button } from "@/components/ui/Output";
-import { useToolState } from "@/lib/storage";
+import { useToolState, useSensitiveToolState } from "@/lib/storage";
 import { useLanguage } from "@/components/LanguageProvider";
 
 const PBKDF2_ITERATIONS = 100_000;
@@ -63,8 +63,8 @@ async function decryptText(passphrase: string, payload: string): Promise<string>
 export default function AesEncryption() {
   const { text: t } = useLanguage();
   const [mode, setMode] = useToolState<"encrypt" | "decrypt">("aes:mode", "encrypt");
-  const [passphrase, setPassphrase] = useToolState("aes:passphrase", "");
-  const [text, setText] = useToolState("aes:text", "");
+  const [passphrase, setPassphrase] = useSensitiveToolState("aes:passphrase", "");
+  const [text, setText] = useSensitiveToolState("aes:text", "");
   const [result, setResult] = useState("");
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
@@ -103,7 +103,7 @@ export default function AesEncryption() {
           <option value="decrypt">{t("Decrypt", "ឌិគ្រីប")}</option>
         </Select>
 
-        <Field label={t("Passphrase", "ពាក្យសម្ងាត់")}>
+        <Field label={t("Passphrase", "ពាក្យសម្ងាត់")} hint="Not saved" hintKm="មិនរក្សាទុក">
           <TextInput
             type="password"
             value={passphrase}

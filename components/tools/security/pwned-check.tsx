@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Loader2, ShieldAlert, ShieldCheck } from "lucide-react";
 import { ToolShell, Field, TextInput } from "@/components/ui/Shell";
 import { Button } from "@/components/ui/Output";
-import { useToolState } from "@/lib/storage";
+import { useSensitiveToolState } from "@/lib/storage";
 import { useLanguage } from "@/components/LanguageProvider";
 
 async function sha1Hex(text: string): Promise<string> {
@@ -41,7 +41,7 @@ async function queryHibp(password: string): Promise<{ count: number; candidates:
 
 export default function PwnedCheck() {
   const { text: t } = useLanguage();
-  const [password, setPassword] = useToolState("pwned:password", "");
+  const [password, setPassword] = useSensitiveToolState("pwned:password", "");
   const [status, setStatus] = useState<"idle" | "loading" | "done" | "error">("idle");
   const [count, setCount] = useState(0);
   const [candidates, setCandidates] = useState(0);
@@ -67,7 +67,7 @@ export default function PwnedCheck() {
       descriptionKm="ពិនិត្យពាក្យសម្ងាត់ទល់នឹងទិន្នន័យលេចធ្លាយដែលគេស្គាល់ តាម API k-anonymity របស់ Have I Been Pwned — បញ្ជូនតែ ៥ តួអក្សរដំបូងនៃ SHA-1 ប៉ុណ្ណោះ។"
     >
       <div className="space-y-4">
-        <Field label={t("Password to check", "ពាក្យសម្ងាត់ដែលត្រូវពិនិត្យ")}>
+        <Field label={t("Password to check", "ពាក្យសម្ងាត់ដែលត្រូវពិនិត្យ")} hint="Not saved" hintKm="មិនរក្សាទុក">
           <TextInput
             type="password"
             value={password}

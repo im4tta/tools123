@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { KeyRound } from "lucide-react";
 import { ToolShell, TextInput, Field, Select } from "@/components/ui/Shell";
 import { Output } from "@/components/ui/Output";
-import { useToolState } from "@/lib/storage";
+import { useToolState, useSensitiveToolState } from "@/lib/storage";
 import { useLanguage } from "@/components/LanguageProvider";
 
 const ALGOS = ["SHA-1", "SHA-256", "SHA-384", "SHA-512"] as const;
@@ -29,7 +29,7 @@ async function computeHmac(message: string, secret: string, algo: Algo): Promise
 export default function HmacGenerator() {
   const { text: t } = useLanguage();
   const [message, setMessage] = useToolState("hmac:message", "The quick brown fox jumps over the lazy dog");
-  const [secret, setSecret] = useToolState("hmac:secret", "my-secret-key");
+  const [secret, setSecret] = useSensitiveToolState("hmac:secret", "my-secret-key");
   const [algo, setAlgo] = useToolState<Algo>("hmac:algo", "SHA-256");
   const [hex, setHex] = useState("");
   const [base64, setBase64] = useState("");
@@ -78,7 +78,7 @@ export default function HmacGenerator() {
         <Field label={t("Message", "សារ")}>
           <TextInput value={message} onChange={(e) => setMessage(e.target.value)} className="font-mono-ui" />
         </Field>
-        <Field label={t("Secret key", "សោសម្ងាត់")}>
+        <Field label={t("Secret key", "សោសម្ងាត់")} hint="Not saved" hintKm="មិនរក្សាទុក">
           <TextInput value={secret} onChange={(e) => setSecret(e.target.value)} className="font-mono-ui" />
         </Field>
 

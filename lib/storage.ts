@@ -163,3 +163,55 @@ export function useToolState<T>(id: string, initial: T) {
   const { value, setValue } = useLocalStorage<T>(STORAGE_KEYS.toolState(id), initial);
   return [value, setValue] as const;
 }
+
+/**
+ * Tool-state ids that hold secrets (passwords, signing keys, 2FA seeds, tokens, card numbers).
+ * These are never written to localStorage: plaintext browser storage outlives the visit, is
+ * readable by any script on the origin, and stays behind on shared computers. Every id passed
+ * to useSensitiveToolState must be listed here so older saved copies are purged (see
+ * purgeSensitiveToolState) — tests/storage-sensitive.test.mjs enforces this.
+ */
+export const SENSITIVE_TOOL_STATE_IDS = [
+  "aes:passphrase",
+  "aes:text",
+  "card-masker",
+  "hmac:secret",
+  "jwt-decoder:token",
+  "jwt-encoder:secret",
+  "jwt-encoder:token",
+  "luhn-validator:input",
+  "password-generator:result",
+  "password-strength:pw",
+  "pwned:password",
+  "random-bytes:result",
+  "random-pin:pin",
+  "totp:secret",
+] as const;
+
+export type SensitiveToolStateId = (typeof SENSITIVE_TOOL_STATE_IDS)[number];
+
+/** Removes secrets that earlier versions persisted. Safe to call repeatedly. */
+export function purgeSensitiveToolState() {
+  if (typeof window === "undefined") return;
+  try {
+    for (const id of SENSITIVE_TOOL_STATE_IDS) window.localStorage.removeItem(`${PREFIX}${STORAGE_KEYS.toolState(id)}`);
+  } catch {
+    // storage unavailable — nothing persisted to purge
+  }
+}
+
+/**
+ * Drop-in replacement for useToolState for secret values: memory only, so the value is gone
+ * when the user leaves the tool or reloads. Also removes any copy an older version saved.
+ */
+export function useSensitiveToolState<T>(id: SensitiveToolStateId, initial: T) {
+  const [value, setValue] = useState<T>(initial);
+  useEffect(() => {
+    try {
+      window.localStorage.removeItem(`${PREFIX}${STORAGE_KEYS.toolState(id)}`);
+    } catch {
+      // storage unavailable — nothing persisted to purge
+    }
+  }, [id]);
+  return [value, setValue] as const;
+}
