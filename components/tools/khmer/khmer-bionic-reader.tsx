@@ -4,6 +4,7 @@ import { ToolShell, TextArea, Field, Select } from "@/components/ui/Shell";
 import { Output } from "@/components/ui/Output";
 import { useToolState } from "@/lib/storage";
 import { useLanguage } from "@/components/LanguageProvider";
+import { escapeHtml } from "@/lib/safe-html";
 
 // Split text into grapheme clusters (keeps a stacked Khmer syllable — base
 // consonant + subscript + vowel — as one unit).
@@ -27,11 +28,11 @@ function buildHtml(text: string, boldCount: number): string {
     const g = segs[i];
     if (/^\s+$/.test(g)) { run = 0; html += g; continue; }
     if (KH.test(g)) {
-      html += run < boldCount ? `<b>${g}</b>` : g;
+      html += run < boldCount ? `<b>${escapeHtml(g)}</b>` : escapeHtml(g);
       run++;
     } else {
       const half = Math.max(1, Math.ceil(g.length / 2));
-      html += `<b>${g.slice(0, half)}</b>${g.slice(half)}`;
+      html += `<b>${escapeHtml(g.slice(0, half))}</b>${escapeHtml(g.slice(half))}`;
     }
   }
   return html;

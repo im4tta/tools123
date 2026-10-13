@@ -4,16 +4,17 @@ import { ToolShell, TextArea, Field } from "@/components/ui/Shell";
 import { Output } from "@/components/ui/Output";
 import { useToolState } from "@/lib/storage";
 import { useLanguage } from "@/components/LanguageProvider";
+import { escapeHtml } from "@/lib/safe-html";
 
 function bionic(text: string): string {
   return text
     .split(/(\s+)/)
     .map((word) => {
-      if (!/[a-zA-Z]/.test(word)) return word;
+      if (!/[a-zA-Z]/.test(word)) return escapeHtml(word);
       const half = Math.max(1, Math.ceil(word.length / 2));
       const head = word.slice(0, half);
       const tail = word.slice(half);
-      return `<b>${head}</b>${tail}`;
+      return `<b>${escapeHtml(head)}</b>${escapeHtml(tail)}`;
     })
     .join("");
 }

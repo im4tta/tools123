@@ -3,6 +3,10 @@ import type { NextRequest } from "next/server";
 
 const LOCALE_COOKIE = "tb-locale";
 
+function localeCookieOptions(request: NextRequest) {
+  return { path: "/", maxAge: 60 * 60 * 24 * 365, sameSite: "lax" as const, secure: request.nextUrl.protocol === "https:" };
+}
+
 /**
  * Geo-aware locale routing. Reads the visitor's country from Vercel's
  * `x-vercel-ip-country` header (IP-based, no browser permission prompt) and
@@ -18,7 +22,7 @@ export function proxy(request: NextRequest) {
     const locale = localeMatch[1];
     const rest = pathname.slice(localeMatch[0].length) || "/";
     const response = NextResponse.rewrite(new URL(rest, request.url));
-    response.cookies.set(LOCALE_COOKIE, locale, { path: "/", maxAge: 60 * 60 * 24 * 365 });
+    response.cookies.set(LOCALE_COOKIE, locale, localeCookieOptions(request));
     return response;
   }
 
@@ -36,7 +40,7 @@ export function proxy(request: NextRequest) {
     const url = request.nextUrl.clone();
     url.pathname = `/${locale}`;
     const response = NextResponse.redirect(url);
-    response.cookies.set(LOCALE_COOKIE, locale, { path: "/", maxAge: 60 * 60 * 24 * 365 });
+    response.cookies.set(LOCALE_COOKIE, locale, localeCookieOptions(request));
     return response;
   }
 
