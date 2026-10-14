@@ -1,9 +1,12 @@
 'use client';
 // contexts/BeamContext.tsx
 import React, { createContext, useCallback, useContext, useState } from 'react';
+import dynamic from 'next/dynamic';
 import type { BeamSendPayload } from '../lib/beam/types';
-import { BeamModal } from '../components/beam/BeamModal';
 import type { BeamLang } from '../lib/beam/i18n';
+
+// The modal (QR engine, camera scanner) only loads the first time Beam is opened.
+const BeamModal = dynamic(() => import('../components/beam/BeamModal').then((m) => m.BeamModal), { ssr: false });
 
 interface BeamContextValue {
   /** Open the Beam modal pre-loaded with a file or text payload to send. */

@@ -14,6 +14,8 @@ type LanguageContextValue = {
   text: (en: string, km: string) => string;
   /** Auto-resolves any English string through the shared dictionaries. */
   ui: (value: string) => string;
+  /** False until the saved language choice has been read (mode is the "bi" default before). */
+  hydrated: boolean;
 };
 
 const LanguageContext = createContext<LanguageContextValue>({
@@ -21,6 +23,7 @@ const LanguageContext = createContext<LanguageContextValue>({
   setMode: () => {},
   text: (en, km) => `${en} / ${km}`,
   ui: (value) => value,
+  hydrated: false,
 });
 
 function readLocaleCookie(): LanguageMode | null {
@@ -103,7 +106,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     return dict[value] ?? value;
   };
 
-  return <LanguageContext.Provider value={{ mode, setMode, text, ui }}>{children}</LanguageContext.Provider>;
+  return <LanguageContext.Provider value={{ mode, setMode, text, ui, hydrated }}>{children}</LanguageContext.Provider>;
 }
 
 export function useLanguage() {

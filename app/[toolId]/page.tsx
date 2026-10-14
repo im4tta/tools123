@@ -5,6 +5,7 @@ import { toolDescription, toolJsonLd, toolBreadcrumbLd, toolFaqLd, toolHowToLd, 
 import { TOOLS } from "@/lib/tools";
 import { resolveToolId, toolHref } from "@/lib/toolRoutes";
 import { BASE_URL, toolUrl } from "@/lib/site";
+import { relatedToolsFor, TOOL_COUNT, toToolRouteTool } from "@/lib/tool-route-data";
 
 function findTool(slug: string) {
   const id = resolveToolId(slug);
@@ -84,7 +85,12 @@ export default async function ToolPage({ params }: { params: Promise<{ toolId: s
           dangerouslySetInnerHTML={{ __html: JSON.stringify(howToLd).replace(/</g, "\\u003c") }}
         />
       )}
-      <ToolRouteClient toolId={tool.id} faq={{ what: toolWhatItDoes(tool), how: toolHowToUse(tool) }} />
+      <ToolRouteClient
+        tool={toToolRouteTool(tool)}
+        related={relatedToolsFor(tool)}
+        toolCount={TOOL_COUNT}
+        faq={{ what: toolWhatItDoes(tool), how: toolHowToUse(tool) }}
+      />
     </>
   );
 }

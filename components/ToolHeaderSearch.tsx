@@ -4,7 +4,8 @@ import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react"
 import { useRouter } from "next/navigation";
 import { Search } from "lucide-react";
 import { useLanguage } from "@/components/LanguageProvider";
-import { TOOLS } from "@/lib/tools";
+import type { ToolDef } from "@/lib/tools";
+import { loadToolIndex, useToolIndex } from "@/lib/tool-index";
 import { toolHref } from "@/lib/toolRoutes";
 
 const KH_DIGITS = "០១២៣៤៥៦៧៨៩";
@@ -19,8 +20,10 @@ const MAX_RESULTS = 10;
  *
  * The parent re-keys this component on the localized title, so navigating to a
  * new tool or toggling the language remounts it fresh with the new name.
+ *
+ * The searchable registry loads on first focus (or hover), not with the page.
  */
-export function ToolHeaderSearch({ currentToolId, label }: { currentToolId: string; label: string }) {
+export function ToolHeaderSearch({ currentToolId, label, toolCount }: { currentToolId: string; label: string; toolCount: number }) {
   const { text: t } = useLanguage();
   const router = useRouter();
   const [query, setQuery] = useState(label);
@@ -31,15 +34,16 @@ export function ToolHeaderSearch({ currentToolId, label }: { currentToolId: stri
   const listId = useId();
 
   const isDefault = query.trim() === label.trim() || query.trim() === "";
+  const tools = useToolIndex(open);
 
   const results = useMemo(() => {
-    if (isDefault) return [] as typeof TOOLS;
+    if (isDefault || !tools) return [] as ToolDef[];
     const q = query.trim().toLowerCase();
-    return TOOLS.filter((tool) => {
+    return tools.filter((tool) => {
       const hay = [tool.title, tool.khmerTitle ?? "", ...tool.keywords].join(" ").toLowerCase();
       return hay.includes(q);
     }).slice(0, MAX_RESULTS);
-  }, [query, isDefault]);
+  }, [query, isDefault, tools]);
 
   const reset = useCallback(() => {
     setOpen(false);
@@ -106,9 +110,10 @@ export function ToolHeaderSearch({ currentToolId, label }: { currentToolId: stri
           aria-autocomplete="list"
           aria-label={t("Search tools", "ស្វែងរកឧបករណ៍")}
           title={t("Search tools — type to jump to another tool", "ស្វែងរកឧបករណ៍ — វាយបញ្ចូលដើម្បីលោតទៅឧបករណ៍ផ្សេង")}
-          placeholder={t(`Search ${TOOLS.length} tools…`, `ស្វែងរកឧបករណ៍ ${toKh(TOOLS.length)} មុខ…`)}
+          placeholder={t(`Search ${toolCount} tools…`, `ស្វែងរកឧបករណ៍ ${toKh(toolCount)} មុខ…`)}
           spellCheck={false}
           autoComplete="off"
+          onPointerEnter={() => { loadToolIndex().catch(() => undefined); }}
           onFocus={(event) => {
             event.target.select();
             setOpen(true);
@@ -129,7 +134,11 @@ export function ToolHeaderSearch({ currentToolId, label }: { currentToolId: stri
         >
           {isDefault ? (
             <p className="px-3 py-2.5 text-xs text-[var(--ink-faint)]">
-              {t(`Type to search all ${TOOLS.length} tools…`, `វាយបញ្ចូលដើម្បីស្វែងរកឧបករណ៍ទាំង ${toKh(TOOLS.length)} មុខ…`)}
+              {t(`Type to search all ${toolCount} tools…`, `វាយបញ្ចូលដើម្បីស្វែងរកឧបករណ៍ទាំង ${toKh(toolCount)} មុខ…`)}
+            </p>
+          ) : !tools ? (
+            <p role="status" className="px-3 py-2.5 text-xs text-[var(--ink-faint)]">
+              {t("Loading…", "កំពុងផ្ទុក…")}
             </p>
           ) : results.length === 0 ? (
             <p className="px-3 py-2.5 text-xs text-[var(--ink-faint)]">

@@ -2,7 +2,7 @@
 
 import { Children, cloneElement, isValidElement, ReactNode } from "react";
 import { useLanguage } from "@/components/LanguageProvider";
-import { descriptionKmFor } from "@/lib/i18n-descriptions";
+import { modeNeedsKhmerDescriptions, useDescriptionsKm } from "@/lib/i18n-descriptions-loader";
 import { toKhmerToolTitle } from "@/lib/tool-title-km";
 
 /** Localises a shared UI string through the active-language dictionaries. */
@@ -39,7 +39,9 @@ function ShellHeader({ title, khmerTitle, description, descriptionKm }: { title:
   const { mode, ui } = useLanguage();
   const resolvedKhmerTitle = khmerTitle ?? toKhmerToolTitle(title);
   const localizedTitle = mode === "km" ? resolvedKhmerTitle : mode === "en" || mode === "bi" ? title : ui(title);
-  const resolvedDescriptionKm = descriptionKm ?? descriptionKmFor(description);
+  // The Khmer description dictionary is code-split; it is only requested when this mode shows it.
+  const descriptionsKm = useDescriptionsKm(!descriptionKm && modeNeedsKhmerDescriptions(mode));
+  const resolvedDescriptionKm = descriptionKm ?? descriptionsKm?.(description);
   const localizedDescription =
     mode === "km"
       ? (resolvedDescriptionKm ?? description)

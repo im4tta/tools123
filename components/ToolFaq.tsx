@@ -19,7 +19,7 @@ interface FaqItem {
   aKm: string;
 }
 
-export function ToolFaq({ tool, faq }: { tool: ToolDef; faq: ToolFaqText }) {
+export function ToolFaq({ tool, faq }: { tool: Pick<ToolDef, "title" | "khmerTitle">; faq: ToolFaqText }) {
   const { text } = useLanguage();
   const [openIndex, setOpenIndex] = useState<number | null>(0);
   const title = tool.title;
