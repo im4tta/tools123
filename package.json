@@ -8,6 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "test": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --test \"tests/*.test.mjs\"",
     "mcp": "node mcp/server.mjs",
     "audit:network": "node scripts/audit-network.mjs",
     "audit:mobile": "node scripts/audit-mobile.mjs",

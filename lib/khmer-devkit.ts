@@ -1,9 +1,12 @@
 // Pure helpers for the Khmer developer tools (mojibake repair, translation-file
-// checks, grapheme-safe truncation, and the Khmer regex catalogue). No imports,
-// so tests/khmer-devkit.test.mjs can run them directly under Node.
+// checks, grapheme-safe truncation, and the Khmer regex catalogue). Its only
+// import is the zero-dependency lib/khmer-clusters.ts (by .ts path), so
+// tests/khmer-devkit.test.mjs can run it directly under Node.
 //
 // Khmer ranges follow the Unicode Standard (Khmer block U+1780–U+17FF, Khmer
 // Symbols block U+19E0–U+19FF) — the same ranges as lib/khmer-orthography.ts.
+
+import { khmerClusters } from "./khmer-clusters.ts";
 
 // ---------------------------------------------------------------------------
 // Mojibake repair
@@ -286,11 +289,9 @@ export function checkTranslations(source: JsonValue, target: JsonValue, opts: { 
 
 export type LengthUnit = "graphemes" | "codepoints" | "utf16" | "utf8";
 
+/** User-perceived characters, with each Khmer cluster (coeng stack included) kept whole. */
 export function graphemes(text: string): string[] {
-  if (typeof Intl !== "undefined" && "Segmenter" in Intl) {
-    return [...new Intl.Segmenter("km", { granularity: "grapheme" }).segment(text)].map((s) => s.segment);
-  }
-  return [...text];
+  return khmerClusters(text);
 }
 
 const encoder = typeof TextEncoder !== "undefined" ? new TextEncoder() : null;

@@ -12,6 +12,7 @@ import {
 } from "../lib/khmer-word-games.ts";
 import { khmerTimePhrase, khmerTimePhraseWords, partOfHour, to12, to24 } from "../lib/khmer-time-words.ts";
 import { cashTotal, parseDenoms, DEFAULT_RIEL_DENOMS } from "../lib/khmer-money.ts";
+import { splitClusters } from "../lib/khmer-syllables.ts";
 
 let passed = 0;
 function check(name, fn) {
@@ -21,8 +22,8 @@ function mulberry32(seed) {
   let a = seed >>> 0;
   return () => { a |= 0; a = (a + 0x6d2b79f5) | 0; let t = Math.imul(a ^ (a >>> 15), 1 | a); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
 }
-const seg = new Intl.Segmenter("km", { granularity: "grapheme" });
-const clusters = (w) => [...seg.segment(w)].map((s) => s.segment);
+// The games split words with splitClusters, so the tests do too.
+const clusters = splitClusters;
 const WORDS = JSON.parse(fs.readFileSync(new URL("../data/khmer-words.json", import.meta.url), "utf8"));
 
 // ---- letters / spelling bee ----
