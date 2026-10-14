@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { ArrowUp } from "lucide-react";
 import { useLanguage } from "@/components/LanguageProvider";
+import { preferredScrollBehavior } from "@/lib/use-reduced-motion";
 
 function isEditableTarget(target: EventTarget | null) {
   return target instanceof HTMLElement && (target.isContentEditable || Boolean(target.closest("input, textarea, select, [contenteditable='true']")));
@@ -23,7 +24,7 @@ export function ScrollToTopButton() {
     function onKeyDown(event: KeyboardEvent) {
       if (event.repeat || event.ctrlKey || event.metaKey || event.altKey || isEditableTarget(event.target) || event.key.toLowerCase() !== "u") return;
       event.preventDefault();
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      window.scrollTo({ top: 0, behavior: preferredScrollBehavior() });
     }
     document.addEventListener("keydown", onKeyDown);
     return () => document.removeEventListener("keydown", onKeyDown);
@@ -33,7 +34,7 @@ export function ScrollToTopButton() {
   return (
     <button
       type="button"
-      onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+      onClick={() => window.scrollTo({ top: 0, behavior: preferredScrollBehavior() })}
       aria-label={t("Go to top", "ទៅកាន់ផ្នែកខាងលើ")}
       aria-keyshortcuts="U"
       title={`${t("Go to top", "ទៅកាន់ផ្នែកខាងលើ")} (U)`}
