@@ -4,15 +4,13 @@
 // approximate for edge cases — Khmer has no spaces, so grapheme/word boundaries
 // come from ICU's dictionary, not a bespoke word list.
 
+import { khmerClusters } from "./khmer-clusters.ts";
+
 const KHMER_LETTER = /[ក-ឳ]/; // consonants + independent vowels
 
 /** Splits text into orthographic clusters (base consonant + coeng stack + signs). */
 export function splitClusters(text: string): string[] {
-  if (typeof Intl !== "undefined" && "Segmenter" in Intl) {
-    const seg = new Intl.Segmenter("km", { granularity: "grapheme" });
-    return [...seg.segment(text)].map((s) => s.segment).filter((s) => s.trim().length > 0 || s === " ");
-  }
-  return [...text];
+  return khmerClusters(text).filter((s) => s.trim().length > 0 || s === " ");
 }
 
 /** Splits text into words using ICU's Khmer dictionary segmenter (word granularity). */
