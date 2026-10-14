@@ -10,6 +10,7 @@ import {
   FileText, BookOpen
 } from 'lucide-react';
 import { useLanguage } from "@/components/LanguageProvider";
+import { loadThreeR128 } from "@/lib/three-r128";
 
 const uiTranslations: Record<string, Record<string, string>> = {
   km: {
@@ -779,15 +780,16 @@ function Visualizer3DCanvas({ element, mode = 'atom' }: { element: any; mode?: s
       };
     };
 
-    if (!(window as any).THREE) {
-      const script = document.createElement('script');
-      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
-      script.async = true;
-      script.onload = () => initializeThree();
-      document.head.appendChild(script);
-    } else {
-      initializeThree();
-    }
+    // Three r128 comes from the app's own npm dependency (lib/three-r128), not a CDN.
+    let cancelled = false;
+    let cleanup: (() => void) | undefined;
+    loadThreeR128()
+      .then(() => { if (!cancelled) cleanup = initializeThree(); })
+      .catch(() => undefined);
+    return () => {
+      cancelled = true;
+      cleanup?.();
+    };
   }, [element, mode, speed, wireframe]);
 
   return (
