@@ -216,6 +216,22 @@ body {
   background: var(--ink-faint);
 }
 
+/* Keyboard focus ring (WCAG 2.4.7 Focus Visible, 1.4.11 Non-text Contrast). One consistent
+   accent ring instead of the browser default, and it also restores a ring on controls whose
+   utilities removed the outline (Tailwind's outline-none lives in a cascade layer, so this
+   unlayered rule wins). Controls that already draw their own focus ring keep it. --gold is at
+   least 3:1 against the page background in every theme and accent. */
+:where(a[href], button, input, select, textarea, summary, [tabindex]:not([tabindex="-1"]), [contenteditable="true"]):focus-visible:not([class*="focus:ring"], [class*="focus-visible:ring"], [data-focus-ring="within"] *) {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+/* Borderless fields inside a bordered pill (header search, Universal input, Workspace picker):
+   ring the pill, not the field inside it. */
+[data-focus-ring="within"]:focus-within {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
 @media (prefers-reduced-motion: reduce) {
   * {
     animation-duration: 0.001ms !important;
@@ -287,6 +303,16 @@ body {
   flex: 1 1 0%;
   padding: 0.5rem 0.75rem;
   text-align: left;
+}
+/* Keyboard focus rings the whole card, drawn over its border: category sections use
+   content-visibility (paint containment), which would clip a ring drawn outside the card. */
+.tool-card-link:focus-visible {
+  outline: none;
+}
+.tool-card:has(> .tool-card-link:focus-visible),
+a.tool-card:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: -1px;
 }
 .tool-card-title {
   display: flex;
@@ -450,14 +476,27 @@ body {
     transform: translate3d(-50%, 0, 0);
   }
 }
-/* This ticker is a deliberate exception to the site-wide reduced-motion
-   reset above: it's treated as branding/navigation chrome, not content
-   motion, so it keeps flowing continuously for every visitor regardless of
-   their OS-level "reduce motion" setting. */
+/* The ticker clips its overflow, so a chip's focus ring is drawn inside the chip. */
+.category-ticker .chip:focus-visible {
+  outline-offset: -2px;
+}
+/* Reduced motion: the chips stop and become a row you can scroll sideways (touch, trackpad,
+   or Tab through them); the duplicate set that made the loop seamless is hidden. */
 @media (prefers-reduced-motion: reduce) {
+  .category-ticker {
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .category-ticker::-webkit-scrollbar {
+    display: none;
+  }
   .category-ticker-track {
-    animation-duration: 38s !important;
-    animation-iteration-count: infinite !important;
+    animation: none !important;
+    transform: none;
+    will-change: auto;
+  }
+  .category-ticker-track > [aria-hidden="true"] {
+    display: none;
   }
 }
 /* Touch/no-hover users can't pause the ticker with a hover, but it keeps

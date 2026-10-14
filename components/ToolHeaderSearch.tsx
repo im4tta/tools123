@@ -98,7 +98,7 @@ export function ToolHeaderSearch({ currentToolId, label, toolCount }: { currentT
 
   return (
     <div ref={containerRef} className="tool-route-search relative min-w-0 flex-1">
-      <div className="flex items-center gap-2 rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-2.5 py-1.5 focus-within:border-[var(--gold-dim)]">
+      <div data-focus-ring="within" className="flex items-center gap-2 rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-2.5 py-1.5 focus-within:border-[var(--gold-dim)]">
         <Search size={13} className="shrink-0 text-[var(--ink-faint)]" aria-hidden="true" />
         <input
           ref={inputRef}
