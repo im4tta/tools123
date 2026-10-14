@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { startTransition, Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Search, ArrowLeft, Star, Waypoints, LayoutGrid, ArrowUpDown, Layers, ShieldCheck, CircleDollarSign, WifiOff, Languages, BadgeCheck, FolderGit2 } from "lucide-react";
@@ -216,7 +216,15 @@ export default function Home() {
   const router = useRouter();
   const [paletteOpen, setPaletteOpen] = useState(false);
   const [activeId, setActiveIdRaw] = useState<string | null>(null);
-  const [filter, setFilter] = useState(() => (typeof window !== "undefined" ? new URLSearchParams(window.location.search).get("q") ?? "" : ""));
+  const [filter, setFilter] = useState("");
+  // Apply ?q= after hydration: reading it during the first render made the client markup differ
+  // from the pre-rendered page (React error #418), which forced a full client re-render.
+  useEffect(() => {
+    const q = new URLSearchParams(window.location.search).get("q");
+    // One-time read of the URL after mount (SSR-safe).
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    if (q) setFilter(q);
+  }, []);
   const parsedFilter = useMemo(() => parseIntent(filter), [filter]);
   const isCalculationIntent = Boolean(filter.trim() && parsedFilter.toolId && parsedFilter.domain !== "tool" && parsedFilter.domain !== "khmer");
   const [placeIndexReady, setPlaceIndexReady] = useState(false);
@@ -552,6 +560,23 @@ export default function Home() {
     return { date: `${fmt(mon, false).slice(0, 10)} – ${fmt(sun, false).slice(0, 10)}`, tools };
   }, []);
   const [catSort, setCatSort] = useState<Record<string, "asc" | "desc" | "function">>({});
+  // Categories whose cards have been upgraded from lightweight links to full cards (see
+  // INITIAL_FULL_CARDS). A section upgrades when it comes near the viewport.
+  const [expandedCats, setExpandedCats] = useState<ReadonlySet<string>>(() => new Set());
+  const sectionObserver = useRef<IntersectionObserver | null>(null);
+  const observeSection = useCallback((node: HTMLElement | null) => {
+    if (!node || typeof IntersectionObserver === "undefined") return;
+    if (!sectionObserver.current) {
+      sectionObserver.current = new IntersectionObserver((entries) => {
+        const cats = entries.filter((entry) => entry.isIntersecting).map((entry) => (entry.target as HTMLElement).dataset.cat ?? "");
+        if (!cats.length) return;
+        for (const entry of entries) if (entry.isIntersecting) sectionObserver.current?.unobserve(entry.target);
+        startTransition(() => setExpandedCats((prev) => new Set([...prev, ...cats])));
+      }, { rootMargin: "800px 0px" });
+    }
+    sectionObserver.current.observe(node);
+  }, []);
+  useEffect(() => () => sectionObserver.current?.disconnect(), []);
   const [catFilter, setCatFilter] = useState<Record<string, string>>({});
   const [catSearchOpen, setCatSearchOpen] = useState<Record<string, boolean>>({});
   const starterTools = useMemo(
@@ -899,8 +924,12 @@ export default function Home() {
                   const tb = b.khmerTitle ?? b.title;
                   return sortMode === "asc" ? ta.localeCompare(tb) : tb.localeCompare(ta);
                 });
+          // Each category is its own Suspense boundary so React hydrates the ~900 cards in small,
+          // interruptible units instead of one long main-thread task (the server HTML — and every
+          // crawlable link — is unchanged).
           return (
-            <div key={cat} id={`cat-${cat}`} className="home-cat-section mb-10 scroll-mt-20">
+            <Suspense key={cat}>
+            <div id={`cat-${cat}`} data-cat={cat} ref={observeSection} className="home-cat-section mb-10 scroll-mt-20">
               <div className="mb-3 flex items-center gap-2.5 border-b border-[var(--ground-line)] pb-2">
                 <span className="h-2 w-2 rounded-full" style={{ background: meta.color }} />
                 <h2 className="font-display text-base font-semibold text-[var(--ink)]">{t(meta.label, meta.khmer)}</h2>
@@ -945,9 +974,19 @@ export default function Home() {
                 </span>
               </div>
               <div className="tool-list-scroll">
-                <ToolGrid tools={sorted} onSelect={setActiveId} favorites={favorites} onToggleFavorite={toggleFavorite} showBlurb />
+                <ToolGrid
+                  tools={sorted}
+                  onSelect={setActiveId}
+                  favorites={favorites}
+                  onToggleFavorite={toggleFavorite}
+                  showBlurb
+                  // While browsing (no search, filter or sort), only the first cards are full; the
+                  // rest stay plain crawlable links until the section nears the viewport.
+                  liteFrom={filter === "" && query === "" && sortMode === "function" && !expandedCats.has(cat) ? INITIAL_FULL_CARDS : undefined}
+                />
               </div>
             </div>
+            </Suspense>
           );
         })}
         {filteredByCategory.size === 0 && (
@@ -1052,6 +1091,22 @@ function FocusPopular({ tools, onSelect }: { tools: typeof TOOLS; onSelect: (id:
   );
 }
 
+// Homepage category grids render this many full cards per category up front; the rest are
+// plain links (one element each) until the section nears the viewport. Every tool link stays in
+// the server HTML, but the page parses, lays out and hydrates ~70% fewer nodes on first load.
+const INITIAL_FULL_CARDS = 12;
+
+// Card blurbs never change for a tool; compute each once instead of on every grid re-render.
+const blurbCache = new Map<string, { en: string; km: string }>();
+function cachedBlurb(tool: (typeof TOOLS)[number]) {
+  let blurb = blurbCache.get(tool.id);
+  if (!blurb) {
+    blurb = toolWhatItDoes(tool);
+    blurbCache.set(tool.id, blurb);
+  }
+  return blurb;
+}
+
 function ToolGrid({
   tools,
   onSelect,
@@ -1060,6 +1115,7 @@ function ToolGrid({
   showNewBadge = false,
   showCredits = false,
   showBlurb = false,
+  liteFrom,
 }: {
   tools: typeof TOOLS;
   onSelect: (id: string) => void;
@@ -1068,48 +1124,54 @@ function ToolGrid({
   showNewBadge?: boolean;
   showCredits?: boolean;
   showBlurb?: boolean;
+  /** Render tools from this index on as lightweight links (no blurb or favourite button). */
+  liteFrom?: number;
 }) {
   const { text: t } = useLanguage();
+  const openInPage = (event: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.button !== 0) return;
+    event.preventDefault();
+    onSelect(id);
+  };
   return (
     <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
-      {tools.map((tool) => {
+      {tools.map((tool, index) => {
+        if (liteFrom !== undefined && index >= liteFrom) {
+          return (
+            <a key={tool.id} href={toolHref(tool.id)} onClick={(event) => openInPage(event, tool.id)} className="tool-card tool-card-lite">
+              {t(tool.title, tool.khmerTitle ?? tool.title)}
+            </a>
+          );
+        }
         const isFav = favorites.includes(tool.id);
-        const blurb = showBlurb ? toolWhatItDoes(tool) : null;
+        const blurb = showBlurb ? cachedBlurb(tool) : null;
         return (
-          <div
-            key={tool.id}
-            className="tool-card group flex items-center gap-1 rounded-md border border-transparent pr-1 text-left text-sm text-[var(--ink-dim)] transition hover:border-[var(--ground-line)] hover:bg-[var(--ground-raised)] hover:text-[var(--ink)]"
-          >
+          // Card styles live in globals.css (.tool-card*) to keep ~940 cards' markup small.
+          <div key={tool.id} className="tool-card">
             {/* Real crawlable link to the tool's canonical URL; left-click keeps the
                 in-page SPA behaviour, while modified/middle clicks open a new tab. */}
             <a
               href={toolHref(tool.id)}
-              onClick={(event) => {
-                if (event.metaKey || event.ctrlKey || event.shiftKey || event.button !== 0) return;
-                event.preventDefault();
-                onSelect(tool.id);
-              }}
-              className="min-w-0 flex-1 px-3 py-2 text-left"
+              onClick={(event) => openInPage(event, tool.id)}
+              className="tool-card-link"
             >
-              <span className="flex items-center gap-2">{t(tool.title, tool.khmerTitle ?? tool.title)}
+              <span className="tool-card-title">{t(tool.title, tool.khmerTitle ?? tool.title)}
               {showNewBadge && (
                 <span className="new-tool-badge shrink-0 rounded border border-[var(--gold-dim)] px-1 py-0.5 text-[9px] font-semibold leading-none text-[var(--gold)]">
                   {t("NEW", "ថ្មី")}
                 </span>
               )}</span>
-              {blurb && <span className="mt-0.5 block truncate text-[11px] font-normal text-[var(--ink-faint)]">{t(blurb.en, blurb.km)}</span>}
+              {blurb && <span className="tool-card-blurb">{t(blurb.en, blurb.km)}</span>}
               {showCredits && tool.localProject && <span className="mt-0.5 block truncate text-[10px] text-[var(--ink-faint)]">{tool.localProject.author} · {tool.localProject.license}{tool.localProject.relationship === "inspired" ? " · Inspired / independent" : tool.localProject.relationship === "adapted" ? " · Adapted" : tool.localProject.relationship === "integrated" ? " · Integrated" : ""}</span>}
             </a>
             {showCredits && tool.localProject && <a href={tool.localProject.repository} target="_blank" rel="noopener noreferrer" onClick={(event) => event.stopPropagation()} className="shrink-0 rounded px-1.5 py-1 text-[10px] text-[var(--ink-faint)] underline hover:text-[var(--gold)]">GitHub</a>}
             <button
+              type="button"
               onClick={() => onToggleFavorite(tool.id)}
+              aria-pressed={isFav}
               aria-label={isFav ? t("Remove from favorites", "ដកចេញពីចំណូលចិត្ត") : t("Add to favorites", "បន្ថែមទៅចំណូលចិត្ត")}
-              className={`shrink-0 rounded p-1 transition ${
-                isFav ? "text-[var(--gold)] opacity-100" : "text-[var(--ink-faint)] opacity-0 group-hover:opacity-100"
-              }`}
-            >
-              <Star size={13} fill={isFav ? "currentColor" : "none"} />
-            </button>
+              className="tool-card-fav"
+            />
           </div>
         );
       })}
