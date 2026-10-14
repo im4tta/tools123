@@ -27,6 +27,7 @@ const ObsidianGraph = dynamic(() => import("@/components/ObsidianGraph").then((m
 });
 import { TOOLS, CATEGORY_META, CATEGORY_ORDER, Category } from "@/lib/tools";
 import { LazyTool } from "@/lib/tool-components";
+import { modeNeedsKhmerDescriptions, useDescriptionsKm } from "@/lib/i18n-descriptions-loader";
 import { ToolErrorBoundary } from "@/components/ToolErrorBoundary";
 import { LangText } from "@/components/LangText";
 import { toolHref } from "@/lib/toolRoutes";
@@ -204,7 +205,10 @@ interface Viewpoint {
 }
 
 export default function Home() {
-  const { text: t } = useLanguage();
+  const { text: t, mode, hydrated: languageHydrated } = useLanguage();
+  // Tools opened inline here render ToolShell, whose Khmer descriptions are code-split; warm them
+  // once the saved language is known so an opened tool doesn't flash its English description.
+  useDescriptionsKm(languageHydrated && modeNeedsKhmerDescriptions(mode));
   const { homeDesign } = useTheme();
   // Aurora and Focus share the search-first hero; only Classic differs.
   const auroraHero = homeDesign !== "classic";

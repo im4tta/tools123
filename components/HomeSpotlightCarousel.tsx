@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowDown, ArrowUp, CloudSun, Coins, Fuel, Minus, Pause, Play } from "lucide-react";
+import { ArrowDown, ArrowUp, CloudSun, Coins, Fuel, Minus, Pause, Play, RefreshCw } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useLanguage } from "@/components/LanguageProvider";
 import { CAMBODIA_PROVINCES } from "@/lib/cambodia-provinces";
@@ -30,6 +30,67 @@ function FuelTrend({ change }: { change: number }) {
   );
 }
 type WeatherRow = { name?: string; temp_c?: number; condition?: { text?: string }; humidity?: number; wind_kph?: number; uv?: number; us_epa_index?: number; pm2_5?: number };
+type LoadStatus = "loading" | "ready" | "error";
+
+const MEF_TIMEOUT_MS = 12_000;
+const CACHE_TTL_MS = 10 * 60 * 1000;
+const CACHE_PREFIX = "toolbox123:spotlight:";
+
+// Short-lived per-tab cache so returning to the homepage doesn't re-request MEF every time.
+function readCache<T>(key: string): T | null {
+  try {
+    const raw = window.sessionStorage.getItem(CACHE_PREFIX + key);
+    if (!raw) return null;
+    const { at, value } = JSON.parse(raw) as { at: number; value: T };
+    return Date.now() - at < CACHE_TTL_MS ? value : null;
+  } catch {
+    return null;
+  }
+}
+function writeCache<T>(key: string, value: T) {
+  try {
+    window.sessionStorage.setItem(CACHE_PREFIX + key, JSON.stringify({ at: Date.now(), value }));
+  } catch {
+    // storage unavailable or full — the cache is only an optimisation
+  }
+}
+
+async function fetchMefWeather(signal: AbortSignal): Promise<WeatherRow[]> {
+  const controller = new AbortController();
+  const timeout = window.setTimeout(() => controller.abort(new DOMException("MEF request timed out", "TimeoutError")), MEF_TIMEOUT_MS);
+  const relay = () => controller.abort(signal.reason);
+  signal.addEventListener("abort", relay, { once: true });
+  try {
+    const results = await Promise.allSettled(["weather", "uv", "aqi"].map(async (mode) => {
+      const response = await fetch(`https://data.mef.gov.kh/api/v1/realtime-api/${mode}`, { signal: controller.signal });
+      if (!response.ok) throw new Error(`MEF ${mode} ${response.status}`);
+      return ((await response.json()) as { data?: WeatherRow[] }).data ?? [];
+    }));
+    const byLocation = new Map<string, WeatherRow>();
+    for (const result of results) {
+      if (result.status !== "fulfilled") continue;
+      for (const row of result.value) {
+        if (!row.name) continue;
+        byLocation.set(row.name, { ...(byLocation.get(row.name) ?? {}), ...row });
+      }
+    }
+    if (byLocation.size === 0) throw new Error("No MEF weather data");
+    return [...byLocation.values()].sort((a, b) => String(a.name).localeCompare(String(b.name)));
+  } finally {
+    window.clearTimeout(timeout);
+    signal.removeEventListener("abort", relay);
+  }
+}
+
+/** Runs after the page is idle so live data never competes with the page's own resources. */
+function whenIdle(run: () => void): () => void {
+  if (typeof window.requestIdleCallback === "function") {
+    const id = window.requestIdleCallback(run, { timeout: 3000 });
+    return () => window.cancelIdleCallback(id);
+  }
+  const id = window.setTimeout(run, 1200);
+  return () => window.clearTimeout(id);
+}
 
 function number(value: unknown) {
   const parsed = Number(value);
@@ -57,6 +118,11 @@ export function HomeSpotlightCarousel() {
   const [weatherRows, setWeatherRows] = useState<WeatherRow[]>([]);
   const [weatherIndex, setWeatherIndex] = useState(0);
   const [weatherPinned, setWeatherPinned] = useState(false);
+  const [fuelStatus, setFuelStatus] = useState<LoadStatus>("loading");
+  const [ratesStatus, setRatesStatus] = useState<LoadStatus>("loading");
+  const [weatherStatus, setWeatherStatus] = useState<LoadStatus>("loading");
+  // Bumped by "Try again"; re-runs the loader below.
+  const [attempt, setAttempt] = useState(0);
 
   // Manually choosing a province (dropdown or dot) stops the auto-rotation so
   // the chosen location stays put.
@@ -67,27 +133,47 @@ export function HomeSpotlightCarousel() {
 
   useEffect(() => {
     const controller = new AbortController();
-    void Promise.allSettled([
-      fetchMefFuelPeriods({ signal: controller.signal }).then((periods) => {
+    const { signal } = controller;
+    const cancelIdle = whenIdle(() => {
+      const cachedFuel = readCache<FuelData>("fuel");
+      if (cachedFuel) { setFuel(cachedFuel); setFuelStatus("ready"); }
+      else fetchMefFuelPeriods({ signal, timeoutMs: MEF_TIMEOUT_MS }).then((periods) => {
         const current = periods[0];
-        if (current) setFuel({ gasoline92: current.gasoline92, diesel: current.diesel, gasoline92Change: current.gasoline92Change, dieselChange: current.dieselChange, effectiveAt: current.startDate });
-      }),
-      fetchMefExchangeRates({ signal: controller.signal }).then(setRates),
-      Promise.allSettled(["weather", "uv", "aqi"].map((mode) => fetch(`https://data.mef.gov.kh/api/v1/realtime-api/${mode}`, { signal: controller.signal }).then(async (response) => (await response.json() as { data?: WeatherRow[] }).data ?? []))).then((results) => {
-        const byLocation = new Map<string, WeatherRow>();
-        for (const result of results) {
-          if (result.status !== "fulfilled") continue;
-          for (const row of result.value) {
-            if (!row.name) continue;
-            const previous = byLocation.get(row.name) ?? {};
-            byLocation.set(row.name, { ...previous, ...row });
-          }
-        }
-        setWeatherRows([...byLocation.values()].sort((a, b) => String(a.name).localeCompare(String(b.name))));
-      }),
-    ]);
-    return () => controller.abort();
-  }, []);
+        if (!current) throw new Error("No MEF fuel period");
+        const value = { gasoline92: current.gasoline92, diesel: current.diesel, gasoline92Change: current.gasoline92Change, dieselChange: current.dieselChange, effectiveAt: current.startDate };
+        writeCache("fuel", value); setFuel(value); setFuelStatus("ready");
+      }).catch(() => { if (!signal.aborted) setFuelStatus("error"); });
+
+      const cachedRates = readCache<MefCurrencyRate[]>("rates");
+      if (cachedRates?.length) { setRates(cachedRates); setRatesStatus("ready"); }
+      else fetchMefExchangeRates({ signal, timeoutMs: MEF_TIMEOUT_MS }).then((value) => {
+        if (!value.length) throw new Error("No MEF exchange rates");
+        writeCache("rates", value); setRates(value); setRatesStatus("ready");
+      }).catch(() => { if (!signal.aborted) setRatesStatus("error"); });
+
+      const cachedWeather = readCache<WeatherRow[]>("weather");
+      if (cachedWeather?.length) { setWeatherRows(cachedWeather); setWeatherStatus("ready"); }
+      else fetchMefWeather(signal).then((rows) => {
+        writeCache("weather", rows); setWeatherRows(rows); setWeatherStatus("ready");
+      }).catch(() => { if (!signal.aborted) setWeatherStatus("error"); });
+    });
+    return () => { cancelIdle(); controller.abort(); };
+  }, [attempt]);
+
+  const retry = () => {
+    if (fuelStatus === "error") setFuelStatus("loading");
+    if (ratesStatus === "error") setRatesStatus("loading");
+    if (weatherStatus === "error") setWeatherStatus("loading");
+    setAttempt((n) => n + 1);
+  };
+  const unavailable = (
+    <span className="mt-2 flex flex-wrap items-center gap-2 text-[10px] text-[var(--ink-faint)]" role="status">
+      {t("Live data unavailable.", "មិនអាចទាញទិន្នន័យផ្ទាល់បានទេ។")}
+      <button type="button" onClick={retry} className="inline-flex items-center gap-1 rounded border border-[var(--ground-line)] px-1.5 py-0.5 font-semibold text-[var(--ink-dim)] hover:text-[var(--ink)]">
+        <RefreshCw size={10} aria-hidden /> {t("Try again", "សាកល្បងម្ដងទៀត")}
+      </button>
+    </span>
+  );
 
   useEffect(() => {
     if (paused) return;
@@ -129,14 +215,14 @@ export function HomeSpotlightCarousel() {
                 <div className="rounded-lg bg-amber-500/10 p-2"><p className="text-[10px] text-[var(--ink-faint)]">{t("Gasoline 92", "សាំង 92")}</p><p className="mt-1 font-mono-ui text-sm font-bold text-[var(--ink)]">{fuel ? `${fuel.gasoline92.toLocaleString()} ៛` : "—"}</p>{fuel && <FuelTrend change={fuel.gasoline92Change} />}</div>
                 <div className="rounded-lg bg-amber-500/10 p-2"><p className="text-[10px] text-[var(--ink-faint)]">{t("Diesel", "ម៉ាស៊ូត")}</p><p className="mt-1 font-mono-ui text-sm font-bold text-[var(--ink)]">{fuel ? `${fuel.diesel.toLocaleString()} ៛` : "—"}</p>{fuel && <FuelTrend change={fuel.dieselChange} />}</div>
               </div>
-              <p className="mt-2 text-[10px] text-[var(--ink-faint)]">{fuel ? new Date(fuel.effectiveAt).toLocaleDateString() : t("Loading…", "កំពុងទាញយក…")}</p>
+              {fuelStatus === "error" && !fuel ? unavailable : <p className="mt-2 text-[10px] text-[var(--ink-faint)]">{fuel ? new Date(fuel.effectiveAt).toLocaleDateString() : t("Loading…", "កំពុងទាញយក…")}</p>}
             </>
           ) : (
             <>
               <div className="mb-2 flex items-center gap-2 font-khmer text-base font-bold text-[var(--ink)]"><Coins size={18} className="text-teal-600" /> {t("Exchange Rate", "អត្រាប្តូរប្រាក់")}</div>
               <p className="text-[10px] text-[var(--ink-faint)]">USD · KHR per 1 unit</p>
               <p className="home-spotlight-value mt-2 font-mono-ui text-2xl font-bold text-[var(--ink)]">{usd ? usd.average.toLocaleString(undefined, { maximumFractionDigits: 2 }) : "—"}៛</p>
-              <p className="mt-1 text-[10px] text-[var(--ink-faint)]">{usd?.validDate ?? t("Loading…", "កំពុងទាញយក…")}</p>
+              {ratesStatus === "error" && !usd ? unavailable : <p className="mt-1 text-[10px] text-[var(--ink-faint)]">{usd?.validDate ?? t("Loading…", "កំពុងទាញយក…")}</p>}
             </>
           )}
           <div className="mt-3 flex items-center gap-0.5" aria-label={t("Finance slides", "ផ្ទាំងហិរញ្ញវត្ថុ")}>{["Fuel prices", "Exchange rate"].map((label, index) => <button key={label} type="button" onClick={() => setFinanceSlide(index)} className="group flex h-4 w-5 items-center justify-center" aria-label={label}><span className={`h-1.5 rounded-full transition-all ${financeSlide === index ? "w-5 bg-amber-500" : "w-1.5 bg-amber-500/40 group-hover:w-3"}`} /></button>)}</div>
@@ -158,10 +244,10 @@ export function HomeSpotlightCarousel() {
               </select>
             )}
           </div>
-          <div className="mb-2 flex items-center justify-between"><p className="font-khmer text-base font-bold text-[var(--ink)]">{weather?.name ? t(String(weather.name), khmerLocation(String(weather.name))) : t("Loading…", "កំពុងទាញយក…")}</p><p className="home-spotlight-value font-mono-ui text-xl font-bold text-[var(--ink)]">{weatherValues[0][1]}</p></div>
+          <div className="mb-2 flex items-center justify-between"><p className="font-khmer text-base font-bold text-[var(--ink)]">{weather?.name ? t(String(weather.name), khmerLocation(String(weather.name))) : weatherStatus === "error" ? "—" : t("Loading…", "កំពុងទាញយក…")}</p><p className="home-spotlight-value font-mono-ui text-xl font-bold text-[var(--ink)]">{weatherValues[0][1]}</p></div>
           <p className="mb-3 truncate text-xs text-[var(--ink-dim)]">{weatherValues[1][1]}</p>
           <div className="home-spotlight-detail-grid grid grid-cols-2 gap-x-3 gap-y-2">{weatherValues.slice(2).map(([label, value]) => <div key={label}><p className="text-[10px] text-[var(--ink-faint)]">{label}</p><p className="font-mono-ui text-xs font-bold text-[var(--ink)]">{value}</p></div>)}</div>
-          {!weather && <p className="mt-3 text-[10px] text-[var(--ink-faint)]">{t("Loading live data…", "កំពុងទាញទិន្នន័យ…")}</p>}
+          {!weather && (weatherStatus === "error" ? unavailable : <p className="mt-3 text-[10px] text-[var(--ink-faint)]">{t("Loading live data…", "កំពុងទាញទិន្នន័យ…")}</p>)}
           {weatherRows.length > 1 && <div className="home-spotlight-location-dots mt-3 flex max-w-full flex-wrap gap-0.5" aria-label={t("Weather locations", "ទីតាំងអាកាសធាតុ")}>{weatherRows.map((row, index) => <button key={row.name} type="button" onClick={() => pickWeather(index)} className="group flex h-4 w-3 items-center justify-center" aria-label={String(row.name)} title={t(String(row.name), khmerLocation(String(row.name)))}><span className={`h-1 rounded-full transition-all ${index === weatherIndex ? "w-3 bg-blue-600" : "w-1 bg-blue-600/30 group-hover:w-2"}`} /></button>)}</div>}
         </article>
       </div>

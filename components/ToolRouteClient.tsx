@@ -15,16 +15,21 @@ import { useLanguage } from "@/components/LanguageProvider";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { AccentThemePicker } from "@/components/AccentThemePicker";
 import { STORAGE_KEYS, storage, useLocalStorage, type ToolCollection } from "@/lib/storage";
-import { TOOLS } from "@/lib/tools";
-import { LazyTool } from "@/lib/tool-components";
+import { LazyTool, preloadTool } from "@/lib/tool-components";
+import { modeNeedsKhmerDescriptions, useDescriptionsKm } from "@/lib/i18n-descriptions-loader";
 import { ToolErrorBoundary } from "@/components/ToolErrorBoundary";
 import { toolHref } from "@/lib/toolRoutes";
 import { recordToolUse } from "@/lib/export";
-import { recommendationsFor } from "@/lib/recommendations";
 import { DEFAULT_WORKSPACE_PROFILES, type WorkspaceProfile } from "@/lib/workspaces";
+import type { RelatedTool, ToolRouteTool } from "@/lib/tool-route-data";
 
-export function ToolRouteClient({ toolId, faq }: { toolId: string; faq: ToolFaqText }) {
-  const { mode, text: t } = useLanguage();
+/**
+ * Client half of a tool page. The server passes the tool's registry entry, its related tools and
+ * the catalogue size (see lib/tool-route-data), so the full registry is not part of this bundle.
+ */
+export function ToolRouteClient({ tool, related, toolCount, faq }: { tool: ToolRouteTool; related: RelatedTool[]; toolCount: number; faq: ToolFaqText }) {
+  const toolId = tool.id;
+  const { mode, text: t, hydrated } = useLanguage();
   const router = useRouter();
   const [paletteOpen, setPaletteOpen] = useState(false);
   // Phones show only back, search, favorite and a ⋯ button; the other header controls live in a
@@ -36,12 +41,17 @@ export function ToolRouteClient({ toolId, faq }: { toolId: string; faq: ToolFaqT
   // APIs like document/canvas during render. The SEO chrome — title, description,
   // FAQ, related tools and JSON-LD — still server-renders.
   const isClient = useSyncExternalStore(() => () => {}, () => true, () => false);
+  // In Khmer/bilingual mode the tool's description comes from a code-split dictionary. Fetch it in
+  // parallel with the tool's own chunk and keep the placeholder (which already shows the Khmer
+  // summary) until both are here, so the description never flashes from English to Khmer.
+  const needsKhmerDescriptions = hydrated && modeNeedsKhmerDescriptions(mode);
+  const descriptionsKm = useDescriptionsKm(needsKhmerDescriptions);
+  const toolReady = isClient && hydrated && (!needsKhmerDescriptions || descriptionsKm !== null);
   const { value: favorites, setValue: setFavorites } = useLocalStorage<string[]>(STORAGE_KEYS.favorites, []);
   const { value: collections, setValue: setCollections } = useLocalStorage<ToolCollection[]>(STORAGE_KEYS.collections, []);
   const { setValue: setRecents } = useLocalStorage<string[]>(STORAGE_KEYS.recents, []);
   const { value: workspaceId } = useLocalStorage(STORAGE_KEYS.workspace, "all");
   const { setValue: setWorkspaceProfiles } = useLocalStorage<WorkspaceProfile[]>("workspace-profiles", DEFAULT_WORKSPACE_PROFILES);
-  const tool = TOOLS.find((item) => item.id === toolId);
 
   useEffect(() => {
     setRecents((previous) => [toolId, ...previous.filter((id) => id !== toolId)].slice(0, 8));
@@ -54,14 +64,16 @@ export function ToolRouteClient({ toolId, faq }: { toolId: string; faq: ToolFaqT
   }, [setRecents, setWorkspaceProfiles, toolId, workspaceId]);
 
   useEffect(() => {
-    if (!tool) return;
+    preloadTool(tool);
+  }, [tool]);
+
+  useEffect(() => {
     const khmerTitle = tool.khmerTitle ?? tool.title;
     const localized = mode === "en" ? tool.title : mode === "km" ? khmerTitle : `${tool.title} — ${khmerTitle}`;
     document.title = `${localized} — 123 Toolbox`;
   }, [mode, tool]);
 
   const openTool = useCallback((id: string) => router.push(toolHref(id)), [router]);
-  if (!tool) return null;
   const currentToolId = tool.id;
   function clearSavedToolData() {
     if (!window.confirm(t("Clear all saved app data? This removes favorites, workspaces, collections, and tool inputs.", "លុបទិន្នន័យកម្មវិធីដែលបានរក្សាទុកទាំងអស់? វានឹងលុបចំណូលចិត្ត កន្លែងធ្វើការ បណ្តុំ និងទិន្នន័យបញ្ចូលរបស់ឧបករណ៍។"))) return;
@@ -81,22 +93,6 @@ export function ToolRouteClient({ toolId, faq }: { toolId: string; faq: ToolFaqT
   const placeholder = <ToolShellPlaceholder title={tool.title} khmerTitle={tool.khmerTitle} description={faq.what.en} descriptionKm={faq.what.km} />;
   const khmerTitle = tool.khmerTitle ?? tool.title;
   const localizedTitle = mode === "en" ? tool.title : mode === "km" ? khmerTitle : `${tool.title} — ${khmerTitle}`;
-  const configuredRecommendations = recommendationsFor(tool.id)
-    .map((recommendation) => ({ tool: TOOLS.find((candidate) => candidate.id === recommendation.id), reason: recommendation.reason, reasonKm: recommendation.reasonKm }))
-    .filter((recommendation) => Boolean(recommendation.tool))
-    .map((recommendation) => ({ tool: recommendation.tool!, reason: recommendation.reason, reasonKm: recommendation.reasonKm }));
-  const relatedTools = configuredRecommendations.length > 0
-    ? configuredRecommendations
-    : TOOLS
-      .filter((candidate) => candidate.id !== tool.id)
-      .map((candidate) => {
-        const sharedKeywords = candidate.keywords.filter((keyword) => tool.keywords.includes(keyword)).length;
-        return { tool: candidate, score: (candidate.category === tool.category ? 3 : 0) + sharedKeywords * 2 };
-      })
-      .filter(({ score }) => score > 0)
-      .sort((a, b) => b.score - a.score || a.tool.title.localeCompare(b.tool.title))
-      .slice(0, 6)
-      .map(({ tool: related }) => ({ tool: related, reason: "Shares a category or workflow", reasonKm: "មានប្រភេទ ឬលំហូរការងារដូចគ្នា" }));
 
   return (
     <main className="min-h-screen px-5 pb-16 pt-24 sm:px-10">
@@ -105,7 +101,7 @@ export function ToolRouteClient({ toolId, faq }: { toolId: string; faq: ToolFaqT
           <Link href="/" aria-label={t("All tools", "ឧបករណ៍ទាំងអស់")} className="tool-route-back flex shrink-0 items-center gap-1.5 text-sm text-[var(--ink-dim)] hover:text-[var(--ink)]">
             <ArrowLeft size={15} /><span className="tool-route-back-label">{t("All tools", "ឧបករណ៍ទាំងអស់")}</span>
           </Link>
-          <ToolHeaderSearch key={localizedTitle} currentToolId={tool.id} label={localizedTitle} />
+          <ToolHeaderSearch key={localizedTitle} currentToolId={tool.id} label={localizedTitle} toolCount={toolCount} />
           <div className="tool-route-actions flex shrink-0 items-center gap-2">
             <button
               type="button"
@@ -159,22 +155,22 @@ export function ToolRouteClient({ toolId, faq }: { toolId: string; faq: ToolFaqT
       {/* The placeholder is server-rendered (title + summary visible in the first HTML) and stays
           until the tool's own chunk has loaded, so the page neither flashes nor jumps. */}
       <div className="fade-rise">
-        {isClient
+        {toolReady
           ? <ToolErrorBoundary><LazyTool tool={tool} fallback={placeholder} /></ToolErrorBoundary>
           : placeholder}
       </div>
       <ToolFaq tool={tool} faq={faq} />
-      {relatedTools.length > 0 && (
+      {related.length > 0 && (
         <section className="mx-auto mt-10 max-w-6xl">
           <h2 className="font-display text-lg font-medium text-[var(--ink)]">{t("Next recommended tools", "ឧបករណ៍ណែនាំបន្ទាប់")}</h2>
           <div className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-            {relatedTools.map(({ tool: related, reason, reasonKm }) => {
-              const relatedKhmerTitle = related.khmerTitle ?? related.title;
-              const relatedTitle = mode === "en" ? related.title : mode === "km" ? relatedKhmerTitle : `${related.title} — ${relatedKhmerTitle}`;
+            {related.map(({ id, title, khmerTitle: relatedKhmer, reason, reasonKm }) => {
+              const relatedKhmerTitle = relatedKhmer ?? title;
+              const relatedTitle = mode === "en" ? title : mode === "km" ? relatedKhmerTitle : `${title} — ${relatedKhmerTitle}`;
               return (
                 <Link
-                  key={related.id}
-                  href={toolHref(related.id)}
+                  key={id}
+                  href={toolHref(id)}
                   className="rounded-lg border border-[var(--ground-line)] bg-[var(--ground-raised)] px-4 py-3 text-sm text-[var(--ink)] transition hover:border-[var(--gold-dim)] hover:bg-[var(--ground-raised-hi)]"
                 >
                   <span className="block font-medium">{relatedTitle}</span>
