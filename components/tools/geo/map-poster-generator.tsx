@@ -1,8 +1,9 @@
 "use client";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Download, LocateFixed, ZoomIn, ZoomOut } from "lucide-react";
-import maplibregl from "maplibre-gl";
+import * as maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
+import "@/lib/maplibre-worker";
 import { ToolShell, Field, Select, TextInput, Row } from "@/components/ui/Shell";
 import { Button } from "@/components/ui/Output";
 import { useToolState } from "@/lib/storage";
@@ -203,7 +204,8 @@ export default function MapPosterGenerator() {
       center: [loc.lng, loc.lat],
       zoom: zoomNum,
       attributionControl: { compact: true },
-      preserveDrawingBuffer: true,
+      // maplibre 5+ reads this from canvasContextAttributes; needed so toDataURL sees the frame.
+      canvasContextAttributes: { preserveDrawingBuffer: true },
     } as unknown as maplibregl.MapOptions);
     map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "bottom-right");
     mapRef.current = map;
@@ -259,7 +261,7 @@ export default function MapPosterGenerator() {
         zoom,
         pitch: map.getPitch(),
         bearing: map.getBearing(),
-        preserveDrawingBuffer: true,
+        canvasContextAttributes: { preserveDrawingBuffer: true },
       };
       const source = provider.type === "vector" ? styleCache.current : null;
       if (source) {
@@ -277,7 +279,7 @@ export default function MapPosterGenerator() {
       const exportMap = new maplibregl.Map(opts as unknown as maplibregl.MapOptions);
       await new Promise<void>((res, rej) => {
         exportMap.on("idle", () => res());
-        exportMap.on("error", (e) => rej(new Error(String((e as { error?: Error })?.error?.message ?? e))));
+        exportMap.on("error", (e) => rej(new Error(String(e.error?.message ?? e))));
       });
 
       const glCanvas = exportMap.getCanvas();

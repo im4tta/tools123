@@ -1,8 +1,9 @@
 "use client";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Loader2 } from "lucide-react";
-import maplibregl from "maplibre-gl";
+import * as maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
+import "@/lib/maplibre-worker";
 import { ToolShell, Field, TextInput } from "@/components/ui/Shell";
 import { Output } from "@/components/ui/Output";
 import { useToolState } from "@/lib/storage";
