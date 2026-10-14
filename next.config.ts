@@ -14,11 +14,12 @@ const ENFORCED_CSP = ["frame-ancestors 'none'", "base-uri 'self'", "form-action 
  * tools legitimately call many third-party APIs and user-entered URLs (HTTP tester, site
  * forensics), so connect-src/img-src stay open to https:. The meaningful restriction is where
  * scripts may load from. Violations show in the browser console; enforce once they are clean.
- * srcdoc preview iframes inherit this policy, hence the CDNs they load from.
+ * srcdoc preview iframes inherit this policy, hence the CDNs they load from. Vercel Analytics
+ * loads from /_vercel/insights (same origin) in production and from va.vercel-scripts.com in dev.
  */
 const REPORT_ONLY_CSP = [
   "default-src 'self'",
-  `script-src 'self' 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://cdn.tailwindcss.com${isDev ? "" : " https://va.vercel-scripts.com"}`,
+  `script-src 'self' 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://cdn.tailwindcss.com${isDev ? " https://va.vercel-scripts.com" : ""}`,
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net",
   "font-src 'self' data: https://fonts.gstatic.com https://cdn.jsdelivr.net",
   "img-src 'self' data: blob: https:",
@@ -32,7 +33,11 @@ const REPORT_ONLY_CSP = [
   "frame-ancestors 'none'",
 ].join("; ");
 
-/** Features some tools use (QR/Beam camera, recorders, screen capture, nearest-place lookups, clipboard, share) stay available to this origin only; the rest are off. */
+/**
+ * Features some tools use (QR/Beam camera, recorders, screen capture, nearest-place lookups,
+ * clipboard) stay available to this origin only; the rest are off. Only feature names Chromium
+ * recognizes are listed (unknown ones log a console warning on every page).
+ */
 const PERMISSIONS_POLICY = [
   "camera=(self)",
   "microphone=(self)",
@@ -40,13 +45,11 @@ const PERMISSIONS_POLICY = [
   "display-capture=(self)",
   "clipboard-read=(self)",
   "clipboard-write=(self)",
-  "web-share=(self)",
   "fullscreen=(self)",
   "payment=()",
   "usb=()",
   "serial=()",
   "hid=()",
-  "bluetooth=()",
   "midi=()",
   "accelerometer=()",
   "gyroscope=()",

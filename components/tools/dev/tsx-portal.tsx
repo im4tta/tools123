@@ -7,6 +7,27 @@ import { useToolState } from "@/lib/storage";
 import { recordExport } from "@/lib/export";
 import { Download, Eye, EyeOff, FileText, GripVertical, Play } from "lucide-react";
 
+type PortalLibs = {
+  Babel: typeof import("@babel/standalone");
+  marked: typeof import("marked").marked;
+  DOMPurify: typeof import("dompurify").default;
+};
+
+// Compiler, Markdown parser and sanitizer run in this page, so they come from the app's own
+// npm dependencies (code-split, integrity-checked via package-lock) rather than a CDN.
+let portalLibs: Promise<PortalLibs> | null = null;
+function loadPortalLibs(): Promise<PortalLibs> {
+  if (!portalLibs) {
+    portalLibs = Promise.all([import("@babel/standalone"), import("marked"), import("dompurify")]).then(([Babel, markedModule, purify]) => ({
+      Babel,
+      marked: markedModule.marked,
+      DOMPurify: purify.default,
+    }));
+    portalLibs.catch(() => { portalLibs = null; });
+  }
+  return portalLibs;
+}
+
 type Mode = "react" | "markdown" | "bbcode";
 
 const DEFAULTS: Record<Mode, string> = {
@@ -96,38 +117,9 @@ export default function TsxPortal() {
   const mainRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Load CDN scripts
-  const scriptsReady = useRef(false);
+  // Warm the compiler/parser chunks so the first run is fast; failures surface on compile.
   useEffect(() => {
-    if (scriptsReady.current) return;
-    let cancelled = false;
-
-    function loadScript(src: string): Promise<void> {
-      return new Promise((resolve, reject) => {
-        const existing = document.querySelector(`script[src="${src}"]`);
-        if (existing) { resolve(); return; }
-        const s = document.createElement("script");
-        s.src = src;
-        s.async = true;
-        s.onload = () => resolve();
-        s.onerror = () => reject(new Error(`Failed to load ${src}`));
-        document.head.appendChild(s);
-      });
-    }
-
-    async function init() {
-      try {
-        await Promise.all([
-          loadScript("https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.24.7/babel.min.js"),
-          loadScript("https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"),
-          loadScript("https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.6/purify.min.js"),
-        ]);
-        if (!cancelled) scriptsReady.current = true;
-      } catch { /* CDN fail — handle on compile */ }
-    }
-
-    init();
-    return () => { cancelled = true; };
+    loadPortalLibs().catch(() => undefined);
   }, []);
 
   // Keyboard shortcut
@@ -240,20 +232,19 @@ export default function TsxPortal() {
     renderReact();
   }
 
-  function renderMd() {
+  async function renderMd() {
     setStatus("compiling");
     setStatusText(t("compiling…", "កំពុងចងក្រង…"));
     setError("");
-    /* eslint-disable @typescript-eslint/no-explicit-any */
-    const win = window as any;
-    if (!win.marked || !win.DOMPurify) {
+    const libs = await loadPortalLibs().catch(() => null);
+    if (!libs) {
       setStatus("err");
       setStatusText("error");
       setError("Markdown libraries not loaded — check your connection and rerun.");
       return;
     }
     try {
-      const bodyHtml = win.DOMPurify.sanitize(win.marked.parse(code));
+      const bodyHtml = libs.DOMPurify.sanitize(libs.marked.parse(code, { async: false }) as string);
       const html = `<!DOCTYPE html><html><head><meta charset="utf-8" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.5.1/github-markdown-light.min.css">
 <style>
@@ -264,10 +255,10 @@ export default function TsxPortal() {
       iframeRef.current!.srcdoc = html;
       setStatus("ok");
       setStatusText(t("rendered", "បានបង្ហាញ"));
-    } catch (err: any) {
+    } catch (err) {
       setStatus("err");
       setStatusText("error");
-      setError("Markdown parse error: " + err.message);
+      setError("Markdown parse error: " + (err instanceof Error ? err.message : String(err)));
     }
   }
 
@@ -293,20 +284,19 @@ export default function TsxPortal() {
       iframeRef.current!.srcdoc = html;
       setStatus("ok");
       setStatusText(t("rendered", "បានបង្ហាញ"));
-    } catch (err: any) {
+    } catch (err) {
       setStatus("err");
       setStatusText("error");
-      setError("BBCode parse error: " + err.message);
+      setError("BBCode parse error: " + (err instanceof Error ? err.message : String(err)));
     }
   }
 
-  function renderReact() {
+  async function renderReact() {
     setStatus("compiling");
     setStatusText(t("compiling…", "កំពុងចងក្រង…"));
     setError("");
-    /* eslint-disable @typescript-eslint/no-explicit-any */
-    const win = window as any;
-    if (!win.Babel) {
+    const libs = await loadPortalLibs().catch(() => null);
+    if (!libs) {
       setStatus("err");
       setStatusText("error");
       setError("Babel standalone not loaded — check your connection and rerun.");
@@ -314,18 +304,18 @@ export default function TsxPortal() {
     }
     let compiled: string;
     try {
-      compiled = win.Babel.transform(code, {
+      compiled = libs.Babel.transform(code, {
         presets: [
           ["react", { runtime: "classic" }],
           ["typescript", { isTSX: true, allExtensions: true }],
         ],
         plugins: ["transform-modules-commonjs"],
         filename: "App.tsx",
-      }).code;
-    } catch (err: any) {
+      }).code ?? "";
+    } catch (err) {
       setStatus("err");
       setStatusText("error");
-      setError("Compile error:\n\n" + err.message);
+      setError("Compile error:\n\n" + (err instanceof Error ? err.message : String(err)));
       return;
     }
 

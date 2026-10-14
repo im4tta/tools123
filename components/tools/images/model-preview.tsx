@@ -26,13 +26,7 @@ import { ToolShell, Field, Select } from "@/components/ui/Shell";
 import { Button } from "@/components/ui/Output";
 import { recordExport, watermarkImageDataUrl } from "@/lib/export";
 import { SandboxScriptError, ThreeScriptSandbox, type SandboxFrameChange } from "@/lib/three-script-sandbox";
-
-// Declare THREE on window for loaded external scripts
-declare global {
-  interface Window {
-    THREE: any;
-  }
-}
+import { loadThreeR128WithLoaders } from "@/lib/three-r128";
 
 interface CodeStats {
   lines: number;
@@ -662,67 +656,18 @@ export default function ModelPreviewTool() {
   });
 
   const [libsReady, setLibsReady] = useState<boolean>(false);
-  const [babelReady, setBabelReady] = useState<boolean>(false);
+  const [libsFailed, setLibsFailed] = useState<boolean>(false);
   const [isCompiling, setIsCompiling] = useState<boolean>(false);
   const [scriptError, setScriptError] = useState<string | null>(null);
 
   const t = useI18n(text);
 
-  const loadExternalScript = (src: string): Promise<boolean> => {
-    return new Promise((resolve) => {
-      if (document.querySelector(`script[src="${src}"]`)) {
-        resolve(true);
-        return;
-      }
-      const script = document.createElement('script');
-      script.src = src;
-      script.onload = () => resolve(true);
-      script.onerror = () => resolve(false);
-      document.head.appendChild(script);
-    });
-  };
-
-  const ensureBabelLoaded = async (): Promise<boolean> => {
-    if ((window as any).Babel) {
-      setBabelReady(true);
-      return true;
-    }
-    const ok = await loadExternalScript('https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.24.7/babel.min.js');
-    setBabelReady(ok && !!(window as any).Babel);
-    return ok && !!(window as any).Babel;
-  };
-
   useEffect(() => {
-    const loadScript = (src: string) => {
-      return new Promise((resolve) => {
-        if (document.querySelector(`script[src="${src}"]`)) {
-          resolve(true);
-          return;
-        }
-        const script = document.createElement('script');
-        script.src = src;
-        script.onload = () => resolve(true);
-        script.onerror = () => resolve(false);
-        document.head.appendChild(script);
-      });
-    };
-
-    const loadAllDependencies = async () => {
-      if (!window.THREE) {
-        await loadScript('https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js');
-      }
-      if (window.THREE) {
-        await Promise.all([
-          loadScript('https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js'),
-          loadScript('https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js'),
-          loadScript('https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/OBJLoader.js'),
-          loadScript('https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/STLLoader.js')
-        ]);
-        setLibsReady(true);
-      }
-    };
-
-    loadAllDependencies();
+    let cancelled = false;
+    loadThreeR128WithLoaders()
+      .then(() => { if (!cancelled) setLibsReady(true); })
+      .catch(() => { if (!cancelled) setLibsFailed(true); });
+    return () => { cancelled = true; };
   }, []);
 
   const createAngkorWatModel = () => {
@@ -1154,9 +1099,9 @@ export default function ModelPreviewTool() {
     showToast(t.running_ts_code, 'info');
 
     try {
-      const ready = babelReady || (window as any).Babel ? true : await ensureBabelLoaded();
-      const Babel = (window as any).Babel;
-      if (!ready || !Babel) {
+      // Babel comes from the app's own npm dependency (code-split), not a CDN.
+      const Babel = await import('@babel/standalone').catch(() => null);
+      if (!Babel) {
         throw new Error('Failed to load the TypeScript compiler (Babel standalone).');
       }
 
@@ -1166,7 +1111,7 @@ export default function ModelPreviewTool() {
           ['env', { modules: 'commonjs', targets: { esmodules: true } }]
         ],
         filename: 'live-script.tsx'
-      }).code;
+      }).code ?? '';
 
       // The compiled script runs in an opaque-origin sandboxed iframe (lib/three-script-sandbox)
       // rather than in this page, so it cannot touch the app's storage or DOM. Its model comes
@@ -1382,6 +1327,12 @@ export default function ModelPreviewTool() {
     setToast({ msg, type });
     setTimeout(() => setToast(null), 3000);
   };
+
+  useEffect(() => {
+    if (libsFailed) showToast(text('Could not load the 3D engine. Check your connection and reload.', 'មិនអាចផ្ទុកម៉ាស៊ីន 3D បានទេ។ សូមពិនិត្យការតភ្ជាប់ ហើយផ្ទុកឡើងវិញ។'), 'error');
+    // Fires once when loading fails; showToast/text identity changes are irrelevant here.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [libsFailed]);
 
   const takeSnapshot = async () => {
     const { renderer, scene, camera } = threeRef.current;
