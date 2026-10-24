@@ -24,7 +24,7 @@ export function UniversalInput({ value, onChange }: { value: string; onChange: (
       <div className="mb-1.5 flex items-center gap-1.5 px-1 text-[10px] font-bold uppercase tracking-wider text-[var(--gold)]">
         <Sparkles size={12} /> {t("Search or calculate", "ស្វែងរក ឬ គណនា")}
       </div>
-      <div className="flex items-center gap-2 rounded-lg border border-[var(--ground-line)] bg-[var(--ground)] px-2.5 py-2 focus-within:border-[var(--gold-dim)]">
+      <div data-focus-ring="within" className="flex items-center gap-2 rounded-lg border border-[var(--ground-line)] bg-[var(--ground)] px-2.5 py-2 focus-within:border-[var(--gold-dim)]">
         <Command size={14} className="shrink-0 text-[var(--ink-faint)]" />
         <input
           value={value}

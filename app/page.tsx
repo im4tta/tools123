@@ -34,6 +34,7 @@ import { toolHref } from "@/lib/toolRoutes";
 import { toolWhatItDoes } from "@/lib/seo";
 import { useLocalStorage, STORAGE_KEYS, type ToolCollection } from "@/lib/storage";
 import { mostUsedToolIds } from "@/lib/export";
+import { preferredScrollBehavior } from "@/lib/use-reduced-motion";
 
 const KH_DIGITS = "០១២៣៤៥៦៧៨៩";
 const toKh = (n: number) => String(n).split("").map((d) => KH_DIGITS[Number(d)]).join("");
@@ -586,7 +587,7 @@ export default function Home() {
   const isColdStart = favoriteTools.length === 0 && recentTools.length === 0;
 
   function scrollToCategory(cat: Category) {
-    document.getElementById(`cat-${cat}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    document.getElementById(`cat-${cat}`)?.scrollIntoView({ behavior: preferredScrollBehavior(), block: "start" });
   }
 
   function handleCategoryChipClick(cat: Category) {
