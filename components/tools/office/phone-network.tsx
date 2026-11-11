@@ -232,7 +232,7 @@ export default function PhoneNetworkFinder() {
               const op = operator(plan.operatorId)!;
               return (
                 <div key={plan.id} className="relative rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4">
-                  {plan.popular && <span className="absolute right-3 top-3 rounded-full bg-[var(--danger)] px-2 py-0.5 text-[10px] font-bold text-white">{t("Popular", "ពេញនិយម")}</span>}
+                  {plan.popular && <span className="absolute right-3 top-3 rounded-full bg-[var(--danger)] px-2 py-0.5 text-[10px] font-bold text-[var(--on-danger)]">{t("Popular", "ពេញនិយម")}</span>}
                   <div className="flex items-center gap-2">
                     <span className="h-2.5 w-2.5 rounded-full" style={{ background: op.color }} />
                     <span className="text-xs font-semibold text-[var(--ink-dim)]">{t(op.name, op.km)}</span>

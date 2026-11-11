@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/Output";
 import { ActionBar } from "@/components/ui/ActionBar";
 import { Dropzone } from "@/components/ui/Dropzone";
 import { FileList } from "@/components/ui/FileList";
-import { StatusPill } from "@/components/ui/StatusPill";
 import { loadPdfJs, formatBytes } from "@/lib/pdfjs";
 import { toKhmerNumerals } from "@/lib/khmer-number-words";
 import { toast } from "@/lib/toast";
@@ -114,8 +113,6 @@ export default function PdfMergeTool() {
       description="Combine multiple PDFs into a single file, in any order you choose — merged entirely in your browser, nothing is uploaded. First-page thumbnails let you confirm the order before merging."
       descriptionKm="បញ្ចូល PDF ច្រើនទៅជាឯកសារតែមួយ តាមលំដាប់ដែលអ្នកជ្រើសរើស — ធ្វើទាំងស្រុងក្នុងកម្មវិធីរុករក គ្មានអ្វីត្រូវបានផ្ទុកឡើងទេ។ រូបតូចនៃទំព័រដំបូងជួយអ្នកពិនិត្យលំដាប់មុនពេលបញ្ចូល។"
     >
-      <StatusPill kind="ok">{t("Processed on this device", "ដំណើរការលើឧបករណ៍នេះ")}</StatusPill>
-
       <Dropzone
         accept="application/pdf"
         multiple

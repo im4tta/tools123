@@ -171,7 +171,7 @@ export default function ScanCleanup() {
                   ) : (
                     <div className="flex aspect-[3/4] w-full items-center justify-center rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)]"><Loader2 size={18} className="animate-spin text-[var(--ink-faint)]" /></div>
                   )}
-                  <button onClick={() => remove(it.id)} className="absolute right-1 top-1 flex h-6 w-6 items-center justify-center rounded-full bg-black/60 text-white hover:bg-[var(--danger)]" aria-label={t("Remove", "លុប")}><Trash2 size={12} /></button>
+                  <button onClick={() => remove(it.id)} className="absolute right-1 top-1 flex h-6 w-6 items-center justify-center rounded-full bg-black/60 text-white hover:bg-[var(--danger)] hover:text-[var(--on-danger)]" aria-label={t("Remove", "លុប")}><Trash2 size={12} /></button>
                 </div>
                 <span className="mt-1 max-w-full truncate text-[10px] text-[var(--ink-faint)]">{i + 1}. {it.name}</span>
               </div>

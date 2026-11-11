@@ -23,14 +23,16 @@
   --gold-hover: #d1b066;
   /* Keyboard focus ring. */
   --focus: #7fb0ff;
-  /* Text on a solid --danger fill. */
+  /* Text on a solid --danger / --success fill. */
   --on-danger: #0a0c0d;
+  --on-success: #0a0c0d;
   --teal: #3ea08c;
   --teal-dim: #2a6d5f;
   --slate-accent: #7089c9;
   --slate-accent-dim: #4c5c8a;
-  --danger: #c96a4b;
-  --success: #5fa87a;
+  /* Status colours: 4.6:1+ as text, also on their own 10–20% tints. */
+  --danger: #da8c6d;
+  --success: #6bae80;
   --shadow-elev: 0 8px 30px rgba(0, 0, 0, 0.35);
 }
 
@@ -52,12 +54,13 @@
   --gold-hover: #c18e31;
   --focus: #1d5fae;
   --on-danger: #ffffff;
+  --on-success: #ffffff;
   --teal: #2a7d69;
   --teal-dim: #3ea08c;
   --slate-accent: #4c5c8a;
   --slate-accent-dim: #7089c9;
-  --danger: #b1502f;
-  --success: #3d7a56;
+  --danger: #853a20;
+  --success: #2d5a46;
   --shadow-elev: 0 8px 30px rgba(28, 26, 21, 0.08);
 }
 

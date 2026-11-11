@@ -125,7 +125,7 @@ export default function VoiceDictation() {
           </Field>
           <div className="flex items-end pb-[2px]">
             {listening ? (
-              <button type="button" onClick={stop} className="flex items-center justify-center gap-2 rounded-xl bg-[var(--danger)] px-5 py-2.5 text-sm font-semibold text-white transition hover:opacity-90">
+              <button type="button" onClick={stop} className="flex items-center justify-center gap-2 rounded-xl bg-[var(--danger)] px-5 py-2.5 text-sm font-semibold text-[var(--on-danger)] transition hover:opacity-90">
                 <MicOff size={15} />{t("Stop", "បញ្ឈប់")}
               </button>
             ) : (

@@ -649,7 +649,7 @@ function StepRow({
   return (
     <div className={`flex items-start gap-3 rounded-md border p-3 ${highlight ? "border-[var(--success)]/40 bg-[var(--success)]/10" : "border-[var(--ground-line)] bg-[var(--ground-raised)]"}`}>
       <span
-        className={`mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-md text-xs font-bold text-[var(--on-gold)] ${highlight ? "bg-[var(--success)]" : "bg-[var(--gold)]"}`}
+        className={`mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-md text-xs font-bold ${highlight ? "bg-[var(--success)] text-[var(--on-success)]" : "bg-[var(--gold)] text-[var(--on-gold)]"}`}
       >
         {number}
       </span>

@@ -729,7 +729,7 @@ export default function Home() {
 
       {viewMode === "grid" && (
       <>
-       <div className="relative mx-auto min-h-0 max-w-[77rem] px-5 sm:px-10 xl:min-h-[20rem]">
+       <div className="relative mx-auto min-h-0 max-w-[77rem] px-5 sm:px-10">
        <div className={auroraHero ? "aurora-hero relative mx-auto mt-7 max-w-2xl text-center" : "home-hero relative mx-auto mt-8 max-w-3xl text-center"}>
         {auroraHero ? (
           <>
@@ -786,6 +786,13 @@ export default function Home() {
              ))}
            </div>
          )}
+         {auroraHero && (
+           <ul className="mt-4 flex flex-wrap items-center justify-center gap-x-5 gap-y-1.5 text-xs text-[var(--ink-dim)]" aria-label={t("Why 123 Toolbox", "ហេតុអ្វី 123 Toolbox")}>
+             <li className="flex items-center gap-1.5"><ShieldCheck size={13} className="text-[var(--teal)]" aria-hidden />{t("Most tools run in your browser", "ឧបករណ៍ភាគច្រើនដំណើរការក្នុងកម្មវិធីរុករករបស់អ្នក")}</li>
+             <li className="flex items-center gap-1.5"><Languages size={13} className="text-[var(--teal)]" aria-hidden />{t("Khmer & English", "ខ្មែរ និងអង់គ្លេស")}</li>
+             <li><a href="https://github.com/im4tta/tools123" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 hover:text-[var(--ink)] hover:underline"><FolderGit2 size={13} className="text-[var(--teal)]" aria-hidden />{t("Open source (MIT)", "ប្រភពបើកចំហ (MIT)")}</a></li>
+           </ul>
+         )}
 
          {wordSuggestions.length > 0 && (
            <div className="mx-auto mt-2 flex w-full max-w-xl flex-wrap items-center justify-center gap-1.5">
@@ -828,7 +835,6 @@ export default function Home() {
            </div>
           )}
        </div>
-       {homeDesign !== "focus" && <HomeSpotlightCarousel />}
        </div>
 
       {homeDesign === "focus" && filter === "" && (
@@ -916,8 +922,10 @@ export default function Home() {
         </div>
       )}
 
+      {homeDesign !== "focus" && filter === "" && <HomeSpotlightCarousel />}
+
       {!(homeDesign === "focus" && filter === "") && (
-      <div className="relative mx-auto mt-12 max-w-[77rem] px-5 sm:px-10">
+      <div id="tool-results" className="relative mx-auto mt-12 max-w-[77rem] scroll-mt-20 px-5 sm:px-10">
         {CATEGORY_ORDER.map((cat) => {
           const tools = filteredByCategory.get(cat);
           if (!tools) return null;
@@ -1031,7 +1039,7 @@ export default function Home() {
                 {t("tools", "ឧបករណ៍")}
               </span>
               <span className="hidden h-3 w-px bg-[var(--ground-line)] sm:block" />
-              <span className="flex items-center gap-1.5"><ShieldCheck size={13} className="text-[var(--gold-text)]" />{t("100% in your browser", "១០០% នៅក្នុងកម្មវិធីរុករករបស់អ្នក")}</span>
+              <span className="flex items-center gap-1.5"><ShieldCheck size={13} className="text-[var(--gold-text)]" />{t("Most tools run in your browser", "ឧបករណ៍ភាគច្រើនដំណើរការក្នុងកម្មវិធីរុករករបស់អ្នក")}</span>
               <span className="hidden h-3 w-px bg-[var(--ground-line)] sm:block" />
               <span className="flex items-center gap-1.5"><Languages size={13} className="text-[var(--gold-text)]" />{t("Bilingual: English · ខ្មែរ", "ពីរភាសា៖ អង់គ្លេស · ខ្មែរ")}</span>
             </div>

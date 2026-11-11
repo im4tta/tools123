@@ -99,7 +99,7 @@ export default function ScreenRecorder() {
                 <span className="h-3 w-3 animate-pulse rounded-full bg-[var(--danger)]" />
                 {fmtTime(seconds)}
               </div>
-              <button type="button" onClick={stopRec} className="flex items-center justify-center gap-2 rounded-xl bg-[var(--danger)] px-6 py-3 text-sm font-semibold text-white transition hover:opacity-90">
+              <button type="button" onClick={stopRec} className="flex items-center justify-center gap-2 rounded-xl bg-[var(--danger)] px-6 py-3 text-sm font-semibold text-[var(--on-danger)] transition hover:opacity-90">
                 <Square size={15} />{t("Stop recording", "បញ្ឈប់ការថត")}
               </button>
             </>

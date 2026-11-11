@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useState, useSyncExternalStore } from "react";
-import { ArrowLeft, MoreHorizontal, ShieldCheck, Star } from "lucide-react";
+import { useCallback, useEffect, useMemo, useState, useSyncExternalStore } from "react";
+import { ArrowLeft, ChevronRight, MoreHorizontal, ShieldCheck, Star } from "lucide-react";
 import { CollectionsPicker } from "@/components/CollectionsPicker";
 import { CommandPalette } from "@/components/CommandPalette";
 import { ToolHeaderSearch } from "@/components/ToolHeaderSearch";
@@ -21,6 +21,7 @@ import { toolHref } from "@/lib/toolRoutes";
 import { recordToolUse } from "@/lib/export";
 import { DEFAULT_WORKSPACE_PROFILES, type WorkspaceProfile } from "@/lib/workspaces";
 import type { RelatedTool, ToolRouteTool } from "@/lib/tool-route-data";
+import { ToolPageContext } from "@/components/ui/ToolPageContext";
 
 /**
  * Client half of a tool page. The server passes the tool's registry entry, its related tools and
@@ -85,6 +86,7 @@ export function ToolRouteClient({ tool, related, toolCount, faq }: { tool: ToolR
     }
   }
   const placeholder = <ToolShellPlaceholder title={tool.title} khmerTitle={tool.khmerTitle} description={faq.what.en} descriptionKm={faq.what.km} />;
+  const toolPage = useMemo(() => ({ residency: tool.residency }), [tool.residency]);
   const khmerTitle = tool.khmerTitle ?? tool.title;
   const localizedTitle = mode === "en" ? tool.title : mode === "km" ? khmerTitle : `${tool.title} — ${khmerTitle}`;
 
@@ -138,11 +140,22 @@ export function ToolRouteClient({ tool, related, toolCount, faq }: { tool: ToolR
       </header>
       {/* The placeholder is server-rendered (title + summary visible in the first HTML) and stays
           until the tool's own chunk has loaded, so the page neither flashes nor jumps. */}
+      <nav aria-label={t("Breadcrumb", "ផ្លូវរុករក")} className="mx-auto mb-5 w-full max-w-6xl text-sm">
+        <ol className="flex flex-wrap items-center gap-1.5 text-[var(--ink-dim)]">
+          <li><Link href="/" className="hover:text-[var(--ink)] hover:underline">{t("All tools", "ឧបករណ៍ទាំងអស់")}</Link></li>
+          <li aria-hidden><ChevronRight size={14} /></li>
+          <li><Link href={`/#cat-${tool.category}`} className="hover:text-[var(--ink)] hover:underline">{t(tool.categoryLabel, tool.categoryKhmer)}</Link></li>
+          <li aria-hidden><ChevronRight size={14} /></li>
+          <li aria-current="page" className="text-[var(--ink)]">{localizedTitle}</li>
+        </ol>
+      </nav>
+      <ToolPageContext.Provider value={toolPage}>
       <div className="fade-rise">
         {toolReady
           ? <ToolErrorBoundary><LazyTool tool={tool} fallback={placeholder} /></ToolErrorBoundary>
           : placeholder}
       </div>
+      </ToolPageContext.Provider>
       <ToolFaq tool={tool} faq={faq} />
       {related.length > 0 && (
         <section className="mx-auto mt-10 max-w-6xl">

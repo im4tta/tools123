@@ -609,7 +609,7 @@ export default function KhmerWordGame() {
           {/* Controls */}
           <div className="flex flex-wrap justify-center gap-3">
             <button type="button" className={`${actionBtn} !border-[var(--danger)]/40 !text-[var(--danger)]`} onClick={resetLevel}><RotateCcw size={15} />{t("Rearrange", "រៀបឡើងវិញ")}</button>
-            <button type="button" onClick={checkAnswer} className="inline-flex items-center gap-2 rounded-xl bg-[var(--success)] px-6 py-2.5 text-sm font-bold text-[#0a0c0d] transition hover:brightness-110">
+            <button type="button" onClick={checkAnswer} className="inline-flex items-center gap-2 rounded-xl bg-[var(--success)] px-6 py-2.5 text-sm font-bold text-[var(--on-success)] transition hover:brightness-110">
               <Check size={16} /> {t("Check Answer", "ពិនិត្យចម្លើយ")}
             </button>
           </div>

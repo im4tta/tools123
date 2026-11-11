@@ -220,7 +220,7 @@ export default function WebRTCTransfer() {
           )}
 
           {step === "done" && (
-            <button onClick={reset} className="w-full rounded-lg bg-[var(--success)] px-4 py-2.5 text-sm font-semibold text-white">{t("Transfer Complete — Send Another", "បញ្ជូនរួច — ផ្ញើថ្មី")}</button>
+            <button onClick={reset} className="w-full rounded-lg bg-[var(--success)] px-4 py-2.5 text-sm font-semibold text-[var(--on-success)]">{t("Transfer Complete — Send Another", "បញ្ជូនរួច — ផ្ញើថ្មី")}</button>
           )}
         </div>
       )}

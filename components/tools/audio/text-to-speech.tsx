@@ -109,7 +109,7 @@ export default function TextToSpeech() {
               <button type="button" onClick={() => window.speechSynthesis.resume()} className="flex flex-1 items-center justify-center gap-2 rounded-xl border border-[var(--ground-line)] px-5 py-3 text-sm font-semibold text-[var(--ink-dim)] hover:text-[var(--ink)]">
                 <Play size={16} />{t("Resume", "បន្ត")}
               </button>
-              <button type="button" onClick={stop} className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-[var(--danger)] px-5 py-3 text-sm font-semibold text-white transition hover:opacity-90">
+              <button type="button" onClick={stop} className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-[var(--danger)] px-5 py-3 text-sm font-semibold text-[var(--on-danger)] transition hover:opacity-90">
                 <Square size={16} />{t("Stop", "បញ្ឈប់")}
               </button>
             </>

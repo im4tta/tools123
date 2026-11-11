@@ -6,7 +6,9 @@ import { useMemo } from "react";
 import { useLanguage } from "@/components/LanguageProvider";
 import { routeIntent } from "@/lib/domain-router";
 import { intentLabel, parseIntent } from "@/lib/intent-parser";
+import { toKhmerNumerals } from "@/lib/khmer-number-words";
 import { TOOLS } from "@/lib/tools";
+import { preferredScrollBehavior } from "@/lib/use-reduced-motion";
 
 export function UniversalInput({ value, onChange }: { value: string; onChange: (value: string) => void }) {
   const { text: t } = useLanguage();
@@ -19,6 +21,12 @@ export function UniversalInput({ value, onChange }: { value: string; onChange: (
     if (route) router.push(route.href);
   }
 
+  /** Search button / Enter: open the detected calculation, else jump to the filtered results. */
+  function submit() {
+    if (route) openTool();
+    else document.getElementById("tool-results")?.scrollIntoView({ behavior: preferredScrollBehavior(), block: "start" });
+  }
+
   return (
     <section className="mx-auto mt-3 w-full max-w-md rounded-xl border border-[var(--gold)]/30 bg-[var(--ground-raised)] p-2.5">
       <div className="mb-1.5 flex items-center gap-1.5 px-1 text-[10px] font-bold uppercase tracking-wider text-[var(--gold-text)]">
@@ -29,12 +37,14 @@ export function UniversalInput({ value, onChange }: { value: string; onChange: (
         <input
           value={value}
           onChange={(event) => onChange(event.target.value)}
-          onKeyDown={(event) => event.key === "Enter" && openTool()}
-          placeholder={t(`Search ${TOOLS.length} tools or try 25% of 480…`, `ស្វែងរកឧបករណ៍ ${TOOLS.length} មុខ ឬសាកល្បង 25% នៃ 480…`)}
+          onKeyDown={(event) => event.key === "Enter" && submit()}
+          placeholder={t(`Search ${TOOLS.length} tools or try 25% of 480…`, `ស្វែងរកឧបករណ៍ ${toKhmerNumerals(String(TOOLS.length))} មុខ ឬសាកល្បង 25% នៃ 480…`)}
           className="min-w-0 flex-1 bg-transparent text-xs text-[var(--ink)] outline-none placeholder:text-[var(--ink-faint)]"
           aria-label={t("Universal input", "បញ្ចូលសកល")}
         />
-        <kbd className="hidden rounded border border-[var(--ground-line)] px-1.5 py-0.5 font-mono-ui text-[10px] text-[var(--ink-faint)] sm:block">Enter</kbd>
+        <button type="button" onClick={submit} className="shrink-0 rounded-md bg-[var(--gold)] px-3 py-1.5 text-xs font-semibold text-[var(--on-gold)] hover:bg-[var(--gold-hover)]">
+          {t("Search", "ស្វែងរក")}
+        </button>
       </div>
       {value.trim() && (
         <div className="mt-2 flex flex-wrap items-center justify-between gap-2 px-1">

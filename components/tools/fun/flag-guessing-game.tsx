@@ -487,8 +487,8 @@ export default function FlagGuessingGame() {
                 const isGuessed = code === guessed;
                 let cls = "border-[var(--ground-line)] bg-[var(--ground)] text-[var(--ink)] hover:border-[var(--gold-dim)] hover:bg-[var(--ground-raised-hi)]";
                 if (answered) {
-                  if (isCorrectChoice) cls = "border-[var(--success)] bg-[var(--success)] text-white";
-                  else if (isGuessed && !wasCorrect) cls = "border-[var(--danger)] bg-[var(--danger)] text-white";
+                  if (isCorrectChoice) cls = "border-[var(--success)] bg-[var(--success)] text-[var(--on-success)]";
+                  else if (isGuessed && !wasCorrect) cls = "border-[var(--danger)] bg-[var(--danger)] text-[var(--on-danger)]";
                   else cls = "border-[var(--ground-line)] bg-[var(--ground)] text-[var(--ink-faint)] opacity-60";
                 }
                 return (
