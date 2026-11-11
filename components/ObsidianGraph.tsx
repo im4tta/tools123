@@ -1149,7 +1149,7 @@ export function ObsidianGraph({
                         onClick={(e) => focusNode(t.id, e.timeStamp)}
                         onDoubleClick={() => { onOpenTool(t.id); if (isMobile) setSidebarOpen(false); }}
                         className={`flex w-full items-center gap-1.5 rounded px-1.5 py-1 text-left text-[11px] hover:bg-[var(--ground-raised-hi)] ${
-                          selected === t.id ? "text-[var(--gold)]" : "text-[var(--ink-faint)]"
+                          selected === t.id ? "text-[var(--gold-text)]" : "text-[var(--ink-faint)]"
                         }`}
                         title={mode === "en" ? "Click to locate · double-click to open" : mode === "km" ? "ចុចម្តងដើម្បីស្វែងរកទីតាំង · ចុចពីរដងដើម្បីបើក" : "Click to locate · double-click to open / ចុចម្តងដើម្បីស្វែងរកទីតាំង · ចុចពីរដងដើម្បីបើក"}
                       >
@@ -1165,7 +1165,7 @@ export function ObsidianGraph({
                         >
                           <Star
                             size={9}
-                            className={favorites.includes(t.id) ? "text-[var(--gold)]" : "text-[var(--ink-faint)]"}
+                            className={favorites.includes(t.id) ? "text-[var(--gold-text)]" : "text-[var(--ink-faint)]"}
                             fill={favorites.includes(t.id) ? "currentColor" : "none"}
                           />
                         </span>

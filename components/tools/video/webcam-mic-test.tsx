@@ -135,7 +135,7 @@ export default function WebcamMicTest() {
         </div>
 
         <div className="flex gap-2">
-          <button type="button" onClick={start} className="flex-1 rounded-xl bg-[var(--gold)] px-5 py-3 text-sm font-semibold text-[#0a0c0d] transition hover:bg-[var(--gold-dim)] disabled:opacity-40">
+          <button type="button" onClick={start} className="flex-1 rounded-xl bg-[var(--gold)] px-5 py-3 text-sm font-semibold text-[var(--on-gold)] transition hover:bg-[var(--gold-hover)] disabled:opacity-40">
             {live ? t("Restart", "ចាប់ផ្តើមឡើងវិញ") : t("Start test", "ចាប់ផ្តើមសាកល្បង")}
           </button>
           {live && (

@@ -149,7 +149,7 @@ export default function Romanization() {
       {/* Tab bar */}
       <div className="mb-5 flex flex-wrap gap-1.5 border-b border-[var(--ground-line)] pb-3">
         {(["workspace", "reference", "inspector"] as const).map((tabName) => (
-          <button key={tabName} onClick={() => setTab(tabName)} className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition ${tab === tabName ? "bg-[var(--gold)] text-[#0a0c0d]" : "text-[var(--ink-dim)] hover:text-[var(--ink)]"}`}>
+          <button key={tabName} onClick={() => setTab(tabName)} className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition ${tab === tabName ? "bg-[var(--gold)] text-[var(--on-gold)]" : "text-[var(--ink-dim)] hover:text-[var(--ink)]"}`}>
             {tabName === "workspace" && <Globe size={12} />}{tabName === "reference" && <BookOpen size={12} />}{tabName === "inspector" && <Search size={12} />}
             {tabName === "workspace" ? t("Workspace", "កន្លែងធ្វើការ") : tabName === "reference" ? t("Reference", "តារាង") : t("Inspector", "ពិនិត្យតួអក្សរ")}
           </button>
@@ -161,7 +161,7 @@ export default function Romanization() {
           {/* Style selector */}
           <div className="flex flex-wrap gap-1.5">
             {STYLES.map((s) => (
-              <button key={s} onClick={() => setStyle(s)} className={`rounded-lg px-2.5 py-1 text-[11px] font-semibold transition ${style === s ? "border border-[var(--gold-dim)] bg-[var(--gold)]/10 text-[var(--gold)]" : "border border-[var(--ground-line)] text-[var(--ink-dim)] hover:text-[var(--ink)]"}`}>
+              <button key={s} onClick={() => setStyle(s)} className={`rounded-lg px-2.5 py-1 text-[11px] font-semibold transition ${style === s ? "border border-[var(--gold-dim)] bg-[var(--gold)]/10 text-[var(--gold-text)]" : "border border-[var(--ground-line)] text-[var(--ink-dim)] hover:text-[var(--ink)]"}`}>
                 {STYLE_LABELS[s]}
               </button>
             ))}
@@ -173,7 +173,7 @@ export default function Romanization() {
               <div className="relative">
                 <textarea ref={inputRef} value={input} onChange={(e) => setInput(e.target.value)} rows={5} className="w-full resize-none rounded-md border border-[var(--ground-line)] bg-[var(--ground)] p-3 font-khmer text-lg text-[var(--ink)] outline-none transition focus:border-[var(--gold-dim)] placeholder:text-[var(--ink-faint)]" placeholder="បញ្ចូលអត្ថបទខ្មែរ..." />
                 <div className="absolute right-2 top-2 flex gap-1">
-                  <button onClick={speak} className="rounded p-1 text-[var(--ink-faint)] transition hover:text-[var(--gold)]" title={t("Speak", "បញ្ចេញសំឡេង")}><Volume2 size={14} /></button>
+                  <button onClick={speak} className="rounded p-1 text-[var(--ink-faint)] transition hover:text-[var(--gold-text)]" title={t("Speak", "បញ្ចេញសំឡេង")}><Volume2 size={14} /></button>
                   <button onClick={() => setInput("")} className="rounded p-1 text-[var(--ink-faint)] transition hover:text-[var(--danger)]" title={t("Clear", "សម្អាត")}><Trash2 size={14} /></button>
                 </div>
               </div>
@@ -185,12 +185,12 @@ export default function Romanization() {
                 {output && (
                   <div className="absolute right-2 top-2 flex gap-1">
                     <CopyButton text={output} compact className="border-0 bg-transparent" />
-                    <button onClick={exportJSON} className="rounded p-1 text-[var(--ink-faint)] transition hover:text-[var(--gold)]" title="Export JSON"><FileJson size={13} /></button>
-                    <button onClick={exportCSV} className="rounded p-1 text-[var(--ink-faint)] transition hover:text-[var(--gold)]" title="Export CSV"><FileSpreadsheet size={13} /></button>
+                    <button onClick={exportJSON} className="rounded p-1 text-[var(--ink-faint)] transition hover:text-[var(--gold-text)]" title="Export JSON"><FileJson size={13} /></button>
+                    <button onClick={exportCSV} className="rounded p-1 text-[var(--ink-faint)] transition hover:text-[var(--gold-text)]" title="Export CSV"><FileSpreadsheet size={13} /></button>
                   </div>
                 )}
                 <div className="mt-2 border-t border-[var(--ground-line)] pt-2 text-[10px] text-[var(--ink-faint)]">
-                  {t("Style", "របៀប")}: <span className="font-semibold text-[var(--gold)]">{STYLE_LABELS[style]}</span>
+                  {t("Style", "របៀប")}: <span className="font-semibold text-[var(--gold-text)]">{STYLE_LABELS[style]}</span>
                 </div>
               </div>
             </Field>
@@ -200,27 +200,27 @@ export default function Romanization() {
           <div className="flex flex-wrap gap-1.5">
             <span className="mr-1 text-[10px] font-semibold uppercase tracking-wider text-[var(--ink-faint)]">{t("Try", "សាកល្បង")}:</span>
             {["ភាសាខ្មែរ", "ភ្នំពេញ", "អង្គរវត្ត", "សួស្ដីឆ្នាំថ្មី", "សៀមរាប"].map((ex) => (
-              <button key={ex} onClick={() => loadExample(ex)} className="rounded-md border border-[var(--ground-line)] px-2 py-1 text-xs font-khmer text-[var(--ink-dim)] transition hover:border-[var(--gold-dim)] hover:text-[var(--gold)]">{ex}</button>
+              <button key={ex} onClick={() => loadExample(ex)} className="rounded-md border border-[var(--ground-line)] px-2 py-1 text-xs font-khmer text-[var(--ink-dim)] transition hover:border-[var(--gold-dim)] hover:text-[var(--gold-text)]">{ex}</button>
             ))}
           </div>
 
           {/* Virtual keyboard toggle */}
           <div className="rounded-md border border-[var(--ground-line)]">
-            <button onClick={() => setKbOpen(!kbOpen)} className="flex w-full items-center gap-2 px-3 py-2 text-xs font-semibold text-[var(--ink-dim)] transition hover:text-[var(--gold)]">
+            <button onClick={() => setKbOpen(!kbOpen)} className="flex w-full items-center gap-2 px-3 py-2 text-xs font-semibold text-[var(--ink-dim)] transition hover:text-[var(--gold-text)]">
               <Keyboard size={13} />{kbOpen ? t("Hide keyboard", "លាក់ក្តារចុច") : t("Show keyboard", "បង្ហាញក្តារចុច")}<ChevronDown size={12} className={`ml-auto transition ${kbOpen ? "rotate-180" : ""}`} />
             </button>
             {kbOpen && (
               <div className="border-t border-[var(--ground-line)] p-3">
                 <div className="mb-2 flex flex-wrap gap-1">
                   {["consonants", "vowels", "subscripts", "independents", "diacritics"].map((cat) => (
-                    <button key={cat} onClick={() => setKbCat(cat)} className={`rounded px-2 py-0.5 text-[10px] font-semibold transition ${kbCat === cat ? "bg-[var(--gold)] text-[#0a0c0d]" : "bg-[var(--ground-raised)] text-[var(--ink-dim)] hover:text-[var(--ink)]"}`}>
+                    <button key={cat} onClick={() => setKbCat(cat)} className={`rounded px-2 py-0.5 text-[10px] font-semibold transition ${kbCat === cat ? "bg-[var(--gold)] text-[var(--on-gold)]" : "bg-[var(--ground-raised)] text-[var(--ink-dim)] hover:text-[var(--ink)]"}`}>
                       {t(cat, cat)}
                     </button>
                   ))}
                 </div>
                 <div className="flex max-h-40 flex-wrap gap-1 overflow-y-auto">
                   {kbKeys.map((key) => (
-                    <button key={key} onClick={() => insertChar(key)} className="flex flex-col items-center rounded border border-[var(--ground-line)] bg-[var(--ground)] px-2 py-1 font-khmer text-lg text-[var(--ink)] transition hover:border-[var(--gold-dim)] hover:text-[var(--gold)]">
+                    <button key={key} onClick={() => insertChar(key)} className="flex flex-col items-center rounded border border-[var(--ground-line)] bg-[var(--ground)] px-2 py-1 font-khmer text-lg text-[var(--ink)] transition hover:border-[var(--gold-dim)] hover:text-[var(--gold-text)]">
                       <span>{key}</span>
                       <span className="text-[8px] font-mono uppercase text-[var(--ink-faint)]">
                         {(KHMER_CONSONANTS[key]?.roman || KHMER_VOWELS[key]?.s1 || KHMER_SUBSCRIPTS[key]?.roman || "")}
@@ -252,7 +252,7 @@ export default function Romanization() {
                 const cd = KHMER_CONSONANTS[base];
                 return (
                   <div key={i} className="flex items-start gap-3 rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-2.5">
-                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md border border-[var(--ground-line)] bg-[var(--ground)] font-khmer text-lg text-[var(--gold)]">{syl}</div>
+                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md border border-[var(--ground-line)] bg-[var(--ground)] font-khmer text-lg text-[var(--gold-text)]">{syl}</div>
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-1.5 text-[11px]">
                         <span className="font-semibold text-[var(--ink)]">{t("Syllable", "ព្យាង្គ")} {i + 1}</span>
@@ -288,7 +288,7 @@ export default function Romanization() {
             {quizScreen === "lobby" && (
               <div className="py-4 text-center">
                 <p className="mb-3 text-xs text-[var(--ink-dim)]">{t("Test your Khmer romanization skills", "សាកល្បងជំនាញសរសេរឡាតាំងរបស់អ្នក")}</p>
-                <button onClick={startQuiz} className="rounded-md bg-[var(--gold)] px-4 py-2 text-xs font-bold text-[#0a0c0d] transition hover:bg-[var(--gold-dim)]">{t("Start Quiz", "ចាប់ផ្តើមសំណួរ")}</button>
+                <button onClick={startQuiz} className="rounded-md bg-[var(--gold)] px-4 py-2 text-xs font-bold text-[var(--on-gold)] transition hover:bg-[var(--gold-hover)]">{t("Start Quiz", "ចាប់ផ្តើមសំណួរ")}</button>
               </div>
             )}
             {quizScreen === "game" && quizQuestions[quizIdx] && (
@@ -317,7 +317,7 @@ export default function Romanization() {
                     <span className={`text-xs font-semibold ${quizStreak > 0 ? "text-[var(--success)]" : "text-[var(--danger)]"}`}>
                       {quizStreak > 0 ? t("Correct! +10", "ត្រឹមត្រូវ! +១០") : t("Incorrect", "មិនត្រឹមត្រូវ")}
                     </span>
-                    <button onClick={nextQuiz} className="rounded-md bg-[var(--gold)] px-3 py-1.5 text-xs font-bold text-[#0a0c0d] transition hover:bg-[var(--gold-dim)]">
+                    <button onClick={nextQuiz} className="rounded-md bg-[var(--gold)] px-3 py-1.5 text-xs font-bold text-[var(--on-gold)] transition hover:bg-[var(--gold-hover)]">
                       {quizIdx >= 4 ? t("See results", "មើលលទ្ធផល") : t("Next", "បន្ទាប់")}
                     </button>
                   </div>
@@ -326,9 +326,9 @@ export default function Romanization() {
             )}
             {quizScreen === "results" && (
               <div className="py-4 text-center">
-                <p className="text-lg font-bold text-[var(--gold)]">{t("Quiz complete!", "បញ្ចប់!" )}</p>
+                <p className="text-lg font-bold text-[var(--gold-text)]">{t("Quiz complete!", "បញ្ចប់!" )}</p>
                 <p className="mt-1 text-xs text-[var(--ink-dim)]">{t("Score", "ពិន្ទុ")}: {quizScore}/50</p>
-                <button onClick={startQuiz} className="mt-3 rounded-md bg-[var(--gold)] px-3 py-1.5 text-xs font-bold text-[#0a0c0d] transition hover:bg-[var(--gold-dim)]">{t("Play again", "លេងម្តងទៀត")}</button>
+                <button onClick={startQuiz} className="mt-3 rounded-md bg-[var(--gold)] px-3 py-1.5 text-xs font-bold text-[var(--on-gold)] transition hover:bg-[var(--gold-hover)]">{t("Play again", "លេងម្តងទៀត")}</button>
               </div>
             )}
           </div>
@@ -343,7 +343,7 @@ export default function Romanization() {
               <div className="max-h-32 space-y-0.5 overflow-y-auto p-2">
                 {history.slice(0, 8).map((h, i) => (
                   <button key={i} onClick={() => loadExample(h.input)} className="flex w-full items-center justify-between gap-2 rounded px-2 py-1 text-[11px] text-left text-[var(--ink-dim)] transition hover:bg-[var(--ground-raised)]">
-                    <span className="font-khmer font-semibold text-[var(--gold)] truncate">{h.input}</span>
+                    <span className="font-khmer font-semibold text-[var(--gold-text)] truncate">{h.input}</span>
                     <span className="text-[var(--ink-faint)] truncate">{h.output}</span>
                   </button>
                 ))}
@@ -357,7 +357,7 @@ export default function Romanization() {
         <div className="space-y-4">
           <div className="flex flex-wrap gap-1.5">
             {["consonants", "vowels", "subscripts", "independents", "diacritics"].map((cat) => (
-              <button key={cat} onClick={() => setRefCat(cat)} className={`rounded-lg px-2.5 py-1 text-[11px] font-semibold transition ${refCat === cat ? "border border-[var(--gold-dim)] bg-[var(--gold)]/10 text-[var(--gold)]" : "border border-[var(--ground-line)] text-[var(--ink-dim)] hover:text-[var(--ink)]"}`}>
+              <button key={cat} onClick={() => setRefCat(cat)} className={`rounded-lg px-2.5 py-1 text-[11px] font-semibold transition ${refCat === cat ? "border border-[var(--gold-dim)] bg-[var(--gold)]/10 text-[var(--gold-text)]" : "border border-[var(--ground-line)] text-[var(--ink-dim)] hover:text-[var(--ink)]"}`}>
                 {t(cat, cat)}
               </button>
             ))}
@@ -370,7 +370,7 @@ export default function Romanization() {
               Object.entries(KHMER_DIACRITICS)
             ).map(([glyph, info]) => (
               <button key={glyph} onClick={() => { setInspectChar(glyph); setTab("inspector"); }} className="flex flex-col items-center rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3 text-center transition hover:border-[var(--gold-dim)]">
-                <span className="font-khmer text-2xl text-[var(--gold)]">{glyph}</span>
+                <span className="font-khmer text-2xl text-[var(--gold-text)]">{glyph}</span>
                 <span className="mt-1 text-[10px] font-semibold text-[var(--ink)]">{"name" in info ? (info as { name: string }).name : ""}</span>
                 <span className="mt-0.5 text-[9px] text-[var(--ink-faint)] font-mono">
                   {"roman" in info ? (info as { roman: string }).roman : "s1" in info ? (info as { s1: string }).s1 : ""}
@@ -389,7 +389,7 @@ export default function Romanization() {
               <>
                 <div className="flex justify-between border-b border-[var(--ground-line)] pb-1.5"><span className="text-[var(--ink-faint)]">Unicode</span><strong className="font-mono text-[var(--ink)]">U+{inspectChar.charCodeAt(0).toString(16).toUpperCase()}</strong></div>
                 {"name" in activeChar && <div className="flex justify-between border-b border-[var(--ground-line)] pb-1.5"><span className="text-[var(--ink-faint)]">{t("Name", "ឈ្មោះ")}</span><strong className="text-[var(--ink)]">{(activeChar as { name: string }).name}</strong></div>}
-                {"series" in activeChar && <div className="flex justify-between border-b border-[var(--ground-line)] pb-1.5"><span className="text-[var(--ink-faint)]">{t("Series", "ស៊េរី")}</span><strong className="text-[var(--gold)]">{(activeChar as { series: number }).series}</strong></div>}
+                {"series" in activeChar && <div className="flex justify-between border-b border-[var(--ground-line)] pb-1.5"><span className="text-[var(--ink-faint)]">{t("Series", "ស៊េរី")}</span><strong className="text-[var(--gold-text)]">{(activeChar as { series: number }).series}</strong></div>}
                 {"roman" in activeChar && <div className="flex justify-between border-b border-[var(--ground-line)] pb-1.5"><span className="text-[var(--ink-faint)]">{t("Romanization", "ឡាតាំង")}</span><strong className="font-mono text-[var(--teal)]">{(activeChar as { roman: string }).roman}</strong></div>}
                 {"linguistic" in activeChar && <div className="flex justify-between border-b border-[var(--ground-line)] pb-1.5"><span className="text-[var(--ink-faint)]">Linguistic</span><strong className="font-mono text-[var(--ink)]">{(activeChar as { linguistic: string }).linguistic}</strong></div>}
                 {"ipa" in activeChar && <div className="flex justify-between pb-1"><span className="text-[var(--ink-faint)]">IPA</span><strong className="text-[var(--ink)]">{(activeChar as { ipa: string }).ipa}</strong></div>}

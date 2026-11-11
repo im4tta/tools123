@@ -144,10 +144,10 @@ export default function Snake() {
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex gap-3 text-sm text-[var(--ink-dim)]">
           <span>
-            {t("Score", "ពិន្ទុ")}: <b className="text-[var(--gold)]">{score}</b>
+            {t("Score", "ពិន្ទុ")}: <b className="text-[var(--gold-text)]">{score}</b>
           </span>
           <span>
-            {t("Best", "ល្អបំផុត")}: <b className="text-[var(--gold)]">{best}</b>
+            {t("Best", "ល្អបំផុត")}: <b className="text-[var(--gold-text)]">{best}</b>
           </span>
           <span>
             {t("Speed", "ល្បឿន")}: <b className="text-[var(--ink)]">{Math.max(70, 220 - score * 6)}ms</b>

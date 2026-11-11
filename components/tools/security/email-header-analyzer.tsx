@@ -132,7 +132,7 @@ function parseHeaders(raw: string): ParsedHeaders {
 }
 
 const VERDICT_UI: Record<string, string> = {
-  pass: "border-[var(--gold)]/40 bg-[var(--gold)]/10 text-[var(--gold)]",
+  pass: "border-[var(--gold)]/40 bg-[var(--gold)]/10 text-[var(--gold-text)]",
   fail: "border-[var(--danger)]/40 bg-[var(--danger)]/10 text-[var(--danger)]",
   hardfail: "border-[var(--danger)]/40 bg-[var(--danger)]/10 text-[var(--danger)]",
   softfail: "border-[var(--danger)]/40 bg-[var(--danger)]/10 text-[var(--danger)]",
@@ -202,7 +202,7 @@ export default function EmailHeaderAnalyzer() {
               {parsed.received.map((hop, i) => (
                 <div key={i} className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3">
                   <div className="mb-1.5 flex flex-wrap items-center gap-2 text-xs">
-                    <span className="font-mono-ui font-semibold text-[var(--gold)]">#{i + 1}</span>
+                    <span className="font-mono-ui font-semibold text-[var(--gold-text)]">#{i + 1}</span>
                     {i === 0 && <span className="text-[var(--ink-dim)]">{t("(oldest)", "(ចាស់ជាងគេ)")}</span>}
                     {i === parsed.received.length - 1 && <span className="text-[var(--ink-dim)]">{t("(newest)", "(ថ្មីជាងគេ)")}</span>}
                     {hop.timestamp && <span className="font-mono-ui text-[var(--ink-dim)]">{hop.timestamp}</span>}
@@ -222,7 +222,7 @@ export default function EmailHeaderAnalyzer() {
                           className={`rounded-full border px-2 py-0.5 font-mono-ui text-[10px] font-medium ${
                             ip.private
                               ? "border-[var(--ground-line)] bg-[var(--ground-raised)] text-[var(--ink-dim)]"
-                              : "border-[var(--gold)]/40 bg-[var(--gold)]/10 text-[var(--gold)]"
+                              : "border-[var(--gold)]/40 bg-[var(--gold)]/10 text-[var(--gold-text)]"
                           }`}
                         >
                           {ip.ip} · {ip.private ? t("private", "ឯកជន") : t("public", "សាធារណៈ")}

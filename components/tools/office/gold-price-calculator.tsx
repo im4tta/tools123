@@ -111,7 +111,7 @@ export default function GoldPriceCalculator() {
               onClick={() => setKarat(String(k))}
               className={`rounded-md border px-3 py-2 text-xs font-semibold transition ${
                 toNum(karat) === k
-                  ? "border-[var(--gold-dim)] bg-[var(--gold)]/15 text-[var(--gold)]"
+                  ? "border-[var(--gold-dim)] bg-[var(--gold)]/15 text-[var(--gold-text)]"
                   : "border-[var(--ground-line)] bg-[var(--ground-raised)] text-[var(--ink-dim)] hover:text-[var(--ink)]"
               }`}
             >
@@ -130,9 +130,9 @@ export default function GoldPriceCalculator() {
               <div className="text-xs text-[var(--ink-dim)]">{t("pure gold", "មាសសុទ្ធ")} {(result.k * 100).toFixed(1)}%</div>
             </div>
             <div className="rounded-md border border-[var(--gold)]/40 bg-[var(--gold)]/10 p-4">
-              <div className="text-xs font-medium uppercase tracking-wide text-[var(--gold)]">{t("Value", "តម្លៃ")}</div>
-              <div className="mt-1 text-lg font-semibold text-[var(--gold)]">{khr(result.valueKhr)}</div>
-              <div className="text-xs text-[var(--gold)]">{usd(result.valueUsd)} USD</div>
+              <div className="text-xs font-medium uppercase tracking-wide text-[var(--gold-text)]">{t("Value", "តម្លៃ")}</div>
+              <div className="mt-1 text-lg font-semibold text-[var(--gold-text)]">{khr(result.valueKhr)}</div>
+              <div className="text-xs text-[var(--gold-text)]">{usd(result.valueUsd)} USD</div>
             </div>
             <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4">
               <div className="text-xs font-medium uppercase tracking-wide text-[var(--ink-dim)]">{t("24K price per gram", "តម្លៃ 24K ក្នុងមួយក្រាម")}</div>

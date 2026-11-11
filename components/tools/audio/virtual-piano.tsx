@@ -213,7 +213,7 @@ export default function VirtualPianoTool() {
               }}
               className={`rounded-md border px-3 py-1.5 text-sm font-medium transition ${
                 selected === c.name
-                  ? "border-[var(--gold)] bg-[var(--gold)] text-[#0a0c0d]"
+                  ? "border-[var(--gold)] bg-[var(--gold)] text-[var(--on-gold)]"
                   : "border-[var(--ground-line)] bg-[var(--ground-raised)] text-[var(--ink)] hover:border-[var(--gold)]"
               }`}
             >

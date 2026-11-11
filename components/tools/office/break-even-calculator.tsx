@@ -80,7 +80,7 @@ export default function BreakEvenCalculator() {
             </div>
             <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4">
               <div className="text-xs font-medium uppercase tracking-wide text-[var(--ink-dim)]">{t("Break-even units", "ចំនួនគ្រឿងដាច់")}</div>
-              <div className="mt-1 text-xl font-semibold text-[var(--gold)]">{fmt(Math.ceil(calc.units))}</div>
+              <div className="mt-1 text-xl font-semibold text-[var(--gold-text)]">{fmt(Math.ceil(calc.units))}</div>
               <div className="mt-0.5 text-[10px] text-[var(--ink-dim)]">{t("exact", "ពិតប្រាកដ")}: {fmt(calc.units, 1)}</div>
             </div>
             <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4">
@@ -100,7 +100,7 @@ export default function BreakEvenCalculator() {
               </div>
               <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4">
                 <div className="text-xs font-medium uppercase tracking-wide text-[var(--ink-dim)]">{t("Margin of safety", "រឹមសុវត្ថិភាព")}</div>
-                <div className={`mt-1 text-xl font-semibold ${(calc.margin ?? 0) < 0 ? "text-[var(--danger)]" : "text-[var(--gold)]"}`}>
+                <div className={`mt-1 text-xl font-semibold ${(calc.margin ?? 0) < 0 ? "text-[var(--danger)]" : "text-[var(--gold-text)]"}`}>
                   {calc.margin === null ? "—" : `${fmt(calc.margin, 1)}%`}
                 </div>
                 <div className="mt-0.5 text-[10px] text-[var(--ink-dim)]">

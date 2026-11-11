@@ -296,7 +296,7 @@ export default function WordSearchGenerator() {
             <div className="divide-y divide-[var(--ground-line)]">
               {result.placed.map((p) => (
                 <div key={p.word} className="flex items-center justify-between gap-2 px-3 py-1.5 text-sm">
-                  <span className="font-medium text-[var(--gold)]">{p.word}</span>
+                  <span className="font-medium text-[var(--gold-text)]">{p.word}</span>
                   <span className="text-xs text-[var(--ink-dim)]">
                     ({p.row + 1}, {p.col + 1}) {t(p.dir.label[0], p.dir.label[1])}
                   </span>

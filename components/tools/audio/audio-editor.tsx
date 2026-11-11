@@ -264,7 +264,7 @@ export default function AudioEditorTool() {
           {resultUrl && (
             <div className="space-y-2">
               <audio controls src={resultUrl} className="w-full" />
-              <a href={resultUrl} download="edited.wav" className="inline-flex items-center gap-1.5 rounded-md bg-[var(--gold)] px-3 py-1.5 text-xs font-medium text-[#0a0c0d] hover:bg-[var(--gold-dim)]">
+              <a href={resultUrl} download="edited.wav" className="inline-flex items-center gap-1.5 rounded-md bg-[var(--gold)] px-3 py-1.5 text-xs font-medium text-[var(--on-gold)] hover:bg-[var(--gold-hover)]">
                 <Download size={13} /> Download WAV — {(resultSize / 1024 / 1024).toFixed(2)} MB
               </a>
             </div>

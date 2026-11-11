@@ -204,7 +204,7 @@ export default function PunycodeConverter() {
               onClick={() => setDir(d.id)}
               className={`rounded-md px-4 py-2 text-sm font-medium transition ${
                 dir === d.id
-                  ? "bg-[var(--gold)] text-[#0a0c0d]"
+                  ? "bg-[var(--gold)] text-[var(--on-gold)]"
                   : "border border-[var(--ground-line)] bg-[var(--ground-raised)] text-[var(--ink-dim)] hover:text-[var(--ink)]"
               }`}
             >
@@ -242,7 +242,7 @@ export default function PunycodeConverter() {
             "Original implementation by Tools123 of the punycode algorithm specified in RFC 3492 (Punycode: A Bootstring encoding of Unicode for Internationalized Domain Names in Applications) by Adam M. Costello.",
             "ការអនុវត្តឯករាជ្យរបស់ Tools123 នៃក្បួនដោះស្រាយ punycode ដែលកំណត់ក្នុង RFC 3492 (Punycode: A Bootstring encoding of Unicode for IDNA) ដោយ Adam M. Costello។"
           )}{" "}
-          <a href="https://www.rfc-editor.org/rfc/rfc3492" target="_blank" rel="noreferrer" className="text-[var(--gold)] underline underline-offset-2">
+          <a href="https://www.rfc-editor.org/rfc/rfc3492" target="_blank" rel="noreferrer" className="text-[var(--gold-text)] underline underline-offset-2">
             rfc-editor.org/rfc/rfc3492
           </a>
         </p>

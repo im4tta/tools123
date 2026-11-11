@@ -21,7 +21,7 @@ export default function FaviconSizeReference() {
       <div className="divide-y divide-[var(--ground-line)] rounded-md border border-[var(--ground-line)]">
         {SIZES.map(([size, desc]) => (
           <div key={size} className="flex gap-4 px-3 py-2.5 text-sm">
-            <span className="w-24 shrink-0 font-mono-ui text-[var(--gold)]">{size}</span>
+            <span className="w-24 shrink-0 font-mono-ui text-[var(--gold-text)]">{size}</span>
             <span className="text-[var(--ink-dim)]">{desc}</span>
           </div>
         ))}

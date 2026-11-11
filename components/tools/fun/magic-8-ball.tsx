@@ -47,10 +47,10 @@ export default function Magic8Ball() {
 
       <div className="mx-auto flex h-52 w-52 items-center justify-center rounded-full bg-[var(--ink)] p-6 shadow-lg">
         {answer ? (
-          <p className="text-center text-sm font-semibold leading-snug text-[var(--gold)]">{t(answer.en, answer.km)}</p>
+          <p className="text-center text-sm font-semibold leading-snug text-[var(--gold-text)]">{t(answer.en, answer.km)}</p>
         ) : (
           <div className="text-center">
-            <div className="text-5xl text-[var(--gold)]">8</div>
+            <div className="text-5xl text-[var(--gold-text)]">8</div>
             <p className="mt-1 text-xs text-[var(--ink-dim)]">{t("Shake me", "អង្រួនខ្ញុំ")}</p>
           </div>
         )}

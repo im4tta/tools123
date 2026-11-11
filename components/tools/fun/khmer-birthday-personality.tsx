@@ -81,7 +81,7 @@ export default function KhmerBirthdayPersonality() {
       description="Enter a birth date to find its Khmer weekday name and a short personality reading for each of the seven days, based on traditional Khmer belief. Traditional belief, for fun — not scientific."
       descriptionKm="បញ្ចូលថ្ងៃខែឆ្នាំកំណើត ដើម្បីស្វែងរកឈ្មោះថ្ងៃជាភាសាខ្មែរ និងការពិពណ៌នាខ្លីៗអំពីបុគ្គលិកលក្ខណៈសម្រាប់ទាំងប្រាំពីរថ្ងៃ តាមជំនឿប្រពៃណីខ្មែរ។ ជំនឿប្រពៃណី សម្រាប់កម្សាន្ត — មិនមែនជាវិទ្យាសាស្ត្រទេ។"
     >
-      <div className="rounded-md border border-[var(--gold)] bg-[var(--ground-raised)] px-3 py-2 text-xs leading-relaxed text-[var(--gold)]">
+      <div className="rounded-md border border-[var(--gold)] bg-[var(--ground-raised)] px-3 py-2 text-xs leading-relaxed text-[var(--gold-text)]">
         {t("Traditional belief, for fun — not scientific.", "ជំនឿប្រពៃណី សម្រាប់កម្សាន្ត — មិនមែនជាវិទ្យាសាស្ត្រទេ។")}
       </div>
 

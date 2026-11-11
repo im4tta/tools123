@@ -76,7 +76,7 @@ export default function IpcProportionCalculator() {
   const diffPct = Math.abs(sumPercent - 100) < 0.01 ? "balanced" : sumPercent < 100 ? "under" : "over";
   const statusCfg = {
     balanced: { cls: "bg-[var(--success)]/10 text-[var(--success)] border-[var(--success)]/30", dot: "bg-[var(--success)]" },
-    under: { cls: "bg-[var(--gold)]/10 text-[var(--gold)] border-[var(--gold)]/30", dot: "bg-[var(--gold)]" },
+    under: { cls: "bg-[var(--gold)]/10 text-[var(--gold-text)] border-[var(--gold)]/30", dot: "bg-[var(--gold)]" },
     over: { cls: "bg-[var(--danger)]/10 text-[var(--danger)] border-[var(--danger)]/30", dot: "bg-[var(--danger)]" },
   }[diffPct];
 
@@ -92,18 +92,18 @@ export default function IpcProportionCalculator() {
         <div className="flex items-center gap-1">
           {CURRENCIES.map((c, i) => (
             <button key={c.n} type="button" onClick={() => setCurrencyIdx(i)}
-              className={`rounded-md px-2.5 py-1 text-xs font-bold transition ${currencyIdx === i ? "bg-[var(--gold)] text-[#0a0c0d]" : "bg-[var(--ground)] text-[var(--ink-dim)] hover:text-[var(--ink)]"}`}>
+              className={`rounded-md px-2.5 py-1 text-xs font-bold transition ${currencyIdx === i ? "bg-[var(--gold)] text-[var(--on-gold)]" : "bg-[var(--ground)] text-[var(--ink-dim)] hover:text-[var(--ink)]"}`}>
               {c.s}
             </button>
           ))}
         </div>
         <div className="flex rounded-lg border border-[var(--ground-line)] bg-[var(--ground)] p-0.5">
           <button type="button" onClick={() => setMode("percent")}
-            className={`rounded-md px-3 py-1.5 text-xs font-semibold transition ${mode === "percent" ? "bg-[var(--gold)] text-[#0a0c0d]" : "text-[var(--ink-dim)]"}`}>
+            className={`rounded-md px-3 py-1.5 text-xs font-semibold transition ${mode === "percent" ? "bg-[var(--gold)] text-[var(--on-gold)]" : "text-[var(--ink-dim)]"}`}>
             {t("By % Share", "តាមភាគរយ")}
           </button>
           <button type="button" onClick={() => setMode("amount")}
-            className={`rounded-md px-3 py-1.5 text-xs font-semibold transition ${mode === "amount" ? "bg-[var(--gold)] text-[#0a0c0d]" : "text-[var(--ink-dim)]"}`}>
+            className={`rounded-md px-3 py-1.5 text-xs font-semibold transition ${mode === "amount" ? "bg-[var(--gold)] text-[var(--on-gold)]" : "text-[var(--ink-dim)]"}`}>
             {t("By Amount", "តាមចំនួន")}
           </button>
         </div>
@@ -133,7 +133,7 @@ export default function IpcProportionCalculator() {
         ].map((pr, i) => (
           <button key={i} type="button" onClick={pr.fn} className="rounded-lg border border-[var(--ground-line)] bg-[var(--ground)] px-3 py-1.5 text-xs font-semibold text-[var(--ink-dim)] hover:text-[var(--ink)] transition">{pr.label}</button>
         ))}
-        <button type="button" onClick={fillLast} className="rounded-lg border border-[var(--gold)]/30 bg-[var(--gold)]/5 px-3 py-1.5 text-xs font-semibold text-[var(--gold)] hover:bg-[var(--gold)]/10 transition"><Wand size={12} className="inline mr-1" />{t("Fill Last", "បំពេញចុងក្រោយ")}</button>
+        <button type="button" onClick={fillLast} className="rounded-lg border border-[var(--gold)]/30 bg-[var(--gold)]/5 px-3 py-1.5 text-xs font-semibold text-[var(--gold-text)] hover:bg-[var(--gold)]/10 transition"><Wand size={12} className="inline mr-1" />{t("Fill Last", "បំពេញចុងក្រោយ")}</button>
         <button type="button" onClick={normalize} className="rounded-lg border border-[var(--ground-line)] bg-[var(--ground)] px-3 py-1.5 text-xs font-semibold text-[var(--ink-dim)] hover:text-[var(--ink)] transition">{t("Scale → 100%", "ប្ដូរ → ១០០%")}</button>
       </div>
 
@@ -170,7 +170,7 @@ export default function IpcProportionCalculator() {
           <tfoot>
             <tr className="border-t-2 border-[var(--ground-line)] bg-[var(--ground)] font-bold">
               <td colSpan={2} className="px-3 py-2.5 text-[10px] uppercase text-[var(--ink-faint)]">{t("TOTAL", "សរុប")}</td>
-              <td className="px-3 py-2.5 text-center font-mono-ui text-xs text-[var(--gold)]">{sumPercent.toFixed(2)}%</td>
+              <td className="px-3 py-2.5 text-center font-mono-ui text-xs text-[var(--gold-text)]">{sumPercent.toFixed(2)}%</td>
               <td className="px-3 py-2.5 text-right font-mono-ui text-xs text-[var(--ink)]">{currency} {formatMoney(sumAmount)}</td>
               <td />
             </tr>

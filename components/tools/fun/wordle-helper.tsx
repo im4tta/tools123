@@ -60,7 +60,7 @@ export default function WordleHelper() {
 
   const COLOR: Record<string, string> = {
     g: "bg-[var(--green)]/20 text-[var(--green)]",
-    y: "bg-[var(--gold)]/20 text-[var(--gold)]",
+    y: "bg-[var(--gold)]/20 text-[var(--gold-text)]",
     x: "bg-[var(--ground-line)] text-[var(--ink-faint)]",
   };
 

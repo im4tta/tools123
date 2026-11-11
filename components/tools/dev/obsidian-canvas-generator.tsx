@@ -67,9 +67,9 @@ export default function ObsidianCanvasGenerator() {
       <div className="flex flex-wrap items-center gap-2">
         <span className="text-xs text-[var(--ink-faint)]">{t("Columns", "ជួរឈរ")}:</span>
         {[1, 2, 3, 4, 5].map((n) => (
-          <button key={n} type="button" onClick={() => setColumns(n)} className={`h-8 w-8 rounded-md border text-xs font-medium transition ${columns === n ? "border-[var(--gold)] bg-[var(--gold)]/10 text-[var(--gold)]" : "border-[var(--ground-line)] text-[var(--ink-dim)] hover:border-[var(--ink-faint)]"}`}>{n}</button>
+          <button key={n} type="button" onClick={() => setColumns(n)} className={`h-8 w-8 rounded-md border text-xs font-medium transition ${columns === n ? "border-[var(--gold)] bg-[var(--gold)]/10 text-[var(--gold-text)]" : "border-[var(--ground-line)] text-[var(--ink-dim)] hover:border-[var(--ink-faint)]"}`}>{n}</button>
         ))}
-        <button type="button" onClick={() => setConnect((v) => !v)} className={`ml-2 rounded-md border px-3 py-1.5 text-xs font-medium transition ${connect ? "border-[var(--gold)] bg-[var(--gold)]/10 text-[var(--gold)]" : "border-[var(--ground-line)] text-[var(--ink-dim)] hover:border-[var(--ink-faint)]"}`}>
+        <button type="button" onClick={() => setConnect((v) => !v)} className={`ml-2 rounded-md border px-3 py-1.5 text-xs font-medium transition ${connect ? "border-[var(--gold)] bg-[var(--gold)]/10 text-[var(--gold-text)]" : "border-[var(--ground-line)] text-[var(--ink-dim)] hover:border-[var(--ink-faint)]"}`}>
           {t("Connect with arrows", "ភ្ជាប់ដោយព្រួញ")}
         </button>
       </div>
@@ -89,7 +89,7 @@ export default function ObsidianCanvasGenerator() {
 
       <div className="flex items-center gap-2">
         <span className="text-xs text-[var(--ink-faint)]">{t("Copy JSON", "ចម្លង JSON")}</span><CopyButton text={json} compact />
-        <button type="button" onClick={() => downloadBlob(new Blob([json], { type: "application/json" }), "diagram.canvas")} disabled={cards.length === 0} className="flex items-center gap-1.5 rounded-md bg-[var(--gold)] px-3 py-1.5 text-xs font-medium text-[#0a0c0d] transition hover:bg-[var(--gold-dim)] disabled:opacity-50">
+        <button type="button" onClick={() => downloadBlob(new Blob([json], { type: "application/json" }), "diagram.canvas")} disabled={cards.length === 0} className="flex items-center gap-1.5 rounded-md bg-[var(--gold)] px-3 py-1.5 text-xs font-medium text-[var(--on-gold)] transition hover:bg-[var(--gold-hover)] disabled:opacity-50">
           <Download size={13} />{t("Download .canvas", "ទាញយក .canvas")}
         </button>
       </div>

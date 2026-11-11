@@ -69,7 +69,7 @@ export default function ObsidianCalloutBuilder() {
       <div className="flex flex-wrap items-center gap-2">
         <span className="text-xs text-[var(--ink-faint)]">{t("Foldable", "អាចបត់")}:</span>
         {([["none", "No", "ទេ"], ["open", "Open", "បើក"], ["closed", "Collapsed", "បិទ"]] as const).map(([id, en, km]) => (
-          <button key={id} type="button" onClick={() => setFold(id)} className={`rounded-md border px-3 py-1.5 text-xs font-medium transition ${fold === id ? "border-[var(--gold)] bg-[var(--gold)]/10 text-[var(--gold)]" : "border-[var(--ground-line)] text-[var(--ink-dim)] hover:border-[var(--ink-faint)]"}`}>{t(en, km)}</button>
+          <button key={id} type="button" onClick={() => setFold(id)} className={`rounded-md border px-3 py-1.5 text-xs font-medium transition ${fold === id ? "border-[var(--gold)] bg-[var(--gold)]/10 text-[var(--gold-text)]" : "border-[var(--ground-line)] text-[var(--ink-dim)] hover:border-[var(--ink-faint)]"}`}>{t(en, km)}</button>
         ))}
       </div>
 

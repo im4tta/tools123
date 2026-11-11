@@ -30,7 +30,7 @@ export function ScrollToBottomButton() {
       onClick={() => window.scrollTo({ top: document.documentElement.scrollHeight, behavior: preferredScrollBehavior() })}
       aria-label={t("Go to bottom", "ទៅកាន់ផ្នែកខាងក្រោម")}
       title={t("Go to bottom", "ទៅកាន់ផ្នែកខាងក្រោម")}
-      className="floating-corner-button fixed bottom-5 right-5 z-40 flex h-10 w-10 items-center justify-center rounded-full border border-[var(--ground-line)] bg-[var(--ground-raised)] text-[var(--ink-dim)] shadow-xl transition hover:translate-y-0.5 hover:bg-[var(--ground-raised-hi)] hover:text-[var(--gold)]"
+      className="floating-corner-button fixed bottom-5 right-5 z-40 flex h-10 w-10 items-center justify-center rounded-full border border-[var(--ground-line)] bg-[var(--ground-raised)] text-[var(--ink-dim)] shadow-xl transition hover:translate-y-0.5 hover:bg-[var(--ground-raised-hi)] hover:text-[var(--gold-text)]"
     >
       <ArrowDown size={17} />
     </button>

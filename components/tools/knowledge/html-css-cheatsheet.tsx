@@ -112,7 +112,7 @@ export default function HtmlCssCheatsheet() {
       <div className="space-y-6">
         {GROUPS.map((group) => (
           <section key={group.title}>
-            <h2 className="mb-2 text-sm font-semibold uppercase tracking-wide text-[var(--gold)]">
+            <h2 className="mb-2 text-sm font-semibold uppercase tracking-wide text-[var(--gold-text)]">
               {t(group.title, group.titleKm)}
             </h2>
             <div className="overflow-hidden rounded-md border border-[var(--ground-line)]">

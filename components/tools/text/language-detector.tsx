@@ -167,7 +167,7 @@ export default function LanguageDetector() {
           </p>
         </>
       ) : (
-        <p className="text-sm font-medium text-[var(--gold)]">{t("Enter some text to detect its language.", "សូមបញ្ចូលអត្ថបទដើម្បីកំណត់ភាសា។")}</p>
+        <p className="text-sm font-medium text-[var(--gold-text)]">{t("Enter some text to detect its language.", "សូមបញ្ចូលអត្ថបទដើម្បីកំណត់ភាសា។")}</p>
       )}
     </ToolShell>
   );

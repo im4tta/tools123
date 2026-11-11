@@ -127,7 +127,7 @@ export default function AdvancePaymentRecovery() {
           <div className="flex items-center gap-2">
             <CopyButton text={tsv} />
             <button type="button" onClick={addIpc}
-              className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-1.5 text-xs font-medium text-[var(--ink-dim)] transition hover:border-[var(--gold-dim)] hover:text-[var(--gold)]">
+              className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-1.5 text-xs font-medium text-[var(--ink-dim)] transition hover:border-[var(--gold-dim)] hover:text-[var(--gold-text)]">
               + {t("Add IPC", "បន្ថែម IPC")}
             </button>
           </div>
@@ -184,7 +184,7 @@ export default function AdvancePaymentRecovery() {
                     <td className="p-2.5 text-right text-[var(--ink-dim)]">{r.cumulativePct.toFixed(1)}%</td>
                     <td className="p-2.5 text-right text-red-500">{r.recovery > 0 ? `−${money(r.recovery)}` : "—"}</td>
                     <td className="p-2.5 text-right">{money(r.outstanding)}</td>
-                    <td className="p-2.5 text-right font-semibold text-[var(--gold)]">{money(r.netPayable)}</td>
+                    <td className="p-2.5 text-right font-semibold text-[var(--gold-text)]">{money(r.netPayable)}</td>
                   </tr>
                 ))}
               </tbody>

@@ -73,7 +73,7 @@ export default function FlatVsDeclining() {
         <>
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4">
-              <div className="text-xs font-medium uppercase tracking-wide text-[var(--gold)]">{t("Flat rate", "អត្រាស្មើ")}</div>
+              <div className="text-xs font-medium uppercase tracking-wide text-[var(--gold-text)]">{t("Flat rate", "អត្រាស្មើ")}</div>
               <div className="mt-2 space-y-1 text-sm text-[var(--ink-dim)]">
                 <div>{t("Monthly payment", "បង់ប្រចាំខែ")}: <b className="text-[var(--ink)]">{fmt(calc.flatMonthly)}</b></div>
                 <div>{t("Total interest", "ការប្រាក់សរុប")}: <b className="text-[var(--ink)]">{fmt(calc.flatInterest)}</b></div>
@@ -81,7 +81,7 @@ export default function FlatVsDeclining() {
               </div>
             </div>
             <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4">
-              <div className="text-xs font-medium uppercase tracking-wide text-[var(--gold)]">{t("Declining balance", "អត្រាថយចុះ")}</div>
+              <div className="text-xs font-medium uppercase tracking-wide text-[var(--gold-text)]">{t("Declining balance", "អត្រាថយចុះ")}</div>
               <div className="mt-2 space-y-1 text-sm text-[var(--ink-dim)]">
                 <div>{t("Monthly payment", "បង់ប្រចាំខែ")}: <b className="text-[var(--ink)]">{fmt(calc.decliningMonthly)}</b></div>
                 <div>{t("Total interest", "ការប្រាក់សរុប")}: <b className="text-[var(--ink)]">{fmt(calc.decliningInterest)}</b></div>

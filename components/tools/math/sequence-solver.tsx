@@ -170,7 +170,7 @@ export default function SequenceSolver() {
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4">
               <div className="text-xs font-medium uppercase tracking-wide text-[var(--ink-dim)]">{t("Sequence type", "ប្រភេទលំដាប់")}</div>
-              <div className="mt-1 text-lg font-semibold text-[var(--gold)]">
+              <div className="mt-1 text-lg font-semibold text-[var(--gold-text)]">
                 {result.kind === "ap" ? t("Arithmetic", "នព្វន្ត") : t("Geometric", "ធរណីមាត្រ")}
               </div>
               <div className="mt-1 text-xs text-[var(--ink-dim)]">
@@ -186,7 +186,7 @@ export default function SequenceSolver() {
           <Output label={t("Sum of first n terms (Sₙ)", "ផលបូកតួ n ដំបូង (Sₙ)")} value={`${result.formulaS}  =  ${result.sum}`} />
         </>
       ) : (
-        <p className="text-sm font-medium text-[var(--gold)]">{t(result.error, ERRORS_KM[result.error] ?? result.error)}</p>
+        <p className="text-sm font-medium text-[var(--gold-text)]">{t(result.error, ERRORS_KM[result.error] ?? result.error)}</p>
       )}
 
       <p className="text-xs leading-relaxed text-[var(--ink-dim)]">

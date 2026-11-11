@@ -74,8 +74,8 @@ export default function RideFareEstimator() {
 
       <Field label={t("Distance mode", "របៀបចម្ងាយ")}>
         <div className="flex gap-2 pt-1">
-          <button type="button" onClick={() => setUseCoords("0")} className={`flex-1 rounded-md px-3 py-2 text-sm font-medium transition ${useCoords === "0" ? "bg-[var(--gold)] text-[#0a0c0d]" : "bg-[var(--ground-raised)] text-[var(--ink-dim)]"}`}>{t("Enter km", "បញ្ចូលគីឡូម៉ែត្រ")}</button>
-          <button type="button" onClick={() => setUseCoords("1")} className={`flex-1 rounded-md px-3 py-2 text-sm font-medium transition ${useCoords === "1" ? "bg-[var(--gold)] text-[#0a0c0d]" : "bg-[var(--ground-raised)] text-[var(--ink-dim)]"}`}>{t("Two points", "ពីរចំណុច")}</button>
+          <button type="button" onClick={() => setUseCoords("0")} className={`flex-1 rounded-md px-3 py-2 text-sm font-medium transition ${useCoords === "0" ? "bg-[var(--gold)] text-[var(--on-gold)]" : "bg-[var(--ground-raised)] text-[var(--ink-dim)]"}`}>{t("Enter km", "បញ្ចូលគីឡូម៉ែត្រ")}</button>
+          <button type="button" onClick={() => setUseCoords("1")} className={`flex-1 rounded-md px-3 py-2 text-sm font-medium transition ${useCoords === "1" ? "bg-[var(--gold)] text-[var(--on-gold)]" : "bg-[var(--ground-raised)] text-[var(--ink-dim)]"}`}>{t("Two points", "ពីរចំណុច")}</button>
         </div>
       </Field>
 
@@ -127,7 +127,7 @@ export default function RideFareEstimator() {
       </div>
 
       <div className="flex items-start gap-2 rounded-md border border-amber-500/40 bg-amber-500/10 p-3 text-xs leading-relaxed text-[var(--ink-dim)]">
-        <Info size={14} className="mt-0.5 shrink-0 text-[var(--gold)]" />
+        <Info size={14} className="mt-0.5 shrink-0 text-[var(--gold-text)]" />
         <span>
           {t("The default base and per-km rates are sample placeholders only, not real fares. Real fares vary by provider, demand/surge, time of day, exact route and vehicle. Use your own observed rates for the vehicle. Distance is a straight line, so the actual road distance may be longer.", "អត្រាមូលដ្ឋាន និងក្នុងមួយគីឡូម៉ែត្រលំនាំដើមគឺជាគំរូតែប៉ុណ្ណោះ មិនមែនជាថ្លៃពិតទេ។ ថ្លៃពិតប្រែប្រួលតាមក្រុមហ៊ុន តម្រូវការ ពេលវេលា ផ្លូវពិត និងយាន។ ប្រើអត្រាដែលអ្នកបានសង្កេតផ្ទាល់សម្រាប់យាននីមួយៗ។ ចម្ងាយជាបន្ទាត់ត្រង់ ផ្លូវពិតអាចវែងជាង។")}
         </span>

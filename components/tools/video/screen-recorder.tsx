@@ -105,7 +105,7 @@ export default function ScreenRecorder() {
             </>
           ) : (
             <>
-              <button type="button" onClick={start} className="flex items-center justify-center gap-2 rounded-xl bg-[var(--gold)] px-6 py-3 text-sm font-semibold text-[#0a0c0d] transition hover:bg-[var(--gold-dim)]">
+              <button type="button" onClick={start} className="flex items-center justify-center gap-2 rounded-xl bg-[var(--gold)] px-6 py-3 text-sm font-semibold text-[var(--on-gold)] transition hover:bg-[var(--gold-hover)]">
                 <Circle size={15} fill="currentColor" />{t("Start recording", "ចាប់ផ្តើមថត")}
               </button>
               <p className="text-xs text-[var(--ink-faint)]">{t("Choose a screen, window, or tab when prompted.", "ជ្រើសរើសអេក្រង់ វីនដូ ឬផ្ទាំងពេលត្រូវបានសួរ។")}</p>
@@ -117,7 +117,7 @@ export default function ScreenRecorder() {
           <div className="space-y-3">
             <video src={url} controls className="w-full rounded-xl border border-[var(--ground-line)] bg-black" />
             <div className="text-xs text-[var(--ink-faint)]">WebM · {sizeMb.toFixed(1)} MB</div>
-            <a href={url} download={`screen-recording-${Date.now()}.webm`} onClick={(e) => { e.preventDefault(); download(); }} className="flex w-full items-center justify-center gap-2 rounded-xl bg-[var(--gold)] px-5 py-3 text-sm font-semibold text-[#0a0c0d] transition hover:bg-[var(--gold-dim)]">
+            <a href={url} download={`screen-recording-${Date.now()}.webm`} onClick={(e) => { e.preventDefault(); download(); }} className="flex w-full items-center justify-center gap-2 rounded-xl bg-[var(--gold)] px-5 py-3 text-sm font-semibold text-[var(--on-gold)] transition hover:bg-[var(--gold-hover)]">
               <Download size={16} />{t("Download WebM", "ទាញយក WebM")}
             </a>
           </div>

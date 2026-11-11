@@ -104,7 +104,7 @@ export default function KhmerTimeInWords() {
                   onClick={() => setManualValue(`${pad2(to24(h12, false))}:${pad2(time.m)}`)}
                   title={t("Before noon (AM)", "មុនថ្ងៃត្រង់ (AM)")}
                   aria-label={t("Select before noon", "ជ្រើសរើសមុនថ្ងៃត្រង់")}
-                  className={`px-2.5 py-2 text-xs font-semibold transition ${!isPm ? "bg-[var(--gold)] text-[#0a0c0d]" : "bg-[var(--ground-raised)] text-[var(--ink-dim)] hover:text-[var(--ink)]"}`}
+                  className={`px-2.5 py-2 text-xs font-semibold transition ${!isPm ? "bg-[var(--gold)] text-[var(--on-gold)]" : "bg-[var(--ground-raised)] text-[var(--ink-dim)] hover:text-[var(--ink)]"}`}
                 >
                   AM
                 </button>
@@ -113,7 +113,7 @@ export default function KhmerTimeInWords() {
                   onClick={() => setManualValue(`${pad2(to24(h12, true))}:${pad2(time.m)}`)}
                   title={t("After noon (PM)", "ក្រោយថ្ងៃត្រង់ (PM)")}
                   aria-label={t("Select after noon", "ជ្រើសរើសក្រោយថ្ងៃត្រង់")}
-                  className={`border-l border-[var(--ground-line)] px-2.5 py-2 text-xs font-semibold transition ${isPm ? "bg-[var(--gold)] text-[#0a0c0d]" : "bg-[var(--ground-raised)] text-[var(--ink-dim)] hover:text-[var(--ink)]"}`}
+                  className={`border-l border-[var(--ground-line)] px-2.5 py-2 text-xs font-semibold transition ${isPm ? "bg-[var(--gold)] text-[var(--on-gold)]" : "bg-[var(--ground-raised)] text-[var(--ink-dim)] hover:text-[var(--ink)]"}`}
                 >
                   PM
                 </button>
@@ -138,7 +138,7 @@ export default function KhmerTimeInWords() {
           </>
         </Button>
         {live && (
-          <span className="inline-flex items-center gap-1.5 rounded-md border border-[var(--gold)]/40 bg-[var(--gold)]/10 px-2.5 py-1 text-xs font-medium text-[var(--gold)]">
+          <span className="inline-flex items-center gap-1.5 rounded-md border border-[var(--gold)]/40 bg-[var(--gold)]/10 px-2.5 py-1 text-xs font-medium text-[var(--gold-text)]">
             <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[var(--gold)]" />
             {t("Live", "ផ្ទាល់")} · {nowText}
           </span>
@@ -204,7 +204,7 @@ export default function KhmerTimeInWords() {
                     lang="km"
                     className={`rounded-md border px-2.5 py-1 text-xs font-medium ${
                       active
-                        ? "border-[var(--gold)] bg-[var(--gold)]/15 text-[var(--gold)]"
+                        ? "border-[var(--gold)] bg-[var(--gold)]/15 text-[var(--gold-text)]"
                         : "border-[var(--ground-line)] bg-[var(--ground-raised)] text-[var(--ink-dim)]"
                     }`}
                   >

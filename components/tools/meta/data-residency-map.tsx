@@ -152,7 +152,7 @@ export default function DataResidencyMap() {
               key={option.value}
               onClick={() => setFilter(option.value)}
               className={`rounded-md px-3 py-1.5 text-xs font-medium transition ${
-                filter === option.value ? "bg-[var(--gold)] text-[#0a0c0d]" : "text-[var(--ink-dim)] hover:text-[var(--ink)]"
+                filter === option.value ? "bg-[var(--gold)] text-[var(--on-gold)]" : "text-[var(--ink-dim)] hover:text-[var(--ink)]"
               }`}
             >
               {t(option.label, option.labelKm)}

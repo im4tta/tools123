@@ -91,7 +91,7 @@ export default function KhmerLunarCalendar() {
                 {t(gregorian[0], gregorian[1])} {toKh(data.year)}
               </h2>
               <div className="text-xs text-[var(--ink-dim)]">
-                <span className="font-khmer text-[var(--gold)]">{t("Lunar month", "ខែចន្ទគតិ")}: {data.monthNames.join(" / ")}</span>
+                <span className="font-khmer text-[var(--gold-text)]">{t("Lunar month", "ខែចន្ទគតិ")}: {data.monthNames.join(" / ")}</span>
               </div>
             </div>
             {data.animalYearName && (
@@ -123,7 +123,7 @@ export default function KhmerLunarCalendar() {
                       : "border-[var(--ground-line)] bg-[var(--ground-raised)]"
                   }`}
                 >
-                  <div className={`text-xs ${isToday ? "font-semibold text-[var(--gold)]" : "text-[var(--ink-dim)]"}`}>
+                  <div className={`text-xs ${isToday ? "font-semibold text-[var(--gold-text)]" : "text-[var(--ink-dim)]"}`}>
                     {toKh(c.day)}
                   </div>
                   <div className={`font-khmer text-sm leading-tight ${c.failed ? "text-[var(--danger)]" : "text-[var(--ink)]"}`}>

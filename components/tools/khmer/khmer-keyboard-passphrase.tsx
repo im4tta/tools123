@@ -90,7 +90,7 @@ export default function KhmerKeyboardPassphrase() {
             <div className="flex items-start justify-between gap-3">
               <div className="min-w-0">
                 <p className="text-xs font-medium uppercase tracking-wide text-[var(--ink-dim)]">{t("Type this as your password (English layout)", "វាយនេះជាពាក្យសម្ងាត់ (ប្លង់អង់គ្លេស)")}</p>
-                <p className="mt-1 break-all font-mono-ui text-xl text-[var(--gold)]">{result.keys}</p>
+                <p className="mt-1 break-all font-mono-ui text-xl text-[var(--gold-text)]">{result.keys}</p>
               </div>
               <CopyButton text={result.keys} compact className="shrink-0" />
             </div>

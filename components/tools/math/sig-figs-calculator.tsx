@@ -101,7 +101,7 @@ export default function SigFigsCalculator() {
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
           <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4">
             <div className="text-xs font-medium uppercase tracking-wide text-[var(--ink-dim)]">{t("Significant figures", "ចំនួនខ្ទង់សំខាន់")}</div>
-            <div className="mt-1 text-2xl font-semibold text-[var(--gold)]">{analysis.count}</div>
+            <div className="mt-1 text-2xl font-semibold text-[var(--gold-text)]">{analysis.count}</div>
           </div>
           <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4">
             <div className="text-xs font-medium uppercase tracking-wide text-[var(--ink-dim)]">{t("Digit by digit", "ខ្ទង់នីមួយៗ")}</div>
@@ -113,7 +113,7 @@ export default function SigFigsCalculator() {
                     mk.kind === "sig"
                       ? "font-semibold text-[var(--ink)]"
                       : mk.kind === "ambiguous"
-                        ? "text-[var(--gold)]"
+                        ? "text-[var(--gold-text)]"
                         : "text-[var(--ink-dim)] opacity-50"
                   }
                 >

@@ -50,7 +50,7 @@ export default function KhmerVocabularyComparison() {
       <button
         type="button"
         onClick={() => setContentOnly((v) => !v)}
-        className={`w-fit rounded-md border px-3 py-1.5 text-xs font-medium transition ${contentOnly ? "border-[var(--gold)] bg-[var(--gold)]/10 text-[var(--gold)]" : "border-[var(--ground-line)] text-[var(--ink-dim)] hover:border-[var(--ink-faint)]"}`}
+        className={`w-fit rounded-md border px-3 py-1.5 text-xs font-medium transition ${contentOnly ? "border-[var(--gold)] bg-[var(--gold)]/10 text-[var(--gold-text)]" : "border-[var(--ground-line)] text-[var(--ink-dim)] hover:border-[var(--ink-faint)]"}`}
       >
         {t("Content words only (skip particles)", "ពាក្យខ្លឹមសារតែប៉ុណ្ណោះ (រំលងពាក្យវេយ្យាករណ៍)")}
       </button>

@@ -168,7 +168,7 @@ export default function IngredientSubstitutionGuide() {
       <div className="divide-y divide-[var(--ground-line)] rounded-md border border-[var(--ground-line)]">
         {results.map((s) => (
           <div key={s.id} className="px-3 py-2.5">
-            <div className="text-sm font-medium text-[var(--gold)]">{t(s.ingredient[0], s.ingredient[1])}</div>
+            <div className="text-sm font-medium text-[var(--gold-text)]">{t(s.ingredient[0], s.ingredient[1])}</div>
             <div className="mt-0.5 text-sm text-[var(--ink)]">{t(s.swap[0], s.swap[1])}</div>
             <div className="mt-0.5 text-xs text-[var(--ink-faint)]">{t(s.note[0], s.note[1])}</div>
           </div>

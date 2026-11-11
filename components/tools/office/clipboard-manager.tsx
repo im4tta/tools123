@@ -167,7 +167,7 @@ export default function ClipboardManager() {
                 </p>
               </div>
               <div className="flex shrink-0 flex-col items-end gap-1.5">
-                <button type="button" onClick={() => copyItem(item.id)} className="rounded bg-[var(--gold)] px-2.5 py-1 text-xs font-medium text-[#0a0c0d] hover:bg-[var(--gold-dim)]">{text("Copy", "ចម្លង")}</button>
+                <button type="button" onClick={() => copyItem(item.id)} className="rounded bg-[var(--gold)] px-2.5 py-1 text-xs font-medium text-[var(--on-gold)] hover:bg-[var(--gold-hover)]">{text("Copy", "ចម្លង")}</button>
                 <div className="flex gap-1.5">
                   <button type="button" onClick={() => togglePin(item.id)} className="rounded border border-[var(--ground-line)] px-2 py-0.5 text-[11px] text-[var(--ink-dim)] hover:border-[var(--gold-dim)]">{item.pinned ? text("Unpin", "ដោះខ្ទាស់") : text("Pin", "ខ្ទាស់")}</button>
                   <button type="button" onClick={() => removeItem(item.id)} className="rounded border border-red-700/40 px-2 py-0.5 text-[11px] text-red-600 hover:border-red-700">{text("Delete", "លុប")}</button>

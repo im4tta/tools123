@@ -255,7 +255,7 @@ export default function Sudoku() {
         ? " font-semibold text-[var(--ink)]"
         : conflicts.has(i) || wrong.has(i)
           ? " text-[var(--danger)]"
-          : " text-[var(--gold)]";
+          : " text-[var(--gold-text)]";
     return `flex aspect-square items-center justify-center font-mono-ui text-sm transition sm:text-base ${edges}${bg}${text}`;
   };
 
@@ -311,9 +311,9 @@ export default function Sudoku() {
           <div className="font-mono-ui text-[var(--ink)]">
             {t("Time", "ម៉ោង")}: {String(Math.floor(seconds / 60)).padStart(2, "0")}:{String(seconds % 60).padStart(2, "0")}
           </div>
-          {message === "win" && <div className="font-medium text-[var(--gold)]">{t("Solved — congratulations!", "បានដោះស្រាយ — សូមអបអរសាទរ!")}</div>}
+          {message === "win" && <div className="font-medium text-[var(--gold-text)]">{t("Solved — congratulations!", "បានដោះស្រាយ — សូមអបអរសាទរ!")}</div>}
           {message === "error" && <div className="text-[var(--danger)]">{t("Some filled cells are incorrect.", "មានក្រឡាខ្លះមិនត្រឹមត្រូវ។")}</div>}
-          {message === "ok" && <div className="text-[var(--gold)]">{t("No mistakes so far.", "មិនទាន់មានកំហុសទេ។")}</div>}
+          {message === "ok" && <div className="text-[var(--gold-text)]">{t("No mistakes so far.", "មិនទាន់មានកំហុសទេ។")}</div>}
         </div>
 
         <div className="mt-3 grid grid-cols-9 gap-1">

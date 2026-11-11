@@ -169,7 +169,7 @@ export default function ZScoreCalculator() {
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
             <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4">
               <div className="text-xs font-medium uppercase tracking-wide text-[var(--ink-dim)]">z-score</div>
-              <div className="mt-1 font-mono-ui text-lg font-semibold text-[var(--gold)]">{fmt(calc.z)}</div>
+              <div className="mt-1 font-mono-ui text-lg font-semibold text-[var(--gold-text)]">{fmt(calc.z)}</div>
             </div>
             <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4">
               <div className="text-xs font-medium uppercase tracking-wide text-[var(--ink-dim)]">{t("Cumulative Φ(z)", "ប្រមូល Φ(z)")}</div>
@@ -181,7 +181,7 @@ export default function ZScoreCalculator() {
             </div>
             <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4">
               <div className="text-xs font-medium uppercase tracking-wide text-[var(--ink-dim)]">{t("Right tail", "កន្ទុយស្ដាំ")}</div>
-              <div className="mt-1 font-mono-ui text-lg font-semibold text-[var(--gold)]">{fmt(calc.rightTail)}%</div>
+              <div className="mt-1 font-mono-ui text-lg font-semibold text-[var(--gold-text)]">{fmt(calc.rightTail)}%</div>
             </div>
           </div>
 
@@ -200,7 +200,7 @@ export default function ZScoreCalculator() {
           )}
         </>
       ) : (
-        <p className="text-sm font-medium text-[var(--gold)]">{t(calc.error, ERRORS_KM[calc.error] ?? calc.error)}</p>
+        <p className="text-sm font-medium text-[var(--gold-text)]">{t(calc.error, ERRORS_KM[calc.error] ?? calc.error)}</p>
       )}
 
       <p className="text-xs leading-relaxed text-[var(--ink-dim)]">

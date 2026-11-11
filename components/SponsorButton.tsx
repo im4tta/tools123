@@ -16,7 +16,7 @@ export function SponsorButton({ className = "" }: { className?: string }) {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className={`inline-flex items-center gap-1.5 rounded-md border border-[var(--gold-dim)]/50 bg-[var(--gold)]/10 px-3 py-1.5 text-xs font-medium text-[var(--gold)] transition hover:bg-[var(--gold)]/20 ${className}`}
+        className={`inline-flex items-center gap-1.5 rounded-md border border-[var(--gold-dim)]/50 bg-[var(--gold)]/10 px-3 py-1.5 text-xs font-medium text-[var(--gold-text)] transition hover:bg-[var(--gold)]/20 ${className}`}
       >
         <HeartHandshake size={13} />
         {text("Sponsor", "ឧបត្ថម្ភ")}
@@ -35,7 +35,7 @@ export function SponsorButton({ className = "" }: { className?: string }) {
             </button>
 
             <div className="mb-4 flex items-center gap-2">
-              <HeartHandshake size={17} className="text-[var(--gold)]" />
+              <HeartHandshake size={17} className="text-[var(--gold-text)]" />
               <span className="text-sm font-medium text-[var(--ink)]">
                 {text("Support 123 Toolbox", "គាំទ្រ 123 Toolbox")}
               </span>

@@ -56,7 +56,7 @@ export default function SchoolYearPlanner() {
       {result && (
         <div className="rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4">
           <div className="mb-3 flex items-center gap-2 font-medium text-[var(--ink)]">
-            <GraduationCap size={16} className="text-[var(--gold)]" />
+            <GraduationCap size={16} className="text-[var(--gold-text)]" />
             {t("Academic timeline", "បន្ទាត់ពេលវេលាសិក្សា")}
           </div>
           <TimelineRow color="var(--gold)" label={t("Semester 1", "ឆមាសទី១")} start={result.sem1Start} end={result.sem1End} />
@@ -70,7 +70,7 @@ export default function SchoolYearPlanner() {
       )}
 
       <div className="flex items-start gap-2 rounded-md border border-amber-500/40 bg-amber-500/10 p-3 text-xs leading-relaxed text-[var(--ink-dim)]">
-        <Info size={14} className="mt-0.5 shrink-0 text-[var(--gold)]" />
+        <Info size={14} className="mt-0.5 shrink-0 text-[var(--gold-text)]" />
         <span>
           {t("This is a generic two-semester planner. Actual Cambodian school-year dates and breaks are set by the Ministry of Education, Youth and Sport and differ between public/private schools and grade levels — adjust the dates to your school.", "នេះគឺជាផែនការឆមាសពីរទូទៅ។ កាលបរិច្ឆេទពិតប្រាកដនៃឆ្នាំសិក្សាកម្ពុជា និងការឈប់សម្រាក ត្រូវបានកំណត់ដោយក្រសួងអប់រំ យុវជន និងកីឡា ហើយខុសគ្នារវាងសាលារដ្ឋ/ឯកជន និងកម្រិតថ្នាក់ — សូមកែកាលបរិច្ឆេទតាមសាលារបស់អ្នក។")}
         </span>

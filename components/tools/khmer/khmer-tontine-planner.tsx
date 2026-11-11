@@ -132,7 +132,7 @@ export default function KhmerTontinePlanner() {
                     <td lang="km" className="px-3 py-2 font-khmer text-[var(--ink)]">{m.name}</td>
                     <td className="px-3 py-2 text-right text-[var(--ink-dim)]">{fmt(m.paid)}</td>
                     <td className="px-3 py-2 text-right text-[var(--ink-dim)]">{fmt(m.received)}</td>
-                    <td className={`px-3 py-2 text-right font-semibold ${m.net > 0 ? "text-[var(--gold)]" : m.net < 0 ? "text-[var(--danger)]" : "text-[var(--ink)]"}`}>{m.net > 0 ? "+" : ""}{fmt(m.net)}</td>
+                    <td className={`px-3 py-2 text-right font-semibold ${m.net > 0 ? "text-[var(--gold-text)]" : m.net < 0 ? "text-[var(--danger)]" : "text-[var(--ink)]"}`}>{m.net > 0 ? "+" : ""}{fmt(m.net)}</td>
                   </tr>
                 ))}
               </tbody>

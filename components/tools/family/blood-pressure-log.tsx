@@ -43,9 +43,9 @@ function badgeClass(key: CategoryKey): string {
     case "normal":
       return "border-[var(--ground-line)] text-[var(--ink)]";
     case "elevated":
-      return "border-[var(--gold-dim)] text-[var(--gold)]";
+      return "border-[var(--gold-dim)] text-[var(--gold-text)]";
     case "stage1":
-      return "border-[var(--gold-dim)] font-semibold text-[var(--gold)]";
+      return "border-[var(--gold-dim)] font-semibold text-[var(--gold-text)]";
     case "stage2":
     case "crisis":
       return "border-[var(--danger)]/50 font-semibold text-[var(--danger)]";

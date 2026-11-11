@@ -279,7 +279,7 @@ export default function TextCaseNormalizer() {
           <div className="mb-2 text-[var(--ink-dim)]">{text(`${diffCount} line(s) differ`, `${diffCount} បន្ទាត់ខុសគ្នា`)}</div>
           {rows.length === 0 && <div className="text-[var(--ink-faint)]">{text("Nothing to compare yet.", "មិនទាន់មានអ្វីប្រៀបធៀបទេ។")}</div>}
           {rows.map((r, i) => (
-            <div key={i} className={r.status === "same" ? "text-[var(--ink-dim)]" : r.status === "added" ? "text-[var(--teal)]" : r.status === "removed" ? "text-[var(--danger)]" : "text-[var(--gold)]"}>
+            <div key={i} className={r.status === "same" ? "text-[var(--ink-dim)]" : r.status === "added" ? "text-[var(--teal)]" : r.status === "removed" ? "text-[var(--danger)]" : "text-[var(--gold-text)]"}>
               {r.status === "added" && `+ ${r.b}`}
               {r.status === "removed" && `- ${r.a}`}
               {r.status === "changed" && `± ${r.a} → ${r.b}`}

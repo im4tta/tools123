@@ -163,7 +163,7 @@ export default function AirportLookup() {
                       onKeyDown={(e) => e.key === "Enter" && setSelected(row)}
                       aria-label={`${row[2]}, ${row[3]}, ${row[4]}`}
                     >
-                      <td className="px-3 py-2 font-mono-ui font-medium text-[var(--gold)]">
+                      <td className="px-3 py-2 font-mono-ui font-medium text-[var(--gold-text)]">
                         {row[0] || "—"}
                       </td>
                       <td className="px-3 py-2 font-mono-ui text-[var(--ink-dim)]">

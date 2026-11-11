@@ -72,7 +72,7 @@ export default function CommandPaletteDialog({
                       <span className="h-1.5 w-1.5 shrink-0 rounded-full" style={{ background: CATEGORY_META[cat].color }} />
                       <span className="truncate">{t(tool.title, tool.khmerTitle ?? tool.title)}</span>
                     </span>
-                    <ArrowRight size={13} className="shrink-0 text-[var(--ink-faint)] group-data-[selected=true]:text-[var(--gold)]" />
+                    <ArrowRight size={13} className="shrink-0 text-[var(--ink-faint)] group-data-[selected=true]:text-[var(--gold-text)]" />
                   </Command.Item>
                 ))}
               </Command.Group>
@@ -80,7 +80,7 @@ export default function CommandPaletteDialog({
           </Command.List>
           <div className="flex min-h-9 items-center gap-2 border-t border-[var(--ground-line)] px-4 py-2 text-xs">
             <span className="shrink-0 text-[var(--ink-faint)]">{t("Selected:", "បានជ្រើសរើស៖")}</span>
-            <strong aria-live="polite" aria-atomic="true" className="min-w-0 flex-1 truncate font-medium text-[var(--gold)]">
+            <strong aria-live="polite" aria-atomic="true" className="min-w-0 flex-1 truncate font-medium text-[var(--gold-text)]">
               {selectedTool ? t(selectedTool.title, selectedTool.khmerTitle ?? selectedTool.title) : t("No tool", "គ្មានឧបករណ៍")}
             </strong>
           </div>

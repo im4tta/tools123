@@ -20,7 +20,7 @@ import { useToolState } from "@/lib/storage";
 
 const ORIGIN_CONFIG: Record<string, { km: string; en: string; color: string; icon: string; era: string }> = {
   "sanskrit-pali": {
-    km: "សំស្ក្រឹត / បាលី", en: "Sanskrit / Pali", color: "var(--gold)", icon: "☸️",
+    km: "សំស្ក្រឹត / បាលី", en: "Sanskrit / Pali", color: "var(--gold-text)", icon: "☸️",
     era: "Ancient & Classical Era (1st–14th C.)",
   },
   french: {
@@ -231,7 +231,7 @@ export default function LoanwordExplorer() {
                 : "text-[var(--ink-dim)] hover:bg-[var(--ground-raised-hi)] hover:text-[var(--ink)]"
             }`}
           >
-            <tb.icon size={16} className={activeTab === tb.id ? "text-[var(--gold)]" : "text-[var(--ink-faint)]"} />
+            <tb.icon size={16} className={activeTab === tb.id ? "text-[var(--gold-text)]" : "text-[var(--ink-faint)]"} />
             {tb.label}
           </button>
         ))}
@@ -277,7 +277,7 @@ export default function LoanwordExplorer() {
                   onClick={() => setSelectedOrigin(key)}
                   className={`rounded-md border px-3 py-1.5 text-xs font-semibold transition ${
                     selectedOrigin === key
-                      ? "border-[var(--gold)] bg-[var(--gold)]/15 text-[var(--gold)]"
+                      ? "border-[var(--gold)] bg-[var(--gold)]/15 text-[var(--gold-text)]"
                       : "border-[var(--ground-line)] bg-[var(--ground)] text-[var(--ink-dim)] hover:text-[var(--ink)]"
                   }`}
                 >
@@ -292,7 +292,7 @@ export default function LoanwordExplorer() {
                 onClick={() => setOnlyBookmarks(!onlyBookmarks)}
                 className={`flex items-center gap-1.5 rounded-md border px-3 py-1.5 text-xs font-semibold transition ${
                   onlyBookmarks
-                    ? "border-[var(--gold)] bg-[var(--gold)]/15 text-[var(--gold)]"
+                    ? "border-[var(--gold)] bg-[var(--gold)]/15 text-[var(--gold-text)]"
                     : "border-[var(--ground-line)] bg-[var(--ground)] text-[var(--ink-dim)] hover:text-[var(--ink)]"
                 }`}
               >
@@ -304,7 +304,7 @@ export default function LoanwordExplorer() {
                   type="button"
                   onClick={() => setViewMode("grid")}
                   className={`rounded-md px-2 py-1.5 text-xs transition ${
-                    viewMode === "grid" ? "bg-[var(--gold)]/15 text-[var(--gold)]" : "text-[var(--ink-faint)]"
+                    viewMode === "grid" ? "bg-[var(--gold)]/15 text-[var(--gold-text)]" : "text-[var(--ink-faint)]"
                   }`}
                 >
                   <Grid size={14} />
@@ -313,7 +313,7 @@ export default function LoanwordExplorer() {
                   type="button"
                   onClick={() => setViewMode("list")}
                   className={`rounded-md px-2 py-1.5 text-xs transition ${
-                    viewMode === "list" ? "bg-[var(--gold)]/15 text-[var(--gold)]" : "text-[var(--ink-faint)]"
+                    viewMode === "list" ? "bg-[var(--gold)]/15 text-[var(--gold-text)]" : "text-[var(--ink-faint)]"
                   }`}
                 >
                   <List size={14} />
@@ -329,7 +329,7 @@ export default function LoanwordExplorer() {
               <button
                 type="button"
                 onClick={() => { setSelectedOrigin("all"); setSearchQuery(""); setOnlyBookmarks(false); }}
-                className="flex items-center gap-1 text-[var(--gold)] hover:underline"
+                className="flex items-center gap-1 text-[var(--gold-text)] hover:underline"
               >
                 <RotateCcw size={12} />
                 {t("Clear Filters", "សម្អាតការជ្រើសរើស")}
@@ -363,7 +363,7 @@ export default function LoanwordExplorer() {
                         <button
                           type="button"
                           onClick={(e) => speakWord(word.khmer, e)}
-                          className="rounded p-1.5 text-[var(--ink-faint)] transition hover:text-[var(--gold)] hover:bg-[var(--ground)]"
+                          className="rounded p-1.5 text-[var(--ink-faint)] transition hover:text-[var(--gold-text)] hover:bg-[var(--ground)]"
                           title={t("Listen", "អានសម្លេង")}
                         >
                           <Volume2 size={14} />
@@ -371,7 +371,7 @@ export default function LoanwordExplorer() {
                         <button
                           type="button"
                           onClick={(e) => toggleBookmark(word.id, e)}
-                          className={`rounded p-1.5 transition ${isBm ? "text-[var(--gold)]" : "text-[var(--ink-faint)] hover:text-[var(--ink)]"}`}
+                          className={`rounded p-1.5 transition ${isBm ? "text-[var(--gold-text)]" : "text-[var(--ink-faint)] hover:text-[var(--ink)]"}`}
                         >
                           <Bookmark size={14} fill={isBm ? "currentColor" : "none"} />
                         </button>
@@ -417,12 +417,12 @@ export default function LoanwordExplorer() {
           <div className="rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)] p-6">
             <div className="mb-6 flex items-center justify-between border-b border-[var(--ground-line)] pb-4">
               <div className="flex items-center gap-2">
-                <Award size={20} className="text-[var(--gold)]" />
+                <Award size={20} className="text-[var(--gold-text)]" />
                 <h3 className="font-display text-lg font-bold text-[var(--ink)]">
                   {t("Loanword Origin Quiz", "សំណួរប្រភពដើមពាក្យកម្ចី")}
                 </h3>
               </div>
-              <span className="rounded-full border border-[var(--gold)]/40 bg-[var(--gold)]/10 px-3 py-1 font-mono-ui text-xs font-bold text-[var(--gold)]">
+              <span className="rounded-full border border-[var(--gold)]/40 bg-[var(--gold)]/10 px-3 py-1 font-mono-ui text-xs font-bold text-[var(--gold-text)]">
                 {t(`Score: ${quizScore}`, `ពិន្ទុ: ${quizScore}`)}
               </span>
             </div>
@@ -483,7 +483,7 @@ export default function LoanwordExplorer() {
                 <button
                   type="button"
                   onClick={() => { setQuizIndex((p) => p + 1); setQuizAnswered(false); setSelectedQuizOption(null); }}
-                  className="flex items-center gap-2 rounded-md bg-[var(--gold)] px-4 py-2 text-xs font-semibold text-[#0a0c0d] transition hover:bg-[var(--gold-dim)]"
+                  className="flex items-center gap-2 rounded-md bg-[var(--gold)] px-4 py-2 text-xs font-semibold text-[var(--on-gold)] transition hover:bg-[var(--gold-hover)]"
                 >
                   {t("Next Question", "សំណួរបន្ទាប់")}
                   <ChevronRight size={14} />
@@ -570,7 +570,7 @@ export default function LoanwordExplorer() {
               <button
                 type="button"
                 onClick={(e) => speakWord(selectedWord.khmer, e)}
-                className="flex shrink-0 items-center gap-1.5 rounded-lg bg-[var(--gold)] px-3 py-2 text-xs font-semibold text-[#0a0c0d] transition hover:bg-[var(--gold-dim)]"
+                className="flex shrink-0 items-center gap-1.5 rounded-lg bg-[var(--gold)] px-3 py-2 text-xs font-semibold text-[var(--on-gold)] transition hover:bg-[var(--gold-hover)]"
               >
                 <Volume2 size={14} />
                 {t("Listen", "អានសម្លេង")}

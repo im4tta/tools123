@@ -212,7 +212,7 @@ export function HomeSpotlightCarousel() {
       <div className="flex flex-col gap-3 sm:grid sm:grid-cols-2 xl:flex xl:flex-row xl:justify-between">
         <article className="home-spotlight-card pointer-events-auto w-full rounded-2xl border border-amber-500/25 bg-[var(--ground-raised)] p-4 shadow-sm sm:max-w-none xl:w-64" onMouseEnter={() => setHeld(true)} onMouseLeave={() => setHeld(false)} onFocus={() => setHeld(true)} onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) setHeld(false); }}>
           <div className="home-spotlight-heading mb-3 flex items-center justify-between">
-            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-amber-600"><Coins size={15} /> {t("Finance", "ហិរញ្ញវត្ថុ")}</div>
+            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-amber-800 dark:text-amber-400"><Coins size={15} /> {t("Finance", "ហិរញ្ញវត្ថុ")}</div>
             <button type="button" onClick={() => setUserAutoplay(!autoplay)} className="text-[var(--ink-faint)] hover:text-[var(--ink)]" aria-label={autoplay ? t("Pause finance carousel", "ផ្អាក Carousel ហិរញ្ញវត្ថុ") : t("Resume finance carousel", "បន្ត Carousel ហិរញ្ញវត្ថុ")}>{autoplay ? <Pause size={13} /> : <Play size={13} />}</button>
           </div>
           {financeSlide === 0 ? (
@@ -237,7 +237,7 @@ export function HomeSpotlightCarousel() {
 
         <article className="home-spotlight-card pointer-events-auto w-full rounded-2xl border border-blue-500/25 bg-[var(--ground-raised)] p-4 shadow-sm sm:max-w-none xl:w-64" onMouseEnter={() => setHeld(true)} onMouseLeave={() => setHeld(false)} onFocus={() => setHeld(true)} onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) setHeld(false); }}>
           <div className="home-spotlight-heading mb-3 flex items-center justify-between gap-2">
-            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-blue-600"><CloudSun size={15} /> {t("Weather", "អាកាសធាតុ")}</div>
+            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-blue-700 dark:text-blue-400"><CloudSun size={15} /> {t("Weather", "អាកាសធាតុ")}</div>
             {weatherRows.length > 0 && (
               <select
                 value={weatherIndex}

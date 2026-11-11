@@ -210,7 +210,7 @@ export default function VideoSpeedChanger() {
                   <div className="text-xs font-medium uppercase tracking-wide text-[var(--ink-dim)]">
                     {t("Speed-changed (WebM)", "ប្តូរល្បឿន (WebM)")}
                   </div>
-                  <div className="mt-1 text-lg font-semibold text-[var(--gold)]">{fmtSize(resultSize)}</div>
+                  <div className="mt-1 text-lg font-semibold text-[var(--gold-text)]">{fmtSize(resultSize)}</div>
                   <div className="mt-1 text-xs text-[var(--ink-dim)]">
                     {t("Duration", "រយៈពេល")} {fmtDur(resultDuration)} · {speed}×
                   </div>
@@ -220,7 +220,7 @@ export default function VideoSpeedChanger() {
               <a
                 href={resultUrl}
                 download="speed-changed.webm"
-                className="inline-flex items-center gap-1.5 rounded-md bg-[var(--gold)] px-3 py-1.5 text-xs font-medium text-[#0a0c0d] hover:opacity-90"
+                className="inline-flex items-center gap-1.5 rounded-md bg-[var(--gold)] px-3 py-1.5 text-xs font-medium text-[var(--on-gold)] hover:opacity-90"
               >
                 <Download size={13} />
                 {t("Download WebM", "ទាញយក WebM")} — {fmtSize(resultSize)}

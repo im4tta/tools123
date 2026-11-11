@@ -133,7 +133,7 @@ export default function LoanAmortization() {
           ].map((s) => (
             <div key={s.en} className="rounded-lg border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3">
               <div className="text-[11px] text-[var(--ink-faint)]">{t(s.en, s.km)}</div>
-              <div className={`mt-1 font-mono-ui text-lg font-bold ${s.accent ? "text-[var(--gold)]" : "text-[var(--ink)]"}`}>{s.v}</div>
+              <div className={`mt-1 font-mono-ui text-lg font-bold ${s.accent ? "text-[var(--gold-text)]" : "text-[var(--ink)]"}`}>{s.v}</div>
             </div>
           ))}
         </div>
@@ -144,7 +144,7 @@ export default function LoanAmortization() {
 
         <div className="flex items-center justify-between">
           <span className="text-xs uppercase tracking-wide text-[var(--ink-faint)]">{t("Schedule", "តារាង")}</span>
-          <button onClick={exportCsv} disabled={schedule.rows.length === 0} className="inline-flex items-center gap-1.5 rounded-md bg-[var(--gold)] px-3 py-1.5 text-xs font-medium text-[#0a0c0d] transition hover:bg-[var(--gold-dim)] disabled:opacity-40"><Download size={13} />{t("Download CSV", "ទាញយក CSV")}</button>
+          <button onClick={exportCsv} disabled={schedule.rows.length === 0} className="inline-flex items-center gap-1.5 rounded-md bg-[var(--gold)] px-3 py-1.5 text-xs font-medium text-[var(--on-gold)] transition hover:bg-[var(--gold-hover)] disabled:opacity-40"><Download size={13} />{t("Download CSV", "ទាញយក CSV")}</button>
         </div>
 
         <div className="max-h-[460px] overflow-auto rounded-xl border border-[var(--ground-line)]">

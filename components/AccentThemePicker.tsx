@@ -61,7 +61,7 @@ export function AccentThemePicker({ className = "" }: { className?: string }) {
                 onClick={() => { setHomeDesign(opt.id); setOpen(false); }}
                 className={`rounded-md px-2 py-1.5 text-xs font-medium transition ${
                   homeDesign === opt.id
-                    ? "bg-[var(--gold)]/15 text-[var(--gold)] ring-1 ring-[var(--gold)]/40"
+                    ? "bg-[var(--gold)]/15 text-[var(--gold-text)] ring-1 ring-[var(--gold)]/40"
                     : "text-[var(--ink-dim)] hover:bg-[var(--ground-raised-hi)] hover:text-[var(--ink)]"
                 }`}
               >
@@ -79,7 +79,7 @@ export function AccentThemePicker({ className = "" }: { className?: string }) {
                 type="button"
                 onClick={() => { setAccent(a.id); setOpen(false); }}
                 className={`flex w-full items-center gap-2.5 px-3 py-1.5 text-left text-sm transition ${
-                  accent === a.id ? "bg-[var(--gold)]/15 font-medium text-[var(--gold)]" : "text-[var(--ink-dim)] hover:bg-[var(--ground-raised-hi)] hover:text-[var(--ink)]"
+                  accent === a.id ? "bg-[var(--gold)]/15 font-medium text-[var(--gold-text)]" : "text-[var(--ink-dim)] hover:bg-[var(--ground-raised-hi)] hover:text-[var(--ink)]"
                 }`}
               >
                 <span className="h-4 w-4 shrink-0 rounded-full border border-black/20" style={{ background: a.swatch }} />

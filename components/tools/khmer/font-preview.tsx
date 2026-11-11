@@ -111,14 +111,14 @@ export default function FontPreview() {
         </section>
 
         <div className="flex flex-wrap gap-2">
-          <button type="button" onClick={downloadPng} className="inline-flex items-center gap-2 rounded-xl bg-[var(--gold)] px-4 py-2.5 text-sm font-bold text-[#0a0c0d] transition hover:bg-[var(--gold-dim)]"><Download size={15} /> Download PNG</button>
+          <button type="button" onClick={downloadPng} className="inline-flex items-center gap-2 rounded-xl bg-[var(--gold)] px-4 py-2.5 text-sm font-bold text-[var(--on-gold)] transition hover:bg-[var(--gold-hover)]"><Download size={15} /> Download PNG</button>
           <button type="button" onClick={copyCss} className="inline-flex items-center gap-2 rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)] px-4 py-2.5 text-sm font-bold text-[var(--ink)] transition hover:border-[var(--gold-dim)]">{copied ? <Check size={15} /> : <Copy size={15} />} {copied ? "Copied CSS" : "Copy CSS"}</button>
         </div>
 
         <section ref={previewRef} className="overflow-hidden rounded-2xl border border-[var(--gold)] bg-[var(--ground-raised)]">
           <div className="flex items-center justify-between border-b border-[var(--ground-line)] px-4 py-3">
             <h2 className="text-sm font-bold text-[var(--ink)]">Live preview</h2>
-            <span className="text-xs text-[var(--gold)]">{font}</span>
+            <span className="text-xs text-[var(--gold-text)]">{font}</span>
           </div>
           <div className="min-h-[180px] whitespace-pre-wrap break-words p-8" style={{ fontFamily: `"${font}", sans-serif`, fontSize: `${size}px`, fontWeight: weight, lineHeight, letterSpacing: `${letterSpacing}px`, color: textColor, background }}>{text || "​"}</div>
         </section>

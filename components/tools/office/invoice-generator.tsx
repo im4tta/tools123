@@ -304,7 +304,7 @@ export default function InvoiceGenerator() {
         <button
           type="button"
           onClick={addRow}
-          className="rounded-md border border-[var(--gold-dim)] px-3 py-1.5 text-sm text-[var(--gold)] transition hover:bg-[var(--gold)]/10"
+          className="rounded-md border border-[var(--gold-dim)] px-3 py-1.5 text-sm text-[var(--gold-text)] transition hover:bg-[var(--gold)]/10"
         >
           + {t("Add item", "បន្ថែមធាតុ")}
         </button>
@@ -321,7 +321,7 @@ export default function InvoiceGenerator() {
           )}
           <div className="flex justify-between border-t border-[var(--ground-line)] pt-1 text-base font-semibold">
             <span className="text-[var(--ink)]">{t("Total", "សរុប")}</span>
-            <span className="text-[var(--gold)]">{fmt(calc.total)}</span>
+            <span className="text-[var(--gold-text)]">{fmt(calc.total)}</span>
           </div>
         </div>
       </div>

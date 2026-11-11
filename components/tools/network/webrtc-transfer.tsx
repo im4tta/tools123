@@ -135,17 +135,17 @@ export default function WebRTCTransfer() {
     >
       {/* Mode toggle */}
       <div className="mb-5 flex rounded-lg border border-[var(--ground-line)] bg-[var(--ground)] p-1">
-        <button onClick={() => { setMode("send"); reset(); }} className={`flex-1 rounded-md px-3 py-2 text-sm font-semibold ${mode === "send" ? "bg-[var(--gold)] text-[#0a0c0d]" : "text-[var(--ink-dim)]"}`}>
+        <button onClick={() => { setMode("send"); reset(); }} className={`flex-1 rounded-md px-3 py-2 text-sm font-semibold ${mode === "send" ? "bg-[var(--gold)] text-[var(--on-gold)]" : "text-[var(--ink-dim)]"}`}>
           <Upload size={14} className="inline mr-1" />{t("Send File", "ផ្ញើឯកសារ")}
         </button>
-        <button onClick={() => { setMode("receive"); reset(); }} className={`flex-1 rounded-md px-3 py-2 text-sm font-semibold ${mode === "receive" ? "bg-[var(--gold)] text-[#0a0c0d]" : "text-[var(--ink-dim)]"}`}>
+        <button onClick={() => { setMode("receive"); reset(); }} className={`flex-1 rounded-md px-3 py-2 text-sm font-semibold ${mode === "receive" ? "bg-[var(--gold)] text-[var(--on-gold)]" : "text-[var(--ink-dim)]"}`}>
           <Download size={14} className="inline mr-1" />{t("Receive File", "ទទួលឯកសារ")}
         </button>
       </div>
 
       {/* Status */}
       {statusText && (
-        <div className="mb-4 flex items-center gap-2 rounded-lg border border-[var(--gold)]/30 bg-[var(--gold)]/5 px-4 py-2.5 text-sm text-[var(--gold)]">
+        <div className="mb-4 flex items-center gap-2 rounded-lg border border-[var(--gold)]/30 bg-[var(--gold)]/5 px-4 py-2.5 text-sm text-[var(--gold-text)]">
           <Wifi size={14} className={step === "connected" || step === "transferring" || step === "done" ? "text-[var(--success)]" : ""} />
           {statusText}
         </div>
@@ -178,13 +178,13 @@ export default function WebRTCTransfer() {
           ) : (
             <>
               <div className="flex items-center gap-3 rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4">
-                <FileText size={20} className="text-[var(--gold)]" />
+                <FileText size={20} className="text-[var(--gold-text)]" />
                 <div><div className="text-sm font-semibold">{file.name}</div><div className="text-xs text-[var(--ink-faint)]">{file.size}</div></div>
                 <button onClick={() => setFile(null)} className="ml-auto rounded border border-[var(--ground-line)] px-2 py-1 text-xs text-[var(--ink-faint)]">{t("Change", "ផ្លាស់")}</button>
               </div>
 
               {step === "idle" && (
-                <button onClick={createTransfer} className="w-full rounded-lg bg-[var(--gold)] px-4 py-3 text-sm font-semibold text-[#0a0c0d] hover:bg-[var(--gold-dim)]">
+                <button onClick={createTransfer} className="w-full rounded-lg bg-[var(--gold)] px-4 py-3 text-sm font-semibold text-[var(--on-gold)] hover:bg-[var(--gold-hover)]">
                   {t("Create Transfer", "បង្កើតការផ្ទេរ")}
                 </button>
               )}

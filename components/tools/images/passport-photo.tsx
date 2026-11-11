@@ -206,7 +206,7 @@ export default function PassportPhoto() {
               <p className="mt-2 text-center text-[11px] text-[var(--ink-faint)]">{wmm} × {hmm} mm · {mmToPx(wmm)} × {mmToPx(hmm)} px @ {DPI}dpi</p>
             </div>
             <label className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 text-sm text-[var(--ink-dim)] transition hover:border-[var(--gold-dim)]">
-              <ImagePlus size={15} className="text-[var(--gold)]" />{t("Change photo", "ប្តូររូប")}<input type="file" accept="image/*" className="hidden" onChange={onFile} />
+              <ImagePlus size={15} className="text-[var(--gold-text)]" />{t("Change photo", "ប្តូររូប")}<input type="file" accept="image/*" className="hidden" onChange={onFile} />
             </label>
           </div>
 
@@ -238,7 +238,7 @@ export default function PassportPhoto() {
             <div className="space-y-3 rounded-lg border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3">
               <div className="flex items-center justify-between text-[11px] font-semibold uppercase tracking-wide text-[var(--ink-dim)]">
                 {t("Position", "ទីតាំង")}
-                <button onClick={() => { setZoom(1); setPanX(0); setPanY(0); }} className="inline-flex items-center gap-1 text-[10px] font-normal text-[var(--gold)] hover:underline"><RotateCcw size={11} />{t("Reset", "កំណត់ឡើងវិញ")}</button>
+                <button onClick={() => { setZoom(1); setPanX(0); setPanY(0); }} className="inline-flex items-center gap-1 text-[10px] font-normal text-[var(--gold-text)] hover:underline"><RotateCcw size={11} />{t("Reset", "កំណត់ឡើងវិញ")}</button>
               </div>
               {[
                 { label: t("Zoom", "ពង្រីក"), v: zoom, min: 0.5, max: 3, step: 0.02, set: setZoom, fmt: `${zoom.toFixed(2)}x` },
@@ -265,7 +265,7 @@ export default function PassportPhoto() {
             </div>
 
             <div className="flex flex-wrap gap-2">
-              <button onClick={exportPhoto} disabled={!activeImg || removing} className="inline-flex items-center gap-2 rounded-md bg-[var(--gold)] px-4 py-2 text-sm font-medium text-[#0a0c0d] transition hover:bg-[var(--gold-dim)] disabled:opacity-40"><Download size={15} />{t("Download photo", "ទាញយករូប")}</button>
+              <button onClick={exportPhoto} disabled={!activeImg || removing} className="inline-flex items-center gap-2 rounded-md bg-[var(--gold)] px-4 py-2 text-sm font-medium text-[var(--on-gold)] transition hover:bg-[var(--gold-hover)] disabled:opacity-40"><Download size={15} />{t("Download photo", "ទាញយករូប")}</button>
               <button onClick={exportSheet} disabled={!activeImg || removing} className="inline-flex items-center gap-2 rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-4 py-2 text-sm font-medium text-[var(--ink)] transition hover:border-[var(--gold-dim)] disabled:opacity-40"><Download size={15} />{t("Download print sheet", "ទាញយកសន្លឹកបោះពុម្ព")}</button>
             </div>
             {status && !removing && <p className="text-xs text-[var(--danger)]">{status}</p>}

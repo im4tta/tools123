@@ -140,7 +140,7 @@ export default function WebcamPhotoBooth() {
                 <button
                   type="button"
                   onClick={() => downloadShot(shot, i)}
-                  className="mt-1 w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-2 py-1 text-xs text-[var(--gold)] transition hover:border-[var(--gold-dim)]"
+                  className="mt-1 w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-2 py-1 text-xs text-[var(--gold-text)] transition hover:border-[var(--gold-dim)]"
                 >
                   {t("Download", "ទាញយក")}
                 </button>

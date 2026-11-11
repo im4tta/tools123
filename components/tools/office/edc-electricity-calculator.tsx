@@ -288,7 +288,7 @@ ${text("CALCULATION SUMMARY", "សេចក្តីសង្ខេបការ�
       <section className="space-y-3 rounded-md border border-[var(--ground-line)] p-4">
         <div className="flex flex-wrap items-baseline justify-between gap-2">
           <h2 className="flex items-center gap-2 font-medium text-[var(--ink)]">
-            <Zap size={16} className="text-[var(--gold)]" />
+            <Zap size={16} className="text-[var(--gold-text)]" />
             {text("Quick Appliance Presets", "ជ្រើសរើសឧបករណ៍ប្រើប្រាស់រហ័ស")}
           </h2>
           <span className="text-xs text-[var(--ink-faint)]">{text("Click to auto-fill the form", "ចុចដើម្បីបំពេញទិន្នន័យស្វ័យប្រវត្តិ")}</span>
@@ -303,7 +303,7 @@ ${text("CALCULATION SUMMARY", "សេចក្តីសង្ខេបការ�
                 onClick={() => loadPreset(preset)}
                 className="flex flex-col items-center gap-1 rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-2 py-3 text-center transition hover:border-[var(--gold-dim)] hover:bg-[var(--ground-raised-hi)]"
               >
-                <Icon size={20} className="text-[var(--gold)]" />
+                <Icon size={20} className="text-[var(--gold-text)]" />
                 <span className="w-full truncate text-xs font-semibold text-[var(--ink)]">{text(preset.en, preset.km)}</span>
                 <span className="text-[11px] text-[var(--ink-faint)]">
                   {preset.power}W · {preset.hours}h/d
@@ -319,7 +319,7 @@ ${text("CALCULATION SUMMARY", "សេចក្តីសង្ខេបការ�
           <section className="space-y-3 rounded-md border border-[var(--ground-line)] p-4">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <h2 className="flex items-center gap-2 font-medium text-[var(--ink)]">
-                <Calculator size={16} className="text-[var(--gold)]" />
+                <Calculator size={16} className="text-[var(--gold-text)]" />
                 {text("Calculation Parameters", "ប៉ារ៉ាម៉ែត្រគណនា")}
               </h2>
               <button
@@ -371,7 +371,7 @@ ${text("CALCULATION SUMMARY", "សេចក្តីសង្ខេបការ�
                       onClick={() => setEdcRate(String(rp.rate))}
                       className={`rounded-md border px-1 py-1.5 text-xs font-semibold transition ${
                         active
-                          ? "border-[var(--gold-dim)] bg-[var(--gold)]/15 text-[var(--gold)]"
+                          ? "border-[var(--gold-dim)] bg-[var(--gold)]/15 text-[var(--gold-text)]"
                           : "border-[var(--ground-line)] bg-[var(--ground-raised)] text-[var(--ink-dim)] hover:text-[var(--ink)]"
                       }`}
                     >
@@ -391,7 +391,7 @@ ${text("CALCULATION SUMMARY", "សេចក្តីសង្ខេបការ�
               <button
                 type="button"
                 onClick={addToComparison}
-                className="flex flex-1 items-center justify-center gap-1.5 rounded-md bg-[var(--gold)] px-4 py-2 text-sm font-medium text-[#0a0c0d] transition hover:bg-[var(--gold-dim)]"
+                className="flex flex-1 items-center justify-center gap-1.5 rounded-md bg-[var(--gold)] px-4 py-2 text-sm font-medium text-[var(--on-gold)] transition hover:bg-[var(--gold-hover)]"
               >
                 <Plus size={16} />
                 {text("Add to household list", "បន្ថែមក្នុងបញ្ជីផ្ទះ")}
@@ -409,7 +409,7 @@ ${text("CALCULATION SUMMARY", "សេចក្តីសង្ខេបការ�
 
           <section className="space-y-3 rounded-md border border-[var(--ground-line)] p-4">
             <h2 className="flex items-center gap-2 font-medium text-[var(--ink)]">
-              <Table2 size={16} className="text-[var(--gold)]" />
+              <Table2 size={16} className="text-[var(--gold-text)]" />
               {text("EDC Tariff Schedule (Residential)", "តារាងថ្លៃអគ្គិសនី EDC កម្ពុជា (លំនៅឋាន)")}
             </h2>
             <p className="text-xs leading-relaxed text-[var(--ink-dim)]">
@@ -432,8 +432,8 @@ ${text("CALCULATION SUMMARY", "សេចក្តីសង្ខេបការ�
                         : "border-[var(--ground-line)] bg-[var(--ground-raised)] hover:bg-[var(--ground-raised-hi)]"
                     }`}
                   >
-                    <span className={`font-semibold ${active ? "text-[var(--gold)]" : "text-[var(--ink)]"}`}>{text(tier.en, tier.km)}</span>
-                    <span className={`shrink-0 rounded-md border border-[var(--ground-line)] bg-[var(--ground)] px-2 py-0.5 font-bold ${active ? "text-[var(--gold)]" : "text-[var(--ink-dim)]"}`}>
+                    <span className={`font-semibold ${active ? "text-[var(--gold-text)]" : "text-[var(--ink)]"}`}>{text(tier.en, tier.km)}</span>
+                    <span className={`shrink-0 rounded-md border border-[var(--ground-line)] bg-[var(--ground)] px-2 py-0.5 font-bold ${active ? "text-[var(--gold-text)]" : "text-[var(--ink-dim)]"}`}>
                       {tier.rate} ៛ <span className="font-normal text-[var(--ink-faint)]">· {tier.usd}</span>
                     </span>
                   </button>
@@ -461,7 +461,7 @@ ${text("CALCULATION SUMMARY", "សេចក្តីសង្ខេបការ�
             </div>
             <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4 text-center">
               <div className="text-[11px] font-semibold uppercase tracking-wide text-[var(--ink-faint)]">{text("Monthly", "ថាមពល/ខែ")}</div>
-              <div className="mt-1 text-xl font-bold text-[var(--gold)]">{result.monthlyKwh.toFixed(2)}</div>
+              <div className="mt-1 text-xl font-bold text-[var(--gold-text)]">{result.monthlyKwh.toFixed(2)}</div>
               <div className="text-[11px] text-[var(--ink-faint)]">kWh / {text("month", "ខែ")}</div>
             </div>
             <div className="rounded-md border border-[var(--success)]/40 bg-[var(--success)]/10 p-4 text-center">
@@ -480,7 +480,7 @@ ${text("CALCULATION SUMMARY", "សេចក្តីសង្ខេបការ�
 
           <section className="space-y-3 rounded-md border border-[var(--ground-line)] p-4">
             <h2 className="flex items-center gap-2 font-medium text-[var(--ink)]">
-              <ListChecks size={16} className="text-[var(--gold)]" />
+              <ListChecks size={16} className="text-[var(--gold-text)]" />
               {text("Step-by-Step Calculation", "ព័ត៌មានលម្អិតអំពីជំហាននៃការគណនា")}
             </h2>
             <div className="space-y-2.5 text-xs">
@@ -519,7 +519,7 @@ ${text("CALCULATION SUMMARY", "សេចក្តីសង្ខេបការ�
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div>
             <h2 className="flex items-center gap-2 font-medium text-[var(--ink)]">
-              <Home size={16} className="text-[var(--gold)]" />
+              <Home size={16} className="text-[var(--gold-text)]" />
               {text("Household Bill Estimator", "ប្រព័ន្ធប៉ាន់ប្រមាណវិក្កយបត្រអគ្គិសនីក្នុងផ្ទះ")}
             </h2>
             <p className="mt-0.5 text-xs text-[var(--ink-dim)]">
@@ -591,7 +591,7 @@ ${text("CALCULATION SUMMARY", "សេចក្តីសង្ខេបការ�
                     <td colSpan={3} className="py-2.5 pr-2 text-right">
                       {text("TOTAL ESTIMATED MONTHLY BILL:", "ការចំណាយសរុបប្រចាំខែ៖")}
                     </td>
-                    <td className="py-2.5 pr-2 text-right text-[var(--gold)]">{totals.kwh.toFixed(1)} kWh</td>
+                    <td className="py-2.5 pr-2 text-right text-[var(--gold-text)]">{totals.kwh.toFixed(1)} kWh</td>
                     <td className="py-2.5 pr-2 text-right text-[var(--success)]">
                       {formatKhr(totals.cost)} (${totals.usd.toFixed(2)})
                     </td>
@@ -613,7 +613,7 @@ ${text("CALCULATION SUMMARY", "សេចក្តីសង្ខេបការ�
 
       <section className="space-y-3 rounded-md border border-[var(--ground-line)] p-4">
         <h2 className="flex items-center gap-2 font-medium text-[var(--ink)]">
-          <Lightbulb size={16} className="text-[var(--gold)]" />
+          <Lightbulb size={16} className="text-[var(--gold-text)]" />
           {text("Power Saving Tips in Cambodia", "គន្លឹះសំខាន់ៗក្នុងការសន្សំសំចៃអគ្គិសនីនៅកម្ពុជា")}
         </h2>
         <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
@@ -622,7 +622,7 @@ ${text("CALCULATION SUMMARY", "សេចក្តីសង្ខេបការ�
             return (
               <div key={idx} className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3.5">
                 <div className="mb-1.5 flex items-center gap-1.5 font-semibold text-[var(--ink)]">
-                  <Icon size={15} className="text-[var(--gold)]" />
+                  <Icon size={15} className="text-[var(--gold-text)]" />
                   {text(tip.titleEn, tip.titleKm)}
                 </div>
                 <p className="text-xs leading-relaxed text-[var(--ink-dim)]">{text(tip.bodyEn, tip.bodyKm)}</p>
@@ -649,7 +649,7 @@ function StepRow({
   return (
     <div className={`flex items-start gap-3 rounded-md border p-3 ${highlight ? "border-[var(--success)]/40 bg-[var(--success)]/10" : "border-[var(--ground-line)] bg-[var(--ground-raised)]"}`}>
       <span
-        className={`mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-md text-xs font-bold text-[#0a0c0d] ${highlight ? "bg-[var(--success)]" : "bg-[var(--gold)]"}`}
+        className={`mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-md text-xs font-bold text-[var(--on-gold)] ${highlight ? "bg-[var(--success)]" : "bg-[var(--gold)]"}`}
       >
         {number}
       </span>

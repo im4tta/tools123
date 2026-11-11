@@ -133,7 +133,7 @@ export default function KhmerI18nChecker() {
                   {shown.map((i) => (
                     <tr key={`${i.key}:${i.kind}`} className="border-t border-[var(--ground-line)] align-top">
                       <td className="px-3 py-2 font-mono-ui text-xs text-[var(--ink)]">{i.key}</td>
-                      <td className={`px-3 py-2 text-xs ${SEVERE.includes(i.kind) ? "text-[var(--danger)]" : "text-[var(--gold)]"}`}>
+                      <td className={`px-3 py-2 text-xs ${SEVERE.includes(i.kind) ? "text-[var(--danger)]" : "text-[var(--gold-text)]"}`}>
                         {t(KIND_LABEL[i.kind][0], KIND_LABEL[i.kind][1])}
                         {i.detail && <span className="block font-mono-ui text-[var(--ink-faint)]">{i.detail}</span>}
                       </td>

@@ -97,7 +97,7 @@ export default function WaterIntake() {
       </div>
 
       <div className="flex items-center gap-2 rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-4 py-3 text-sm text-[var(--ink-dim)]">
-        <Droplets size={16} className="text-[var(--gold)]" />
+        <Droplets size={16} className="text-[var(--gold-text)]" />
         {t("Logged", "បានកត់ត្រា")}: {amounts.length} {t("glass(es)", "កែវ")} · {day}
       </div>
     </ToolShell>

@@ -88,12 +88,12 @@ export default function KhmerDancesFestivals() {
                 <span className="font-khmer text-base font-semibold text-[var(--ink)]">{e.km}</span>
                 <span className="ml-2 text-sm text-[var(--ink-dim)]">{e.en}</span>
               </div>
-              <span className="rounded border border-[var(--ground-line)] px-1.5 py-0.5 text-[10px] uppercase tracking-wide text-[var(--gold)]">
+              <span className="rounded border border-[var(--ground-line)] px-1.5 py-0.5 text-[10px] uppercase tracking-wide text-[var(--gold-text)]">
                 {t(e.type, typeKm(e.type))}
               </span>
             </div>
             <p className="mt-1 text-xs leading-relaxed text-[var(--ink-dim)]">
-              <span className="font-medium text-[var(--gold)]">{t("When", "ពេលវេលា")}: </span>
+              <span className="font-medium text-[var(--gold-text)]">{t("When", "ពេលវេលា")}: </span>
               {t(e.timingEn, e.timingKm)}
             </p>
             <p className="mt-0.5 text-xs leading-relaxed text-[var(--ink-dim)]">{e.descEn}</p>

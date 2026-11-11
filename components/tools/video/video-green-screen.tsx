@@ -363,12 +363,12 @@ export default function VideoGreenScreen() {
                 <div className="text-xs font-medium uppercase tracking-wide text-[var(--ink-dim)]">
                   {t("Keyed video (WebM)", "វីដេអូដកផ្ទៃ (WebM)")}
                 </div>
-                <div className="mt-1 text-lg font-semibold text-[var(--gold)]">{fmtSize(resultSize)}</div>
+                <div className="mt-1 text-lg font-semibold text-[var(--gold-text)]">{fmtSize(resultSize)}</div>
               </div>
               <a
                 href={resultUrl}
                 download="green-screen.webm"
-                className="inline-flex items-center gap-1.5 rounded-md bg-[var(--gold)] px-3 py-1.5 text-xs font-medium text-[#0a0c0d] hover:opacity-90"
+                className="inline-flex items-center gap-1.5 rounded-md bg-[var(--gold)] px-3 py-1.5 text-xs font-medium text-[var(--on-gold)] hover:opacity-90"
               >
                 <Download size={13} />
                 {t("Download WebM", "ទាញយក WebM")} — {fmtSize(resultSize)}

@@ -84,7 +84,7 @@ export default function KhqrDecoder() {
             )
           ) : (
             result.fields.length > 0 && (
-              <div className="flex items-start gap-2 rounded-md border border-[var(--gold-dim)]/50 bg-[var(--gold)]/10 p-3 text-sm text-[var(--gold)]">
+              <div className="flex items-start gap-2 rounded-md border border-[var(--gold-dim)]/50 bg-[var(--gold)]/10 p-3 text-sm text-[var(--gold-text)]">
                 <AlertTriangle size={16} className="mt-0.5 shrink-0" />
                 <span>{t("No CRC field (tag 63) found — this may be a partial payload.", "រកមិនឃើញវាល CRC (ស្លាក 63) — នេះប្រហែលជាទិន្នន័យមិនពេញលេញ។")}</span>
               </div>
@@ -145,9 +145,9 @@ export default function KhqrDecoder() {
           )}
         </p>
         <p className="mt-2 flex flex-wrap gap-x-4 gap-y-1">
-          <a href="https://www.emvco.com/emv-technologies/qr-codes/" target="_blank" rel="noopener noreferrer" className="underline hover:text-[var(--gold)]">EMVCo QR Codes</a>
-          <a href="https://bakong.nbc.gov.kh/" target="_blank" rel="noopener noreferrer" className="underline hover:text-[var(--gold)]">NBC Bakong</a>
-          <a href={toolHref("khqr-generator")} className="underline hover:text-[var(--gold)]">{t("Need to create one? KHQR Generator →", "ចង់បង្កើតមួយ? KHQR Generator →")}</a>
+          <a href="https://www.emvco.com/emv-technologies/qr-codes/" target="_blank" rel="noopener noreferrer" className="underline hover:text-[var(--gold-text)]">EMVCo QR Codes</a>
+          <a href="https://bakong.nbc.gov.kh/" target="_blank" rel="noopener noreferrer" className="underline hover:text-[var(--gold-text)]">NBC Bakong</a>
+          <a href={toolHref("khqr-generator")} className="underline hover:text-[var(--gold-text)]">{t("Need to create one? KHQR Generator →", "ចង់បង្កើតមួយ? KHQR Generator →")}</a>
         </p>
       </section>
     </ToolShell>
@@ -159,7 +159,7 @@ function FieldRow({ field, t }: { field: KhqrField; t: (en: string, km: string) 
   return (
     <div className="rounded border border-[var(--ground-line)]/60 bg-[var(--ground)] px-3 py-2">
       <div className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
-        <span className="rounded bg-[var(--ground-raised)] px-1.5 py-0.5 font-mono-ui text-[10px] text-[var(--gold)]">{field.tag}</span>
+        <span className="rounded bg-[var(--ground-raised)] px-1.5 py-0.5 font-mono-ui text-[10px] text-[var(--gold-text)]">{field.tag}</span>
         <span className="text-xs font-medium text-[var(--ink)]">{t(field.label.en, field.label.km)}</span>
         <span className="ml-auto text-[10px] text-[var(--ink-faint)]">{t(`${field.length} bytes`, `${field.length} បៃ`)}</span>
       </div>

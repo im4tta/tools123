@@ -35,7 +35,7 @@ export default function DiffChecker() {
           <div key={i} className={
             r.status === "same" ? "text-[var(--ink-dim)]" :
             r.status === "added" ? "text-[var(--teal)]" :
-            r.status === "removed" ? "text-[var(--danger)]" : "text-[var(--gold)]"
+            r.status === "removed" ? "text-[var(--danger)]" : "text-[var(--gold-text)]"
           }>
             {r.status === "added" && `+ ${r.b}`}
             {r.status === "removed" && `- ${r.a}`}

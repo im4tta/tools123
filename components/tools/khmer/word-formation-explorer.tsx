@@ -126,7 +126,7 @@ export default function WordFormationExplorer() {
                     onClick={() => run(word)}
                     className={`flex w-full items-center gap-2 rounded-lg px-2.5 py-1.5 text-left font-khmer text-sm transition ${
                       active
-                        ? "bg-[var(--gold)] font-bold text-[#0a0c0d]"
+                        ? "bg-[var(--gold)] font-bold text-[var(--on-gold)]"
                         : "text-[var(--ink-dim)] hover:bg-[var(--ground-raised-hi)] hover:text-[var(--ink)]"
                     }`}
                   >
@@ -158,7 +158,7 @@ export default function WordFormationExplorer() {
             </div>
             <button
               onClick={() => run()}
-              className="shrink-0 rounded-xl bg-[var(--gold)] px-6 py-3 text-sm font-bold text-[#0a0c0d] transition hover:bg-[var(--gold-dim)]"
+              className="shrink-0 rounded-xl bg-[var(--gold)] px-6 py-3 text-sm font-bold text-[var(--on-gold)] transition hover:bg-[var(--gold-hover)]"
             >
               {t("Analyze", "វិភាគ")}
             </button>
@@ -190,7 +190,7 @@ export default function WordFormationExplorer() {
                   key={key}
                   onClick={() => setView(key)}
                   className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition ${
-                    view === key ? "bg-[var(--gold)] text-[#0a0c0d]" : "text-[var(--ink-dim)] hover:text-[var(--ink)]"
+                    view === key ? "bg-[var(--gold)] text-[var(--on-gold)]" : "text-[var(--ink-dim)] hover:text-[var(--ink)]"
                   }`}
                 >
                   <Icon size={13} />
@@ -203,7 +203,7 @@ export default function WordFormationExplorer() {
           {/* Verified / guess badge */}
           <div className="flex justify-center">
             {entry.isGuess ? (
-              <span className="inline-flex items-center gap-2 rounded-full border border-[var(--gold-dim)]/40 bg-[var(--gold)]/10 px-4 py-1.5 text-xs font-semibold text-[var(--gold)]">
+              <span className="inline-flex items-center gap-2 rounded-full border border-[var(--gold-dim)]/40 bg-[var(--gold)]/10 px-4 py-1.5 text-xs font-semibold text-[var(--gold-text)]">
                 <HelpCircle size={14} />
                 {t("Algorithmic estimate", "ការវិភាគតាមអាល់ហ្ូរីត (ការប៉ាន់ស្មាន)")}
               </span>
@@ -225,7 +225,7 @@ export default function WordFormationExplorer() {
           <div className="flex max-h-[90vh] w-full max-w-4xl flex-col overflow-hidden rounded-2xl border border-[var(--ground-line)] bg-[var(--ground-raised)] shadow-2xl">
             <div className="flex items-center justify-between border-b border-[var(--ground-line)] px-6 py-4">
               <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--gold)]/15 text-[var(--gold)]"><Layers size={18} /></div>
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[var(--gold)]/15 text-[var(--gold-text)]"><Layers size={18} /></div>
                 <div>
                   <h2 className="font-khmer text-lg font-bold text-[var(--ink)]">វេយ្យាករណ៍ និង បញ្ញត្តិ</h2>
                   <p className="text-xs text-[var(--ink-faint)]">សង្ខេបមេរៀនអក្សរសាស្ត្រខ្មែរ ថ្នាក់ទី១១ — កម្លាយពាក្យ ព្យាង្គ និងសូរ (Khmer Morphological Derivation)</p>
@@ -243,7 +243,7 @@ export default function WordFormationExplorer() {
 
               <section>
                 <h3 className="mb-3 flex items-center gap-2 border-b border-[var(--ground-line)] pb-2 font-khmer text-lg font-bold text-[var(--ink)]">
-                  <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[var(--gold)]/15 font-mono-ui text-xs font-bold text-[var(--gold)]">១</span>
+                  <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[var(--gold)]/15 font-mono-ui text-xs font-bold text-[var(--gold-text)]">១</span>
                   ផ្នត់ដើមមាន ៥ ទម្រង់ (5 Prefix Forms)
                 </h3>
                 <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
@@ -255,7 +255,7 @@ export default function WordFormationExplorer() {
                     ["៥. ទម្រង់ [ពស/អ-]", "បន្ថែមព្យញ្ជនៈ ស ឬ ការប្រែប្រួលសំឡេងស្រៈ។", "ស + ម្ងាត់ ➔ សម្ងាត់"],
                   ].map(([title, body, demo]) => (
                     <div key={title} className="rounded-xl border border-[var(--ground-line)] bg-[var(--ground)] p-4">
-                      <h4 className="mb-1 inline-block rounded bg-[var(--gold)]/10 px-2 py-0.5 text-xs font-bold text-[var(--gold)]">{title}</h4>
+                      <h4 className="mb-1 inline-block rounded bg-[var(--gold)]/10 px-2 py-0.5 text-xs font-bold text-[var(--gold-text)]">{title}</h4>
                       <p className="text-xs leading-relaxed text-[var(--ink-dim)]">{body}</p>
                       <p className="mt-2 rounded-lg border border-[var(--ground-line)] bg-[var(--ground-raised)] p-2 font-mono-ui text-xs text-[var(--ink)]">{demo}</p>
                     </div>
@@ -341,7 +341,7 @@ export default function WordFormationExplorer() {
 
               <section>
                 <h3 className="mb-3 flex items-center gap-2 border-b border-[var(--ground-line)] pb-2 font-khmer text-lg font-bold text-[var(--ink)]">
-                  <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[var(--gold)]/15 font-mono-ui text-xs font-bold text-[var(--gold)]">៥</span>
+                  <span className="flex h-7 w-7 items-center justify-center rounded-full bg-[var(--gold)]/15 font-mono-ui text-xs font-bold text-[var(--gold-text)]">៥</span>
                   ប្រវត្តិអក្សរសិល្ប៍ និង ចលនា (Literature History & Movements)
                 </h3>
                 <p className="mb-3 text-xs leading-relaxed text-[var(--ink-faint)]">អក្សរសិល្ប៍ខ្មែរត្រូវបានបែងចែកជាច្រើនសម័យកាល និងចលនាផ្សេងៗគ្នា ដែលឆ្លុះបញ្ចាំងពីតថភាពសង្គម មនុស្ស និងវប្បធម៌។</p>
@@ -354,7 +354,7 @@ export default function WordFormationExplorer() {
                     ["សម័យបច្ចុប្បន្ន", "ឆ្នាំ ១៩៥៣ រហូតមក។"],
                   ].map(([title, body]) => (
                     <div key={title} className="rounded-xl border border-[var(--ground-line)] bg-[var(--ground)] p-4">
-                      <h5 className="mb-1 inline-block rounded bg-[var(--gold)]/10 px-2 py-0.5 font-khmer text-xs font-bold text-[var(--gold)]">{title}</h5>
+                      <h5 className="mb-1 inline-block rounded bg-[var(--gold)]/10 px-2 py-0.5 font-khmer text-xs font-bold text-[var(--gold-text)]">{title}</h5>
                       <p className="font-khmer text-xs leading-relaxed text-[var(--ink-dim)]">{body}</p>
                     </div>
                   ))}
@@ -400,7 +400,7 @@ export default function WordFormationExplorer() {
                   ))}
                 </div>
                 <div className="mt-4 rounded-xl border border-[var(--gold)]/25 bg-[var(--gold)]/5 p-4">
-                  <h4 className="mb-1 font-khmer text-sm font-bold text-[var(--gold)]">សំយោគមតិ (Synthesis)</h4>
+                  <h4 className="mb-1 font-khmer text-sm font-bold text-[var(--gold-text)]">សំយោគមតិ (Synthesis)</h4>
                   <p className="font-khmer text-xs leading-relaxed text-[var(--ink-dim)]">គឺជាការពង្រឹង ឬ ប្រមូលផ្តុំគំនិត ព័ត៌មាន ឬ ព្រឹត្តិការណ៍សំខាន់ៗដែលមាននៅក្នុងរបាយការណ៍ ឬ អត្ថបទនានា បញ្ចូលគ្នាដើម្បីទាញរកសេចក្តីសន្និដ្ឋានមួយដ៏ត្រឹមត្រូវ។</p>
                 </div>
               </section>
@@ -434,7 +434,7 @@ function TreeView({ entry, onNavigate }: { entry: WordFormationEntry; onNavigate
           {entry.word}
         </div>
         {entry.type && (
-          <span className="mt-3 rounded-full border border-[var(--gold)]/25 bg-[var(--gold)]/10 px-4 py-1.5 text-xs font-semibold text-[var(--gold)]">{entry.type}</span>
+          <span className="mt-3 rounded-full border border-[var(--gold)]/25 bg-[var(--gold)]/10 px-4 py-1.5 text-xs font-semibold text-[var(--gold-text)]">{entry.type}</span>
         )}
       </div>
 
@@ -453,7 +453,7 @@ function TreeView({ entry, onNavigate }: { entry: WordFormationEntry; onNavigate
         </div>
         {entry.rule && (
           <p className="mt-3 flex max-w-lg items-start gap-2 rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)] px-4 py-2.5 text-sm text-[var(--ink-dim)]">
-            <Info size={15} className="mt-0.5 shrink-0 text-[var(--gold)]" />
+            <Info size={15} className="mt-0.5 shrink-0 text-[var(--gold-text)]" />
             <span className="font-khmer leading-relaxed">{entry.rule}</span>
           </p>
         )}
@@ -463,18 +463,18 @@ function TreeView({ entry, onNavigate }: { entry: WordFormationEntry; onNavigate
       {entry.infixDetail && (
         <div className="w-full max-w-lg space-y-3 rounded-2xl border border-[var(--slate-accent)]/30 bg-[var(--slate-accent)]/10 p-5">
           <div className="flex items-center justify-between border-b border-[var(--ground-line)] pb-2">
-            <span className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[var(--gold)]">
+            <span className="flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[var(--gold-text)]">
               <Layers size={14} /> {entry.infixDetail.infixTerm}
             </span>
           </div>
           {entry.infixDetail.formula && (
-            <div className="rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3 text-center font-mono-ui text-sm font-semibold text-[var(--gold)]">
+            <div className="rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3 text-center font-mono-ui text-sm font-semibold text-[var(--gold-text)]">
               {entry.infixDetail.formula}
             </div>
           )}
           <div className="flex flex-wrap items-center justify-around gap-2 py-1">
             <div className="text-center">
-              <span className="block font-khmer text-2xl font-bold text-[var(--gold)]">{entry.infixDetail.rootVerb}</span>
+              <span className="block font-khmer text-2xl font-bold text-[var(--gold-text)]">{entry.infixDetail.rootVerb}</span>
               <span className="text-[10px] text-[var(--ink-faint)]">កិរិយា/គុណនាមដើម</span>
             </div>
             <span className="font-bold text-[var(--ink-faint)]">+</span>
@@ -505,7 +505,7 @@ function TreeView({ entry, onNavigate }: { entry: WordFormationEntry; onNavigate
             <div key={i} className="rounded-2xl border border-[var(--ground-line)] bg-[var(--ground-raised)] p-5">
               <div className="mb-2 flex items-start justify-between gap-2">
                 <span className="font-khmer text-2xl font-bold text-[var(--ink)]">{root.word}</span>
-                <span className="shrink-0 rounded-md border border-[var(--gold)]/25 bg-[var(--gold)]/10 px-2 py-0.5 text-[10px] font-semibold text-[var(--gold)]">{root.origin}</span>
+                <span className="shrink-0 rounded-md border border-[var(--gold)]/25 bg-[var(--gold)]/10 px-2 py-0.5 text-[10px] font-semibold text-[var(--gold-text)]">{root.origin}</span>
               </div>
               <p className="text-sm leading-relaxed text-[var(--ink-dim)]">{root.meaning}</p>
             </div>
@@ -519,8 +519,8 @@ function TreeView({ entry, onNavigate }: { entry: WordFormationEntry; onNavigate
       <div className="flex w-full flex-col items-center">
         <span className="mb-2 text-[10px] font-bold uppercase tracking-widest text-[var(--ink-faint)]">៤. {t("Full Meaning", "អត្ថន័យពេញលេញ")}</span>
         <div className="w-full space-y-3 rounded-2xl border border-[var(--gold)]/25 bg-[var(--gold)]/5 p-6 text-center">
-          <BookOpen size={28} className="mx-auto text-[var(--gold)]" />
-          <h3 className="text-[10px] font-semibold uppercase tracking-wider text-[var(--gold)]">{t("Khmer Definition", "អត្ថន័យជាភាសាខ្មែរ")}</h3>
+          <BookOpen size={28} className="mx-auto text-[var(--gold-text)]" />
+          <h3 className="text-[10px] font-semibold uppercase tracking-wider text-[var(--gold-text)]">{t("Khmer Definition", "អត្ថន័យជាភាសាខ្មែរ")}</h3>
           <p className="font-khmer text-xl font-medium leading-relaxed text-[var(--ink)]">{entry.meaningKhmer}</p>
           {entry.meaningEn && <p className="border-t border-[var(--ground-line)] pt-3 text-sm italic text-[var(--ink-dim)]">{entry.meaningEn}</p>}
         </div>
@@ -539,7 +539,7 @@ function TreeView({ entry, onNavigate }: { entry: WordFormationEntry; onNavigate
                   onClick={() => onNavigate(rel)}
                   className="flex items-center gap-2 rounded-full border border-[var(--ground-line)] bg-[var(--ground-raised)] px-4 py-2 font-khmer text-sm text-[var(--ink)] transition hover:border-[var(--gold-dim)] hover:bg-[var(--ground-raised-hi)]"
                 >
-                  <Sparkles size={13} className="text-[var(--gold)]" />
+                  <Sparkles size={13} className="text-[var(--gold-text)]" />
                   {rel}
                 </button>
               ))}
@@ -684,7 +684,7 @@ function ObsidianView({ entry, onNavigate }: { entry: WordFormationEntry; onNavi
       {/* Note / details sidebar */}
       <aside className="h-fit space-y-4 rounded-2xl border border-[var(--ground-line)] bg-[var(--ground-raised)] p-5">
         <div>
-          <h1 className="font-khmer text-3xl font-bold text-[var(--gold)]">{entry.word}</h1>
+          <h1 className="font-khmer text-3xl font-bold text-[var(--gold-text)]">{entry.word}</h1>
           <p className="mt-1 font-mono-ui text-[11px] text-[var(--ink-faint)]">{entry.type}</p>
           <p className="mt-3 font-khmer text-sm leading-relaxed text-[var(--ink)]">{entry.meaningKhmer}</p>
           {entry.meaningEn && <p className="mt-1 text-xs italic text-[var(--ink-dim)]">{entry.meaningEn}</p>}
@@ -692,7 +692,7 @@ function ObsidianView({ entry, onNavigate }: { entry: WordFormationEntry; onNavi
 
         {entry.rule && (
           <div className="flex items-start gap-2 rounded-lg border border-[var(--gold)]/25 bg-[var(--gold)]/5 px-3 py-2 text-xs text-[var(--ink-dim)]">
-            <Info size={13} className="mt-0.5 shrink-0 text-[var(--gold)]" />
+            <Info size={13} className="mt-0.5 shrink-0 text-[var(--gold-text)]" />
             <span className="font-khmer leading-relaxed">{entry.rule}</span>
           </div>
         )}
@@ -720,7 +720,7 @@ function ObsidianView({ entry, onNavigate }: { entry: WordFormationEntry; onNavi
 
         <div>
           <div className="mb-1.5 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-[var(--ink-faint)]">
-            <Link2 size={12} className="text-[var(--gold)]" />
+            <Link2 size={12} className="text-[var(--gold-text)]" />
             {t("Backlinks", "តំណបញ្ច្រាស")} · {backlinks.length}
           </div>
           <div className="flex flex-wrap gap-1.5">

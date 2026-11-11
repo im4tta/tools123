@@ -67,13 +67,13 @@ export default function AboutPage() {
       <section className="mt-10">
         <h2 className="font-display text-lg font-medium text-[var(--ink)]">Links</h2>
         <div className="mt-4 flex flex-wrap gap-4 text-sm">
-          <a href="https://github.com/im4tta/tools123" target="_blank" rel="noopener noreferrer" className="text-[var(--gold)] underline hover:text-[var(--gold-dim)]">
+          <a href="https://github.com/im4tta/tools123" target="_blank" rel="noopener noreferrer" className="text-[var(--gold-text)] underline hover:text-[var(--gold-dim)]">
             Source on GitHub
           </a>
-          <a href="https://buymeacoffee.com/thebmeta" target="_blank" rel="noopener noreferrer" className="text-[var(--gold)] underline hover:text-[var(--gold-dim)]">
+          <a href="https://buymeacoffee.com/thebmeta" target="_blank" rel="noopener noreferrer" className="text-[var(--gold-text)] underline hover:text-[var(--gold-dim)]">
             Support the project
           </a>
-          <Link href="/acknowledgement" className="text-[var(--gold)] underline hover:text-[var(--gold-dim)]">
+          <Link href="/acknowledgement" className="text-[var(--gold-text)] underline hover:text-[var(--gold-dim)]">
             Acknowledgements
           </Link>
         </div>

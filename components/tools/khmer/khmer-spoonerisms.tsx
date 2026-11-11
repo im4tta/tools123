@@ -145,13 +145,13 @@ export default function KhmerSpoonerisms() {
                 <div key={w.id} className="relative rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4">
                   <div className="mb-2 flex flex-wrap items-center gap-1.5 pr-8 text-[11px]">
                     <span className="rounded border border-[var(--ground-line)] px-1.5 py-0.5 text-[var(--ink-dim)]">{catLabel(w.category)}</span>
-                    {w.fromImage && <span className="flex items-center gap-1 rounded border border-[var(--gold)]/60 px-1.5 py-0.5 text-[var(--gold)]"><Pin size={10} />{t("From image", "ពីរូបភាព")}</span>}
+                    {w.fromImage && <span className="flex items-center gap-1 rounded border border-[var(--gold)]/60 px-1.5 py-0.5 text-[var(--gold-text)]"><Pin size={10} />{t("From image", "ពីរូបភាព")}</span>}
                     {w.custom && <span className="rounded border border-[var(--teal)]/60 px-1.5 py-0.5 text-[var(--teal)]">{t("Added by you", "អ្នកបានបន្ថែម")}</span>}
                     {!w.fromImage && !w.custom && <span className="rounded px-1.5 py-0.5 text-[var(--ink-faint)]">{t("Unverified", "មិនទាន់ផ្ទៀងផ្ទាត់")}</span>}
                   </div>
                   <p lang="km" className="font-moul text-lg leading-relaxed text-[var(--ink)]">{w.word}</p>
                   <dl lang="km" className="mt-2 space-y-1.5 font-khmer text-sm">
-                    <div><dt className="text-xs text-[var(--ink-faint)]">{t("Spoonerism", "គន្លាស់")}</dt><dd className="font-semibold text-[var(--gold)]">{w.spoonerism}</dd></div>
+                    <div><dt className="text-xs text-[var(--ink-faint)]">{t("Spoonerism", "គន្លាស់")}</dt><dd className="font-semibold text-[var(--gold-text)]">{w.spoonerism}</dd></div>
                     <div><dt className="text-xs text-[var(--ink-faint)]">{t("Real meaning", "ន័យពិត")}</dt><dd className="text-[var(--ink)]">{w.meaning}</dd></div>
                   </dl>
                   <div className="absolute right-2 top-2 flex items-center gap-1">
@@ -210,7 +210,7 @@ export default function KhmerSpoonerisms() {
               <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-5 text-center">
                 <p className="mb-1 text-xs text-[var(--ink-faint)]">{t("Decode this spoonerism:", "បកស្រាយពាក្យគន្លាស់៖")}</p>
                 <p lang="km" className="font-moul text-2xl leading-relaxed text-[var(--ink)]">{quiz[qi].entry.word}</p>
-                <p lang="km" className="mt-2 border-t border-[var(--ground-line)] pt-2 font-khmer text-lg text-[var(--gold)]">“{quiz[qi].entry.spoonerism}”</p>
+                <p lang="km" className="mt-2 border-t border-[var(--ground-line)] pt-2 font-khmer text-lg text-[var(--gold-text)]">“{quiz[qi].entry.spoonerism}”</p>
               </div>
               <div className="grid gap-2 sm:grid-cols-2">
                 {quiz[qi].options.map((o) => {
@@ -253,7 +253,7 @@ export default function KhmerSpoonerisms() {
                 <label key={w.id} className="flex cursor-pointer items-center gap-2 rounded px-2 py-1.5 text-sm hover:bg-[var(--ground-raised)]">
                   <input type="checkbox" checked={posterIds.includes(w.id)} onChange={() => togglePoster(w.id)} className="h-4 w-4 accent-[var(--gold)]" />
                   <span lang="km" className="flex-1 font-khmer text-[var(--ink)]">{w.word}</span>
-                  {w.fromImage && <Pin size={12} className="text-[var(--gold)]" aria-hidden />}
+                  {w.fromImage && <Pin size={12} className="text-[var(--gold-text)]" aria-hidden />}
                 </label>
               ))}
             </div>

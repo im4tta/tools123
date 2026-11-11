@@ -72,7 +72,7 @@ export default function ImageToAscii() {
       descriptionKm="បម្លែងរូបភាពណាមួយទៅជាសិល្បៈ ASCII — ល្អសម្រាប់ banner និងប្រកាស។"
     >
       <div className="flex items-center gap-3">
-        <label className="cursor-pointer rounded-md border border-[var(--gold-dim)] bg-[var(--gold)]/10 px-4 py-2 text-sm font-medium text-[var(--gold)] transition hover:bg-[var(--gold)]/20">
+        <label className="cursor-pointer rounded-md border border-[var(--gold-dim)] bg-[var(--gold)]/10 px-4 py-2 text-sm font-medium text-[var(--gold-text)] transition hover:bg-[var(--gold)]/20">
           {t("Choose image", "ជ្រើសរូបភាព")}
           <input
             type="file"

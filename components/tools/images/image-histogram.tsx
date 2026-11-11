@@ -207,7 +207,7 @@ export default function ImageHistogram() {
                   onClick={() => toggle(ch.key)}
                   className={`rounded-md border px-3 py-1.5 text-xs font-semibold transition ${
                     toggles[ch.key]
-                      ? "border-[var(--gold)] bg-[var(--gold)] text-[#0a0c0d]"
+                      ? "border-[var(--gold)] bg-[var(--gold)] text-[var(--on-gold)]"
                       : "border-[var(--ground-line)] bg-[var(--ground-raised)] text-[var(--ink-dim)] hover:text-[var(--ink)]"
                   }`}
                 >

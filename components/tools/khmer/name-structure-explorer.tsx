@@ -115,14 +115,14 @@ export default function KhmerNameStructureExplorer() {
         <div className="space-y-4">
           <div className="rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4">
             <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-[var(--ink)]">
-              <Split size={16} className="text-[var(--gold)]" />
+              <Split size={16} className="text-[var(--gold-text)]" />
               {t("Name Structure", "រចនាសម្ព័ន្ធឈ្មោះ")}
             </div>
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
               {analysis.structure.surname && (
                 <div className="rounded-lg border border-[var(--ground-line)] bg-[var(--gold)]/5 p-4 text-center">
                   <div className="font-khmer text-2xl font-bold text-[var(--ink)]">{analysis.structure.surname}</div>
-                  <div className="mt-1 text-[10px] font-bold uppercase tracking-wider text-[var(--gold)]">
+                  <div className="mt-1 text-[10px] font-bold uppercase tracking-wider text-[var(--gold-text)]">
                     {t("Surname", "នាមត្រកូល")}
                   </div>
                 </div>
@@ -141,7 +141,7 @@ export default function KhmerNameStructureExplorer() {
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div className="rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4">
               <div className="mb-2 flex items-center gap-2 text-sm font-semibold text-[var(--ink)]">
-                <BookA size={15} className="text-[var(--gold)]" />
+                <BookA size={15} className="text-[var(--gold-text)]" />
                 {t("Transliteration", "អក្សរឡាតាំង")}
               </div>
               {analysis.isKhmer ? (
@@ -160,7 +160,7 @@ export default function KhmerNameStructureExplorer() {
 
             <div className="rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4">
               <div className="mb-2 flex items-center gap-2 text-sm font-semibold text-[var(--ink)]">
-                <Type size={15} className="text-[var(--gold)]" />
+                <Type size={15} className="text-[var(--gold-text)]" />
                 {t("Script analysis", "ការវិភាគអក្សរ")}
               </div>
               <div className="flex flex-col gap-2 text-xs">
@@ -182,7 +182,7 @@ export default function KhmerNameStructureExplorer() {
 
           <div className="rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4">
             <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-[var(--ink)]">
-              <Binary size={15} className="text-[var(--gold)]" />
+              <Binary size={15} className="text-[var(--gold-text)]" />
               {t("Grapheme decomposition", "ការបំបែកតួអក្សរ")}
             </div>
             <div className="flex flex-wrap gap-3">
@@ -192,7 +192,7 @@ export default function KhmerNameStructureExplorer() {
                   {grapheme.chars.map((char, cIdx) => (
                     <div key={cIdx} className="mb-1 flex items-center justify-between gap-2 border-b border-[var(--ground-line)]/50 pb-1 text-[10px] font-mono last:border-0 last:pb-0">
                       <span className="text-[var(--ink-dim)]">{char.char}</span>
-                      <span className="text-[var(--gold)]">{char.hex}</span>
+                      <span className="text-[var(--gold-text)]">{char.hex}</span>
                       <span className="text-[var(--ink-faint)]">{char.type}</span>
                     </div>
                   ))}
@@ -217,7 +217,7 @@ export default function KhmerNameStructureExplorer() {
                 <a
                   key={related.id}
                   href={toolHref(related.id)}
-                  className="rounded-lg border border-[var(--ground-line)] bg-[var(--ground)] p-3 text-sm font-semibold text-[var(--ink)] transition hover:border-[var(--gold-dim)] hover:text-[var(--gold)]"
+                  className="rounded-lg border border-[var(--ground-line)] bg-[var(--ground)] p-3 text-sm font-semibold text-[var(--ink)] transition hover:border-[var(--gold-dim)] hover:text-[var(--gold-text)]"
                 >
                   {related.title}
                 </a>

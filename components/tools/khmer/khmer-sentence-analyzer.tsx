@@ -134,7 +134,7 @@ export default function KhmerSentenceAnalyzer() {
       <div className="flex flex-wrap items-center gap-2">
         <span className="text-xs text-[var(--ink-faint)]">{t("Try:", "សាកល្បង៖")}</span>
         {EXAMPLES.map((ex) => (
-          <button key={ex} type="button" onClick={() => setInput(ex)} className="rounded-full border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-1 font-khmer text-xs text-[var(--ink-dim)] transition hover:border-[var(--gold-dim)] hover:text-[var(--gold)]">
+          <button key={ex} type="button" onClick={() => setInput(ex)} className="rounded-full border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-1 font-khmer text-xs text-[var(--ink-dim)] transition hover:border-[var(--gold-dim)] hover:text-[var(--gold-text)]">
             {ex}
           </button>
         ))}
@@ -144,7 +144,7 @@ export default function KhmerSentenceAnalyzer() {
         <>
           {/* Coverage summary */}
           <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-[var(--ink-faint)]">
-            <span className="inline-flex items-center gap-1.5 text-[var(--ink-dim)]"><Sparkles size={13} className="text-[var(--gold)]" />{t(`${words.length} word${words.length === 1 ? "" : "s"}`, `${words.length} ពាក្យ`)}</span>
+            <span className="inline-flex items-center gap-1.5 text-[var(--ink-dim)]"><Sparkles size={13} className="text-[var(--gold-text)]" />{t(`${words.length} word${words.length === 1 ? "" : "s"}`, `${words.length} ពាក្យ`)}</span>
             <span>{t(`${recognized} recognised (${words.length ? Math.round((100 * recognized) / words.length) : 0}%)`, `ស្គាល់ ${recognized} (${words.length ? Math.round((100 * recognized) / words.length) : 0}%)`)}</span>
           </div>
 

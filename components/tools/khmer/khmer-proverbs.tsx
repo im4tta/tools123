@@ -312,7 +312,7 @@ export default function KhmerProverbs() {
 
       <section className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4">
         <div className="mb-2 flex items-center justify-between gap-3">
-          <h2 className="text-xs font-semibold uppercase tracking-wide text-[var(--gold)]">
+          <h2 className="text-xs font-semibold uppercase tracking-wide text-[var(--gold-text)]">
             {t("Proverb of the day", "សុភាសិតប្រចាំថ្ងៃ")}
           </h2>
           <Button type="button" onClick={() => setDayIndex(Math.floor(Math.random() * PROVERBS.length))}>
@@ -329,7 +329,7 @@ export default function KhmerProverbs() {
       </section>
 
       <div>
-        <h2 className="mb-2 text-xs font-semibold uppercase tracking-wide text-[var(--gold)]">
+        <h2 className="mb-2 text-xs font-semibold uppercase tracking-wide text-[var(--gold-text)]">
           {t(`${filtered.length} proverbs`, `សុភាសិតចំនួន ${filtered.length}`)}
         </h2>
         {filtered.length === 0 ? (

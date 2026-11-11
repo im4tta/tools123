@@ -60,10 +60,10 @@ export default function MemoryGame() {
       <div className="flex flex-wrap items-center gap-3">
         <div className="flex gap-2 text-sm text-[var(--ink-dim)]">
           <span>
-            {t("Moves", "ចលនា")}: <b className="text-[var(--gold)]">{moves}</b>
+            {t("Moves", "ចលនា")}: <b className="text-[var(--gold-text)]">{moves}</b>
           </span>
           <span>
-            {t("Matched", "ផ្គូផ្គងបាន")}: <b className="text-[var(--gold)]">{matched.size}/{size}</b>
+            {t("Matched", "ផ្គូផ្គងបាន")}: <b className="text-[var(--gold-text)]">{matched.size}/{size}</b>
           </span>
         </div>
         <div className="flex gap-2">
@@ -72,7 +72,7 @@ export default function MemoryGame() {
               key={n}
               type="button"
               onClick={() => reset(n)}
-              className={`rounded-full border px-3 py-1 text-xs transition ${size === n ? "border-[var(--gold-dim)] bg-[var(--gold)]/10 text-[var(--gold)]" : "border-[var(--ground-line)] bg-[var(--ground-raised)] text-[var(--ink-dim)]"}`}
+              className={`rounded-full border px-3 py-1 text-xs transition ${size === n ? "border-[var(--gold-dim)] bg-[var(--gold)]/10 text-[var(--gold-text)]" : "border-[var(--ground-line)] bg-[var(--ground-raised)] text-[var(--ink-dim)]"}`}
             >
               {n}
             </button>

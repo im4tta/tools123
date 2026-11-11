@@ -24,7 +24,7 @@ export default function HttpStatusLookup() {
       <div className="divide-y divide-[var(--ground-line)] rounded-md border border-[var(--ground-line)]">
         {results.map(([code, text]) => (
           <div key={code} className="flex items-center gap-3 px-3 py-2 text-sm">
-            <span className="w-12 font-mono-ui text-[var(--gold)]">{code}</span>
+            <span className="w-12 font-mono-ui text-[var(--gold-text)]">{code}</span>
             <span className="text-[var(--ink)]">{text}</span>
           </div>
         ))}

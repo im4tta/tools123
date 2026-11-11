@@ -107,7 +107,7 @@ export function ToolRouteClient({ tool, related, toolCount, faq }: { tool: ToolR
               type="button"
               onClick={toggleFavorite}
               aria-label={isFavorite ? t("Remove from favorites", "ដកចេញពីចំណូលចិត្ត") : t("Add to favorites", "បន្ថែមទៅចំណូលចិត្ត")}
-              className={`tool-route-icon flex h-8 w-8 items-center justify-center rounded-md border ${isFavorite ? "border-[var(--gold)] text-[var(--gold)]" : "border-[var(--ground-line)] text-[var(--ink-faint)]"}`}
+              className={`tool-route-icon flex h-8 w-8 items-center justify-center rounded-md border ${isFavorite ? "border-[var(--gold)] text-[var(--gold-text)]" : "border-[var(--ground-line)] text-[var(--ink-faint)]"}`}
             >
               <Star size={14} fill={isFavorite ? "currentColor" : "none"} />
             </button>
@@ -145,7 +145,7 @@ export function ToolRouteClient({ tool, related, toolCount, faq }: { tool: ToolR
               aria-expanded={moreOpen}
               aria-controls="tool-route-more"
               aria-label={moreOpen ? t("Hide more options", "លាក់ជម្រើសបន្ថែម") : t("More options", "ជម្រើសបន្ថែម")}
-              className={`tool-route-icon flex h-8 w-8 items-center justify-center rounded-md border sm:hidden ${moreOpen ? "border-[var(--gold-dim)] text-[var(--gold)]" : "border-[var(--ground-line)] text-[var(--ink-faint)]"}`}
+              className={`tool-route-icon flex h-8 w-8 items-center justify-center rounded-md border sm:hidden ${moreOpen ? "border-[var(--gold-dim)] text-[var(--gold-text)]" : "border-[var(--ground-line)] text-[var(--ink-faint)]"}`}
             >
               <MoreHorizontal size={16} />
             </button>

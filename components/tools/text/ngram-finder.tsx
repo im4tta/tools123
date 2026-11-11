@@ -114,7 +114,7 @@ export default function NgramFinder() {
           <Output label={t("CSV (gram,count)", "CSV (gram,count)")} value={csv} />
         </>
       ) : (
-        <p className="text-sm font-medium text-[var(--gold)]">
+        <p className="text-sm font-medium text-[var(--gold-text)]">
           {t("Not enough words for the chosen n-gram size.", "មិនមានពាក្យគ្រប់គ្រាន់សម្រាប់ទំហំ n-gram ដែលបានជ្រើសរើសទេ។")}
         </p>
       )}

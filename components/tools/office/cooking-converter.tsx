@@ -132,7 +132,7 @@ export default function CookingConverter() {
                 <div className="text-xs font-medium uppercase tracking-wide text-[var(--ink-dim)]">
                   {t("Weight (approx.)", "ទម្ងន់ (ប្រហាក់ប្រហែល)")}
                 </div>
-                <div className="mt-1 text-2xl font-semibold text-[var(--gold)]">
+                <div className="mt-1 text-2xl font-semibold text-[var(--gold-text)]">
                   {fmt(converted.grams)} <span className="text-xs font-normal text-[var(--ink-dim)]">g</span>
                 </div>
                 <div className="mt-0.5 text-[10px] text-[var(--ink-dim)]">

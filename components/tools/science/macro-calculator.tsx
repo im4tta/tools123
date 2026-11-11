@@ -89,12 +89,12 @@ export default function MacroCalculator() {
             </div>
             <div className="rounded-md border border-[var(--gold)]/40 bg-[var(--gold)]/10 p-4 text-center">
               <div className="text-xs font-medium uppercase tracking-wide text-[var(--ink-dim)]">{t("Target calories", "កាឡូរីគោលដៅ")}</div>
-              <div className="mt-1 text-lg font-semibold text-[var(--gold)]">{kcal(calc.target)} kcal</div>
+              <div className="mt-1 text-lg font-semibold text-[var(--gold-text)]">{kcal(calc.target)} kcal</div>
             </div>
           </div>
           <div className="overflow-hidden rounded-md border border-[var(--ground-line)]">
             {[
-              { label: t("Protein (30%)", "ប្រូតេអ៊ីន (៣០%)"), g: calc.protein, color: "text-[var(--gold)]" },
+              { label: t("Protein (30%)", "ប្រូតេអ៊ីន (៣០%)"), g: calc.protein, color: "text-[var(--gold-text)]" },
               { label: t("Carbs (40%)", "កាបូ (៤០%)"), g: calc.carbs, color: "text-[var(--ink)]" },
               { label: t("Fat (30%)", "ខ្លាញ់ (៣០%)"), g: calc.fat, color: "text-[var(--ink)]" },
             ].map((m, i) => (

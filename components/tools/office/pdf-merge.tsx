@@ -124,7 +124,7 @@ export default function PdfMergeTool() {
                   // eslint-disable-next-line @next/next/no-img-element
                   <img src={item.thumb} alt="" className="h-full w-full object-cover" />
                 ) : (
-                  <FileText size={14} className="text-[var(--gold)]" />
+                  <FileText size={14} className="text-[var(--gold-text)]" />
                 )}
               </div>
               <div className="min-w-0 flex-1">
@@ -150,7 +150,7 @@ export default function PdfMergeTool() {
       {resultUrl && (
         <div className="flex items-center justify-between rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2.5 text-sm">
           <span className="text-[var(--ink-dim)]">Merged PDF ready — {formatBytes(resultSize)}</span>
-          <a href={resultUrl} download="merged.pdf" className="rounded-md bg-[var(--gold)] px-3 py-1.5 text-xs font-medium text-[#0a0c0d] hover:bg-[var(--gold-dim)]">
+          <a href={resultUrl} download="merged.pdf" className="rounded-md bg-[var(--gold)] px-3 py-1.5 text-xs font-medium text-[var(--on-gold)] hover:bg-[var(--gold-hover)]">
             Download
           </a>
         </div>

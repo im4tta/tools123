@@ -565,7 +565,7 @@ export default function App() {
               
               {/* Cellcard Card */}
               <div className="p-4 bg-gradient-to-b from-[var(--ground-raised)] to-[var(--ground)] border border-[var(--gold)]/30 rounded-2xl space-y-2">
-                <div className="font-bold text-[var(--gold)] flex items-center gap-2">
+                <div className="font-bold text-[var(--gold-text)] flex items-center gap-2">
                   <span className="w-2.5 h-2.5 rounded-full bg-[var(--gold)] shadow-sm shadow-amber-400/50" />
                   {t.opCellcard}
                 </div>
@@ -714,11 +714,11 @@ export default function App() {
           </div>
 
           <div className="p-4 rounded-2xl bg-gradient-to-br from-[var(--ground-raised)]/90 to-[var(--gold)]/40 border border-[var(--gold)]/30 shadow-md space-y-1">
-            <div className="flex items-center justify-between text-xs text-[var(--gold)] font-medium">
+            <div className="flex items-center justify-between text-xs text-[var(--gold-text)] font-medium">
               <span>{t.statDuplicates}</span>
               <Copy className="w-4 h-4 opacity-70" />
             </div>
-            <div className="text-2xl font-bold font-mono text-[var(--gold)] pt-1">
+            <div className="text-2xl font-bold font-mono text-[var(--gold-text)] pt-1">
               {stats.duplicates}
             </div>
           </div>
@@ -1053,7 +1053,7 @@ export default function App() {
                                 <span
                                   className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold ${
                                     item.network === 'Cellcard'
-                                      ? 'text-[var(--gold)] bg-[var(--gold)]/10 border border-[var(--gold)]/30'
+                                      ? 'text-[var(--gold-text)] bg-[var(--gold)]/10 border border-[var(--gold)]/30'
                                       : item.network === 'Smart'
                                       ? 'text-[var(--teal)] bg-[var(--teal)]/10 border border-[var(--teal)]/30'
                                       : item.network === 'Metfone'
@@ -1087,7 +1087,7 @@ export default function App() {
                                 </span>
                               )}
                               {item.isDuplicate && (
-                                <span className="ml-1.5 text-[var(--gold)] text-[10px] bg-[var(--gold)]/10 border border-[var(--gold)]/30 px-1.5 py-0.5 rounded-md font-bold">
+                                <span className="ml-1.5 text-[var(--gold-text)] text-[10px] bg-[var(--gold)]/10 border border-[var(--gold)]/30 px-1.5 py-0.5 rounded-md font-bold">
                                   {t.badgeDuplicate}
                                 </span>
                               )}
@@ -1129,7 +1129,7 @@ export default function App() {
                           <div>
                             {item.isValid && (
                               <span className={`font-sans font-bold px-2 py-0.5 rounded-full text-[10px] ${
-                                item.network === 'Cellcard' ? 'text-[var(--gold)] bg-[var(--gold)]/10 border border-[var(--gold)]/30' :
+                                item.network === 'Cellcard' ? 'text-[var(--gold-text)] bg-[var(--gold)]/10 border border-[var(--gold)]/30' :
                                 item.network === 'Smart' ? 'text-[var(--teal)] bg-[var(--teal)]/10 border border-[var(--teal)]/30' :
                                 item.network === 'Metfone' ? 'text-[var(--danger)] bg-[var(--danger)]/10 border border-[var(--danger)]/30' : 'text-[var(--ink-dim)]'
                               }`}>
@@ -1222,7 +1222,7 @@ export default function App() {
                 <div className="space-y-5 p-3 text-xs">
                   <div className="space-y-4">
                     {[
-                      { op: t.opCellcard, count: stats.opCounts.Cellcard, color: 'bg-[var(--gold)]', textColor: 'text-[var(--gold)]' },
+                      { op: t.opCellcard, count: stats.opCounts.Cellcard, color: 'bg-[var(--gold)]', textColor: 'text-[var(--gold-text)]' },
                       { op: t.opSmart, count: stats.opCounts.Smart, color: 'bg-[var(--teal)]', textColor: 'text-[var(--teal)]' },
                       { op: t.opMetfone, count: stats.opCounts.Metfone, color: 'bg-[var(--danger)]', textColor: 'text-[var(--danger)]' },
                       { op: t.opOther, count: stats.opCounts.Other, color: 'bg-[var(--slate-accent)]', textColor: 'text-[var(--slate-accent)]' },

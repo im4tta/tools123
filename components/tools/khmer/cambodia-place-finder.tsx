@@ -121,7 +121,7 @@ export default function CambodiaPlaceFinder() {
             <article key={`${place.level}-${place.code}`} className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3">
               <div className="flex items-start justify-between gap-3">
                 <div className="flex min-w-0 items-start gap-2">
-                  <MapPin size={16} className="mt-0.5 shrink-0 text-[var(--gold)]" />
+                  <MapPin size={16} className="mt-0.5 shrink-0 text-[var(--gold-text)]" />
                   <div className="min-w-0">
                     <div className="flex flex-wrap items-baseline gap-x-2">
                       <strong className="text-[var(--ink)]">{name}</strong>
@@ -132,7 +132,7 @@ export default function CambodiaPlaceFinder() {
                 </div>
                 <div className="flex shrink-0 items-center gap-2">
                   {place.postal ? (
-                    <code className="rounded bg-[var(--ground)] px-2 py-1 text-[var(--gold)]" title={t("Postal code", "លេខកូដប្រៃសណីយ៍")}>{place.postal}</code>
+                    <code className="rounded bg-[var(--ground)] px-2 py-1 text-[var(--gold-text)]" title={t("Postal code", "លេខកូដប្រៃសណីយ៍")}>{place.postal}</code>
                   ) : (
                     <code className="rounded bg-[var(--ground)] px-2 py-1 text-[var(--ink-faint)]" title={t("Administrative code", "លេខកូដរដ្ឋបាល")}>{place.code}</code>
                   )}
@@ -150,7 +150,7 @@ export default function CambodiaPlaceFinder() {
       {/* ---- Distance between provinces ---- */}
       <section className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4">
         <div className="mb-3 flex items-center gap-2 text-sm font-medium text-[var(--ink)]">
-          <Navigation size={16} className="text-[var(--gold)]" />
+          <Navigation size={16} className="text-[var(--gold-text)]" />
           {t("Distance between two provinces", "ចម្ងាយរវាងខេត្តពីរ")}
         </div>
         <div className="grid gap-3 sm:grid-cols-2">
@@ -170,7 +170,7 @@ export default function CambodiaPlaceFinder() {
             <p className="text-sm text-[var(--ink)]">
               {t(from.en, from.km)} <span className="text-[var(--ink-faint)]">→</span> {t(to.en, to.km)}
             </p>
-            <p className="mt-1 text-2xl font-semibold text-[var(--gold)]">
+            <p className="mt-1 text-2xl font-semibold text-[var(--gold-text)]">
               {fromProv === toProv ? t("Same province", "ខេត្តតែមួយ") : `≈ ${distanceKm.toFixed(0)} ${t("km", "គ.ម")}`}
             </p>
             <p className="mt-1 text-[11px] text-[var(--ink-faint)]">

@@ -98,7 +98,7 @@ export default function TextToSpeech() {
 
         <div className="flex gap-2">
           {!speaking ? (
-            <button type="button" onClick={speak} disabled={!supported || !text.trim()} className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-[var(--gold)] px-5 py-3 text-sm font-semibold text-[#0a0c0d] transition hover:bg-[var(--gold-dim)] disabled:opacity-40">
+            <button type="button" onClick={speak} disabled={!supported || !text.trim()} className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-[var(--gold)] px-5 py-3 text-sm font-semibold text-[var(--on-gold)] transition hover:bg-[var(--gold-hover)] disabled:opacity-40">
               <Volume2 size={16} />{t("Speak", "អានជាសំឡេង")}
             </button>
           ) : (

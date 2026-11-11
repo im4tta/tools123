@@ -72,7 +72,7 @@ export default function KhmerTextStats() {
             key={item.key}
             className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-4 py-3"
           >
-            <div className="text-2xl font-semibold text-[var(--gold)]">{stats[item.key]}</div>
+            <div className="text-2xl font-semibold text-[var(--gold-text)]">{stats[item.key]}</div>
             <div className="mt-0.5 text-xs uppercase tracking-wide text-[var(--ink-dim)]">
               {t(item.label, item.km)}
             </div>

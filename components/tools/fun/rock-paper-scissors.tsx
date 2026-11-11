@@ -103,7 +103,7 @@ export default function RockPaperScissors() {
               const Icon = ICONS[c];
               return (
                 <div key={i} className="flex flex-col items-center gap-1">
-                  <Icon size={40} className={i === 0 ? "text-[var(--gold)]" : "text-[var(--ink-dim)]"} />
+                  <Icon size={40} className={i === 0 ? "text-[var(--gold-text)]" : "text-[var(--ink-dim)]"} />
                   <span className="text-xs text-[var(--ink-faint)]">{i === 0 ? t("You", "អ្នក") : t("Computer", "ម៉ាស៊ីន")}</span>
                 </div>
               );

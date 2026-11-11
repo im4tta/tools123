@@ -81,7 +81,7 @@ export default function MacVendorLookup() {
       {result.valid && (
         <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4">
           <div className="text-xs font-medium uppercase tracking-wide text-[var(--ink-dim)]">{t("Vendor", "ម្ចាស់")}</div>
-          <div className="mt-1 text-lg font-semibold text-[var(--gold)]">
+          <div className="mt-1 text-lg font-semibold text-[var(--gold-text)]">
             {result.match ? result.match.vendor : t("Not found in sample", "រកមិនឃើញក្នុងគំរូ")}
           </div>
           <dl className="mt-3 grid grid-cols-1 gap-2 text-xs sm:grid-cols-2">
@@ -109,7 +109,7 @@ export default function MacVendorLookup() {
         </p>
         <p className="mt-2 text-xs text-[var(--ink-dim)]">
           {t("Sample list, not the full IEEE OUI registry", "បញ្ជីគំរូ មិនមែនជាបញ្ជីពេញលេញរបស់ IEEE OUI")}{" "}
-          <a href={IEEE_URL} target="_blank" rel="noreferrer" className="text-[var(--gold)] underline underline-offset-2">
+          <a href={IEEE_URL} target="_blank" rel="noreferrer" className="text-[var(--gold-text)] underline underline-offset-2">
             {IEEE_URL}
           </a>
         </p>

@@ -292,7 +292,7 @@ export default function SafetyCodeProTool() {
     <div className="space-y-6 animate-in fade-in duration-500">
       <div className="rounded-2xl border border-[var(--ground-line)] bg-[var(--ground-raised)] p-6 shadow-sm">
         <div className="mb-6 flex items-start gap-4">
-          <div className="rounded-xl bg-[var(--ground-raised-hi)] p-3 text-[var(--gold)]">
+          <div className="rounded-xl bg-[var(--ground-raised-hi)] p-3 text-[var(--gold-text)]">
             <TriangleAlert size={28} />
           </div>
           <div>
@@ -330,7 +330,7 @@ export default function SafetyCodeProTool() {
 
       <div className="rounded-2xl border border-[var(--ground-line)] bg-[var(--ground-raised)] p-6 shadow-sm">
         <h3 className="mb-6 flex items-center gap-2 text-xl font-bold text-[var(--ink)]">
-          <LifeBuoy className="text-[var(--gold)]" size={24} />
+          <LifeBuoy className="text-[var(--gold-text)]" size={24} />
           {t.vestColorTitle}
         </h3>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -494,7 +494,7 @@ export default function SafetyCodeProTool() {
 
           <div className="rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised-hi)] p-4">
             <h3 className="mb-4 flex items-center gap-2 font-bold text-[var(--ink)]">
-              <Eye className="text-[var(--gold)]" size={18} />
+              <Eye className="text-[var(--gold-text)]" size={18} />
               {t.visChartTitle}
             </h3>
             <div className="h-64 w-full">
@@ -656,7 +656,7 @@ export default function SafetyCodeProTool() {
                   : "text-[var(--ink-dim)] hover:bg-[var(--ground-raised-hi)] hover:text-[var(--ink)]"
               }`}
             >
-              <tab.icon size={18} className={activeTab === tab.id ? "text-[var(--gold)]" : "text-[var(--ink-faint)]"} />
+              <tab.icon size={18} className={activeTab === tab.id ? "text-[var(--gold-text)]" : "text-[var(--ink-faint)]"} />
               {tab.label}
             </button>
           ))}

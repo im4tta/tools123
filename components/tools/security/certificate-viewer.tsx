@@ -251,8 +251,8 @@ function parseCertificate(pem: string): CertInfo {
 }
 
 const EXPIRY_UI: Record<Expiry, { label: string; labelKm: string; cls: string }> = {
-  valid: { label: "Valid", labelKm: "មានសុពលភាព", cls: "border-[var(--gold)]/40 bg-[var(--gold)]/10 text-[var(--gold)]" },
-  expiring: { label: "Expiring soon", labelKm: "ជិតផុតកំណត់", cls: "border-[var(--gold)]/40 bg-[var(--gold)]/10 text-[var(--gold)]" },
+  valid: { label: "Valid", labelKm: "មានសុពលភាព", cls: "border-[var(--gold)]/40 bg-[var(--gold)]/10 text-[var(--gold-text)]" },
+  expiring: { label: "Expiring soon", labelKm: "ជិតផុតកំណត់", cls: "border-[var(--gold)]/40 bg-[var(--gold)]/10 text-[var(--gold-text)]" },
   expired: { label: "Expired", labelKm: "ផុតកំណត់", cls: "border-[var(--danger)]/40 bg-[var(--danger)]/10 text-[var(--danger)]" },
   "not-yet": { label: "Not yet valid", labelKm: "មិនទាន់មានសុពលភាព", cls: "border-[var(--ground-line)] bg-[var(--ground-raised)] text-[var(--ink-dim)]" },
 };
@@ -339,13 +339,13 @@ export default function CertificateViewer() {
         </p>
         <ul className="mt-3 space-y-1.5 text-xs text-[var(--ink-dim)]">
           <li>
-            <a href="https://www.rfc-editor.org/rfc/rfc5280" target="_blank" rel="noreferrer" className="text-[var(--gold)] underline underline-offset-2">
+            <a href="https://www.rfc-editor.org/rfc/rfc5280" target="_blank" rel="noreferrer" className="text-[var(--gold-text)] underline underline-offset-2">
               RFC 5280
             </a>{" "}
             — {t("Internet X.509 Public Key Infrastructure Certificate and CRL Profile", "Internet X.509 Public Key Infrastructure Certificate and CRL Profile")}
           </li>
           <li>
-            <a href="https://www.rfc-editor.org/rfc/rfc7468" target="_blank" rel="noreferrer" className="text-[var(--gold)] underline underline-offset-2">
+            <a href="https://www.rfc-editor.org/rfc/rfc7468" target="_blank" rel="noreferrer" className="text-[var(--gold-text)] underline underline-offset-2">
               RFC 7468
             </a>{" "}
             — {t("PEM textual encoding", "ការអ៊ិនកូដអត្ថបទ PEM")}

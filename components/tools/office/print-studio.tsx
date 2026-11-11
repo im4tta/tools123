@@ -322,7 +322,7 @@ export default function PrintStudio() {
                 </ul>
                 <div className="mt-1.5 flex items-center justify-between text-xs text-[var(--ink-faint)]">
                   <span>{items.length} {t(items.length === 1 ? "item" : "items", "ធាតុ")}</span>
-                  <button onClick={() => setItems([])} className="text-[var(--gold)] hover:underline">{t("Clear all", "សម្អាតទាំងអស់")}</button>
+                  <button onClick={() => setItems([])} className="text-[var(--gold-text)] hover:underline">{t("Clear all", "សម្អាតទាំងអស់")}</button>
                 </div>
               </>
             )}

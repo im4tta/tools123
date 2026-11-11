@@ -104,7 +104,7 @@ export default function KhmerRegexBuilder() {
         <ul className="space-y-1 text-sm">
           {lineMatches.map((l, i) => (
             <li key={i} className="flex items-baseline gap-2">
-              <span className={l.ok ? "text-[var(--gold)]" : "text-[var(--danger)]"}>{l.ok ? "✓" : "✗"}</span>
+              <span className={l.ok ? "text-[var(--gold-text)]" : "text-[var(--danger)]"}>{l.ok ? "✓" : "✗"}</span>
               <span lang="km" className="font-khmer text-[var(--ink-dim)]">{l.line || "∅"}</span>
             </li>
           ))}

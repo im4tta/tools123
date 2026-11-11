@@ -54,7 +54,7 @@ export default function HonorificGuide() {
           <article key={row.role} className="space-y-3 rounded-lg border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4">
             <div>
               <p className="font-khmer text-sm text-[var(--ink-dim)]">{row.role}</p>
-              <h2 className="font-moul mt-1 text-lg text-[var(--gold)]">{row.title}</h2>
+              <h2 className="font-moul mt-1 text-lg text-[var(--gold-text)]">{row.title}</h2>
             </div>
             <p className="font-khmer rounded-md bg-[var(--ground)] p-3 text-base text-[var(--ink)]">{row.salutation}</p>
             <p className="font-khmer text-sm leading-relaxed text-[var(--ink-dim)]">{row.usage}</p>

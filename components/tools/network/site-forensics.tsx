@@ -153,7 +153,7 @@ export default function SiteForensics() {
           <div className="flex flex-wrap items-baseline gap-2">
             <h2 className="font-medium text-[var(--ink)]">{result.host}</h2>
             {result.http?.status > 0 && (
-              <span className="rounded bg-[var(--gold-dim)]/30 px-2 py-0.5 text-xs text-[var(--gold)]">HTTP {result.http.status}</span>
+              <span className="rounded bg-[var(--gold-dim)]/30 px-2 py-0.5 text-xs text-[var(--gold-text)]">HTTP {result.http.status}</span>
             )}
           </div>
 
@@ -200,7 +200,7 @@ export default function SiteForensics() {
           {result.wayback && (
             <div className="rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4">
               <div className="text-xs font-semibold uppercase tracking-wide text-[var(--ink-dim)]">{t("Wayback snapshot", "រូបថត Wayback")}</div>
-              <a href={`https://web.archive.org/web/${result.wayback.timestamp}/${result.host}`} target="_blank" rel="noreferrer" className="mt-1 block break-all text-sm text-[var(--gold)] underline underline-offset-2">
+              <a href={`https://web.archive.org/web/${result.wayback.timestamp}/${result.host}`} target="_blank" rel="noreferrer" className="mt-1 block break-all text-sm text-[var(--gold-text)] underline underline-offset-2">
                 https://web.archive.org/web/{result.wayback.timestamp}/{result.host}
               </a>
               <p className="mt-1 text-xs text-[var(--ink-faint)]">{new Date(result.wayback.timestamp.replace(/^(\d{4})(\d{2})(\d{2}).*$/, "$1/$2/$3")).toUTCString()}</p>

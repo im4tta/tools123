@@ -240,13 +240,13 @@ export default function IpaPhonetics() {
         <ul className="mt-3 space-y-1.5 text-xs text-[var(--ink-dim)]">
           <li>
             <span className="font-semibold text-[var(--ink)]">CMU Pronouncing Dictionary</span> — cmusphinx/cmudict ·{" "}
-            <a href="https://github.com/cmusphinx/cmudict" target="_blank" rel="noreferrer" className="text-[var(--gold)] underline underline-offset-2">
+            <a href="https://github.com/cmusphinx/cmudict" target="_blank" rel="noreferrer" className="text-[var(--gold-text)] underline underline-offset-2">
               github.com/cmusphinx/cmudict
             </a>
           </li>
           <li>
             <span className="font-semibold text-[var(--ink)]">International Phonetic Alphabet</span> —{" "}
-            <a href="https://www.internationalphoneticassociation.org" target="_blank" rel="noreferrer" className="text-[var(--gold)] underline underline-offset-2">
+            <a href="https://www.internationalphoneticassociation.org" target="_blank" rel="noreferrer" className="text-[var(--gold-text)] underline underline-offset-2">
               internationalphoneticassociation.org
             </a>
           </li>

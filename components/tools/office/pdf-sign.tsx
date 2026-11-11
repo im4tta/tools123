@@ -274,14 +274,14 @@ export default function PdfSign() {
             <button
               type="button"
               onClick={() => setMode("draw")}
-              className={`inline-flex items-center gap-1 rounded px-2.5 py-1 text-xs font-medium transition ${mode === "draw" ? "bg-[var(--gold)]/15 text-[var(--gold)]" : "text-[var(--ink-dim)] hover:text-[var(--ink)]"}`}
+              className={`inline-flex items-center gap-1 rounded px-2.5 py-1 text-xs font-medium transition ${mode === "draw" ? "bg-[var(--gold)]/15 text-[var(--gold-text)]" : "text-[var(--ink-dim)] hover:text-[var(--ink)]"}`}
             >
               <PenLine size={12} /> {t("Draw", "គូរ")}
             </button>
             <button
               type="button"
               onClick={() => setMode("type")}
-              className={`inline-flex items-center gap-1 rounded px-2.5 py-1 text-xs font-medium transition ${mode === "type" ? "bg-[var(--gold)]/15 text-[var(--gold)]" : "text-[var(--ink-dim)] hover:text-[var(--ink)]"}`}
+              className={`inline-flex items-center gap-1 rounded px-2.5 py-1 text-xs font-medium transition ${mode === "type" ? "bg-[var(--gold)]/15 text-[var(--gold-text)]" : "text-[var(--ink-dim)] hover:text-[var(--ink)]"}`}
             >
               <Type size={12} /> {t("Type", "វាយ")}
             </button>

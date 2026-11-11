@@ -77,7 +77,7 @@ export default function CambodiaPublicHolidays() {
       <p className="text-xs text-[var(--ink-dim)]">{text(`${visible.length} dates shown`, `បង្ហាញ ${visible.length} កាលបរិច្ឆេទ`)}</p>
       <section className="space-y-3 rounded-md border border-[var(--ground-line)] p-4">
         <h2 className="flex items-center gap-2 font-medium text-[var(--ink)]">
-          <CalendarDays size={16} className="text-[var(--gold)]" />
+          <CalendarDays size={16} className="text-[var(--gold-text)]" />
           {text("Calendar preview", "មើលប្រតិទិន")}
         </h2>
         {monthGroups.length === 0 ? (
@@ -92,7 +92,7 @@ export default function CambodiaPublicHolidays() {
       </section>
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         {!visible.length && <p className="col-span-full py-8 text-center text-sm text-[var(--ink-dim)]">{text("No matching dates.", "មិនមានកាលបរិច្ឆេទដែលត្រូវគ្នា។")}</p>}
-        {visible.map((holiday) => <article key={holiday.id} className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4"><div className="flex items-start justify-between gap-3"><div className="min-w-0"><h2 className="font-medium text-[var(--ink)]">{holiday.name}</h2>{holiday.nameKm && <p lang="km" className="mt-1 font-khmer text-sm text-[var(--gold)]">{holiday.nameKm}</p>}<p className="mt-2 text-sm font-semibold text-[var(--ink)]">{dateLabel(holiday.date)}</p><p className="mt-1 text-xs text-[var(--ink-dim)]">{kindLabel(holiday.kind)} · {holiday.custom ? text("Local entry", "ទិន្នន័យក្នុងម៉ាស៊ីន") : text(`${holiday.year} supplied list`, `បញ្ជីឆ្នាំ ${holiday.year} ដែលបានផ្តល់`)}</p></div>{holiday.custom && <Button type="button" className="!bg-[var(--danger)] !px-3 !py-1.5 !text-white" onClick={() => setCustom((items) => items.filter((item) => item.id !== holiday.id))}>{text("Delete", "លុប")}</Button>}</div></article>)}
+        {visible.map((holiday) => <article key={holiday.id} className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4"><div className="flex items-start justify-between gap-3"><div className="min-w-0"><h2 className="font-medium text-[var(--ink)]">{holiday.name}</h2>{holiday.nameKm && <p lang="km" className="mt-1 font-khmer text-sm text-[var(--gold-text)]">{holiday.nameKm}</p>}<p className="mt-2 text-sm font-semibold text-[var(--ink)]">{dateLabel(holiday.date)}</p><p className="mt-1 text-xs text-[var(--ink-dim)]">{kindLabel(holiday.kind)} · {holiday.custom ? text("Local entry", "ទិន្នន័យក្នុងម៉ាស៊ីន") : text(`${holiday.year} supplied list`, `បញ្ជីឆ្នាំ ${holiday.year} ដែលបានផ្តល់`)}</p></div>{holiday.custom && <Button type="button" className="!bg-[var(--danger)] !px-3 !py-1.5 !text-white" onClick={() => setCustom((items) => items.filter((item) => item.id !== holiday.id))}>{text("Delete", "លុប")}</Button>}</div></article>)}
       </div>
 
       <form onSubmit={addCustom} className="space-y-4 rounded-md border border-[var(--ground-line)] p-4">
@@ -133,14 +133,14 @@ function CalendarMonthCard({ year, month, holidays, mode }: { year: number; mont
   return (
     <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3">
       <h3 className="mb-1 text-center text-sm font-semibold text-[var(--ink)]">{mode === "km" ? kmLabel : enLabel}</h3>
-      {mode === "bi" && <p className="mb-2 text-center font-khmer text-sm text-[var(--gold)]">{kmLabel}</p>}
+      {mode === "bi" && <p className="mb-2 text-center font-khmer text-sm text-[var(--gold-text)]">{kmLabel}</p>}
       <table className="w-full border-collapse text-center">
         <thead>
           <tr>
             {WEEKDAY_EN.map((day, i) => (
               <th key={i} className="pb-1 text-[10px] font-medium text-[var(--ink-faint)]">
                 {mode === "km" ? WEEKDAY_KM[i] : WEEKDAY_EN[i]}
-                {mode === "bi" && <span className="block font-khmer text-[10px] font-normal text-[var(--gold)]">{WEEKDAY_KM[i]}</span>}
+                {mode === "bi" && <span className="block font-khmer text-[10px] font-normal text-[var(--gold-text)]">{WEEKDAY_KM[i]}</span>}
               </th>
             ))}
           </tr>
@@ -155,7 +155,7 @@ function CalendarMonthCard({ year, month, holidays, mode }: { year: number; mont
                   <td key={ci} className="p-0.5">
                     <div
                       title={hols ? hols.map((h) => `${h.name}${h.nameKm ? ` · ${h.nameKm}` : ""}`).join("\n") : undefined}
-                      className={`flex h-8 flex-col items-center justify-center rounded-md text-xs ${hols ? "bg-[var(--gold)]/15 font-bold text-[var(--gold)]" : "text-[var(--ink-dim)]"}`}
+                      className={`flex h-8 flex-col items-center justify-center rounded-md text-xs ${hols ? "bg-[var(--gold)]/15 font-bold text-[var(--gold-text)]" : "text-[var(--ink-dim)]"}`}
                     >
                       <span>{dayNum(day)}</span>
                       {hols && <span className="mt-0.5 h-1 w-1 rounded-full bg-[var(--gold)]" />}

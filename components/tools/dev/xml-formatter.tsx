@@ -330,7 +330,7 @@ export default function XmlFormatter() {
               onClick={() => setMode(m.id)}
               className={`rounded-md px-4 py-2 text-sm font-medium transition ${
                 mode === m.id
-                  ? "bg-[var(--gold)] text-[#0a0c0d]"
+                  ? "bg-[var(--gold)] text-[var(--on-gold)]"
                   : "border border-[var(--ground-line)] bg-[var(--ground-raised)] text-[var(--ink-dim)] hover:text-[var(--ink)]"
               }`}
             >

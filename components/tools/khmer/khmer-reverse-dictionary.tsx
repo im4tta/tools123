@@ -40,13 +40,13 @@ export default function KhmerReverseDictionary() {
       {active ? (
         results.length > 0 ? (
           <>
-            <span className="flex items-center gap-2 text-xs text-[var(--ink-faint)]"><Search size={13} className="text-[var(--gold)]" />{t(`${results.length}${results.length === 60 ? "+" : ""} matching word${results.length === 1 ? "" : "s"}`, `រកឃើញ ${results.length}${results.length === 60 ? "+" : ""} ពាក្យ`)}</span>
+            <span className="flex items-center gap-2 text-xs text-[var(--ink-faint)]"><Search size={13} className="text-[var(--gold-text)]" />{t(`${results.length}${results.length === 60 ? "+" : ""} matching word${results.length === 1 ? "" : "s"}`, `រកឃើញ ${results.length}${results.length === 60 ? "+" : ""} ពាក្យ`)}</span>
             <div className="space-y-2">
               {results.map((e) => (
                 <div key={e.word} className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2.5">
                   <div className="flex items-baseline gap-2">
                     <span lang="km" className="font-khmer text-base font-semibold text-[var(--ink)]">{e.word}</span>
-                    {e.pronunciation && <span lang="km" className="font-khmer text-xs text-[var(--gold)]">/{e.pronunciation}/</span>}
+                    {e.pronunciation && <span lang="km" className="font-khmer text-xs text-[var(--gold-text)]">/{e.pronunciation}/</span>}
                   </div>
                   <p lang="km" className="mt-0.5 font-khmer text-sm text-[var(--ink-dim)]">{e.definition}</p>
                   {e.example && <p lang="km" className="mt-1 font-khmer text-xs italic text-[var(--ink-faint)]">{e.example}</p>}

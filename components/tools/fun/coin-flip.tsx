@@ -66,7 +66,7 @@ export default function CoinFlip() {
         <button
           type="button"
           onClick={flip}
-          className="rounded-md bg-[var(--gold)] px-5 py-2.5 text-sm font-semibold text-[#0a0c0d] transition hover:bg-[var(--gold-dim)]"
+          className="rounded-md bg-[var(--gold)] px-5 py-2.5 text-sm font-semibold text-[var(--on-gold)] transition hover:bg-[var(--gold-hover)]"
         >
           {t("Flip", "បោះ")}
         </button>
@@ -86,7 +86,7 @@ export default function CoinFlip() {
             {result === "heads" ? t("Heads", "ក្បាល") : t("Tails", "កន្ទុយ")}
           </div>
           {mode === "bestOf" && winner && (
-            <div className="mt-2 text-sm font-semibold text-[var(--gold)]">
+            <div className="mt-2 text-sm font-semibold text-[var(--gold-text)]">
               {t("Winner:", "អ្នកឈ្នះ:")} {winner === "heads" ? t("Heads", "ក្បាល") : t("Tails", "កន្ទុយ")}
             </div>
           )}

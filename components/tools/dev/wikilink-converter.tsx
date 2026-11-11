@@ -54,20 +54,20 @@ export default function WikilinkConverter() {
       descriptionKm="បម្លែងរវាង wikilink បែប Obsidian [[note|alias]] និងតំណ Markdown ស្តង់ដារ [alias](note.md) ទាំងសងខាង។ តំណកំណត់ត្រាខាងក្នុងត្រូវបម្លែង ចំណែក URL ខាងក្រៅពិត (http, mailto…) ត្រូវទុកដដែល។ មានប្រយោជន៍ពេលផ្លាស់កំណត់ត្រារវាង Obsidian និងកម្មវិធី Markdown ផ្សេង។ ដំណើរការក្នុងកម្មវិធីរុករក។"
     >
       <div className="flex flex-wrap items-center gap-2">
-        <button type="button" onClick={() => setDir((d) => (d === "md2wiki" ? "wiki2md" : "md2wiki"))} className="flex items-center gap-2 rounded-md border border-[var(--gold)] bg-[var(--gold)]/10 px-3 py-1.5 text-xs font-medium text-[var(--gold)]">
+        <button type="button" onClick={() => setDir((d) => (d === "md2wiki" ? "wiki2md" : "md2wiki"))} className="flex items-center gap-2 rounded-md border border-[var(--gold)] bg-[var(--gold)]/10 px-3 py-1.5 text-xs font-medium text-[var(--gold-text)]">
           <ArrowLeftRight size={13} />
           {dir === "md2wiki" ? t("Markdown → Wikilink", "Markdown → Wikilink") : t("Wikilink → Markdown", "Wikilink → Markdown")}
         </button>
         {dir === "md2wiki" ? (
-          <button type="button" onClick={() => setStripMd((v) => !v)} className={`rounded-md border px-3 py-1.5 text-xs font-medium transition ${stripMd ? "border-[var(--gold)] bg-[var(--gold)]/10 text-[var(--gold)]" : "border-[var(--ground-line)] text-[var(--ink-dim)] hover:border-[var(--ink-faint)]"}`}>
+          <button type="button" onClick={() => setStripMd((v) => !v)} className={`rounded-md border px-3 py-1.5 text-xs font-medium transition ${stripMd ? "border-[var(--gold)] bg-[var(--gold)]/10 text-[var(--gold-text)]" : "border-[var(--ground-line)] text-[var(--ink-dim)] hover:border-[var(--ink-faint)]"}`}>
             {t("Strip .md extension", "ដក .md")}
           </button>
         ) : (
           <>
-            <button type="button" onClick={() => setAddMd((v) => !v)} className={`rounded-md border px-3 py-1.5 text-xs font-medium transition ${addMd ? "border-[var(--gold)] bg-[var(--gold)]/10 text-[var(--gold)]" : "border-[var(--ground-line)] text-[var(--ink-dim)] hover:border-[var(--ink-faint)]"}`}>
+            <button type="button" onClick={() => setAddMd((v) => !v)} className={`rounded-md border px-3 py-1.5 text-xs font-medium transition ${addMd ? "border-[var(--gold)] bg-[var(--gold)]/10 text-[var(--gold-text)]" : "border-[var(--ground-line)] text-[var(--ink-dim)] hover:border-[var(--ink-faint)]"}`}>
               {t("Add .md extension", "បន្ថែម .md")}
             </button>
-            <button type="button" onClick={() => setEncode((v) => !v)} className={`rounded-md border px-3 py-1.5 text-xs font-medium transition ${encode ? "border-[var(--gold)] bg-[var(--gold)]/10 text-[var(--gold)]" : "border-[var(--ground-line)] text-[var(--ink-dim)] hover:border-[var(--ink-faint)]"}`}>
+            <button type="button" onClick={() => setEncode((v) => !v)} className={`rounded-md border px-3 py-1.5 text-xs font-medium transition ${encode ? "border-[var(--gold)] bg-[var(--gold)]/10 text-[var(--gold-text)]" : "border-[var(--ground-line)] text-[var(--ink-dim)] hover:border-[var(--ink-faint)]"}`}>
               {t("Encode spaces (%20)", "អ៊ិនកូដចន្លោះ (%20)")}
             </button>
           </>

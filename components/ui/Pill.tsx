@@ -20,7 +20,7 @@ export function Pill({ active, onClick, children }: { active: boolean; onClick: 
       type="button"
       aria-pressed={active}
       onClick={onClick}
-      className={`ui-touch rounded-md border px-3 py-1.5 text-xs font-medium transition ${active ? "border-[var(--gold)] bg-[var(--gold)]/10 text-[var(--gold)]" : "border-[var(--ground-line)] text-[var(--ink-dim)] hover:border-[var(--ink-faint)]"}`}
+      className={`ui-touch rounded-md border px-3 py-1.5 text-xs font-medium transition ${active ? "border-[var(--gold)] bg-[var(--gold)]/10 text-[var(--gold-text)]" : "border-[var(--ground-line)] text-[var(--ink-dim)] hover:border-[var(--ink-faint)]"}`}
     >
       {children}
     </button>

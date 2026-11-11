@@ -86,7 +86,7 @@ export default function SolarCalculator() {
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4">
           <div className="text-xs font-medium uppercase tracking-wide text-[var(--ink-dim)]">{t("Required array", "ទំហំបន្ទះដែលត្រូវការ")}</div>
-          <div className="mt-1 text-lg font-semibold text-[var(--gold)]">{result.requiredKw.toFixed(2)} kW</div>
+          <div className="mt-1 text-lg font-semibold text-[var(--gold-text)]">{result.requiredKw.toFixed(2)} kW</div>
           <div className="text-xs text-[var(--ink-dim)]">{result.sun} h × {Math.round(result.eff * 100)}%</div>
         </div>
         <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4">

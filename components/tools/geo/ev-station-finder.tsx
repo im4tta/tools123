@@ -221,7 +221,7 @@ export default function EvStationFinder() {
           </div>
           {normalize(station.address) && <p className="mt-3 text-xs leading-5 text-[var(--ink-dim)]">{normalize(station.address)}</p>}
           <div className="mt-3 flex flex-wrap gap-1.5 text-[10px]">
-            {distance !== null && <span className="rounded-full bg-[var(--gold)]/15 px-2 py-1 text-[var(--gold)]">≈ {distance.toFixed(1)} km</span>}
+            {distance !== null && <span className="rounded-full bg-[var(--gold)]/15 px-2 py-1 text-[var(--gold-text)]">≈ {distance.toFixed(1)} km</span>}
             {power && <span className="rounded-full bg-[var(--ground)] px-2 py-1 text-[var(--ink-dim)]">⚡ {power}</span>}
             {connectors.map((item) => <span key={item} className="rounded-full bg-[var(--ground)] px-2 py-1 text-[var(--ink-dim)]">{item}</span>)}
             {!connectors.length && <span className="rounded-full bg-[var(--ground)] px-2 py-1 text-[var(--ink-faint)]">{t("Connector not recorded", "មិនបានកត់ត្រាប្រភេទក្បាលសាក")}</span>}
@@ -233,8 +233,8 @@ export default function EvStationFinder() {
             {normalize(station.phone) && <div><dt className="inline text-[var(--ink-faint)]">{t("Phone", "ទូរស័ព្ទ")}៖ </dt><dd className="inline text-[var(--ink-dim)]">{normalize(station.phone)}</dd></div>}
           </dl>}
           <div className="mt-4 flex flex-wrap gap-3 text-xs">
-            <a href={map} target="_blank" rel="noreferrer" className="text-[var(--gold)] hover:underline">{t("Open in Google Maps", "បើកក្នុង Google Maps")} ↗</a>
-            {safeHttpUrl(station.reviews_url) && <a href={safeHttpUrl(station.reviews_url) ?? undefined} target="_blank" rel="noreferrer" className="text-[var(--ink-dim)] hover:text-[var(--gold)]">{t("Reviews", "ការវាយតម្លៃ")} ↗</a>}
+            <a href={map} target="_blank" rel="noreferrer" className="text-[var(--gold-text)] hover:underline">{t("Open in Google Maps", "បើកក្នុង Google Maps")} ↗</a>
+            {safeHttpUrl(station.reviews_url) && <a href={safeHttpUrl(station.reviews_url) ?? undefined} target="_blank" rel="noreferrer" className="text-[var(--ink-dim)] hover:text-[var(--gold-text)]">{t("Reviews", "ការវាយតម្លៃ")} ↗</a>}
           </div>
         </article>;
       })}

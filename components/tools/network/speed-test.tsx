@@ -105,7 +105,7 @@ export default function SpeedTest() {
           ) : (
             <>
               <Gauge size={34} className="text-[var(--teal)]" />
-              <button type="button" onClick={run} className="rounded-xl bg-[var(--gold)] px-6 py-3 text-sm font-semibold text-[#0a0c0d] transition hover:bg-[var(--gold-dim)]">
+              <button type="button" onClick={run} className="rounded-xl bg-[var(--gold)] px-6 py-3 text-sm font-semibold text-[var(--on-gold)] transition hover:bg-[var(--gold-hover)]">
                 {phase === "done" ? t("Test again", "សាកល្បងម្តងទៀត") : t("Start speed test", "ចាប់ផ្តើមតេស្តល្បឿន")}
               </button>
             </>

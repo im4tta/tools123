@@ -310,7 +310,7 @@ export default function AudioVisualizerPlayer() {
               {muted || volume === 0 ? <VolumeX size={15} /> : <Volume2 size={15} />}
             </button>
             <input type="range" min={0} max={1} step={0.05} value={muted ? 0 : volume} onChange={(e) => { setVolume(Number(e.target.value)); setMuted(false); }} className="w-24" aria-label={t("Volume", "កម្រិតសំឡេង")} />
-            <button type="button" onClick={togglePlay} disabled={!file} className="flex items-center gap-1.5 rounded-md bg-[var(--gold)] px-4 py-2 text-sm font-medium text-[#0a0c0d] hover:bg-[var(--gold-dim)] disabled:opacity-40">
+            <button type="button" onClick={togglePlay} disabled={!file} className="flex items-center gap-1.5 rounded-md bg-[var(--gold)] px-4 py-2 text-sm font-medium text-[var(--on-gold)] hover:bg-[var(--gold-hover)] disabled:opacity-40">
               {playing ? <Pause size={15} /> : <Play size={15} />}
               {playing ? t("Pause", "ឈប់") : t("Play", "ចាក់")}
             </button>
@@ -325,7 +325,7 @@ export default function AudioVisualizerPlayer() {
       <Field label={t("Visualizer mode", "ប្រភេទរូបភាព")}>
         <div className="flex flex-wrap gap-2 pt-1">
           {(["bars", "wave", "bars+wave", "radial", "rings"] as Mode[]).map((m) => (
-            <button key={m} type="button" onClick={() => setMode(m)} className={`rounded-md px-3 py-2 text-sm font-medium transition ${mode === m ? "bg-[var(--gold)] text-[#0a0c0d]" : "bg-[var(--ground-raised)] text-[var(--ink-dim)]"}`}>
+            <button key={m} type="button" onClick={() => setMode(m)} className={`rounded-md px-3 py-2 text-sm font-medium transition ${mode === m ? "bg-[var(--gold)] text-[var(--on-gold)]" : "bg-[var(--ground-raised)] text-[var(--ink-dim)]"}`}>
               {m === "bars" ? t("Bars", "របារ") : m === "wave" ? t("Waveform", "រលក") : m === "bars+wave" ? t("Bars + Wave", "របារ + រលក") : m === "radial" ? t("Radial", "រ៉ាឌីល") : t("Rings", "រង្វង់")}
             </button>
           ))}

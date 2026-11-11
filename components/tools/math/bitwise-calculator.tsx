@@ -120,7 +120,7 @@ export default function BitwiseCalculator() {
           </div>
           <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4">
             <div className="text-xs font-medium uppercase tracking-wide text-[var(--ink-dim)]">{t("Decimal (unsigned)", "ទសភាគ (គ្មានសញ្ញា)")}</div>
-            <div className="mt-1 font-mono-ui text-lg font-semibold text-[var(--gold)]">{result.unsigned}</div>
+            <div className="mt-1 font-mono-ui text-lg font-semibold text-[var(--gold-text)]">{result.unsigned}</div>
           </div>
           <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4">
             <div className="text-xs font-medium uppercase tracking-wide text-[var(--ink-dim)]">{t("Hex (32-bit)", "គោលដប់ប្រាំមួយ (៣២ ប៊ីត)")}</div>
@@ -136,7 +136,7 @@ export default function BitwiseCalculator() {
           </div>
           <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4">
             <div className="text-xs font-medium uppercase tracking-wide text-[var(--ink-dim)]">{t("Bit length", "ប្រវែងប៊ីត")}</div>
-            <div className="mt-1 font-mono-ui text-lg font-semibold text-[var(--gold)]">{result.bitLength}</div>
+            <div className="mt-1 font-mono-ui text-lg font-semibold text-[var(--gold-text)]">{result.bitLength}</div>
           </div>
           <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4">
             <div className="text-xs font-medium uppercase tracking-wide text-[var(--ink-dim)]">{t("Popcount (set bits)", "ចំនួនប៊ីតដែលជា 1")}</div>
@@ -144,7 +144,7 @@ export default function BitwiseCalculator() {
           </div>
         </div>
       ) : (
-        <p className="text-sm font-medium text-[var(--gold)]">
+        <p className="text-sm font-medium text-[var(--gold-text)]">
           {t("Enter valid integers (decimal or 0x hex).", "សូមបញ្ចូលចំនួនគត់ឱ្យបានត្រឹមត្រូវ (ទសភាគ ឬ 0x គោលដប់ប្រាំមួយ)។")}
         </p>
       )}

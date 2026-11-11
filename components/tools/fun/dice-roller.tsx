@@ -37,7 +37,7 @@ export default function DiceRoller() {
               onClick={() => roll(die)}
               className="flex items-center gap-1.5 rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-4 py-2 text-sm font-semibold text-[var(--ink)] transition hover:border-[var(--gold-dim)] hover:bg-[var(--ground-raised-hi)]"
             >
-              <Dices size={15} className="text-[var(--gold)]" />d{die}
+              <Dices size={15} className="text-[var(--gold-text)]" />d{die}
             </button>
           ))}
         </div>
@@ -46,7 +46,7 @@ export default function DiceRoller() {
       {lastRoll && (
         <div className="rounded-lg border border-[var(--gold)]/40 bg-[var(--gold)]/10 p-4 text-center">
           <span className="text-xs uppercase tracking-wide text-[var(--ink-dim)]">{t("You rolled", "អ្នកបានគ្រវែង")} d{lastRoll.die}</span>
-          <div className="font-display text-5xl font-bold text-[var(--gold)]">{lastRoll.total}</div>
+          <div className="font-display text-5xl font-bold text-[var(--gold-text)]">{lastRoll.total}</div>
         </div>
       )}
 

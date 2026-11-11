@@ -149,9 +149,9 @@ export default function TextCompressor() {
       {compResult && (
         <>
           <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-4 py-3 text-sm text-[var(--ink)]">
-            {t("Original", "ដើម")}: <span className="font-mono-ui text-[var(--gold)]">{compResult.origBytes} B</span>{" "}
+            {t("Original", "ដើម")}: <span className="font-mono-ui text-[var(--gold-text)]">{compResult.origBytes} B</span>{" "}
             {t("→", "→")} {t("Compressed", "បង្ហាប់")}:{" "}
-            <span className="font-mono-ui text-[var(--gold)]">{compResult.compBytes} B</span>{" "}
+            <span className="font-mono-ui text-[var(--gold-text)]">{compResult.compBytes} B</span>{" "}
             <span className="text-[var(--ink-faint)]">
               ({Math.round((compResult.compBytes / Math.max(compResult.origBytes, 1)) * 100)}%)
             </span>
@@ -191,7 +191,7 @@ export default function TextCompressor() {
           <>
             <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-4 py-3 text-sm text-[var(--ink)]">
               {t("Input was", "ការបញ្ចូលមានទំហំ")}:{" "}
-              <span className="font-mono-ui text-[var(--gold)]">{decResult.bytes} B</span>
+              <span className="font-mono-ui text-[var(--gold-text)]">{decResult.bytes} B</span>
             </div>
             <Output label={t("Decompressed text", "អត្ថបទស្រាយបង្ហាប់")} value={decResult.text} mono={false} />
           </>

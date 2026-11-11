@@ -874,7 +874,7 @@ export default function IdCardStudio() {
                 </div>
 
                 <label className="flex cursor-pointer items-center justify-center gap-2 rounded-md border border-dashed border-[var(--ground-line)] bg-[var(--ground)] px-3 py-2.5 text-sm text-[var(--ink-dim)] transition hover:border-[var(--gold-dim)]">
-                  <FileSpreadsheet size={15} className="text-[var(--gold)]" />
+                  <FileSpreadsheet size={15} className="text-[var(--gold-text)]" />
                   {t("Import people from CSV", "នាំចូលមនុស្សពី CSV")}
                   <input type="file" accept=".csv,text/csv" className="hidden" onChange={onCsv} />
                 </label>
@@ -893,7 +893,7 @@ export default function IdCardStudio() {
                 <div className="border-t border-[var(--ground-line)] pt-4">
                   <div className="mb-2 flex items-center gap-2">
                     <label className="flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-md border border-[var(--ground-line)] bg-[var(--ground)] px-3 py-2 text-sm text-[var(--ink-dim)] transition hover:border-[var(--gold-dim)]">
-                      <ImagePlus size={15} className="text-[var(--gold)]" />{t("Choose photo", "ជ្រើសរូបថត")}
+                      <ImagePlus size={15} className="text-[var(--gold-text)]" />{t("Choose photo", "ជ្រើសរូបថត")}
                       <input type="file" accept="image/*" className="hidden" onChange={onPhoto} />
                     </label>
                     <button onClick={() => patchActive({ photo: null })} title={t("Remove photo", "លុបរូបថត")} className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-2 text-[var(--ink-dim)] hover:text-[var(--ink)]">
@@ -1032,7 +1032,7 @@ export default function IdCardStudio() {
                 </div>
                 <Field label={t("Tagline / address", "ពាក្យស្លោក / អាសយដ្ឋាន")}><TextInput value={company.tagline} onChange={(e) => patchCompany({ tagline: e.target.value })} /></Field>
                 <label className="flex cursor-pointer items-center justify-center gap-2 rounded-md border border-[var(--ground-line)] bg-[var(--ground)] px-3 py-2 text-sm text-[var(--ink-dim)] transition hover:border-[var(--gold-dim)]">
-                  <ImagePlus size={15} className="text-[var(--gold)]" />{company.logo ? t("Replace logo", "ប្តូរនិមិត្តសញ្ញា") : t("Upload logo", "បញ្ចូលនិមិត្តសញ្ញា")}
+                  <ImagePlus size={15} className="text-[var(--gold-text)]" />{company.logo ? t("Replace logo", "ប្តូរនិមិត្តសញ្ញា") : t("Upload logo", "បញ្ចូលនិមិត្តសញ្ញា")}
                   <input type="file" accept="image/*" className="hidden" onChange={onLogo} />
                 </label>
                 {company.logo && (

@@ -85,7 +85,7 @@ export default function CssTransformGenerator() {
       >
         <div className="pointer-events-none absolute inset-0 opacity-40 [background-image:linear-gradient(var(--ground-line)_1px,transparent_1px),linear-gradient(90deg,var(--ground-line)_1px,transparent_1px)] [background-size:24px_24px]" />
         <div
-          className="relative mx-auto flex h-32 w-44 items-center justify-center rounded-md border border-[var(--gold-dim)] bg-[var(--gold)]/15 text-sm font-medium text-[var(--gold)]"
+          className="relative mx-auto flex h-32 w-44 items-center justify-center rounded-md border border-[var(--gold-dim)] bg-[var(--gold)]/15 text-sm font-medium text-[var(--gold-text)]"
           style={{ transform: transformValue, transformOrigin: origin, transition: "transform 0.1s linear" }}
         >
           {t("Sample", "គំរូ")}

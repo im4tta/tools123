@@ -66,7 +66,7 @@ export default function MinistryDirectory() {
         </div>
         {mode !== "km" && <p className="mt-3 text-xs leading-5 text-[var(--ink-dim)]">{item.responsibility}</p>}
         <dl className="mt-3 space-y-2 text-xs leading-6"><div><dt className="inline text-[var(--ink-faint)]">{t("Leader", "ថ្នាក់ដឹកនាំ")}៖ </dt><dd className="inline text-[var(--ink-dim)]">{leaderTxt}</dd></div><div><dt className="inline text-[var(--ink-faint)]">{t("Address", "អាសយដ្ឋាន")}៖ </dt><dd className="inline text-[var(--ink-dim)]">{address}</dd></div></dl>
-        <div className="mt-3 flex flex-wrap gap-x-3 gap-y-2 text-xs">{item.website && <a href={item.website} target="_blank" rel="noreferrer" className="text-[var(--gold)]">{t("Website", "គេហទំព័រ")} ↗</a>}{item.phone && <a href={`tel:${item.phone}`} className="text-[var(--ink-dim)]">{t("Phone", "ទូរស័ព្ទ")}៖ {item.phone}</a>}{item.email && <a href={`mailto:${item.email}`} className="text-[var(--ink-dim)]">{t("Email", "អ៊ីមែល")}</a>}</div>
+        <div className="mt-3 flex flex-wrap gap-x-3 gap-y-2 text-xs">{item.website && <a href={item.website} target="_blank" rel="noreferrer" className="text-[var(--gold-text)]">{t("Website", "គេហទំព័រ")} ↗</a>}{item.phone && <a href={`tel:${item.phone}`} className="text-[var(--ink-dim)]">{t("Phone", "ទូរស័ព្ទ")}៖ {item.phone}</a>}{item.email && <a href={`mailto:${item.email}`} className="text-[var(--ink-dim)]">{t("Email", "អ៊ីមែល")}</a>}</div>
       </article>;
     })}</div>
   </ToolShell>;

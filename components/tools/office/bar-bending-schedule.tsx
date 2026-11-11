@@ -83,7 +83,7 @@ export default function BarBendingSchedule() {
           <div className="flex items-center gap-2">
             <CopyButton text={tsv} />
             <button type="button" onClick={addRow}
-              className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-1.5 text-xs font-medium text-[var(--ink-dim)] transition hover:border-[var(--gold-dim)] hover:text-[var(--gold)]">
+              className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-1.5 text-xs font-medium text-[var(--ink-dim)] transition hover:border-[var(--gold-dim)] hover:text-[var(--gold-text)]">
               + {t("Add bar", "បន្ថែមដែក")}
             </button>
           </div>
@@ -116,7 +116,7 @@ export default function BarBendingSchedule() {
                   <TextInput type="number" min="1" value={r.members} onChange={(e) => update(r.id, "members", e.target.value)} />
                 </label>
                 <div className="col-span-2 flex items-center justify-between sm:col-span-1 sm:justify-end">
-                  <span className="font-mono-ui text-xs text-[var(--gold)] sm:hidden">{c.weight.toFixed(1)} kg</span>
+                  <span className="font-mono-ui text-xs text-[var(--gold-text)] sm:hidden">{c.weight.toFixed(1)} kg</span>
                   <button type="button" onClick={() => removeRow(r.id)} disabled={rows.length <= 1}
                     aria-label={t("Remove bar", "លុបដែក")}
                     className="rounded-md border border-[var(--ground-line)] px-2 py-2 text-xs text-[var(--ink-faint)] transition hover:border-[var(--danger)]/50 hover:text-[var(--danger)] disabled:opacity-40">
@@ -150,13 +150,13 @@ export default function BarBendingSchedule() {
                   <td className="p-2.5 text-right">{c.dia}</td>
                   <td className="p-2.5 text-right">{c.totalBars}</td>
                   <td className="p-2.5 text-right">{c.totalLengthM.toFixed(2)}</td>
-                  <td className="p-2.5 text-right font-semibold text-[var(--gold)]">{c.weight.toFixed(2)}</td>
+                  <td className="p-2.5 text-right font-semibold text-[var(--gold-text)]">{c.weight.toFixed(2)}</td>
                 </tr>
               ))}
               <tr className="bg-[var(--ground-raised-hi)] font-semibold">
                 <td className="p-2.5" colSpan={3}>{t("Total", "សរុប")}</td>
                 <td className="p-2.5 text-right">{computed.totalLength.toFixed(2)}</td>
-                <td className="p-2.5 text-right text-[var(--gold)]">{computed.totalWeight.toFixed(2)}</td>
+                <td className="p-2.5 text-right text-[var(--gold-text)]">{computed.totalWeight.toFixed(2)}</td>
               </tr>
             </tbody>
           </table>

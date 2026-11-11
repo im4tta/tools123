@@ -159,7 +159,7 @@ export default function CountryDialingCodes() {
                   {t(c.name, c.km)}
                 </td>
                 <td className="px-3 py-2 font-mono-ui text-[var(--ink-dim)]">{c.iso2}</td>
-                <td className="px-3 py-2 font-mono-ui font-semibold text-[var(--gold)]">{c.code}</td>
+                <td className="px-3 py-2 font-mono-ui font-semibold text-[var(--gold-text)]">{c.code}</td>
                 <td className="px-3 py-2 font-mono-ui text-[var(--ink-dim)]">{c.example}</td>
                 <td className="px-3 py-2">
                   <CopyButton text={c.code} compact />

@@ -85,7 +85,7 @@ export default function KhmerMusicalInstruments() {
                 <span className="font-khmer text-base font-semibold text-[var(--ink)]">{i.km}</span>
                 <span className="ml-2 text-sm text-[var(--ink-dim)]">{i.en}</span>
               </div>
-              <span className="rounded border border-[var(--ground-line)] px-1.5 py-0.5 text-[10px] uppercase tracking-wide text-[var(--gold)]">
+              <span className="rounded border border-[var(--ground-line)] px-1.5 py-0.5 text-[10px] uppercase tracking-wide text-[var(--gold-text)]">
                 {t(i.category, i.category === "Strings" ? "ខ្សែ" : i.category === "Percussion" ? "គ្រឿងវាយ" : "ខ្យល់")}
               </span>
             </div>

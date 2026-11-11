@@ -299,7 +299,7 @@ export default function LogoRemoverTool() {
             <a
               href={resultUrl}
               download="logo-removed.png"
-              className="mt-1 inline-flex items-center gap-1.5 rounded-md bg-[var(--gold)] px-3 py-1.5 text-xs font-medium text-[#0a0c0d] hover:bg-[var(--gold-dim)]"
+              className="mt-1 inline-flex items-center gap-1.5 rounded-md bg-[var(--gold)] px-3 py-1.5 text-xs font-medium text-[var(--on-gold)] hover:bg-[var(--gold-hover)]"
             >
               <Download size={13} /> Download PNG
             </a>

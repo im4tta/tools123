@@ -106,7 +106,7 @@ export default function KhmerRhymingDictionary() {
               key={w}
               type="button"
               onClick={() => setSelected(w)}
-              className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-2.5 py-1.5 font-khmer text-base text-[var(--ink)] transition hover:border-[var(--gold-dim)] hover:text-[var(--gold)]"
+              className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-2.5 py-1.5 font-khmer text-base text-[var(--ink)] transition hover:border-[var(--gold-dim)] hover:text-[var(--gold-text)]"
             >
               {w}
             </button>
@@ -126,7 +126,7 @@ export default function KhmerRhymingDictionary() {
             {shownEntry.pronunciation && (
               <span className="font-mono-ui text-[10px] text-[var(--ink-faint)]">({shownEntry.pronunciation})</span>
             )}
-            <span className="text-[10px] uppercase tracking-wide text-[var(--gold)]">{selectedKey}</span>
+            <span className="text-[10px] uppercase tracking-wide text-[var(--gold-text)]">{selectedKey}</span>
           </div>
           <p lang="km" className="mt-2 font-khmer text-sm leading-relaxed text-[var(--ink-dim)]">
             {shownEntry.definition}
@@ -136,7 +136,7 @@ export default function KhmerRhymingDictionary() {
 
       {familyWords.length > 0 && (
         <section>
-          <h2 className="mb-2 text-xs font-semibold uppercase tracking-wide text-[var(--gold)]">
+          <h2 className="mb-2 text-xs font-semibold uppercase tracking-wide text-[var(--gold-text)]">
             {t(
               selected ? `Rhyme family of «${selected}»` : "Rhyme family",
               selected ? `ក្រុមបទភ្លេងរបស់ «${selected}»` : "ក្រុមបទភ្លេង"
@@ -177,7 +177,7 @@ export default function KhmerRhymingDictionary() {
 
       {!query.trim() && !selected && !activeFamily && (
         <section>
-          <h2 className="mb-2 text-xs font-semibold uppercase tracking-wide text-[var(--gold)]">
+          <h2 className="mb-2 text-xs font-semibold uppercase tracking-wide text-[var(--gold-text)]">
             {t("Largest rhyme families", "ក្រុមបទភ្លេងធំៗ")}
           </h2>
           <div className="flex flex-wrap gap-1.5">
@@ -189,7 +189,7 @@ export default function KhmerRhymingDictionary() {
                   setActiveFamily(key);
                   setSelected(null);
                 }}
-                className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-2.5 py-1.5 font-khmer text-base text-[var(--ink)] transition hover:border-[var(--gold-dim)] hover:text-[var(--gold)]"
+                className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-2.5 py-1.5 font-khmer text-base text-[var(--ink)] transition hover:border-[var(--gold-dim)] hover:text-[var(--gold-text)]"
               >
                 {key} <span className="text-[10px] text-[var(--ink-faint)]">({words.length})</span>
               </button>

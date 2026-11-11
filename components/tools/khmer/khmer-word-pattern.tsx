@@ -60,7 +60,7 @@ export default function KhmerWordPattern() {
       {active && (
         <>
           <div className="flex items-center justify-between gap-3">
-            <span className="flex items-center gap-2 text-xs text-[var(--ink-faint)]"><Search size={13} className="text-[var(--gold)]" />{t(`${results.length}${results.length === 200 ? "+" : ""} word${results.length === 1 ? "" : "s"}`, `រកឃើញ ${results.length}${results.length === 200 ? "+" : ""} ពាក្យ`)}</span>
+            <span className="flex items-center gap-2 text-xs text-[var(--ink-faint)]"><Search size={13} className="text-[var(--gold-text)]" />{t(`${results.length}${results.length === 200 ? "+" : ""} word${results.length === 1 ? "" : "s"}`, `រកឃើញ ${results.length}${results.length === 200 ? "+" : ""} ពាក្យ`)}</span>
             {results.length > 0 && <CopyButton text={results.join("\n")} compact />}
           </div>
           {results.length > 0 ? (

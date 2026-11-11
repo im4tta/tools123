@@ -50,13 +50,13 @@ export default function KhmerWordFrequency() {
 
       <div className="grid grid-cols-2 gap-3">
         <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-4 py-3">
-          <div className="text-2xl font-semibold text-[var(--gold)]">{total}</div>
+          <div className="text-2xl font-semibold text-[var(--gold-text)]">{total}</div>
           <div className="mt-0.5 text-xs uppercase tracking-wide text-[var(--ink-dim)]">
             {t("Total tokens", "ចំនួនពាក្យសរុប")}
           </div>
         </div>
         <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-4 py-3">
-          <div className="text-2xl font-semibold text-[var(--gold)]">{unique}</div>
+          <div className="text-2xl font-semibold text-[var(--gold-text)]">{unique}</div>
           <div className="mt-0.5 text-xs uppercase tracking-wide text-[var(--ink-dim)]">
             {t("Unique tokens", "ពាក្យផ្សេងគ្នា")}
           </div>
@@ -82,7 +82,7 @@ export default function KhmerWordFrequency() {
                   type="button"
                   onClick={() => void copyText(word)}
                   title={t("Copy word", "ចម្លងពាក្យ")}
-                  className="w-32 shrink-0 truncate text-left font-khmer text-[var(--ink)] transition hover:text-[var(--gold)]"
+                  className="w-32 shrink-0 truncate text-left font-khmer text-[var(--ink)] transition hover:text-[var(--gold-text)]"
                 >
                   {word}
                 </button>

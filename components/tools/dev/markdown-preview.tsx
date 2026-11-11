@@ -16,7 +16,7 @@ export default function MarkdownPreview() {
       <div>
         <div className="mb-1.5 text-xs font-medium uppercase tracking-wide text-[var(--ink-dim)]">Preview</div>
         <div
-          className="prose prose-invert max-w-none rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4 text-sm [&_a]:text-[var(--gold)] [&_code]:rounded [&_code]:bg-black/40 [&_code]:px-1 [&_h1]:font-display [&_h2]:font-display [&_ul]:list-disc [&_ul]:pl-5"
+          className="prose prose-invert max-w-none rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4 text-sm [&_a]:text-[var(--gold-text)] [&_code]:rounded [&_code]:bg-black/40 [&_code]:px-1 [&_h1]:font-display [&_h2]:font-display [&_ul]:list-disc [&_ul]:pl-5"
           dangerouslySetInnerHTML={{ __html: html }}
         />
       </div>

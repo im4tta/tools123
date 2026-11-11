@@ -203,7 +203,7 @@ export default function CashReceiptGenerator() {
             type="button"
             onClick={() => { if (!pdfUrl) return; const a = document.createElement("a"); a.href = pdfUrl; a.download = `receipt-${(receiptNo || "0001").replace(/[^\w-]+/g, "")}.pdf`; a.click(); recordExport(); }}
             disabled={!pdfUrl}
-            className="flex w-full items-center justify-center gap-2 rounded-xl bg-[var(--gold)] px-5 py-3 text-sm font-semibold text-[#0a0c0d] transition hover:bg-[var(--gold-dim)] disabled:opacity-40"
+            className="flex w-full items-center justify-center gap-2 rounded-xl bg-[var(--gold)] px-5 py-3 text-sm font-semibold text-[var(--on-gold)] transition hover:bg-[var(--gold-hover)] disabled:opacity-40"
           >
             <Download size={15} />{t("Download receipt PDF", "ទាញយកបង្កាន់ដៃ")}
           </button>

@@ -189,7 +189,7 @@ export default function HiitTimer() {
 
       <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-5">
         <div className="flex flex-wrap items-baseline justify-between gap-2">
-          <div className={`font-display text-2xl font-semibold ${seg?.kind === "work" ? "text-[var(--gold)]" : "text-[var(--ink)]"}`}>
+          <div className={`font-display text-2xl font-semibold ${seg?.kind === "work" ? "text-[var(--gold-text)]" : "text-[var(--ink)]"}`}>
             {phaseLabel}
           </div>
           {seg?.round && (

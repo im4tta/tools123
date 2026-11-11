@@ -73,7 +73,7 @@ export default function CambodiaFuelPrices() {
 
       {loading && (
         <div className="flex items-center justify-center gap-3 rounded-2xl border border-dashed border-[var(--ground-line)] p-14">
-          <Loader2 size={20} className="animate-spin text-[var(--gold)]" />
+          <Loader2 size={20} className="animate-spin text-[var(--gold-text)]" />
           <span className="text-sm text-[var(--ink-dim)]">{t("Loading fuel prices…", "កំពុងទាញតម្លៃប្រេង…")}</span>
         </div>
       )}
@@ -91,9 +91,9 @@ export default function CambodiaFuelPrices() {
         <div className="space-y-5">
           {/* Current period header */}
           <div className="rounded-2xl border border-[var(--gold)]/30 bg-[var(--ground-raised)] p-6">
-            <div className="flex flex-wrap items-center gap-2 text-xs font-bold uppercase tracking-wider text-[var(--gold)]">
+            <div className="flex flex-wrap items-center gap-2 text-xs font-bold uppercase tracking-wider text-[var(--gold-text)]">
               <CalendarDays size={14} /> {fmtDate(current.startDate)} – {fmtDate(current.endDate)}
-              <span className="rounded bg-[var(--gold)]/10 px-2 py-0.5 font-mono-ui text-[10px] text-[var(--gold)]">🇰🇭 {t("Current period", "អំឡុងបច្ចុប្បន្ន")}</span>
+              <span className="rounded bg-[var(--gold)]/10 px-2 py-0.5 font-mono-ui text-[10px] text-[var(--gold-text)]">🇰🇭 {t("Current period", "អំឡុងបច្ចុប្បន្ន")}</span>
             </div>
             {current.sourceLink && (
               <a href={current.sourceLink} target="_blank" rel="noopener noreferrer"
@@ -129,7 +129,7 @@ export default function CambodiaFuelPrices() {
           {history.length > 1 && (
             <div className="rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)] p-5">
               <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-[var(--ink)]">
-                <CalendarDays size={14} className="text-[var(--gold)]" />
+                <CalendarDays size={14} className="text-[var(--gold-text)]" />
                 {t("Recent price periods", "អំឡុងតម្លៃថ្មីៗ")}
               </div>
               <div className="overflow-x-auto">

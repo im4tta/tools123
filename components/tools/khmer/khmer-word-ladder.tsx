@@ -27,7 +27,7 @@ function Chain({ words, target }: { words: string[]; target?: string }) {
       {words.map((w, i) => (
         <li key={`${w}-${i}`} className="flex items-center gap-1.5">
           {i > 0 && <span aria-hidden="true" className="text-[var(--ink-faint)]">→</span>}
-          <span lang="km" className={`rounded-md border px-2.5 py-1 font-khmer text-2xl leading-[1.6] ${w === target ? "border-[var(--gold)] bg-[var(--gold)]/15 text-[var(--gold)]" : "border-[var(--ground-line)] bg-[var(--ground-raised)] text-[var(--ink)]"}`}>{w}</span>
+          <span lang="km" className={`rounded-md border px-2.5 py-1 font-khmer text-2xl leading-[1.6] ${w === target ? "border-[var(--gold)] bg-[var(--gold)]/15 text-[var(--gold-text)]" : "border-[var(--ground-line)] bg-[var(--ground-raised)] text-[var(--ink)]"}`}>{w}</span>
         </li>
       ))}
     </ol>
@@ -116,7 +116,7 @@ export default function KhmerWordLadder() {
             <>
               <p className="text-sm text-[var(--ink-dim)]">
                 {t("From", "ពី")} <span lang="km" className="font-khmer text-lg text-[var(--ink)]">{puzzle[0]}</span> {t("to", "ទៅ")}{" "}
-                <span lang="km" className="font-khmer text-lg text-[var(--gold)]">{target}</span>{" "}
+                <span lang="km" className="font-khmer text-lg text-[var(--gold-text)]">{target}</span>{" "}
                 · {t(`shortest: ${puzzle.length - 1} steps`, `ខ្លីបំផុត៖ ${kh(puzzle.length - 1)} ជំហាន`)}
               </p>
               <Chain words={chain} target={target} />

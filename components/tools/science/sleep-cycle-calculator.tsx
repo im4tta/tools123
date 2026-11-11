@@ -77,7 +77,7 @@ export default function SleepCycleCalculator() {
                     ? `${t("Bedtime for", "ម៉ោងគេងសម្រាប់")} ${r.cycles} ${t("cycles", "វដ្ត")}`
                     : `${t("Wake time for", "ម៉ោងភ្ញាក់សម្រាប់")} ${r.cycles} ${t("cycles", "វដ្ត")}`}
                 </div>
-                <div className="mt-1 text-xl font-semibold text-[var(--gold)]">{formatTime(r.value)}</div>
+                <div className="mt-1 text-xl font-semibold text-[var(--gold-text)]">{formatTime(r.value)}</div>
                 <div className="mt-0.5 text-[11px] text-[var(--ink-faint)]">
                   {r.cycles * CYCLE_MIN} {t("min of sleep", "នាទីនៃការគេង")}
                 </div>

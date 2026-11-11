@@ -28,7 +28,7 @@ export default function KhmerSyllableBuilder() {
   const syllable = composeSyllable({ consonant: parts.consonant, subscripts: [parts.sub1, parts.sub1 ? parts.sub2 : ""], shifter: parts.shifter, vowel: parts.vowel, sign: parts.sign });
   const reading = romanizeSyllable(syllable, "ungegn");
   const choice = (active: boolean) =>
-    `flex h-12 min-w-12 items-center justify-center rounded-md border px-1 font-khmer text-2xl transition ${active ? "border-[var(--gold)] bg-[var(--gold)]/15 text-[var(--gold)]" : "border-[var(--ground-line)] text-[var(--ink)] hover:border-[var(--ink-faint)]"}`;
+    `flex h-12 min-w-12 items-center justify-center rounded-md border px-1 font-khmer text-2xl transition ${active ? "border-[var(--gold)] bg-[var(--gold)]/15 text-[var(--gold-text)]" : "border-[var(--ground-line)] text-[var(--ink)] hover:border-[var(--ink-faint)]"}`;
 
   return (
     <ToolShell

@@ -109,7 +109,7 @@ export default function KhmerSubtitleChunker() {
             <div key={c.index} className="flex items-start gap-3 rounded-md border border-[var(--ground-line)] p-2.5">
               <span className="mt-0.5 font-mono-ui text-[10px] text-[var(--ink-faint)]">{c.index}</span>
               <div className="min-w-0 flex-1">
-                <div className="font-mono-ui text-[10px] text-[var(--gold)]">{srtTime(c.start)} → {srtTime(c.end)}</div>
+                <div className="font-mono-ui text-[10px] text-[var(--gold-text)]">{srtTime(c.start)} → {srtTime(c.end)}</div>
                 <div className="font-khmer text-sm text-[var(--ink)]">{c.text}</div>
               </div>
             </div>

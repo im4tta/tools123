@@ -167,7 +167,7 @@ export default function ImageUpscalerTool() {
           <BeforeAfterSlider before={originalUrl} after={resultUrl} beforeAlt="Original image" afterAlt="Upscaled image" />
           <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-[var(--ink-dim)]">
             <span>Result — {(resultSize / 1024 / 1024).toFixed(2)} MB</span>
-            <a href={resultUrl} download={`upscaled.${ext}`} className="inline-flex items-center gap-1.5 rounded-md bg-[var(--gold)] px-3 py-1.5 font-medium text-[#0a0c0d] hover:bg-[var(--gold-dim)]">
+            <a href={resultUrl} download={`upscaled.${ext}`} className="inline-flex items-center gap-1.5 rounded-md bg-[var(--gold)] px-3 py-1.5 font-medium text-[var(--on-gold)] hover:bg-[var(--gold-hover)]">
               <Download size={13} /> Download
             </a>
           </div>

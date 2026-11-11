@@ -99,7 +99,7 @@ export default function StereoChannelTest() {
       key={id}
       type="button"
       onClick={() => (channel === id ? stop() : play(id))}
-      className={`rounded-md border px-4 py-2.5 text-sm font-medium transition ${channel === id ? "border-[var(--gold)] bg-[var(--gold)]/15 text-[var(--gold)]" : "border-[var(--ground-line)] bg-[var(--ground-raised)] text-[var(--ink)] hover:border-[var(--gold-dim)]"}`}
+      className={`rounded-md border px-4 py-2.5 text-sm font-medium transition ${channel === id ? "border-[var(--gold)] bg-[var(--gold)]/15 text-[var(--gold-text)]" : "border-[var(--ground-line)] bg-[var(--ground-raised)] text-[var(--ink)] hover:border-[var(--gold-dim)]"}`}
     >
       {channel === id && <VolumeX size={14} className="mr-1.5 inline" />}
       {channel !== id && <Volume2 size={14} className="mr-1.5 inline" />}

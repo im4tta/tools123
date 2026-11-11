@@ -96,9 +96,9 @@ export default function MeshGradientGenerator() {
         </button>
         <span className="text-xs text-[var(--ink-faint)]">{t("Colour points", "ចំណុចពណ៌")}:</span>
         {[3, 4, 5, 6, 7].map((n) => (
-          <button key={n} type="button" onClick={() => setCount(n)} className={`h-8 w-8 rounded-md border text-xs font-medium transition ${count === n ? "border-[var(--gold)] bg-[var(--gold)]/10 text-[var(--gold)]" : "border-[var(--ground-line)] text-[var(--ink-dim)] hover:border-[var(--ink-faint)]"}`}>{n}</button>
+          <button key={n} type="button" onClick={() => setCount(n)} className={`h-8 w-8 rounded-md border text-xs font-medium transition ${count === n ? "border-[var(--gold)] bg-[var(--gold)]/10 text-[var(--gold-text)]" : "border-[var(--ground-line)] text-[var(--ink-dim)] hover:border-[var(--ink-faint)]"}`}>{n}</button>
         ))}
-        <button type="button" onClick={downloadPng} disabled={busy} className="flex items-center gap-1.5 rounded-md bg-[var(--gold)] px-3 py-1.5 text-xs font-medium text-[#0a0c0d] transition hover:bg-[var(--gold-dim)] disabled:opacity-50">
+        <button type="button" onClick={downloadPng} disabled={busy} className="flex items-center gap-1.5 rounded-md bg-[var(--gold)] px-3 py-1.5 text-xs font-medium text-[var(--on-gold)] transition hover:bg-[var(--gold-hover)] disabled:opacity-50">
           <Download size={13} />{busy ? t("Rendering…", "កំពុងបង្កើត…") : t("Download PNG", "ទាញយក PNG")}
         </button>
       </div>

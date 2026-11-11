@@ -96,7 +96,7 @@ export default function YellowCardTracker() {
     let closest = c[0];
     for (const p of c) { if (Math.abs(p.m - month) < Math.abs(closest.m - month)) closest = p; }
     if (weight < closest.s3n) return { label: t("Severely Underweight", "ស្គមខ្លាំង"), cls: "bg-[var(--danger)]/20 text-[var(--danger)]" };
-    if (weight < closest.s2n) return { label: t("Underweight", "ស្គម"), cls: "bg-[var(--gold)]/20 text-[var(--gold)]" };
+    if (weight < closest.s2n) return { label: t("Underweight", "ស្គម"), cls: "bg-[var(--gold)]/20 text-[var(--gold-text)]" };
     if (weight <= closest.s2p) return { label: t("Normal Growth", "ធម្មតា"), cls: "bg-[var(--success)]/20 text-[var(--success)]" };
     return { label: t("Overweight", "លើសទម្ងន់"), cls: "bg-orange-500/20 text-orange-500" };
   };
@@ -116,7 +116,7 @@ export default function YellowCardTracker() {
         ].map((tb) => (
           <button key={tb.id} type="button" onClick={() => setTab(tb.id)}
             className={`flex flex-1 items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold transition ${tab === tb.id ? "bg-[var(--ground-raised-hi)] text-[var(--ink)] ring-1 ring-[var(--gold)]" : "text-[var(--ink-dim)] hover:bg-[var(--ground-raised-hi)]"}`}>
-            <tb.icon size={16} className={tab === tb.id ? "text-[var(--gold)]" : "text-[var(--ink-faint)]"} />
+            <tb.icon size={16} className={tab === tb.id ? "text-[var(--gold-text)]" : "text-[var(--ink-faint)]"} />
             {tb.label}
           </button>
         ))}
@@ -128,7 +128,7 @@ export default function YellowCardTracker() {
           {/* Child Profile */}
           <div className="rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)] p-5">
             <div className="mb-4 flex items-center gap-2">
-              <UserCheck size={18} className="text-[var(--gold)]" />
+              <UserCheck size={18} className="text-[var(--gold-text)]" />
               <h2 className="font-semibold text-[var(--ink)]">{t("Child Profile", "ព័ត៌មានកុមារ")}</h2>
             </div>
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
@@ -168,7 +168,7 @@ export default function YellowCardTracker() {
           {/* Nutrition */}
           <div className="rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)] p-5">
             <div className="mb-3 flex items-center gap-2">
-              <Sparkles size={16} className="text-[var(--gold)]" />
+              <Sparkles size={16} className="text-[var(--gold-text)]" />
               <h2 className="font-semibold text-[var(--ink)]">{t("Nutrition Guidelines", "អាហារូបត្ថម្ភ និងអនាម័យ")}</h2>
             </div>
             <div className="grid grid-cols-1 gap-3 md:grid-cols-3">
@@ -177,7 +177,7 @@ export default function YellowCardTracker() {
                 <p className="mt-1 text-xs leading-relaxed text-[var(--ink-dim)]">{t("Exclusive breastfeeding — at least 8 times/day. No water or other food.", "បំបៅដោះកូនតែមួយមុខគត់ យ៉ាងតិច ៨ដង/ថ្ងៃ។ មិនត្រូវឲ្យទឹក ឬអាហារផ្សេងឡើយ។")}</p>
               </div>
               <div className="rounded-lg border border-[var(--gold)]/40 bg-[var(--gold)]/5 p-3">
-                <div className="font-bold text-sm text-[var(--gold)]">{t("6–11 Months", "អាយុ ៦–១១ ខែ")}</div>
+                <div className="font-bold text-sm text-[var(--gold-text)]">{t("6–11 Months", "អាយុ ៦–១១ ខែ")}</div>
                 <p className="mt-1 text-xs leading-relaxed text-[var(--ink-dim)]">{t("Continue breastfeeding + start complementary feeding (thick porridge) 2–3 times/day.", "បន្តបំបៅដោះ និងចាប់ផ្តើមផ្តល់អាហារបន្ថែម ២-៣ដង/ថ្ងៃ។")}</p>
               </div>
               <div className="rounded-lg border border-orange-500/40 bg-orange-500/5 p-3">
@@ -190,7 +190,7 @@ export default function YellowCardTracker() {
           {/* Immunization Schedule */}
           <div className="rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)] p-5">
             <div className="mb-3 flex items-center gap-2">
-              <Droplet size={16} className="text-[var(--gold)]" />
+              <Droplet size={16} className="text-[var(--gold-text)]" />
               <h2 className="font-semibold text-[var(--ink)]">{t("Immunization Schedule", "កំណត់ត្រាការផ្តល់ថ្នាំបង្ការ")}</h2>
             </div>
             <div className="text-[11px] italic text-[var(--ink-faint)] mb-3">{t("Click a row to mark as completed", "ចុចលើជួរដើម្បីបញ្ជាក់ថាបានផ្តល់")}</div>
@@ -252,7 +252,7 @@ export default function YellowCardTracker() {
           <div className="flex items-center gap-2">
             {[{ id: "girls", label: t("Girls", "កុមារី"), icon: "👧" }, { id: "boys", label: t("Boys", "កុមារា"), icon: "👦" }].map((g) => (
               <button key={g.id} type="button" onClick={() => setGender(g.id as "girls" | "boys")}
-                className={`flex items-center gap-2 rounded-lg border px-4 py-2 text-sm font-semibold transition ${gender === g.id ? "border-[var(--gold)] bg-[var(--gold)]/15 text-[var(--gold)]" : "border-[var(--ground-line)] bg-[var(--ground)] text-[var(--ink-dim)]"}`}>
+                className={`flex items-center gap-2 rounded-lg border px-4 py-2 text-sm font-semibold transition ${gender === g.id ? "border-[var(--gold)] bg-[var(--gold)]/15 text-[var(--gold-text)]" : "border-[var(--ground-line)] bg-[var(--ground)] text-[var(--ink-dim)]"}`}>
                 {g.icon} {g.label}
               </button>
             ))}
@@ -262,7 +262,7 @@ export default function YellowCardTracker() {
           <div className="grid grid-cols-2 gap-2 text-[11px] sm:grid-cols-4">
             {[{ c: "bg-orange-500/20 text-orange-600", l: t("Overweight", "លើសទម្ងន់") },
               { c: "bg-[var(--success)]/20 text-[var(--success)]", l: t("Normal", "ធម្មតា") },
-              { c: "bg-[var(--gold)]/20 text-[var(--gold)]", l: t("Underweight", "ស្គម") },
+              { c: "bg-[var(--gold)]/20 text-[var(--gold-text)]", l: t("Underweight", "ស្គម") },
               { c: "bg-[var(--danger)]/20 text-[var(--danger)]", l: t("Severe", "ស្គមខ្លាំង") },
             ].map((le, i) => <div key={i} className={`rounded border border-[var(--ground-line)] px-2.5 py-1.5 font-semibold ${le.c}`}>{le.l}</div>)}
           </div>
@@ -322,7 +322,7 @@ export default function YellowCardTracker() {
           <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
             <div className="rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4">
               <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-[var(--ink)]">
-                <PlusCircle size={16} className="text-[var(--gold)]" />
+                <PlusCircle size={16} className="text-[var(--gold-text)]" />
                 {t("Add Weight", "បញ្ចូលទម្ងន់")}
               </div>
               <form onSubmit={addGrowth} className="space-y-3">
@@ -330,7 +330,7 @@ export default function YellowCardTracker() {
                   className="w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground)] px-3 py-2 text-sm text-[var(--ink)] outline-none focus:border-[var(--gold-dim)]" />
                 <input type="number" step="0.1" min="0.5" max="30" placeholder={t("Weight (kg)", "ទម្ងន់ (kg)")} value={inWeight} onChange={(e) => setInWeight(e.target.value)}
                   className="w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground)] px-3 py-2 text-sm text-[var(--ink)] outline-none focus:border-[var(--gold-dim)]" />
-                <button type="submit" className="w-full rounded-md bg-[var(--gold)] px-4 py-2 text-sm font-semibold text-[#0a0c0d] transition hover:bg-[var(--gold-dim)]">
+                <button type="submit" className="w-full rounded-md bg-[var(--gold)] px-4 py-2 text-sm font-semibold text-[var(--on-gold)] transition hover:bg-[var(--gold-hover)]">
                   {t("Save", "កត់ត្រា")}
                 </button>
               </form>
@@ -352,7 +352,7 @@ export default function YellowCardTracker() {
                     {growthData.map((pt, idx) => {
                       const ev = evalWeight(pt.month, pt.weight);
                       return <tr key={idx}><td className="p-2 font-bold text-[var(--ink)]">{pt.month}</td>
-                        <td className="p-2 font-bold text-[var(--gold)]">{pt.weight} kg</td>
+                        <td className="p-2 font-bold text-[var(--gold-text)]">{pt.weight} kg</td>
                         <td className="p-2 text-[var(--ink-faint)]">{pt.date}</td>
                         <td className="p-2"><span className={`rounded px-2 py-0.5 text-[10px] font-bold ${ev.cls}`}>{ev.label}</span></td>
                         <td className="p-2"><button type="button" onClick={() => setGrowthData((prev) => prev.filter((_, i) => i !== idx))} className="rounded p-1 text-[var(--ink-faint)] hover:text-[var(--danger)]"><Trash2 size={13} /></button></td></tr>;

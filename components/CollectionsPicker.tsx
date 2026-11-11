@@ -85,7 +85,7 @@ export function CollectionsPicker({
         aria-label={t("Add to collection", "បន្ថែមទៅបណ្តុំ")}
         className={`flex h-8 w-8 items-center justify-center rounded-md border transition ${
           inCollectionCount > 0
-            ? "border-[var(--gold-dim)] text-[var(--gold)]"
+            ? "border-[var(--gold-dim)] text-[var(--gold-text)]"
             : "border-[var(--ground-line)] text-[var(--ink-faint)]"
         }`}
       >
@@ -157,7 +157,7 @@ export function CollectionsPicker({
                   onClick={createCollection}
                   disabled={!name.trim()}
                   aria-label={t("Create collection", "បង្កើតបណ្តុំ")}
-                  className="flex h-8 w-8 shrink-0 items-center justify-center rounded border border-[var(--gold-dim)] text-[var(--gold)] transition hover:bg-[var(--gold)] hover:text-[var(--ground)] disabled:opacity-40 disabled:hover:bg-transparent disabled:hover:text-[var(--gold)]"
+                  className="flex h-8 w-8 shrink-0 items-center justify-center rounded border border-[var(--gold-dim)] text-[var(--gold-text)] transition hover:bg-[var(--gold)] hover:text-[var(--ground)] disabled:opacity-40 disabled:hover:bg-transparent disabled:hover:text-[var(--gold-text)]"
                 >
                   <Plus size={14} />
                 </button>
@@ -176,7 +176,7 @@ export function CollectionsPicker({
               type="button"
               role="menuitem"
               onClick={() => setCreating(true)}
-              className="flex w-full items-center gap-2 border-t border-[var(--ground-line)] px-3 py-2.5 text-left text-xs font-medium text-[var(--gold)] transition hover:bg-[var(--ground-raised-hi)]"
+              className="flex w-full items-center gap-2 border-t border-[var(--ground-line)] px-3 py-2.5 text-left text-xs font-medium text-[var(--gold-text)] transition hover:bg-[var(--ground-raised-hi)]"
             >
               <Plus size={13} />
               {t("New collection…", "បណ្តុំថ្មី…")}

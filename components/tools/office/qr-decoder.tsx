@@ -203,7 +203,7 @@ export default function QrDecoderTool() {
 
   useEffect(() => () => stopScan(), []);
 
-  const actionButtonClass = "inline-flex items-center gap-1.5 rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-1.5 text-xs font-medium text-[var(--ink)] transition hover:border-[var(--gold-dim)] hover:text-[var(--gold)]";
+  const actionButtonClass = "inline-flex items-center gap-1.5 rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-1.5 text-xs font-medium text-[var(--ink)] transition hover:border-[var(--gold-dim)] hover:text-[var(--gold-text)]";
 
   return (
     <ToolShell
@@ -247,7 +247,7 @@ export default function QrDecoderTool() {
 
       <div className="flex flex-wrap items-center gap-2 rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)]/40 px-3 py-2">
         <button type="button" className={actionButtonClass} onClick={() => void pasteFromClipboard()}>
-          <ClipboardPaste size={13} className="text-[var(--gold)]" /> {text("Paste image from clipboard", "បិទភ្ជាប់រូបភាព")}
+          <ClipboardPaste size={13} className="text-[var(--gold-text)]" /> {text("Paste image from clipboard", "បិទភ្ជាប់រូបភាព")}
         </button>
         <span className="text-xs text-[var(--ink-faint)]">{text("Tip: press Ctrl+V (⌘V) anywhere on this page to paste a copied screenshot.", "គន្លឹះ៖ ចុច Ctrl+V (⌘V) នៅទំព័រនេះដើម្បីបិទភ្ជាប់រូបថតអេក្រង់។")}</span>
       </div>
@@ -285,7 +285,7 @@ export default function QrDecoderTool() {
               </a>
             )}
             <button type="button" className={actionButtonClass} onClick={saveResult}>
-              <Download size={13} className="text-[var(--gold)]" /> {text("Save as .txt", "រក្សាទុកជា .txt")}
+              <Download size={13} className="text-[var(--gold-text)]" /> {text("Save as .txt", "រក្សាទុកជា .txt")}
             </button>
           </div>
           <Output label={text("Decoded content", "ខ្លឹមសារដែលបានអាន")} value={result} />

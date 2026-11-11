@@ -75,7 +75,7 @@ export function MobileBottomNav() {
   };
   const listed = tools ? ids.map((id) => tools.find((tool) => tool.id === id)).filter((tool): tool is ToolSummary => Boolean(tool)) : [];
   const tabClass = (active: boolean) =>
-    `flex min-h-[3.25rem] flex-1 flex-col items-center justify-center gap-0.5 text-[11px] leading-none transition ${active ? "text-[var(--gold)]" : "text-[var(--ink-dim)] active:text-[var(--ink)]"}`;
+    `flex min-h-[3.25rem] flex-1 flex-col items-center justify-center gap-0.5 text-[11px] leading-none transition ${active ? "text-[var(--gold-text)]" : "text-[var(--ink-dim)] active:text-[var(--ink)]"}`;
 
   return (
     <>
@@ -103,7 +103,7 @@ export function MobileBottomNav() {
                     <button
                       type="button"
                       onClick={() => { setMode(lang.id as LanguageMode); setSheet(null); }}
-                      className={`flex min-h-11 w-full items-center rounded-lg border px-3 text-left text-sm ${mode === lang.id ? "border-[var(--gold-dim)] text-[var(--gold)]" : "border-[var(--ground-line)] text-[var(--ink)]"}`}
+                      className={`flex min-h-11 w-full items-center rounded-lg border px-3 text-left text-sm ${mode === lang.id ? "border-[var(--gold-dim)] text-[var(--gold-text)]" : "border-[var(--ground-line)] text-[var(--ink)]"}`}
                     >
                       {lang.native}
                     </button>

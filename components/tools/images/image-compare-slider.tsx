@@ -49,7 +49,7 @@ export default function ImageCompareSlider() {
   const leftLabel = swapped ? afterLabel : beforeLabel;
   const rightLabel = swapped ? beforeLabel : afterLabel;
 
-  const uploadButton = "cursor-pointer rounded-md border border-[var(--gold-dim)] bg-[var(--gold)]/10 px-4 py-2 text-sm font-medium text-[var(--gold)] transition hover:bg-[var(--gold)]/20";
+  const uploadButton = "cursor-pointer rounded-md border border-[var(--gold-dim)] bg-[var(--gold)]/10 px-4 py-2 text-sm font-medium text-[var(--gold-text)] transition hover:bg-[var(--gold)]/20";
 
   return (
     <ToolShell

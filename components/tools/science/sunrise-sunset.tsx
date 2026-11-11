@@ -173,7 +173,7 @@ export default function SunriseSunset() {
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
           <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4">
             <div className="text-xs font-medium uppercase tracking-wide text-[var(--ink-dim)]">{t("Sunrise", "ថ្ងៃរះ")}</div>
-            <div className="mt-1 font-display text-2xl font-semibold text-[var(--gold)]">{fmtDate(calc.sunrise)}</div>
+            <div className="mt-1 font-display text-2xl font-semibold text-[var(--gold-text)]">{fmtDate(calc.sunrise)}</div>
           </div>
           <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4">
             <div className="text-xs font-medium uppercase tracking-wide text-[var(--ink-dim)]">{t("Sunset", "ថ្ងៃលិច")}</div>

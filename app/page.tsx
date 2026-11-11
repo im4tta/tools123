@@ -615,7 +615,7 @@ export default function Home() {
               aria-label={isFav ? t("Remove from favorites", "ដកចេញពីចំណូលចិត្ត") : t("Add to favorites", "បន្ថែមទៅចំណូលចិត្ត")}
               className={`flex h-8 w-8 items-center justify-center rounded-md border transition ${
                 isFav
-                  ? "border-[var(--gold)] text-[var(--gold)]"
+                  ? "border-[var(--gold)] text-[var(--gold-text)]"
                   : "border-[var(--ground-line)] bg-[var(--ground-raised)] text-[var(--ink-faint)] hover:text-[var(--ink)]"
               }`}
             >
@@ -654,7 +654,7 @@ export default function Home() {
 
       <div className="sticky-nav relative" data-scrolled={navScrolled}>
          <div className="home-nav-inner mx-auto flex max-w-[77rem] items-center gap-3 px-5 py-2 sm:px-10">
-           <Link href="/" aria-label="123 Toolbox home" className="home-brand shrink-0 font-display text-sm font-bold text-[var(--gold)] hover:text-[var(--gold-dim)]">១២៣</Link>
+           <Link href="/" aria-label="123 Toolbox home" className="home-brand shrink-0 font-display text-sm font-bold text-[var(--gold-text)] hover:text-[var(--gold-dim)]">១២៣</Link>
 
           <div className="category-ticker min-w-0 flex-1">
             <div className="category-ticker-track">
@@ -739,14 +739,14 @@ export default function Home() {
           <>
             <div className="mb-3 flex items-center justify-center gap-2 text-xs font-bold tracking-[0.1em] text-[var(--ink-faint)]">
              <span>{t("one workbench", "កន្លែងធ្វើការតែមួយ")}</span>
-             <span className="text-[var(--gold)]">·</span>
+             <span className="text-[var(--gold-text)]">·</span>
              <span>{t("one toolbox", "ប្រអប់ឧបករណ៍តែមួយ")}</span>
-             <span className="text-[var(--gold)]">·</span>
+             <span className="text-[var(--gold-text)]">·</span>
              <span>{t(`${TOTAL} tools`, `ឧបករណ៍ ${toKh(TOTAL)} មុខ`)}</span>
              <span className="text-[var(--gold-dim)]">·</span>
              <span
                ref={badgeRef}
-               className="inline-flex items-center gap-1.5 rounded-full border border-[var(--gold)] px-2.5 py-0.5 text-[10px] font-semibold tracking-wide text-[var(--gold)]"
+               className="inline-flex items-center gap-1.5 rounded-full border border-[var(--gold)] px-2.5 py-0.5 text-[10px] font-semibold tracking-wide text-[var(--gold-text)]"
              >
                <span ref={dotRef} className="inline-block h-1.5 w-1.5 rounded-full bg-[var(--gold)]" />
                {t("adding more tools everyday", "បន្ថែមឧបករណ៍រាល់ថ្ងៃ")}
@@ -788,7 +788,7 @@ export default function Home() {
                  type="button"
                  onClick={() => setFilter(w)}
                  lang="km"
-                 className="rounded-full border border-[var(--ground-line)] bg-[var(--ground-raised)] px-2.5 py-1 font-khmer text-[13px] text-[var(--ink-dim)] transition hover:border-[var(--gold-dim)] hover:text-[var(--gold)]"
+                 className="rounded-full border border-[var(--ground-line)] bg-[var(--ground-raised)] px-2.5 py-1 font-khmer text-[13px] text-[var(--ink-dim)] transition hover:border-[var(--gold-dim)] hover:text-[var(--gold-text)]"
                >
                  {w}
                </button>
@@ -809,7 +809,7 @@ export default function Home() {
                   key={suggestion.id}
                   type="button"
                   onClick={() => setActiveId(suggestion.id)}
-                  className="rounded-full border border-[var(--gold)]/30 bg-[var(--gold)]/5 px-2.5 py-1 text-[11px] font-semibold text-[var(--gold)] transition hover:bg-[var(--gold)]/15"
+                  className="rounded-full border border-[var(--gold)]/30 bg-[var(--gold)]/5 px-2.5 py-1 text-[11px] font-semibold text-[var(--gold-text)] transition hover:bg-[var(--gold)]/15"
                 >
                   {t(suggestion.title, suggestionKm)}
                 </button>
@@ -864,7 +864,7 @@ export default function Home() {
       {homeDesign !== "focus" && favoriteTools.length > 0 && filter === "" && (
         <div className="relative mx-auto mt-12 max-w-[77rem] px-5 sm:px-10">
           <div className="mb-3 flex items-baseline gap-2 border-b border-[var(--ground-line)] pb-2">
-            <Star size={13} className="text-[var(--gold)]" fill="currentColor" />
+            <Star size={13} className="text-[var(--gold-text)]" fill="currentColor" />
             <h2 className="font-display text-base font-semibold text-[var(--ink)]">{t("Favorites", "ចំណូលចិត្ត")}</h2>
           </div>
           <div className="tool-list-scroll">
@@ -1008,7 +1008,7 @@ export default function Home() {
                 const Icon = f.icon;
                 return (
                   <div key={f.en} className="rounded-xl border border-[var(--ground-line)] bg-[var(--ground)] p-4 transition hover:border-[var(--gold-dim)]">
-                    <Icon size={18} className="text-[var(--gold)]" />
+                    <Icon size={18} className="text-[var(--gold-text)]" />
                     <div className="mt-2 text-sm font-semibold text-[var(--ink)]">{t(f.en, f.km)}</div>
                     <p className="mt-1 text-xs leading-relaxed text-[var(--ink-dim)]">{t(f.descEn, f.descKm)}</p>
                   </div>
@@ -1017,13 +1017,13 @@ export default function Home() {
             </div>
             <div className="mt-6 flex flex-wrap items-center justify-center gap-x-8 gap-y-2 text-xs text-[var(--ink-dim)]">
               <span className="flex items-baseline gap-1.5">
-                <span className="font-display text-base font-semibold text-[var(--gold)]">{toKh(TOTAL)}</span>
+                <span className="font-display text-base font-semibold text-[var(--gold-text)]">{toKh(TOTAL)}</span>
                 {t("tools", "ឧបករណ៍")}
               </span>
               <span className="hidden h-3 w-px bg-[var(--ground-line)] sm:block" />
-              <span className="flex items-center gap-1.5"><ShieldCheck size={13} className="text-[var(--gold)]" />{t("100% in your browser", "១០០% នៅក្នុងកម្មវិធីរុករករបស់អ្នក")}</span>
+              <span className="flex items-center gap-1.5"><ShieldCheck size={13} className="text-[var(--gold-text)]" />{t("100% in your browser", "១០០% នៅក្នុងកម្មវិធីរុករករបស់អ្នក")}</span>
               <span className="hidden h-3 w-px bg-[var(--ground-line)] sm:block" />
-              <span className="flex items-center gap-1.5"><Languages size={13} className="text-[var(--gold)]" />{t("Bilingual: English · ខ្មែរ", "ពីរភាសា៖ អង់គ្លេស · ខ្មែរ")}</span>
+              <span className="flex items-center gap-1.5"><Languages size={13} className="text-[var(--gold-text)]" />{t("Bilingual: English · ខ្មែរ", "ពីរភាសា៖ អង់គ្លេស · ខ្មែរ")}</span>
             </div>
           </div>
         </section>
@@ -1081,7 +1081,7 @@ function FocusPopular({ tools, onSelect }: { tools: typeof TOOLS; onSelect: (id:
               </div>
               <div className="mt-2 font-display text-base font-semibold text-[var(--ink)]">{primary}</div>
               {secondary && secondary !== primary && (
-                <div lang={mode === "km" ? undefined : "km"} className={mode === "km" ? "text-xs text-[var(--ink-faint)]" : "font-khmer text-sm text-[var(--gold)]"}>{secondary}</div>
+                <div lang={mode === "km" ? undefined : "km"} className={mode === "km" ? "text-xs text-[var(--ink-faint)]" : "font-khmer text-sm text-[var(--gold-text)]"}>{secondary}</div>
               )}
               {blurb && <p className="focus-pop-desc mt-1.5 text-xs leading-relaxed text-[var(--ink-dim)]">{t(blurb.en, blurb.km)}</p>}
             </a>
@@ -1166,14 +1166,14 @@ function ToolGrid({
             >
               <span className="tool-card-title">{t(tool.title, tool.khmerTitle ?? tool.title)}
               {showNewBadge && (
-                <span className="new-tool-badge shrink-0 rounded border border-[var(--gold-dim)] px-1 py-0.5 text-[9px] font-semibold leading-none text-[var(--gold)]">
+                <span className="new-tool-badge shrink-0 rounded border border-[var(--gold-dim)] px-1 py-0.5 text-[9px] font-semibold leading-none text-[var(--gold-text)]">
                   {t("NEW", "ថ្មី")}
                 </span>
               )}</span>
               {blurb && <span className="tool-card-blurb">{t(blurb.en, blurb.km)}</span>}
               {showCredits && tool.localProject && <span className="mt-0.5 block truncate text-[10px] text-[var(--ink-faint)]">{tool.localProject.author} · {tool.localProject.license}{tool.localProject.relationship === "inspired" ? " · Inspired / independent" : tool.localProject.relationship === "adapted" ? " · Adapted" : tool.localProject.relationship === "integrated" ? " · Integrated" : ""}</span>}
             </a>
-            {showCredits && tool.localProject && <a href={tool.localProject.repository} target="_blank" rel="noopener noreferrer" onClick={(event) => event.stopPropagation()} className="shrink-0 rounded px-1.5 py-1 text-[10px] text-[var(--ink-faint)] underline hover:text-[var(--gold)]">{creditHost(tool.localProject.repository) ?? t("Source", "ប្រភព")}</a>}
+            {showCredits && tool.localProject && <a href={tool.localProject.repository} target="_blank" rel="noopener noreferrer" onClick={(event) => event.stopPropagation()} className="shrink-0 rounded px-1.5 py-1 text-[10px] text-[var(--ink-faint)] underline hover:text-[var(--gold-text)]">{creditHost(tool.localProject.repository) ?? t("Source", "ប្រភព")}</a>}
             <button
               type="button"
               onClick={() => onToggleFavorite(tool.id)}

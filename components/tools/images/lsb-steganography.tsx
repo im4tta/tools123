@@ -164,14 +164,14 @@ export default function LsbSteganographyTool() {
           <button
             type="button"
             onClick={() => setMode("encode")}
-            className={`flex-1 rounded-md px-3 py-2 text-sm font-medium transition ${mode === "encode" ? "bg-[var(--gold)] text-[#0a0c0d]" : "bg-[var(--ground-raised)] text-[var(--ink-dim)]"}`}
+            className={`flex-1 rounded-md px-3 py-2 text-sm font-medium transition ${mode === "encode" ? "bg-[var(--gold)] text-[var(--on-gold)]" : "bg-[var(--ground-raised)] text-[var(--ink-dim)]"}`}
           >
             Hide a message
           </button>
           <button
             type="button"
             onClick={() => setMode("decode")}
-            className={`flex-1 rounded-md px-3 py-2 text-sm font-medium transition ${mode === "decode" ? "bg-[var(--gold)] text-[#0a0c0d]" : "bg-[var(--ground-raised)] text-[var(--ink-dim)]"}`}
+            className={`flex-1 rounded-md px-3 py-2 text-sm font-medium transition ${mode === "decode" ? "bg-[var(--gold)] text-[var(--on-gold)]" : "bg-[var(--ground-raised)] text-[var(--ink-dim)]"}`}
           >
             Read a message
           </button>
@@ -190,7 +190,7 @@ export default function LsbSteganographyTool() {
             <div>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={resultUrl} alt="Result" className="max-h-72 w-full rounded-md border border-[var(--ground-line)] object-contain" />
-              <a href={resultUrl} download="hidden.png" className="mt-2 inline-flex items-center gap-1.5 rounded-md bg-[var(--gold)] px-3 py-1.5 text-xs font-medium text-[#0a0c0d] hover:bg-[var(--gold-dim)]">
+              <a href={resultUrl} download="hidden.png" className="mt-2 inline-flex items-center gap-1.5 rounded-md bg-[var(--gold)] px-3 py-1.5 text-xs font-medium text-[var(--on-gold)] hover:bg-[var(--gold-hover)]">
                 <Download size={13} /> Download
               </a>
             </div>

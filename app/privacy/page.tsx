@@ -107,7 +107,7 @@ export default function PrivacyPage() {
         <p className="mt-4 text-sm leading-relaxed text-[var(--ink-dim)]">
           The project is open source. You can review exactly what the code does, or raise a question,
           on{" "}
-          <a href="https://github.com/im4tta/tools123" target="_blank" rel="noopener noreferrer" className="text-[var(--gold)] underline hover:text-[var(--gold-dim)]">
+          <a href="https://github.com/im4tta/tools123" target="_blank" rel="noopener noreferrer" className="text-[var(--gold-text)] underline hover:text-[var(--gold-dim)]">
             GitHub
           </a>
           .

@@ -105,7 +105,7 @@ export default function KhmerWordle() {
           {over && (
             <p className="rounded-md border border-[var(--ground-line)] p-4 text-sm text-[var(--ink)]" role="status">
               {won ? t(`You got it in ${guesses.length}!`, `អ្នកទាយត្រូវក្នុង ${kh(guesses.length)} ដង!`) : t("Out of tries. The word was", "អស់ការសាកហើយ។ ពាក្យនោះគឺ")}{" "}
-              {!won && <span lang="km" className="font-khmer text-lg font-semibold text-[var(--gold)]">{answer.word}</span>}
+              {!won && <span lang="km" className="font-khmer text-lg font-semibold text-[var(--gold-text)]">{answer.word}</span>}
             </p>
           )}
 

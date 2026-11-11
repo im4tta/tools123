@@ -171,9 +171,9 @@ export default function SecretSantaDraw() {
                     {t("You draw", "អ្នកគូរបាន")}
                   </div>
                   <p className="mt-2 font-display text-xl leading-relaxed text-[var(--ink)]">
-                    <span className="font-semibold text-[var(--gold)]">{giver}</span>{" "}
+                    <span className="font-semibold text-[var(--gold-text)]">{giver}</span>{" "}
                     {t("gives a gift to", "ឲ្យអំណោយដល់")}{" "}
-                    <span className="font-semibold text-[var(--gold)]">{recipient}</span>
+                    <span className="font-semibold text-[var(--gold-text)]">{recipient}</span>
                   </p>
                   {finished && (
                     <p className="mt-3 text-sm text-[var(--ink-dim)]">

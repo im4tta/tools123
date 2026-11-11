@@ -55,7 +55,7 @@ function ShellHeader({ title, khmerTitle, description, descriptionKm }: { title:
       <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
         <h1 className="font-display text-2xl font-semibold text-[var(--ink)]">{localizedTitle}</h1>
         {mode === "bi" && resolvedKhmerTitle !== title && (
-          <span lang="km" className="font-khmer text-lg text-[var(--gold)]">{resolvedKhmerTitle}</span>
+          <span lang="km" className="font-khmer text-lg text-[var(--gold-text)]">{resolvedKhmerTitle}</span>
         )}
       </div>
       <div aria-hidden className="mt-3 h-[3px] w-10 rounded-full bg-gradient-to-r from-[var(--gold)] to-transparent" />

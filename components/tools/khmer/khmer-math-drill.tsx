@@ -115,7 +115,7 @@ export default function KhmerMathDrill() {
               onKeyDown={(e) => { if (e.key === "Enter") submit(); }}
               inputMode="numeric"
               aria-label={t("Your answer", "ចម្លើយរបស់អ្នក")}
-              className="mt-2 h-14 w-40 rounded-md border border-[var(--ground-line)] bg-[var(--ground)] text-center font-khmer text-3xl text-[var(--gold)] outline-none focus:border-[var(--gold-dim)]"
+              className="mt-2 h-14 w-40 rounded-md border border-[var(--ground-line)] bg-[var(--ground)] text-center font-khmer text-3xl text-[var(--gold-text)] outline-none focus:border-[var(--gold-dim)]"
             />
             {flash === "bad" && results.length > 0 && (
               <p className="mt-1 text-sm text-[var(--danger)]" role="status">{t(`Answer was ${problems[index - 1].answer}`, `ចម្លើយគឺ ${kh(problems[index - 1].answer)}`)}</p>
@@ -128,7 +128,7 @@ export default function KhmerMathDrill() {
                 type="button"
                 onClick={() => press(k)}
                 aria-label={k === "⌫" ? t("Delete", "លុប") : k === "✓" ? t("Check answer", "ពិនិត្យចម្លើយ") : k}
-                className={`flex h-14 items-center justify-center rounded-md border font-khmer text-2xl transition active:scale-95 ${k === "✓" ? "border-[var(--gold)] bg-[var(--gold)] text-[#0a0c0d]" : "border-[var(--ground-line)] bg-[var(--ground-raised)] text-[var(--ink)]"}`}
+                className={`flex h-14 items-center justify-center rounded-md border font-khmer text-2xl transition active:scale-95 ${k === "✓" ? "border-[var(--gold)] bg-[var(--gold)] text-[var(--on-gold)]" : "border-[var(--ground-line)] bg-[var(--ground-raised)] text-[var(--ink)]"}`}
               >
                 {k === "⌫" ? <Delete size={20} /> : <span lang="km">{k}</span>}
               </button>

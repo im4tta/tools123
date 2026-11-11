@@ -69,7 +69,7 @@ export default function KhmerNewYearCountdown() {
       description="Live countdown to the next Khmer New Year (Moha Songkran). Songkran commonly falls around April 13–16, but the exact date and time vary every year and are announced officially — the moment shown below is an astronomical estimate, not the official announcement."
       descriptionKm="រាប់ថយក្រោយផ្ទាល់ដល់ពេលចូលឆ្នាំខ្មែរបន្ទាប់ (មហាសង្រ្កាន្ត)។ សង្រ្កាន្តច្រើនធ្លាក់នៅថ្ងៃទី ១៣–១៦ មេសា ប៉ុន្តែកាលបរិច្ឆេទ និងម៉ោងពិតប្រាកដប្រែប្រួលរាល់ឆ្នាំ ហើយត្រូវប្រកាសជាផ្លូវការ — ពេលវេលាដែលបង្ហាញខាងក្រោមគ្រាន់តែជាការប៉ាន់ស្មានតាមតារាសាស្ត្រ មិនមែនជាសេចក្តីប្រកាសផ្លូវការទេ។"
     >
-      <div className="rounded-md border border-[var(--gold)] bg-[var(--ground-raised)] px-3 py-2 text-xs leading-relaxed text-[var(--gold)]">
+      <div className="rounded-md border border-[var(--gold)] bg-[var(--ground-raised)] px-3 py-2 text-xs leading-relaxed text-[var(--gold-text)]">
         {t("Khmer New Year falls around mid-April each year (commonly April 13–16). The exact Songkran moment is announced officially — treat this countdown as an approximation.", "ចូលឆ្នាំខ្មែរធ្លាក់នៅពាក់កណ្ដាលខែមេសារាល់ឆ្នាំ (ជាទូទៅថ្ងៃទី ១៣–១៦ មេសា)។ ពេលសង្រ្កាន្តពិតប្រាកដត្រូវប្រកាសជាផ្លូវការ — សូមចាត់ទុកការរាប់នេះជាការប៉ាន់ស្មាន។")}
       </div>
 

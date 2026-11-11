@@ -160,7 +160,7 @@ export default function TicTacToe() {
           <option value="pvp">{t("Two players", "អ្នកលេងពីរនាក់")}</option>
         </Select>
         <div className="text-sm text-[var(--ink-dim)]">
-          {t("Moves", "ចលនា")}: <b className="text-[var(--gold)]">{moves}</b>
+          {t("Moves", "ចលនា")}: <b className="text-[var(--gold-text)]">{moves}</b>
         </div>
         <Button type="button" onClick={reset}>
           <RotateCcw size={15} className="mr-1 inline" />
@@ -180,7 +180,7 @@ export default function TicTacToe() {
                 disabled={!!c || !!winner || waitingForAI}
                 className={`flex h-24 w-full items-center justify-center rounded-md border font-display text-4xl font-semibold transition ${
                   inLine
-                    ? "border-[var(--gold)] bg-[var(--gold)]/10 text-[var(--gold)]"
+                    ? "border-[var(--gold)] bg-[var(--gold)]/10 text-[var(--gold-text)]"
                     : "border-[var(--ground-line)] bg-[var(--ground-raised)] text-[var(--ink)] hover:border-[var(--gold-dim)] disabled:cursor-default disabled:opacity-90"
                 }`}
               >

@@ -336,14 +336,14 @@ export default function KhmerSentenceBuilder() {
     return (
       <ToolShell title="Khmer Sentence Builder" khmerTitle="ល្បែងផ្គុំល្បះខ្មែរ" description="Interactive Khmer sentence building game — drag or tap words to assemble sentences and learn Khmer vocabulary." descriptionKm="ល្បែងផ្គុំពាក្យខ្មែរ — អូស ឬចុចពាក្យដើម្បីផ្គុំល្បះនិងរៀនវាក្យសព្ទខ្មែរ។">
         <div className="mx-auto max-w-sm rounded-2xl border border-[var(--ground-line)] bg-[var(--ground-raised)] p-8 text-center">
-          <div className="mb-3 mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[var(--gold)]/20 text-[var(--gold)]"><Award size={32} /></div>
+          <div className="mb-3 mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-[var(--gold)]/20 text-[var(--gold-text)]"><Award size={32} /></div>
           <h2 className="mb-1 text-xl font-bold text-[var(--ink)]">{t("Session Complete!", "ចប់ហើយ!")}</h2>
           <p className="mb-5 text-sm text-[var(--ink-dim)]">{t("Great job practicing Khmer!", "ពូកែណាស់!")}</p>
           <div className="mb-5 grid grid-cols-2 gap-3">
-            <div className="rounded-xl border border-[var(--ground-line)] bg-[var(--ground)] p-3"><div className="text-[10px] text-[var(--ink-faint)]">{t("Score", "ពិន្ទុ")}</div><div className="text-2xl font-bold text-[var(--gold)]">{score}</div></div>
+            <div className="rounded-xl border border-[var(--ground-line)] bg-[var(--ground)] p-3"><div className="text-[10px] text-[var(--ink-faint)]">{t("Score", "ពិន្ទុ")}</div><div className="text-2xl font-bold text-[var(--gold-text)]">{score}</div></div>
             <div className="rounded-xl border border-[var(--ground-line)] bg-[var(--ground)] p-3"><div className="text-[10px] text-[var(--ink-faint)]">{t("Sentences", "ល្បះ")}</div><div className="text-2xl font-bold text-[var(--success)]">{currentIdx}</div></div>
           </div>
-          <button onClick={() => setScreen("setup")} className="w-full rounded-lg bg-[var(--gold)] px-4 py-2.5 text-sm font-semibold text-[#0a0c0d] hover:bg-[var(--gold-dim)]">
+          <button onClick={() => setScreen("setup")} className="w-full rounded-lg bg-[var(--gold)] px-4 py-2.5 text-sm font-semibold text-[var(--on-gold)] hover:bg-[var(--gold-hover)]">
             {t("Back to Menu", "ត្រឡប់ទៅម៉ឺនុយ")}
           </button>
         </div>
@@ -356,7 +356,7 @@ export default function KhmerSentenceBuilder() {
       <ToolShell title="Khmer Sentence Builder" khmerTitle="ល្បែងផ្គុំល្បះខ្មែរ" description="Interactive Khmer sentence building game." descriptionKm="ល្បែងផ្គុំពាក្យខ្មែរអន្តរកម្ម។">
         <div className="mx-auto max-w-lg space-y-5">
           <div className="rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)] p-5">
-            <div className="mb-3 flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[var(--gold)]"><Flag size={14} /> {t("Player Info", "ព័ត៌មានអ្នកលេង")}</div>
+            <div className="mb-3 flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[var(--gold-text)]"><Flag size={14} /> {t("Player Info", "ព័ត៌មានអ្នកលេង")}</div>
             <div className="grid grid-cols-3 gap-3">
               <input value={playerName} onChange={(e) => setPlayerName(e.target.value)} className="col-span-2 rounded-md border border-[var(--ground-line)] bg-[var(--ground)] px-3 py-2 text-sm text-[var(--ink)] outline-none focus:border-[var(--gold-dim)]" placeholder={t("Nickname", "ឈ្មោះ")} />
               <input type="number" value={playerAge} onChange={(e) => setPlayerAge(e.target.value)} min={4} max={99} className="rounded-md border border-[var(--ground-line)] bg-[var(--ground)] px-3 py-2 text-center text-sm text-[var(--ink)] outline-none focus:border-[var(--gold-dim)]" placeholder={t("Age", "អាយុ")} />
@@ -364,20 +364,20 @@ export default function KhmerSentenceBuilder() {
           </div>
 
           <div className="rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)] p-5">
-            <div className="mb-3 flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[var(--gold)]"><Gauge size={14} /> {t("Difficulty", "កម្រិត")}</div>
+            <div className="mb-3 flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[var(--gold-text)]"><Gauge size={14} /> {t("Difficulty", "កម្រិត")}</div>
             <div className="grid grid-cols-3 gap-2">
               {[{ v: "all", l: t("Mixed", "ចម្រុះ"), c: "text-[var(--ink)]" }, { v: "1", l: t("Beginner", "ងាយ"), c: "text-[var(--success)]" }, { v: "3", l: t("Advanced", "ពិបាក"), c: "text-[var(--danger)]" }].map((d) => (
                 <button key={d.v} type="button" onClick={() => setDifficulty(d.v)}
-                  className={`rounded-lg border px-3 py-2 text-xs font-semibold transition ${difficulty === d.v ? "border-[var(--gold)] bg-[var(--gold)]/15 text-[var(--gold)]" : "border-[var(--ground-line)] bg-[var(--ground)] text-[var(--ink-dim)]"}`}>{d.l}</button>
+                  className={`rounded-lg border px-3 py-2 text-xs font-semibold transition ${difficulty === d.v ? "border-[var(--gold)] bg-[var(--gold)]/15 text-[var(--gold-text)]" : "border-[var(--ground-line)] bg-[var(--ground)] text-[var(--ink-dim)]"}`}>{d.l}</button>
               ))}
             </div>
           </div>
 
           <div className="rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)] p-5">
             <div className="mb-3 flex items-center justify-between">
-              <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[var(--gold)]"><Tag size={14} /> {t("Topics", "ប្រធានបទ")}</div>
+              <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[var(--gold-text)]"><Tag size={14} /> {t("Topics", "ប្រធានបទ")}</div>
               <div className="flex gap-2 text-[11px]">
-                <button type="button" onClick={() => setSelectedCats(CATEGORIES.map((c) => c.id))} className="text-[var(--gold)] hover:underline">{t("All", "ទាំងអស់")}</button>
+                <button type="button" onClick={() => setSelectedCats(CATEGORIES.map((c) => c.id))} className="text-[var(--gold-text)] hover:underline">{t("All", "ទាំងអស់")}</button>
                 <button type="button" onClick={() => setSelectedCats([])} className="text-[var(--ink-faint)] hover:underline">{t("None", "គ្មាន")}</button>
               </div>
             </div>
@@ -387,7 +387,7 @@ export default function KhmerSentenceBuilder() {
                 const sel = selectedCats.includes(cat.id);
                 return (
                   <button key={cat.id} type="button" onClick={() => toggleCat(cat.id)}
-                    className={`flex items-center gap-2 rounded-lg border px-3 py-2 text-xs font-medium transition ${sel ? "border-[var(--gold)] bg-[var(--gold)]/15 text-[var(--gold)]" : "border-[var(--ground-line)] bg-[var(--ground)] text-[var(--ink-dim)]"}`}>
+                    className={`flex items-center gap-2 rounded-lg border px-3 py-2 text-xs font-medium transition ${sel ? "border-[var(--gold)] bg-[var(--gold)]/15 text-[var(--gold-text)]" : "border-[var(--ground-line)] bg-[var(--ground)] text-[var(--ink-dim)]"}`}>
                     <Icon size={14} /> {cat.name.split(" (")[0]}
                   </button>
                 );
@@ -396,7 +396,7 @@ export default function KhmerSentenceBuilder() {
           </div>
 
           <button type="button" onClick={startGame} disabled={selectedCats.length === 0}
-            className="flex w-full items-center justify-center gap-2 rounded-lg bg-[var(--gold)] px-4 py-3 text-sm font-bold text-[#0a0c0d] transition hover:bg-[var(--gold-dim)] disabled:opacity-40">
+            className="flex w-full items-center justify-center gap-2 rounded-lg bg-[var(--gold)] px-4 py-3 text-sm font-bold text-[var(--on-gold)] transition hover:bg-[var(--gold-hover)] disabled:opacity-40">
             <Play size={16} /> {t("Start Game", "ចាប់ផ្តើមលេង")}
           </button>
         </div>
@@ -415,26 +415,26 @@ export default function KhmerSentenceBuilder() {
         <button type="button" onClick={() => { setScreen("setup"); }} className="rounded-lg p-1.5 text-[var(--ink-faint)] hover:bg-[var(--ground)]" title={t("Quit", "ចេញ")}><LogOut size={14} /></button>
         <span className="font-bold text-[var(--ink)]">{playerName}</span>
         <span className="ml-auto font-mono-ui text-[var(--ink-dim)]">{currentIdx + 1}/{playlist.length}</span>
-        <span className="rounded-md bg-[var(--gold)]/10 px-2 py-0.5 font-mono-ui font-bold text-[var(--gold)]">{score}</span>
+        <span className="rounded-md bg-[var(--gold)]/10 px-2 py-0.5 font-mono-ui font-bold text-[var(--gold-text)]">{score}</span>
         <span className="rounded-md bg-[var(--danger)]/10 px-2 py-0.5 font-mono-ui font-bold text-[var(--danger)]">{streak}</span>
-        <button type="button" onClick={() => setShowPhonetic(!showPhonetic)} className={`rounded-lg px-2 py-1 text-[10px] font-semibold ${showPhonetic ? "bg-[var(--gold)]/15 text-[var(--gold)]" : "text-[var(--ink-faint)]"}`}><Languages size={14} /></button>
-        <button type="button" onClick={showHint} className="rounded-lg bg-[var(--gold)]/10 px-2 py-1 text-[10px] font-semibold text-[var(--gold)]"><Lightbulb size={14} /></button>
+        <button type="button" onClick={() => setShowPhonetic(!showPhonetic)} className={`rounded-lg px-2 py-1 text-[10px] font-semibold ${showPhonetic ? "bg-[var(--gold)]/15 text-[var(--gold-text)]" : "text-[var(--ink-faint)]"}`}><Languages size={14} /></button>
+        <button type="button" onClick={showHint} className="rounded-lg bg-[var(--gold)]/10 px-2 py-1 text-[10px] font-semibold text-[var(--gold-text)]"><Lightbulb size={14} /></button>
       </div>
 
       {/* Sentence target */}
       <div className={`rounded-xl border p-4 transition ${wobble ? "border-[var(--danger)] animate-pulse" : "border-[var(--ground-line)]"} bg-[var(--ground-raised)]`}>
         <div className="mb-2 flex items-center gap-2">
           {catInfo && <span className="inline-flex items-center gap-1 rounded border border-[var(--ground-line)] bg-[var(--ground)] px-2 py-0.5 text-[10px] font-bold text-[var(--ink-dim)]"><catInfo.icon size={12} /> {catInfo.name.split(" (")[0]}</span>}
-          <div className="flex gap-0.5">{Array.from({ length: 3 }, (_, i) => <Star key={i} size={12} className={i < curSentence.d ? "fill-[var(--gold)] text-[var(--gold)]" : "text-[var(--ink-faint)]"} />)}</div>
+          <div className="flex gap-0.5">{Array.from({ length: 3 }, (_, i) => <Star key={i} size={12} className={i < curSentence.d ? "fill-[var(--gold)] text-[var(--gold-text)]" : "text-[var(--ink-faint)]"} />)}</div>
         </div>
         <div className="text-lg font-bold text-[var(--ink)]">"{curSentence.t}"</div>
-        {showPhonetic && <div className="mt-1 font-mono-ui text-xs italic text-[var(--gold)]">({curSentence.p})</div>}
+        {showPhonetic && <div className="mt-1 font-mono-ui text-xs italic text-[var(--gold-text)]">({curSentence.p})</div>}
 
         {/* Sentence strip (drop target) */}
         <div ref={stripRef}
           className={`mt-3 flex min-h-[52px] flex-wrap gap-2 rounded-lg border-2 border-dashed p-2 transition ${dragOver ? "border-[var(--gold)] bg-[var(--gold)]/15" : placed.length === 0 ? "border-[var(--ground-line)]" : "border-[var(--gold)]/40 bg-[var(--gold)]/5"}`}>
           {placed.length === 0 && !dragOver && <span className="flex items-center gap-1 text-xs text-[var(--ink-faint)]"><MousePointerClick size={13} /> {t("Drag words here", "អូសពាក្យមកទីនេះ")}</span>}
-          {dragOver && placed.length === 0 && <span className="text-xs font-bold text-[var(--gold)]">{t("Drop word here!", "ទម្លាក់ពាក្យនៅទីនេះ!")}</span>}
+          {dragOver && placed.length === 0 && <span className="text-xs font-bold text-[var(--gold-text)]">{t("Drop word here!", "ទម្លាក់ពាក្យនៅទីនេះ!")}</span>}
           {placed.map((w, i) => (
             <button key={`${w}-${i}`} type="button" onClick={() => removeWord(i)}
               className="rounded-lg border border-[var(--gold)]/40 bg-[var(--gold)]/15 px-3 py-1.5 text-sm font-bold text-[var(--ink)] transition hover:bg-[var(--danger)]/20 hover:border-[var(--danger)]/50">
@@ -445,7 +445,7 @@ export default function KhmerSentenceBuilder() {
 
         <div className="mt-3 flex items-center justify-between">
           <button type="button" onClick={clearStrip} className="flex items-center gap-1 rounded-lg border border-[var(--ground-line)] px-3 py-1.5 text-xs font-semibold text-[var(--ink-dim)] hover:text-[var(--danger)]"><RotateCcw size={12} /> {t("Clear", "សម្អាត")}</button>
-          <button type="button" onClick={checkAnswer} className="flex items-center gap-1.5 rounded-lg bg-[var(--gold)] px-4 py-2 text-sm font-semibold text-[#0a0c0d] hover:bg-[var(--gold-dim)]"><CheckCircle size={14} /> {t("Check", "ពិនិត្យ")}</button>
+          <button type="button" onClick={checkAnswer} className="flex items-center gap-1.5 rounded-lg bg-[var(--gold)] px-4 py-2 text-sm font-semibold text-[var(--on-gold)] hover:bg-[var(--gold-hover)]"><CheckCircle size={14} /> {t("Check", "ពិនិត្យ")}</button>
         </div>
       </div>
 
@@ -466,7 +466,7 @@ export default function KhmerSentenceBuilder() {
                 fw.dragging
                   ? "z-[100] scale-110 border-[var(--gold)] bg-[var(--ground-raised-hi)] shadow-xl"
                   : isHinted
-                  ? "z-[20] border-[var(--gold)] bg-[var(--gold)]/20 text-[var(--gold)] shadow-[0_0_15px_rgba(212,162,76,0.5)]"
+                  ? "z-[20] border-[var(--gold)] bg-[var(--gold)]/20 text-[var(--gold-text)] shadow-[0_0_15px_rgba(212,162,76,0.5)]"
                   : "z-10 border-[var(--ground-line)] bg-[var(--ground-raised)] text-[var(--ink)] hover:border-[var(--gold)]/40 hover:shadow-md"
               }`}
               style={{
@@ -483,10 +483,10 @@ export default function KhmerSentenceBuilder() {
       {showWin && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm" onClick={() => setShowWin(false)}>
           <div className="w-full max-w-xs rounded-2xl border border-[var(--ground-line)] bg-[var(--ground-raised)] p-6 text-center shadow-2xl" onClick={(e) => e.stopPropagation()}>
-            <div className="mb-3 mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[var(--gold)]/20 text-[var(--gold)]"><Award size={28} /></div>
-            <h2 className="mb-1 text-lg font-bold text-[var(--gold)]">{t("Correct!", "ត្រឹមត្រូវណាស់!")}</h2>
+            <div className="mb-3 mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[var(--gold)]/20 text-[var(--gold-text)]"><Award size={28} /></div>
+            <h2 className="mb-1 text-lg font-bold text-[var(--gold-text)]">{t("Correct!", "ត្រឹមត្រូវណាស់!")}</h2>
             <div className="mb-4 rounded-lg border border-[var(--ground-line)] bg-[var(--ground)] p-3 font-bold text-[var(--ink)]">{curSentence.w.join(" ")}</div>
-            <button onClick={nextSentence} className="w-full rounded-lg bg-[var(--gold)] px-4 py-2.5 text-sm font-semibold text-[#0a0c0d] hover:bg-[var(--gold-dim)]">
+            <button onClick={nextSentence} className="w-full rounded-lg bg-[var(--gold)] px-4 py-2.5 text-sm font-semibold text-[var(--on-gold)] hover:bg-[var(--gold-hover)]">
               {currentIdx + 1 < playlist.length ? t("Next Sentence", "ល្បះបន្ទាប់") : t("Finish", "បញ្ចប់")}
             </button>
           </div>

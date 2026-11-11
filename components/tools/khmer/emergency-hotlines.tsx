@@ -95,7 +95,7 @@ export default function EmergencyHotlines() {
         <Field label={t("Category", "ប្រភេទ")}>
           <div className="flex flex-wrap gap-1.5">
             {CATEGORIES.map((k) => (
-              <button key={k} type="button" onClick={() => setCategory(k)} className={`rounded-md px-2.5 py-1.5 text-xs font-medium transition ${category === k ? "bg-[var(--gold)] text-[#0a0c0d]" : "border border-[var(--ground-line)] bg-[var(--ground-raised)] text-[var(--ink-dim)]"}`}>
+              <button key={k} type="button" onClick={() => setCategory(k)} className={`rounded-md px-2.5 py-1.5 text-xs font-medium transition ${category === k ? "bg-[var(--gold)] text-[var(--on-gold)]" : "border border-[var(--ground-line)] bg-[var(--ground-raised)] text-[var(--ink-dim)]"}`}>
                 {t(k, CATEGORY_KM[k])}
               </button>
             ))}
@@ -116,7 +116,7 @@ export default function EmergencyHotlines() {
             </div>
             <a
               href={`tel:${c.number.replace(/\s+/g, "").split("/")[0]}`}
-              className="flex shrink-0 items-center gap-1.5 rounded-md border border-[var(--gold-dim)] bg-[var(--gold)]/10 px-2.5 py-1.5 text-sm font-bold text-[var(--gold)] transition hover:bg-[var(--gold)]/20"
+              className="flex shrink-0 items-center gap-1.5 rounded-md border border-[var(--gold-dim)] bg-[var(--gold)]/10 px-2.5 py-1.5 text-sm font-bold text-[var(--gold-text)] transition hover:bg-[var(--gold)]/20"
             >
               <Phone size={13} />
               <span className="font-mono-ui">{c.number}</span>
@@ -126,7 +126,7 @@ export default function EmergencyHotlines() {
       </div>
 
       <div className="flex items-start gap-2 rounded-md border border-amber-500/40 bg-amber-500/10 p-3 text-xs leading-relaxed text-[var(--ink-dim)]">
-        <AlertTriangle size={14} className="mt-0.5 shrink-0 text-[var(--gold)]" />
+        <AlertTriangle size={14} className="mt-0.5 shrink-0 text-[var(--gold-text)]" />
         <span>
           {t(`Numbers are from an official Cambodia reference. ${emergencyCount} core emergency lines (117/118/119/112) are stable; utility and department numbers may change — confirm with the relevant authority before relying on them.`, `លេខទាំងនេះយកពីឯកសារយោងផ្លូវការកម្ពុជា។ លេខបន្ទាន់ ${emergencyCount} ខ្សែ (117/118/119/112) មានស្ថិរភាព ប៉ុន្តែលេខឧបករណ៍ប្រើប្រាស់ និងនាយកដ្ឋានអាចផ្លាស់ប្តូរ — សូមបញ្ជាក់ជាមួយអាជ្ញាធរពាក់ព័ន្ធមុនពេលពឹងផ្អែក។`)}
         </span>

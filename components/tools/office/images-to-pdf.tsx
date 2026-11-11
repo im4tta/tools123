@@ -155,7 +155,7 @@ export default function ImagesToPdfTool() {
       {resultUrl && (
         <div className="flex items-center justify-between rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2.5 text-sm">
           <span className="text-[var(--ink-dim)]">Ready — {formatBytes(resultSize)}</span>
-          <a href={resultUrl} download="images.pdf" className="flex items-center gap-1.5 rounded-md bg-[var(--gold)] px-3 py-1.5 text-xs font-medium text-[#0a0c0d] hover:bg-[var(--gold-dim)]">
+          <a href={resultUrl} download="images.pdf" className="flex items-center gap-1.5 rounded-md bg-[var(--gold)] px-3 py-1.5 text-xs font-medium text-[var(--on-gold)] hover:bg-[var(--gold-hover)]">
             <Download size={13} /> Download
           </a>
         </div>

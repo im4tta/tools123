@@ -108,7 +108,7 @@ export default function KhmerWordSegmentationTester() {
           <p className="mt-1 text-[10px] text-[var(--ink-faint)]">MIT · original JavaScript splitter</p>
           <p className="mt-3 whitespace-pre-wrap break-words font-khmer text-lg leading-8 text-[var(--ink)]">{actual.length ? actual.join("\n") : "—"}</p>
           {metrics && <p className="mt-2 text-xs text-[var(--ink-faint)]">F1: {percent(metrics.f1)} · {metrics.matches} {t("matching boundaries", "ព្រំដែនត្រូវគ្នា")}</p>}
-          <a href="https://github.com/seanghay/split-khmer" target="_blank" rel="noopener noreferrer" className="mt-2 inline-flex text-xs text-[var(--gold)] underline">Source · split-khmer</a>
+          <a href="https://github.com/seanghay/split-khmer" target="_blank" rel="noopener noreferrer" className="mt-2 inline-flex text-xs text-[var(--gold-text)] underline">Source · split-khmer</a>
         </div>
         <div className="rounded-md border border-[var(--teal)]/30 bg-[var(--teal)]/5 p-4">
           <h2 className="font-medium text-[var(--ink)]">Vengmony · khmer-nlp-toolkit</h2>
@@ -137,32 +137,32 @@ export default function KhmerWordSegmentationTester() {
           ].map(([label, value]) => (
             <div key={label} className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3">
               <p className="text-xs text-[var(--ink-faint)]">{label}</p>
-              <p className="mt-1 text-lg font-medium text-[var(--gold)]">{value}</p>
+              <p className="mt-1 text-lg font-medium text-[var(--gold-text)]">{value}</p>
             </div>
           ))}
         </section>
       )}
 
       <aside className="rounded-md border border-[var(--slate-accent)]/30 bg-[var(--slate-accent)]/10 p-4 text-sm leading-relaxed text-[var(--ink-dim)]">
-        <p className="mb-2"><strong className="text-[var(--ink)]">{t("Original split-khmer package by Mr. Seanghay Yath", "កញ្ចប់ split-khmer ដើមរបស់លោក Seanghay Yath")}</strong> · MIT License · <a href="https://github.com/seanghay/split-khmer" target="_blank" rel="noopener noreferrer" className="text-[var(--gold)] hover:text-[var(--gold-dim)]">GitHub <ExternalLink className="inline" size={13} /></a></p>
+        <p className="mb-2"><strong className="text-[var(--ink)]">{t("Original split-khmer package by Mr. Seanghay Yath", "កញ្ចប់ split-khmer ដើមរបស់លោក Seanghay Yath")}</strong> · MIT License · <a href="https://github.com/seanghay/split-khmer" target="_blank" rel="noopener noreferrer" className="text-[var(--gold-text)] hover:text-[var(--gold-dim)]">GitHub <ExternalLink className="inline" size={13} /></a></p>
         {t("References for evaluating a production segmenter:", "ឯកសារយោងសម្រាប់វាយតម្លៃកម្មវិធីបំបែកពាក្យជាក់ស្តែង៖")}{" "}
-        <a href="https://github.com/vvearr/khmer-word-segmentation" target="_blank" rel="noopener noreferrer" className="text-[var(--gold)] hover:text-[var(--gold-dim)]">
+        <a href="https://github.com/vvearr/khmer-word-segmentation" target="_blank" rel="noopener noreferrer" className="text-[var(--gold-text)] hover:text-[var(--gold-dim)]">
           vvearr/khmer-word-segmentation <ExternalLink className="inline" size={13} />
         </a>
         {" · "}
-        <a href="https://github.com/vengmony/khmer-nlp-toolkit" target="_blank" rel="noopener noreferrer" className="text-[var(--gold)] hover:text-[var(--gold-dim)]">
+        <a href="https://github.com/vengmony/khmer-nlp-toolkit" target="_blank" rel="noopener noreferrer" className="text-[var(--gold-text)] hover:text-[var(--gold-dim)]">
           vengmony/khmer-nlp-toolkit <ExternalLink className="inline" size={13} />
         </a>
         <p className="mt-3 border-t border-[var(--ground-line)] pt-3">
           <strong className="text-[var(--ink)]">Sovichea · Khmer Viterbi Segmenter</strong>{" "}
           {t("is linked as an external reference. Its code is MIT, but its bundled linguistic data has separate noncommercial terms and is not redistributed here.", "ត្រូវបានភ្ជាប់ជាប្រភពយោងខាងក្រៅ។ កូដមានអាជ្ញាបណ្ណ MIT ប៉ុន្តែទិន្នន័យភាសាដែលភ្ជាប់មកជាមួយមានលក្ខខណ្ឌមិនមែនពាណិជ្ជកម្មដាច់ដោយឡែក ហើយមិនត្រូវបានចែកចាយនៅទីនេះទេ។")}{" "}
-          <a href="https://sovichea.github.io/khmer_segment_webui_demo/" target="_blank" rel="noopener noreferrer" className="text-[var(--gold)] underline">{t("Live demo", "Demo ផ្ទាល់")}</a>{" · "}
-          <a href="https://github.com/Sovichea/khmer_segmenter" target="_blank" rel="noopener noreferrer" className="text-[var(--gold)] underline">{t("Source", "ប្រភព")}</a>
+          <a href="https://sovichea.github.io/khmer_segment_webui_demo/" target="_blank" rel="noopener noreferrer" className="text-[var(--gold-text)] underline">{t("Live demo", "Demo ផ្ទាល់")}</a>{" · "}
+          <a href="https://github.com/Sovichea/khmer_segmenter" target="_blank" rel="noopener noreferrer" className="text-[var(--gold-text)] underline">{t("Source", "ប្រភព")}</a>
         </p>
         <p className="mt-3 border-t border-[var(--ground-line)] pt-3">
           <strong className="text-[var(--ink)]">Socret Lee · CLAWS Tokenizer</strong>{" "}
           {t("is linked as an external reference. It is a Python word-segmentation library (a Graph Neural Network with TFLite weights) under the MIT License, so it does not run in the browser and is not bundled here.", "ត្រូវបានភ្ជាប់ជាប្រភពយោងខាងក្រៅ។ វាជាបណ្ណាល័យបំបែកពាក្យភាសា Python (Graph Neural Network ជាមួយទម្ងន់ TFLite) ក្រោមអាជ្ញាបណ្ណ MIT ដូច្នេះមិនដំណើរការក្នុងកម្មវិធីរុករក ហើយមិនត្រូវបានចែកចាយនៅទីនេះទេ។")}{" "}
-          <a href="https://github.com/Socret360/claws" target="_blank" rel="noopener noreferrer" className="text-[var(--gold)] underline">{t("Source", "ប្រភព")}</a>
+          <a href="https://github.com/Socret360/claws" target="_blank" rel="noopener noreferrer" className="text-[var(--gold-text)] underline">{t("Source", "ប្រភព")}</a>
         </p>
       </aside>
       <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3 text-xs leading-relaxed text-[var(--ink-dim)]">

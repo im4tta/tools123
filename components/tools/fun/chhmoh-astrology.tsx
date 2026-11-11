@@ -39,9 +39,9 @@ export default function ChhmohAstrology() {
       {/* Standalone app banner */}
       <div className="mb-6 rounded-xl border border-[var(--gold)]/30 bg-gradient-to-r from-[var(--gold)]/10 to-transparent p-4">
         <div className="flex items-start gap-3">
-          <div className="rounded-lg bg-[var(--gold)]/20 p-2.5 text-[var(--gold)]"><Sparkles size={20} /></div>
+          <div className="rounded-lg bg-[var(--gold)]/20 p-2.5 text-[var(--gold-text)]"><Sparkles size={20} /></div>
           <div className="min-w-0 flex-1">
-            <h3 className="font-semibold text-[var(--gold)]">{t("Full experience available on the standalone app", "សូមប្រើកម្មវិធីពេញលេញ")}</h3>
+            <h3 className="font-semibold text-[var(--gold-text)]">{t("Full experience available on the standalone app", "សូមប្រើកម្មវិធីពេញលេញ")}</h3>
             <p className="mt-1 text-xs leading-relaxed text-[var(--ink-dim)]">
               {t(
                 "This page shows the 8 traditional Nams and the Golden Equation. For the full Chhmoh experience — including the interactive astrological wheel, baby naming wizard, name combinator with 45+ traditional names, DOB-based destiny calculator, custom gong sounds, and PNG export — visit the standalone app:",
@@ -52,7 +52,7 @@ export default function ChhmohAstrology() {
               href="https://chhmom.name"
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-2 inline-flex items-center gap-1.5 rounded-lg bg-[var(--gold)] px-4 py-2 text-sm font-semibold text-[#0a0c0d] transition hover:bg-[var(--gold-dim)]"
+              className="mt-2 inline-flex items-center gap-1.5 rounded-lg bg-[var(--gold)] px-4 py-2 text-sm font-semibold text-[var(--on-gold)] transition hover:bg-[var(--gold-hover)]"
             >
               <ExternalLink size={14} /> chhmom.name
             </a>
@@ -68,7 +68,7 @@ export default function ChhmohAstrology() {
         ].map((tb) => (
           <button key={tb.id} type="button" onClick={() => setTab(tb.id)}
             className={`flex flex-1 items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold transition ${tab === tb.id ? "bg-[var(--ground-raised-hi)] text-[var(--ink)] ring-1 ring-[var(--gold)]" : "text-[var(--ink-dim)] hover:bg-[var(--ground-raised-hi)]"}`}>
-            <tb.icon size={16} className={tab === tb.id ? "text-[var(--gold)]" : "text-[var(--ink-faint)]"} />{tb.label}
+            <tb.icon size={16} className={tab === tb.id ? "text-[var(--gold-text)]" : "text-[var(--ink-faint)]"} />{tb.label}
           </button>
         ))}
       </div>
@@ -79,7 +79,7 @@ export default function ChhmohAstrology() {
           <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-4">
             {NAMS.map((nam, i) => (
               <button key={nam.id} type="button" onClick={() => setSelectedNam(i)}
-                className={`rounded-lg border px-3 py-2 text-center text-xs font-semibold transition ${selectedNam === i ? "border-[var(--gold)] bg-[var(--gold)]/15 text-[var(--gold)]" : "border-[var(--ground-line)] bg-[var(--ground)] text-[var(--ink-dim)]"}`}>
+                className={`rounded-lg border px-3 py-2 text-center text-xs font-semibold transition ${selectedNam === i ? "border-[var(--gold)] bg-[var(--gold)]/15 text-[var(--gold-text)]" : "border-[var(--ground-line)] bg-[var(--ground)] text-[var(--ink-dim)]"}`}>
                 {nam.weekday}
               </button>
             ))}
@@ -87,7 +87,7 @@ export default function ChhmohAstrology() {
 
           <div className="rounded-xl border border-[var(--gold)]/30 bg-[var(--ground-raised)] p-5">
             <div className="mb-4 flex items-center gap-3">
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[var(--gold)]/20 text-[var(--gold)]"><Award size={24} /></div>
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[var(--gold)]/20 text-[var(--gold-text)]"><Award size={24} /></div>
               <div>
                 <h2 className="font-khmer text-2xl font-bold text-[var(--ink)]">{NAMS[selectedNam].titleKm}</h2>
                 <p className="text-xs italic text-[var(--ink-faint)]">{NAMS[selectedNam].titleEn}</p>
@@ -110,12 +110,12 @@ export default function ChhmohAstrology() {
               </div>
               <div className="rounded-lg border border-[var(--ground-line)] bg-[var(--ground)] p-3">
                 <div className="text-[10px] font-semibold uppercase tracking-wide text-[var(--ink-faint)]">{t("Consonants", "អក្សរមង្គល")}</div>
-                <div className="mt-1 font-khmer text-lg font-bold text-[var(--gold)]">{NAMS[selectedNam].consonants}</div>
+                <div className="mt-1 font-khmer text-lg font-bold text-[var(--gold-text)]">{NAMS[selectedNam].consonants}</div>
               </div>
             </div>
 
             <div className="mt-4 rounded-lg border border-[var(--ground-line)] bg-[var(--ground)] p-4">
-              <div className="flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wide text-[var(--ink-faint)]"><Star size={11} className="text-[var(--gold)]" /> {t("Character Traits", "ចរិតលក្ខណៈ")}</div>
+              <div className="flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wide text-[var(--ink-faint)]"><Star size={11} className="text-[var(--gold-text)]" /> {t("Character Traits", "ចរិតលក្ខណៈ")}</div>
               <p className="mt-2 text-sm leading-relaxed text-[var(--ink-dim)]">{NAMS[selectedNam].descKm}</p>
               <p className="mt-2 text-xs leading-relaxed italic text-[var(--ink-faint)]">{NAMS[selectedNam].descEn}</p>
             </div>
@@ -133,7 +133,7 @@ export default function ChhmohAstrology() {
                     <span className="text-[11px] text-[var(--ink-faint)]">{nam.weekday}</span>
                   </div>
                   <div className="mt-1 text-xs text-[var(--ink-dim)]">{nam.titleEn}</div>
-                  <div className="mt-1.5 font-mono-ui text-[10px] font-bold text-[var(--gold)]">{nam.consonants}</div>
+                  <div className="mt-1.5 font-mono-ui text-[10px] font-bold text-[var(--gold-text)]">{nam.consonants}</div>
                 </button>
               ))}
             </div>
@@ -145,7 +145,7 @@ export default function ChhmohAstrology() {
       {tab === "equation" && (
         <div className="space-y-5">
           <div className="rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)] p-5 text-center">
-            <h2 className="font-khmer text-xl font-bold text-[var(--gold)]">{t("សមីការមាស សុវណ្ណភូមិ", "The Golden Equation — Suvarnabhumi")}</h2>
+            <h2 className="font-khmer text-xl font-bold text-[var(--gold-text)]">{t("សមីការមាស សុវណ្ណភូមិ", "The Golden Equation — Suvarnabhumi")}</h2>
             <p className="mt-1 text-xs text-[var(--ink-faint)]">{t("The etymology and heritage encoded in the name Kampuchea", "ន័យវិទ្យាសាស្ត្រ និងបេតិកភណ្ឌនៃព្រលឹងជាតិខ្មែរ")}</p>
           </div>
 
@@ -153,11 +153,11 @@ export default function ChhmohAstrology() {
             {EQUATION_NODES.map((node) => (
               <button key={node.id} type="button" onClick={() => setEqNode(node.id)}
                 className={`rounded-xl border p-5 text-center transition ${eqNode === node.id ? "border-[var(--gold)] bg-[var(--gold)]/10 shadow-sm" : "border-[var(--ground-line)] bg-[var(--ground-raised)] hover:border-[var(--gold)]/30"}`}>
-                <div className="mb-3 inline-flex h-12 w-12 items-center justify-center rounded-full bg-[var(--gold)]/20 text-[var(--gold)]">
+                <div className="mb-3 inline-flex h-12 w-12 items-center justify-center rounded-full bg-[var(--gold)]/20 text-[var(--gold-text)]">
                   <span className="font-khmer text-lg font-bold">{node.title.split(" ")[0]}</span>
                 </div>
                 <h3 className="font-khmer text-sm font-bold text-[var(--ink)]">{node.title}</h3>
-                <p className="mt-1 text-[10px] font-semibold uppercase tracking-wide text-[var(--gold)]">{node.subtitle}</p>
+                <p className="mt-1 text-[10px] font-semibold uppercase tracking-wide text-[var(--gold-text)]">{node.subtitle}</p>
                 <p className="mt-2 text-xs leading-relaxed text-[var(--ink-dim)]">{node.desc}</p>
               </button>
             ))}
@@ -166,12 +166,12 @@ export default function ChhmohAstrology() {
           <div className="rounded-xl border border-[var(--ground-line)] bg-[var(--ground)] p-5">
             {EQUATION_NODES.find((n) => n.id === eqNode)?.longDesc && (
               <div className="text-sm leading-relaxed text-[var(--ink-dim)]">
-                <h4 className="mb-2 font-khmer font-bold text-[var(--gold)]">{EQUATION_NODES.find((n) => n.id === eqNode)?.title}</h4>
+                <h4 className="mb-2 font-khmer font-bold text-[var(--gold-text)]">{EQUATION_NODES.find((n) => n.id === eqNode)?.title}</h4>
                 {EQUATION_NODES.find((n) => n.id === eqNode)?.longDesc}
               </div>
             )}
             {eqNode === "kampuchea" && (
-              <div className="mt-4 rounded-lg border border-[var(--gold)]/30 bg-[var(--gold)]/5 p-4 text-center text-sm leading-relaxed text-[var(--gold)]">
+              <div className="mt-4 rounded-lg border border-[var(--gold)]/30 bg-[var(--gold)]/5 p-4 text-center text-sm leading-relaxed text-[var(--gold-text)]">
                 <strong className="font-khmer">{t("កម្ពុជា = កម្ពុ + ជា", "Kampuchea = Kampu + Ja/Jaa")}</strong>
                 <p className="mt-2 text-xs text-[var(--ink-dim)]">
                   {t("Gold + Birth = The Golden Land — Suvarnabhumi, the soul of the Khmer nation.", "មាស + កំណើត = ដែនដីមាស — សុវណ្ណភូមិ ព្រលឹងជាតិខ្មែរ។")}

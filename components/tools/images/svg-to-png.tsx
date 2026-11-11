@@ -134,7 +134,7 @@ export default function SvgToPng() {
           type="button"
           onClick={download}
           disabled={!result}
-          className="flex w-full items-center justify-center gap-2 rounded-xl bg-[var(--gold)] px-5 py-3 text-sm font-semibold text-[#0a0c0d] transition hover:bg-[var(--gold-dim)] disabled:opacity-40"
+          className="flex w-full items-center justify-center gap-2 rounded-xl bg-[var(--gold)] px-5 py-3 text-sm font-semibold text-[var(--on-gold)] transition hover:bg-[var(--gold-hover)] disabled:opacity-40"
         >
           <Download size={16} /> {t("Download PNG", "ទាញយក PNG")}
         </button>

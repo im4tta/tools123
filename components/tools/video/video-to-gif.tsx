@@ -169,7 +169,7 @@ export default function VideoToGifTool() {
             <div className="space-y-2">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={resultUrl} alt="Result GIF" className="max-h-72 w-full rounded-md border border-[var(--ground-line)] object-contain" />
-              <a href={resultUrl} download="clip.gif" className="inline-flex items-center gap-1.5 rounded-md bg-[var(--gold)] px-3 py-1.5 text-xs font-medium text-[#0a0c0d] hover:bg-[var(--gold-dim)]">
+              <a href={resultUrl} download="clip.gif" className="inline-flex items-center gap-1.5 rounded-md bg-[var(--gold)] px-3 py-1.5 text-xs font-medium text-[var(--on-gold)] hover:bg-[var(--gold-hover)]">
                 <Download size={13} /> Download GIF — {fmt(resultSize)}
               </a>
             </div>

@@ -120,7 +120,7 @@ export default function NssfPayrollCalculator() {
       {n > 1 && (
         <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4">
           <div className="flex items-center gap-2 text-sm font-semibold text-[var(--ink)]">
-            <Users size={15} className="text-[var(--gold)]" />
+            <Users size={15} className="text-[var(--gold-text)]" />
             {t("Payroll total", "សរុបការបើកខែវិញ្ញាណ")} · {n} {t("employees", "នាក់")}
           </div>
           <div className="mt-2 grid grid-cols-1 gap-2 sm:grid-cols-3">
@@ -133,7 +133,7 @@ export default function NssfPayrollCalculator() {
       )}
 
       <div className="flex items-start gap-2 rounded-md border border-amber-500/40 bg-amber-500/10 p-3 text-xs leading-relaxed text-[var(--ink-dim)]">
-        <Info size={14} className="mt-0.5 shrink-0 text-[var(--gold)]" />
+        <Info size={14} className="mt-0.5 shrink-0 text-[var(--gold-text)]" />
         <span>
           {t("The contribution percentages shown are sample placeholders only, not official NSSF values. Replace them with the current rates from the official NSSF schedule before relying on the numbers. The salary ceiling is also editable.", "ភាគរយរួមចំណែកដែលបង្ហាញគឺជាគំរូតែប៉ុណ្ណោះ មិនមែនជាតម្លៃផ្លូវការរបស់ NSSF ទេ។ សូមជំនួសដោយអត្រាបច្ចុប្បន្នពីកាលវិភាគផ្លូវការ NSSF មុនពេលពឹងផ្អែក។ ដែនកំណត់ប្រាក់ខែក៏អាចកែបានដែរ។")}
         </span>

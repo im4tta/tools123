@@ -113,7 +113,7 @@ export default function TileCalculator() {
         </div>
         <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4">
           <div className="text-xs font-medium uppercase tracking-wide text-[var(--ink-dim)]">{t("Tiles needed", "ក្បឿងដែលត្រូវការ")}</div>
-          <div className="mt-1 text-lg font-semibold text-[var(--gold)]">{result.tiles}</div>
+          <div className="mt-1 text-lg font-semibold text-[var(--gold-text)]">{result.tiles}</div>
           <div className="text-xs text-[var(--ink-dim)]">{t("incl. wastage", "រាប់បញ្ចូលការខូច")} {Math.round(result.wastePct * 100)}%</div>
         </div>
         <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4">

@@ -39,16 +39,16 @@ export default function KhmerWordOfTheDay() {
       descriptionKm="រៀនពាក្យខ្មែរម្តងមួយ។ មើលពាក្យប្រចាំថ្ងៃ ព្យាយាមនឹកន័យរបស់វា រួចបង្ហាញនិយមន័យ ការបញ្ចេញសំឡេង ឧទាហរណ៍ និងពាក្យពាក់ព័ន្ធ — ឬចាក់ឆ្នោតទៅពាក្យថ្មីសម្រាប់សិក្សាបែបសន្លឹកសំណួរ។ ដកស្រង់ពីវចនានុក្រមក្រៅបណ្តាញប្រមាណ ៦២០ ពាក្យ ដំណើរការទាំងស្រុងក្នុងកម្មវិធីរុករក។"
     >
       <div className="rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)] p-6">
-        <div className="flex items-center gap-1.5 text-xs font-medium uppercase tracking-wide text-[var(--gold)]">
+        <div className="flex items-center gap-1.5 text-xs font-medium uppercase tracking-wide text-[var(--gold-text)]">
           <Sparkles size={13} />{isToday ? t("Today's word", "ពាក្យថ្ងៃនេះ") : t("Random word", "ពាក្យចៃដន្យ")}
         </div>
         <div className="mt-2 flex items-center gap-3">
           <h2 lang="km" className="font-khmer text-4xl font-semibold text-[var(--ink)]">{entry.word}</h2>
-          <button type="button" onClick={() => speak(entry.word)} aria-label={t("Listen", "ស្តាប់")} className="flex h-9 w-9 items-center justify-center rounded-full border border-[var(--ground-line)] text-[var(--ink-dim)] transition hover:border-[var(--gold-dim)] hover:text-[var(--gold)]">
+          <button type="button" onClick={() => speak(entry.word)} aria-label={t("Listen", "ស្តាប់")} className="flex h-9 w-9 items-center justify-center rounded-full border border-[var(--ground-line)] text-[var(--ink-dim)] transition hover:border-[var(--gold-dim)] hover:text-[var(--gold-text)]">
             <Volume2 size={16} />
           </button>
         </div>
-        {entry.pronunciation && <p lang="km" className="mt-1 font-khmer text-sm text-[var(--gold)]">/{entry.pronunciation}/</p>}
+        {entry.pronunciation && <p lang="km" className="mt-1 font-khmer text-sm text-[var(--gold-text)]">/{entry.pronunciation}/</p>}
 
         {revealed ? (
           <div className="mt-4 space-y-3">
@@ -65,7 +65,7 @@ export default function KhmerWordOfTheDay() {
             )}
           </div>
         ) : (
-          <button type="button" onClick={() => setRevealed(true)} className="mt-4 flex items-center gap-1.5 rounded-md bg-[var(--gold)] px-4 py-2 text-sm font-medium text-[#0a0c0d] transition hover:bg-[var(--gold-dim)]">
+          <button type="button" onClick={() => setRevealed(true)} className="mt-4 flex items-center gap-1.5 rounded-md bg-[var(--gold)] px-4 py-2 text-sm font-medium text-[var(--on-gold)] transition hover:bg-[var(--gold-hover)]">
             <Eye size={15} />{t("Show meaning", "បង្ហាញន័យ")}
           </button>
         )}

@@ -155,7 +155,7 @@ export default function SolsticeCalculator() {
             <div key={e.target} className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4">
               <div className="flex items-baseline justify-between gap-2">
                 <div className="text-sm font-semibold text-[var(--ink)]">{t(e.nameEn, e.nameKm)}</div>
-                <div className="text-xs text-[var(--gold)]">{t(e.seasonEn, e.seasonKm)}</div>
+                <div className="text-xs text-[var(--gold-text)]">{t(e.seasonEn, e.seasonKm)}</div>
               </div>
               <div className="mt-2 font-mono-ui text-sm text-[var(--ink)]">{e.iso}</div>
               <div className="text-xs text-[var(--ink-dim)]">
@@ -163,7 +163,7 @@ export default function SolsticeCalculator() {
               </div>
               <div className="mt-2 text-xs text-[var(--ink-dim)]">
                 {t("Day length at", "រយៈពេលថ្ងៃនៅ")} {latStr}°:{" "}
-                <b className="text-[var(--gold)]">
+                <b className="text-[var(--gold-text)]">
                   {Math.floor(e.hours)}h {Math.round((e.hours % 1) * 60)}m
                 </b>
               </div>

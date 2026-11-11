@@ -147,13 +147,13 @@ export default function AesEncryption() {
         <h3 className="mb-3 font-semibold text-[var(--ink)]">{t("Source & Credits", "ប្រភព និងក្រេឌីត")}</h3>
         <ul className="space-y-1.5 text-xs text-[var(--ink-dim)]">
           <li>
-            <a href="https://www.rfc-editor.org/rfc/rfc8018" target="_blank" rel="noreferrer" className="text-[var(--gold)] underline underline-offset-2">
+            <a href="https://www.rfc-editor.org/rfc/rfc8018" target="_blank" rel="noreferrer" className="text-[var(--gold-text)] underline underline-offset-2">
               RFC 8018
             </a>{" "}
             — {t("PBKDF2 password-based key derivation", "ការបង្កើតសោពីពាក្យសម្ងាត់ PBKDF2")}
           </li>
           <li>
-            <a href="https://csrc.nist.gov/pubs/sp/800/38/d/final" target="_blank" rel="noreferrer" className="text-[var(--gold)] underline underline-offset-2">
+            <a href="https://csrc.nist.gov/pubs/sp/800/38/d/final" target="_blank" rel="noreferrer" className="text-[var(--gold-text)] underline underline-offset-2">
               NIST SP 800-38D
             </a>{" "}
             — {t("AES-GCM authenticated encryption", "ការអ៊ិនគ្រីបដែលមានការផ្ទៀងផ្ទាត់ AES-GCM")}

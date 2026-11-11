@@ -169,7 +169,7 @@ export default function RecipeResizer() {
                     placeholder={t("e.g. 4", "ឧ. 4")}
                   />
                 </td>
-                <td className="px-3 py-3 font-mono-ui font-semibold text-[var(--gold)]">{scaledFor(row)}</td>
+                <td className="px-3 py-3 font-mono-ui font-semibold text-[var(--gold-text)]">{scaledFor(row)}</td>
                 <td className="px-2 py-2">
                   <button
                     type="button"

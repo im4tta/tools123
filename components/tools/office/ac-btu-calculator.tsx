@@ -93,7 +93,7 @@ export default function AcBtuCalculator() {
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
         <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4">
           <div className="text-xs font-medium uppercase tracking-wide text-[var(--ink-dim)]">{t("Recommended cooling", "កម្លាំងត្រជាក់ដែលណែនាំ")}</div>
-          <div className="mt-1 text-lg font-semibold text-[var(--gold)]">{result.btu.toLocaleString("en-US")} BTU/h</div>
+          <div className="mt-1 text-lg font-semibold text-[var(--gold-text)]">{result.btu.toLocaleString("en-US")} BTU/h</div>
           <div className="text-xs text-[var(--ink-dim)]">{result.areaFt2.toFixed(1)} ft² · {result.h} m {t("ceiling", "ពិដាន")}</div>
         </div>
         <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4">
@@ -102,13 +102,13 @@ export default function AcBtuCalculator() {
           <div className="text-xs text-[var(--ink-dim)]">{result.btu.toLocaleString("en-US")} ÷ 3,412</div>
         </div>
         <div className="rounded-md border border-[var(--gold)]/40 bg-[var(--gold)]/10 p-4">
-          <div className="text-xs font-medium uppercase tracking-wide text-[var(--gold)]">{t("Suggested AC", "ម៉ាស៊ីនត្រជាក់ដែលណែនាំ")}</div>
-          <div className="mt-1 text-lg font-semibold text-[var(--gold)]">
+          <div className="text-xs font-medium uppercase tracking-wide text-[var(--gold-text)]">{t("Suggested AC", "ម៉ាស៊ីនត្រជាក់ដែលណែនាំ")}</div>
+          <div className="mt-1 text-lg font-semibold text-[var(--gold-text)]">
             {result.suggested
               ? `${result.suggested.btu.toLocaleString("en-US")} BTU — ${result.suggested.hp}`
               : t("Larger than 48,000 BTU — consider multiple units", "ធំជាង 48,000 BTU — សូមពិចារណាដំឡើងច្រើនគ្រឿង")}
           </div>
-          <div className="text-xs text-[var(--gold)]">{t("standard capacity", "សមត្ថភាពស្ដង់ដារ")}</div>
+          <div className="text-xs text-[var(--gold-text)]">{t("standard capacity", "សមត្ថភាពស្ដង់ដារ")}</div>
         </div>
       </div>
 

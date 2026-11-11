@@ -48,7 +48,7 @@ export default function OneRepMax() {
               key={u}
               type="button"
               onClick={() => setUnit(u)}
-              className={`rounded-md border px-3 py-1 text-xs font-medium transition ${unit === u ? "border-[var(--gold)] text-[var(--gold)]" : "border-[var(--ground-line)] text-[var(--ink-dim)] hover:border-[var(--gold-dim)]"}`}
+              className={`rounded-md border px-3 py-1 text-xs font-medium transition ${unit === u ? "border-[var(--gold)] text-[var(--gold-text)]" : "border-[var(--ground-line)] text-[var(--ink-dim)] hover:border-[var(--gold-dim)]"}`}
             >
               {u === "kg" ? "kg" : "lb"}
             </button>

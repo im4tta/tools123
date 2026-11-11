@@ -103,7 +103,7 @@ function analyse(input: string): Analysis {
 }
 
 const GROUP_CLASSES = [
-  "border-[var(--gold)]/50 bg-[var(--gold)]/10 text-[var(--gold)]",
+  "border-[var(--gold)]/50 bg-[var(--gold)]/10 text-[var(--gold-text)]",
   "border-[var(--teal)]/50 bg-[var(--teal)]/10 text-[var(--teal)]",
   "border-[var(--success)]/50 bg-[var(--success)]/10 text-[var(--success)]",
   "border-[var(--danger)]/50 bg-[var(--danger)]/10 text-[var(--danger)]",
@@ -206,7 +206,7 @@ export default function KhmerPoemMetreChecker() {
                     </span>
                     <span>
                       {t("Pattern", "លំនាំ")}:{" "}
-                      <b lang="km" className="font-khmer text-[var(--gold)]">
+                      <b lang="km" className="font-khmer text-[var(--gold-text)]">
                         {r.endKey || "—"}
                       </b>
                     </span>
@@ -231,7 +231,7 @@ export default function KhmerPoemMetreChecker() {
 function SummaryCell({ label, value, danger = false }: { label: string; value: number; danger?: boolean }) {
   return (
     <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2.5 text-center">
-      <div className={`text-2xl font-semibold ${danger ? "text-[var(--danger)]" : "text-[var(--gold)]"}`}>{value}</div>
+      <div className={`text-2xl font-semibold ${danger ? "text-[var(--danger)]" : "text-[var(--gold-text)]"}`}>{value}</div>
       <div className="text-[10px] uppercase tracking-wide text-[var(--ink-faint)]">{label}</div>
     </div>
   );

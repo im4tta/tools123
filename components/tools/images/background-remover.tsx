@@ -82,7 +82,7 @@ export default function BackgroundRemoverTool() {
           <BeforeAfterSlider before={originalUrl} after={resultUrl} beforeAlt="Original image" afterAlt="Image with background removed" />
           <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-[var(--ink-dim)]">
             <span>Result — {fmt(resultSize)}</span>
-            <a href={resultUrl} download="no-background.png" className="inline-flex items-center gap-1.5 rounded-md bg-[var(--gold)] px-3 py-1.5 font-medium text-[#0a0c0d] hover:bg-[var(--gold-dim)]">
+            <a href={resultUrl} download="no-background.png" className="inline-flex items-center gap-1.5 rounded-md bg-[var(--gold)] px-3 py-1.5 font-medium text-[var(--on-gold)] hover:bg-[var(--gold-hover)]">
               <Download size={13} /> Download PNG
             </a>
           </div>

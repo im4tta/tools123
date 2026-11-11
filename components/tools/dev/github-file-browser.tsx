@@ -104,7 +104,7 @@ export default function GithubFileBrowser() {
                   type="button"
                   disabled={e.type === "file"}
                   onClick={() => e.type === "dir" && load(e.path)}
-                  className={`flex min-w-0 flex-1 items-center gap-2 text-left ${e.type === "dir" ? "text-[var(--ink)] hover:text-[var(--gold)]" : "text-[var(--ink-dim)]"}`}
+                  className={`flex min-w-0 flex-1 items-center gap-2 text-left ${e.type === "dir" ? "text-[var(--ink)] hover:text-[var(--gold-text)]" : "text-[var(--ink-dim)]"}`}
                 >
                   {e.type === "dir" ? <Folder size={14} className="shrink-0" /> : <FileIcon size={14} className="shrink-0" />}
                   <span className="truncate">{e.name}</span>
@@ -113,7 +113,7 @@ export default function GithubFileBrowser() {
                   <div className="flex shrink-0 items-center gap-3 text-xs text-[var(--ink-faint)]">
                     <span>{formatSize(e.size)}</span>
                     {e.download_url && (
-                      <a href={e.download_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[var(--ink-dim)] hover:text-[var(--gold)]">
+                      <a href={e.download_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[var(--ink-dim)] hover:text-[var(--gold-text)]">
                         <Download size={13} />
                       </a>
                     )}

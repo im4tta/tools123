@@ -220,7 +220,7 @@ export default function StructuredDiagramEditor() {
     >
       <div className="flex flex-wrap gap-2" role="group" aria-label={t("Diagram mode", "របៀបដ្យាក្រាម")}>
         {MODES.map((item) => (
-          <button key={item} type="button" onClick={() => chooseMode(item)} aria-pressed={mode === item} className={`${buttonClass} ${mode === item ? "border-[var(--gold)] text-[var(--gold)]" : ""}`}>
+          <button key={item} type="button" onClick={() => chooseMode(item)} aria-pressed={mode === item} className={`${buttonClass} ${mode === item ? "border-[var(--gold)] text-[var(--gold-text)]" : ""}`}>
             {item === "Diagram" ? t(item, "ដ្យាក្រាម") : item === "Mind Map" ? t(item, "ផែនទីគំនិត") : item === "Org Chart" ? t(item, "តារាងអង្គការ") : t(item, "រចនាសម្ព័ន្ធការងារ")}
           </button>
         ))}

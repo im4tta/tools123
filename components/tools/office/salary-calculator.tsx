@@ -138,7 +138,7 @@ export default function SalaryCalculator() {
               <div className="text-xs font-medium uppercase tracking-wide text-[var(--ink-dim)]">
                 {t("Estimated net", "ប្រាក់សុទ្ធប៉ាន់ស្មាន")}
               </div>
-              <div className="mt-1 text-2xl font-semibold text-[var(--gold)]">
+              <div className="mt-1 text-2xl font-semibold text-[var(--gold-text)]">
                 {fmt(calc.net)} <span className="text-xs font-normal text-[var(--ink-dim)]">{calc.table.currency}</span>
               </div>
             </div>

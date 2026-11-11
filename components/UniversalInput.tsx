@@ -21,7 +21,7 @@ export function UniversalInput({ value, onChange }: { value: string; onChange: (
 
   return (
     <section className="mx-auto mt-3 w-full max-w-md rounded-xl border border-[var(--gold)]/30 bg-[var(--ground-raised)] p-2.5">
-      <div className="mb-1.5 flex items-center gap-1.5 px-1 text-[10px] font-bold uppercase tracking-wider text-[var(--gold)]">
+      <div className="mb-1.5 flex items-center gap-1.5 px-1 text-[10px] font-bold uppercase tracking-wider text-[var(--gold-text)]">
         <Sparkles size={12} /> {t("Search or calculate", "ស្វែងរក ឬ គណនា")}
       </div>
       <div data-focus-ring="within" className="flex items-center gap-2 rounded-lg border border-[var(--ground-line)] bg-[var(--ground)] px-2.5 py-2 focus-within:border-[var(--gold-dim)]">
@@ -42,7 +42,7 @@ export function UniversalInput({ value, onChange }: { value: string; onChange: (
             <p className="text-[11px] font-semibold text-[var(--ink)]">{intentLabel(intent)}</p>
             <p className="truncate text-[10px] text-[var(--ink-faint)]">{intent.reason}{tool ? ` · ${t(tool.title, tool.khmerTitle ?? tool.title)}` : ""}</p>
           </div>
-          {tool && <button type="button" onClick={openTool} className="inline-flex shrink-0 items-center gap-1 rounded-md bg-[var(--gold)] px-2.5 py-1.5 text-[11px] font-bold text-[#0a0c0d] hover:bg-[var(--gold-dim)]"><ArrowRight size={12} /> {t("Open", "បើក")}</button>}
+          {tool && <button type="button" onClick={openTool} className="inline-flex shrink-0 items-center gap-1 rounded-md bg-[var(--gold)] px-2.5 py-1.5 text-[11px] font-bold text-[var(--on-gold)] hover:bg-[var(--gold-hover)]"><ArrowRight size={12} /> {t("Open", "បើក")}</button>}
         </div>
       )}
     </section>

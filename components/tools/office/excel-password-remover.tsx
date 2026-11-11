@@ -153,7 +153,7 @@ export default function ExcelPasswordRemover() {
               </div>
               {scan.sheets.map((s) => (
                 <div key={s.index} className="flex items-center gap-2 text-xs text-[var(--ink-dim)]">
-                  <FileLock2 size={13} className="text-[var(--gold)]" />
+                  <FileLock2 size={13} className="text-[var(--gold-text)]" />
                   {s.name}
                 </div>
               ))}
@@ -178,7 +178,7 @@ export default function ExcelPasswordRemover() {
               type="button"
               onClick={download}
               disabled={busy}
-              className="flex w-full items-center justify-center gap-2 rounded-xl bg-[var(--gold)] px-5 py-3 text-sm font-semibold text-[#0a0c0d] transition hover:bg-[var(--gold-dim)] disabled:opacity-40"
+              className="flex w-full items-center justify-center gap-2 rounded-xl bg-[var(--gold)] px-5 py-3 text-sm font-semibold text-[var(--on-gold)] transition hover:bg-[var(--gold-hover)] disabled:opacity-40"
             >
               <Download size={16} />
               {busy ? t("Processing…", "កំពុងដំណើរការ…") : t("Remove protection & download", "ដកការការពារ និងទាញយក")}

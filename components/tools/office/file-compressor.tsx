@@ -324,7 +324,7 @@ export default function FileCompressorTool() {
         <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-4 py-3 text-sm">
           <div className="flex items-center justify-between text-[var(--ink)]">
             <span>Live savings</span>
-            <span className="font-medium text-[var(--gold)]">{savedPct}% smaller</span>
+            <span className="font-medium text-[var(--gold-text)]">{savedPct}% smaller</span>
           </div>
           <div className="mt-1 text-xs text-[var(--ink-faint)]">
             {formatBytes(totalOriginal)} → {formatBytes(totalResult)} across {doneCount} file{doneCount === 1 ? "" : "s"}
@@ -349,13 +349,13 @@ function ItemRow({ item, onRemove }: { item: Item; onRemove: () => void }) {
   return (
     <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3">
       <div className="flex items-center gap-2 text-xs text-[var(--ink-dim)]">
-        {item.kind === "pdf" ? <FileText size={13} className="shrink-0 text-[var(--gold)]" /> : <ImageIcon size={13} className="shrink-0 text-[var(--gold)]" />}
+        {item.kind === "pdf" ? <FileText size={13} className="shrink-0 text-[var(--gold-text)]" /> : <ImageIcon size={13} className="shrink-0 text-[var(--gold-text)]" />}
         <span className="min-w-0 flex-1 truncate">{item.file.name}</span>
         <span className="shrink-0 text-[var(--ink-faint)]">{formatBytes(item.file.size)}</span>
         {item.status === "done" && item.resultSize !== undefined && (
           <>
             <span className="shrink-0 text-[var(--ink-faint)]">→</span>
-            <span className="shrink-0 text-[var(--gold)]">{formatBytes(item.resultSize)} ({savedPct}% smaller)</span>
+            <span className="shrink-0 text-[var(--gold-text)]">{formatBytes(item.resultSize)} ({savedPct}% smaller)</span>
           </>
         )}
         {item.status === "processing" && <span className="shrink-0 text-[var(--ink-faint)]">Compressing…</span>}
@@ -386,7 +386,7 @@ function ItemRow({ item, onRemove }: { item: Item; onRemove: () => void }) {
               <img src={item.resultUrl} alt="Compressed" className="h-full w-full object-contain" />
             </div>
              <div className="pointer-events-none absolute inset-y-0 z-10 w-0.5 bg-[var(--gold)] shadow-[0_0_0_1px_rgba(0,0,0,.25)]" style={{ left: `${sliderPos}%` }} />
-             <div className="pointer-events-none absolute top-1/2 z-20 flex h-9 w-9 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-2 border-white bg-[var(--gold)] text-xs font-bold text-[#0a0c0d] shadow-lg" style={{ left: `${sliderPos}%` }}>↔</div>
+             <div className="pointer-events-none absolute top-1/2 z-20 flex h-9 w-9 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-2 border-white bg-[var(--gold)] text-xs font-bold text-[var(--on-gold)] shadow-lg" style={{ left: `${sliderPos}%` }}>↔</div>
             <div className="pointer-events-none absolute left-1.5 top-1.5 rounded bg-black/60 px-1.5 py-0.5 text-[9px] text-white">compressed</div>
             <div className="pointer-events-none absolute right-1.5 top-1.5 rounded bg-black/60 px-1.5 py-0.5 text-[9px] text-white">original</div>
           </div>

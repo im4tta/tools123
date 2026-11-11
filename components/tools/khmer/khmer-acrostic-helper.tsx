@@ -75,7 +75,7 @@ export default function KhmerAcrosticHelper() {
           {rows.map((r) => (
             <div key={r.key} className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3">
               <div className="mb-2 flex items-baseline gap-3">
-                <span lang="km" className="font-khmer text-2xl font-semibold text-[var(--gold)]">{r.cluster}</span>
+                <span lang="km" className="font-khmer text-2xl font-semibold text-[var(--gold-text)]">{r.cluster}</span>
                 <span className="text-xs text-[var(--ink-faint)]">
                   {r.total === 0
                     ? t("No dictionary words — write this line freely.", "គ្មានពាក្យក្នុងវចនានុក្រម — សរសេរបន្ទាត់នេះដោយសេរី។")
@@ -90,7 +90,7 @@ export default function KhmerAcrosticHelper() {
                     lang="km"
                     aria-pressed={picks[r.key] === w}
                     onClick={() => pick(r.key, w)}
-                    className={`rounded border px-2 py-0.5 font-khmer text-sm transition ${picks[r.key] === w ? "border-[var(--gold)] bg-[var(--gold)]/10 text-[var(--gold)]" : "border-[var(--ground-line)] text-[var(--ink)] hover:border-[var(--ink-faint)]"}`}
+                    className={`rounded border px-2 py-0.5 font-khmer text-sm transition ${picks[r.key] === w ? "border-[var(--gold)] bg-[var(--gold)]/10 text-[var(--gold-text)]" : "border-[var(--ground-line)] text-[var(--ink)] hover:border-[var(--ink-faint)]"}`}
                   >
                     {w}
                   </button>

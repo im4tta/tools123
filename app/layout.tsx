@@ -93,26 +93,26 @@ export default function RootLayout({
                 <div className="flex flex-wrap items-center justify-center gap-4">
                   <SponsorButton />
                   <WatermarkToggle />
-                  <Link href="/about" className="transition hover:text-[var(--gold)]">
+                  <Link href="/about" className="transition hover:text-[var(--gold-text)]">
                     About
                   </Link>
-                  <Link href="/acknowledgement" className="transition hover:text-[var(--gold)]">
+                  <Link href="/acknowledgement" className="transition hover:text-[var(--gold-text)]">
                     Acknowledgements
                   </Link>
-                  <Link href="/privacy" className="transition hover:text-[var(--gold)]">
+                  <Link href="/privacy" className="transition hover:text-[var(--gold-text)]">
                     Privacy
                   </Link>
-                  <Link href="/changelog" className="transition hover:text-[var(--gold)]">
+                  <Link href="/changelog" className="transition hover:text-[var(--gold-text)]">
                     Changelog
                   </Link>
-                  <Link href="/llms.txt" className="transition hover:text-[var(--gold)]">
+                  <Link href="/llms.txt" className="transition hover:text-[var(--gold-text)]">
                     llms.txt
                   </Link>
                   <a
                     href="https://github.com/im4tta/tools123"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="transition hover:text-[var(--gold)]"
+                    className="transition hover:text-[var(--gold-text)]"
                   >
                     GitHub
                   </a>

@@ -148,7 +148,7 @@ export default function DuplicateImageChecker() {
       descriptionKm="បញ្ចូលរូបភាពជាច្រើន ដើម្បីទទួលបានការប្រៀបធៀបតាមការយល់ឃើញប្រហាក់ប្រហែល — រូបភាពស្រដៀងគ្នាត្រូវបានដាក់ជាក្រុម ហើយពិន្ទុស្រដៀងត្រូវបានបង្ហាញសម្រាប់រូបនីមួយៗ។"
     >
       <div className="flex flex-wrap items-center gap-3">
-        <label className="cursor-pointer rounded-md border border-[var(--gold-dim)] bg-[var(--gold)]/10 px-4 py-2 text-sm font-medium text-[var(--gold)] transition hover:bg-[var(--gold)]/20">
+        <label className="cursor-pointer rounded-md border border-[var(--gold-dim)] bg-[var(--gold)]/10 px-4 py-2 text-sm font-medium text-[var(--gold-text)] transition hover:bg-[var(--gold)]/20">
           {t("Choose images", "ជ្រើសរូបភាព")}
           <input type="file" accept="image/*" multiple className="hidden" onChange={(e) => { addFiles(e.target.files); e.target.value = ""; }} />
         </label>
@@ -181,7 +181,7 @@ export default function DuplicateImageChecker() {
               </div>
               {dupGroups.map((group, gi) => (
                 <div key={gi} className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3">
-                  <div className="mb-2 text-sm font-medium text-[var(--gold)]">{t("Group", "ក្រុម")} {gi + 1}</div>
+                  <div className="mb-2 text-sm font-medium text-[var(--gold-text)]">{t("Group", "ក្រុម")} {gi + 1}</div>
                   <div className="flex flex-wrap gap-3">
                     {group.map((item) => (
                       <div key={item.id} className="flex flex-col items-center gap-1">
@@ -222,7 +222,7 @@ export default function DuplicateImageChecker() {
               </div>
               {sim !== null ? (
                 <div className="mt-3 flex items-baseline gap-2">
-                  <span className={`text-2xl font-semibold ${sim >= threshold ? "text-[var(--gold)]" : "text-[var(--ink-dim)]"}`}>{sim.toFixed(1)}%</span>
+                  <span className={`text-2xl font-semibold ${sim >= threshold ? "text-[var(--gold-text)]" : "text-[var(--ink-dim)]"}`}>{sim.toFixed(1)}%</span>
                   <span className="text-xs text-[var(--ink-dim)]">{t("similar", "ស្រដៀង")}</span>
                 </div>
               ) : (
@@ -267,9 +267,9 @@ export default function DuplicateImageChecker() {
         <p className="mb-2 font-semibold text-[var(--ink)]">{t("Source & Credits", "ប្រភព និងក្រេឌីត")}</p>
         <p>
           {t("Uses the well-known perceptual hashing techniques dHash (difference hash) and aHash (average hash), described by Dr. Neal Krawetz (Hacker Factor). Implementation is original to Tools123: images are downscaled to 9×8 grayscale and compared with Hamming distance.", "ប្រើបច្ចេកទេស perceptual hash ដ៏ល្បី dHash (difference hash) និង aHash (average hash) ដែលបានពិពណ៌នាដោយ បណ្ឌិត Neal Krawetz (Hacker Factor)។ ការអនុវត្តគឺដើមរបស់ Tools123៖ រូបភាពត្រូវបានបង្រួមទៅ 9×8 ក្រេសស្កេល ហើយប្រៀបធៀបដោយចម្ងាយ Hamming។")}{" "}
-          <a href="https://www.hackerfactor.com/blog/index.php?/archives/529-Kind-of-Like-That.html" target="_blank" rel="noreferrer" className="text-[var(--gold)] underline underline-offset-2">Hacker Factor — dHash</a>
+          <a href="https://www.hackerfactor.com/blog/index.php?/archives/529-Kind-of-Like-That.html" target="_blank" rel="noreferrer" className="text-[var(--gold-text)] underline underline-offset-2">Hacker Factor — dHash</a>
           {" · "}
-          <a href="https://www.hackerfactor.com/blog/index.php?/archives/432-Looks-Like-It.html" target="_blank" rel="noreferrer" className="text-[var(--gold)] underline underline-offset-2">aHash</a>
+          <a href="https://www.hackerfactor.com/blog/index.php?/archives/432-Looks-Like-It.html" target="_blank" rel="noreferrer" className="text-[var(--gold-text)] underline underline-offset-2">aHash</a>
         </p>
       </aside>
     </ToolShell>

@@ -1,16 +1,28 @@
 @import "tailwindcss";
 
-:root,
-[data-theme="dark"] {
+/* Tailwind's dark: variant follows the app's theme (html[data-theme]), not the OS setting. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* Light is the default (no data-theme yet, or no JavaScript); dark when the html element says so. */
+:root[data-theme="dark"] {
   --ink: #edeae2;
   --ink-dim: #9a9d9f;
-  --ink-faint: #5c6063;
+  --ink-faint: #95999d; /* 4.6:1+ on every ground level (was 2.7–3.1:1) */
   --ground: #0a0c0d;
   --ground-raised: #121517;
   --ground-raised-hi: #181c1f;
   --ground-line: #23282b;
+  /* Boundaries of form controls (inputs, selects, search pills): 3:1+ against the page. */
+  --ground-line-strong: #5d6b73;
   --gold: #c9a24b;
   --gold-dim: #8a7238;
+  /* Gold as text (links, accents): --gold itself is text-safe in dark mode. */
+  --gold-text: var(--gold);
+  /* Text on a solid --gold fill, and that fill's hover colour. */
+  --on-gold: #0a0c0d;
+  --gold-hover: #d1b066;
+  /* Keyboard focus ring. */
+  --focus: #7fb0ff;
   --teal: #3ea08c;
   --teal-dim: #2a6d5f;
   --slate-accent: #7089c9;
@@ -20,16 +32,23 @@
   --shadow-elev: 0 8px 30px rgba(0, 0, 0, 0.35);
 }
 
+:root,
 [data-theme="light"] {
   --ink: #1c1a15;
   --ink-dim: #5a5751;
-  --ink-faint: #918d84;
+  --ink-faint: #5e5b54; /* 4.6:1+ on every ground level (was 2.6–3.1:1) */
   --ground: #faf8f3;
   --ground-raised: #f0ede4;
   --ground-raised-hi: #e8e4d8;
   --ground-line: #c4bdb0;
+  --ground-line-strong: #8b7e67;
   --gold: #a5792a;
   --gold-dim: #c9a24b;
+  /* Light gold is only 2.7–3.7:1 as text, so text uses a deeper shade of it. */
+  --gold-text: #74551e;
+  --on-gold: #0a0c0d;
+  --gold-hover: #c18e31;
+  --focus: #1d5fae;
   --teal: #2a7d69;
   --teal-dim: #3ea08c;
   --slate-accent: #4c5c8a;
@@ -46,65 +65,84 @@
 
 [data-theme="dark"][data-accent="angkor"] {
   --gold: #d4a94e; --gold-dim: #8f7434; /* Angkor sandstone */
+  --gold-hover: #dbb76b;
 }
 [data-theme="light"][data-accent="angkor"] {
   --gold: #96690f; --gold-dim: #c29a3c;
+  --gold-text: #76520c; --on-gold: #ffffff; --gold-hover: #76520c;
 }
 
 [data-theme="dark"][data-accent="tonlesap"] {
   --gold: #46b5cf; --gold-dim: #25727f; /* Tonlé Sap lake blue */
+  --gold-hover: #62c0d6;
 }
 [data-theme="light"][data-accent="tonlesap"] {
   --gold: #17798c; --gold-dim: #46b5cf;
+  --gold-text: #126070; --on-gold: #ffffff; --gold-hover: #125e6d;
 }
 
 [data-theme="dark"][data-accent="mekong"] {
   --gold: #52b788; --gold-dim: #2a6e4f; /* Mekong green */
+  --gold-hover: #6bc199;
 }
 [data-theme="light"][data-accent="mekong"] {
   --gold: #23744f; --gold-dim: #52b788;
+  --gold-text: #1e6243; --on-gold: #ffffff; --gold-hover: #1b593c;
 }
 
 [data-theme="dark"][data-accent="kohrong"] {
   --gold: #2ec4b6; --gold-dim: #17706a; /* Koh Rong aqua */
+  --gold-hover: #43d3c5;
 }
 [data-theme="light"][data-accent="kohrong"] {
   --gold: #0e8577; --gold-dim: #2ec4b6;
+  --gold-text: #0a6258; --on-gold: #ffffff; --gold-hover: #0b655a;
 }
 
 [data-theme="dark"][data-accent="preahvihear"] {
   --gold: #9d8cd8; --gold-dim: #57487f; /* Preah Vihear dusk violet */
+  --gold-hover: #b4a7e1;
 }
 [data-theme="light"][data-accent="preahvihear"] {
   --gold: #5f4fa0; --gold-dim: #9d8cd8;
+  --gold-text: #5a4b97; --on-gold: #ffffff; --gold-hover: #514388;
 }
 
 [data-theme="dark"][data-accent="bokor"] {
   --gold: #93a8bd; --gold-dim: #55677a; /* Bokor mist */
+  --gold-hover: #a9bacb;
 }
 [data-theme="light"][data-accent="bokor"] {
   --gold: #4d6478; --gold-dim: #93a8bd;
+  --gold-text: #455a6c; --on-gold: #ffffff; --gold-hover: #3f5262;
 }
 
 [data-theme="dark"][data-accent="kampot"] {
   --gold: #d99a4e; --gold-dim: #86591f; /* Kampot pepper ochre */
+  --gold-hover: #dfab6b;
 }
 [data-theme="light"][data-accent="kampot"] {
   --gold: #96601a; --gold-dim: #d99a4e;
+  --gold-text: #7c4f15; --on-gold: #ffffff; --gold-hover: #784d15;
 }
 
 [data-theme="dark"][data-accent="battambang"] {
   --gold: #cf7a54; --gold-dim: #82432a; /* Battambang terracotta */
+  --gold-hover: #d79070;
+  --gold-text: #d1805c; /* the fill colour is 4.4:1 as text */
 }
 [data-theme="light"][data-accent="battambang"] {
   --gold: #96492c; --gold-dim: #cf7a54;
+  --gold-text: #8a4329; --on-gold: #ffffff; --gold-hover: #7a3c24;
 }
 
 [data-theme="dark"][data-accent="sihanoukville"] {
   --gold: #58a6e8; --gold-dim: #2c608c; /* Sihanoukville coast */
+  --gold-hover: #77b7ec;
 }
 [data-theme="light"][data-accent="sihanoukville"] {
   --gold: #1f6ea6; --gold-dim: #58a6e8;
+  --gold-text: #1a5b8a; --on-gold: #ffffff; --gold-hover: #195a88;
 }
 
 * {
@@ -112,6 +150,9 @@
 }
 
 html {
+  color-scheme: light;
+}
+html[data-theme="dark"] {
   color-scheme: dark;
 }
 
@@ -216,19 +257,29 @@ body {
   background: var(--ink-faint);
 }
 
+/* Form controls need a 3:1 boundary (WCAG 1.4.11); decorative dividers keep the soft line. Re-pointing
+   the variable on the control itself makes every border-[var(--ground-line)] on it strong, while
+   explicit state borders (error, focus) still win. */
+input,
+textarea,
+select,
+[data-focus-ring="within"] {
+  --ground-line: var(--ground-line-strong);
+}
+
 /* Keyboard focus ring (WCAG 2.4.7 Focus Visible, 1.4.11 Non-text Contrast). One consistent
    accent ring instead of the browser default, and it also restores a ring on controls whose
    utilities removed the outline (Tailwind's outline-none lives in a cascade layer, so this
-   unlayered rule wins). Controls that already draw their own focus ring keep it. --gold is at
-   least 3:1 against the page background in every theme and accent. */
+   unlayered rule wins). Controls that already draw their own focus ring keep it. --focus is 5:1+
+   against every background level in both themes. */
 :where(a[href], button, input, select, textarea, summary, [tabindex]:not([tabindex="-1"]), [contenteditable="true"]):focus-visible:not([class*="focus:ring"], [class*="focus-visible:ring"], [data-focus-ring="within"] *) {
-  outline: 2px solid var(--gold);
+  outline: 2px solid var(--focus);
   outline-offset: 2px;
 }
 /* Borderless fields inside a bordered pill (header search, Universal input, Workspace picker):
    ring the pill, not the field inside it. */
 [data-focus-ring="within"]:focus-within {
-  outline: 2px solid var(--gold);
+  outline: 2px solid var(--focus);
   outline-offset: 2px;
 }
 
@@ -311,7 +362,7 @@ body {
 }
 .tool-card:has(> .tool-card-link:focus-visible),
 a.tool-card:focus-visible {
-  outline: 2px solid var(--gold);
+  outline: 2px solid var(--focus);
   outline-offset: -1px;
 }
 .tool-card-title {
@@ -342,7 +393,7 @@ a.tool-card:focus-visible {
   opacity: 1;
 }
 .tool-card-fav[aria-pressed="true"] {
-  color: var(--gold);
+  color: var(--gold-text);
   opacity: 1;
 }
 .tool-card-fav::before {
@@ -542,7 +593,7 @@ a.tool-card:focus-visible {
   place-items: center;
   border-radius: inherit;
   background: color-mix(in srgb, var(--ground-raised) 88%, transparent);
-  color: var(--gold);
+  color: var(--gold-text);
   font-size: 0.875rem;
   font-weight: 600;
   pointer-events: none;
@@ -667,7 +718,7 @@ a.tool-card:focus-visible {
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.01em;
-  color: var(--gold);
+  color: var(--gold-text);
   background: color-mix(in srgb, var(--gold) 12%, transparent);
   border: 1px solid color-mix(in srgb, var(--gold) 34%, transparent);
   border-radius: 100px;
@@ -691,7 +742,7 @@ a.tool-card:focus-visible {
   color: var(--ink);
 }
 :root:not([data-home="classic"]) .aurora-accent {
-  color: var(--gold);
+  color: var(--gold-text);
 }
 :root:not([data-home="classic"]) .aurora-sub {
   margin: 16px auto 0;

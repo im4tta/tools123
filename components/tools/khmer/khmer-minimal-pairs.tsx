@@ -51,7 +51,7 @@ export default function KhmerMinimalPairs() {
         <>
           <div className="flex items-center justify-between gap-3">
             <span className="flex items-center gap-2 text-xs text-[var(--ink-faint)]">
-              <GitCompare size={13} className="text-[var(--gold)]" />
+              <GitCompare size={13} className="text-[var(--gold-text)]" />
               {t(`${pairs.length} minimal pair${pairs.length === 1 ? "" : "s"} (${base.length} clusters)`, `គូពាក្យប្រហែល ${pairs.length} (${base.length} ក្រុមអក្សរ)`)}
             </span>
             {pairs.length > 0 && <CopyButton text={pairs.map((p) => p.word).join("\n")} compact />}
@@ -61,7 +61,7 @@ export default function KhmerMinimalPairs() {
               {pairs.map((p) => (
                 <span key={p.word} lang="km" title={t(`${p.from} → ${p.to}`, `${p.from} → ${p.to}`)} className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-2.5 py-1 font-khmer text-sm text-[var(--ink)]">
                   {splitClusters(p.word).map((c, i) => (
-                    <span key={i} className={i === p.index ? "text-[var(--gold)] font-semibold" : ""}>{c}</span>
+                    <span key={i} className={i === p.index ? "text-[var(--gold-text)] font-semibold" : ""}>{c}</span>
                   ))}
                 </span>
               ))}

@@ -87,7 +87,7 @@ export default function KhmerKeyboardLayout() {
                 >
                   <span
                     className={`block text-[10px] leading-none ${
-                      shiftOn ? "font-bold text-[var(--ink)]" : "text-[var(--gold)]"
+                      shiftOn ? "font-bold text-[var(--ink)]" : "text-[var(--gold-text)]"
                     } ${matched && matchedLayer === "shift" ? "underline decoration-[var(--gold)] decoration-2" : ""}`}
                   >
                     {key.shift}
@@ -120,7 +120,7 @@ export default function KhmerKeyboardLayout() {
             <p className="mt-2 text-xs leading-relaxed text-[var(--ink-dim)]">
               {t("Found on", "រកឃើញនៅលើ")}:{" "}
               {findMatches.map((m) => (
-                <code key={`${m.key.id}-${m.layer}`} className="mr-1.5 rounded bg-[var(--ground)] px-1.5 py-0.5 font-khmer text-[var(--gold)]">
+                <code key={`${m.key.id}-${m.layer}`} className="mr-1.5 rounded bg-[var(--ground)] px-1.5 py-0.5 font-khmer text-[var(--gold-text)]">
                   {m.char} → {m.layer === "shift" ? "Shift+" : ""}
                   {m.key.id.toUpperCase()}
                 </code>
