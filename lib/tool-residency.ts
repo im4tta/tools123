@@ -475,7 +475,7 @@ export const TOOL_RESIDENCY: Record<string, ToolResidency> = {
   "screen-color-picker": { kind: "local", reasons: [], file: "design/screen-color-picker" },
   "screen-recorder": { kind: "local", reasons: [], file: "video/screen-recorder" },
   "screen-ruler": { kind: "local", reasons: [], file: "design/screen-ruler" },
-  "screenshot-ocr": { kind: "local", reasons: [], file: "images/screenshot-ocr" },
+  "screenshot-ocr": { kind: "external", reasons: ["<a href=url>","external <a> target=_blank"], file: "images/screenshot-ocr" },
   "script-analyzer": { kind: "local", reasons: [], file: "text/script-analyzer" },
   "secret-santa-draw": { kind: "local", reasons: [], file: "fun/secret-santa-draw" },
   "semver-calculator": { kind: "external", reasons: ["<a href=url>","external <a> target=_blank"], file: "dev/semver-calculator" },

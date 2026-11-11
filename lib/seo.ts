@@ -844,8 +844,8 @@ const TOOL_BLURBS: Record<string, ToolBlurb> = {
     km: "ចាប់យក ស្វែងរក បំបែក និងបញ្ចូលប្រវត្តិក្ដារចម្លងទាំងស្រុងក្នុងកម្មវិធីរុករក — ជាមួយការគាំទ្រអក្សរខ្មែរ ការខ្ទាស់ និងការចម្លងឡើងវិញមួយចុច។",
   },
   "screenshot-ocr": {
-    en: "Read Khmer text from an image with a choice of accurate, in-browser OCR engines (KhmerOCR CRNN or Kiri OCR transformer) — region boxes and confidence, no upload.",
-    km: "អានអក្សរខ្មែរពីរូបភាពជាមួយជម្រើសម៉ាស៊ីនអានអក្សរត្រឹមត្រូវក្នុងកម្មវិធីរុករក (KhmerOCR CRNN ឬ Kiri OCR transformer) — ជាមួយប្រអប់តំបន់ និងភាពជឿជាក់ គ្មានការបញ្ចូលឡើយ។",
+    en: "Read Khmer and English text from an image with in-browser OCR engines (Chakkhu by Ing Muyleang, KhmerOCR CRNN or Kiri OCR transformer) — region boxes and per-line confidence, no upload.",
+    km: "អានអក្សរខ្មែរ និងអង់គ្លេសពីរូបភាពជាមួយម៉ាស៊ីនអានអក្សរក្នុងកម្មវិធីរុករក (Chakkhu ដោយ Ing Muyleang, KhmerOCR CRNN ឬ Kiri OCR transformer) — ជាមួយប្រអប់តំបន់ និងភាពជឿជាក់តាមបន្ទាត់ គ្មានការបញ្ចូលឡើយ។",
   },
   "object-counter": {
     en: "Upload an image and count objects on-device — people, animals, vehicles, plants, furniture, food and more — using a YOLOS detection model in your browser.",
@@ -1803,7 +1803,7 @@ const HOWTO_TOOLS: Record<string, string[]> = {
   "khmer-text-diff": ["Paste the original Khmer text", "Paste the changed Khmer text", "Choose grapheme or word granularity", "Read the highlighted differences"],
   "khmer-greeting-cards": ["Pick an occasion and theme", "Edit the Khmer and English message", "Add your name", "Preview and download the card"],
   "clipboard-manager": ["Copy text, or paste from your clipboard", "Browse the captured history", "Pin, search, and clear items", "Click Copy to reuse any entry"],
-  "screenshot-ocr": ["Upload or paste a screenshot", "Pick Khmer or English", "Click Extract text", "Copy the recognized text"],
+  "screenshot-ocr": ["Choose an image of Khmer or English text", "Pick an OCR engine (Chakkhu is the default) and, for Chakkhu, Best or Fast reading", "Click Read text", "Check the per-line confidence and copy the recognized text"],
   "lsb-steganography": ["Upload an image", "Choose Hide or Read mode", "Enter a message and hide it, or read one back", "Download the encoded PNG"],
   "audio-visualizer-player": ["Choose an audio file", "Pick a visualizer mode (bars, wave, radial)", "Adjust the color", "Play to see the live visualization"],
   "video-to-audio": ["Choose a video file", "Click Extract audio", "Review the detected duration", "Download the WAV file"],
