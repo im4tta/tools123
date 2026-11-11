@@ -249,7 +249,7 @@ export default function LoanwordExplorer() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder={t("Search by Khmer script, romanization, or origin…", "ស្វែងរកតាមពាក្យខ្មែរ, អក្សរឡាតាំង, ឬប្រភពដើម…")}
-                className="w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground)] py-2.5 pl-10 pr-10 text-sm text-[var(--ink)] outline-none placeholder:text-[var(--ink-faint)] focus:border-[var(--gold-dim)]"
+                className="w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground)] py-2.5 pl-10 pr-10 text-sm text-[var(--ink)] outline-none placeholder:text-[var(--ink-faint)] focus:border-[var(--focus)]"
               />
               {searchQuery && (
                 <button onClick={() => setSearchQuery("")} className="absolute right-2.5 top-1/2 -translate-y-1/2 rounded p-1 text-[var(--ink-faint)] hover:text-[var(--ink)]">

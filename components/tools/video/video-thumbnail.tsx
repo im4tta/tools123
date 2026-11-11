@@ -50,7 +50,7 @@ export default function VideoThumbnailTool() {
         <input
           type="file"
           accept="video/*"
-          className="hidden"
+          className="sr-only"
           onChange={(e) => {
             const f = e.target.files?.[0];
             if (f) handleFile(f);

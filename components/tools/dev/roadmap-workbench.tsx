@@ -88,7 +88,7 @@ export function RoadmapWorkbench({ mode }: { mode: WorkbenchMode }) {
     <div className="grid gap-5 lg:grid-cols-2">
       <div>
         <div className="mb-2 flex items-center justify-between"><span className="text-xs font-semibold text-[var(--ink-dim)]">{mode === "smart" ? "Universal input" : "Input"}</span><button onClick={() => setInput("")} className="text-xs text-[var(--ink-faint)] hover:text-[var(--ink)]">Clear</button></div>
-        <textarea value={input} onChange={(e) => setInput(e.target.value)} className="h-[26rem] w-full resize-y rounded-xl border border-[var(--ground-line)] bg-[var(--ground)] p-4 font-mono-ui text-sm text-[var(--ink)] outline-none focus:border-[var(--gold-dim)]" placeholder="Paste data here…" />
+        <textarea value={input} onChange={(e) => setInput(e.target.value)} className="h-[26rem] w-full resize-y rounded-xl border border-[var(--ground-line)] bg-[var(--ground)] p-4 font-mono-ui text-sm text-[var(--ink)] outline-none focus:border-[var(--focus)]" placeholder="Paste data here…" />
       </div>
       <div>
         <div className="mb-2 flex items-center justify-between"><span className="text-xs font-semibold text-[var(--ink-dim)]">{mode === "smart" ? "Suggested tools" : "Output"}</span>{output && <button onClick={copy} className="flex items-center gap-1 text-xs text-[var(--gold-text)]">{copied ? <CheckCircle2 size={12} /> : <Copy size={12} />} {copied ? "Copied" : "Copy"}</button>}</div>

@@ -129,7 +129,7 @@ export default function StereoChannelTest() {
             step="0.05"
             value={volume}
             onChange={(e) => setVolume(e.target.value)}
-            className="w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 text-sm text-[var(--ink)] outline-none focus:border-[var(--gold-dim)] focus:ring-1 focus:ring-[var(--gold-dim)]"
+            className="w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 text-sm text-[var(--ink)] outline-none focus:border-[var(--focus)] focus:ring-1 focus:ring-[var(--focus)]"
           />
         </Field>
       </div>

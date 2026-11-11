@@ -134,33 +134,33 @@ export default function YellowCardTracker() {
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
               <div>
                 <label className="text-[11px] font-semibold text-[var(--ink-faint)]">{t("Child Name", "ឈ្មោះកុមារ")}</label>
-                <input value={childName} onChange={(e) => setChildName(e.target.value)} className="w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground)] px-3 py-2 text-sm text-[var(--ink)] outline-none focus:border-[var(--gold-dim)]" />
+                <input value={childName} onChange={(e) => setChildName(e.target.value)} className="w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground)] px-3 py-2 text-sm text-[var(--ink)] outline-none focus:border-[var(--focus)]" />
               </div>
               <div>
                 <label className="text-[11px] font-semibold text-[var(--ink-faint)]">{t("Date of Birth", "ថ្ងៃខែកំណើត")}</label>
-                <input type="date" value={dob} onChange={(e) => setDob(e.target.value)} className="w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground)] px-3 py-2 text-sm text-[var(--ink)] outline-none focus:border-[var(--gold-dim)]" />
+                <input type="date" value={dob} onChange={(e) => setDob(e.target.value)} className="w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground)] px-3 py-2 text-sm text-[var(--ink)] outline-none focus:border-[var(--focus)]" />
               </div>
               <div>
                 <label className="text-[11px] font-semibold text-[var(--ink-faint)]">{t("Father", "ឪពុក")}</label>
-                <input value={fatherName} onChange={(e) => setFatherName(e.target.value)} className="w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground)] px-3 py-2 text-sm text-[var(--ink)] outline-none focus:border-[var(--gold-dim)]" />
+                <input value={fatherName} onChange={(e) => setFatherName(e.target.value)} className="w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground)] px-3 py-2 text-sm text-[var(--ink)] outline-none focus:border-[var(--focus)]" />
               </div>
               <div>
                 <label className="text-[11px] font-semibold text-[var(--ink-faint)]">{t("Mother", "ម្តាយ")}</label>
-                <input value={motherName} onChange={(e) => setMotherName(e.target.value)} className="w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground)] px-3 py-2 text-sm text-[var(--ink)] outline-none focus:border-[var(--gold-dim)]" />
+                <input value={motherName} onChange={(e) => setMotherName(e.target.value)} className="w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground)] px-3 py-2 text-sm text-[var(--ink)] outline-none focus:border-[var(--focus)]" />
               </div>
             </div>
             <div className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
               <div>
                 <label className="text-[11px] font-semibold text-[var(--ink-faint)]">{t("Village", "ភូមិ")}</label>
-                <input value={village} onChange={(e) => setVillage(e.target.value)} className="w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground)] px-3 py-2 text-sm text-[var(--ink)] outline-none focus:border-[var(--gold-dim)]" />
+                <input value={village} onChange={(e) => setVillage(e.target.value)} className="w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground)] px-3 py-2 text-sm text-[var(--ink)] outline-none focus:border-[var(--focus)]" />
               </div>
               <div>
                 <label className="text-[11px] font-semibold text-[var(--ink-faint)]">{t("Commune", "ឃុំ/សង្កាត់")}</label>
-                <input value={commune} onChange={(e) => setCommune(e.target.value)} className="w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground)] px-3 py-2 text-sm text-[var(--ink)] outline-none focus:border-[var(--gold-dim)]" />
+                <input value={commune} onChange={(e) => setCommune(e.target.value)} className="w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground)] px-3 py-2 text-sm text-[var(--ink)] outline-none focus:border-[var(--focus)]" />
               </div>
               <div>
                 <label className="text-[11px] font-semibold text-[var(--ink-faint)]">{t("District", "ស្រុក/ខណ្ឌ")}</label>
-                <input value={district} onChange={(e) => setDistrict(e.target.value)} className="w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground)] px-3 py-2 text-sm text-[var(--ink)] outline-none focus:border-[var(--gold-dim)]" />
+                <input value={district} onChange={(e) => setDistrict(e.target.value)} className="w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground)] px-3 py-2 text-sm text-[var(--ink)] outline-none focus:border-[var(--focus)]" />
               </div>
             </div>
           </div>
@@ -327,9 +327,9 @@ export default function YellowCardTracker() {
               </div>
               <form onSubmit={addGrowth} className="space-y-3">
                 <input type="number" step="0.5" min="0" max="60" placeholder={t("Age (months)", "អាយុ (ខែ)")} value={inMonth} onChange={(e) => setInMonth(e.target.value)}
-                  className="w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground)] px-3 py-2 text-sm text-[var(--ink)] outline-none focus:border-[var(--gold-dim)]" />
+                  className="w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground)] px-3 py-2 text-sm text-[var(--ink)] outline-none focus:border-[var(--focus)]" />
                 <input type="number" step="0.1" min="0.5" max="30" placeholder={t("Weight (kg)", "ទម្ងន់ (kg)")} value={inWeight} onChange={(e) => setInWeight(e.target.value)}
-                  className="w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground)] px-3 py-2 text-sm text-[var(--ink)] outline-none focus:border-[var(--gold-dim)]" />
+                  className="w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground)] px-3 py-2 text-sm text-[var(--ink)] outline-none focus:border-[var(--focus)]" />
                 <button type="submit" className="w-full rounded-md bg-[var(--gold)] px-4 py-2 text-sm font-semibold text-[var(--on-gold)] transition hover:bg-[var(--gold-hover)]">
                   {t("Save", "កត់ត្រា")}
                 </button>

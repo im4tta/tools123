@@ -257,7 +257,7 @@ export default function VideoGreenScreen() {
           <input
             type="file"
             accept="video/*"
-            className="hidden"
+            className="sr-only"
             onChange={(e) => {
               const f = e.target.files?.[0];
               if (f) handleVideoFile(f);
@@ -272,7 +272,7 @@ export default function VideoGreenScreen() {
           <input
             type="file"
             accept="image/*"
-            className="hidden"
+            className="sr-only"
             onChange={(e) => {
               const f = e.target.files?.[0];
               if (f) handleBgFile(f);

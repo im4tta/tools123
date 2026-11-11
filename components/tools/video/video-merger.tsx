@@ -140,7 +140,7 @@ export default function VideoMergerTool() {
     >
       <label className="flex cursor-pointer flex-col items-center justify-center gap-2 rounded-md border border-dashed border-[var(--ground-line)] bg-[var(--ground-raised)] px-4 py-8 text-center text-sm text-[var(--ink-dim)] transition hover:border-[var(--gold-dim)]">
         <span>{t("Choose video files (Ctrl/⌘+click for multiple)", "ជ្រើសរើសឯកសារវីដេអូ (ចុច Ctrl/⌘ + ចុចសម្រាប់ច្រើន)")}</span>
-        <input type="file" accept="video/*" multiple className="hidden" onChange={(e) => addFiles(e.target.files)} />
+        <input type="file" accept="video/*" multiple className="sr-only" onChange={(e) => addFiles(e.target.files)} />
       </label>
 
       {files.length > 0 && (

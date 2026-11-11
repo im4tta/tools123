@@ -267,6 +267,34 @@ select,
   --ground-line: var(--ground-line-strong);
 }
 
+/* Field, Output and pill-group labels: sentence case with no letter-spacing (Khmer has no case, and
+   tracking hurts its legibility); Khmer and bilingual labels get a taller line. */
+.ui-label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.5;
+}
+:root:not([data-language="en"]) .ui-label {
+  line-height: 1.75;
+}
+
+/* File pickers keep their <input> focusable but visually hidden, so the ring goes on the zone. */
+.ui-dropzone:has(input:focus-visible),
+label:has(input[type="file"].sr-only:focus-visible) {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.ui-toast {
+  animation: ui-toast-in 180ms ease-out;
+}
+@keyframes ui-toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
 /* Keyboard focus ring (WCAG 2.4.7 Focus Visible, 1.4.11 Non-text Contrast). One consistent
    accent ring instead of the browser default, and it also restores a ring on controls whose
    utilities removed the outline (Tailwind's outline-none lives in a cascade layer, so this

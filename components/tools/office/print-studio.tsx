@@ -280,7 +280,7 @@ export default function PrintStudio() {
     } finally { setBusy(""); }
   }, [items, settings, buildSheets]);
 
-  const inputCls = "w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 text-sm text-[var(--ink)] outline-none focus:border-[var(--gold-dim)]";
+  const inputCls = "w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 text-sm text-[var(--ink)] outline-none focus:border-[var(--focus)]";
 
   return (
     <ToolShell
@@ -304,7 +304,7 @@ export default function PrintStudio() {
               <Upload size={20} className="text-[var(--ink-faint)]" />
               <span className="font-medium text-[var(--ink)]">{t("Drop images or click", "ទម្លាក់រូប ឬចុច")}</span>
               <span className="text-[11px] text-[var(--ink-faint)]">{t("PNG, JPG, SVG · multiple", "PNG, JPG, SVG · ច្រើន")}</span>
-              <input type="file" accept="image/*" multiple className="hidden" onChange={(e) => { handleFiles(e.target.files); e.target.value = ""; }} />
+              <input type="file" accept="image/*" multiple className="sr-only" onChange={(e) => { handleFiles(e.target.files); e.target.value = ""; }} />
             </label>
             {items.length > 0 && (
               <>

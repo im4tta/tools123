@@ -79,7 +79,7 @@ export default function KhmerKeyboardLayout() {
                   type="button"
                   onClick={() => insert(key)}
                   title={`${key.id} → ${key.base}${key.shift ? ` / ${key.shift}` : ""}`}
-                  className={`min-w-0 flex-1 rounded-md border px-0.5 pb-1 pt-1.5 text-center transition hover:border-[var(--gold-dim)] hover:bg-[var(--gold-dim)]/10 focus:outline-none focus-visible:ring-1 focus-visible:ring-[var(--gold-dim)] ${
+                  className={`min-w-0 flex-1 rounded-md border px-0.5 pb-1 pt-1.5 text-center transition hover:border-[var(--gold-dim)] hover:bg-[var(--gold-dim)]/10 focus:outline-none focus-visible:ring-1 focus-visible:ring-[var(--focus)] ${
                     matched
                       ? "border-[var(--gold)] bg-[var(--gold-dim)]/15 ring-1 ring-[var(--gold)]"
                       : "border-[var(--ground-line)] bg-[var(--ground-raised)]"

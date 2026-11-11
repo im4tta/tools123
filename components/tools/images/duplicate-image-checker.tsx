@@ -150,7 +150,7 @@ export default function DuplicateImageChecker() {
       <div className="flex flex-wrap items-center gap-3">
         <label className="cursor-pointer rounded-md border border-[var(--gold-dim)] bg-[var(--gold)]/10 px-4 py-2 text-sm font-medium text-[var(--gold-text)] transition hover:bg-[var(--gold)]/20">
           {t("Choose images", "ជ្រើសរូបភាព")}
-          <input type="file" accept="image/*" multiple className="hidden" onChange={(e) => { addFiles(e.target.files); e.target.value = ""; }} />
+          <input type="file" accept="image/*" multiple className="sr-only" onChange={(e) => { addFiles(e.target.files); e.target.value = ""; }} />
         </label>
         {items.length > 0 && (
           <Button onClick={() => { setItems([]); setLoadError(""); }}>{t("Clear all", "សម្អាតទាំងអស់")}</Button>

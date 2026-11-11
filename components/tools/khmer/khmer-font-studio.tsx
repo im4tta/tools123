@@ -796,7 +796,7 @@ export default function KhmerFontStudio() {
           onDragOver={e => { e.preventDefault(); setDragging(true); }}
           onDragLeave={() => setDragging(false)}
           onDrop={e => { e.preventDefault(); setDragging(false); if (e.dataTransfer.files.length) addFiles(e.dataTransfer.files); }}
-          className={`w-full rounded-lg border-2 border-dashed py-8 text-center transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)] ${dragging ? "border-[var(--gold)] bg-[var(--gold)]/5" : "border-[var(--ground-line)] hover:border-[var(--gold-dim)]"}`}
+          className={`w-full rounded-lg border-2 border-dashed py-8 text-center transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)] ${dragging ? "border-[var(--gold)] bg-[var(--gold)]/5" : "border-[var(--ground-line)] hover:border-[var(--gold-dim)]"}`}
           aria-label={t("Drop .docx files here or click to choose", "ទម្លាក់ .docx នៅទីនេះ ឬចុចដើម្បីជ្រើស")}
         >
           <FileText className="mx-auto mb-2 text-[var(--ink-faint)]" size={22} />

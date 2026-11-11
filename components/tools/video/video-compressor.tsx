@@ -134,7 +134,7 @@ export default function VideoCompressorTool() {
           <Upload size={15} />
           {file ? file.name : t("Click to choose a video", "ចុចដើម្បីជ្រើសរើសវីដេអូ")}
         </span>
-        <input type="file" accept="video/*" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) handleFile(f); }} />
+        <input type="file" accept="video/*" className="sr-only" onChange={(e) => { const f = e.target.files?.[0]; if (f) handleFile(f); }} />
       </label>
 
       {url && (

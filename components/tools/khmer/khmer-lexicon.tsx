@@ -51,7 +51,7 @@ export default function KhmerLexicon() {
           value={query}
           onChange={(e) => { setQuery(e.target.value); setDetail(null); }}
           placeholder={t("ស្វែងរកពាក្យខ្មែរ…", "Search Khmer word…")}
-          className="w-full rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)] py-3 pl-10 pr-10 text-sm text-[var(--ink)] outline-none placeholder:text-[var(--ink-faint)] focus:border-[var(--gold-dim)]"
+          className="w-full rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)] py-3 pl-10 pr-10 text-sm text-[var(--ink)] outline-none placeholder:text-[var(--ink-faint)] focus:border-[var(--focus)]"
         />
         {query && (
           <button onClick={() => { setQuery(""); setDetail(null); }} className="absolute right-3 top-1/2 -translate-y-1/2 rounded-md p-1 text-[var(--ink-faint)] hover:text-[var(--ink)]"><X size={15} /></button>

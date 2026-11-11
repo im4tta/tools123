@@ -165,7 +165,7 @@ export default function KhmerTypingTest() {
           autoComplete="off"
           autoCorrect="off"
           lang="km"
-          className="h-28 w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3 font-khmer text-xl leading-relaxed text-[var(--ink)] outline-none focus:border-[var(--gold-dim)]"
+          className="h-28 w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3 font-khmer text-xl leading-relaxed text-[var(--ink)] outline-none focus:border-[var(--focus)]"
         />
       ) : (
         <div className="rounded-md border border-[var(--gold)]/40 bg-[var(--gold)]/10 p-6 text-center">

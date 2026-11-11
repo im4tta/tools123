@@ -115,7 +115,7 @@ export default function KhmerMathDrill() {
               onKeyDown={(e) => { if (e.key === "Enter") submit(); }}
               inputMode="numeric"
               aria-label={t("Your answer", "ចម្លើយរបស់អ្នក")}
-              className="mt-2 h-14 w-40 rounded-md border border-[var(--ground-line)] bg-[var(--ground)] text-center font-khmer text-3xl text-[var(--gold-text)] outline-none focus:border-[var(--gold-dim)]"
+              className="mt-2 h-14 w-40 rounded-md border border-[var(--ground-line)] bg-[var(--ground)] text-center font-khmer text-3xl text-[var(--gold-text)] outline-none focus:border-[var(--focus)]"
             />
             {flash === "bad" && results.length > 0 && (
               <p className="mt-1 text-sm text-[var(--danger)]" role="status">{t(`Answer was ${problems[index - 1].answer}`, `ចម្លើយគឺ ${kh(problems[index - 1].answer)}`)}</p>

@@ -290,7 +290,7 @@ export default function AudioVisualizerPlayer() {
       <label className="flex cursor-pointer flex-col items-center justify-center gap-2 rounded-md border border-dashed border-[var(--ground-line)] bg-[var(--ground-raised)] px-4 py-7 text-center text-sm text-[var(--ink-dim)] transition hover:border-[var(--gold-dim)]">
         <Music size={16} className="text-[var(--ink-faint)]" />
         <span>{file ? file.name : t("Click to choose an audio file", "ចុចដើម្បីជ្រើសរើសឯកសារសំឡេង")}</span>
-        <input type="file" accept="audio/*" className="hidden" onChange={(e) => onFile(e.target.files?.[0] ?? null)} />
+        <input type="file" accept="audio/*" className="sr-only" onChange={(e) => onFile(e.target.files?.[0] ?? null)} />
       </label>
 
       <div className="rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4">

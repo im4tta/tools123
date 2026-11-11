@@ -8,7 +8,7 @@ import type { ReactNode } from "react";
 export function PillGroup({ label, children }: { label: string; children: ReactNode }) {
   return (
     <div>
-      <span className="mb-1.5 block text-xs font-medium uppercase tracking-wide text-[var(--ink-dim)]">{label}</span>
+      <span className="ui-label mb-1.5 block text-[var(--ink-dim)]">{label}</span>
       <div className="flex flex-wrap gap-2">{children}</div>
     </div>
   );

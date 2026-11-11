@@ -74,7 +74,7 @@ export default function SubtitlePlayer() {
     >
       <label className="flex cursor-pointer flex-col items-center justify-center gap-2 rounded-md border border-dashed border-[var(--ground-line)] bg-[var(--ground-raised)] px-4 py-7 text-center text-sm text-[var(--ink-dim)] transition hover:border-[var(--gold-dim)]">
         <span>{video ? video.name : t("Choose a video file", "ជ្រើសរើសឯកសារវីដេអូ")}</span>
-        <input type="file" accept="video/*" className="hidden" onChange={(e) => onVideo(e.target.files?.[0] ?? null)} />
+        <input type="file" accept="video/*" className="sr-only" onChange={(e) => onVideo(e.target.files?.[0] ?? null)} />
       </label>
 
       {videoUrl && video && (
@@ -127,7 +127,7 @@ export default function SubtitlePlayer() {
       {customFile ? (
         <label className="flex cursor-pointer items-center justify-center gap-2 rounded-md border border-dashed border-[var(--ground-line)] bg-[var(--ground-raised)] px-4 py-6 text-center text-sm text-[var(--ink-dim)] transition hover:border-[var(--gold-dim)]">
           <Upload size={15} /> {t("Choose a .srt file", "ជ្រើសរើសឯកសារ .srt")}
-          <input type="file" accept=".srt,text/plain" className="hidden" onChange={(e) => loadSrtFile(e.target.files?.[0] ?? null)} />
+          <input type="file" accept=".srt,text/plain" className="sr-only" onChange={(e) => loadSrtFile(e.target.files?.[0] ?? null)} />
         </label>
       ) : (
         <Field label={t("SRT content", "ខ្លឹមសារ SRT")}>

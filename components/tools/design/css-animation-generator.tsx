@@ -88,23 +88,23 @@ export default function CssAnimationGenerator() {
       </Row>
       <Row>
         <Field label={t("From value", "តម្លៃចាប់ផ្តើម")}>
-          <input type="number" step={prop.step} value={from} onChange={(e) => setFrom(e.target.value)} className="w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 text-sm text-[var(--ink)] outline-none focus:border-[var(--gold-dim)] focus:ring-1 focus:ring-[var(--gold-dim)]" />
+          <input type="number" step={prop.step} value={from} onChange={(e) => setFrom(e.target.value)} className="w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 text-sm text-[var(--ink)] outline-none focus:border-[var(--focus)] focus:ring-1 focus:ring-[var(--focus)]" />
         </Field>
         <Field label={t("To value", "តម្លៃបញ្ចប់")}>
-          <input type="number" step={prop.step} value={to} onChange={(e) => setTo(e.target.value)} className="w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 text-sm text-[var(--ink)] outline-none focus:border-[var(--gold-dim)] focus:ring-1 focus:ring-[var(--gold-dim)]" />
+          <input type="number" step={prop.step} value={to} onChange={(e) => setTo(e.target.value)} className="w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 text-sm text-[var(--ink)] outline-none focus:border-[var(--focus)] focus:ring-1 focus:ring-[var(--focus)]" />
         </Field>
       </Row>
       <Row>
         <Field label={t("Duration (ms)", "រយៈពេល (ms)")}>
-          <input type="number" min="0" step="50" value={duration} onChange={(e) => setDuration(e.target.value)} className="w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 text-sm text-[var(--ink)] outline-none focus:border-[var(--gold-dim)] focus:ring-1 focus:ring-[var(--gold-dim)]" />
+          <input type="number" min="0" step="50" value={duration} onChange={(e) => setDuration(e.target.value)} className="w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 text-sm text-[var(--ink)] outline-none focus:border-[var(--focus)] focus:ring-1 focus:ring-[var(--focus)]" />
         </Field>
         <Field label={t("Delay (ms)", "ពន្យារ (ms)")}>
-          <input type="number" min="0" step="50" value={delay} onChange={(e) => setDelay(e.target.value)} className="w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 text-sm text-[var(--ink)] outline-none focus:border-[var(--gold-dim)] focus:ring-1 focus:ring-[var(--gold-dim)]" />
+          <input type="number" min="0" step="50" value={delay} onChange={(e) => setDelay(e.target.value)} className="w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 text-sm text-[var(--ink)] outline-none focus:border-[var(--focus)] focus:ring-1 focus:ring-[var(--focus)]" />
         </Field>
       </Row>
       {easingId === "custom" && (
         <Field label={t("Cubic-bezier (x1, y1, x2, y2)", "Cubic-bezier (x១, y១, x២, y២)")} hintKm={t("x in 0…1", "x ក្នុង ០…១")}>
-          <input value={bezier} onChange={(e) => { setBezier(e.target.value); setKey((k) => k + 1); }} className="w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 font-mono-ui text-sm text-[var(--ink)] outline-none focus:border-[var(--gold-dim)] focus:ring-1 focus:ring-[var(--gold-dim)]" />
+          <input value={bezier} onChange={(e) => { setBezier(e.target.value); setKey((k) => k + 1); }} className="w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 font-mono-ui text-sm text-[var(--ink)] outline-none focus:border-[var(--focus)] focus:ring-1 focus:ring-[var(--focus)]" />
         </Field>
       )}
       <Row>

@@ -456,7 +456,7 @@ export default function NidCardPrintFormatter() {
                   value={watermark}
                   onChange={(e) => setWatermark(e.target.value)}
                   placeholder={text("e.g. For Bank Use Only", "ឧ. សម្រាប់តែប្រើប្រាស់ក្នុងធនាគារ")}
-                  className="w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 text-sm text-[var(--ink)] outline-none placeholder:text-[var(--ink-faint)] focus:border-[var(--gold-dim)]"
+                  className="w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 text-sm text-[var(--ink)] outline-none placeholder:text-[var(--ink-faint)] focus:border-[var(--focus)]"
                 />
               </div>
               <div className="flex items-center justify-between">
@@ -697,7 +697,7 @@ function CropperSection({
           <input
             type="file"
             accept="image/*"
-            className="hidden"
+            className="sr-only"
             onChange={(e) => {
               const file = e.target.files?.[0];
               if (file) readImageFromFile(file, setSide, side);

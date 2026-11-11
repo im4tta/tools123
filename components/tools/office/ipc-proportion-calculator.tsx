@@ -116,7 +116,7 @@ export default function IpcProportionCalculator() {
         <div className="flex items-center gap-2">
           <span className="text-xl font-bold text-[var(--ink)]">{currency}</span>
           <input type="number" step="any" value={total} onChange={(e) => handleTotal(e.target.value)}
-            className="flex-1 rounded-lg border border-[var(--ground-line)] bg-[var(--ground)] px-4 py-3 font-mono-ui text-xl font-bold text-[var(--ink)] outline-none focus:border-[var(--gold-dim)]" />
+            className="flex-1 rounded-lg border border-[var(--ground-line)] bg-[var(--ground)] px-4 py-3 font-mono-ui text-xl font-bold text-[var(--ink)] outline-none focus:border-[var(--focus)]" />
         </div>
       </div>
 
@@ -153,12 +153,12 @@ export default function IpcProportionCalculator() {
             {rows.map((r, i) => (
               <tr key={r.id} className="group hover:bg-[var(--ground)]/50 transition">
                 <td className="px-3 py-2.5 text-center"><span className="inline-block h-3 w-3 rounded-full" style={{ background: PALETTE[i % PALETTE.length] }} /></td>
-                <td className="px-3 py-2.5"><input value={displayLabel(r)} onChange={(e) => handleLabel(i, e.target.value)} className="w-full min-w-[120px] bg-transparent text-sm font-semibold text-[var(--ink)] outline-none hover:border-b hover:border-[var(--ground-line)] focus:border-b focus:border-[var(--gold-dim)]" /></td>
+                <td className="px-3 py-2.5"><input value={displayLabel(r)} onChange={(e) => handleLabel(i, e.target.value)} className="w-full min-w-[120px] bg-transparent text-sm font-semibold text-[var(--ink)] outline-none hover:border-b hover:border-[var(--ground-line)] focus:border-b focus:border-[var(--focus)]" /></td>
                 <td className="px-3 py-2.5 text-center">
                   <div className="relative inline-block">
                     <input type="number" step="any" value={r.percent === 0 ? "0" : r.percent} disabled={mode === "amount"}
                       onChange={(e) => handlePercent(i, e.target.value)}
-                      className={`w-24 rounded-md border px-2 py-1.5 text-center font-mono-ui text-xs font-bold outline-none ${mode === "amount" ? "bg-[var(--ground)] text-[var(--ink-faint)]" : "border-[var(--ground-line)] bg-[var(--ground)] text-[var(--ink)] focus:border-[var(--gold-dim)]"}`} />
+                      className={`w-24 rounded-md border px-2 py-1.5 text-center font-mono-ui text-xs font-bold outline-none ${mode === "amount" ? "bg-[var(--ground)] text-[var(--ink-faint)]" : "border-[var(--ground-line)] bg-[var(--ground)] text-[var(--ink)] focus:border-[var(--focus)]"}`} />
                     <span className="pointer-events-none absolute right-2.5 top-1.5 text-[10px] text-[var(--ink-faint)]">%</span>
                   </div>
                 </td>

@@ -83,7 +83,7 @@ export default function KhmerTimeInWords() {
               <select
                 value={h12}
                 onChange={(e) => setManualValue(`${pad2(to24(Number(e.target.value), isPm))}:${pad2(time.m)}`)}
-                className="w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 text-sm text-[var(--ink)] outline-none focus:border-[var(--gold-dim)] focus:ring-1 focus:ring-[var(--gold-dim)]"
+                className="w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 text-sm text-[var(--ink)] outline-none focus:border-[var(--focus)] focus:ring-1 focus:ring-[var(--focus)]"
               >
                 {Array.from({ length: 12 }, (_, i) => i + 1).map((h) => (
                   <option key={h} value={h}>{h}</option>
@@ -92,7 +92,7 @@ export default function KhmerTimeInWords() {
               <select
                 value={time.m}
                 onChange={(e) => setManualValue(`${pad2(time.h24)}:${pad2(Number(e.target.value))}`)}
-                className="w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 text-sm text-[var(--ink)] outline-none focus:border-[var(--gold-dim)] focus:ring-1 focus:ring-[var(--gold-dim)]"
+                className="w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 text-sm text-[var(--ink)] outline-none focus:border-[var(--focus)] focus:ring-1 focus:ring-[var(--focus)]"
               >
                 {Array.from({ length: 60 }, (_, i) => i).map((mm) => (
                   <option key={mm} value={mm}>{mm}</option>

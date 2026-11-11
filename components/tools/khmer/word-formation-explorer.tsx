@@ -109,7 +109,7 @@ export default function WordFormationExplorer() {
                 value={indexFilter}
                 onChange={(e) => setIndexFilter(e.target.value)}
                 placeholder={t("Filter all words…", "ត្រងបញ្ជីពាក្យ…")}
-                className="w-full rounded-lg border border-[var(--ground-line)] bg-[var(--ground)] py-2 pl-9 pr-3 font-khmer text-sm text-[var(--ink)] outline-none placeholder:text-[var(--ink-faint)] focus:border-[var(--gold-dim)]"
+                className="w-full rounded-lg border border-[var(--ground-line)] bg-[var(--ground)] py-2 pl-9 pr-3 font-khmer text-sm text-[var(--ink)] outline-none placeholder:text-[var(--ink-faint)] focus:border-[var(--focus)]"
               />
             </div>
           </div>
@@ -153,7 +153,7 @@ export default function WordFormationExplorer() {
                 onChange={(e) => setQuery(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && run()}
                 placeholder={t("Type a Khmer word here (e.g. កំណើត, សន្តិភាព, ប្រវត្តិសាស្ត្រ)…", "បញ្ចូលពាក្យទីនេះ (ឧ. កំណើត, សន្តិភាព, ប្រវត្តិសាស្ត្រ)…")}
-                className="w-full rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)] py-3 pl-10 pr-4 font-khmer text-base text-[var(--ink)] outline-none placeholder:text-[var(--ink-faint)] focus:border-[var(--gold-dim)]"
+                className="w-full rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)] py-3 pl-10 pr-4 font-khmer text-base text-[var(--ink)] outline-none placeholder:text-[var(--ink-faint)] focus:border-[var(--focus)]"
               />
             </div>
             <button

@@ -100,7 +100,7 @@ export default function MagicByteChecker() {
       <label className="flex cursor-pointer flex-col items-center justify-center gap-2 rounded-md border border-dashed border-[var(--ground-line)] bg-[var(--ground-raised)] px-4 py-8 text-center text-sm text-[var(--ink-dim)] transition hover:border-[var(--gold-dim)]">
         <Upload size={16} className="text-[var(--ink-faint)]" />
         <span>{file ? file.name : t("Click to choose a file", "ចុចដើម្បីជ្រើសរើសឯកសារ")}</span>
-        <input type="file" className="hidden" onChange={(e) => onFile(e.target.files?.[0] ?? null)} />
+        <input type="file" className="sr-only" onChange={(e) => onFile(e.target.files?.[0] ?? null)} />
       </label>
 
       <Field label={t("Or paste hex bytes", "ឬបិទភ្ជាប់ hex")}>

@@ -516,7 +516,7 @@ export default function SocialPostGeneratorTool() {
                   />
                   <label className="flex cursor-pointer items-center gap-2 rounded-md border border-dashed border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 text-xs text-[var(--ink-dim)] hover:border-[var(--gold-dim)]">
                     {text("Upload", "បញ្ចូល")}
-                    <input type="file" accept="image/*" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) readFileAsDataUrl(f, "avatar"); }} />
+                    <input type="file" accept="image/*" className="sr-only" onChange={(e) => { const f = e.target.files?.[0]; if (f) readFileAsDataUrl(f, "avatar"); }} />
                   </label>
                 </div>
               </div>
@@ -537,7 +537,7 @@ export default function SocialPostGeneratorTool() {
                   />
                   <label className="flex cursor-pointer items-center gap-2 rounded-md border border-dashed border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 text-xs text-[var(--ink-dim)] hover:border-[var(--gold-dim)]">
                     {text("Upload post image", "ផ្ទុករូបភាពប៉ុស្តិ៍")}
-                    <input type="file" accept="image/*" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) readFileAsDataUrl(f, "postImage"); }} />
+                    <input type="file" accept="image/*" className="sr-only" onChange={(e) => { const f = e.target.files?.[0]; if (f) readFileAsDataUrl(f, "postImage"); }} />
                   </label>
                 </div>
               </div>

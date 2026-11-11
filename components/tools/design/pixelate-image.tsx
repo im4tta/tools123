@@ -108,7 +108,7 @@ export default function PixelateImage() {
           <input
             type="file"
             accept="image/*"
-            className="hidden"
+            className="sr-only"
             onChange={(e) => {
               const f = e.target.files?.[0];
               if (f) pick(f);

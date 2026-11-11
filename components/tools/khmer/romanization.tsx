@@ -171,7 +171,7 @@ export default function Romanization() {
           <div className="grid gap-5 lg:grid-cols-2">
             <Field label={t("Khmer input", "អត្ថបទខ្មែរ")} hint={`${input.length} ${t("characters", "តួអក្សរ")}`}>
               <div className="relative">
-                <textarea ref={inputRef} value={input} onChange={(e) => setInput(e.target.value)} rows={5} className="w-full resize-none rounded-md border border-[var(--ground-line)] bg-[var(--ground)] p-3 font-khmer text-lg text-[var(--ink)] outline-none transition focus:border-[var(--gold-dim)] placeholder:text-[var(--ink-faint)]" placeholder="បញ្ចូលអត្ថបទខ្មែរ..." />
+                <textarea ref={inputRef} value={input} onChange={(e) => setInput(e.target.value)} rows={5} className="w-full resize-none rounded-md border border-[var(--ground-line)] bg-[var(--ground)] p-3 font-khmer text-lg text-[var(--ink)] outline-none transition focus:border-[var(--focus)] placeholder:text-[var(--ink-faint)]" placeholder="បញ្ចូលអត្ថបទខ្មែរ..." />
                 <div className="absolute right-2 top-2 flex gap-1">
                   <button onClick={speak} className="rounded p-1 text-[var(--ink-faint)] transition hover:text-[var(--gold-text)]" title={t("Speak", "បញ្ចេញសំឡេង")}><Volume2 size={14} /></button>
                   <button onClick={() => setInput("")} className="rounded p-1 text-[var(--ink-faint)] transition hover:text-[var(--danger)]" title={t("Clear", "សម្អាត")}><Trash2 size={14} /></button>
@@ -383,7 +383,7 @@ export default function Romanization() {
 
       {tab === "inspector" && (
         <div className="mx-auto max-w-lg space-y-4">
-          <input value={inspectChar} onChange={(e) => setInspectChar(e.target.value || "ក")} maxLength={2} className="w-full text-center font-khmer text-5xl rounded-md border border-[var(--ground-line)] bg-[var(--ground)] p-4 text-[var(--ink)] outline-none focus:border-[var(--gold-dim)]" />
+          <input value={inspectChar} onChange={(e) => setInspectChar(e.target.value || "ក")} maxLength={2} className="w-full text-center font-khmer text-5xl rounded-md border border-[var(--ground-line)] bg-[var(--ground)] p-4 text-[var(--ink)] outline-none focus:border-[var(--focus)]" />
           <div className="space-y-2 rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4 text-xs">
             {activeChar ? (
               <>

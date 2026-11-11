@@ -358,8 +358,8 @@ export default function KhmerSentenceBuilder() {
           <div className="rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)] p-5">
             <div className="mb-3 flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[var(--gold-text)]"><Flag size={14} /> {t("Player Info", "ព័ត៌មានអ្នកលេង")}</div>
             <div className="grid grid-cols-3 gap-3">
-              <input value={playerName} onChange={(e) => setPlayerName(e.target.value)} className="col-span-2 rounded-md border border-[var(--ground-line)] bg-[var(--ground)] px-3 py-2 text-sm text-[var(--ink)] outline-none focus:border-[var(--gold-dim)]" placeholder={t("Nickname", "ឈ្មោះ")} />
-              <input type="number" value={playerAge} onChange={(e) => setPlayerAge(e.target.value)} min={4} max={99} className="rounded-md border border-[var(--ground-line)] bg-[var(--ground)] px-3 py-2 text-center text-sm text-[var(--ink)] outline-none focus:border-[var(--gold-dim)]" placeholder={t("Age", "អាយុ")} />
+              <input value={playerName} onChange={(e) => setPlayerName(e.target.value)} className="col-span-2 rounded-md border border-[var(--ground-line)] bg-[var(--ground)] px-3 py-2 text-sm text-[var(--ink)] outline-none focus:border-[var(--focus)]" placeholder={t("Nickname", "ឈ្មោះ")} />
+              <input type="number" value={playerAge} onChange={(e) => setPlayerAge(e.target.value)} min={4} max={99} className="rounded-md border border-[var(--ground-line)] bg-[var(--ground)] px-3 py-2 text-center text-sm text-[var(--ink)] outline-none focus:border-[var(--focus)]" placeholder={t("Age", "អាយុ")} />
             </div>
           </div>
 

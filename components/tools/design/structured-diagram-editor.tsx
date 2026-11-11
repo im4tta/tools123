@@ -22,7 +22,7 @@ const INITIAL_NODES: NodeModel[] = [
 ];
 
 const buttonClass = "rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 text-sm text-[var(--ink)] hover:border-[var(--gold-dim)] disabled:cursor-not-allowed disabled:opacity-45";
-const inputClass = "w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 text-sm text-[var(--ink)] outline-none focus:border-[var(--gold-dim)]";
+const inputClass = "w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 text-sm text-[var(--ink)] outline-none focus:border-[var(--focus)]";
 
 function clamp(value: number, min: number, max: number) {
   return Math.min(max, Math.max(min, value));

@@ -108,7 +108,7 @@ export default function TypingTest() {
             setInput(v);
             if (v.length >= sample.length) finish(v);
           }}
-          className="h-24 w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3 text-lg text-[var(--ink)] outline-none focus:border-[var(--gold-dim)]"
+          className="h-24 w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3 text-lg text-[var(--ink)] outline-none focus:border-[var(--focus)]"
         />
       ) : (
         <div className="rounded-md border border-[var(--gold)]/40 bg-[var(--gold)]/10 p-6 text-center">

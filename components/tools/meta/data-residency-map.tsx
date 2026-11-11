@@ -163,7 +163,7 @@ export default function DataResidencyMap() {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder={t("Search a tool…", "ស្វែងរកឧបករណ៍…")}
-          className="w-full rounded-lg border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 text-sm text-[var(--ink)] outline-none placeholder:text-[var(--ink-faint)] focus:border-[var(--gold-dim)] sm:max-w-xs"
+          className="w-full rounded-lg border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 text-sm text-[var(--ink)] outline-none placeholder:text-[var(--ink-faint)] focus:border-[var(--focus)] sm:max-w-xs"
         />
       </div>
 

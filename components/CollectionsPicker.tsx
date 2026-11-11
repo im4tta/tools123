@@ -150,7 +150,7 @@ export function CollectionsPicker({
                     if (e.key === "Enter") createCollection();
                   }}
                   placeholder={t("Collection name…", "ឈ្មោះបណ្តុំ…")}
-                  className="h-8 min-w-0 flex-1 rounded border border-[var(--ground-line)] bg-[var(--ground)] px-2 text-xs text-[var(--ink)] outline-none placeholder:text-[var(--ink-faint)] focus:border-[var(--gold-dim)]"
+                  className="h-8 min-w-0 flex-1 rounded border border-[var(--ground-line)] bg-[var(--ground)] px-2 text-xs text-[var(--ink)] outline-none placeholder:text-[var(--ink-faint)] focus:border-[var(--focus)]"
                 />
                 <button
                   type="button"

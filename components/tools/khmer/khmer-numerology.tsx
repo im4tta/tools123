@@ -239,7 +239,7 @@ export default function KhmerNumerology() {
             <button type="button" onClick={() => setResultPage(Math.max(0, safeResultPage - 1))} disabled={safeResultPage === 0} aria-label={t("Previous page", "ទំព័រមុន")} title={t("Previous page", "ទំព័រមុន")} className="h-9 rounded border border-[var(--ground-line)] px-2 text-xs text-[var(--ink)] transition hover:bg-[var(--ground)] disabled:cursor-not-allowed disabled:opacity-40">
               <span aria-hidden="true">‹</span><span className="ml-1 hidden sm:inline">{t("Previous", "មុន")}</span>
             </button>
-            <select value={safeResultPage} onChange={(event) => setResultPage(Number(event.target.value))} aria-label={t("Jump to results page", "លោតទៅទំព័រលទ្ធផល")} title={t("Jump to results page", "លោតទៅទំព័រលទ្ធផល")} className="h-9 min-w-0 rounded border border-[var(--ground-line)] bg-[var(--ground)] px-1 text-xs text-[var(--ink)] outline-none focus:border-[var(--gold-dim)]">
+            <select value={safeResultPage} onChange={(event) => setResultPage(Number(event.target.value))} aria-label={t("Jump to results page", "លោតទៅទំព័រលទ្ធផល")} title={t("Jump to results page", "លោតទៅទំព័រលទ្ធផល")} className="h-9 min-w-0 rounded border border-[var(--ground-line)] bg-[var(--ground)] px-1 text-xs text-[var(--ink)] outline-none focus:border-[var(--focus)]">
               {Array.from({ length: pageCount }, (_, pageIndex) => {
                 const optionStart = pageIndex * pageSize + 1;
                 const optionEnd = Math.min((pageIndex + 1) * pageSize, matchingNumbers.length);

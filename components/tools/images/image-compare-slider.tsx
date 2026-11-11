@@ -61,11 +61,11 @@ export default function ImageCompareSlider() {
       <div className="flex flex-wrap items-center gap-3">
         <label className={uploadButton}>
           {t("Before image", "រូបមុន")}
-          <input type="file" accept="image/*" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) readImage(f, setBefore); }} />
+          <input type="file" accept="image/*" className="sr-only" onChange={(e) => { const f = e.target.files?.[0]; if (f) readImage(f, setBefore); }} />
         </label>
         <label className={uploadButton}>
           {t("After image", "រូបក្រោយ")}
-          <input type="file" accept="image/*" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) readImage(f, setAfter); }} />
+          <input type="file" accept="image/*" className="sr-only" onChange={(e) => { const f = e.target.files?.[0]; if (f) readImage(f, setAfter); }} />
         </label>
         <Button onClick={() => setSwapped((v) => !v)} disabled={!before && !after}>{t("Swap sides", "ប្ដូរទីតាំង")}</Button>
       </div>

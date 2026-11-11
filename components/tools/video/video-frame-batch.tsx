@@ -96,7 +96,7 @@ export default function VideoFrameBatch() {
     >
       <label className="flex cursor-pointer flex-col items-center justify-center gap-2 rounded-md border border-dashed border-[var(--ground-line)] bg-[var(--ground-raised)] px-4 py-8 text-center text-sm text-[var(--ink-dim)] transition hover:border-[var(--gold-dim)]">
         <span>{file ? file.name : t("Click to choose a video file", "ចុចដើម្បីជ្រើសរើសឯកសារវីដេអូ")}</span>
-        <input type="file" accept="video/*" className="hidden" onChange={(e) => onFile(e.target.files?.[0] ?? null)} />
+        <input type="file" accept="video/*" className="sr-only" onChange={(e) => onFile(e.target.files?.[0] ?? null)} />
       </label>
 
       <Field label={t("Frame interval (seconds)", "ចន្លោះរូបភាព (វិនាទី)")}>

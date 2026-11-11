@@ -192,7 +192,7 @@ export default function PassportPhoto() {
           <label className="flex cursor-pointer flex-col items-center gap-3 rounded-xl border-2 border-dashed border-[var(--ground-line)] bg-[var(--ground-raised)] p-10 text-center transition hover:border-[var(--gold-dim)]">
             <ImagePlus size={30} className="text-[var(--ink-faint)]" />
             <span className="text-sm font-medium text-[var(--ink)]">{t("Choose a portrait photo", "ជ្រើសរូបថតបញ្ឈរ")}</span>
-            <input type="file" accept="image/*" className="hidden" onChange={onFile} />
+            <input type="file" accept="image/*" className="sr-only" onChange={onFile} />
           </label>
         </div>
       ) : (
@@ -206,7 +206,7 @@ export default function PassportPhoto() {
               <p className="mt-2 text-center text-[11px] text-[var(--ink-faint)]">{wmm} × {hmm} mm · {mmToPx(wmm)} × {mmToPx(hmm)} px @ {DPI}dpi</p>
             </div>
             <label className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 text-sm text-[var(--ink-dim)] transition hover:border-[var(--gold-dim)]">
-              <ImagePlus size={15} className="text-[var(--gold-text)]" />{t("Change photo", "ប្តូររូប")}<input type="file" accept="image/*" className="hidden" onChange={onFile} />
+              <ImagePlus size={15} className="text-[var(--gold-text)]" />{t("Change photo", "ប្តូររូប")}<input type="file" accept="image/*" className="sr-only" onChange={onFile} />
             </label>
           </div>
 

@@ -1,10 +1,18 @@
 "use client";
 import { useState } from "react";
-import { ArrowDown, ArrowUp, FileText, Trash2 } from "lucide-react";
+import { Download } from "lucide-react";
 import { ToolShell } from "@/components/ui/Shell";
 import { Button } from "@/components/ui/Output";
+import { ActionBar } from "@/components/ui/ActionBar";
+import { Dropzone } from "@/components/ui/Dropzone";
+import { FileList } from "@/components/ui/FileList";
+import { StatusPill } from "@/components/ui/StatusPill";
 import { loadPdfJs, formatBytes } from "@/lib/pdfjs";
+import { toKhmerNumerals } from "@/lib/khmer-number-words";
+import { toast } from "@/lib/toast";
 import { useLanguage } from "@/components/LanguageProvider";
+
+const kh = (n: number) => toKhmerNumerals(String(n));
 
 interface Item {
   id: string;
@@ -41,7 +49,7 @@ export default function PdfMergeTool() {
   const [resultUrl, setResultUrl] = useState<string | null>(null);
   const [resultSize, setResultSize] = useState(0);
 
-  function addFiles(files: FileList | File[]) {
+  function addFiles(files: File[]) {
     const list = Array.from(files).map((file) => ({
       id: `${file.name}-${file.size}-${Math.random()}`,
       file,
@@ -92,8 +100,9 @@ export default function PdfMergeTool() {
       const blob = new Blob([bytes as BlobPart], { type: "application/pdf" });
       setResultUrl(URL.createObjectURL(blob));
       setResultSize(blob.size);
+      toast(t(`Merged ${items.length} PDFs into one file (${formatBytes(blob.size)}).`, `បានបញ្ចូល PDF ${kh(items.length)} ទៅជាឯកសារតែមួយ (${formatBytes(blob.size)})។`));
     } catch {
-      setError("Could not merge these PDFs — one of them may be encrypted or corrupted.");
+      setError(t("Could not merge these PDFs — one of them may be encrypted or damaged.", "មិនអាចបញ្ចូល PDF ទាំងនេះបានទេ — ឯកសារមួយអាចត្រូវបានចាក់សោ ឬខូច។"));
     } finally {
       setBusy(false);
     }
@@ -103,55 +112,55 @@ export default function PdfMergeTool() {
     <ToolShell
       title="PDF Merge"
       description="Combine multiple PDFs into a single file, in any order you choose — merged entirely in your browser, nothing is uploaded. First-page thumbnails let you confirm the order before merging."
+      descriptionKm="បញ្ចូល PDF ច្រើនទៅជាឯកសារតែមួយ តាមលំដាប់ដែលអ្នកជ្រើសរើស — ធ្វើទាំងស្រុងក្នុងកម្មវិធីរុករក គ្មានអ្វីត្រូវបានផ្ទុកឡើងទេ។ រូបតូចនៃទំព័រដំបូងជួយអ្នកពិនិត្យលំដាប់មុនពេលបញ្ចូល។"
     >
-      <label className="flex cursor-pointer flex-col items-center justify-center gap-2 rounded-md border border-dashed border-[var(--ground-line)] bg-[var(--ground-raised)] px-4 py-8 text-center text-sm text-[var(--ink-dim)] transition hover:border-[var(--gold-dim)]">
-        <span>Click to add PDF files (2 or more)</span>
-        <input
-          type="file"
-          accept="application/pdf"
-          multiple
-          className="hidden"
-          onChange={(e) => { if (e.target.files) addFiles(e.target.files); }}
-        />
-      </label>
+      <StatusPill kind="ok">{t("Processed on this device", "ដំណើរការលើឧបករណ៍នេះ")}</StatusPill>
 
-      {items.length > 0 && (
-        <div className="space-y-1.5">
-          {items.map((item, i) => (
-            <div key={item.id} className="flex items-center gap-3 rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 text-xs text-[var(--ink-dim)]">
-              <div className="flex h-14 w-11 shrink-0 items-center justify-center overflow-hidden rounded border border-[var(--ground-line)] bg-[var(--ground)]">
-                {item.thumb ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={item.thumb} alt="" className="h-full w-full object-cover" />
-                ) : (
-                  <FileText size={14} className="text-[var(--gold-text)]" />
-                )}
-              </div>
-              <div className="min-w-0 flex-1">
-                <div className="truncate">{i + 1}. {item.file.name}</div>
-                <div className="text-[var(--ink-faint)]">
-                  {formatBytes(item.file.size)}{item.pages ? ` · ${item.pages} page${item.pages === 1 ? "" : "s"}` : ""}
-                </div>
-              </div>
-              <button onClick={() => move(item.id, -1)} disabled={i === 0} className="shrink-0 rounded p-1 hover:bg-[var(--ground-raised-hi)] disabled:opacity-30"><ArrowUp size={12} /></button>
-              <button onClick={() => move(item.id, 1)} disabled={i === items.length - 1} className="shrink-0 rounded p-1 hover:bg-[var(--ground-raised-hi)] disabled:opacity-30"><ArrowDown size={12} /></button>
-              <button onClick={() => remove(item.id)} className="shrink-0 rounded p-1 hover:bg-[var(--ground-raised-hi)] hover:text-[var(--danger)]"><Trash2 size={12} /></button>
-            </div>
-          ))}
-        </div>
-      )}
+      <Dropzone
+        accept="application/pdf"
+        multiple
+        onFiles={addFiles}
+        label="Drop PDF files here or click to choose"
+        labelKm="ទម្លាក់ឯកសារ PDF នៅទីនេះ ឬចុចដើម្បីជ្រើសរើស"
+        hint="Add 2 or more; you can reorder them below."
+        hintKm="បន្ថែម ២ ឬច្រើនជាងនេះ; អ្នកអាចប្ដូរលំដាប់នៅខាងក្រោម។"
+      />
 
-      <Button onClick={merge} disabled={items.length < 2 || busy}>
-        {busy ? "Merging…" : `Merge ${items.length} PDFs`}
-      </Button>
+      <FileList
+        items={items.map((item) => ({
+          id: item.id,
+          name: item.file.name,
+          size: item.file.size,
+          detail: item.pages ? t(`${item.pages} page${item.pages === 1 ? "" : "s"}`, `${kh(item.pages)} ទំព័រ`) : undefined,
+          // eslint-disable-next-line @next/next/no-img-element
+          thumbnail: item.thumb ? <img src={item.thumb} alt="" className="h-full w-full object-cover" /> : undefined,
+        }))}
+        onMove={move}
+        onRemove={remove}
+      />
 
-      {error && <p className="text-sm text-[var(--danger)]">{error}</p>}
+      <ActionBar
+        note={items.length < 2 ? "Add at least 2 PDFs to merge." : undefined}
+        noteKm={items.length < 2 ? "បន្ថែម PDF យ៉ាងហោចណាស់ ២ ដើម្បីបញ្ចូល។" : undefined}
+      >
+        {(noteId) => (
+          <Button onClick={merge} disabled={items.length < 2 || busy} aria-describedby={noteId}>
+            {busy
+              ? t("Merging…", "កំពុងបញ្ចូល…")
+              : items.length < 2
+                ? t("Merge PDFs", "បញ្ចូល PDF")
+                : t(`Merge ${items.length} PDFs into one`, `បញ្ចូល PDF ${kh(items.length)} ទៅជាឯកសារតែមួយ`)}
+          </Button>
+        )}
+      </ActionBar>
+
+      {error && <p role="alert" className="text-sm text-[var(--danger)]">{error}</p>}
 
       {resultUrl && (
-        <div className="flex items-center justify-between rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2.5 text-sm">
-          <span className="text-[var(--ink-dim)]">Merged PDF ready — {formatBytes(resultSize)}</span>
-          <a href={resultUrl} download="merged.pdf" className="rounded-md bg-[var(--gold)] px-3 py-1.5 text-xs font-medium text-[var(--on-gold)] hover:bg-[var(--gold-hover)]">
-            Download
+        <div className="flex flex-wrap items-center justify-between gap-2 rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2.5 text-sm">
+          <span className="text-[var(--ink-dim)]">{t(`Merged PDF ready — ${formatBytes(resultSize)}`, `PDF ដែលបានបញ្ចូលរួចរាល់ — ${formatBytes(resultSize)}`)}</span>
+          <a href={resultUrl} download="merged.pdf" className="inline-flex items-center gap-1.5 rounded-md bg-[var(--gold)] px-3 py-1.5 text-xs font-medium text-[var(--on-gold)] hover:bg-[var(--gold-hover)]">
+            <Download size={13} aria-hidden /> {t("Download merged.pdf", "ទាញយក merged.pdf")}
           </a>
         </div>
       )}

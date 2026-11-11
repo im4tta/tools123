@@ -1063,7 +1063,7 @@ export default function QrGenerator() {
               <label className={pickerClass}>
                 {scanBusy ? <Loader2 size={14} className="animate-spin" /> : <ImagePlus size={14} />}
                 {scanBusy ? text("Reading…", "កំពុងអាន…") : text("Upload QR image", "ផ្ទុករូបភាព QR")}
-                <input type="file" accept="image/*" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) void redesignFromFile(f); }} />
+                <input type="file" accept="image/*" className="sr-only" onChange={(e) => { const f = e.target.files?.[0]; if (f) void redesignFromFile(f); }} />
               </label>
               <button type="button" className={pickerClass} onClick={() => void redesignFromClipboard()}>
                 <ClipboardPaste size={14} />
@@ -1310,7 +1310,7 @@ export default function QrGenerator() {
               <label className={pickerClass}>
                 <ImagePlus size={14} />
                 {logoBusy ? text("Loading…", "កំពុងផ្ទុក…") : s.logo ? text("Replace logo", "ប្តូរស្លាក") : text("Upload logo", "ផ្ទុកស្លាក")}
-                <input type="file" accept="image/*" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) pickLogo(f); }} />
+                <input type="file" accept="image/*" className="sr-only" onChange={(e) => { const f = e.target.files?.[0]; if (f) pickLogo(f); }} />
               </label>
               {s.logo && (
                 <button type="button" onClick={() => update({ logo: null })} className={`${chipBase} border-[var(--ground-line)] text-[var(--ink-faint)] hover:text-[var(--danger)]`}>

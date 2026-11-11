@@ -210,7 +210,7 @@ export default function PdfPageRemover() {
             <input
               type="file"
               accept="application/pdf"
-              className="hidden"
+              className="sr-only"
               onChange={(e) => {
                 const f = e.target.files?.[0];
                 if (f) void load(f);

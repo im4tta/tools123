@@ -94,7 +94,7 @@ export default function OpticalTransfer() {
           value={textPayload}
           onChange={(e) => setTextPayload(e.target.value)}
           placeholder={t("Type your message here…", "វាយសាររបស់អ្នកនៅទីនេះ…")}
-          className="mb-5 h-32 w-full resize-y rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4 text-sm text-[var(--ink)] outline-none placeholder:text-[var(--ink-faint)] focus:border-[var(--gold-dim)]"
+          className="mb-5 h-32 w-full resize-y rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4 text-sm text-[var(--ink)] outline-none placeholder:text-[var(--ink-faint)] focus:border-[var(--focus)]"
         />
       )}
 

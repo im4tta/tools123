@@ -103,7 +103,7 @@ export function Field({
   return (
     <label className="block">
       <span className="mb-1.5 flex items-baseline justify-between">
-        <span className="text-xs font-medium uppercase tracking-wide text-[var(--ink-dim)]">
+        <span className="ui-label text-[var(--ink-dim)]">
           {labelKm ? text(label, labelKm) : ui(label)}
         </span>
         {hint && <span className="text-xs text-[var(--ink-faint)]">{hintKm ? text(hint, hintKm) : ui(hint)}</span>}
@@ -114,7 +114,7 @@ export function Field({
 }
 
 const inputClass =
-  "w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 text-sm text-[var(--ink)] outline-none placeholder:text-[var(--ink-faint)] focus:border-[var(--gold-dim)] focus:ring-1 focus:ring-[var(--gold-dim)]";
+  "w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 text-sm text-[var(--ink)] outline-none placeholder:text-[var(--ink-faint)] focus:border-[var(--focus)] focus:ring-1 focus:ring-[var(--focus)]";
 
 export function TextInput(props: React.InputHTMLAttributes<HTMLInputElement>) {
   const ui = useUiText();

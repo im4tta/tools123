@@ -210,7 +210,7 @@ export default function WebRTCTransfer() {
                 <div className="mb-1 text-xs text-[var(--ink-faint)]">{t("Paste the receiver's answer here:", "បិទភ្ជាប់ចម្លើយរបស់អ្នកទទួលនៅទីនេះ៖")}</div>
                 <textarea value={answerInput} onChange={(e) => setAnswerInput(e.target.value)}
                   placeholder={t("Paste answer…", "បិទភ្ជាប់ចម្លើយ…")}
-                  className="h-20 w-full resize-none rounded border border-[var(--ground-line)] bg-[var(--ground)] p-2 font-mono-ui text-[11px] text-[var(--ink)] outline-none focus:border-[var(--gold-dim)]" />
+                  className="h-20 w-full resize-none rounded border border-[var(--ground-line)] bg-[var(--ground)] p-2 font-mono-ui text-[11px] text-[var(--ink)] outline-none focus:border-[var(--focus)]" />
                 <button onClick={acceptAnswer} disabled={!answerInput.trim()}
                   className="mt-2 w-full rounded-lg bg-[var(--teal)]/80 px-3 py-2 text-xs font-semibold text-white hover:bg-[var(--teal)] disabled:opacity-40">
                   {t("Connect to Receiver", "តភ្ជាប់ទៅអ្នកទទួល")}
@@ -232,7 +232,7 @@ export default function WebRTCTransfer() {
             <div className="space-y-3">
               <textarea value={answerInput} onChange={(e) => setAnswerInput(e.target.value)}
                 placeholder={t("Paste the sender's connection code here…", "បិទភ្ជាប់កូដតភ្ជាប់របស់អ្នកផ្ញើនៅទីនេះ…")}
-                className="h-28 w-full resize-y rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4 font-mono-ui text-[11px] text-[var(--ink)] outline-none focus:border-[var(--gold-dim)]" />
+                className="h-28 w-full resize-y rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4 font-mono-ui text-[11px] text-[var(--ink)] outline-none focus:border-[var(--focus)]" />
               <button onClick={connectReceiver} disabled={!answerInput.trim()}
                 className="w-full rounded-lg bg-[var(--teal)]/80 px-4 py-3 text-sm font-semibold text-white hover:bg-[var(--teal)] disabled:opacity-40">
                 {t("Connect to Sender", "តភ្ជាប់ទៅអ្នកផ្ញើ")}

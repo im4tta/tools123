@@ -108,7 +108,7 @@ export default function KhmerNameStructureExplorer() {
         value={input}
         onChange={(e) => setInput(e.target.value)}
         placeholder={t("e.g. សុខ ដារ៉ា", "e.g. សុខ ដារ៉ា")}
-        className="mb-5 w-full rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)] px-4 py-3 text-lg font-semibold text-[var(--ink)] outline-none focus:border-[var(--gold-dim)]"
+        className="mb-5 w-full rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)] px-4 py-3 text-lg font-semibold text-[var(--ink)] outline-none focus:border-[var(--focus)]"
       />
 
       {analysis && (

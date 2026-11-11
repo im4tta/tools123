@@ -182,7 +182,7 @@ export default function AudioMergerTool() {
             mode === "merge" ? "ជ្រើសរើសឯកសារសំឡេង (ច្រើន)" : "ជ្រើសរើសឯកសារសំឡេង"
           )}
         </span>
-        <input type="file" accept="audio/*" multiple={mode === "merge"} className="hidden" onChange={(e) => addFiles(e.target.files)} />
+        <input type="file" accept="audio/*" multiple={mode === "merge"} className="sr-only" onChange={(e) => addFiles(e.target.files)} />
       </label>
 
       {items.length > 0 && (

@@ -107,7 +107,7 @@ export default function KhmerSpellingBee() {
           </div>
 
           <form className="flex gap-2" onSubmit={(e) => { e.preventDefault(); submit(); }}>
-            <input value={entry} onChange={(e) => setEntry(e.target.value)} lang="km" aria-label={t("Or type the word", "ឬវាយពាក្យ")} placeholder={t("…or type with a Khmer keyboard", "…ឬវាយដោយក្ដារចុចខ្មែរ")} className="min-w-0 flex-1 rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 font-khmer text-lg text-[var(--ink)] outline-none focus:border-[var(--gold-dim)]" />
+            <input value={entry} onChange={(e) => setEntry(e.target.value)} lang="km" aria-label={t("Or type the word", "ឬវាយពាក្យ")} placeholder={t("…or type with a Khmer keyboard", "…ឬវាយដោយក្ដារចុចខ្មែរ")} className="min-w-0 flex-1 rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 font-khmer text-lg text-[var(--ink)] outline-none focus:border-[var(--focus)]" />
           </form>
 
           {found.length > 0 && (

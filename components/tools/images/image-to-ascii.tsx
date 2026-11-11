@@ -77,7 +77,7 @@ export default function ImageToAscii() {
           <input
             type="file"
             accept="image/*"
-            className="hidden"
+            className="sr-only"
             onChange={(e) => handleFile(e.target.files?.[0] ?? null)}
           />
         </label>

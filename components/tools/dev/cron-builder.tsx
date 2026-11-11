@@ -66,7 +66,7 @@ export default function CronBuilder() {
         {FIELDS.map((f) => (
           <Field key={f.key} label={t(f.label, f.km)}>
             <input
-              className="w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 font-mono-ui text-sm text-[var(--ink)] outline-none focus:border-[var(--gold-dim)]"
+              className="w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 font-mono-ui text-sm text-[var(--ink)] outline-none focus:border-[var(--focus)]"
               value={values[f.key]}
               onChange={(e) => set(f.key, e.target.value)}
             />

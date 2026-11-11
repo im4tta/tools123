@@ -230,7 +230,7 @@ export default function QrDecoderTool() {
           <input
             type="file"
             accept="image/*"
-            className="hidden"
+            className="sr-only"
             onChange={(e) => { const file = e.target.files?.[0]; if (file) handleFile(file); }}
           />
         </label>

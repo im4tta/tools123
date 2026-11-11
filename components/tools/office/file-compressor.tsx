@@ -242,7 +242,7 @@ export default function FileCompressorTool() {
           type="file"
           accept="application/pdf,image/jpeg,image/png,image/webp"
           multiple
-          className="hidden"
+          className="sr-only"
           onChange={(e) => { if (e.target.files) addFiles(e.target.files); e.target.value = ""; }}
         />
       </label>

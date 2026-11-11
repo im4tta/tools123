@@ -29,7 +29,7 @@ function CountRow({ label, count, onChange, subtotal }: { label: string; count: 
         placeholder="0"
         onChange={(e) => onChange(Math.max(0, Math.floor(Number(e.target.value) || 0)))}
         aria-label={t(`Number of ${label} notes`, `ចំនួនក្រដាស ${label}`)}
-        className="h-11 w-14 shrink-0 rounded-md border border-[var(--ground-line)] bg-[var(--ground)] text-center font-mono-ui text-[var(--ink)] outline-none focus:border-[var(--gold-dim)]"
+        className="h-11 w-14 shrink-0 rounded-md border border-[var(--ground-line)] bg-[var(--ground)] text-center font-mono-ui text-[var(--ink)] outline-none focus:border-[var(--focus)]"
       />
       <button type="button" onClick={() => onChange(count + 1)} aria-label={t(`One more ${label}`, `បន្ថែម ${label} មួយ`)} className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md border border-[var(--ground-line)] text-[var(--ink-dim)]"><Plus size={16} /></button>
     </div>

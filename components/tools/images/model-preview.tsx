@@ -1391,7 +1391,7 @@ export default function ModelPreviewTool() {
           <input
             type="file"
             accept=".glb,.gltf,.obj,.stl,.ts,.tsx,.js,.jsx,.json"
-            className="hidden"
+            className="sr-only"
             onChange={(e) => {
               if (e.target.files && e.target.files[0]) handleFileUpload(e.target.files[0]);
             }}

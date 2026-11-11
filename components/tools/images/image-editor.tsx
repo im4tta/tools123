@@ -227,7 +227,7 @@ export default function ImageEditorTool() {
     >
       <label className="flex cursor-pointer flex-col items-center justify-center gap-2 rounded-md border border-dashed border-[var(--ground-line)] bg-[var(--ground-raised)] px-4 py-8 text-center text-sm text-[var(--ink-dim)] transition hover:border-[var(--gold-dim)]">
         <span>{file ? file.name : "Click to choose an image"}</span>
-        <input type="file" accept="image/*" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) pickFile(f); }} />
+        <input type="file" accept="image/*" className="sr-only" onChange={(e) => { const f = e.target.files?.[0]; if (f) pickFile(f); }} />
       </label>
 
       {imgUrl && natural.w > 0 && (
@@ -285,7 +285,7 @@ export default function ImageEditorTool() {
                 min={1}
                 value={s.outWidth ?? ""}
                 onChange={(e) => update({ outWidth: Number(e.target.value) || null })}
-                className="w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 text-sm text-[var(--ink)] outline-none focus:border-[var(--gold-dim)]"
+                className="w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 text-sm text-[var(--ink)] outline-none focus:border-[var(--focus)]"
               />
             </Field>
           </Row>

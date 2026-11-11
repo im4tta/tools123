@@ -121,7 +121,7 @@ export default function PeriodTracker() {
             type="date"
             value={lmp}
             onChange={(e) => setLmp(e.target.value)}
-            className="w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 text-sm text-[var(--ink)] outline-none focus:border-[var(--gold-dim)]"
+            className="w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 text-sm text-[var(--ink)] outline-none focus:border-[var(--focus)]"
           />
         </Field>
         <Field label={t("Cycle length (days)", "រយៈពេលវដ្ត (ថ្ងៃ)")} hint={t("21–45", "២១–៤៥")}>
@@ -224,7 +224,7 @@ export default function PeriodTracker() {
               type="date"
               value={logDate}
               onChange={(e) => setLogDate(e.target.value)}
-              className="w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 text-sm text-[var(--ink)] outline-none focus:border-[var(--gold-dim)]"
+              className="w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 text-sm text-[var(--ink)] outline-none focus:border-[var(--focus)]"
             />
           </Field>
         </Row>

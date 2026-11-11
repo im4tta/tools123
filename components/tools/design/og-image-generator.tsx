@@ -172,7 +172,7 @@ export default function OgImageGeneratorTool() {
         <div className="flex items-center gap-2">
           <label className="flex cursor-pointer items-center gap-2 rounded-md border border-dashed border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 text-xs text-[var(--ink-dim)] hover:border-[var(--gold-dim)]">
             {s.logo ? "Replace logo" : "Upload logo"}
-            <input type="file" accept="image/*" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) pickLogo(f); }} />
+            <input type="file" accept="image/*" className="sr-only" onChange={(e) => { const f = e.target.files?.[0]; if (f) pickLogo(f); }} />
           </label>
           {s.logo && <button onClick={() => update({ logo: null })} className="rounded-md border border-[var(--ground-line)] px-2 py-1 text-xs text-[var(--ink-faint)] hover:text-[var(--ink)]">Remove</button>}
         </div>

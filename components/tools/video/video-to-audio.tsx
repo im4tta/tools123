@@ -92,7 +92,7 @@ export default function VideoToAudioTool() {
     >
       <label className="flex cursor-pointer flex-col items-center justify-center gap-2 rounded-md border border-dashed border-[var(--ground-line)] bg-[var(--ground-raised)] px-4 py-8 text-center text-sm text-[var(--ink-dim)] transition hover:border-[var(--gold-dim)]">
         <span>{file ? file.name : t("Click to choose a video file", "ចុចដើម្បីជ្រើសរើសឯកសារវីដេអូ")}</span>
-        <input type="file" accept="video/*,audio/*" className="hidden" onChange={(e) => { const f = e.target.files?.[0] ?? null; if (fileUrl) URL.revokeObjectURL(fileUrl); setFile(f); setFileUrl(f ? URL.createObjectURL(f) : null); setResultUrl(null); setError(""); setDuration(0); }} />
+        <input type="file" accept="video/*,audio/*" className="sr-only" onChange={(e) => { const f = e.target.files?.[0] ?? null; if (fileUrl) URL.revokeObjectURL(fileUrl); setFile(f); setFileUrl(f ? URL.createObjectURL(f) : null); setResultUrl(null); setError(""); setDuration(0); }} />
       </label>
 
       {fileUrl && file && (

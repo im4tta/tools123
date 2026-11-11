@@ -120,7 +120,7 @@ export default function LoanAmortization() {
             </Select>
           </Field>
           <Field label={t("First payment date (optional)", "កាលបរិច្ឆេទបង់ដំបូង (ស្រេចចិត្ត)")}>
-            <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} className="w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 text-sm text-[var(--ink)] outline-none focus:border-[var(--gold-dim)]" />
+            <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} className="w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 text-sm text-[var(--ink)] outline-none focus:border-[var(--focus)]" />
           </Field>
         </div>
 

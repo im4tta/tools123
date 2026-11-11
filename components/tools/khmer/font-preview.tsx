@@ -95,7 +95,7 @@ export default function FontPreview() {
             value={text}
             onChange={(event) => setText(event.target.value)}
             rows={3}
-            className="w-full resize-y rounded-xl border border-[var(--ground-line)] bg-[var(--ground)] p-4 font-khmer text-lg leading-relaxed text-[var(--ink)] outline-none focus:border-[var(--gold-dim)]"
+            className="w-full resize-y rounded-xl border border-[var(--ground-line)] bg-[var(--ground)] p-4 font-khmer text-lg leading-relaxed text-[var(--ink)] outline-none focus:border-[var(--focus)]"
             placeholder="សរសេរអត្ថបទខ្មែររបស់អ្នក…"
           />
         </section>

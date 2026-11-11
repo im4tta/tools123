@@ -15,6 +15,7 @@ import { AppRuntime } from "@/components/AppRuntime";
 import { SponsorButton } from "@/components/SponsorButton";
 import { WatermarkToggle } from "@/components/WatermarkToggle";
 import { ShareToast } from "@/components/ShareToast";
+import { Toaster } from "@/components/ui/Toast";
 import { BASE_URL } from "@/lib/site";
 import { siteJsonLd } from "@/lib/seo";
 
@@ -125,6 +126,7 @@ export default function RootLayout({
           <MobileBottomNav />
           <AppRuntime />
           <ShareToast />
+          <Toaster />
         </AppProviders>
         <Analytics />
       </body>
