@@ -99,7 +99,7 @@ export default function StereoChannelTest() {
       key={id}
       type="button"
       onClick={() => (channel === id ? stop() : play(id))}
-      className={`rounded-md border px-4 py-2.5 text-sm font-medium transition ${channel === id ? "border-[var(--gold)] bg-[var(--gold)]/15 text-[var(--gold)]" : "border-[var(--ground-line)] bg-[var(--ground-raised)] text-[var(--ink)] hover:border-[var(--gold-dim)]"}`}
+      className={`rounded-md border px-4 py-2.5 text-sm font-medium transition ${channel === id ? "border-[var(--gold)] bg-[var(--gold)]/15 text-[var(--gold-text)]" : "border-[var(--ground-line)] bg-[var(--ground-raised)] text-[var(--ink)] hover:border-[var(--gold-dim)]"}`}
     >
       {channel === id && <VolumeX size={14} className="mr-1.5 inline" />}
       {channel !== id && <Volume2 size={14} className="mr-1.5 inline" />}
@@ -129,7 +129,7 @@ export default function StereoChannelTest() {
             step="0.05"
             value={volume}
             onChange={(e) => setVolume(e.target.value)}
-            className="w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 text-sm text-[var(--ink)] outline-none focus:border-[var(--gold-dim)] focus:ring-1 focus:ring-[var(--gold-dim)]"
+            className="w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 text-sm text-[var(--ink)] outline-none focus:border-[var(--focus)] focus:ring-1 focus:ring-[var(--focus)]"
           />
         </Field>
       </div>

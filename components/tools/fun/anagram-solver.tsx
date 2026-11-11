@@ -210,7 +210,7 @@ export default function AnagramSolver() {
       ) : (
         <div className="space-y-4">
           <div className="flex items-center justify-between text-sm">
-            <span className="font-medium text-[var(--gold)]">
+            <span className="font-medium text-[var(--gold-text)]">
               {t("Found", "បានរកឃើញ")}: {total} {t("word(s)", "ពាក្យ")}
             </span>
             <span className="flex items-center gap-1 text-xs text-[var(--ink-faint)]">
@@ -230,7 +230,7 @@ export default function AnagramSolver() {
                     type="button"
                     onClick={() => void copyText(w)}
                     title={t("Copy", "ចម្លង")}
-                    className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-2.5 py-1 text-sm text-[var(--ink)] transition hover:border-[var(--gold-dim)] hover:text-[var(--gold)]"
+                    className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-2.5 py-1 text-sm text-[var(--ink)] transition hover:border-[var(--gold-dim)] hover:text-[var(--gold-text)]"
                   >
                     {w}
                   </button>

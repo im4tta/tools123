@@ -720,7 +720,7 @@ function LocationMap({ lat, lng, onChange }: { lat: string; lng: string; onChang
           type="button"
           onClick={useMyLocation}
           disabled={locBusy}
-          className="inline-flex items-center gap-1.5 rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-1.5 text-xs font-medium text-[var(--ink)] transition hover:border-[var(--gold-dim)] hover:text-[var(--gold)] disabled:opacity-50"
+          className="inline-flex items-center gap-1.5 rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-1.5 text-xs font-medium text-[var(--ink)] transition hover:border-[var(--gold-dim)] hover:text-[var(--gold-text)] disabled:opacity-50"
         >
           {locBusy ? (
             <Loader2 size={13} className="animate-spin" />
@@ -1052,7 +1052,7 @@ export default function QrGenerator() {
       <div className="lg:grid lg:h-[calc(100dvh-13rem)] lg:min-h-[440px] lg:grid-cols-[minmax(0,1fr)_400px] lg:gap-6 lg:overflow-hidden">
         <div className="space-y-5 lg:h-full lg:overflow-y-auto lg:pb-4 lg:pr-2">
           <section className="rounded-md border border-[var(--gold-dim)]/40 bg-[var(--ground-raised)] p-3">
-            <div className="mb-1.5 flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-[var(--gold)]">
+            <div className="mb-1.5 flex items-center gap-2 text-xs font-semibold uppercase tracking-wide text-[var(--gold-text)]">
               <ScanLine size={14} />
               {text("Scan & redesign an existing QR", "ស្កេន និងរចនាឡើងវិញនូវ QR ដែលមានស្រាប់")}
             </div>
@@ -1063,7 +1063,7 @@ export default function QrGenerator() {
               <label className={pickerClass}>
                 {scanBusy ? <Loader2 size={14} className="animate-spin" /> : <ImagePlus size={14} />}
                 {scanBusy ? text("Reading…", "កំពុងអាន…") : text("Upload QR image", "ផ្ទុករូបភាព QR")}
-                <input type="file" accept="image/*" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) void redesignFromFile(f); }} />
+                <input type="file" accept="image/*" className="sr-only" onChange={(e) => { const f = e.target.files?.[0]; if (f) void redesignFromFile(f); }} />
               </label>
               <button type="button" className={pickerClass} onClick={() => void redesignFromClipboard()}>
                 <ClipboardPaste size={14} />
@@ -1250,7 +1250,7 @@ export default function QrGenerator() {
                     key={p.id}
                     type="button"
                     onClick={() => applyPreset(p.id)}
-                    className={`${chipBase} ${active ? "border-[var(--gold-dim)] bg-[var(--ground-raised-hi)] text-[var(--gold)]" : "border-[var(--ground-line)] text-[var(--ink-dim)] hover:border-[var(--gold-dim)]"}`}
+                    className={`${chipBase} ${active ? "border-[var(--gold-dim)] bg-[var(--ground-raised-hi)] text-[var(--gold-text)]" : "border-[var(--ground-line)] text-[var(--ink-dim)] hover:border-[var(--gold-dim)]"}`}
                   >
                     <span className="h-3.5 w-3.5 rounded-sm border border-black/10" style={{ background: c.fg }} />
                     {text(p.name, p.km)}
@@ -1268,7 +1268,7 @@ export default function QrGenerator() {
                   type="button"
                   onClick={() => update({ pixel: sh.id })}
                   title={text(sh.name, sh.km)}
-                  className={`${chipBase} flex-col gap-1 ${s.pixel === sh.id ? "border-[var(--gold-dim)] bg-[var(--ground-raised-hi)] text-[var(--gold)]" : "border-[var(--ground-line)] text-[var(--ink-dim)] hover:border-[var(--gold-dim)]"}`}
+                  className={`${chipBase} flex-col gap-1 ${s.pixel === sh.id ? "border-[var(--gold-dim)] bg-[var(--ground-raised-hi)] text-[var(--gold-text)]" : "border-[var(--ground-line)] text-[var(--ink-dim)] hover:border-[var(--gold-dim)]"}`}
                 >
                   <ShapePreview shape={sh.id} color={s.pixel === sh.id ? s.fg : "#94a3b8"} />
                   <span className="text-[10px] uppercase tracking-wide">{text(sh.name, sh.km)}</span>
@@ -1285,7 +1285,7 @@ export default function QrGenerator() {
                   type="button"
                   onClick={() => update({ eye: sh.id })}
                   title={text(sh.name, sh.km)}
-                  className={`${chipBase} flex-col gap-1 ${s.eye === sh.id ? "border-[var(--gold-dim)] bg-[var(--ground-raised-hi)] text-[var(--gold)]" : "border-[var(--ground-line)] text-[var(--ink-dim)] hover:border-[var(--gold-dim)]"}`}
+                  className={`${chipBase} flex-col gap-1 ${s.eye === sh.id ? "border-[var(--gold-dim)] bg-[var(--ground-raised-hi)] text-[var(--gold-text)]" : "border-[var(--ground-line)] text-[var(--ink-dim)] hover:border-[var(--gold-dim)]"}`}
                 >
                   <EyePreview shape={sh.id} colorOuter={s.eye === sh.id ? s.eyeOuter : "#94a3b8"} colorInner={s.eye === sh.id ? s.eyeInner : "#94a3b8"} />
                   <span className="text-[10px] uppercase tracking-wide">{text(sh.name, sh.km)}</span>
@@ -1301,7 +1301,7 @@ export default function QrGenerator() {
                   key={ic.id}
                   type="button"
                   onClick={() => update({ social: ic.id })}
-                  className={`${chipBase} ${s.social === ic.id ? "border-[var(--gold-dim)] bg-[var(--ground-raised-hi)] text-[var(--gold)]" : "border-[var(--ground-line)] text-[var(--ink-dim)] hover:border-[var(--gold-dim)]"}`}
+                  className={`${chipBase} ${s.social === ic.id ? "border-[var(--gold-dim)] bg-[var(--ground-raised-hi)] text-[var(--gold-text)]" : "border-[var(--ground-line)] text-[var(--ink-dim)] hover:border-[var(--gold-dim)]"}`}
                 >
                   {text(ic.name, ic.km)}
                 </button>
@@ -1310,7 +1310,7 @@ export default function QrGenerator() {
               <label className={pickerClass}>
                 <ImagePlus size={14} />
                 {logoBusy ? text("Loading…", "កំពុងផ្ទុក…") : s.logo ? text("Replace logo", "ប្តូរស្លាក") : text("Upload logo", "ផ្ទុកស្លាក")}
-                <input type="file" accept="image/*" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) pickLogo(f); }} />
+                <input type="file" accept="image/*" className="sr-only" onChange={(e) => { const f = e.target.files?.[0]; if (f) pickLogo(f); }} />
               </label>
               {s.logo && (
                 <button type="button" onClick={() => update({ logo: null })} className={`${chipBase} border-[var(--ground-line)] text-[var(--ink-faint)] hover:text-[var(--danger)]`}>

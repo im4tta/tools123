@@ -69,7 +69,7 @@ export default function NameCompatibility() {
     >
       <style>{`@keyframes nc-shake { 0%,100% { transform: rotate(0deg); } 20% { transform: rotate(-8deg); } 40% { transform: rotate(8deg); } 60% { transform: rotate(-5deg); } 80% { transform: rotate(5deg); } }`}</style>
 
-      <div className="rounded-md border border-[var(--gold)] bg-[var(--ground-raised)] px-3 py-2 text-xs leading-relaxed text-[var(--gold)]">
+      <div className="rounded-md border border-[var(--gold)] bg-[var(--ground-raised)] px-3 py-2 text-xs leading-relaxed text-[var(--gold-text)]">
         {t("For entertainment only — not based on real science or astrology.", "សម្រាប់ការកម្សាន្តតែប៉ុណ្ណោះ — មិនមែនផ្អែកលើវិទ្យាសាស្ត្រ ឬហោរាសាស្ត្រពិតប្រាកដទេ។")}
       </div>
 
@@ -100,7 +100,7 @@ export default function NameCompatibility() {
           style={{ animation: shaking ? "nc-shake 0.55s ease-in-out" : undefined }}
         >
           <div className="flex items-center justify-center gap-2 text-sm font-medium text-[var(--ink)]">
-            <Users size={16} className="text-[var(--gold)]" />
+            <Users size={16} className="text-[var(--gold-text)]" />
             <span>{a} &amp; {b}</span>
           </div>
           {relation.trim() && (
@@ -109,13 +109,13 @@ export default function NameCompatibility() {
 
           {pct !== null && verdict && (
             <>
-              <div className="mt-4 font-display text-6xl font-bold text-[var(--gold)]">{pct}%</div>
+              <div className="mt-4 font-display text-6xl font-bold text-[var(--gold-text)]">{pct}%</div>
               <div className="mt-3 flex items-center justify-center gap-1">
                 {Array.from({ length: 5 }, (_, i) => (
                   <Heart
                     key={i}
                     size={20}
-                    className={pct >= (i + 1) * 20 ? "fill-[var(--gold)] text-[var(--gold)]" : "text-[var(--ground-line)]"}
+                    className={pct >= (i + 1) * 20 ? "fill-[var(--gold)] text-[var(--gold-text)]" : "text-[var(--ground-line)]"}
                   />
                 ))}
               </div>

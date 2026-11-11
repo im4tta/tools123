@@ -155,12 +155,12 @@ export default function KhmerNumerology() {
       <p className="text-xs font-medium uppercase tracking-wide text-[var(--ink-faint)]">{t(`Daily aura · ${dayEn}`, `ហុងស៊ុយប្រចាំថ្ងៃ · ថ្ងៃ${dayKm}`)}</p>
       <div className="mt-2 flex flex-wrap gap-x-6 gap-y-2 text-sm text-[var(--ink-dim)]">
         <span>{t("Symbolic color", "ពណ៌និមិត្តរូប")}៖ {t(colorEn, colorKm)}</span>
-        <span>{t("Daily number", "លេខប្រចាំថ្ងៃ")}៖ <strong className="text-[var(--gold)]">{displayDigits(dailyNumber, mode)}</strong></span>
+        <span>{t("Daily number", "លេខប្រចាំថ្ងៃ")}៖ <strong className="text-[var(--gold-text)]">{displayDigits(dailyNumber, mode)}</strong></span>
       </div>
     </section>
 
     <div role="tablist" aria-label={t("Numerology calculators", "ប្រភេទឧបករណ៍លេខវិទ្យា")} className="numerology-tabs flex gap-1 overflow-x-auto border-b border-[var(--ground-line)] pb-2">
-      {tabs.map(([id, en, km]) => <button key={id} type="button" role="tab" aria-selected={tab === id} onClick={() => setTab(id)} className={`shrink-0 rounded-md px-3 py-2 text-xs transition ${tab === id ? "bg-[var(--gold)] text-[#0a0c0d]" : "text-[var(--ink-dim)] hover:bg-[var(--ground-raised)]"}`}>{t(en, km)}</button>)}
+      {tabs.map(([id, en, km]) => <button key={id} type="button" role="tab" aria-selected={tab === id} onClick={() => setTab(id)} className={`shrink-0 rounded-md px-3 py-2 text-xs transition ${tab === id ? "bg-[var(--gold)] text-[var(--on-gold)]" : "text-[var(--ink-dim)] hover:bg-[var(--ground-raised)]"}`}>{t(en, km)}</button>)}
     </div>
 
     {tab === "plates" && <section className="space-y-4" role="tabpanel">
@@ -239,7 +239,7 @@ export default function KhmerNumerology() {
             <button type="button" onClick={() => setResultPage(Math.max(0, safeResultPage - 1))} disabled={safeResultPage === 0} aria-label={t("Previous page", "ទំព័រមុន")} title={t("Previous page", "ទំព័រមុន")} className="h-9 rounded border border-[var(--ground-line)] px-2 text-xs text-[var(--ink)] transition hover:bg-[var(--ground)] disabled:cursor-not-allowed disabled:opacity-40">
               <span aria-hidden="true">‹</span><span className="ml-1 hidden sm:inline">{t("Previous", "មុន")}</span>
             </button>
-            <select value={safeResultPage} onChange={(event) => setResultPage(Number(event.target.value))} aria-label={t("Jump to results page", "លោតទៅទំព័រលទ្ធផល")} title={t("Jump to results page", "លោតទៅទំព័រលទ្ធផល")} className="h-9 min-w-0 rounded border border-[var(--ground-line)] bg-[var(--ground)] px-1 text-xs text-[var(--ink)] outline-none focus:border-[var(--gold-dim)]">
+            <select value={safeResultPage} onChange={(event) => setResultPage(Number(event.target.value))} aria-label={t("Jump to results page", "លោតទៅទំព័រលទ្ធផល")} title={t("Jump to results page", "លោតទៅទំព័រលទ្ធផល")} className="h-9 min-w-0 rounded border border-[var(--ground-line)] bg-[var(--ground)] px-1 text-xs text-[var(--ink)] outline-none focus:border-[var(--focus)]">
               {Array.from({ length: pageCount }, (_, pageIndex) => {
                 const optionStart = pageIndex * pageSize + 1;
                 const optionEnd = Math.min((pageIndex + 1) * pageSize, matchingNumbers.length);
@@ -257,7 +257,7 @@ export default function KhmerNumerology() {
         <div className="numerology-number-grid grid grid-cols-2 gap-2 rounded-md border border-[var(--ground-line)] p-2 sm:grid-cols-3">
           {currentPageNumbers.map((value) => <div key={value} className="flex items-center justify-between rounded bg-[var(--ground-raised)] px-2 py-1.5">
             <code className="text-sm text-[var(--ink)]">{displayDigits(value, mode)}</code>
-            <div className="flex items-center gap-1"><button type="button" onClick={() => toggleFavorite(value)} aria-label={favorites.includes(value) ? t("Remove from saved", "ដកចេញពីបញ្ជីរក្សាទុក") : t("Save number", "រក្សាទុកលេខ")} className={`px-1 text-base ${favorites.includes(value) ? "text-[var(--gold)]" : "text-[var(--ink-faint)]"}`}>{favorites.includes(value) ? "♥" : "♡"}</button><CopyButton text={value} compact /></div>
+            <div className="flex items-center gap-1"><button type="button" onClick={() => toggleFavorite(value)} aria-label={favorites.includes(value) ? t("Remove from saved", "ដកចេញពីបញ្ជីរក្សាទុក") : t("Save number", "រក្សាទុកលេខ")} className={`px-1 text-base ${favorites.includes(value) ? "text-[var(--gold-text)]" : "text-[var(--ink-faint)]"}`}>{favorites.includes(value) ? "♥" : "♡"}</button><CopyButton text={value} compact /></div>
           </div>)}
         </div>
       </>}

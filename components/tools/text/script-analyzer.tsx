@@ -160,7 +160,7 @@ export default function ScriptAnalyzer() {
         {/* Script breakdown */}
         <div className="space-y-2 rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4">
           <div className="flex items-center gap-2 text-xs font-medium uppercase tracking-wide text-[var(--ink-faint)]">
-            <Sparkles size={13} className="text-[var(--gold)]" />
+            <Sparkles size={13} className="text-[var(--gold-text)]" />
             {t("Script breakdown", "ការបែងចែកអក្សរ")}
           </div>
           {result.scripts.length === 0 && (
@@ -209,7 +209,7 @@ export default function ScriptAnalyzer() {
         {/* Invisible characters */}
         {result.invisibles.length > 0 && (
           <div className="space-y-2 rounded-xl border border-[var(--gold)]/40 bg-[var(--gold)]/10 p-4">
-            <div className="text-xs font-medium uppercase tracking-wide text-[var(--gold)]">
+            <div className="text-xs font-medium uppercase tracking-wide text-[var(--gold-text)]">
               {t("Invisible characters found", "រកឃើញតួអក្សរក្រឡេកមិនឃើញ")} ({result.invisibles.length})
             </div>
             <ul className="space-y-1 font-mono-ui text-xs text-[var(--ink-dim)]">

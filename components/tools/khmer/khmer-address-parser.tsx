@@ -185,7 +185,7 @@ function InfoRow({ label, labelKm, value, code }: { label: string; labelKm: stri
       <p className="text-[10px] uppercase tracking-wide text-[var(--ink-faint)]">{t(label, labelKm)}</p>
       <p className="mt-0.5 flex flex-wrap items-baseline gap-x-2 text-sm leading-relaxed text-[var(--ink)]">
         <span className="font-khmer">{value}</span>
-        {code && <code className="text-xs text-[var(--gold)]">{code}</code>}
+        {code && <code className="text-xs text-[var(--gold-text)]">{code}</code>}
       </p>
     </div>
   );
@@ -258,7 +258,7 @@ export default function KhmerAddressParser() {
       {!!input && (
         <section className="rounded-md border border-[var(--gold-dim)] bg-[var(--ground-raised)] p-4">
           <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
-            <h2 className="text-xs font-semibold uppercase tracking-wide text-[var(--gold)]">
+            <h2 className="text-xs font-semibold uppercase tracking-wide text-[var(--gold-text)]">
               {t("Parsed address", "អាសយដ្ឋានដែលបានវិភាគ")}
             </h2>
             <div className="flex flex-wrap items-center gap-2">
@@ -267,7 +267,7 @@ export default function KhmerAddressParser() {
                 href={mapsHref}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-1.5 rounded-md bg-[var(--gold)] px-3 py-1.5 text-xs font-medium text-[#0a0c0d] transition hover:bg-[var(--gold-dim)]"
+                className="inline-flex items-center gap-1.5 rounded-md bg-[var(--gold)] px-3 py-1.5 text-xs font-medium text-[var(--on-gold)] transition hover:bg-[var(--gold-hover)]"
               >
                 <MapPin size={13} />
                 {t("Google Maps", "ផែនទី Google")}

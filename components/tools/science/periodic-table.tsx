@@ -159,7 +159,7 @@ export default function PeriodicTable() {
         </div>
 
         <div className="flex items-center gap-4 rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4">
-          <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-lg bg-[var(--gold)]/15 font-mono-ui text-xl font-bold text-[var(--gold)]">{el[0]}</span>
+          <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-lg bg-[var(--gold)]/15 font-mono-ui text-xl font-bold text-[var(--gold-text)]">{el[0]}</span>
           <div>
             <div className="text-sm font-semibold text-[var(--ink)]">#{selected} · {el[1]}</div>
             <div className="text-xs text-[var(--ink-dim)]">{t("Atomic mass", "ម៉ាសអាតូម")}: {el[2]} u</div>

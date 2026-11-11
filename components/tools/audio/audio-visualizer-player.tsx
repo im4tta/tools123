@@ -262,6 +262,15 @@ export default function AudioVisualizerPlayer() {
     const frac = Math.min(1, Math.max(0, (e.clientX - rect.left) / rect.width));
     audio.currentTime = frac * duration;
   }
+  function seekBy(event: React.KeyboardEvent<HTMLDivElement>) {
+    const audio = audioRef.current;
+    if (!audio || !duration) return;
+    const step = event.shiftKey ? 15 : 5;
+    const to: Record<string, number> = { ArrowRight: audio.currentTime + step, ArrowUp: audio.currentTime + step, ArrowLeft: audio.currentTime - step, ArrowDown: audio.currentTime - step, Home: 0, End: duration };
+    if (!(event.key in to)) return;
+    event.preventDefault();
+    audio.currentTime = Math.min(duration, Math.max(0, to[event.key]));
+  }
   function onFile(f: File | null) {
     if (!f) return;
     if (fileUrl) URL.revokeObjectURL(fileUrl);
@@ -290,14 +299,14 @@ export default function AudioVisualizerPlayer() {
       <label className="flex cursor-pointer flex-col items-center justify-center gap-2 rounded-md border border-dashed border-[var(--ground-line)] bg-[var(--ground-raised)] px-4 py-7 text-center text-sm text-[var(--ink-dim)] transition hover:border-[var(--gold-dim)]">
         <Music size={16} className="text-[var(--ink-faint)]" />
         <span>{file ? file.name : t("Click to choose an audio file", "ចុចដើម្បីជ្រើសរើសឯកសារសំឡេង")}</span>
-        <input type="file" accept="audio/*" className="hidden" onChange={(e) => onFile(e.target.files?.[0] ?? null)} />
+        <input type="file" accept="audio/*" className="sr-only" onChange={(e) => onFile(e.target.files?.[0] ?? null)} />
       </label>
 
       <div className="rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4">
         <canvas ref={canvasRef} width={WAVE_W} height={WAVE_H} className="w-full rounded-md border border-[var(--ground-line)] bg-black/25" style={{ height: "auto", minHeight: 160 }} />
 
         {/* Seek bar */}
-        <div className="group mt-3 cursor-pointer" onClick={seek} role="slider" aria-valuenow={Math.round(pct)} aria-valuemin={0} aria-valuemax={100} tabIndex={0}>
+        <div className="group mt-3 cursor-pointer" onClick={seek} onKeyDown={seekBy} role="slider" aria-label={t("Playback position", "ទីតាំងចាក់")} aria-valuenow={Math.round(pct)} aria-valuemin={0} aria-valuemax={100} aria-valuetext={`${Math.floor(current / 60)}:${String(Math.floor(current % 60)).padStart(2, "0")}`} tabIndex={0}>
           <div className="h-2 overflow-hidden rounded-full bg-[var(--ground)]">
             <div className="h-full rounded-full" style={{ width: `${pct}%`, background: `linear-gradient(90deg, ${theme.a}, ${theme.b})` }} />
           </div>
@@ -310,7 +319,7 @@ export default function AudioVisualizerPlayer() {
               {muted || volume === 0 ? <VolumeX size={15} /> : <Volume2 size={15} />}
             </button>
             <input type="range" min={0} max={1} step={0.05} value={muted ? 0 : volume} onChange={(e) => { setVolume(Number(e.target.value)); setMuted(false); }} className="w-24" aria-label={t("Volume", "កម្រិតសំឡេង")} />
-            <button type="button" onClick={togglePlay} disabled={!file} className="flex items-center gap-1.5 rounded-md bg-[var(--gold)] px-4 py-2 text-sm font-medium text-[#0a0c0d] hover:bg-[var(--gold-dim)] disabled:opacity-40">
+            <button type="button" onClick={togglePlay} disabled={!file} className="flex items-center gap-1.5 rounded-md bg-[var(--gold)] px-4 py-2 text-sm font-medium text-[var(--on-gold)] hover:bg-[var(--gold-hover)] disabled:opacity-40">
               {playing ? <Pause size={15} /> : <Play size={15} />}
               {playing ? t("Pause", "ឈប់") : t("Play", "ចាក់")}
             </button>
@@ -325,7 +334,7 @@ export default function AudioVisualizerPlayer() {
       <Field label={t("Visualizer mode", "ប្រភេទរូបភាព")}>
         <div className="flex flex-wrap gap-2 pt-1">
           {(["bars", "wave", "bars+wave", "radial", "rings"] as Mode[]).map((m) => (
-            <button key={m} type="button" onClick={() => setMode(m)} className={`rounded-md px-3 py-2 text-sm font-medium transition ${mode === m ? "bg-[var(--gold)] text-[#0a0c0d]" : "bg-[var(--ground-raised)] text-[var(--ink-dim)]"}`}>
+            <button key={m} type="button" onClick={() => setMode(m)} className={`rounded-md px-3 py-2 text-sm font-medium transition ${mode === m ? "bg-[var(--gold)] text-[var(--on-gold)]" : "bg-[var(--ground-raised)] text-[var(--ink-dim)]"}`}>
               {m === "bars" ? t("Bars", "របារ") : m === "wave" ? t("Waveform", "រលក") : m === "bars+wave" ? t("Bars + Wave", "របារ + រលក") : m === "radial" ? t("Radial", "រ៉ាឌីល") : t("Rings", "រង្វង់")}
             </button>
           ))}

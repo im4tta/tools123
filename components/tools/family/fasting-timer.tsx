@@ -156,7 +156,7 @@ export default function FastingTimer() {
             {history.slice(0, 20).map((h) => (
               <div key={h.id} className="flex items-center justify-between rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 text-sm">
                 <span className="text-[var(--ink)]">{fmtStamp(h.start)} → {fmtStamp(h.end)}</span>
-                <span className="font-mono-ui text-xs text-[var(--gold)]">{h.hours}h</span>
+                <span className="font-mono-ui text-xs text-[var(--gold-text)]">{h.hours}h</span>
               </div>
             ))}
           </div>

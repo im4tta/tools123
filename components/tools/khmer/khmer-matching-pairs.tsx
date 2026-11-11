@@ -116,7 +116,7 @@ export default function KhmerMatchingPairs() {
                   {shown ? (
                     <span lang={latin ? "en" : "km"} className={latin ? "break-words text-sm font-medium text-[var(--ink)]" : `font-khmer leading-[1.6] text-[var(--ink)] ${[...card.face].length > 4 ? "text-base" : "text-3xl"}`}>{card.face}</span>
                   ) : (
-                    <span aria-hidden="true" className="font-khmer text-xl text-[var(--gold)]/60">✦</span>
+                    <span aria-hidden="true" className="font-khmer text-xl text-[var(--gold-text)]/60">✦</span>
                   )}
                 </button>
               );

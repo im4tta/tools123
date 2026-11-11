@@ -40,7 +40,7 @@ export function CopyButton({ text, compact = false, className = "", dropdown, fi
         onClick={() => { if (hasMenu) setOpen(!open); else void copyText(text); }}
         aria-label={label}
         title={label}
-        className={`ui-touch inline-flex items-center justify-center gap-1.5 rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-1.5 text-xs text-[var(--ink-faint)] transition hover:border-[var(--gold-dim)] hover:text-[var(--gold)] disabled:opacity-40 ${className}`}
+        className={`ui-touch inline-flex items-center justify-center gap-1.5 rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-1.5 text-xs text-[var(--ink-faint)] transition hover:border-[var(--gold-dim)] hover:text-[var(--gold-text)] disabled:opacity-40 ${className}`}
       >
         <Copy size={13} />{!compact && <span>{label}</span>}
         {hasMenu && <ChevronDown size={11} className={`transition ${open ? "rotate-180" : ""}`} />}
@@ -61,16 +61,16 @@ export function CopyButton({ text, compact = false, className = "", dropdown, fi
               <>
                 <div className="my-1 border-t border-[var(--ground-line)]" />
                 {fields.map((f) => (
-                  <div key={f.id} onClick={() => setSelected((prev) => prev.includes(f.id) ? prev.filter((x) => x !== f.id) : [...prev, f.id])} className="flex cursor-pointer items-center gap-2 px-3 py-1 text-xs text-[var(--ink-dim)] hover:bg-[var(--ground-line)]">
+                  <button type="button" key={f.id} aria-pressed={selected.includes(f.id)} onClick={() => setSelected((prev) => prev.includes(f.id) ? prev.filter((x) => x !== f.id) : [...prev, f.id])} className="flex w-full cursor-pointer items-center gap-2 px-3 py-1 text-left text-xs text-[var(--ink-dim)] hover:bg-[var(--ground-line)]">
                     <span className={`flex h-3.5 w-3.5 shrink-0 items-center justify-center rounded border ${selected.includes(f.id) ? "border-[var(--gold)] bg-[var(--gold)]" : "border-[var(--ground-line)]"}`}>
                       {selected.includes(f.id) && <Check size={10} className="text-[var(--ground-raised)]" />}
                     </span>
                     <span>{f.label}</span>
                     <span className="ml-auto truncate text-[10px] text-[var(--ink-faint)]">{f.getValue}</span>
-                  </div>
+                  </button>
                 ))}
                 <div className="my-1 border-t border-[var(--ground-line)]" />
-                <button type="button" onClick={handleCopySelected} disabled={selected.length === 0} className="flex w-full items-center justify-center gap-1.5 px-3 py-1.5 text-xs text-[var(--gold)] hover:bg-[var(--ground-line)] disabled:opacity-40">
+                <button type="button" onClick={handleCopySelected} disabled={selected.length === 0} className="flex w-full items-center justify-center gap-1.5 px-3 py-1.5 text-xs text-[var(--gold-text)] hover:bg-[var(--ground-line)] disabled:opacity-40">
                   <Copy size={12} />
                   {localize("Copy selected", "ចម្លងតាមជម្រើស")}
                 </button>

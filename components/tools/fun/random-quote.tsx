@@ -43,7 +43,7 @@ export default function RandomQuote() {
       <button
         type="button"
         onClick={() => setQuote(randomQuote())}
-        className="flex items-center gap-1.5 rounded-md bg-[var(--gold)] px-4 py-2 text-sm font-semibold text-[#0a0c0d] transition hover:bg-[var(--gold-dim)]"
+        className="flex items-center gap-1.5 rounded-md bg-[var(--gold)] px-4 py-2 text-sm font-semibold text-[var(--on-gold)] transition hover:bg-[var(--gold-hover)]"
       >
         <RefreshCw size={14} /> {t("New quote", "សម្រង់ថ្មី")}
       </button>

@@ -79,7 +79,7 @@ export default function Hangman() {
               setGuessed(next);
               if (!word.includes(l)) setWrong((w) => w + 1);
             }}
-            className={`h-8 w-8 rounded text-xs font-medium transition ${guessed.has(l) ? (word.includes(l) ? "bg-[var(--gold)]/20 text-[var(--gold)]" : "bg-[var(--danger)]/10 text-[var(--danger)]") : "border border-[var(--ground-line)] bg-[var(--ground-raised)] text-[var(--ink)] hover:border-[var(--gold-dim)]"}`}
+            className={`h-8 w-8 rounded text-xs font-medium transition ${guessed.has(l) ? (word.includes(l) ? "bg-[var(--gold)]/20 text-[var(--gold-text)]" : "bg-[var(--danger)]/10 text-[var(--danger)]") : "border border-[var(--ground-line)] bg-[var(--ground-raised)] text-[var(--ink)] hover:border-[var(--gold-dim)]"}`}
           >
             {l}
           </button>

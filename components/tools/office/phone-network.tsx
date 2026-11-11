@@ -167,7 +167,7 @@ export default function PhoneNetworkFinder() {
             key={item.id}
             type="button"
             onClick={() => setTab(item.id)}
-            className={`flex shrink-0 items-center gap-1.5 rounded-md px-3 py-2 text-xs font-semibold transition ${tab === item.id ? "bg-[var(--gold)] text-[#0a0c0d]" : "text-[var(--ink-dim)] hover:text-[var(--ink)]"}`}
+            className={`flex shrink-0 items-center gap-1.5 rounded-md px-3 py-2 text-xs font-semibold transition ${tab === item.id ? "bg-[var(--gold)] text-[var(--on-gold)]" : "text-[var(--ink-dim)] hover:text-[var(--ink)]"}`}
           >
             <item.icon size={13} />
             {t(item.label, item.km)}
@@ -195,7 +195,7 @@ export default function PhoneNetworkFinder() {
                   ))}
                 </div>
               </div>
-              <a href={op.website} target="_blank" rel="noreferrer" className="mt-3 inline-flex items-center gap-1.5 text-xs font-medium text-[var(--gold)] hover:underline">
+              <a href={op.website} target="_blank" rel="noreferrer" className="mt-3 inline-flex items-center gap-1.5 text-xs font-medium text-[var(--gold-text)] hover:underline">
                 <ExternalLink size={12} />{op.website.replace("https://", "")}
               </a>
             </div>
@@ -232,7 +232,7 @@ export default function PhoneNetworkFinder() {
               const op = operator(plan.operatorId)!;
               return (
                 <div key={plan.id} className="relative rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4">
-                  {plan.popular && <span className="absolute right-3 top-3 rounded-full bg-[var(--danger)] px-2 py-0.5 text-[10px] font-bold text-white">{t("Popular", "ពេញនិយម")}</span>}
+                  {plan.popular && <span className="absolute right-3 top-3 rounded-full bg-[var(--danger)] px-2 py-0.5 text-[10px] font-bold text-[var(--on-danger)]">{t("Popular", "ពេញនិយម")}</span>}
                   <div className="flex items-center gap-2">
                     <span className="h-2.5 w-2.5 rounded-full" style={{ background: op.color }} />
                     <span className="text-xs font-semibold text-[var(--ink-dim)]">{t(op.name, op.km)}</span>
@@ -316,7 +316,7 @@ export default function PhoneNetworkFinder() {
             </Field>
           </div>
           <div className="flex items-center gap-2 text-xs text-[var(--ink-dim)]">
-            <Award size={14} className="text-[var(--gold)]" />
+            <Award size={14} className="text-[var(--gold-text)]" />
             {t("Recommended plans", "គម្រោងដែលណែនាំ")} ({recommended.length})
           </div>
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -370,7 +370,7 @@ export default function PhoneNetworkFinder() {
                     <div className="flex items-center gap-1.5"><Clock size={13} className="shrink-0 text-[var(--ink-faint)]" /><span>{store.hours}</span></div>
                     <div className="flex items-center gap-1.5"><Phone size={13} className="shrink-0 text-[var(--ink-faint)]" /><span>{store.phone}</span></div>
                   </div>
-                  <a href={`https://maps.google.com/?q=${store.lat},${store.lng}`} target="_blank" rel="noreferrer" className="mt-3 inline-flex items-center gap-1.5 text-xs font-medium text-[var(--gold)] hover:underline">
+                  <a href={`https://maps.google.com/?q=${store.lat},${store.lng}`} target="_blank" rel="noreferrer" className="mt-3 inline-flex items-center gap-1.5 text-xs font-medium text-[var(--gold-text)] hover:underline">
                     <ExternalLink size={12} />{t("View on Google Maps", "មើលលើ Google Maps")}
                   </a>
                 </div>
@@ -384,7 +384,7 @@ export default function PhoneNetworkFinder() {
         <div className="space-y-5">
           <div>
             <div className="mb-3 flex items-center gap-2">
-              <ShieldCheck size={15} className="text-[var(--gold)]" />
+              <ShieldCheck size={15} className="text-[var(--gold-text)]" />
               <span className="text-sm font-semibold text-[var(--ink)]">{t("Common codes (all operators)", "លេខកូដរួម (គ្រប់ប្រព័ន្ធ)")}</span>
             </div>
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">

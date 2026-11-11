@@ -88,10 +88,10 @@ export function RoadmapWorkbench({ mode }: { mode: WorkbenchMode }) {
     <div className="grid gap-5 lg:grid-cols-2">
       <div>
         <div className="mb-2 flex items-center justify-between"><span className="text-xs font-semibold text-[var(--ink-dim)]">{mode === "smart" ? "Universal input" : "Input"}</span><button onClick={() => setInput("")} className="text-xs text-[var(--ink-faint)] hover:text-[var(--ink)]">Clear</button></div>
-        <textarea value={input} onChange={(e) => setInput(e.target.value)} className="h-[26rem] w-full resize-y rounded-xl border border-[var(--ground-line)] bg-[var(--ground)] p-4 font-mono-ui text-sm text-[var(--ink)] outline-none focus:border-[var(--gold-dim)]" placeholder="Paste data here…" />
+        <textarea value={input} onChange={(e) => setInput(e.target.value)} className="h-[26rem] w-full resize-y rounded-xl border border-[var(--ground-line)] bg-[var(--ground)] p-4 font-mono-ui text-sm text-[var(--ink)] outline-none focus:border-[var(--focus)]" placeholder="Paste data here…" />
       </div>
       <div>
-        <div className="mb-2 flex items-center justify-between"><span className="text-xs font-semibold text-[var(--ink-dim)]">{mode === "smart" ? "Suggested tools" : "Output"}</span>{output && <button onClick={copy} className="flex items-center gap-1 text-xs text-[var(--gold)]">{copied ? <CheckCircle2 size={12} /> : <Copy size={12} />} {copied ? "Copied" : "Copy"}</button>}</div>
+        <div className="mb-2 flex items-center justify-between"><span className="text-xs font-semibold text-[var(--ink-dim)]">{mode === "smart" ? "Suggested tools" : "Output"}</span>{output && <button onClick={copy} className="flex items-center gap-1 text-xs text-[var(--gold-text)]">{copied ? <CheckCircle2 size={12} /> : <Copy size={12} />} {copied ? "Copied" : "Copy"}</button>}</div>
         <pre className="h-[26rem] overflow-auto whitespace-pre-wrap rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4 font-mono-ui text-sm text-[var(--ink-dim)]">{output || "Output will appear here…"}</pre>
       </div>
     </div>
@@ -105,6 +105,6 @@ function ChainWorkspace() {
     { title: "CSV → Map", steps: ["CSV Cleaner", "Coordinate Batch Converter", "GeoJSON Validator"] },
   ];
   return <ToolShell title="Tool Chains" khmerTitle="ខ្សែសង្វាក់ឧបករណ៍" description="Saveable linear workflows connecting existing toolbox tools." descriptionKm="ភ្ជាប់ឧបករណ៍ជាចំណុចៗ ដើម្បីបង្កើតលំហូរការងារ។">
-    <div className="grid gap-4 md:grid-cols-3">{chains.map((chain) => <div key={chain.title} className="rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4"><h3 className="font-semibold text-[var(--ink)]">{chain.title}</h3><div className="mt-4 space-y-2">{chain.steps.map((step, i) => <div key={step} className="flex items-center gap-2"><span className="flex h-6 w-6 items-center justify-center rounded-full bg-[var(--gold)]/15 text-xs font-bold text-[var(--gold)]">{i + 1}</span><span className="text-xs text-[var(--ink-dim)]">{step}</span></div>)}</div></div>)}</div>
+    <div className="grid gap-4 md:grid-cols-3">{chains.map((chain) => <div key={chain.title} className="rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4"><h3 className="font-semibold text-[var(--ink)]">{chain.title}</h3><div className="mt-4 space-y-2">{chain.steps.map((step, i) => <div key={step} className="flex items-center gap-2"><span className="flex h-6 w-6 items-center justify-center rounded-full bg-[var(--gold)]/15 text-xs font-bold text-[var(--gold-text)]">{i + 1}</span><span className="text-xs text-[var(--ink-dim)]">{step}</span></div>)}</div></div>)}</div>
   </ToolShell>;
 }

@@ -60,12 +60,12 @@ export function CollectionsSection({
   return (
     <div className="relative mx-auto mt-12 max-w-[77rem] px-5 sm:px-10">
       <div className="mb-3 flex items-baseline gap-2 border-b border-[var(--ground-line)] pb-2">
-        <Bookmark size={13} className="text-[var(--gold)]" fill="currentColor" />
+        <Bookmark size={13} className="text-[var(--gold-text)]" fill="currentColor" />
         <h2 className="font-display text-sm font-medium text-[var(--ink)]">{t("Collections", "បណ្តុំ")}</h2>
         <button
           type="button"
           onClick={createCollection}
-          className="flex items-center gap-1 rounded border border-[var(--gold-dim)] px-2 py-0.5 text-[11px] font-medium text-[var(--gold)] transition hover:bg-[var(--gold)] hover:text-[var(--ground)]"
+          className="flex items-center gap-1 rounded border border-[var(--gold-dim)] px-2 py-0.5 text-[11px] font-medium text-[var(--gold-text)] transition hover:bg-[var(--gold)] hover:text-[var(--ground)]"
         >
           <Plus size={11} />
           {t("New collection", "បណ្តុំថ្មី")}
@@ -107,7 +107,7 @@ export function CollectionsSection({
                           type="button"
                           onClick={commitRename}
                           aria-label={t("Save name", "រក្សាទុកឈ្មោះ")}
-                          className="flex h-6 w-6 items-center justify-center rounded border border-[var(--gold-dim)] text-[var(--gold)]"
+                          className="flex h-6 w-6 items-center justify-center rounded border border-[var(--gold-dim)] text-[var(--gold-text)]"
                         >
                           <Check size={12} />
                         </button>
@@ -186,7 +186,7 @@ export function CollectionsSection({
                               onClick={() => onToggleFavorite(tool.id)}
                               aria-label={isFav ? t("Remove from favorites", "ដកចេញពីចំណូលចិត្ត") : t("Add to favorites", "បន្ថែមទៅចំណូលចិត្ត")}
                               className={`shrink-0 rounded p-1 transition ${
-                                isFav ? "text-[var(--gold)] opacity-100" : "text-[var(--ink-faint)] opacity-0 group-hover:opacity-100"
+                                isFav ? "text-[var(--gold-text)] opacity-100" : "text-[var(--ink-faint)] opacity-0 group-hover:opacity-100"
                               }`}
                             >
                               <StarIcon filled={isFav} />

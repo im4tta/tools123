@@ -112,7 +112,7 @@ export default function PwnedCheck() {
               </div>
             </div>
           ) : (
-            <div className="flex items-start gap-3 rounded-lg border border-[var(--gold)]/40 bg-[var(--gold)]/10 p-4 text-sm text-[var(--gold)]">
+            <div className="flex items-start gap-3 rounded-lg border border-[var(--gold)]/40 bg-[var(--gold)]/10 p-4 text-sm text-[var(--gold-text)]">
               <ShieldCheck size={20} className="mt-0.5 shrink-0" />
               <div>
                 <p className="font-medium">{t("No known breaches for this password.", "មិនមានការលេចធ្លាយដែលគេស្គាល់សម្រាប់ពាក្យសម្ងាត់នេះទេ។")}</p>
@@ -148,8 +148,8 @@ export default function PwnedCheck() {
         <ul className="mt-3 space-y-1.5 text-xs text-[var(--ink-dim)]">
           <li>
             <span className="font-semibold text-[var(--ink)]">Have I Been Pwned</span> — Troy Hunt · CC BY-NC-4.0 ·{" "}
-            <a href="https://api.pwnedpasswords.com/range/" target="_blank" rel="noreferrer" className="text-[var(--gold)] underline underline-offset-2">api.pwnedpasswords.com</a> ·{" "}
-            <a href="https://haveibeenpwned.com/API/v3" target="_blank" rel="noreferrer" className="text-[var(--gold)] underline underline-offset-2">haveibeenpwned.com/API</a>
+            <a href="https://api.pwnedpasswords.com/range/" target="_blank" rel="noreferrer" className="text-[var(--gold-text)] underline underline-offset-2">api.pwnedpasswords.com</a> ·{" "}
+            <a href="https://haveibeenpwned.com/API/v3" target="_blank" rel="noreferrer" className="text-[var(--gold-text)] underline underline-offset-2">haveibeenpwned.com/API</a>
           </li>
         </ul>
       </div>

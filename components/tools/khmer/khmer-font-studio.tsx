@@ -796,7 +796,7 @@ export default function KhmerFontStudio() {
           onDragOver={e => { e.preventDefault(); setDragging(true); }}
           onDragLeave={() => setDragging(false)}
           onDrop={e => { e.preventDefault(); setDragging(false); if (e.dataTransfer.files.length) addFiles(e.dataTransfer.files); }}
-          className={`w-full rounded-lg border-2 border-dashed py-8 text-center transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--gold)] ${dragging ? "border-[var(--gold)] bg-[var(--gold)]/5" : "border-[var(--ground-line)] hover:border-[var(--gold-dim)]"}`}
+          className={`w-full rounded-lg border-2 border-dashed py-8 text-center transition focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)] ${dragging ? "border-[var(--gold)] bg-[var(--gold)]/5" : "border-[var(--ground-line)] hover:border-[var(--gold-dim)]"}`}
           aria-label={t("Drop .docx files here or click to choose", "ទម្លាក់ .docx នៅទីនេះ ឬចុចដើម្បីជ្រើស")}
         >
           <FileText className="mx-auto mb-2 text-[var(--ink-faint)]" size={22} />
@@ -847,7 +847,7 @@ export default function KhmerFontStudio() {
             <div className="flex flex-wrap gap-2">
               {(["fontSwap","legacyRecode"] as ConvertMode[]).map(m => (
                 <button key={m} type="button" onClick={() => setConvertMode(m)}
-                  className={`rounded-md border px-3 py-1.5 text-xs font-medium transition ${convertMode === m ? "border-[var(--gold)] bg-[var(--gold)]/10 text-[var(--gold)]" : "border-[var(--ground-line)] text-[var(--ink-dim)] hover:border-[var(--gold-dim)]"}`}>
+                  className={`rounded-md border px-3 py-1.5 text-xs font-medium transition ${convertMode === m ? "border-[var(--gold)] bg-[var(--gold)]/10 text-[var(--gold-text)]" : "border-[var(--ground-line)] text-[var(--ink-dim)] hover:border-[var(--gold-dim)]"}`}>
                   {m === "fontSwap"
                     ? t("Font swap (Unicode → Unicode)", "ជំនួសពុម្ព (Unicode → Unicode)")
                     : t("Legacy recode (Limon / ABC → Unicode)", "បំប្លែង Legacy (Limon / ABC → Unicode)")}
@@ -964,7 +964,7 @@ export default function KhmerFontStudio() {
             <div className="flex flex-wrap gap-2">
               {(["font","plain","custom"] as FilenameMode[]).map(m => (
                 <button key={m} type="button" onClick={() => setFnameMode(m)}
-                  className={`rounded-md border px-3 py-1.5 text-xs font-medium transition ${fnameMode===m ? "border-[var(--gold)] bg-[var(--gold)]/10 text-[var(--gold)]" : "border-[var(--ground-line)] text-[var(--ink-dim)] hover:border-[var(--gold-dim)]"}`}>
+                  className={`rounded-md border px-3 py-1.5 text-xs font-medium transition ${fnameMode===m ? "border-[var(--gold)] bg-[var(--gold)]/10 text-[var(--gold-text)]" : "border-[var(--ground-line)] text-[var(--ink-dim)] hover:border-[var(--gold-dim)]"}`}>
                   {m==="font"   ? t("Add font name","បន្ថែមឈ្មោះពុម្ព")         : ""}
                   {m==="plain"  ? t(`Add "(converted)"`, 'បន្ថែម "(converted)"') : ""}
                   {m==="custom" ? t("Custom suffix","បន្ថែមផ្ទាល់ខ្លួន")         : ""}
@@ -1058,7 +1058,7 @@ export default function KhmerFontStudio() {
           aria-live="assertive">
           {toasts.map((msg, i) => (
             <div key={i} className="pointer-events-auto flex items-center gap-2 rounded-full border border-[var(--ground-line)] bg-[var(--ground-raised)] px-4 py-2 text-sm text-[var(--ink)] shadow-lg">
-              <Info size={13} className="text-[var(--gold)] flex-none" />
+              <Info size={13} className="text-[var(--gold-text)] flex-none" />
               {msg}
             </div>
           ))}
@@ -1086,7 +1086,7 @@ function QueueRow({ item, fontName, onRemove, t }: QueueRowProps) {
 
   const statusIcon = {
     queued:  <span className="h-2 w-2 rounded-full bg-[var(--ink-faint)]" />,
-    working: <Loader2 size={12} className="animate-spin text-[var(--gold)]" />,
+    working: <Loader2 size={12} className="animate-spin text-[var(--gold-text)]" />,
     done:    <CheckCircle2 size={13} className="text-[var(--success,#3f7a50)]" />,
     error:   <AlertTriangle size={13} className="text-[var(--danger)]" />,
   }[item.status];
@@ -1171,7 +1171,7 @@ function QueueRow({ item, fontName, onRemove, t }: QueueRowProps) {
 
           <div className="flex flex-wrap items-center gap-4">
             <a href={item.result.url} download={item.result.outName}
-              className="inline-flex items-center gap-1.5 rounded-md bg-[var(--gold)] px-3 py-1.5 text-xs font-semibold text-[#0a0c0d] hover:opacity-90">
+              className="inline-flex items-center gap-1.5 rounded-md bg-[var(--gold)] px-3 py-1.5 text-xs font-semibold text-[var(--on-gold)] hover:opacity-90">
               <Download size={11} /> {t("Download","ទាញយក")}
             </a>
             {item.result.report.length > 0 && (

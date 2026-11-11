@@ -126,9 +126,10 @@
 .mobile-sheet { padding-bottom: calc(3.5rem + env(safe-area-inset-bottom)); }
 @media (max-width: 639.98px) {
   body { padding-bottom: calc(3.5rem + env(safe-area-inset-bottom)); }
-  .floating-corner-button,
   .floating-toast { bottom: calc(4.25rem + env(safe-area-inset-bottom)); }
-  .floating-corner-button { width: 2.75rem; height: 2.75rem; }
+  /* With the bottom nav on screen the floating scroll buttons covered output panels and copy
+     buttons (audit U6); phones scroll natively, so they are hidden here. */
+  .floating-corner-button { display: none; }
 }
 
 @media (max-width: 360px) {

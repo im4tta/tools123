@@ -91,7 +91,7 @@ export default function ExcelColumnConverter() {
               key={r}
               className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-2.5 py-1 font-mono-ui text-xs text-[var(--ink)]"
             >
-              <span className="text-[var(--gold)]">{r}</span>
+              <span className="text-[var(--gold-text)]">{r}</span>
               <span className="text-[var(--ink-faint)]"> = {lettersToNumber(r)}</span>
             </span>
           ))}

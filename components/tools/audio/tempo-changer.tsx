@@ -161,7 +161,7 @@ export default function TempoChangerTool() {
           <Upload size={15} />
           {busy && !buffer ? t("Decoding…", "កំពុងបកស្រាយ…") : file ? file.name : t("Click to choose an audio file", "ចុចដើម្បីជ្រើសរើសឯកសារសំឡេង")}
         </span>
-        <input type="file" accept="audio/*" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) handleFile(f); }} />
+        <input type="file" accept="audio/*" className="sr-only" onChange={(e) => { const f = e.target.files?.[0]; if (f) handleFile(f); }} />
       </label>
 
       {error && <p className="text-sm text-[var(--danger)]">{error}</p>}

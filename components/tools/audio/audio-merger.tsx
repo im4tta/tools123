@@ -182,7 +182,7 @@ export default function AudioMergerTool() {
             mode === "merge" ? "ជ្រើសរើសឯកសារសំឡេង (ច្រើន)" : "ជ្រើសរើសឯកសារសំឡេង"
           )}
         </span>
-        <input type="file" accept="audio/*" multiple={mode === "merge"} className="hidden" onChange={(e) => addFiles(e.target.files)} />
+        <input type="file" accept="audio/*" multiple={mode === "merge"} className="sr-only" onChange={(e) => addFiles(e.target.files)} />
       </label>
 
       {items.length > 0 && (
@@ -242,7 +242,7 @@ export default function AudioMergerTool() {
           <a
             href={resultUrl}
             download="merged.wav"
-            className="inline-flex items-center gap-1.5 rounded-md bg-[var(--gold)] px-3 py-1.5 text-xs font-medium text-[#0a0c0d] hover:opacity-90"
+            className="inline-flex items-center gap-1.5 rounded-md bg-[var(--gold)] px-3 py-1.5 text-xs font-medium text-[var(--on-gold)] hover:opacity-90"
           >
             <Download size={13} /> {t("Download WAV", "ទាញយក WAV")} — {(resultSize / 1024 / 1024).toFixed(2)} MB
           </a>

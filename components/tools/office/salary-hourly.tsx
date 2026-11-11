@@ -67,7 +67,7 @@ export default function SalaryHourly() {
           {rows.map((r, i) => (
             <div key={r.label} className={`flex items-center justify-between px-4 py-2.5 ${i % 2 ? "bg-[var(--ground-raised)]" : ""}`}>
               <span className="text-sm text-[var(--ink-dim)]">{r.label}</span>
-              <span className={`font-mono-ui text-base font-semibold ${i === rows.length - 1 ? "text-[var(--gold)]" : "text-[var(--ink)]"}`}>{fmt(r.value)}</span>
+              <span className={`font-mono-ui text-base font-semibold ${i === rows.length - 1 ? "text-[var(--gold-text)]" : "text-[var(--ink)]"}`}>{fmt(r.value)}</span>
             </div>
           ))}
         </div>

@@ -55,7 +55,7 @@ export default function KhmerKeywordExtractor() {
         <div className="grid gap-4 sm:grid-cols-2">
           <div>
             <div className="mb-2 flex items-center justify-between">
-              <span className="flex items-center gap-2 text-xs font-medium uppercase tracking-wide text-[var(--ink-dim)]"><Tags size={14} className="text-[var(--gold)]" />{t("Top keywords", "ពាក្យគន្លឹះ")}</span>
+              <span className="flex items-center gap-2 text-xs font-medium uppercase tracking-wide text-[var(--ink-dim)]"><Tags size={14} className="text-[var(--gold-text)]" />{t("Top keywords", "ពាក្យគន្លឹះ")}</span>
               <CopyButton text={copyText} compact />
             </div>
             <ul className="space-y-1.5">

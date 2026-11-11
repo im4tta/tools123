@@ -133,7 +133,7 @@ export default function ScanCleanup() {
             <ImagePlus size={30} className="text-[var(--ink-faint)]" />
             <span className="text-sm font-medium text-[var(--ink)]">{t("Choose document photos", "ជ្រើសរូបថតឯកសារ")}</span>
             <span className="text-xs text-[var(--ink-faint)]">{t("JPG or PNG — you can pick several", "JPG ឬ PNG — អាចជ្រើសច្រើន")}</span>
-            <input type="file" accept="image/*" multiple className="hidden" onChange={(e) => { addFiles(e.target.files); e.target.value = ""; }} />
+            <input type="file" accept="image/*" multiple className="sr-only" onChange={(e) => { addFiles(e.target.files); e.target.value = ""; }} />
           </label>
         </div>
       ) : (
@@ -157,7 +157,7 @@ export default function ScanCleanup() {
               {t("Auto-straighten", "តម្រង់ស្វ័យប្រវត្តិ")}
             </label>
             <label className="ml-auto flex cursor-pointer items-center gap-2 rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised-hi)] px-3 py-2 text-sm text-[var(--ink)] transition hover:border-[var(--gold-dim)]">
-              <ImagePlus size={15} className="text-[var(--gold)]" />{t("Add more", "បន្ថែម")}<input type="file" accept="image/*" multiple className="hidden" onChange={(e) => { addFiles(e.target.files); e.target.value = ""; }} />
+              <ImagePlus size={15} className="text-[var(--gold-text)]" />{t("Add more", "បន្ថែម")}<input type="file" accept="image/*" multiple className="sr-only" onChange={(e) => { addFiles(e.target.files); e.target.value = ""; }} />
             </label>
           </div>
 
@@ -171,7 +171,7 @@ export default function ScanCleanup() {
                   ) : (
                     <div className="flex aspect-[3/4] w-full items-center justify-center rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)]"><Loader2 size={18} className="animate-spin text-[var(--ink-faint)]" /></div>
                   )}
-                  <button onClick={() => remove(it.id)} className="absolute right-1 top-1 flex h-6 w-6 items-center justify-center rounded-full bg-black/60 text-white hover:bg-[var(--danger)]" aria-label={t("Remove", "លុប")}><Trash2 size={12} /></button>
+                  <button onClick={() => remove(it.id)} className="absolute right-1 top-1 flex h-6 w-6 items-center justify-center rounded-full bg-black/60 text-white hover:bg-[var(--danger)] hover:text-[var(--on-danger)]" aria-label={t("Remove", "លុប")}><Trash2 size={12} /></button>
                 </div>
                 <span className="mt-1 max-w-full truncate text-[10px] text-[var(--ink-faint)]">{i + 1}. {it.name}</span>
               </div>

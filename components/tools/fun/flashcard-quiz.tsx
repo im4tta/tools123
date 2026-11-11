@@ -148,7 +148,7 @@ export default function FlashcardQuiz() {
                     <span className="w-6 shrink-0 text-right font-mono-ui text-xs leading-5 text-[var(--ink-faint)]">{i + 1}</span>
                     <span className="min-w-0 flex-1 truncate text-[var(--ink)]">{c.q}</span>
                     <span className="shrink-0 text-[var(--ink-faint)]">→</span>
-                    <span className="min-w-0 flex-1 truncate text-[var(--gold)]">{c.a}</span>
+                    <span className="min-w-0 flex-1 truncate text-[var(--gold-text)]">{c.a}</span>
                   </li>
                 ))}
               </ul>
@@ -164,7 +164,7 @@ export default function FlashcardQuiz() {
       {phase === "quiz" && currentCard && (
         <div className="mx-auto max-w-xl space-y-4">
           <div className="flex flex-wrap items-center justify-between gap-2 text-sm">
-            <span className="font-medium text-[var(--gold)]">
+            <span className="font-medium text-[var(--gold-text)]">
               {masteredCount} {t("of", "ក្នុងចំណោម")} {totalCards} {t("mastered", "បានចេះ")}
             </span>
             <span className="font-mono-ui text-xs text-[var(--ink-dim)]">
@@ -190,7 +190,7 @@ export default function FlashcardQuiz() {
             {flipped ? (
               <>
                 <div className="text-xs font-medium uppercase tracking-wide text-[var(--ink-dim)]">{t("Answer", "ចម្លើយ")}</div>
-                <p className="mt-3 break-words text-base leading-relaxed text-[var(--gold)]">{currentCard.a}</p>
+                <p className="mt-3 break-words text-base leading-relaxed text-[var(--gold-text)]">{currentCard.a}</p>
               </>
             ) : (
               <p className="text-sm italic text-[var(--ink-faint)]">{t("Think about it, then reveal the answer.", "គិតមើលសិន រួចបង្ហាញចម្លើយ។")}</p>
@@ -229,7 +229,7 @@ export default function FlashcardQuiz() {
 
       {phase === "done" && (
         <div className="mx-auto max-w-md rounded-xl border border-[var(--gold)]/40 bg-[var(--ground-raised)] p-8 text-center">
-          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[var(--gold)]/20 text-[var(--gold)]">
+          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[var(--gold)]/20 text-[var(--gold-text)]">
             <Trophy size={26} />
           </div>
           <h2 className="mt-4 font-display text-xl font-semibold text-[var(--ink)]">

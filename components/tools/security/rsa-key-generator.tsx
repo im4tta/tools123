@@ -105,13 +105,13 @@ export default function RsaKeyGenerator() {
         <h3 className="mb-3 font-semibold text-[var(--ink)]">{t("Source & Credits", "ប្រភព និងក្រេឌីត")}</h3>
         <ul className="space-y-1.5 text-xs text-[var(--ink-dim)]">
           <li>
-            <a href="https://www.rfc-editor.org/rfc/rfc8017" target="_blank" rel="noreferrer" className="text-[var(--gold)] underline underline-offset-2">
+            <a href="https://www.rfc-editor.org/rfc/rfc8017" target="_blank" rel="noreferrer" className="text-[var(--gold-text)] underline underline-offset-2">
               RFC 8017
             </a>{" "}
             — {t("RSA-OAEP encryption scheme", "គ្រោងការអ៊ិនគ្រីប RSA-OAEP")}
           </li>
           <li>
-            <a href="https://csrc.nist.gov/pubs/sp/800/57/r1/upd1/final" target="_blank" rel="noreferrer" className="text-[var(--gold)] underline underline-offset-2">
+            <a href="https://csrc.nist.gov/pubs/sp/800/57/r1/upd1/final" target="_blank" rel="noreferrer" className="text-[var(--gold-text)] underline underline-offset-2">
               NIST SP 800-57
             </a>{" "}
             — {t("Key-size security strength estimates", "ការប៉ាន់ស្មានកម្លាំងសន្តិសុខតាមទំហំសោ")}

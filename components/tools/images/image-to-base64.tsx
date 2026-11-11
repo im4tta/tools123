@@ -24,7 +24,7 @@ export default function ImageToBase64Tool() {
         <input
           type="file"
           accept="image/*"
-          className="hidden"
+          className="sr-only"
           onChange={(e) => {
             const f = e.target.files?.[0];
             if (f) handleFile(f);

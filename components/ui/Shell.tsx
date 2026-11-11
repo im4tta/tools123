@@ -4,6 +4,8 @@ import { Children, cloneElement, isValidElement, ReactNode } from "react";
 import { useLanguage } from "@/components/LanguageProvider";
 import { modeNeedsKhmerDescriptions, useDescriptionsKm } from "@/lib/i18n-descriptions-loader";
 import { toKhmerToolTitle } from "@/lib/tool-title-km";
+import { StatusPill } from "@/components/ui/StatusPill";
+import { useToolPage } from "@/components/ui/ToolPageContext";
 
 /** Localises a shared UI string through the active-language dictionaries. */
 function useUiText() {
@@ -35,6 +37,25 @@ export function ToolShell({
   );
 }
 
+/**
+ * Where the tool's work happens, from the generated network audit (lib/tool-residency.ts).
+ * Shown only on tool pages and only for audited tools, so it never claims more than the audit found.
+ */
+function ResidencyBadge() {
+  const { text } = useLanguage();
+  const residency = useToolPage()?.residency;
+  if (!residency) return null;
+  return (
+    <div className="mt-3">
+      {residency === "network" ? (
+        <StatusPill kind="info">{text("Connects to the internet", "ភ្ជាប់អ៊ីនធឺណិត")}</StatusPill>
+      ) : (
+        <StatusPill kind="ok">{text("Processed on this device", "ដំណើរការលើឧបករណ៍នេះ")}</StatusPill>
+      )}
+    </div>
+  );
+}
+
 function ShellHeader({ title, khmerTitle, description, descriptionKm }: { title: string; khmerTitle?: string; description: string; descriptionKm?: string }) {
   const { mode, ui } = useLanguage();
   const resolvedKhmerTitle = khmerTitle ?? toKhmerToolTitle(title);
@@ -55,11 +76,12 @@ function ShellHeader({ title, khmerTitle, description, descriptionKm }: { title:
       <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
         <h1 className="font-display text-2xl font-semibold text-[var(--ink)]">{localizedTitle}</h1>
         {mode === "bi" && resolvedKhmerTitle !== title && (
-          <span lang="km" className="font-khmer text-lg text-[var(--gold)]">{resolvedKhmerTitle}</span>
+          <span lang="km" className="font-khmer text-lg text-[var(--gold-text)]">{resolvedKhmerTitle}</span>
         )}
       </div>
       <div aria-hidden className="mt-3 h-[3px] w-10 rounded-full bg-gradient-to-r from-[var(--gold)] to-transparent" />
       <p className="mt-3 text-sm leading-relaxed text-[var(--ink-dim)]">{localizedDescription}</p>
+      <ResidencyBadge />
     </header>
   );
 }
@@ -103,7 +125,7 @@ export function Field({
   return (
     <label className="block">
       <span className="mb-1.5 flex items-baseline justify-between">
-        <span className="text-xs font-medium uppercase tracking-wide text-[var(--ink-dim)]">
+        <span className="ui-label text-[var(--ink-dim)]">
           {labelKm ? text(label, labelKm) : ui(label)}
         </span>
         {hint && <span className="text-xs text-[var(--ink-faint)]">{hintKm ? text(hint, hintKm) : ui(hint)}</span>}
@@ -114,7 +136,7 @@ export function Field({
 }
 
 const inputClass =
-  "w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 text-sm text-[var(--ink)] outline-none placeholder:text-[var(--ink-faint)] focus:border-[var(--gold-dim)] focus:ring-1 focus:ring-[var(--gold-dim)]";
+  "w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 text-sm text-[var(--ink)] outline-none placeholder:text-[var(--ink-faint)] focus:border-[var(--focus)] focus:ring-1 focus:ring-[var(--focus)]";
 
 export function TextInput(props: React.InputHTMLAttributes<HTMLInputElement>) {
   const ui = useUiText();

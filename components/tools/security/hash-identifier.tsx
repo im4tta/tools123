@@ -48,7 +48,7 @@ const LENGTH_TABLE: { length: number; candidates: Candidate[] }[] = [
 ];
 
 const CONFIDENCE_UI: Record<Confidence, { label: string; labelKm: string; cls: string }> = {
-  high: { label: "High confidence", labelKm: "ទំនុកចិត្តខ្ពស់", cls: "border-[var(--gold)]/40 bg-[var(--gold)]/10 text-[var(--gold)]" },
+  high: { label: "High confidence", labelKm: "ទំនុកចិត្តខ្ពស់", cls: "border-[var(--gold)]/40 bg-[var(--gold)]/10 text-[var(--gold-text)]" },
   medium: { label: "Medium confidence", labelKm: "ទំនុកចិត្តមធ្យម", cls: "border-[var(--ground-line)] bg-[var(--ground-raised)] text-[var(--ink)]" },
   low: { label: "Low confidence", labelKm: "ទំនុកចិត្តទាប", cls: "border-[var(--ground-line)] bg-[var(--ground-raised)] text-[var(--ink-dim)]" },
 };

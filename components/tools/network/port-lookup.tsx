@@ -30,7 +30,7 @@ export default function PortLookup() {
       <div className="divide-y divide-[var(--ground-line)] rounded-md border border-[var(--ground-line)]">
         {results.map(([port, name, desc]) => (
           <div key={port} className="flex items-center gap-4 px-3 py-2 text-sm">
-            <span className="w-14 font-mono-ui text-[var(--gold)]">{port}</span>
+            <span className="w-14 font-mono-ui text-[var(--gold-text)]">{port}</span>
             <span className="w-24 shrink-0 text-[var(--ink)]">{name}</span>
             <span className="text-[var(--ink-dim)]">{desc}</span>
           </div>

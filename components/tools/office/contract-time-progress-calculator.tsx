@@ -183,14 +183,14 @@ export default function ContractTimeProgressCalculator() {
         <button
           type="button"
           onClick={() => setData(SAMPLE)}
-          className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-1.5 text-xs font-medium text-[var(--ink-dim)] transition hover:border-[var(--gold-dim)] hover:text-[var(--gold)]"
+          className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-1.5 text-xs font-medium text-[var(--ink-dim)] transition hover:border-[var(--gold-dim)] hover:text-[var(--gold-text)]"
         >
           {text("Fill sample", "បំពេញគំរូ")}
         </button>
         <button
           type="button"
           onClick={() => setData(BLANK)}
-          className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-1.5 text-xs font-medium text-[var(--ink-dim)] transition hover:border-[var(--gold-dim)] hover:text-[var(--gold)]"
+          className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-1.5 text-xs font-medium text-[var(--ink-dim)] transition hover:border-[var(--gold-dim)] hover:text-[var(--gold-text)]"
         >
           {text("Reset", "កំណត់ឡើងវិញ")}
         </button>
@@ -222,7 +222,7 @@ export default function ContractTimeProgressCalculator() {
             <button
               type="button"
               onClick={setTodayCutoff}
-              className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 text-sm text-[var(--ink-dim)] transition hover:border-[var(--gold-dim)] hover:text-[var(--gold)]"
+              className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 text-sm text-[var(--ink-dim)] transition hover:border-[var(--gold-dim)] hover:text-[var(--gold-text)]"
             >
               {text("Set cut-off to today", "កំណត់ថ្ងៃកំណត់ជាថ្ងៃនេះ")}
             </button>
@@ -266,7 +266,7 @@ export default function ContractTimeProgressCalculator() {
         </div>
         <div className={cardClass}>
           <div className="text-xs font-medium uppercase tracking-wide text-[var(--ink-dim)]">{text("Time elapsed", "ពេលកន្លងផុត")}</div>
-          <div className="mt-1 text-2xl font-semibold text-[var(--gold)]">
+          <div className="mt-1 text-2xl font-semibold text-[var(--gold-text)]">
             {calc.elapsedDays !== null ? `${calc.elapsedDays} ${text("d", "ថ្ងៃ")}` : "—"}
           </div>
           <div className="mt-1 text-xs text-[var(--ink-dim)]">
@@ -350,14 +350,14 @@ export default function ContractTimeProgressCalculator() {
                   <tr key={i} className="border-b border-[var(--ground-line)]">
                     <td className="p-2.5">{row.monthYear}</td>
                     <td className="p-2.5 text-[var(--ink-dim)]">{row.daysInMonth}</td>
-                    <td className="p-2.5 text-[var(--gold)]">+{row.countedDays}</td>
+                    <td className="p-2.5 text-[var(--gold-text)]">+{row.countedDays}</td>
                     <td className="p-2.5 font-semibold">{row.cumulativeDays}</td>
                   </tr>
                 ))}
                 <tr className="bg-[var(--ground-raised-hi)] font-semibold">
                   <td className="p-2.5">{text("Total elapsed", "សរុបកន្លងផុត")}</td>
                   <td className="p-2.5">—</td>
-                  <td className="p-2.5 text-[var(--gold)]">{calc.elapsedDays ?? 0}</td>
+                  <td className="p-2.5 text-[var(--gold-text)]">{calc.elapsedDays ?? 0}</td>
                   <td className="p-2.5">{calc.elapsedDays ?? 0}</td>
                 </tr>
               </tbody>

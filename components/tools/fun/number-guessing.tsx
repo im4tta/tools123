@@ -22,7 +22,7 @@ export default function NumberGuessing() {
     if (last.hint === "win") return { text: t("🎉 Correct! You got it!", "🎉 ត្រឹមត្រូវហើយ!"), cls: "border-[var(--green)]/40 bg-[var(--green)]/15 text-[var(--green)]" };
     return {
       text: last.hint === "low" ? t("Too low — guess higher", "តិចពេក — ស្មានឱ្យខ្ពស់ជាង") : t("Too high — guess lower", "ច្រើនពេក — ស្មានឱ្យទាបជាង"),
-      cls: "border-[var(--gold)]/40 bg-[var(--gold)]/10 text-[var(--gold)]",
+      cls: "border-[var(--gold)]/40 bg-[var(--gold)]/10 text-[var(--gold-text)]",
     };
   }, [last, t]);
 
@@ -93,7 +93,7 @@ export default function NumberGuessing() {
 
       <div className="flex flex-wrap items-center gap-3 text-sm text-[var(--ink-dim)]">
         <span>
-          {t("Attempts", "ការស្មាន")}: <b className="text-[var(--gold)]">{attempts}</b>
+          {t("Attempts", "ការស្មាន")}: <b className="text-[var(--gold-text)]">{attempts}</b>
         </span>
         {history.length > 0 && (
           <span className="font-mono-ui">

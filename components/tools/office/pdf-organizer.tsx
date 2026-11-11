@@ -113,7 +113,7 @@ export default function PdfOrganizerTool() {
       {!file && (
         <label className="flex cursor-pointer flex-col items-center justify-center gap-2 rounded-md border border-dashed border-[var(--ground-line)] bg-[var(--ground-raised)] px-4 py-8 text-center text-sm text-[var(--ink-dim)] transition hover:border-[var(--gold-dim)]">
           <span>{busy ? "Reading…" : "Click to choose a PDF file"}</span>
-          <input type="file" accept="application/pdf" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) handleFile(f); }} />
+          <input type="file" accept="application/pdf" className="sr-only" onChange={(e) => { const f = e.target.files?.[0]; if (f) handleFile(f); }} />
         </label>
       )}
 
@@ -163,7 +163,7 @@ export default function PdfOrganizerTool() {
           {resultUrl && (
             <div className="flex items-center justify-between rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2.5 text-sm">
               <span className="text-[var(--ink-dim)]">Ready — {formatBytes(resultSize)}</span>
-              <a href={resultUrl} download="organized.pdf" className="flex items-center gap-1.5 rounded-md bg-[var(--gold)] px-3 py-1.5 text-xs font-medium text-[#0a0c0d] hover:bg-[var(--gold-dim)]">
+              <a href={resultUrl} download="organized.pdf" className="flex items-center gap-1.5 rounded-md bg-[var(--gold)] px-3 py-1.5 text-xs font-medium text-[var(--on-gold)] hover:bg-[var(--gold-hover)]">
                 <Download size={13} /> Download
               </a>
             </div>

@@ -90,7 +90,7 @@ export default function AdministrativeHierarchy() {
                     <button type="button" onClick={() => apply(hit)} className="flex w-full flex-col gap-0.5 px-3 py-1.5 text-left hover:bg-[var(--gold-dim)]/10">
                       <span className="flex items-baseline gap-2 text-sm text-[var(--ink)]">
                         <span className="font-medium">{t(hit.en, hit.kh)}</span>
-                        <code className="text-xs text-[var(--gold)]">{hit.code}</code>
+                        <code className="text-xs text-[var(--gold-text)]">{hit.code}</code>
                         <span className="ml-auto text-[10px] uppercase tracking-wide text-[var(--ink-faint)]">{t(...LEVEL_LABEL[hit.level])}</span>
                       </span>
                       <span className="truncate text-xs text-[var(--ink-faint)]">{t(hit.pathEn, hit.pathKh)}</span>
@@ -109,7 +109,7 @@ export default function AdministrativeHierarchy() {
       <Field label="Commune / Sangkat" labelKm="ឃុំ / សង្កាត់"><Select value={communeCode} disabled={!district} onChange={(e) => { setCommuneCode(e.target.value); setVillageCode(""); }}><option value="">{t("Select…", "សូមជ្រើសរើស…")}</option>{district?.communes.map((item) => <option key={item.code} value={item.code}>{item.code} · {t(item.en, item.kh)}</option>)}</Select></Field>
       <Field label="Village" labelKm="ភូមិ"><Select value={villageCode} disabled={!commune} onChange={(e) => setVillageCode(e.target.value)}><option value="">{t("Select…", "សូមជ្រើសរើស…")}</option>{commune?.villages.map((item) => <option key={item.code} value={item.code}>{item.code} · {t(item.en, item.kh)}</option>)}</Select></Field>
     </div>
-    {!!selected.length && <section className="rounded-md border border-[var(--gold-dim)] bg-[var(--ground-raised)] p-4"><div className="flex items-start justify-between gap-3"><p className="text-lg text-[var(--ink)]">{path}</p><CopyButton text={copy} compact /></div><div className="mt-3 flex flex-wrap gap-2">{selected.map((item) => item && <code key={item.code} className="rounded bg-[var(--ground)] px-2 py-1 text-xs text-[var(--gold)]">{item.code}</code>)}</div></section>}
+    {!!selected.length && <section className="rounded-md border border-[var(--gold-dim)] bg-[var(--ground-raised)] p-4"><div className="flex items-start justify-between gap-3"><p className="text-lg text-[var(--ink)]">{path}</p><CopyButton text={copy} compact /></div><div className="mt-3 flex flex-wrap gap-2">{selected.map((item) => item && <code key={item.code} className="rounded bg-[var(--ground)] px-2 py-1 text-xs text-[var(--gold-text)]">{item.code}</code>)}</div></section>}
     <p className="text-xs text-[var(--ink-faint)]">{t("Verify administrative changes against current Ministry of Interior records before official use.", "សម្រាប់ការប្រើប្រាស់ផ្លូវការ សូមផ្ទៀងផ្ទាត់ការផ្លាស់ប្តូររដ្ឋបាលជាមួយទិន្នន័យបច្ចុប្បន្នរបស់ក្រសួងមហាផ្ទៃ។")}</p>
   </ToolShell>;
 }

@@ -30,7 +30,7 @@ export default function RouteError({ error, retry }: { error: Error & { digest?:
           <button
             type="button"
             onClick={() => (chunk ? window.location.reload() : retry())}
-            className="ui-touch inline-flex items-center gap-1.5 rounded-md bg-[var(--gold)] px-4 py-2 text-sm font-medium text-[#0a0c0d] transition hover:bg-[var(--gold-dim)]"
+            className="ui-touch inline-flex items-center gap-1.5 rounded-md bg-[var(--gold)] px-4 py-2 text-sm font-medium text-[var(--on-gold)] transition hover:bg-[var(--gold-hover)]"
           >
             <RotateCcw size={14} aria-hidden="true" />
             {t("Try again", "សាកល្បងម្តងទៀត")}

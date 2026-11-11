@@ -84,7 +84,7 @@ export default function KhmerSpellingBee() {
             {[outer.slice(0, 2), [outer[2], puzzle.center, outer[3]], outer.slice(4)].map((row, r) => (
               <div key={r} className="flex justify-center gap-2">
                 {row.filter(Boolean).map((l) => (
-                  <button key={l} type="button" onClick={() => setEntry(entry + l)} className={`${tile} ${l === puzzle.center ? "border-[var(--gold)] bg-[var(--gold)] text-[#0a0c0d]" : "border-[var(--ground-line)] bg-[var(--ground-raised)] text-[var(--ink)]"}`}>
+                  <button key={l} type="button" onClick={() => setEntry(entry + l)} className={`${tile} ${l === puzzle.center ? "border-[var(--gold)] bg-[var(--gold)] text-[var(--on-gold)]" : "border-[var(--ground-line)] bg-[var(--ground-raised)] text-[var(--ink)]"}`}>
                     <span lang="km">{l}</span>
                   </button>
                 ))}
@@ -107,14 +107,14 @@ export default function KhmerSpellingBee() {
           </div>
 
           <form className="flex gap-2" onSubmit={(e) => { e.preventDefault(); submit(); }}>
-            <input value={entry} onChange={(e) => setEntry(e.target.value)} lang="km" aria-label={t("Or type the word", "ឬវាយពាក្យ")} placeholder={t("…or type with a Khmer keyboard", "…ឬវាយដោយក្ដារចុចខ្មែរ")} className="min-w-0 flex-1 rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 font-khmer text-lg text-[var(--ink)] outline-none focus:border-[var(--gold-dim)]" />
+            <input value={entry} onChange={(e) => setEntry(e.target.value)} lang="km" aria-label={t("Or type the word", "ឬវាយពាក្យ")} placeholder={t("…or type with a Khmer keyboard", "…ឬវាយដោយក្ដារចុចខ្មែរ")} className="min-w-0 flex-1 rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 font-khmer text-lg text-[var(--ink)] outline-none focus:border-[var(--focus)]" />
           </form>
 
           {found.length > 0 && (
             <div>
               <p className="mb-1.5 text-xs font-medium uppercase tracking-wide text-[var(--ink-dim)]">{t("Found", "បានរកឃើញ")}</p>
               <p lang="km" className="flex flex-wrap gap-1.5 font-khmer text-lg">
-                {found.map((w) => <span key={w} className={`rounded px-2 ${isPangram(w, full) ? "bg-[var(--gold)]/20 text-[var(--gold)]" : "bg-[var(--ground-raised)] text-[var(--ink)]"}`}>{w}</span>)}
+                {found.map((w) => <span key={w} className={`rounded px-2 ${isPangram(w, full) ? "bg-[var(--gold)]/20 text-[var(--gold-text)]" : "bg-[var(--ground-raised)] text-[var(--ink)]"}`}>{w}</span>)}
               </p>
             </div>
           )}

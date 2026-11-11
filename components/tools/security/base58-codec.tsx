@@ -293,7 +293,7 @@ export default function Base58Codec() {
         </p>
         <ul className="mt-3 space-y-1.5 text-xs text-[var(--ink-dim)]">
           <li>
-            <a href="https://en.bitcoin.it/wiki/Base58Check_encoding" target="_blank" rel="noreferrer" className="text-[var(--gold)] underline underline-offset-2">
+            <a href="https://en.bitcoin.it/wiki/Base58Check_encoding" target="_blank" rel="noreferrer" className="text-[var(--gold-text)] underline underline-offset-2">
               Bitcoin Wiki — Base58Check encoding
             </a>
           </li>

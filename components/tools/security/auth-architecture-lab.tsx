@@ -41,7 +41,7 @@ type MethodGroup = "selfie" | "biometric" | "identification" | "delegation" | "c
 type Accent = "gold" | "teal" | "slate" | "danger" | "success";
 
 const ACCENTS: Record<Accent, { text: string; bg10: string; border: string; dot: string }> = {
-  gold: { text: "text-[var(--gold)]", bg10: "bg-[var(--gold)]/10", border: "border-[var(--gold)]/40", dot: "bg-[var(--gold)]" },
+  gold: { text: "text-[var(--gold-text)]", bg10: "bg-[var(--gold)]/10", border: "border-[var(--gold)]/40", dot: "bg-[var(--gold)]" },
   teal: { text: "text-[var(--teal)]", bg10: "bg-[var(--teal)]/10", border: "border-[var(--teal)]/40", dot: "bg-[var(--teal)]" },
   slate: { text: "text-[var(--slate-accent)]", bg10: "bg-[var(--slate-accent)]/10", border: "border-[var(--slate-accent)]/40", dot: "bg-[var(--slate-accent)]" },
   danger: { text: "text-[var(--danger)]", bg10: "bg-[var(--danger)]/10", border: "border-[var(--danger)]/40", dot: "bg-[var(--danger)]" },
@@ -232,7 +232,7 @@ Authorization: Bearer v2.local.8a93b71c...`,
     group: "delegation",
     accent: "gold",
     icon: FileJson,
-    desc: "បែងចែកជា ៣ ផ្នែក (<span class=\"text-[var(--danger)]\">Header</span>.<span class=\"text-[var(--gold)]\">Payload</span>.<span class=\"text-[var(--teal)]\">Signature</span>)។ អនុញ្ញាតឱ្យ Microservices ផ្ទៀងផ្ទាត់ Claims ដោយមិនបាច់សួរ DB (Stateless) ដោយប្រើ Public Key។",
+    desc: "បែងចែកជា ៣ ផ្នែក (<span class=\"text-[var(--danger)]\">Header</span>.<span class=\"text-[var(--gold-text)]\">Payload</span>.<span class=\"text-[var(--teal)]\">Signature</span>)។ អនុញ្ញាតឱ្យ Microservices ផ្ទៀងផ្ទាត់ Claims ដោយមិនបាច់សួរ DB (Stateless) ដោយប្រើ Public Key។",
     trust: "ការពារ Microservices ពីការកកស្ទះនៃការស្វែងរកក្នុង DB។ ផ្លាស់ប្តូរការផ្ទៀងផ្ទាត់មកជាការផ្ទៀងផ្ទាត់ Cryptographic Signature។",
     code: `Authorization: Bearer eyJhbG...eyJzdWI...SflKxw...`,
     strength: "មិនបាច់សួរ DB ដើម្បីផ្ទៀងផ្ទាត់ Token; ល្អឥតខ្ចោះសម្រាប់ Microservices Mesh។",
@@ -711,11 +711,11 @@ export default function AuthArchitectureLab() {
       {/* Intro */}
       <div className="rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)] p-5">
         <div className="flex items-start gap-3">
-          <div className="rounded-lg bg-[var(--gold)]/10 p-2.5 text-[var(--gold)]">
+          <div className="rounded-lg bg-[var(--gold)]/10 p-2.5 text-[var(--gold-text)]">
             <Shield size={22} />
           </div>
           <p className="text-sm leading-relaxed text-[var(--ink-dim)]">
-            យន្តការផ្ទៀងផ្ទាត់នីមួយៗការពារ <strong className="text-[var(--gold)]">ដែនកំណត់ទំនុកចិត្ត (Trust Boundary)</strong> ផ្សេងៗគ្នា — ចាប់ពីឧបករណ៍ Hardware ស្កេនជីវមាត្រ (Face ID, Fingerprint, Iris) រហូតដល់ប្រព័ន្ធ AI Selfie Liveness របស់ Meta & Google។ ស្វែងយល់ពីយន្តការទាំង ១៣ ដើម្បីសាងសង់ប្រព័ន្ធប្រកបដោយសុវត្ថិភាពខ្ពស់។
+            យន្តការផ្ទៀងផ្ទាត់នីមួយៗការពារ <strong className="text-[var(--gold-text)]">ដែនកំណត់ទំនុកចិត្ត (Trust Boundary)</strong> ផ្សេងៗគ្នា — ចាប់ពីឧបករណ៍ Hardware ស្កេនជីវមាត្រ (Face ID, Fingerprint, Iris) រហូតដល់ប្រព័ន្ធ AI Selfie Liveness របស់ Meta & Google។ ស្វែងយល់ពីយន្តការទាំង ១៣ ដើម្បីសាងសង់ប្រព័ន្ធប្រកបដោយសុវត្ថិភាពខ្ពស់។
           </p>
         </div>
       </div>
@@ -776,7 +776,7 @@ export default function AuthArchitectureLab() {
               onClick={() => setFilter(f.key)}
               className={`rounded-md border px-3 py-1.5 text-xs font-semibold transition ${
                 filter === f.key
-                  ? "border-[var(--gold)] bg-[var(--gold)] text-[#0a0c0d]"
+                  ? "border-[var(--gold)] bg-[var(--gold)] text-[var(--on-gold)]"
                   : "border-[var(--ground-line)] bg-[var(--ground-raised)] text-[var(--ink-dim)] hover:text-[var(--ink)]"
               }`}
             >
@@ -925,7 +925,7 @@ export default function AuthArchitectureLab() {
               type="button"
               onClick={runSimulation}
               disabled={simRunning}
-              className="flex w-full items-center justify-center gap-2 rounded-md bg-[var(--gold)] px-4 py-3 text-sm font-semibold text-[#0a0c0d] transition hover:bg-[var(--gold-dim)] disabled:opacity-50"
+              className="flex w-full items-center justify-center gap-2 rounded-md bg-[var(--gold)] px-4 py-3 text-sm font-semibold text-[var(--on-gold)] transition hover:bg-[var(--gold-hover)] disabled:opacity-50"
             >
               <Play size={15} />
               {simRunning ? t("Scanning…", "កំពុងស្កេន...") : t("Start AI Selfie Verification", "ចាប់ផ្តើមសាកល្បង AI Selfie Verification")}
@@ -1064,7 +1064,7 @@ export default function AuthArchitectureLab() {
             <button
               type="button"
               onClick={evaluateWizard}
-              className="flex w-full items-center justify-center gap-2 rounded-md bg-[var(--gold)] px-4 py-3 text-sm font-semibold text-[#0a0c0d] transition hover:bg-[var(--gold-dim)]"
+              className="flex w-full items-center justify-center gap-2 rounded-md bg-[var(--gold)] px-4 py-3 text-sm font-semibold text-[var(--on-gold)] transition hover:bg-[var(--gold-hover)]"
             >
               <Sparkles size={15} />
               {t("Generate security architecture recommendation", "បង្កើតអនុសាសន៍ស្ថាបត្យកម្មសន្តិសុខ")}

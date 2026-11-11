@@ -59,7 +59,7 @@ export default function KhmerConcordance() {
             {lines.map((l, i) => (
               <div key={i} className="flex items-center gap-1 px-3 py-1.5 font-khmer text-sm leading-relaxed">
                 <span className="flex-1 truncate text-right text-[var(--ink-faint)]" dir="ltr">{l.left}</span>
-                <span className="shrink-0 rounded bg-[var(--gold)]/15 px-1.5 py-0.5 font-medium text-[var(--gold)]">{l.match}</span>
+                <span className="shrink-0 rounded bg-[var(--gold)]/15 px-1.5 py-0.5 font-medium text-[var(--gold-text)]">{l.match}</span>
                 <span className="flex-1 truncate text-[var(--ink-faint)]">{l.right}</span>
               </div>
             ))}

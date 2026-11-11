@@ -106,7 +106,7 @@ export default function PriceAdjustmentCalculator() {
         <div className="flex items-center justify-between">
           <h2 className="font-medium text-[var(--ink)]">{t("Cost elements", "ធាតុថ្លៃដើម")}</h2>
           <button type="button" onClick={addElement}
-            className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-1.5 text-xs font-medium text-[var(--ink-dim)] transition hover:border-[var(--gold-dim)] hover:text-[var(--gold)]">
+            className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-1.5 text-xs font-medium text-[var(--ink-dim)] transition hover:border-[var(--gold-dim)] hover:text-[var(--gold-text)]">
             + {t("Add element", "បន្ថែមធាតុ")}
           </button>
         </div>

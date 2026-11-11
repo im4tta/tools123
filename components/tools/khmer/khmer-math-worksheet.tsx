@@ -75,7 +75,7 @@ export default function KhmerMathWorksheet() {
         <button type="button" onClick={() => setSeed((s) => s + 1)} className="flex items-center gap-1.5 rounded-md border border-[var(--ground-line)] px-3 py-1.5 text-xs font-medium text-[var(--ink-dim)] transition hover:border-[var(--ink-faint)]">
           <RefreshCw size={13} />{t("Regenerate", "បង្កើតឡើងវិញ")}
         </button>
-        <button type="button" onClick={() => setShowAnswers((v) => !v)} className={`rounded-md border px-3 py-1.5 text-xs font-medium transition ${showAnswers ? "border-[var(--gold)] bg-[var(--gold)]/10 text-[var(--gold)]" : "border-[var(--ground-line)] text-[var(--ink-dim)] hover:border-[var(--ink-faint)]"}`}>
+        <button type="button" onClick={() => setShowAnswers((v) => !v)} className={`rounded-md border px-3 py-1.5 text-xs font-medium transition ${showAnswers ? "border-[var(--gold)] bg-[var(--gold)]/10 text-[var(--gold-text)]" : "border-[var(--ground-line)] text-[var(--ink-dim)] hover:border-[var(--ink-faint)]"}`}>
           {t("Show answers", "បង្ហាញចម្លើយ")}
         </button>
         <button type="button" onClick={() => window.print()} className="flex items-center gap-1.5 rounded-md border border-[var(--ground-line)] px-3 py-1.5 text-xs font-medium text-[var(--ink-dim)] transition hover:border-[var(--ink-faint)]">
@@ -94,7 +94,7 @@ export default function KhmerMathWorksheet() {
               <span className="w-6 shrink-0 text-xs text-[var(--ink-faint)]">{toKh(i + 1)}.</span>
               <span>{toKh(p.a)} {OP_SIGN[p.op]} {toKh(p.b)} =</span>
               {showAnswers
-                ? <span className="font-semibold text-[var(--gold)]">{toKh(p.answer)}</span>
+                ? <span className="font-semibold text-[var(--gold-text)]">{toKh(p.answer)}</span>
                 : <span className="inline-block min-w-[2.5rem] border-b border-[var(--ink-faint)]">&nbsp;</span>}
             </div>
           ))}

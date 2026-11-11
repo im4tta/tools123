@@ -142,9 +142,9 @@ export default function GeneratorSizing() {
           <div className="text-xs text-[var(--ink-dim)]">{t("running + largest surge", "ប្រតិបត្តិការ + ការកើនធំបំផុត")}</div>
         </div>
         <div className="rounded-md border border-[var(--gold)]/40 bg-[var(--gold)]/10 p-4">
-          <div className="text-xs font-medium uppercase tracking-wide text-[var(--gold)]">{t("Recommended generator", "ម៉ាស៊ីនភ្លើងដែលណែនាំ")}</div>
-          <div className="mt-1 text-lg font-semibold text-[var(--gold)]">{calc.kw.toFixed(1)} kW</div>
-          <div className="text-xs text-[var(--gold)]">{calc.kva.toFixed(1)} kVA @ PF {calc.pf}</div>
+          <div className="text-xs font-medium uppercase tracking-wide text-[var(--gold-text)]">{t("Recommended generator", "ម៉ាស៊ីនភ្លើងដែលណែនាំ")}</div>
+          <div className="mt-1 text-lg font-semibold text-[var(--gold-text)]">{calc.kw.toFixed(1)} kW</div>
+          <div className="text-xs text-[var(--gold-text)]">{calc.kva.toFixed(1)} kVA @ PF {calc.pf}</div>
         </div>
       </div>
 

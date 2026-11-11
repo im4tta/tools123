@@ -69,8 +69,8 @@ export default function KhmerTextDiff() {
     >
       <Field label={t("Granularity", "កម្រិត")}>
         <div className="flex gap-2 pt-1">
-          <button type="button" onClick={() => setMode("chars")} className={`flex-1 rounded-md px-3 py-2 text-sm font-medium transition ${mode === "chars" ? "bg-[var(--gold)] text-[#0a0c0d]" : "bg-[var(--ground-raised)] text-[var(--ink-dim)]"}`}>{t("Grapheme clusters", "ក្រុមអក្សរ")}</button>
-          <button type="button" onClick={() => setMode("words")} className={`flex-1 rounded-md px-3 py-2 text-sm font-medium transition ${mode === "words" ? "bg-[var(--gold)] text-[#0a0c0d]" : "bg-[var(--ground-raised)] text-[var(--ink-dim)]"}`}>{t("Words", "ពាក្យ")}</button>
+          <button type="button" onClick={() => setMode("chars")} className={`flex-1 rounded-md px-3 py-2 text-sm font-medium transition ${mode === "chars" ? "bg-[var(--gold)] text-[var(--on-gold)]" : "bg-[var(--ground-raised)] text-[var(--ink-dim)]"}`}>{t("Grapheme clusters", "ក្រុមអក្សរ")}</button>
+          <button type="button" onClick={() => setMode("words")} className={`flex-1 rounded-md px-3 py-2 text-sm font-medium transition ${mode === "words" ? "bg-[var(--gold)] text-[var(--on-gold)]" : "bg-[var(--ground-raised)] text-[var(--ink-dim)]"}`}>{t("Words", "ពាក្យ")}</button>
         </div>
       </Field>
 

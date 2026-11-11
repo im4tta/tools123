@@ -18,7 +18,7 @@ export default function PostalCodeFinder() {
       const en = [row.province_en, row.district_en, row.commune_en, row.village_en].filter(Boolean).join(" › ");
       const km = [row.province_kh, row.district_kh, row.commune_kh, row.village_kh].filter(Boolean).join(" › ");
       const path = t(en, km), copy = `${row.code}\n${path}`;
-      return <article key={`${row.code}-${row.commune_en}-${row.village_en}`} className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3"><div className="flex items-start justify-between gap-3"><strong className="text-[var(--ink)]">{t(row.village_en || row.commune_en || row.district_en || row.province_en, row.village_kh || row.commune_kh || row.district_kh || row.province_kh)}</strong><div className="flex items-center gap-2"><code className="rounded bg-[var(--ground)] px-2 py-1 text-[var(--gold)]">{row.code}</code><CopyButton text={copy} compact /></div></div><p className="mt-2 text-xs leading-6 text-[var(--ink-faint)]">{path}</p></article>;
+      return <article key={`${row.code}-${row.commune_en}-${row.village_en}`} className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3"><div className="flex items-start justify-between gap-3"><strong className="text-[var(--ink)]">{t(row.village_en || row.commune_en || row.district_en || row.province_en, row.village_kh || row.commune_kh || row.district_kh || row.province_kh)}</strong><div className="flex items-center gap-2"><code className="rounded bg-[var(--ground)] px-2 py-1 text-[var(--gold-text)]">{row.code}</code><CopyButton text={copy} compact /></div></div><p className="mt-2 text-xs leading-6 text-[var(--ink-faint)]">{path}</p></article>;
     })}</div>
   </ToolShell>;
 }

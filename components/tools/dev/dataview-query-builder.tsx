@@ -62,7 +62,7 @@ export default function DataviewQueryBuilder() {
     >
       <div className="flex flex-wrap items-center gap-2">
         {(["TABLE", "LIST", "TASK"] as QType[]).map((q) => (
-          <button key={q} type="button" onClick={() => setType(q)} className={`rounded-md border px-3 py-1.5 text-xs font-semibold transition ${type === q ? "border-[var(--gold)] bg-[var(--gold)]/10 text-[var(--gold)]" : "border-[var(--ground-line)] text-[var(--ink-dim)] hover:border-[var(--ink-faint)]"}`}>{q}</button>
+          <button key={q} type="button" onClick={() => setType(q)} className={`rounded-md border px-3 py-1.5 text-xs font-semibold transition ${type === q ? "border-[var(--gold)] bg-[var(--gold)]/10 text-[var(--gold-text)]" : "border-[var(--ground-line)] text-[var(--ink-dim)] hover:border-[var(--ink-faint)]"}`}>{q}</button>
         ))}
       </div>
 

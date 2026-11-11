@@ -91,7 +91,7 @@ export default function GradeCalculator() {
         </div>
       )}
       {calc.avg !== null && calc.totalWeight > 0 && Math.abs(calc.totalWeight - 100) > 0.5 && (
-        <p className="text-sm text-[var(--gold)]">
+        <p className="text-sm text-[var(--gold-text)]">
           {t("Note: weights total", "ចំណាំ៖ ទម្ងន់សរុប")} {calc.totalWeight}% — {t("not 100%.", "មិនមែន ១០០% ទេ។")}
         </p>
       )}

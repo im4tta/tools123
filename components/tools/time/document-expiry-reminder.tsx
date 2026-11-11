@@ -81,7 +81,7 @@ export default function DocumentExpiryReminder() {
             </div>
             <div>
               <div className="text-[11px] font-semibold uppercase tracking-wide text-[var(--ink-faint)]">{t("Rule window", "រយៈពេលច្បាប់")}</div>
-              <div className="mt-1 text-xl font-bold text-[var(--gold)]">{Number(ruleDays) || 0} {t("days", "ថ្ងៃ")}</div>
+              <div className="mt-1 text-xl font-bold text-[var(--gold-text)]">{Number(ruleDays) || 0} {t("days", "ថ្ងៃ")}</div>
             </div>
           </div>
           {status === "rule" && (

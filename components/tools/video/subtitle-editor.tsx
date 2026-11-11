@@ -196,7 +196,7 @@ export default function SubtitleEditorTool() {
         <div className="space-y-3">
           <label className="flex cursor-pointer items-center justify-center gap-2 rounded-md border border-dashed border-[var(--ground-line)] bg-[var(--ground-raised)] px-4 py-6 text-center text-sm text-[var(--ink-dim)] transition hover:border-[var(--gold)]">
             <Upload size={15} /> {t("Choose .srt or .vtt file", "ជ្រើសរើសឯកសារ .srt ឬ .vtt")}
-            <input type="file" accept=".srt,.vtt,text/plain" className="hidden" onChange={(e) => loadFile(e.target.files?.[0] ?? null)} />
+            <input type="file" accept=".srt,.vtt,text/plain" className="sr-only" onChange={(e) => loadFile(e.target.files?.[0] ?? null)} />
           </label>
           <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 text-sm text-[var(--ink)]">
             {stats

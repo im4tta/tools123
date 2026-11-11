@@ -1005,7 +1005,7 @@ export default function IconsmithTool() {
                     <img src={source.dataUrl} alt="" className="h-10 w-10 rounded object-contain" />
                     <span className="min-w-0 text-left">
                       <span className="block truncate text-sm font-medium text-[var(--ink)]">{source.name}</span>
-                      <span className="block text-xs text-[var(--gold)]">Ready — click to change</span>
+                      <span className="block text-xs text-[var(--gold-text)]">Ready — click to change</span>
                     </span>
                   </span>
                 ) : (
@@ -1046,7 +1046,7 @@ export default function IconsmithTool() {
               <button
                 type="button"
                 onClick={() => { setZoom(1); setPan({ x: 0, y: 0 }); }}
-                className="mt-1 text-xs text-[var(--gold)] hover:underline"
+                className="mt-1 text-xs text-[var(--gold-text)] hover:underline"
               >
                 Reset
               </button>
@@ -1310,7 +1310,7 @@ export default function IconsmithTool() {
         type="button"
         onClick={forgePack}
         disabled={!ready || busy}
-        className="flex w-full items-center justify-center gap-2 rounded-md bg-[var(--gold)] px-4 py-3 text-sm font-semibold text-[#0a0c0d] transition hover:bg-[var(--gold-dim)] disabled:opacity-40"
+        className="flex w-full items-center justify-center gap-2 rounded-md bg-[var(--gold)] px-4 py-3 text-sm font-semibold text-[var(--on-gold)] transition hover:bg-[var(--gold-hover)] disabled:opacity-40"
       >
         <Zap size={15} />
         {batchMode ? `Forge ${batchQueue.length} pack${batchQueue.length === 1 ? "" : "s"}` : "Forge pack"}

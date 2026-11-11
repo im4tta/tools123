@@ -68,7 +68,7 @@ export default function VatCalculator() {
           </div>
           <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4">
             <div className="text-xs font-medium uppercase tracking-wide text-[var(--ink-dim)]">{t("VAT amount", "ចំនួនអាករ")}</div>
-            <div className="mt-1 text-lg font-semibold text-[var(--gold)]">{fmt(calc.vat)}</div>
+            <div className="mt-1 text-lg font-semibold text-[var(--gold-text)]">{fmt(calc.vat)}</div>
           </div>
           <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4">
             <div className="text-xs font-medium uppercase tracking-wide text-[var(--ink-dim)]">{t("Gross (incl. VAT)", "សរុប (រាប់អាករ)")}</div>

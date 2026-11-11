@@ -75,14 +75,14 @@ export default function SvgWaveGenerator() {
         <button type="button" onClick={() => setSeed((s) => s + 1)} className="flex items-center gap-1.5 rounded-md border border-[var(--ground-line)] px-3 py-1.5 text-xs font-medium text-[var(--ink-dim)] transition hover:border-[var(--ink-faint)]">
           <RefreshCw size={13} />{t("Shuffle", "ចាក់ឆ្នោត")}
         </button>
-        <button type="button" onClick={() => setFlip((v) => !v)} className={`rounded-md border px-3 py-1.5 text-xs font-medium transition ${flip ? "border-[var(--gold)] bg-[var(--gold)]/10 text-[var(--gold)]" : "border-[var(--ground-line)] text-[var(--ink-dim)] hover:border-[var(--ink-faint)]"}`}>
+        <button type="button" onClick={() => setFlip((v) => !v)} className={`rounded-md border px-3 py-1.5 text-xs font-medium transition ${flip ? "border-[var(--gold)] bg-[var(--gold)]/10 text-[var(--gold-text)]" : "border-[var(--ground-line)] text-[var(--ink-dim)] hover:border-[var(--ink-faint)]"}`}>
           {t("Flip", "ត្រឡប់")}
         </button>
         <span className="text-xs text-[var(--ink-faint)]">{t("Layers", "ស្រទាប់")}:</span>
         {[1, 2, 3].map((n) => (
-          <button key={n} type="button" onClick={() => setLayers(n)} className={`h-8 w-8 rounded-md border text-xs font-medium transition ${layers === n ? "border-[var(--gold)] bg-[var(--gold)]/10 text-[var(--gold)]" : "border-[var(--ground-line)] text-[var(--ink-dim)] hover:border-[var(--ink-faint)]"}`}>{n}</button>
+          <button key={n} type="button" onClick={() => setLayers(n)} className={`h-8 w-8 rounded-md border text-xs font-medium transition ${layers === n ? "border-[var(--gold)] bg-[var(--gold)]/10 text-[var(--gold-text)]" : "border-[var(--ground-line)] text-[var(--ink-dim)] hover:border-[var(--ink-faint)]"}`}>{n}</button>
         ))}
-        <button type="button" onClick={downloadPng} disabled={busy} className="flex items-center gap-1.5 rounded-md bg-[var(--gold)] px-3 py-1.5 text-xs font-medium text-[#0a0c0d] transition hover:bg-[var(--gold-dim)] disabled:opacity-50">
+        <button type="button" onClick={downloadPng} disabled={busy} className="flex items-center gap-1.5 rounded-md bg-[var(--gold)] px-3 py-1.5 text-xs font-medium text-[var(--on-gold)] transition hover:bg-[var(--gold-hover)] disabled:opacity-50">
           <Download size={13} />{busy ? t("Rendering…", "កំពុងបង្កើត…") : t("Download PNG", "ទាញយក PNG")}
         </button>
         <button type="button" onClick={() => downloadBlob(new Blob([svg], { type: "image/svg+xml" }), "wave.svg")} className="rounded-md border border-[var(--ground-line)] px-3 py-1.5 text-xs font-medium text-[var(--ink-dim)] transition hover:border-[var(--ink-faint)]">

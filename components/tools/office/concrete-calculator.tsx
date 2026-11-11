@@ -123,7 +123,7 @@ export default function ConcreteCalculator() {
           </div>
           <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4">
             <div className="text-xs font-medium uppercase tracking-wide text-[var(--ink-dim)]">{t("Cement (50 kg)", "ស៊ីម៉ង់ត៍ (៥០ គីឡូ)")}</div>
-            <div className="mt-1 text-lg font-semibold text-[var(--gold)]">{Math.ceil(result.bags)} {t("bags", "បាវ")}</div>
+            <div className="mt-1 text-lg font-semibold text-[var(--gold-text)]">{Math.ceil(result.bags)} {t("bags", "បាវ")}</div>
             <div className="text-xs text-[var(--ink-dim)]">≈ {result.bags.toFixed(1)} {t("bags", "បាវ")}</div>
           </div>
           <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4">

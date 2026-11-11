@@ -39,7 +39,7 @@ export default function KhmerConsonantSkeleton() {
         <button type="button" onClick={() => setInput(SAMPLE)} className="rounded-md border border-[var(--ground-line)] px-2.5 py-1 text-xs text-[var(--ink-dim)] transition hover:border-[var(--ink-faint)]">
           {t("Try a sample", "សាកគំរូ")}
         </button>
-        <button type="button" onClick={() => setIncludeIndependent((v) => !v)} className={`rounded-md border px-3 py-1.5 text-xs font-medium transition ${includeIndependent ? "border-[var(--gold)] bg-[var(--gold)]/10 text-[var(--gold)]" : "border-[var(--ground-line)] text-[var(--ink-dim)] hover:border-[var(--ink-faint)]"}`}>
+        <button type="button" onClick={() => setIncludeIndependent((v) => !v)} className={`rounded-md border px-3 py-1.5 text-xs font-medium transition ${includeIndependent ? "border-[var(--gold)] bg-[var(--gold)]/10 text-[var(--gold-text)]" : "border-[var(--ground-line)] text-[var(--ink-dim)] hover:border-[var(--ink-faint)]"}`}>
           {t("Keep independent vowels", "រក្សាស្រៈពេញតួ")}
         </button>
       </div>

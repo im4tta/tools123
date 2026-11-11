@@ -344,9 +344,9 @@ export default function GraphVisualizer() {
         <p className="mb-2 font-semibold text-[var(--ink)]">{t("Source & Credits", "ប្រភព និងក្រេឌីត")}</p>
         <p>
           {t("Uses d3-force from the D3.js ecosystem by Mike Bostock (ISC license) for the force-directed layout; the simulation code and UI are original Tools123 work.", "ប្រើ d3-force ពីប្រព័ន្ធ D3.js របស់ Mike Bostock (អាជ្ញាបណ្ណ ISC) សម្រាប់ប្លង់ក្រាហ្វកម្លាំង។ កូដ simulation និង UI ជាស្នាដៃដើមរបស់ Tools123។")}{" "}
-          <a href="https://d3js.org/d3-force/" target="_blank" rel="noreferrer" className="text-[var(--gold)] underline underline-offset-2">d3js.org/d3-force</a>
+          <a href="https://d3js.org/d3-force/" target="_blank" rel="noreferrer" className="text-[var(--gold-text)] underline underline-offset-2">d3js.org/d3-force</a>
           {" · "}
-          <a href="https://github.com/d3/d3-force" target="_blank" rel="noreferrer" className="text-[var(--gold)] underline underline-offset-2">github.com/d3/d3-force</a>
+          <a href="https://github.com/d3/d3-force" target="_blank" rel="noreferrer" className="text-[var(--gold-text)] underline underline-offset-2">github.com/d3/d3-force</a>
         </p>
       </aside>
     </ToolShell>

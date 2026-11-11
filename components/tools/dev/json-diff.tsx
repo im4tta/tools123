@@ -75,7 +75,7 @@ function parse(text: string): { ok: true; value: unknown } | { ok: false; error:
 function badgeClass(type: ChangeType): string {
   if (type === "added") return "border-[var(--success)]/50 bg-[var(--success)]/15 text-[var(--success)]";
   if (type === "removed") return "border-[var(--danger)]/50 bg-[var(--danger)]/15 text-[var(--danger)]";
-  return "border-[var(--gold)]/50 bg-[var(--gold)]/15 text-[var(--gold)]";
+  return "border-[var(--gold)]/50 bg-[var(--gold)]/15 text-[var(--gold-text)]";
 }
 
 export default function JsonDiff() {
@@ -154,7 +154,7 @@ export default function JsonDiff() {
             <span className="rounded-full border border-[var(--danger)]/40 bg-[var(--danger)]/10 px-2.5 py-1 text-[var(--danger)]">
               {t("Removed", "ដកចេញ")}: {removed}
             </span>
-            <span className="rounded-full border border-[var(--gold)]/40 bg-[var(--gold)]/10 px-2.5 py-1 text-[var(--gold)]">
+            <span className="rounded-full border border-[var(--gold)]/40 bg-[var(--gold)]/10 px-2.5 py-1 text-[var(--gold-text)]">
               {t("Changed", "ផ្លាស់ប្ដូរ")}: {changed}
             </span>
           </div>
@@ -173,7 +173,7 @@ export default function JsonDiff() {
                   <span className={`rounded border px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide ${badgeClass(c.type)}`}>
                     {c.type === "added" ? t("Added", "បន្ថែម") : c.type === "removed" ? t("Removed", "ដកចេញ") : t("Changed", "ផ្លាស់ប្ដូរ")}
                   </span>
-                  <span className="font-mono-ui text-xs text-[var(--gold)]">{c.path}</span>
+                  <span className="font-mono-ui text-xs text-[var(--gold-text)]">{c.path}</span>
                   <span className="font-mono-ui text-xs text-[var(--ink-dim)]">
                     {c.type === "changed" ? `${c.oldValue} → ${c.newValue}` : c.newValue || c.oldValue}
                   </span>

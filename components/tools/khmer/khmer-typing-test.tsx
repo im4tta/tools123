@@ -128,13 +128,13 @@ export default function KhmerTypingTest() {
         {!finished && (
           <div className="flex flex-wrap gap-4 pb-2 text-sm text-[var(--ink-dim)]">
             <span>
-              {t("Time", "ពេលវេលា")}: <b className="font-mono-ui text-[var(--gold)]">{seconds.toFixed(1)}s</b>
+              {t("Time", "ពេលវេលា")}: <b className="font-mono-ui text-[var(--gold-text)]">{seconds.toFixed(1)}s</b>
             </span>
             <span>
-              {t("CPM", "អក្សរ/នាទី")}: <b className="text-[var(--gold)]">{live.cpm}</b>
+              {t("CPM", "អក្សរ/នាទី")}: <b className="text-[var(--gold-text)]">{live.cpm}</b>
             </span>
             <span>
-              {t("Accuracy", "ភាពត្រឹមត្រូវ")}: <b className="text-[var(--gold)]">{live.acc.toFixed(0)}%</b>
+              {t("Accuracy", "ភាពត្រឹមត្រូវ")}: <b className="text-[var(--gold-text)]">{live.acc.toFixed(0)}%</b>
             </span>
             <span>
               {t("Errors", "កំហុស")}: <b className="text-[var(--danger)]">{live.errors}</b>
@@ -165,7 +165,7 @@ export default function KhmerTypingTest() {
           autoComplete="off"
           autoCorrect="off"
           lang="km"
-          className="h-28 w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3 font-khmer text-xl leading-relaxed text-[var(--ink)] outline-none focus:border-[var(--gold-dim)]"
+          className="h-28 w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3 font-khmer text-xl leading-relaxed text-[var(--ink)] outline-none focus:border-[var(--focus)]"
         />
       ) : (
         <div className="rounded-md border border-[var(--gold)]/40 bg-[var(--gold)]/10 p-6 text-center">
@@ -177,7 +177,7 @@ export default function KhmerTypingTest() {
           </div>
           <div className="mt-2 flex flex-wrap items-center justify-center gap-x-5 gap-y-1 text-sm text-[var(--ink-dim)]">
             <span>
-              {t("Accuracy", "ភាពត្រឹមត្រូវ")}: <b className="text-[var(--gold)]">{results?.acc ?? 0}%</b>
+              {t("Accuracy", "ភាពត្រឹមត្រូវ")}: <b className="text-[var(--gold-text)]">{results?.acc ?? 0}%</b>
             </span>
             <span>
               {t("Errors", "កំហុស")}: <b className="text-[var(--danger)]">{results?.errors ?? 0}</b>

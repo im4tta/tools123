@@ -88,7 +88,7 @@ export default function DeepSeekRateDesk() {
           <div className="font-mono-ui text-4xl font-semibold tabular-nums text-[var(--ink)]">{timeStr}</div>
           <div className="mt-1 text-xs text-[var(--ink-dim)]">{dateStr} · Asia/Phnom_Penh (ICT, UTC+7)</div>
         </div>
-        <span className={`inline-flex items-center gap-2 rounded-full border px-4 py-1.5 font-mono-ui text-xs font-medium ${peak ? "border-[var(--gold)]/40 bg-[var(--gold)]/10 text-[var(--gold)]" : "border-[var(--teal)]/40 bg-[var(--teal)]/10 text-[var(--teal)]"}`}>
+        <span className={`inline-flex items-center gap-2 rounded-full border px-4 py-1.5 font-mono-ui text-xs font-medium ${peak ? "border-[var(--gold)]/40 bg-[var(--gold)]/10 text-[var(--gold-text)]" : "border-[var(--teal)]/40 bg-[var(--teal)]/10 text-[var(--teal)]"}`}>
           <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-current" />
           {peak ? t("PEAK · 2x rates active", "ម៉ោងខ្ពស់ · អត្រា 2x កំពុងដំណើរការ") : t("OFF-PEAK · half-price rates active", "ម៉ោងទាប · អត្រាពាក់កណ្តាលកំពុងដំណើរការ")}
         </span>
@@ -203,7 +203,7 @@ export default function DeepSeekRateDesk() {
         </p>
         <p className="mt-2 text-[11px] text-[var(--ink-faint)]">
           {t("Prices are reference data from", "តម្លៃជាទិន្នន័យយោងពី")}{" "}
-          <a href="https://api-docs.deepseek.com/quick_start/pricing" target="_blank" rel="noreferrer" className="text-[var(--gold)] underline underline-offset-2">api-docs.deepseek.com/quick_start/pricing <ExternalLink size={11} className="inline" /></a>
+          <a href="https://api-docs.deepseek.com/quick_start/pricing" target="_blank" rel="noreferrer" className="text-[var(--gold-text)] underline underline-offset-2">api-docs.deepseek.com/quick_start/pricing <ExternalLink size={11} className="inline" /></a>
         </p>
       </div>
     </ToolShell>

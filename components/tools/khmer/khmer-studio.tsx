@@ -59,11 +59,11 @@ export default function KhmerStudioTool() {
         <p className="mb-2 font-semibold text-[var(--ink)]">{t("Source & Credits", "ប្រភព និងក្រេឌីត")}</p>
         <p>
           {t("Built on HappyPDF by Seanghay Yath — a pdf-lib fork with HarfBuzz shaping so Khmer, Thai, Lao, Arabic, and Indic scripts render correctly (MIT). The studio's five faces — Kantumruy Pro, Noto Sans Khmer, Noto Serif Khmer, Moul, and Bokor — are Google-Fonts typefaces under the SIL Open Font License.", "បង្កើតឡើងលើ HappyPDF របស់ Seanghay Yath — ការបែងចែក pdf-lib ជាមួយ HarfBuzz ដើម្បីឱ្យអក្សរខ្មែរ ថៃ ឡាវ អារ៉ាប់ និងឥណ្ឌាបង្ហាញត្រឹមត្រូវ (MIT)។ អក្សរទាំងប្រាំរបស់ស្ទូឌីយោ — Kantumruy Pro, Noto Sans Khmer, Noto Serif Khmer, Moul និង Bokor — ជាប្រភេទអក្សររបស់ Google Fonts ក្រោមអាជ្ញាបណ្ណ OFL។")}{" "}
-          <a href="https://seanghay.github.io/happypdf/" target="_blank" rel="noreferrer" className="text-[var(--gold)] underline underline-offset-2">happypdf <ExternalLink size={11} className="inline" /></a>
+          <a href="https://seanghay.github.io/happypdf/" target="_blank" rel="noreferrer" className="text-[var(--gold-text)] underline underline-offset-2">happypdf <ExternalLink size={11} className="inline" /></a>
           {" · "}
-          <a href="https://fonts.google.com/kantumruypro" target="_blank" rel="noreferrer" className="text-[var(--gold)] underline underline-offset-2">Kantumruy Pro (OFL) <ExternalLink size={11} className="inline" /></a>
+          <a href="https://fonts.google.com/kantumruypro" target="_blank" rel="noreferrer" className="text-[var(--gold-text)] underline underline-offset-2">Kantumruy Pro (OFL) <ExternalLink size={11} className="inline" /></a>
           {" · "}
-          <a href="https://fonts.google.com/notosanskhmer" target="_blank" rel="noreferrer" className="text-[var(--gold)] underline underline-offset-2">Noto Sans Khmer (OFL) <ExternalLink size={11} className="inline" /></a>
+          <a href="https://fonts.google.com/notosanskhmer" target="_blank" rel="noreferrer" className="text-[var(--gold-text)] underline underline-offset-2">Noto Sans Khmer (OFL) <ExternalLink size={11} className="inline" /></a>
         </p>
       </aside>
     </ToolShell>

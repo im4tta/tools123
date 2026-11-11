@@ -138,7 +138,7 @@ export default function SemverCalculator() {
             ) : (
               <>
                 {t("Version A is", "កំណែ A គឺ")}{" "}
-                <span className="font-semibold text-[var(--gold)]">
+                <span className="font-semibold text-[var(--gold-text)]">
                   {cmp > 0 ? t("greater than", "ធំជាង") : cmp < 0 ? t("less than", "តូចជាង") : t("equal to", "ស្មើនឹង")}
                 </span>{" "}
                 {t("Version B", "កំណែ B")}

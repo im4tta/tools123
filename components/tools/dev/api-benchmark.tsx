@@ -6,6 +6,7 @@ import { useLanguage } from "@/components/LanguageProvider";
 import { ToolShell } from "@/components/ui/Shell";
 import { useToolState } from "@/lib/storage";
 import { recordExport } from "@/lib/export";
+import { clickOnKey } from "@/lib/a11y";
 
 type HttpMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
 
@@ -197,7 +198,7 @@ export default function ApiBenchmark() {
       {running && (
         <div className="mb-4 rounded-lg border border-[var(--gold)]/30 bg-[var(--gold)]/5 px-4 py-2.5 text-sm">
           <div className="mb-1 flex items-center justify-between text-xs">
-            <span className="font-semibold text-[var(--gold)]">{t("Benchmarking…", "កំពុងសាកល្បង…")}</span>
+            <span className="font-semibold text-[var(--gold-text)]">{t("Benchmarking…", "កំពុងសាកល្បង…")}</span>
             <span className="text-[var(--ink-faint)]">{progress.cur}/{progress.tot}</span>
           </div>
           <div className="h-1.5 w-full rounded-full bg-[var(--ground-line)]"><div className="h-full rounded-full bg-[var(--gold)] transition-all" style={{ width: `${progress.tot ? (progress.cur / progress.tot) * 100 : 0}%` }} /></div>
@@ -209,7 +210,7 @@ export default function ApiBenchmark() {
         {running ? (
           <button onClick={cancel} className="flex items-center gap-1.5 rounded-md bg-[var(--danger)]/80 px-3 py-1.5 text-xs font-semibold text-white"><XCircle size={14} />{t("Cancel", "បោះបង់")}</button>
         ) : (
-          <button onClick={run} className="flex items-center gap-1.5 rounded-md bg-[var(--gold)] px-3 py-1.5 text-xs font-semibold text-[#0a0c0d]"><Play size={14} />{t("Run", "រត់")}</button>
+          <button onClick={run} className="flex items-center gap-1.5 rounded-md bg-[var(--gold)] px-3 py-1.5 text-xs font-semibold text-[var(--on-gold)]"><Play size={14} />{t("Run", "រត់")}</button>
         )}
         <span className="text-[11px] text-[var(--ink-faint)]">{t("Requests:", "សំណើ:")}</span>
         <input type="number" min={1} max={30} value={reqCount} onChange={(e) => setReqCount(Math.max(1, +e.target.value || 1))} className="w-14 rounded border border-[var(--ground-line)] bg-[var(--ground)] px-1.5 py-1 text-xs text-center text-[var(--ink)]" />
@@ -237,7 +238,7 @@ export default function ApiBenchmark() {
             <div className="flex items-center gap-2 p-2.5">
               <button type="button" onClick={() => toggle(ep.id)} className="shrink-0">{ep.enabled ? <CheckCircle2 size={16} className="text-[var(--success)]" /> : <Square size={16} className="text-[var(--ink-faint)]" />}</button>
               <span className="h-2.5 w-2.5 rounded-full shrink-0" style={{ background: ep.color }} />
-              <span className={`rounded text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.5 ${ep.method === "GET" ? "bg-[var(--success)]/10 text-[var(--success)]" : "bg-[var(--gold)]/10 text-[var(--gold)]"}`}>{ep.method}</span>
+              <span className={`rounded text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.5 ${ep.method === "GET" ? "bg-[var(--success)]/10 text-[var(--success)]" : "bg-[var(--gold)]/10 text-[var(--gold-text)]"}`}>{ep.method}</span>
               <input value={ep.name} onChange={(e) => update(ep.id, { name: e.target.value })} className="min-w-0 flex-1 bg-transparent text-xs font-bold text-[var(--ink)] outline-none" />
               <input value={ep.url} onChange={(e) => update(ep.id, { url: e.target.value })} className="hidden sm:block min-w-0 flex-1 bg-transparent font-mono-ui text-[11px] text-[var(--ink-dim)] outline-none" />
               <button onClick={() => setExpanded(expanded === ep.id ? null : ep.id)} className="shrink-0 rounded p-1 text-[var(--ink-faint)] hover:bg-[var(--ground)]"><Settings size={13} /></button>
@@ -261,7 +262,7 @@ export default function ApiBenchmark() {
       {results.length > 0 && (
         <div className="space-y-4">
           <div className="rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)] p-5 space-y-6">
-            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[var(--gold)]"><Zap size={14} />{t("Race Track", "ផ្លូវប្រណាំង")}</div>
+            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[var(--gold-text)]"><Zap size={14} />{t("Race Track", "ផ្លូវប្រណាំង")}</div>
             {results.map((r) => {
               const pct = Math.min(100, Math.max(6, Math.round((r.metrics.avgLatency / maxAvg) * 82)));
               const isWinner = r.endpointId === winnerId;
@@ -271,7 +272,7 @@ export default function ApiBenchmark() {
                     <div className="flex items-center gap-1.5">
                       <span className="h-2 w-2 rounded-full" style={{ background: r.color }} />
                       <span className="font-bold text-[var(--ink)]">{r.name}</span>
-                      {isWinner && <span className="rounded bg-[var(--gold)]/10 px-1.5 py-0.5 text-[10px] font-bold text-[var(--gold)]">👑 {t("Fastest", "លឿនជាងគេ")}</span>}
+                      {isWinner && <span className="rounded bg-[var(--gold)]/10 px-1.5 py-0.5 text-[10px] font-bold text-[var(--gold-text)]">👑 {t("Fastest", "លឿនជាងគេ")}</span>}
                     </div>
                     <span className="font-mono-ui font-bold text-[var(--ink)]">{r.metrics.avgLatency} ms</span>
                   </div>
@@ -300,7 +301,7 @@ export default function ApiBenchmark() {
               </thead>
               <tbody className="divide-y divide-[var(--ground-line)]">
                 {results.map((r) => (
-                  <tr key={r.endpointId} onClick={() => setDetailId(r.endpointId === detailId ? null : r.endpointId)} className={`cursor-pointer transition hover:bg-[var(--ground)] ${detailId === r.endpointId ? "bg-[var(--gold)]/5" : ""}`}>
+                  <tr key={r.endpointId} tabIndex={0} aria-expanded={detailId === r.endpointId} onKeyDown={clickOnKey} onClick={() => setDetailId(r.endpointId === detailId ? null : r.endpointId)} className={`cursor-pointer transition hover:bg-[var(--ground)] ${detailId === r.endpointId ? "bg-[var(--gold)]/5" : ""}`}>
                     <td className="px-3 py-2 font-bold text-[var(--ink)] flex items-center gap-1.5"><span className="h-2 w-2 rounded-full" style={{ background: r.color }} />{r.name}</td>
                     <td className="px-3 py-2 font-mono-ui font-bold text-[var(--ink)]">{r.metrics.avgLatency}ms</td>
                     <td className="px-3 py-2 font-mono-ui text-[var(--ink-dim)]">{r.metrics.minLatency}/{r.metrics.maxLatency}ms</td>
@@ -317,7 +318,7 @@ export default function ApiBenchmark() {
           {detail && (
             <div className="rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4 space-y-3">
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2 text-xs font-semibold text-[var(--ink)]"><Eye size={14} className="text-[var(--gold)]" />{detail.name}</div>
+                <div className="flex items-center gap-2 text-xs font-semibold text-[var(--ink)]"><Eye size={14} className="text-[var(--gold-text)]" />{detail.name}</div>
                 <button onClick={exportCsv} className="flex items-center gap-1 rounded border border-[var(--ground-line)] px-2 py-1 text-[10px] font-semibold text-[var(--ink-faint)]"><Download size={11} />CSV</button>
               </div>
               <div className="overflow-x-auto">

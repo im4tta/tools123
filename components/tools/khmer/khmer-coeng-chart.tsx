@@ -108,7 +108,7 @@ export default function KhmerCoengChart() {
                 {e.name}
                 {e.series ? ` · ${t("series", "ស៊េរី")} ${e.series}` : ""}
               </span>
-              <span className="mt-0.5 inline-flex items-center gap-1 text-[10px] text-[var(--ink-faint)] group-hover:text-[var(--gold)]">
+              <span className="mt-0.5 inline-flex items-center gap-1 text-[10px] text-[var(--ink-faint)] group-hover:text-[var(--gold-text)]">
                 {copied === e.seq ? <Check size={11} /> : <Copy size={11} />}
                 {copied === e.seq ? t("Copied", "ចម្លងរួច") : t("Copy", "ចម្លង")}
               </span>

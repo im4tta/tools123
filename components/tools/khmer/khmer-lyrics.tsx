@@ -128,7 +128,7 @@ export default function KhmerLyricsBrowser() {
     >
       <p className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3 text-xs leading-relaxed text-[var(--ink-dim)]">
         {t("Live data: the song index and each lyric are fetched from the public khlyrics repository (github.com/im4tta/khlyrics). Nothing is stored or invented here.", "ទិន្នន័យផ្ទាល់៖ លិបិក្រមបទចម្រៀង និងខ្លឹមសារនីមួយៗ ត្រូវបានទាញយកពីឃ្លាំង khlyrics សាធារណៈ (github.com/im4tta/khlyrics)។ មិនមានអ្វីរក្សាទុក ឬបង្កើតនៅទីនេះទេ។")}{" "}
-        <a href={`https://github.com/${REPO}`} target="_blank" rel="noreferrer" className="text-[var(--gold)] underline underline-offset-2">
+        <a href={`https://github.com/${REPO}`} target="_blank" rel="noreferrer" className="text-[var(--gold-text)] underline underline-offset-2">
           {t("khlyrics", "khlyrics")} <ExternalLink size={10} className="inline" />
         </a>
       </p>

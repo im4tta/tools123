@@ -45,10 +45,10 @@ export default function OpticalTransfer() {
     >
       {/* Mode switch */}
       <div className="mb-5 flex items-center rounded-lg border border-[var(--ground-line)] bg-[var(--ground)] p-1">
-        <button onClick={() => setMode("file")} className={`flex-1 rounded-md px-4 py-2 text-sm font-semibold transition ${mode === "file" ? "bg-[var(--gold)] text-[#0a0c0d]" : "text-[var(--ink-dim)]"}`}>
+        <button onClick={() => setMode("file")} className={`flex-1 rounded-md px-4 py-2 text-sm font-semibold transition ${mode === "file" ? "bg-[var(--gold)] text-[var(--on-gold)]" : "text-[var(--ink-dim)]"}`}>
           <FileText size={14} className="inline mr-1.5" />{t("File", "ឯកសារ")}
         </button>
-        <button onClick={() => setMode("text")} className={`flex-1 rounded-md px-4 py-2 text-sm font-semibold transition ${mode === "text" ? "bg-[var(--gold)] text-[#0a0c0d]" : "text-[var(--ink-dim)]"}`}>
+        <button onClick={() => setMode("text")} className={`flex-1 rounded-md px-4 py-2 text-sm font-semibold transition ${mode === "text" ? "bg-[var(--gold)] text-[var(--on-gold)]" : "text-[var(--ink-dim)]"}`}>
           <Send size={14} className="inline mr-1.5" />{t("Text", "អត្ថបទ")}
         </button>
       </div>
@@ -74,7 +74,7 @@ export default function OpticalTransfer() {
           ) : (
             <div className="rounded-2xl border border-[var(--ground-line)] bg-[var(--ground-raised)] p-5">
               <div className="flex items-center gap-3">
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[var(--gold)]/15 text-[var(--gold)]"><FileText size={22} /></div>
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[var(--gold)]/15 text-[var(--gold-text)]"><FileText size={22} /></div>
                 <div className="min-w-0 flex-1">
                   <div className="truncate text-sm font-semibold text-[var(--ink)]">{filePayload.name}</div>
                   <div className="text-xs text-[var(--ink-faint)]">{filePayload.size} · {filePayload.mime}</div>
@@ -94,7 +94,7 @@ export default function OpticalTransfer() {
           value={textPayload}
           onChange={(e) => setTextPayload(e.target.value)}
           placeholder={t("Type your message here…", "វាយសាររបស់អ្នកនៅទីនេះ…")}
-          className="mb-5 h-32 w-full resize-y rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4 text-sm text-[var(--ink)] outline-none placeholder:text-[var(--ink-faint)] focus:border-[var(--gold-dim)]"
+          className="mb-5 h-32 w-full resize-y rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4 text-sm text-[var(--ink)] outline-none placeholder:text-[var(--ink-faint)] focus:border-[var(--focus)]"
         />
       )}
 
@@ -104,7 +104,7 @@ export default function OpticalTransfer() {
           type="button"
           onClick={sendFile}
           disabled={mode === "file" ? !filePayload : !textPayload.trim()}
-          className="flex items-center justify-center gap-2 rounded-xl bg-[var(--gold)] px-5 py-3 text-sm font-semibold text-[#0a0c0d] transition hover:bg-[var(--gold-dim)] disabled:opacity-40"
+          className="flex items-center justify-center gap-2 rounded-xl bg-[var(--gold)] px-5 py-3 text-sm font-semibold text-[var(--on-gold)] transition hover:bg-[var(--gold-hover)] disabled:opacity-40"
         >
           <Send size={16} /> {t("Send via Light", "ផ្ញើតាមពន្លឺ")}
         </button>
@@ -144,8 +144,8 @@ export default function OpticalTransfer() {
         <ul className="mt-3 space-y-1.5 text-xs text-[var(--ink-dim)]">
           <li>
             <span className="font-semibold text-[var(--ink)]">Decimen Optical Transfer</span> — Evan Crawley (Bash Alarmist) · {t("AGPL-3.0-or-later", "AGPL-3.0 ឬថ្មីជាង")} ·{" "}
-            <a href="https://github.com/bashalarmistalt/decimen-optical-transfer" target="_blank" rel="noreferrer" className="text-[var(--gold)] underline underline-offset-2">github.com/bashalarmistalt/decimen-optical-transfer</a> ·{" "}
-            <a href="https://decimen.app" target="_blank" rel="noreferrer" className="text-[var(--gold)] underline underline-offset-2">decimen.app</a>
+            <a href="https://github.com/bashalarmistalt/decimen-optical-transfer" target="_blank" rel="noreferrer" className="text-[var(--gold-text)] underline underline-offset-2">github.com/bashalarmistalt/decimen-optical-transfer</a> ·{" "}
+            <a href="https://decimen.app" target="_blank" rel="noreferrer" className="text-[var(--gold-text)] underline underline-offset-2">decimen.app</a>
           </li>
           <li>{t("Portions contributed by Steve Dakh under the MIT License.", "ផ្នែកខ្លះផ្តល់ដោយ Steve Dakh ក្រោមអាជ្ញាបណ្ណ MIT។")}</li>
           <li>{t("The vendored decimen-codec (AGPL-3.0) incorporates zxing-cpp (Apache-2.0).", "decimen-codec (AGPL-3.0) ដែលរួមបញ្ចូល zxing-cpp (Apache-2.0)។")}</li>

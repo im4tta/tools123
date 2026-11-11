@@ -60,7 +60,7 @@ export default function WordleHelper() {
 
   const COLOR: Record<string, string> = {
     g: "bg-[var(--green)]/20 text-[var(--green)]",
-    y: "bg-[var(--gold)]/20 text-[var(--gold)]",
+    y: "bg-[var(--gold)]/20 text-[var(--gold-text)]",
     x: "bg-[var(--ground-line)] text-[var(--ink-faint)]",
   };
 
@@ -80,7 +80,7 @@ export default function WordleHelper() {
           }}
           maxLength={5}
           placeholder={t("Your guess", "ពាក្យស្មានរបស់អ្នក")}
-          className="w-40 rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 font-mono-ui text-lg uppercase tracking-[0.3em] text-[var(--ink)] outline-none focus:border-[var(--gold-dim)]"
+          className="w-40 rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 font-mono-ui text-lg uppercase tracking-[0.3em] text-[var(--ink)] outline-none focus:border-[var(--focus)]"
         />
         <button
           type="button"

@@ -207,7 +207,7 @@ export default function DocumentScanner() {
           <h2 className="text-sm font-medium text-[var(--ink)]">{text("File fallback", "ជម្រើសឯកសារជំនួស")}</h2>
           <label className="flex min-h-36 cursor-pointer items-center justify-center rounded-md border border-dashed border-[var(--ground-line)] bg-[var(--ground-raised)] p-4 text-center text-sm text-[var(--ink-dim)] hover:border-[var(--gold-dim)]">
             {text("Choose a document image from this device", "ជ្រើសរើសរូបភាពឯកសារពីឧបករណ៍នេះ")}
-            <input type="file" accept="image/*" className="hidden" onChange={chooseFile} />
+            <input type="file" accept="image/*" className="sr-only" onChange={chooseFile} />
           </label>
           <p className="text-xs text-[var(--ink-faint)]">{text("The selected file is read locally and is never uploaded.", "ឯកសារដែលបានជ្រើសត្រូវបានអានក្នុងឧបករណ៍ ហើយមិនត្រូវបានបង្ហោះទេ។")}</p>
         </section>

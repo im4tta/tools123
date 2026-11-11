@@ -417,7 +417,7 @@ try{
                 onClick={() => switchMode(m)}
                 className={`rounded-md px-3 py-1.5 text-xs font-semibold transition ${
                   mode === m
-                    ? "bg-[var(--gold)] text-[#0a0c0d]"
+                    ? "bg-[var(--gold)] text-[var(--on-gold)]"
                     : "text-[var(--ink-dim)] hover:text-[var(--ink)]"
                 }`}
               >
@@ -456,7 +456,7 @@ try{
             onClick={() => setPreviewOnly(!previewOnly)}
             className={`flex items-center gap-1.5 rounded-md border px-2.5 py-1.5 text-xs font-semibold transition ${
               previewOnly
-                ? "border-[var(--gold)] bg-[var(--gold)]/15 text-[var(--gold)]"
+                ? "border-[var(--gold)] bg-[var(--gold)]/15 text-[var(--gold-text)]"
                 : "border-[var(--ground-line)] bg-[var(--ground-raised)] text-[var(--ink-dim)] hover:text-[var(--ink)]"
             }`}
           >
@@ -466,7 +466,7 @@ try{
           <button
             type="button"
             onClick={compile}
-            className="flex items-center gap-1.5 rounded-md bg-[var(--gold)] px-3 py-1.5 text-xs font-semibold text-[#0a0c0d] transition hover:bg-[var(--gold-dim)]"
+            className="flex items-center gap-1.5 rounded-md bg-[var(--gold)] px-3 py-1.5 text-xs font-semibold text-[var(--on-gold)] transition hover:bg-[var(--gold-hover)]"
           >
             <Play size={13} />
             {t("Run", "ដំណើរការ")} ▸

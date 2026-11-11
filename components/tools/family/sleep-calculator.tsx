@@ -54,7 +54,7 @@ export default function SleepCalculator() {
           {results.map((r) => (
             <div key={r.label} className="flex items-center justify-between rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-4 py-2.5">
               <span className="text-xs text-[var(--ink-dim)]">{r.label}</span>
-              <span className="font-mono-ui text-lg font-semibold text-[var(--gold)]">{r.time}</span>
+              <span className="font-mono-ui text-lg font-semibold text-[var(--gold-text)]">{r.time}</span>
             </div>
           ))}
         </div>

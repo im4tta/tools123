@@ -74,10 +74,10 @@ export default function KhmerSpellSuggester() {
       {result && !result.known && (
         result.suggestions.length > 0 ? (
           <div>
-            <div className="mb-2 flex items-center gap-2 text-xs font-medium uppercase tracking-wide text-[var(--ink-dim)]"><SpellCheck size={14} className="text-[var(--gold)]" />{t("Did you mean", "តើអ្នកចង់មានន័យថា")}</div>
+            <div className="mb-2 flex items-center gap-2 text-xs font-medium uppercase tracking-wide text-[var(--ink-dim)]"><SpellCheck size={14} className="text-[var(--gold-text)]" />{t("Did you mean", "តើអ្នកចង់មានន័យថា")}</div>
             <div className="flex flex-wrap gap-2">
               {result.suggestions.map((s) => (
-                <button key={s.word} type="button" onClick={() => setInput(s.word)} lang="km" className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-1.5 font-khmer text-sm text-[var(--ink)] transition hover:border-[var(--gold-dim)] hover:text-[var(--gold)]">
+                <button key={s.word} type="button" onClick={() => setInput(s.word)} lang="km" className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-1.5 font-khmer text-sm text-[var(--ink)] transition hover:border-[var(--gold-dim)] hover:text-[var(--gold-text)]">
                   {s.word}
                   <span className="ml-1.5 text-[10px] text-[var(--ink-faint)]">{s.dist === 1 ? t("1 change", "១ ផ្លាស់ប្តូរ") : t(`${s.dist} changes`, `${s.dist} ផ្លាស់ប្តូរ`)}</span>
                 </button>

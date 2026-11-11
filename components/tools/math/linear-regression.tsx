@@ -156,7 +156,7 @@ export default function LinearRegression() {
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
             <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4">
               <div className="text-xs font-medium uppercase tracking-wide text-[var(--ink-dim)]">{t("Slope", "ជម្រាល")}</div>
-              <div className="mt-1 font-mono-ui text-lg font-semibold text-[var(--gold)]">{fmt(result.slope)}</div>
+              <div className="mt-1 font-mono-ui text-lg font-semibold text-[var(--gold-text)]">{fmt(result.slope)}</div>
             </div>
             <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4">
               <div className="text-xs font-medium uppercase tracking-wide text-[var(--ink-dim)]">{t("Intercept", "ចំនុចប្រសព្វ")}</div>
@@ -172,7 +172,7 @@ export default function LinearRegression() {
             </div>
             <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4">
               <div className="text-xs font-medium uppercase tracking-wide text-[var(--ink-dim)]">Pearson r</div>
-              <div className="mt-1 font-mono-ui text-lg font-semibold text-[var(--gold)]">{fmt(result.r)}</div>
+              <div className="mt-1 font-mono-ui text-lg font-semibold text-[var(--gold-text)]">{fmt(result.r)}</div>
             </div>
             <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4">
               <div className="text-xs font-medium uppercase tracking-wide text-[var(--ink-dim)]">{t("Points (n)", "ចំនួនពិន្ទុ (n)")}</div>
@@ -200,7 +200,7 @@ export default function LinearRegression() {
           )}
         </>
       ) : (
-        <p className="text-sm font-medium text-[var(--gold)]">{t(result.error, ERRORS_KM[result.error] ?? result.error)}</p>
+        <p className="text-sm font-medium text-[var(--gold-text)]">{t(result.error, ERRORS_KM[result.error] ?? result.error)}</p>
       )}
 
       <p className="text-xs leading-relaxed text-[var(--ink-dim)]">

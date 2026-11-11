@@ -340,7 +340,7 @@ export default function SoundEffectGenerator() {
           <a
             href={wavUrl}
             download="sound-effect.wav"
-            className="inline-flex items-center gap-1.5 rounded-md bg-[var(--gold)] px-3 py-1.5 text-xs font-medium text-[#0a0c0d] hover:opacity-90"
+            className="inline-flex items-center gap-1.5 rounded-md bg-[var(--gold)] px-3 py-1.5 text-xs font-medium text-[var(--on-gold)] hover:opacity-90"
           >
             <Download size={13} />
             {t("Download WAV", "ទាញយក WAV")}

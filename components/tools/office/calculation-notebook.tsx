@@ -58,7 +58,7 @@ export default function CalculationNotebook() {
       <section className="overflow-hidden rounded-2xl border border-[var(--ground-line)] bg-[var(--ground-raised)]">
         <div className="flex items-center justify-between border-b border-[var(--ground-line)] px-4 py-3">
           <h2 className="font-display font-semibold text-[var(--ink)]">{project || t("Calculation Notebook", "សៀវភៅកត់ត្រាការគណនា")}</h2>
-          <button type="button" onClick={addWall} className="inline-flex items-center gap-1.5 rounded-lg bg-[var(--gold)] px-3 py-2 text-xs font-bold text-[#0a0c0d] hover:bg-[var(--gold-dim)]"><Plus size={14} /> {t("Add line", "បន្ថែមបន្ទាត់")}</button>
+          <button type="button" onClick={addWall} className="inline-flex items-center gap-1.5 rounded-lg bg-[var(--gold)] px-3 py-2 text-xs font-bold text-[var(--on-gold)] hover:bg-[var(--gold-hover)]"><Plus size={14} /> {t("Add line", "បន្ថែមបន្ទាត់")}</button>
         </div>
         <div className="divide-y divide-[var(--ground-line)]">
           {calculations.rows.map((wall) => (
@@ -66,7 +66,7 @@ export default function CalculationNotebook() {
               <Field label={t("Line", "បន្ទាត់")}><TextInput value={wall.name} onChange={(event) => updateWall(wall.id, { name: event.target.value })} /></Field>
               <Field label={t("Width", "ទទឹង")}><TextInput type="number" min="0" step="0.1" value={wall.width} onChange={(event) => updateWall(wall.id, { width: event.target.value })} className="font-mono-ui" /></Field>
               <Field label={t("Height", "កម្ពស់")}><TextInput type="number" min="0" step="0.1" value={wall.height} onChange={(event) => updateWall(wall.id, { height: event.target.value })} className="font-mono-ui" /></Field>
-              <div><p className="mb-1.5 text-xs font-medium uppercase tracking-wide text-[var(--ink-dim)]">{t("Live area", "ផ្ទៃផ្ទាល់")}</p><p className="rounded-md border border-[var(--gold)]/30 bg-[var(--gold)]/5 px-3 py-2 font-mono-ui text-sm font-bold text-[var(--gold)]">{format(wall.area)} {unit}</p></div>
+              <div><p className="mb-1.5 text-xs font-medium uppercase tracking-wide text-[var(--ink-dim)]">{t("Live area", "ផ្ទៃផ្ទាល់")}</p><p className="rounded-md border border-[var(--gold)]/30 bg-[var(--gold)]/5 px-3 py-2 font-mono-ui text-sm font-bold text-[var(--gold-text)]">{format(wall.area)} {unit}</p></div>
               <button type="button" onClick={() => setWalls((current) => current.filter((item) => item.id !== wall.id))} disabled={walls.length <= 1} className="flex h-9 items-center justify-center rounded-md border border-[var(--ground-line)] px-3 text-[var(--ink-faint)] hover:border-[var(--danger)]/50 hover:text-[var(--danger)] disabled:opacity-30" aria-label={t("Remove line", "លុបបន្ទាត់")}><Trash2 size={14} /></button>
             </div>
           ))}
@@ -74,7 +74,7 @@ export default function CalculationNotebook() {
       </section>
 
       <section className="grid gap-3 sm:grid-cols-3">
-        <div className="rounded-xl border border-[var(--gold)]/30 bg-[var(--gold)]/5 p-4"><p className="text-xs font-semibold uppercase tracking-wider text-[var(--ink-faint)]">{t("Total Paint Area", "ផ្ទៃសរុបសម្រាប់លាបថ្នាំ")}</p><p className="mt-1 font-mono-ui text-2xl font-bold text-[var(--gold)]">{format(calculations.totalArea)} {unit}</p></div>
+        <div className="rounded-xl border border-[var(--gold)]/30 bg-[var(--gold)]/5 p-4"><p className="text-xs font-semibold uppercase tracking-wider text-[var(--ink-faint)]">{t("Total Paint Area", "ផ្ទៃសរុបសម្រាប់លាបថ្នាំ")}</p><p className="mt-1 font-mono-ui text-2xl font-bold text-[var(--gold-text)]">{format(calculations.totalArea)} {unit}</p></div>
         <div className="rounded-xl border border-[var(--teal)]/30 bg-[var(--teal)]/5 p-4"><p className="text-xs font-semibold uppercase tracking-wider text-[var(--ink-faint)]">{t("Paint Needed", "បរិមាណថ្នាំត្រូវការ")}</p><p className="mt-1 font-mono-ui text-2xl font-bold text-[var(--ink)]">≈ {format(calculations.liters, 0)} {t("liters", "លីត្រ")}</p></div>
         <div className="rounded-xl border border-[var(--success)]/30 bg-[var(--success)]/5 p-4"><p className="text-xs font-semibold uppercase tracking-wider text-[var(--ink-faint)]">{t("Estimated Cost", "ថ្លៃប៉ាន់ស្មាន")}</p><p className="mt-1 font-mono-ui text-2xl font-bold text-[var(--ink)]">${format(calculations.estimatedCost)}</p></div>
       </section>

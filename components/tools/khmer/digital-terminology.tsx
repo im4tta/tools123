@@ -4,6 +4,7 @@ import { CopyButton } from "@/components/CopyButton";
 import { ToolShell, Field, TextInput } from "@/components/ui/Shell";
 import { useToolState } from "@/lib/storage";
 import { MPTC_TERMS } from "@/lib/data/mptc-lexicon";
+import { clickOnKey } from "@/lib/a11y";
 
 export default function DigitalTerminology() {
   const [q, setQ] = useToolState("digital-terminology:q", "");
@@ -52,6 +53,9 @@ export default function DigitalTerminology() {
                 <Fragment key={key}>
                   <tr
                     className="cursor-pointer border-t border-[var(--ground-line)] hover:bg-[var(--ground-raised)]"
+                    tabIndex={0}
+                    aria-expanded={isOpen}
+                    onKeyDown={clickOnKey}
                     onClick={() => setOpenKey(isOpen ? null : key)}
                   >
                     <td className="px-3 py-2">{t.en}</td>

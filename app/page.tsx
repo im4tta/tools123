@@ -4,11 +4,10 @@ import dynamic from "next/dynamic";
 import { startTransition, Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Search, ArrowLeft, Star, Waypoints, LayoutGrid, ArrowUpDown, Layers, ShieldCheck, CircleDollarSign, WifiOff, Languages, BadgeCheck, FolderGit2 } from "lucide-react";
+import { Search, ArrowLeft, Star, Waypoints, LayoutGrid, ArrowUpDown, Layers, ShieldCheck, CircleDollarSign, WifiOff, Languages, BadgeCheck, FolderGit2, Pause, Play } from "lucide-react";
 import { CollectionsPicker } from "@/components/CollectionsPicker";
 import { CollectionsSection } from "@/components/CollectionsSection";
 import { CommandPalette } from "@/components/CommandPalette";
-import { HeaderInfo } from "@/components/HeaderInfo";
 import { UniversalInput } from "@/components/UniversalInput";
 import { HomeSpotlightCarousel } from "@/components/HomeSpotlightCarousel";
 import { WorkspaceSwitcher } from "@/components/WorkspaceSwitcher";
@@ -17,7 +16,7 @@ import { DEFAULT_WORKSPACE_PROFILES, WORKSPACES, type WorkspaceProfile } from "@
 import { LanguageToggle } from "@/components/LanguageToggle";
 import { useLanguage } from "@/components/LanguageProvider";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import { AccentThemePicker } from "@/components/AccentThemePicker";
+import { SettingsSheet } from "@/components/SettingsSheet";
 import { useTheme } from "@/components/ThemeProvider";
 // The graph view is ~1,200 lines of canvas code that only runs after switching to graph
 // mode, so load it on demand instead of with every homepage visit.
@@ -216,6 +215,7 @@ export default function Home() {
   const popularTools = useMemo(() => POPULAR_IDS.map((id) => TOOLS.find((tool) => tool.id === id)).filter(Boolean) as typeof TOOLS, []);
   const router = useRouter();
   const [paletteOpen, setPaletteOpen] = useState(false);
+  const [tickerPaused, setTickerPaused] = useState(false);
   const [activeId, setActiveIdRaw] = useState<string | null>(null);
   const [filter, setFilter] = useState("");
   // Apply ?q= after hydration: reading it during the first render made the client markup differ
@@ -615,7 +615,7 @@ export default function Home() {
               aria-label={isFav ? t("Remove from favorites", "ដកចេញពីចំណូលចិត្ត") : t("Add to favorites", "បន្ថែមទៅចំណូលចិត្ត")}
               className={`flex h-8 w-8 items-center justify-center rounded-md border transition ${
                 isFav
-                  ? "border-[var(--gold)] text-[var(--gold)]"
+                  ? "border-[var(--gold)] text-[var(--gold-text)]"
                   : "border-[var(--ground-line)] bg-[var(--ground-raised)] text-[var(--ink-faint)] hover:text-[var(--ink)]"
               }`}
             >
@@ -635,9 +635,9 @@ export default function Home() {
               <Search size={13} /> {t("Find a tool…", "ស្វែងរកឧបករណ៍…")}
               <kbd className="ml-1 rounded border border-[var(--ground-line)] px-1 text-[10px]">⌘K</kbd>
             </button>
-            <AccentThemePicker />
             <LanguageToggle />
             <ThemeToggle />
+            <SettingsSheet />
           </div>
         </div>
         <div key={active.id} className="fade-rise">
@@ -654,9 +654,9 @@ export default function Home() {
 
       <div className="sticky-nav relative" data-scrolled={navScrolled}>
          <div className="home-nav-inner mx-auto flex max-w-[77rem] items-center gap-3 px-5 py-2 sm:px-10">
-           <Link href="/" aria-label="123 Toolbox home" className="home-brand shrink-0 font-display text-sm font-bold text-[var(--gold)] hover:text-[var(--gold-dim)]">១២៣</Link>
+           <Link href="/" aria-label="123 Toolbox home" className="home-brand shrink-0 font-display text-sm font-bold text-[var(--gold-text)] hover:text-[var(--gold-dim)]">១២៣</Link>
 
-          <div className="category-ticker min-w-0 flex-1">
+          <div className="category-ticker min-w-0 flex-1" data-paused={tickerPaused || undefined}>
             <div className="category-ticker-track">
               {[...CATEGORY_ORDER, ...CATEGORY_ORDER].map((cat, i) => {
                 const active = viewMode === "graph" && graphFocusCategory === cat;
@@ -682,6 +682,17 @@ export default function Home() {
             </div>
           </div>
 
+          <button
+            type="button"
+            onClick={() => setTickerPaused((paused) => !paused)}
+            aria-pressed={tickerPaused}
+            aria-label={tickerPaused ? t("Play the category ticker", "ចាក់ផ្ទាំងប្រភេទរំកិល") : t("Pause the category ticker", "ផ្អាកផ្ទាំងប្រភេទរំកិល")}
+            title={tickerPaused ? t("Play the category ticker", "ចាក់ផ្ទាំងប្រភេទរំកិល") : t("Pause the category ticker", "ផ្អាកផ្ទាំងប្រភេទរំកិល")}
+            className="ticker-pause flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] text-[var(--ink-dim)] hover:text-[var(--ink)]"
+          >
+            {tickerPaused ? <Play size={13} aria-hidden /> : <Pause size={13} aria-hidden />}
+          </button>
+
           <div className="home-nav-actions flex shrink-0 items-center gap-2">
             <button
               onClick={() => {
@@ -696,10 +707,9 @@ export default function Home() {
                 {viewMode === "grid" ? t("Graph", "ក្រាហ្វ") : t("Grid", "ក្រឡា")}
               </span>
             </button>
-            <HeaderInfo />
-            <AccentThemePicker />
             <LanguageToggle />
             <ThemeToggle />
+            <SettingsSheet />
           </div>
         </div>
       </div>
@@ -719,7 +729,7 @@ export default function Home() {
 
       {viewMode === "grid" && (
       <>
-       <div className="relative mx-auto min-h-0 max-w-[77rem] px-5 sm:px-10 xl:min-h-[20rem]">
+       <div className="relative mx-auto min-h-0 max-w-[77rem] px-5 sm:px-10">
        <div className={auroraHero ? "aurora-hero relative mx-auto mt-7 max-w-2xl text-center" : "home-hero relative mx-auto mt-8 max-w-3xl text-center"}>
         {auroraHero ? (
           <>
@@ -739,14 +749,14 @@ export default function Home() {
           <>
             <div className="mb-3 flex items-center justify-center gap-2 text-xs font-bold tracking-[0.1em] text-[var(--ink-faint)]">
              <span>{t("one workbench", "កន្លែងធ្វើការតែមួយ")}</span>
-             <span className="text-[var(--gold)]">·</span>
+             <span className="text-[var(--gold-text)]">·</span>
              <span>{t("one toolbox", "ប្រអប់ឧបករណ៍តែមួយ")}</span>
-             <span className="text-[var(--gold)]">·</span>
+             <span className="text-[var(--gold-text)]">·</span>
              <span>{t(`${TOTAL} tools`, `ឧបករណ៍ ${toKh(TOTAL)} មុខ`)}</span>
              <span className="text-[var(--gold-dim)]">·</span>
              <span
                ref={badgeRef}
-               className="inline-flex items-center gap-1.5 rounded-full border border-[var(--gold)] px-2.5 py-0.5 text-[10px] font-semibold tracking-wide text-[var(--gold)]"
+               className="inline-flex items-center gap-1.5 rounded-full border border-[var(--gold)] px-2.5 py-0.5 text-[10px] font-semibold tracking-wide text-[var(--gold-text)]"
              >
                <span ref={dotRef} className="inline-block h-1.5 w-1.5 rounded-full bg-[var(--gold)]" />
                {t("adding more tools everyday", "បន្ថែមឧបករណ៍រាល់ថ្ងៃ")}
@@ -776,6 +786,13 @@ export default function Home() {
              ))}
            </div>
          )}
+         {auroraHero && (
+           <ul className="mt-4 flex flex-wrap items-center justify-center gap-x-5 gap-y-1.5 text-xs text-[var(--ink-dim)]" aria-label={t("Why 123 Toolbox", "ហេតុអ្វី 123 Toolbox")}>
+             <li className="flex items-center gap-1.5"><ShieldCheck size={13} className="text-[var(--teal)]" aria-hidden />{t("Most tools run in your browser", "ឧបករណ៍ភាគច្រើនដំណើរការក្នុងកម្មវិធីរុករករបស់អ្នក")}</li>
+             <li className="flex items-center gap-1.5"><Languages size={13} className="text-[var(--teal)]" aria-hidden />{t("Khmer & English", "ខ្មែរ និងអង់គ្លេស")}</li>
+             <li><a href="https://github.com/im4tta/tools123" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 hover:text-[var(--ink)] hover:underline"><FolderGit2 size={13} className="text-[var(--teal)]" aria-hidden />{t("Open source (MIT)", "ប្រភពបើកចំហ (MIT)")}</a></li>
+           </ul>
+         )}
 
          {wordSuggestions.length > 0 && (
            <div className="mx-auto mt-2 flex w-full max-w-xl flex-wrap items-center justify-center gap-1.5">
@@ -788,7 +805,7 @@ export default function Home() {
                  type="button"
                  onClick={() => setFilter(w)}
                  lang="km"
-                 className="rounded-full border border-[var(--ground-line)] bg-[var(--ground-raised)] px-2.5 py-1 font-khmer text-[13px] text-[var(--ink-dim)] transition hover:border-[var(--gold-dim)] hover:text-[var(--gold)]"
+                 className="rounded-full border border-[var(--ground-line)] bg-[var(--ground-raised)] px-2.5 py-1 font-khmer text-[13px] text-[var(--ink-dim)] transition hover:border-[var(--gold-dim)] hover:text-[var(--gold-text)]"
                >
                  {w}
                </button>
@@ -809,7 +826,7 @@ export default function Home() {
                   key={suggestion.id}
                   type="button"
                   onClick={() => setActiveId(suggestion.id)}
-                  className="rounded-full border border-[var(--gold)]/30 bg-[var(--gold)]/5 px-2.5 py-1 text-[11px] font-semibold text-[var(--gold)] transition hover:bg-[var(--gold)]/15"
+                  className="rounded-full border border-[var(--gold)]/30 bg-[var(--gold)]/5 px-2.5 py-1 text-[11px] font-semibold text-[var(--gold-text)] transition hover:bg-[var(--gold)]/15"
                 >
                   {t(suggestion.title, suggestionKm)}
                 </button>
@@ -818,7 +835,6 @@ export default function Home() {
            </div>
           )}
        </div>
-       {homeDesign !== "focus" && <HomeSpotlightCarousel />}
        </div>
 
       {homeDesign === "focus" && filter === "" && (
@@ -864,7 +880,7 @@ export default function Home() {
       {homeDesign !== "focus" && favoriteTools.length > 0 && filter === "" && (
         <div className="relative mx-auto mt-12 max-w-[77rem] px-5 sm:px-10">
           <div className="mb-3 flex items-baseline gap-2 border-b border-[var(--ground-line)] pb-2">
-            <Star size={13} className="text-[var(--gold)]" fill="currentColor" />
+            <Star size={13} className="text-[var(--gold-text)]" fill="currentColor" />
             <h2 className="font-display text-base font-semibold text-[var(--ink)]">{t("Favorites", "ចំណូលចិត្ត")}</h2>
           </div>
           <div className="tool-list-scroll">
@@ -906,8 +922,10 @@ export default function Home() {
         </div>
       )}
 
+      {homeDesign !== "focus" && filter === "" && <HomeSpotlightCarousel />}
+
       {!(homeDesign === "focus" && filter === "") && (
-      <div className="relative mx-auto mt-12 max-w-[77rem] px-5 sm:px-10">
+      <div id="tool-results" className="relative mx-auto mt-12 max-w-[77rem] scroll-mt-20 px-5 sm:px-10">
         {CATEGORY_ORDER.map((cat) => {
           const tools = filteredByCategory.get(cat);
           if (!tools) return null;
@@ -1008,7 +1026,7 @@ export default function Home() {
                 const Icon = f.icon;
                 return (
                   <div key={f.en} className="rounded-xl border border-[var(--ground-line)] bg-[var(--ground)] p-4 transition hover:border-[var(--gold-dim)]">
-                    <Icon size={18} className="text-[var(--gold)]" />
+                    <Icon size={18} className="text-[var(--gold-text)]" />
                     <div className="mt-2 text-sm font-semibold text-[var(--ink)]">{t(f.en, f.km)}</div>
                     <p className="mt-1 text-xs leading-relaxed text-[var(--ink-dim)]">{t(f.descEn, f.descKm)}</p>
                   </div>
@@ -1017,13 +1035,13 @@ export default function Home() {
             </div>
             <div className="mt-6 flex flex-wrap items-center justify-center gap-x-8 gap-y-2 text-xs text-[var(--ink-dim)]">
               <span className="flex items-baseline gap-1.5">
-                <span className="font-display text-base font-semibold text-[var(--gold)]">{toKh(TOTAL)}</span>
+                <span className="font-display text-base font-semibold text-[var(--gold-text)]">{toKh(TOTAL)}</span>
                 {t("tools", "ឧបករណ៍")}
               </span>
               <span className="hidden h-3 w-px bg-[var(--ground-line)] sm:block" />
-              <span className="flex items-center gap-1.5"><ShieldCheck size={13} className="text-[var(--gold)]" />{t("100% in your browser", "១០០% នៅក្នុងកម្មវិធីរុករករបស់អ្នក")}</span>
+              <span className="flex items-center gap-1.5"><ShieldCheck size={13} className="text-[var(--gold-text)]" />{t("Most tools run in your browser", "ឧបករណ៍ភាគច្រើនដំណើរការក្នុងកម្មវិធីរុករករបស់អ្នក")}</span>
               <span className="hidden h-3 w-px bg-[var(--ground-line)] sm:block" />
-              <span className="flex items-center gap-1.5"><Languages size={13} className="text-[var(--gold)]" />{t("Bilingual: English · ខ្មែរ", "ពីរភាសា៖ អង់គ្លេស · ខ្មែរ")}</span>
+              <span className="flex items-center gap-1.5"><Languages size={13} className="text-[var(--gold-text)]" />{t("Bilingual: English · ខ្មែរ", "ពីរភាសា៖ អង់គ្លេស · ខ្មែរ")}</span>
             </div>
           </div>
         </section>
@@ -1081,7 +1099,7 @@ function FocusPopular({ tools, onSelect }: { tools: typeof TOOLS; onSelect: (id:
               </div>
               <div className="mt-2 font-display text-base font-semibold text-[var(--ink)]">{primary}</div>
               {secondary && secondary !== primary && (
-                <div lang={mode === "km" ? undefined : "km"} className={mode === "km" ? "text-xs text-[var(--ink-faint)]" : "font-khmer text-sm text-[var(--gold)]"}>{secondary}</div>
+                <div lang={mode === "km" ? undefined : "km"} className={mode === "km" ? "text-xs text-[var(--ink-faint)]" : "font-khmer text-sm text-[var(--gold-text)]"}>{secondary}</div>
               )}
               {blurb && <p className="focus-pop-desc mt-1.5 text-xs leading-relaxed text-[var(--ink-dim)]">{t(blurb.en, blurb.km)}</p>}
             </a>
@@ -1166,14 +1184,14 @@ function ToolGrid({
             >
               <span className="tool-card-title">{t(tool.title, tool.khmerTitle ?? tool.title)}
               {showNewBadge && (
-                <span className="new-tool-badge shrink-0 rounded border border-[var(--gold-dim)] px-1 py-0.5 text-[9px] font-semibold leading-none text-[var(--gold)]">
+                <span className="new-tool-badge shrink-0 rounded border border-[var(--gold-dim)] px-1 py-0.5 text-[9px] font-semibold leading-none text-[var(--gold-text)]">
                   {t("NEW", "ថ្មី")}
                 </span>
               )}</span>
               {blurb && <span className="tool-card-blurb">{t(blurb.en, blurb.km)}</span>}
               {showCredits && tool.localProject && <span className="mt-0.5 block truncate text-[10px] text-[var(--ink-faint)]">{tool.localProject.author} · {tool.localProject.license}{tool.localProject.relationship === "inspired" ? " · Inspired / independent" : tool.localProject.relationship === "adapted" ? " · Adapted" : tool.localProject.relationship === "integrated" ? " · Integrated" : ""}</span>}
             </a>
-            {showCredits && tool.localProject && <a href={tool.localProject.repository} target="_blank" rel="noopener noreferrer" onClick={(event) => event.stopPropagation()} className="shrink-0 rounded px-1.5 py-1 text-[10px] text-[var(--ink-faint)] underline hover:text-[var(--gold)]">{creditHost(tool.localProject.repository) ?? t("Source", "ប្រភព")}</a>}
+            {showCredits && tool.localProject && <a href={tool.localProject.repository} target="_blank" rel="noopener noreferrer" onClick={(event) => event.stopPropagation()} className="shrink-0 rounded px-1.5 py-1 text-[10px] text-[var(--ink-faint)] underline hover:text-[var(--gold-text)]">{creditHost(tool.localProject.repository) ?? t("Source", "ប្រភព")}</a>}
             <button
               type="button"
               onClick={() => onToggleFavorite(tool.id)}

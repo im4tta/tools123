@@ -26,7 +26,7 @@ export default function MimeTypeLookup() {
       <div className="divide-y divide-[var(--ground-line)] rounded-md border border-[var(--ground-line)]">
         {results.map(([ext, type]) => (
           <div key={ext} className="flex items-center justify-between px-3 py-2 text-sm">
-            <span className="font-mono-ui text-[var(--gold)]">{ext}</span>
+            <span className="font-mono-ui text-[var(--gold-text)]">{ext}</span>
             <span className="font-mono-ui text-[var(--ink-dim)]">{type}</span>
           </div>
         ))}

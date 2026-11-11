@@ -82,7 +82,7 @@ export default function RegexExplainer() {
         <div className="overflow-hidden rounded-md border border-[var(--ground-line)]">
           {parts.map((p, i) => (
             <div key={i} className="flex items-center gap-3 border-b border-[var(--ground-line)] last:border-0">
-              <span className="min-w-16 shrink-0 bg-[var(--ground-raised)] px-3 py-2 font-mono-ui text-[var(--gold)]">{p.token || "·"}</span>
+              <span className="min-w-16 shrink-0 bg-[var(--ground-raised)] px-3 py-2 font-mono-ui text-[var(--gold-text)]">{p.token || "·"}</span>
               <span className="px-3 py-2 text-sm text-[var(--ink)]">{t(p.meaning, p.km)}</span>
             </div>
           ))}

@@ -58,7 +58,7 @@ export default function StepsDistance() {
           </div>
           <div className="rounded-md border border-[var(--gold)]/40 bg-[var(--gold)]/10 p-4 text-center">
             <div className="text-xs font-medium uppercase tracking-wide text-[var(--ink-dim)]">{t("Est. calories", "កាឡូរីប្រហាក់ប្រហែល")}</div>
-            <div className="mt-1 text-xl font-semibold text-[var(--gold)]">~{Math.round(calc.calories)} kcal</div>
+            <div className="mt-1 text-xl font-semibold text-[var(--gold-text)]">~{Math.round(calc.calories)} kcal</div>
           </div>
         </div>
       ) : (

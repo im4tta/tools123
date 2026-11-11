@@ -32,7 +32,7 @@ export default function AsciiTable() {
             {rows.map((r) => (
               <tr key={r.code} className="border-t border-[var(--ground-line)]">
                 <td className="px-3 py-1 font-mono-ui text-[var(--ink)]">{r.code}</td>
-                <td className="px-3 py-1 font-mono-ui text-[var(--gold)]">{r.code.toString(16).toUpperCase().padStart(2, "0")}</td>
+                <td className="px-3 py-1 font-mono-ui text-[var(--gold-text)]">{r.code.toString(16).toUpperCase().padStart(2, "0")}</td>
                 <td className="px-3 py-1 font-mono-ui text-[var(--ink)]">{r.ch}</td>
                 <td className="px-3 py-1 text-[var(--ink-dim)]">{r.name}</td>
               </tr>

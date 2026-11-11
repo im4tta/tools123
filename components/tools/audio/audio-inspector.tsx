@@ -90,7 +90,7 @@ export default function AudioInspectorTool() {
         <input
           type="file"
           accept="audio/*"
-          className="hidden"
+          className="sr-only"
           onChange={(e) => {
             const f = e.target.files?.[0];
             if (f) handleFile(f);

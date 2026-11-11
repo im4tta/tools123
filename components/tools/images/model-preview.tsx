@@ -1385,13 +1385,13 @@ export default function ModelPreviewTool() {
     >
       {/* Action bar */}
       <div className="flex flex-wrap items-center gap-2">
-        <label className="inline-flex cursor-pointer items-center gap-2 rounded-md bg-[var(--gold)] px-4 py-2 text-sm font-medium text-[#0a0c0d] transition hover:bg-[var(--gold-dim)]">
+        <label className="inline-flex cursor-pointer items-center gap-2 rounded-md bg-[var(--gold)] px-4 py-2 text-sm font-medium text-[var(--on-gold)] transition hover:bg-[var(--gold-hover)]">
           <Upload size={16} />
           <span>{t.open_file}</span>
           <input
             type="file"
             accept=".glb,.gltf,.obj,.stl,.ts,.tsx,.js,.jsx,.json"
-            className="hidden"
+            className="sr-only"
             onChange={(e) => {
               if (e.target.files && e.target.files[0]) handleFileUpload(e.target.files[0]);
             }}
@@ -1418,7 +1418,7 @@ export default function ModelPreviewTool() {
           <Field label={t.sample_models}>
             <div className="grid grid-cols-2 gap-2">
               <button onClick={() => loadPresetModel('angkor')} className={presetBtn}>
-                <Sparkles size={16} className="shrink-0 text-[var(--gold)]" />
+                <Sparkles size={16} className="shrink-0 text-[var(--gold-text)]" />
                 <div className="truncate">
                   <div className="truncate font-medium">{t.angkor_wat}</div>
                   <div className="text-[10px] text-[var(--ink-faint)]">Procedural 3D</div>
@@ -1453,12 +1453,12 @@ export default function ModelPreviewTool() {
                 </div>
               </button>
               <button onClick={() => loadTsPreset(SMARTPHONE_TS_CODE, 'smartphone.ts')} className={`${presetBtn} col-span-2`}>
-                <Smartphone size={16} className="shrink-0 text-[var(--gold)]" />
+                <Smartphone size={16} className="shrink-0 text-[var(--gold-text)]" />
                 <div className="min-w-0 flex-1 truncate">
                   <div className="truncate font-medium">{t.smartphone_model}</div>
                   <div className="text-[10px] text-[var(--ink-faint)]">smartphone.ts</div>
                 </div>
-                <span className="shrink-0 rounded border border-[var(--gold)]/30 bg-[var(--gold)]/10 px-1.5 py-0.5 text-[9px] text-[var(--gold)]">
+                <span className="shrink-0 rounded border border-[var(--gold)]/30 bg-[var(--gold)]/10 px-1.5 py-0.5 text-[9px] text-[var(--gold-text)]">
                   {t.ts_live_render}
                 </span>
               </button>
@@ -1507,7 +1507,7 @@ export default function ModelPreviewTool() {
             <div className="space-y-2 rounded-lg border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3">
               <div className="flex items-center justify-between text-xs">
                 <span className="text-[var(--ink-dim)]">{t.exploded_view}</span>
-                <span className="font-mono text-[var(--gold)]">{Math.round(explode * 100)}%</span>
+                <span className="font-mono text-[var(--gold-text)]">{Math.round(explode * 100)}%</span>
               </div>
               <input
                 type="range"
@@ -1527,7 +1527,7 @@ export default function ModelPreviewTool() {
               <div>
                 <div className="mb-1 flex justify-between text-xs">
                   <span className="text-[var(--ink-dim)]">{t.light_intensity}</span>
-                  <span className="font-mono text-[var(--gold)]">{lightIntensity.toFixed(1)}</span>
+                  <span className="font-mono text-[var(--gold-text)]">{lightIntensity.toFixed(1)}</span>
                 </div>
                 <input
                   type="range"
@@ -1583,7 +1583,7 @@ export default function ModelPreviewTool() {
           <div className={`relative flex-1 ${activeTab === '3d' ? 'block' : 'hidden'}`}>
             <div ref={canvasContainerRef} className="absolute inset-0" />
             <div className="absolute bottom-3 left-1/2 z-10 -translate-x-1/2 rounded-full border border-[var(--ground-line)] bg-[var(--ground-raised)]/95 px-4 py-1.5 text-xs shadow-lg backdrop-blur">
-              <button onClick={resetCamera} className="inline-flex items-center gap-1.5 text-[var(--ink-dim)] transition hover:text-[var(--gold)]">
+              <button onClick={resetCamera} className="inline-flex items-center gap-1.5 text-[var(--ink-dim)] transition hover:text-[var(--gold-text)]">
                 <RotateCcw size={14} />
                 {t.btn_reset}
               </button>
@@ -1595,7 +1595,7 @@ export default function ModelPreviewTool() {
             <div className="flex min-h-0 flex-1 flex-col">
               <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2">
                 <div className="flex min-w-0 items-center gap-2">
-                  <FileCode size={16} className="shrink-0 text-[var(--gold)]" />
+                  <FileCode size={16} className="shrink-0 text-[var(--gold-text)]" />
                   <span className="truncate font-mono-ui text-xs font-semibold">{loadedFileName}</span>
                   <span className="rounded bg-[var(--ground-raised-hi)] px-2 py-0.5 text-[10px] text-[var(--ink-dim)]">TypeScript</span>
                 </div>
@@ -1652,7 +1652,7 @@ export default function ModelPreviewTool() {
             onClick={() => setShowStatsPanel(!showStatsPanel)}
             className="absolute right-3 top-12 z-10 inline-flex items-center gap-1.5 rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)]/95 px-3 py-1.5 text-xs font-medium text-[var(--ink-dim)] shadow-lg backdrop-blur transition hover:text-[var(--ink)]"
           >
-            <Info size={14} className="text-[var(--gold)]" />
+            <Info size={14} className="text-[var(--gold-text)]" />
             {t.model_info}
           </button>
 
@@ -1660,7 +1660,7 @@ export default function ModelPreviewTool() {
             <div className="absolute right-3 top-[3.25rem] z-10 w-72 max-w-[calc(100%-1.5rem)] space-y-3 rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)]/95 p-4 text-xs shadow-2xl backdrop-blur">
               <div className="flex items-center justify-between border-b border-[var(--ground-line)] pb-2">
                 <span className="flex items-center gap-1.5 font-semibold">
-                  <Box size={16} className="text-[var(--gold)]" />
+                  <Box size={16} className="text-[var(--gold-text)]" />
                   <span>{activeTab === '3d' ? t.stats_3d : t.stats_code}</span>
                 </span>
                 <button onClick={() => setShowStatsPanel(false)} className="text-[var(--ink-faint)] transition hover:text-[var(--ink)]">
@@ -1676,11 +1676,11 @@ export default function ModelPreviewTool() {
                   </div>
                   <div className="flex justify-between gap-2">
                     <span className="text-[var(--ink-dim)]">{t.vertex_count}</span>
-                    <span className="font-mono text-[var(--gold)]">{meshStats.vertices.toLocaleString()}</span>
+                    <span className="font-mono text-[var(--gold-text)]">{meshStats.vertices.toLocaleString()}</span>
                   </div>
                   <div className="flex justify-between gap-2">
                     <span className="text-[var(--ink-dim)]">{t.poly_count}</span>
-                    <span className="font-mono text-[var(--gold)]">{meshStats.polygons.toLocaleString()}</span>
+                    <span className="font-mono text-[var(--gold-text)]">{meshStats.polygons.toLocaleString()}</span>
                   </div>
                   <div className="flex justify-between gap-2">
                     <span className="text-[var(--ink-dim)]">{t.mesh_count}</span>
@@ -1701,11 +1701,11 @@ export default function ModelPreviewTool() {
                   </div>
                   <div className="flex justify-between gap-2">
                     <span className="text-[var(--ink-dim)]">{t.code_lines}</span>
-                    <span className="font-mono text-[var(--gold)]">{codeStats.lines}</span>
+                    <span className="font-mono text-[var(--gold-text)]">{codeStats.lines}</span>
                   </div>
                   <div className="flex justify-between gap-2">
                     <span className="text-[var(--ink-dim)]">{t.code_chars}</span>
-                    <span className="font-mono text-[var(--gold)]">{codeStats.chars.toLocaleString()}</span>
+                    <span className="font-mono text-[var(--gold-text)]">{codeStats.chars.toLocaleString()}</span>
                   </div>
                   <div className="flex justify-between gap-2">
                     <span className="text-[var(--ink-dim)]">{t.code_exports}</span>

@@ -207,7 +207,7 @@ export default function TotpAuthenticator() {
               <div
                 className={`flex items-center gap-2 rounded-lg border px-3 py-2 text-sm font-medium ${
                   verifyResult
-                    ? "border-[var(--gold)]/40 bg-[var(--gold)]/10 text-[var(--gold)]"
+                    ? "border-[var(--gold)]/40 bg-[var(--gold)]/10 text-[var(--gold-text)]"
                     : "border-[var(--danger)]/40 bg-[var(--danger)]/10 text-[var(--danger)]"
                 }`}
               >
@@ -239,19 +239,19 @@ export default function TotpAuthenticator() {
         </p>
         <ul className="mt-3 space-y-1.5 text-xs text-[var(--ink-dim)]">
           <li>
-            <a href="https://www.rfc-editor.org/rfc/rfc6238" target="_blank" rel="noreferrer" className="text-[var(--gold)] underline underline-offset-2">
+            <a href="https://www.rfc-editor.org/rfc/rfc6238" target="_blank" rel="noreferrer" className="text-[var(--gold-text)] underline underline-offset-2">
               RFC 6238
             </a>{" "}
             — {t("TOTP: Time-Based One-Time Password Algorithm", "TOTP: ក្បួនពាក្យសម្ងាត់មួយលើកតាមពេល")}
           </li>
           <li>
-            <a href="https://www.rfc-editor.org/rfc/rfc4226" target="_blank" rel="noreferrer" className="text-[var(--gold)] underline underline-offset-2">
+            <a href="https://www.rfc-editor.org/rfc/rfc4226" target="_blank" rel="noreferrer" className="text-[var(--gold-text)] underline underline-offset-2">
               RFC 4226
             </a>{" "}
             — {t("HOTP: HMAC-Based One-Time Password Algorithm", "HOTP: ក្បួនពាក្យសម្ងាត់មួយលើកតាម HMAC")}
           </li>
           <li>
-            <a href="https://www.rfc-editor.org/rfc/rfc4648" target="_blank" rel="noreferrer" className="text-[var(--gold)] underline underline-offset-2">
+            <a href="https://www.rfc-editor.org/rfc/rfc4648" target="_blank" rel="noreferrer" className="text-[var(--gold-text)] underline underline-offset-2">
               RFC 4648
             </a>{" "}
             — {t("Base32 encoding of the secret key", "ការអ៊ិនកូដ Base32 នៃសោសម្ងាត់")}

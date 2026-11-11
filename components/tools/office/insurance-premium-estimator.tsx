@@ -83,9 +83,9 @@ export default function InsurancePremiumEstimator() {
           <div className="text-[11px] text-[var(--ink-faint)]">{t("per month", "ប្រចាំខែ")}</div>
         </div>
         <div className="rounded-md border border-[var(--gold)]/40 bg-[var(--gold)]/10 p-4">
-          <div className="text-[11px] font-semibold uppercase tracking-wide text-[var(--gold)]">{t("Monthly premium", "បុព្វលាភប្រចាំខែ")}</div>
-          <div className="mt-1 text-xl font-bold text-[var(--gold)]">${result.monthly.toFixed(2)}</div>
-          <div className="text-[11px] font-semibold text-[var(--gold)]">{t("for", "សម្រាប់")} {n} {t("member(s)", "នាក់")}</div>
+          <div className="text-[11px] font-semibold uppercase tracking-wide text-[var(--gold-text)]">{t("Monthly premium", "បុព្វលាភប្រចាំខែ")}</div>
+          <div className="mt-1 text-xl font-bold text-[var(--gold-text)]">${result.monthly.toFixed(2)}</div>
+          <div className="text-[11px] font-semibold text-[var(--gold-text)]">{t("for", "សម្រាប់")} {n} {t("member(s)", "នាក់")}</div>
         </div>
         <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4">
           <div className="text-[11px] font-semibold uppercase tracking-wide text-[var(--ink-faint)]">{t("Yearly", "ប្រចាំឆ្នាំ")}</div>
@@ -95,7 +95,7 @@ export default function InsurancePremiumEstimator() {
       </div>
 
       <div className="flex items-start gap-2 rounded-md border border-amber-500/40 bg-amber-500/10 p-3 text-xs leading-relaxed text-[var(--ink-dim)]">
-        <Info size={14} className="mt-0.5 shrink-0 text-[var(--gold)]" />
+        <Info size={14} className="mt-0.5 shrink-0 text-[var(--gold-text)]" />
         <span>
           {t("The default base rates are sample placeholders only — they are not real insurer quotes. Actual premiums depend on the insurer, exact age, health history, coverage limits and deductibles. Enter your real base rate and always request a proper quote before purchase.", "អត្រាមូលដ្ឋានលំនាំដើមគឺជាគំរូតែប៉ុណ្ណោះ — មិនមែនជាតម្លៃពិតពីក្រុមហ៊ុនធានាទេ។ បុព្វលាភពិតអាស្រ័យលើក្រុមហ៊ុន អាយុពិត ប្រវត្តិសុខភាព ដែនកំណត់ និងការកាត់។ បញ្ចូលអត្រាមូលដ្ឋានពិត ហើយស្នើសុំតម្លៃឱ្យបានត្រឹមត្រូវមុនពេលទិញ។")}
         </span>

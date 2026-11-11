@@ -173,7 +173,7 @@ export default function KhmerBabyNameFinder() {
         onClick={() => setFavOnly(!favOnly)}
         className={`inline-flex items-center gap-1.5 rounded-md border px-3 py-1.5 text-xs font-semibold transition ${
           favOnly
-            ? "border-[var(--gold)] bg-[var(--gold)]/10 text-[var(--gold)]"
+            ? "border-[var(--gold)] bg-[var(--gold)]/10 text-[var(--gold-text)]"
             : "border-[var(--ground-line)] text-[var(--ink-dim)] hover:border-[var(--ink-faint)]"
         }`}
       >
@@ -182,7 +182,7 @@ export default function KhmerBabyNameFinder() {
       </button>
 
       <div>
-        <h2 className="mb-2 text-xs font-semibold uppercase tracking-wide text-[var(--gold)]">
+        <h2 className="mb-2 text-xs font-semibold uppercase tracking-wide text-[var(--gold-text)]">
           {t(`${filtered.length} of ${NAMES.length} names`, `ឈ្មោះ ${toKh(filtered.length)} ក្នុងចំណោម ${toKh(NAMES.length)}`)}
           {favs.length > 0 && (
             <span className="ml-2 font-normal normal-case text-[var(--ink-faint)]">
@@ -217,7 +217,7 @@ export default function KhmerBabyNameFinder() {
                         onClick={() => toggleFav(n.name)}
                         aria-label={isFav ? t("Remove from favourites", "ដកចេញពីចំណូលចិត្ត") : t("Add to favourites", "បន្ថែមទៅចំណូលចិត្ត")}
                         title={isFav ? t("Remove from favourites", "ដកចេញពីចំណូលចិត្ត") : t("Add to favourites", "បន្ថែមទៅចំណូលចិត្ត")}
-                        className={`rounded-md p-1.5 transition hover:bg-[var(--ground-line)]/60 ${isFav ? "text-[var(--gold)]" : "text-[var(--ink-faint)] hover:text-[var(--gold)]"}`}
+                        className={`rounded-md p-1.5 transition hover:bg-[var(--ground-line)]/60 ${isFav ? "text-[var(--gold-text)]" : "text-[var(--ink-faint)] hover:text-[var(--gold-text)]"}`}
                       >
                         <Star size={14} className={isFav ? "fill-[var(--gold)]" : ""} />
                       </button>

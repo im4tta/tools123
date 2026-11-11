@@ -79,7 +79,7 @@ export default function KhmerKeyboardLayout() {
                   type="button"
                   onClick={() => insert(key)}
                   title={`${key.id} → ${key.base}${key.shift ? ` / ${key.shift}` : ""}`}
-                  className={`min-w-0 flex-1 rounded-md border px-0.5 pb-1 pt-1.5 text-center transition hover:border-[var(--gold-dim)] hover:bg-[var(--gold-dim)]/10 focus:outline-none focus-visible:ring-1 focus-visible:ring-[var(--gold-dim)] ${
+                  className={`min-w-0 flex-1 rounded-md border px-0.5 pb-1 pt-1.5 text-center transition hover:border-[var(--gold-dim)] hover:bg-[var(--gold-dim)]/10 focus:outline-none focus-visible:ring-1 focus-visible:ring-[var(--focus)] ${
                     matched
                       ? "border-[var(--gold)] bg-[var(--gold-dim)]/15 ring-1 ring-[var(--gold)]"
                       : "border-[var(--ground-line)] bg-[var(--ground-raised)]"
@@ -87,7 +87,7 @@ export default function KhmerKeyboardLayout() {
                 >
                   <span
                     className={`block text-[10px] leading-none ${
-                      shiftOn ? "font-bold text-[var(--ink)]" : "text-[var(--gold)]"
+                      shiftOn ? "font-bold text-[var(--ink)]" : "text-[var(--gold-text)]"
                     } ${matched && matchedLayer === "shift" ? "underline decoration-[var(--gold)] decoration-2" : ""}`}
                   >
                     {key.shift}
@@ -120,7 +120,7 @@ export default function KhmerKeyboardLayout() {
             <p className="mt-2 text-xs leading-relaxed text-[var(--ink-dim)]">
               {t("Found on", "រកឃើញនៅលើ")}:{" "}
               {findMatches.map((m) => (
-                <code key={`${m.key.id}-${m.layer}`} className="mr-1.5 rounded bg-[var(--ground)] px-1.5 py-0.5 font-khmer text-[var(--gold)]">
+                <code key={`${m.key.id}-${m.layer}`} className="mr-1.5 rounded bg-[var(--ground)] px-1.5 py-0.5 font-khmer text-[var(--gold-text)]">
                   {m.char} → {m.layer === "shift" ? "Shift+" : ""}
                   {m.key.id.toUpperCase()}
                 </code>

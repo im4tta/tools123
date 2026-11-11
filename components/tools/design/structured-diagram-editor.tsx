@@ -22,7 +22,7 @@ const INITIAL_NODES: NodeModel[] = [
 ];
 
 const buttonClass = "rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 text-sm text-[var(--ink)] hover:border-[var(--gold-dim)] disabled:cursor-not-allowed disabled:opacity-45";
-const inputClass = "w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 text-sm text-[var(--ink)] outline-none focus:border-[var(--gold-dim)]";
+const inputClass = "w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 text-sm text-[var(--ink)] outline-none focus:border-[var(--focus)]";
 
 function clamp(value: number, min: number, max: number) {
   return Math.min(max, Math.max(min, value));
@@ -220,7 +220,7 @@ export default function StructuredDiagramEditor() {
     >
       <div className="flex flex-wrap gap-2" role="group" aria-label={t("Diagram mode", "របៀបដ្យាក្រាម")}>
         {MODES.map((item) => (
-          <button key={item} type="button" onClick={() => chooseMode(item)} aria-pressed={mode === item} className={`${buttonClass} ${mode === item ? "border-[var(--gold)] text-[var(--gold)]" : ""}`}>
+          <button key={item} type="button" onClick={() => chooseMode(item)} aria-pressed={mode === item} className={`${buttonClass} ${mode === item ? "border-[var(--gold)] text-[var(--gold-text)]" : ""}`}>
             {item === "Diagram" ? t(item, "ដ្យាក្រាម") : item === "Mind Map" ? t(item, "ផែនទីគំនិត") : item === "Org Chart" ? t(item, "តារាងអង្គការ") : t(item, "រចនាសម្ព័ន្ធការងារ")}
           </button>
         ))}

@@ -30,7 +30,7 @@ export default function Base64Tool() {
           <button
             key={m}
             onClick={() => { setMode(m); run(m, input); }}
-            className={`rounded-md px-3 py-1.5 text-xs font-medium uppercase tracking-wide ${mode === m ? "bg-[var(--gold)] text-[#0a0c0d]" : "bg-[var(--ground-raised)] text-[var(--ink-dim)]"}`}
+            className={`rounded-md px-3 py-1.5 text-xs font-medium uppercase tracking-wide ${mode === m ? "bg-[var(--gold)] text-[var(--on-gold)]" : "bg-[var(--ground-raised)] text-[var(--ink-dim)]"}`}
           >
             {m}
           </button>

@@ -48,13 +48,13 @@ export default function CssSpecificity() {
           <div className="font-mono-ui text-4xl font-semibold text-[var(--ink)]">({result.a}, {result.b}, {result.c})</div>
           <div className="mt-2 text-sm text-[var(--ink-dim)]">{t("Specificity score", "ពិន្ទុអាទិភាព")}: {result.score}</div>
           <div className="mt-4 grid grid-cols-3 gap-2 text-xs">
-            <div className="rounded bg-[var(--gold)]/10 px-2 py-1.5 text-[var(--gold)]">
+            <div className="rounded bg-[var(--gold)]/10 px-2 py-1.5 text-[var(--gold-text)]">
               {t("IDs", "ID")}: {result.a}
             </div>
-            <div className="rounded bg-[var(--gold)]/10 px-2 py-1.5 text-[var(--gold)]">
+            <div className="rounded bg-[var(--gold)]/10 px-2 py-1.5 text-[var(--gold-text)]">
               {t("Classes", "Class")}: {result.b}
             </div>
-            <div className="rounded bg-[var(--gold)]/10 px-2 py-1.5 text-[var(--gold)]">
+            <div className="rounded bg-[var(--gold)]/10 px-2 py-1.5 text-[var(--gold-text)]">
               {t("Elements", "ធាតុ")}: {result.c}
             </div>
           </div>

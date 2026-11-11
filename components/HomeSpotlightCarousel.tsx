@@ -208,11 +208,15 @@ export function HomeSpotlightCarousel() {
   ];
 
   return (
-    <section className="home-spotlight-carousel pointer-events-none relative z-20 mx-auto mt-6 w-full max-w-[77rem] px-5 sm:px-10 xl:absolute xl:inset-x-5 xl:top-20 xl:mt-0 xl:pl-5 xl:pr-16">
-      <div className="flex flex-col gap-3 sm:grid sm:grid-cols-2 xl:flex xl:flex-row xl:justify-between">
-        <article className="home-spotlight-card pointer-events-auto w-full rounded-2xl border border-amber-500/25 bg-[var(--ground-raised)] p-4 shadow-sm sm:max-w-none xl:w-64" onMouseEnter={() => setHeld(true)} onMouseLeave={() => setHeld(false)} onFocus={() => setHeld(true)} onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) setHeld(false); }}>
+    <section aria-labelledby="home-live-title" className="home-spotlight-carousel relative mx-auto mt-10 w-full max-w-[77rem] px-5 sm:px-10">
+      <div className="mb-3 flex flex-wrap items-baseline gap-2 border-b border-[var(--ground-line)] pb-2">
+        <h2 id="home-live-title" className="font-display text-base font-semibold text-[var(--ink)]">{t("Cambodia today", "កម្ពុជាថ្ងៃនេះ")}</h2>
+        <span className="text-xs text-[var(--ink-faint)]">{t("Live data from public sources, loaded after the page is ready", "ទិន្នន័យផ្ទាល់ពីប្រភពសាធារណៈ ផ្ទុកបន្ទាប់ពីទំព័ររួចរាល់")}</span>
+      </div>
+      <div className="flex flex-col gap-3 sm:grid sm:grid-cols-2">
+        <article className="home-spotlight-card w-full rounded-2xl border border-amber-500/25 bg-[var(--ground-raised)] p-4 shadow-sm sm:max-w-none" onMouseEnter={() => setHeld(true)} onMouseLeave={() => setHeld(false)} onFocus={() => setHeld(true)} onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) setHeld(false); }}>
           <div className="home-spotlight-heading mb-3 flex items-center justify-between">
-            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-amber-600"><Coins size={15} /> {t("Finance", "ហិរញ្ញវត្ថុ")}</div>
+            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-amber-800 dark:text-amber-400"><Coins size={15} /> {t("Finance", "ហិរញ្ញវត្ថុ")}</div>
             <button type="button" onClick={() => setUserAutoplay(!autoplay)} className="text-[var(--ink-faint)] hover:text-[var(--ink)]" aria-label={autoplay ? t("Pause finance carousel", "ផ្អាក Carousel ហិរញ្ញវត្ថុ") : t("Resume finance carousel", "បន្ត Carousel ហិរញ្ញវត្ថុ")}>{autoplay ? <Pause size={13} /> : <Play size={13} />}</button>
           </div>
           {financeSlide === 0 ? (
@@ -235,9 +239,9 @@ export function HomeSpotlightCarousel() {
           <div className="mt-3 flex items-center gap-0.5" aria-label={t("Finance slides", "ផ្ទាំងហិរញ្ញវត្ថុ")}>{["Fuel prices", "Exchange rate"].map((label, index) => <button key={label} type="button" onClick={() => setFinanceSlide(index)} className="group flex h-4 w-5 items-center justify-center" aria-label={label}><span className={`h-1.5 rounded-full transition-all ${financeSlide === index ? "w-5 bg-amber-500" : "w-1.5 bg-amber-500/40 group-hover:w-3"}`} /></button>)}</div>
         </article>
 
-        <article className="home-spotlight-card pointer-events-auto w-full rounded-2xl border border-blue-500/25 bg-[var(--ground-raised)] p-4 shadow-sm sm:max-w-none xl:w-64" onMouseEnter={() => setHeld(true)} onMouseLeave={() => setHeld(false)} onFocus={() => setHeld(true)} onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) setHeld(false); }}>
+        <article className="home-spotlight-card w-full rounded-2xl border border-blue-500/25 bg-[var(--ground-raised)] p-4 shadow-sm sm:max-w-none" onMouseEnter={() => setHeld(true)} onMouseLeave={() => setHeld(false)} onFocus={() => setHeld(true)} onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) setHeld(false); }}>
           <div className="home-spotlight-heading mb-3 flex items-center justify-between gap-2">
-            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-blue-600"><CloudSun size={15} /> {t("Weather", "អាកាសធាតុ")}</div>
+            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-blue-700 dark:text-blue-400"><CloudSun size={15} /> {t("Weather", "អាកាសធាតុ")}</div>
             {weatherRows.length > 0 && (
               <select
                 value={weatherIndex}

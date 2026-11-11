@@ -46,7 +46,7 @@ export default function SvgMinifier() {
           <span className="text-[var(--ink-dim)]">
             {t("After", "ក្រោយ")}: <b className="text-[var(--ink)]">{min.length}</b>
           </span>
-          <span className="ml-auto font-semibold text-[var(--gold)]">−{ratio}%</span>
+          <span className="ml-auto font-semibold text-[var(--gold-text)]">−{ratio}%</span>
         </div>
       )}
       <Output label={t("Minified", "បង្រួមរួច")} value={valid ? min : ""} />

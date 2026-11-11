@@ -42,7 +42,7 @@ export default function NamePicker() {
           type="button"
           onClick={pick}
           disabled={names.length === 0 || spin}
-          className="flex items-center gap-1.5 rounded-md bg-[var(--gold)] px-5 py-2.5 text-sm font-semibold text-[#0a0c0d] transition hover:bg-[var(--gold-dim)] disabled:opacity-40"
+          className="flex items-center gap-1.5 rounded-md bg-[var(--gold)] px-5 py-2.5 text-sm font-semibold text-[var(--on-gold)] transition hover:bg-[var(--gold-hover)] disabled:opacity-40"
         >
           <Shuffle size={15} /> {spin ? t("Picking…", "កំពុងជ្រើស…") : t("Pick a winner", "ជ្រើសរើសអ្នកឈ្នះ")}
         </button>

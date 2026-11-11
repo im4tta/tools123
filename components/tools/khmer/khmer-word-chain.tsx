@@ -110,7 +110,7 @@ export default function KhmerWordChain() {
           {status === "playing" && (
             <>
               <p className="text-sm text-[var(--ink-dim)]">
-                {t("Your turn — start your word with", "វេនអ្នក — ចាប់ផ្តើមពាក្យរបស់អ្នកដោយ")} <span lang="km" className="font-khmer text-2xl font-semibold text-[var(--gold)]">{key}</span>
+                {t("Your turn — start your word with", "វេនអ្នក — ចាប់ផ្តើមពាក្យរបស់អ្នកដោយ")} <span lang="km" className="font-khmer text-2xl font-semibold text-[var(--gold-text)]">{key}</span>
               </p>
               <form className="flex flex-wrap items-end gap-2" onSubmit={(e) => { e.preventDefault(); play(); }}>
                 <div className="min-w-0 flex-1">

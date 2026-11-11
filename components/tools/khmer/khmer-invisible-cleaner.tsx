@@ -62,10 +62,10 @@ export default function KhmerInvisibleCleaner() {
       </Field>
 
       <div className="flex flex-wrap gap-2">
-        <button type="button" onClick={() => setCollapse(!collapse)} className={`rounded-md border px-3 py-1.5 text-xs transition ${collapse ? "border-[var(--gold-dim)] bg-[var(--gold)]/10 text-[var(--gold)]" : "border-[var(--ground-line)] bg-[var(--ground-raised)] text-[var(--ink-dim)]"}`}>
+        <button type="button" onClick={() => setCollapse(!collapse)} className={`rounded-md border px-3 py-1.5 text-xs transition ${collapse ? "border-[var(--gold-dim)] bg-[var(--gold)]/10 text-[var(--gold-text)]" : "border-[var(--ground-line)] bg-[var(--ground-raised)] text-[var(--ink-dim)]"}`}>
           {collapse ? "☑" : "☐"} {t("Collapse extra spaces & trim lines", "បង្រួមដកឃ្លាលើស និងកាត់ចុងជួរ")}
         </button>
-        <button type="button" onClick={() => setRemoveZwsp(!removeZwsp)} className={`rounded-md border px-3 py-1.5 text-xs transition ${removeZwsp ? "border-[var(--gold-dim)] bg-[var(--gold)]/10 text-[var(--gold)]" : "border-[var(--ground-line)] bg-[var(--ground-raised)] text-[var(--ink-dim)]"}`}>
+        <button type="button" onClick={() => setRemoveZwsp(!removeZwsp)} className={`rounded-md border px-3 py-1.5 text-xs transition ${removeZwsp ? "border-[var(--gold-dim)] bg-[var(--gold)]/10 text-[var(--gold-text)]" : "border-[var(--ground-line)] bg-[var(--ground-raised)] text-[var(--ink-dim)]"}`}>
           {removeZwsp ? "☑" : "☐"} {t("Also remove word-break spaces (ZWSP)", "លុបចន្លោះបំបែកពាក្យ (ZWSP) ផងដែរ")}
         </button>
       </div>
@@ -74,7 +74,7 @@ export default function KhmerInvisibleCleaner() {
         <>
           {/* Detection report */}
           <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4">
-            <div className="mb-2 flex items-center gap-2 text-xs font-medium uppercase tracking-wide text-[var(--ink-dim)]"><Eye size={14} className="text-[var(--gold)]" />{t("Hidden characters found", "តួអក្សរលាក់ដែលរកឃើញ")}</div>
+            <div className="mb-2 flex items-center gap-2 text-xs font-medium uppercase tracking-wide text-[var(--ink-dim)]"><Eye size={14} className="text-[var(--gold-text)]" />{t("Hidden characters found", "តួអក្សរលាក់ដែលរកឃើញ")}</div>
             {report.found.length === 0 && report.zwspCount === 0 ? (
               <p className="text-sm text-[var(--ink-dim)]">{t("None — this text is clean.", "គ្មានទេ — អត្ថបទនេះស្អាតហើយ។")}</p>
             ) : (

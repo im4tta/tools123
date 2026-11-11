@@ -147,7 +147,7 @@ export default function WordCloud() {
           <button type="button" onClick={() => setSeed((s) => s + 1)} className="flex flex-1 items-center justify-center gap-2 rounded-xl border border-[var(--ground-line)] px-5 py-3 text-sm font-semibold text-[var(--ink-dim)] transition hover:text-[var(--ink)]">
             <RefreshCw size={15} />{t("Shuffle layout", "ផ្លាស់ប្តូរបង់ចុះ")}
           </button>
-          <button type="button" onClick={download} disabled={words.length === 0} className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-[var(--gold)] px-5 py-3 text-sm font-semibold text-[#0a0c0d] transition hover:bg-[var(--gold-dim)] disabled:opacity-40">
+          <button type="button" onClick={download} disabled={words.length === 0} className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-[var(--gold)] px-5 py-3 text-sm font-semibold text-[var(--on-gold)] transition hover:bg-[var(--gold-hover)] disabled:opacity-40">
             <Download size={15} />{t("Download PNG", "ទាញយក PNG")}
           </button>
         </div>

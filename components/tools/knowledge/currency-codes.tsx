@@ -131,7 +131,7 @@ export default function CurrencyCodes() {
             {filtered.map((c) => (
               <tr key={c.code} className="border-t border-[var(--ground-line)]">
                 <td className="px-3 py-2 text-[var(--ink)]">{t(c.name, c.km)}</td>
-                <td className="px-3 py-2 font-mono-ui font-semibold text-[var(--gold)]">{c.code}</td>
+                <td className="px-3 py-2 font-mono-ui font-semibold text-[var(--gold-text)]">{c.code}</td>
                 <td className="px-3 py-2 font-mono-ui text-[var(--ink-dim)]">{c.numeric}</td>
                 <td className="px-3 py-2 font-mono-ui text-[var(--ink)]">{c.symbol}</td>
                 <td className="px-3 py-2">

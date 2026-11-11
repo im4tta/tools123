@@ -71,7 +71,7 @@ export default function KhmerNumberBingo() {
         {last != null ? (
           <>
             <p className="text-xs uppercase tracking-wide text-[var(--ink-faint)]">{t(`Call ${called.length} of ${MAX}`, `ការហៅទី ${kh(called.length)} ក្នុងចំណោម ${kh(MAX)}`)}</p>
-            <p className="font-khmer text-7xl leading-[1.5] text-[var(--gold)]"><span className="mr-2 font-display text-3xl text-[var(--ink-faint)]">{letterFor(last)}</span><span lang="km">{kh(last)}</span></p>
+            <p className="font-khmer text-7xl leading-[1.5] text-[var(--gold-text)]"><span className="mr-2 font-display text-3xl text-[var(--ink-faint)]">{letterFor(last)}</span><span lang="km">{kh(last)}</span></p>
             <p lang="km" className="font-khmer text-2xl text-[var(--ink)]">{convertUnder100(last)}</p>
             {showArabic && <p className="text-sm text-[var(--ink-faint)]">{last}</p>}
           </>
@@ -94,7 +94,7 @@ export default function KhmerNumberBingo() {
                 <tr key={c}>
                   <th scope="row" className="w-6 font-display text-sm text-[var(--ink-faint)]">{LETTERS[c]}</th>
                   {Array.from({ length: hi - lo + 1 }, (_, i) => lo + i).map((n) => (
-                    <td key={n} lang="km" className={`rounded font-khmer text-xs leading-7 ${called.includes(n) ? (n === last ? "bg-[var(--gold)] text-[#0a0c0d]" : "bg-[var(--gold)]/20 text-[var(--ink)]") : "text-[var(--ink-faint)]"}`}>{kh(n)}</td>
+                    <td key={n} lang="km" className={`rounded font-khmer text-xs leading-7 ${called.includes(n) ? (n === last ? "bg-[var(--gold)] text-[var(--on-gold)]" : "bg-[var(--gold)]/20 text-[var(--ink)]") : "text-[var(--ink-faint)]"}`}>{kh(n)}</td>
                   ))}
                 </tr>
               ))}
@@ -122,14 +122,14 @@ export default function KhmerNumberBingo() {
             <div key={ci} className="break-inside-avoid rounded-md border border-[var(--ground-line)] p-3">
               <div className="mb-2 flex items-center justify-between text-xs text-[var(--ink-faint)]">
                 <span>{t(`Card ${ci + 1}`, `កាតទី ${kh(ci + 1)}`)}</span>
-                {lines.length > 0 && <span className="rounded bg-[var(--gold)] px-2 py-0.5 font-medium text-[#0a0c0d]">{t("BINGO!", "ប៊ីងហ្គោ!")}</span>}
+                {lines.length > 0 && <span className="rounded bg-[var(--gold)] px-2 py-0.5 font-medium text-[var(--on-gold)]">{t("BINGO!", "ប៊ីងហ្គោ!")}</span>}
               </div>
               <div className="grid grid-cols-5 gap-1 text-center">
-                {LETTERS.map((l) => <div key={l} className="font-display text-sm font-semibold text-[var(--gold)]">{l}</div>)}
+                {LETTERS.map((l) => <div key={l} className="font-display text-sm font-semibold text-[var(--gold-text)]">{l}</div>)}
                 {card.flatMap((row, r) => row.map((n, c) => {
                   const hit = n === BINGO_FREE || called.includes(n);
                   return (
-                    <div key={`${r}-${c}`} lang="km" className={`flex aspect-square items-center justify-center rounded border font-khmer text-lg ${inLine(r, c) ? "border-[var(--gold)] bg-[var(--gold)] text-[#0a0c0d]" : hit ? "border-[var(--gold-dim)] bg-[var(--gold)]/20 text-[var(--ink)]" : "border-[var(--ground-line)] text-[var(--ink)]"}`}>
+                    <div key={`${r}-${c}`} lang="km" className={`flex aspect-square items-center justify-center rounded border font-khmer text-lg ${inLine(r, c) ? "border-[var(--gold)] bg-[var(--gold)] text-[var(--on-gold)]" : hit ? "border-[var(--gold-dim)] bg-[var(--gold)]/20 text-[var(--ink)]" : "border-[var(--ground-line)] text-[var(--ink)]"}`}>
                       {n === BINGO_FREE ? t("FREE", "ឥតគិត") : <span className="leading-tight">{numeral(n)}</span>}
                     </div>
                   );

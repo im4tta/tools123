@@ -31,7 +31,7 @@ export default function GitignoreGenerator() {
       descriptionKm="បង្កើតឯកសារ .gitignore ត្រៀមរួចសម្រាប់គម្រោងរបស់អ្នក។"
     >
       <Field label={t("Language / stack", "ភាសា / ស្ដេក")}>
-        <select value={stack} onChange={(e) => setStack(e.target.value)} className="w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 text-sm text-[var(--ink)] outline-none focus:border-[var(--gold-dim)]">
+        <select value={stack} onChange={(e) => setStack(e.target.value)} className="w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 text-sm text-[var(--ink)] outline-none focus:border-[var(--focus)]">
           {combos.map((c) => (
             <option key={c} value={c}>
               {c}

@@ -87,7 +87,7 @@ export default function KhmerAlphabetOrder() {
             <div className="flex flex-wrap gap-1.5">
               {picked.length === 0 && <span className="px-1 py-2 text-xs text-[var(--ink-faint)]">{t("Tap the first letter of the alphabet among the tiles below.", "ចុចអក្សរដែលមកមុនគេក្នុងចំណោមអក្សរខាងក្រោម។")}</span>}
               {picked.map((l) => (
-                <span key={l} lang="km" className="flex h-10 min-w-10 items-center justify-center rounded-md bg-[var(--gold)]/15 px-2 font-khmer text-xl text-[var(--gold)]">{l}</span>
+                <span key={l} lang="km" className="flex h-10 min-w-10 items-center justify-center rounded-md bg-[var(--gold)]/15 px-2 font-khmer text-xl text-[var(--gold-text)]">{l}</span>
               ))}
             </div>
           </div>

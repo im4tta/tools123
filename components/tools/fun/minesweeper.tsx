@@ -157,7 +157,7 @@ export default function Minesweeper() {
           </span>
           <span className="text-lg">{face}</span>
           <span>
-            {t("Time", "ម៉ោង")}: <b className="text-[var(--gold)]">{elapsed}s</b>
+            {t("Time", "ម៉ោង")}: <b className="text-[var(--gold-text)]">{elapsed}s</b>
           </span>
         </div>
         <Button type="button" onClick={newGame}>
@@ -190,7 +190,7 @@ export default function Minesweeper() {
               content = c.adj > 0 ? String(c.adj) : "";
               cls =
                 c.adj > 0
-                  ? "border border-[var(--ground-line)] bg-[var(--ground-raised)] text-[var(--gold)]"
+                  ? "border border-[var(--ground-line)] bg-[var(--ground-raised)] text-[var(--gold-text)]"
                   : "border border-[var(--ground-line)] bg-[var(--ground-raised)] text-[var(--ink-dim)]";
             }
             return (

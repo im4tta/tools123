@@ -134,7 +134,7 @@ export default function WorldClock() {
               <div className="text-xs text-[var(--ink-faint)]">{fmtDate(z.zone)}</div>
             </div>
             <div className="text-right">
-              <div className="font-mono-ui text-lg font-semibold text-[var(--gold)]">{fmtTime(z.zone)}</div>
+              <div className="font-mono-ui text-lg font-semibold text-[var(--gold-text)]">{fmtTime(z.zone)}</div>
             </div>
             <button
               type="button"

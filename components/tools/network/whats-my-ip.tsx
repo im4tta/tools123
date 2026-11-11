@@ -88,7 +88,7 @@ export default function WhatsMyIp() {
             <>
               <Globe size={22} className="text-[var(--teal)]" />
               <div className="font-mono-ui text-3xl font-bold tabular-nums text-[var(--ink)]">{info?.ip}</div>
-              <button type="button" onClick={copyIp} className="inline-flex items-center gap-1.5 rounded-md border border-[var(--ground-line)] px-3 py-1.5 text-xs text-[var(--ink-dim)] hover:border-[var(--gold-dim)] hover:text-[var(--gold)]">
+              <button type="button" onClick={copyIp} className="inline-flex items-center gap-1.5 rounded-md border border-[var(--ground-line)] px-3 py-1.5 text-xs text-[var(--ink-dim)] hover:border-[var(--gold-dim)] hover:text-[var(--gold-text)]">
                 <Copy size={13} />{copied ? t("Copied!", "បានចម្លង!") : t("Copy IP", "ចម្លង IP")}
               </button>
             </>

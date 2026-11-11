@@ -33,6 +33,7 @@ import {
 } from "lucide-react";
 import { storage } from "@/lib/storage";
 import { useLanguage } from "@/components/LanguageProvider";
+import { clickOnKey } from "@/lib/a11y";
 
 /* ─────────────────────────────────────────────────────────────────────
    FONTS — Noto Sans Khmer via <style> injection (scope-safe prefix oc-)
@@ -994,7 +995,7 @@ function SwitchRow({ label, checked, onChange, P, accentHex }: { label:string; c
   return (
     <label className="flex items-center justify-between text-sm cursor-pointer" style={{color:P.text}}>
       <span>{label}</span>
-      <span onClick={()=>onChange(!checked)} className="relative inline-flex items-center rounded-full transition" style={{width:38,height:22,background:checked?accentHex:P.border}}>
+      <span role="switch" aria-checked={checked} aria-label={label} tabIndex={0} onKeyDown={clickOnKey} onClick={()=>onChange(!checked)} className="relative inline-flex items-center rounded-full transition" style={{width:38,height:22,background:checked?accentHex:P.border}}>
         <span className="absolute rounded-full bg-white transition-transform" style={{width:16,height:16,top:3,left:3,transform:checked?"translateX(16px)":"translateX(0)",boxShadow:"0 1px 3px rgba(0,0,0,0.3)"}}/>
       </span>
     </label>

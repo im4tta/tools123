@@ -121,7 +121,7 @@ export default function KhmerOcrTool() {
     >
       <label className="flex cursor-pointer flex-col items-center justify-center gap-2 rounded-md border border-dashed border-[var(--ground-line)] bg-[var(--ground-raised)] px-4 py-8 text-center text-sm text-[var(--ink-dim)] transition hover:border-[var(--gold-dim)]">
         <span>{img ? img.file : t("Click to choose an image", "ចុចដើម្បីជ្រើសរើសរូបភាព")}</span>
-        <input type="file" accept="image/*" className="hidden" onChange={(e) => onFile(e.target.files?.[0] ?? null)} />
+        <input type="file" accept="image/*" className="sr-only" onChange={(e) => onFile(e.target.files?.[0] ?? null)} />
       </label>
 
       <Field label={t("OCR engine", "ម៉ាស៊ីនអានអក្សរ")}>

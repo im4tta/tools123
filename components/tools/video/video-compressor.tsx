@@ -134,7 +134,7 @@ export default function VideoCompressorTool() {
           <Upload size={15} />
           {file ? file.name : t("Click to choose a video", "ចុចដើម្បីជ្រើសរើសវីដេអូ")}
         </span>
-        <input type="file" accept="video/*" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) handleFile(f); }} />
+        <input type="file" accept="video/*" className="sr-only" onChange={(e) => { const f = e.target.files?.[0]; if (f) handleFile(f); }} />
       </label>
 
       {url && (
@@ -185,7 +185,7 @@ export default function VideoCompressorTool() {
                 </div>
                 <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4">
                   <div className="text-xs font-medium uppercase tracking-wide text-[var(--ink-dim)]">{t("Compressed (WebM)", "បង្ហាប់ (WebM)")}</div>
-                  <div className="mt-1 text-lg font-semibold text-[var(--gold)]">{fmtSize(resultSize)}</div>
+                  <div className="mt-1 text-lg font-semibold text-[var(--gold-text)]">{fmtSize(resultSize)}</div>
                   <div className="mt-1 text-xs text-[var(--ink-dim)]">
                     {t("Duration", "រយៈពេល")} {fmtDur(resultDuration)} {ratio ? `· ${ratio}` : ""}
                   </div>
@@ -195,7 +195,7 @@ export default function VideoCompressorTool() {
               <a
                 href={resultUrl}
                 download="compressed.webm"
-                className="inline-flex items-center gap-1.5 rounded-md bg-[var(--gold)] px-3 py-1.5 text-xs font-medium text-[#0a0c0d] hover:opacity-90"
+                className="inline-flex items-center gap-1.5 rounded-md bg-[var(--gold)] px-3 py-1.5 text-xs font-medium text-[var(--on-gold)] hover:opacity-90"
               >
                 <Download size={13} /> {t("Download WebM", "ទាញយក WebM")} — {fmtSize(resultSize)}
               </a>

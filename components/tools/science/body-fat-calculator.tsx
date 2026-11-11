@@ -109,7 +109,7 @@ export default function BodyFatCalculator() {
               <div className="text-xs font-medium uppercase tracking-wide text-[var(--ink-dim)]">
                 {t("Estimated body fat", "ភាគរយខ្លាញ់ប៉ាន់ស្មាន")}
               </div>
-              <div className="mt-1 text-2xl font-semibold text-[var(--gold)]">
+              <div className="mt-1 text-2xl font-semibold text-[var(--gold-text)]">
                 {calc.bf.toFixed(1)}%
               </div>
               <div className="mt-0.5 text-[10px] text-[var(--ink-dim)]">

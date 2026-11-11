@@ -154,7 +154,7 @@ export default function NumberSpellout() {
               onClick={() => setCurrency(c.id)}
               className={`rounded-md border px-3 py-1.5 text-xs font-semibold transition ${
                 currency === c.id
-                  ? "border-[var(--gold)] bg-[var(--gold)]/10 text-[var(--gold)]"
+                  ? "border-[var(--gold)] bg-[var(--gold)]/10 text-[var(--gold-text)]"
                   : "border-[var(--ground-line)] text-[var(--ink-dim)] hover:border-[var(--ink-faint)]"
               }`}
             >
@@ -182,7 +182,7 @@ export default function NumberSpellout() {
                 value={s.id}
                 checked={style === s.id}
                 onChange={() => setStyle(s.id)}
-                className="mt-0.5 text-[var(--gold)] accent-[var(--gold)]"
+                className="mt-0.5 text-[var(--gold-text)] accent-[var(--gold)]"
               />
               <div>
                 <div className="text-xs font-bold text-[var(--ink)]">{s.label}</div>

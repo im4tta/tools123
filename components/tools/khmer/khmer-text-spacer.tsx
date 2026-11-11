@@ -73,13 +73,13 @@ export default function KhmerTextSpacer() {
 
       <div className="flex flex-wrap items-center gap-2">
         {([["word", "Between words", "រវាងពាក្យ"], ["syllable", "Between syllables", "រវាងព្យាង្គ"]] as const).map(([id, en, km]) => (
-          <button key={id} type="button" onClick={() => setMode(id)} className={`rounded-md border px-3 py-1.5 text-xs font-medium transition ${mode === id ? "border-[var(--gold)] bg-[var(--gold)]/10 text-[var(--gold)]" : "border-[var(--ground-line)] text-[var(--ink-dim)] hover:border-[var(--ink-faint)]"}`}>
+          <button key={id} type="button" onClick={() => setMode(id)} className={`rounded-md border px-3 py-1.5 text-xs font-medium transition ${mode === id ? "border-[var(--gold)] bg-[var(--gold)]/10 text-[var(--gold-text)]" : "border-[var(--ground-line)] text-[var(--ink-dim)] hover:border-[var(--ink-faint)]"}`}>
             {t(en, km)}
           </button>
         ))}
         <span className="mx-1 h-4 w-px bg-[var(--ground-line)]" />
         {SEPARATORS.map((s) => (
-          <button key={s.id} type="button" onClick={() => setSepId(s.id)} className={`rounded-md border px-3 py-1.5 text-xs font-medium transition ${sepId === s.id ? "border-[var(--gold)] bg-[var(--gold)]/10 text-[var(--gold)]" : "border-[var(--ground-line)] text-[var(--ink-dim)] hover:border-[var(--ink-faint)]"}`}>
+          <button key={s.id} type="button" onClick={() => setSepId(s.id)} className={`rounded-md border px-3 py-1.5 text-xs font-medium transition ${sepId === s.id ? "border-[var(--gold)] bg-[var(--gold)]/10 text-[var(--gold-text)]" : "border-[var(--ground-line)] text-[var(--ink-dim)] hover:border-[var(--ink-faint)]"}`}>
             {t(s.en, s.km)}
           </button>
         ))}

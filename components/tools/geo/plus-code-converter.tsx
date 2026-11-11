@@ -81,7 +81,7 @@ export default function PlusCodeConverter() {
         )}
         <Output label={t("Plus Code", "លេខកូដ Plus")} value={encodeSummary} mono />
         {encoded && (
-          <a href={`https://plus.codes/${encoded}`} target="_blank" rel="noopener noreferrer" className="inline-block text-xs text-[var(--gold)] underline underline-offset-2">
+          <a href={`https://plus.codes/${encoded}`} target="_blank" rel="noopener noreferrer" className="inline-block text-xs text-[var(--gold-text)] underline underline-offset-2">
             {t("Open on plus.codes", "បើកនៅ plus.codes")} ↗
           </a>
         )}
@@ -98,7 +98,7 @@ export default function PlusCodeConverter() {
         )}
         <Output label={t("Decoded location", "ទីតាំងដែលបានឌិកូដ")} value={decodeSummary} mono />
         {decoded && (
-          <a href={`https://www.google.com/maps?q=${decoded.latCenter},${decoded.lngCenter}`} target="_blank" rel="noopener noreferrer" className="inline-block text-xs text-[var(--gold)] underline underline-offset-2">
+          <a href={`https://www.google.com/maps?q=${decoded.latCenter},${decoded.lngCenter}`} target="_blank" rel="noopener noreferrer" className="inline-block text-xs text-[var(--gold-text)] underline underline-offset-2">
             {t("Open center on Google Maps", "បើកចំណុចកណ្តាលនៅ Google Maps")} ↗
           </a>
         )}

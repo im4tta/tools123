@@ -202,10 +202,10 @@ export default function ObjectCounterTool() {
     >
       <Field label={t("Method", "របៀប")}>
         <div className="flex gap-2 pt-1">
-          <button type="button" onClick={() => setMethod("ai")} className={`flex-1 rounded-md px-3 py-2 text-sm font-medium transition ${method === "ai" ? "bg-[var(--gold)] text-[#0a0c0d]" : "bg-[var(--ground-raised)] text-[var(--ink-dim)]"}`}>
+          <button type="button" onClick={() => setMethod("ai")} className={`flex-1 rounded-md px-3 py-2 text-sm font-medium transition ${method === "ai" ? "bg-[var(--gold)] text-[var(--on-gold)]" : "bg-[var(--ground-raised)] text-[var(--ink-dim)]"}`}>
             <ScanSearch size={14} className="mr-1 inline" />{t("AI detect (known classes)", "AI រកឃើញ")}
           </button>
-          <button type="button" onClick={() => setMethod("blob")} className={`flex-1 rounded-md px-3 py-2 text-sm font-medium transition ${method === "blob" ? "bg-[var(--gold)] text-[#0a0c0d]" : "bg-[var(--ground-raised)] text-[var(--ink-dim)]"}`}>
+          <button type="button" onClick={() => setMethod("blob")} className={`flex-1 rounded-md px-3 py-2 text-sm font-medium transition ${method === "blob" ? "bg-[var(--gold)] text-[var(--on-gold)]" : "bg-[var(--ground-raised)] text-[var(--ink-dim)]"}`}>
             <Shapes size={14} className="mr-1 inline" />{t("Count by shape (blobs)", "រាប់តាមរូបរាង")}
           </button>
         </div>
@@ -214,7 +214,7 @@ export default function ObjectCounterTool() {
       <label className="flex cursor-pointer flex-col items-center justify-center gap-2 rounded-md border border-dashed border-[var(--ground-line)] bg-[var(--ground-raised)] px-4 py-8 text-center text-sm text-[var(--ink-dim)] transition hover:border-[var(--gold-dim)]">
         <ScanSearch size={18} className="text-[var(--ink-faint)]" />
         <span>{img ? img.file : t("Click to choose an image", "ចុចដើម្បីជ្រើសរើសរូបភាព")}</span>
-        <input type="file" accept="image/*" className="hidden" onChange={(e) => onFile(e.target.files?.[0] ?? null)} />
+        <input type="file" accept="image/*" className="sr-only" onChange={(e) => onFile(e.target.files?.[0] ?? null)} />
       </label>
 
       {img && (
@@ -256,8 +256,8 @@ export default function ObjectCounterTool() {
       {method === "blob" && blobs && (
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           <div className="rounded-md border border-[var(--gold)]/40 bg-[var(--gold)]/10 p-4">
-            <div className="text-[11px] font-semibold uppercase tracking-wide text-[var(--gold)]">{t("Blobs counted", "ចំនួនដែលរាប់បាន")}</div>
-            <div className="mt-1 text-3xl font-bold text-[var(--gold)]">{blobs.count}</div>
+            <div className="text-[11px] font-semibold uppercase tracking-wide text-[var(--gold-text)]">{t("Blobs counted", "ចំនួនដែលរាប់បាន")}</div>
+            <div className="mt-1 text-3xl font-bold text-[var(--gold-text)]">{blobs.count}</div>
             <div className="text-[11px] text-[var(--ink-faint)]">{t("distinct shapes", "រូបរាងផ្សេងគ្នា")}</div>
           </div>
           <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4">
@@ -283,7 +283,7 @@ export default function ObjectCounterTool() {
               {counts.map(([label, n]) => (
                 <div key={label} className="flex items-center justify-between text-sm">
                   <span className="text-[var(--ink)]">{t(label, LABEL_KM[label] ?? label)}</span>
-                  <span className="font-bold text-[var(--gold)]">{n}</span>
+                  <span className="font-bold text-[var(--gold-text)]">{n}</span>
                 </div>
               ))}
             </div>

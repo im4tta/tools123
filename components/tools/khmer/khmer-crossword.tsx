@@ -74,7 +74,7 @@ export default function KhmerCrossword() {
       <ol className="space-y-1.5 text-sm">
         {list.map((p) => (
           <li key={`${p.number}-${p.across}`} className="flex gap-2">
-            <span className="w-6 shrink-0 text-right font-medium text-[var(--gold)]">{t(String(p.number), toKhmerNumerals(String(p.number)))}</span>
+            <span className="w-6 shrink-0 text-right font-medium text-[var(--gold-text)]">{t(String(p.number), toKhmerNumerals(String(p.number)))}</span>
             <span className="min-w-0">
               <span lang="km" className="font-khmer leading-relaxed text-[var(--ink)]">{p.clue || t("(no clue)", "(គ្មានតម្រុយ)")}</span>{" "}
               <span className="text-xs text-[var(--ink-faint)]">{t(`(${p.clusters.length})`, `(${toKhmerNumerals(String(p.clusters.length))})`)}</span>

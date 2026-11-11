@@ -180,7 +180,7 @@ export default function AvatarIdenticonGenerator() {
         <p className="mb-2 font-semibold text-[var(--ink)]">{t("Source & Credits", "ប្រភព និងក្រេឌីត")}</p>
         <p>
           {t("The identicon concept (a deterministic visual glyph derived from a string) was invented by Don Park in January 2007 and popularized by GitHub-style avatar identicons. This implementation is an original Tools123 implementation: the 5×5 mirrored grid is seeded with the public-domain FNV-1a hash (Fowler–Noll–Vo).", "គំនិត identicon (និមិត្តសញ្ញាដែលបង្កើតដោយកំណត់ពីខ្សែអក្សរ) ត្រូវបានបង្កើតឡើងដោយ Don Park ក្នុងខែមករា ២០០៧ ហើយត្រូវបានផ្សព្វផ្សាយតាមរយៈ avatar identicon បែប GitHub។ ការអនុវត្តនេះជាការអនុវត្តដើមរបស់ Tools123៖ ក្រឡាចត្រង្គ 5×5 ដែលឆ្លុះកញ្ចក់ ត្រូវបានផ្ដើមដោយ hash FNV-1a ដែលជាសាធារណៈ (Fowler–Noll–Vo)។")}{" "}
-          <a href="https://blog.codinghorror.com/identicons-for-net/" target="_blank" rel="noreferrer" className="text-[var(--gold)] underline underline-offset-2">codinghorror.com — Identicons for .NET</a>
+          <a href="https://blog.codinghorror.com/identicons-for-net/" target="_blank" rel="noreferrer" className="text-[var(--gold-text)] underline underline-offset-2">codinghorror.com — Identicons for .NET</a>
         </p>
       </aside>
     </ToolShell>

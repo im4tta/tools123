@@ -227,7 +227,7 @@ export default function ImageEditorTool() {
     >
       <label className="flex cursor-pointer flex-col items-center justify-center gap-2 rounded-md border border-dashed border-[var(--ground-line)] bg-[var(--ground-raised)] px-4 py-8 text-center text-sm text-[var(--ink-dim)] transition hover:border-[var(--gold-dim)]">
         <span>{file ? file.name : "Click to choose an image"}</span>
-        <input type="file" accept="image/*" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) pickFile(f); }} />
+        <input type="file" accept="image/*" className="sr-only" onChange={(e) => { const f = e.target.files?.[0]; if (f) pickFile(f); }} />
       </label>
 
       {imgUrl && natural.w > 0 && (
@@ -285,7 +285,7 @@ export default function ImageEditorTool() {
                 min={1}
                 value={s.outWidth ?? ""}
                 onChange={(e) => update({ outWidth: Number(e.target.value) || null })}
-                className="w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 text-sm text-[var(--ink)] outline-none focus:border-[var(--gold-dim)]"
+                className="w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 text-sm text-[var(--ink)] outline-none focus:border-[var(--focus)]"
               />
             </Field>
           </Row>
@@ -293,8 +293,8 @@ export default function ImageEditorTool() {
           <div className="flex flex-wrap items-center gap-2">
             <button onClick={() => update({ rotation: ((s.rotation + 270) % 360) as Settings["rotation"] })} className="flex items-center gap-1.5 rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-1.5 text-xs text-[var(--ink-dim)] hover:border-[var(--gold-dim)]"><RotateCcw size={13} /> Rotate left</button>
             <button onClick={() => update({ rotation: ((s.rotation + 90) % 360) as Settings["rotation"] })} className="flex items-center gap-1.5 rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-1.5 text-xs text-[var(--ink-dim)] hover:border-[var(--gold-dim)]"><RotateCw size={13} /> Rotate right</button>
-            <button onClick={() => update({ flipH: !s.flipH })} className={`flex items-center gap-1.5 rounded-md border px-3 py-1.5 text-xs ${s.flipH ? "border-[var(--gold)] text-[var(--gold)]" : "border-[var(--ground-line)] bg-[var(--ground-raised)] text-[var(--ink-dim)]"}`}><FlipHorizontal size={13} /> Flip H</button>
-            <button onClick={() => update({ flipV: !s.flipV })} className={`flex items-center gap-1.5 rounded-md border px-3 py-1.5 text-xs ${s.flipV ? "border-[var(--gold)] text-[var(--gold)]" : "border-[var(--ground-line)] bg-[var(--ground-raised)] text-[var(--ink-dim)]"}`}><FlipVertical size={13} /> Flip V</button>
+            <button onClick={() => update({ flipH: !s.flipH })} className={`flex items-center gap-1.5 rounded-md border px-3 py-1.5 text-xs ${s.flipH ? "border-[var(--gold)] text-[var(--gold-text)]" : "border-[var(--ground-line)] bg-[var(--ground-raised)] text-[var(--ink-dim)]"}`}><FlipHorizontal size={13} /> Flip H</button>
+            <button onClick={() => update({ flipV: !s.flipV })} className={`flex items-center gap-1.5 rounded-md border px-3 py-1.5 text-xs ${s.flipV ? "border-[var(--gold)] text-[var(--gold-text)]" : "border-[var(--ground-line)] bg-[var(--ground-raised)] text-[var(--ink-dim)]"}`}><FlipVertical size={13} /> Flip V</button>
             <button onClick={() => updateFilters(DEFAULT_FILTERS)} className="ml-auto text-xs text-[var(--ink-faint)] hover:text-[var(--ink)]">Reset filters</button>
           </div>
 
@@ -345,7 +345,7 @@ export default function ImageEditorTool() {
               <div className="mb-1.5 text-xs font-medium uppercase tracking-wide text-[var(--ink-dim)]">Result — {(resultSize / 1024).toFixed(1)} KB</div>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={resultUrl} alt="Result" className="max-h-72 w-full rounded-md border border-[var(--ground-line)] object-contain" />
-              <a href={resultUrl} download={`edited.${ext}`} className="mt-2 inline-flex items-center gap-1.5 rounded-md bg-[var(--gold)] px-3 py-1.5 text-xs font-medium text-[#0a0c0d] hover:bg-[var(--gold-dim)]">
+              <a href={resultUrl} download={`edited.${ext}`} className="mt-2 inline-flex items-center gap-1.5 rounded-md bg-[var(--gold)] px-3 py-1.5 text-xs font-medium text-[var(--on-gold)] hover:bg-[var(--gold-hover)]">
                 <Download size={13} /> Download
               </a>
             </div>

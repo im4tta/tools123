@@ -60,7 +60,7 @@ export default function YamlFormatter() {
               onClick={() => setMode(m.id)}
               className={`rounded-md px-4 py-2 text-sm font-medium transition ${
                 mode === m.id
-                  ? "bg-[var(--gold)] text-[#0a0c0d]"
+                  ? "bg-[var(--gold)] text-[var(--on-gold)]"
                   : "border border-[var(--ground-line)] bg-[var(--ground-raised)] text-[var(--ink-dim)] hover:text-[var(--ink)]"
               }`}
             >
@@ -84,7 +84,7 @@ export default function YamlFormatter() {
             "This tool uses js-yaml (v4), the YAML parser and dumper for JavaScript by the nodeca team, licensed under the MIT License.",
             "ឧបករណ៍នេះប្រើ js-yaml (v4) ដែលជាអ្នកញែក និងបំប្លែង YAML របស់ក្រុម nodeca ក្រោមអាជ្ញាបណ្ណ MIT។"
           )}{" "}
-          <a href="https://github.com/nodeca/js-yaml" target="_blank" rel="noreferrer" className="text-[var(--gold)] underline underline-offset-2">
+          <a href="https://github.com/nodeca/js-yaml" target="_blank" rel="noreferrer" className="text-[var(--gold-text)] underline underline-offset-2">
             github.com/nodeca/js-yaml
           </a>
         </p>

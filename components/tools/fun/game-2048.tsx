@@ -177,10 +177,10 @@ export default function Game2048() {
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex gap-3 text-sm text-[var(--ink-dim)]">
           <span>
-            {t("Score", "ពិន្ទុ")}: <b className="text-[var(--gold)]">{score}</b>
+            {t("Score", "ពិន្ទុ")}: <b className="text-[var(--gold-text)]">{score}</b>
           </span>
           <span>
-            {t("Best", "ល្អបំផុត")}: <b className="text-[var(--gold)]">{best}</b>
+            {t("Best", "ល្អបំផុត")}: <b className="text-[var(--gold-text)]">{best}</b>
           </span>
         </div>
         <div className="flex gap-2">
@@ -223,7 +223,7 @@ export default function Game2048() {
         )}
         {won && !over && (
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 rounded-md bg-[var(--ground-raised)]/90">
-            <div className="font-display text-2xl font-semibold text-[var(--gold)]">{t("You reached 2048!", "អ្នកឈានដល់លេខ ២០៤៨ ហើយ!")}</div>
+            <div className="font-display text-2xl font-semibold text-[var(--gold-text)]">{t("You reached 2048!", "អ្នកឈានដល់លេខ ២០៤៨ ហើយ!")}</div>
             <div className="text-sm text-[var(--ink-dim)]">{t("Keep going to beat your best.", "បន្តលេងទៀត ដើម្បីបំបែកកំណត់ត្រាផ្ទាល់ខ្លួន។")}</div>
           </div>
         )}

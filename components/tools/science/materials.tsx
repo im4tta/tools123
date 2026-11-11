@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import { useLanguage } from "@/components/LanguageProvider";
 import { loadThreeR128 } from "@/lib/three-r128";
+import { clickOnKey } from "@/lib/a11y";
 
 const uiTranslations: Record<string, Record<string, string>> = {
   km: {
@@ -1255,6 +1256,9 @@ function GooglePeriodicGrid({ elements, lang, onSelectElement, searchQuery }: { 
 
               return (
                 <div
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={clickOnKey}
                   key={el.number}
                   onClick={() => {
                     soundFx.playClick();
@@ -1286,6 +1290,9 @@ function GooglePeriodicGrid({ elements, lang, onSelectElement, searchQuery }: { 
             const catStyle = periodicCategoryMap[el.category]?.color || 'bg-[var(--ground-raised-hi)] text-[var(--ink-dim)] border-[var(--ground-line)]';
             return (
               <div
+                role="button"
+                tabIndex={0}
+                onKeyDown={clickOnKey}
                 key={el.number}
                 onClick={() => { soundFx.playClick(); onSelectElement(el); }}
                 className={`p-1 rounded-xl border transition-all cursor-pointer hover:scale-110 hover:z-20 flex flex-col justify-between h-16 relative shadow-sm ${catStyle}`}
@@ -1311,6 +1318,9 @@ function GooglePeriodicGrid({ elements, lang, onSelectElement, searchQuery }: { 
             const catStyle = periodicCategoryMap[el.category]?.color || 'bg-[var(--ground-raised-hi)] text-[var(--ink-dim)] border-[var(--ground-line)]';
             return (
               <div
+                role="button"
+                tabIndex={0}
+                onKeyDown={clickOnKey}
                 key={el.number}
                 onClick={() => { soundFx.playClick(); onSelectElement(el); }}
                 className={`p-1 rounded-xl border transition-all cursor-pointer hover:scale-110 hover:z-20 flex flex-col justify-between h-16 relative shadow-sm ${catStyle}`}
@@ -1576,6 +1586,9 @@ export default function MaterialsApp() {
 
                   return (
                     <div
+                      role="button"
+                      tabIndex={0}
+                      onKeyDown={clickOnKey}
                       key={item.id}
                       onClick={() => { soundFx.playClick(); setSelectedMaterial(item); }}
                       className={`group relative rounded-2xl border transition-all duration-200 cursor-pointer overflow-hidden active:scale-[0.98] bg-[var(--ground-raised)] border-[var(--ground-line)] hover:border-[var(--ground-line)] hover:shadow-md ${
@@ -1701,6 +1714,9 @@ export default function MaterialsApp() {
                     const catStyle = periodicCategoryMap[el.category]?.color || 'bg-[var(--ground-raised-hi)] text-[var(--ink-dim)] border-[var(--ground-line)]';
                     return (
                       <div
+                        role="button"
+                        tabIndex={0}
+                        onKeyDown={clickOnKey}
                         key={el.number}
                         onClick={() => { 
                           soundFx.playClick(); 

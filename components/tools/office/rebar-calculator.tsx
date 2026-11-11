@@ -93,7 +93,7 @@ export default function RebarCalculator() {
         </Field>
         <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4">
           <div className="text-xs font-medium uppercase tracking-wide text-[var(--ink-dim)]">{t("Weight", "ទម្ងន់")}</div>
-          <div className="mt-1 text-lg font-semibold text-[var(--gold)]">{weight.weight.toFixed(1)} kg</div>
+          <div className="mt-1 text-lg font-semibold text-[var(--gold-text)]">{weight.weight.toFixed(1)} kg</div>
           <div className="text-xs text-[var(--ink-dim)]">{weight.totalLength.toFixed(1)} m · {kgm.toFixed(3)} kg/m</div>
         </div>
       </Row>
@@ -169,9 +169,9 @@ export default function RebarCalculator() {
             <div className="mt-1 text-lg font-semibold text-[var(--ink)]">{estimate.totalLength.toFixed(1)} m</div>
           </div>
           <div className="rounded-md border border-[var(--gold)]/40 bg-[var(--gold)]/10 p-4">
-            <div className="text-xs font-medium uppercase tracking-wide text-[var(--gold)]">{t("Total weight", "ទម្ងន់សរុប")}</div>
-            <div className="mt-1 text-lg font-semibold text-[var(--gold)]">{estimate.weight.toFixed(1)} kg</div>
-            <div className="text-xs text-[var(--gold)]">{(estimate.weight / 1000).toFixed(3)} t</div>
+            <div className="text-xs font-medium uppercase tracking-wide text-[var(--gold-text)]">{t("Total weight", "ទម្ងន់សរុប")}</div>
+            <div className="mt-1 text-lg font-semibold text-[var(--gold-text)]">{estimate.weight.toFixed(1)} kg</div>
+            <div className="text-xs text-[var(--gold-text)]">{(estimate.weight / 1000).toFixed(3)} t</div>
           </div>
         </div>
       </section>

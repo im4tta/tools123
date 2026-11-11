@@ -68,7 +68,7 @@ export default function KhmerPiiRedactor() {
             type="button"
             onClick={() => setOn((prev) => ({ ...prev, [k]: !prev[k] }))}
             className={`rounded-md border px-3 py-1.5 text-xs font-medium transition ${
-              on[k] ? "border-[var(--gold)] bg-[var(--gold)]/10 text-[var(--gold)]" : "border-[var(--ground-line)] text-[var(--ink-faint)] hover:border-[var(--ink-faint)]"
+              on[k] ? "border-[var(--gold)] bg-[var(--gold)]/10 text-[var(--gold-text)]" : "border-[var(--ground-line)] text-[var(--ink-faint)] hover:border-[var(--ink-faint)]"
             }`}
           >
             {t(LABELS[k].en, LABELS[k].km)}{on[k] && counts[k] > 0 ? ` · ${counts[k]}` : ""}
@@ -81,7 +81,7 @@ export default function KhmerPiiRedactor() {
             type="button"
             onClick={() => setStyle(id)}
             className={`rounded-md border px-3 py-1.5 text-xs font-medium transition ${
-              style === id ? "border-[var(--gold)] bg-[var(--gold)]/10 text-[var(--gold)]" : "border-[var(--ground-line)] text-[var(--ink-dim)] hover:border-[var(--ink-faint)]"
+              style === id ? "border-[var(--gold)] bg-[var(--gold)]/10 text-[var(--gold-text)]" : "border-[var(--ground-line)] text-[var(--ink-dim)] hover:border-[var(--ink-faint)]"
             }`}
           >
             {t(en, km)}

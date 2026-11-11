@@ -63,7 +63,7 @@ export default function MeetingCostCalculator() {
 
       <div className="flex flex-wrap gap-3">
         {!live ? (
-          <button type="button" onClick={() => { setElapsed(0); setLive(true); }} className="rounded-md bg-[var(--gold)] px-4 py-2 text-sm font-medium text-[#0a0c0d] transition hover:bg-[var(--gold-dim)]">
+          <button type="button" onClick={() => { setElapsed(0); setLive(true); }} className="rounded-md bg-[var(--gold)] px-4 py-2 text-sm font-medium text-[var(--on-gold)] transition hover:bg-[var(--gold-hover)]">
             {t("Start live meeting", "ចាប់ផ្តើមផ្ទាល់")}
           </button>
         ) : (

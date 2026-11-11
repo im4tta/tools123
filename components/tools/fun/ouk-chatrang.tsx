@@ -77,7 +77,7 @@ const OukChatrangGame = dynamic(() => import("./_ouk-chatrang-game"), {
   ssr: false,
   loading: () => (
     <div className="flex min-h-[520px] flex-col items-center justify-center gap-3 rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)]">
-      <Crown className="animate-pulse text-[var(--gold)]" size={32} />
+      <Crown className="animate-pulse text-[var(--gold-text)]" size={32} />
       <p className="text-sm text-[var(--ink-faint)]">Loading Ouk Chatrang… / កំពុងផ្ទុក…</p>
     </div>
   ),

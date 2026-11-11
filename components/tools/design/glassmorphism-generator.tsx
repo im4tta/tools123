@@ -97,7 +97,7 @@ export default function GlassmorphismGenerator() {
         <p className="mb-2 font-semibold text-[var(--ink)]">{t("Source & Credits", "ប្រភព និងក្រេឌីត")}</p>
         <p>
           {t("Inspired by the glassmorphism UI trend — the term was coined by Michal Malewicz (UX Collective, Nov 2020) and popularized by Apple's macOS Big Sur design language. This generator is an independent, original implementation by Tools123.", "បំផុសគំនិតដោយនិន្នាការ UI glassmorphism — ពាក្យនេះបង្កើតឡើងដោយ Michal Malewicz (UX Collective ខែវិច្ឆិកា ២០២០) ហើយត្រូវបានផ្សព្វផ្សាយដោយរចនាបថ macOS Big Sur របស់ Apple។ ឧបករណ៍នេះជាការអនុវត្តឯករាជ្យដើមរបស់ Tools123។")}{" "}
-          <a href="https://uxdesign.cc/glassmorphism-in-user-interfaces-1f39bb1308c9" target="_blank" rel="noreferrer" className="text-[var(--gold)] underline underline-offset-2">uxdesign.cc</a>
+          <a href="https://uxdesign.cc/glassmorphism-in-user-interfaces-1f39bb1308c9" target="_blank" rel="noreferrer" className="text-[var(--gold-text)] underline underline-offset-2">uxdesign.cc</a>
         </p>
       </aside>
     </ToolShell>

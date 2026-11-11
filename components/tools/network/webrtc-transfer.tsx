@@ -135,17 +135,17 @@ export default function WebRTCTransfer() {
     >
       {/* Mode toggle */}
       <div className="mb-5 flex rounded-lg border border-[var(--ground-line)] bg-[var(--ground)] p-1">
-        <button onClick={() => { setMode("send"); reset(); }} className={`flex-1 rounded-md px-3 py-2 text-sm font-semibold ${mode === "send" ? "bg-[var(--gold)] text-[#0a0c0d]" : "text-[var(--ink-dim)]"}`}>
+        <button onClick={() => { setMode("send"); reset(); }} className={`flex-1 rounded-md px-3 py-2 text-sm font-semibold ${mode === "send" ? "bg-[var(--gold)] text-[var(--on-gold)]" : "text-[var(--ink-dim)]"}`}>
           <Upload size={14} className="inline mr-1" />{t("Send File", "ផ្ញើឯកសារ")}
         </button>
-        <button onClick={() => { setMode("receive"); reset(); }} className={`flex-1 rounded-md px-3 py-2 text-sm font-semibold ${mode === "receive" ? "bg-[var(--gold)] text-[#0a0c0d]" : "text-[var(--ink-dim)]"}`}>
+        <button onClick={() => { setMode("receive"); reset(); }} className={`flex-1 rounded-md px-3 py-2 text-sm font-semibold ${mode === "receive" ? "bg-[var(--gold)] text-[var(--on-gold)]" : "text-[var(--ink-dim)]"}`}>
           <Download size={14} className="inline mr-1" />{t("Receive File", "ទទួលឯកសារ")}
         </button>
       </div>
 
       {/* Status */}
       {statusText && (
-        <div className="mb-4 flex items-center gap-2 rounded-lg border border-[var(--gold)]/30 bg-[var(--gold)]/5 px-4 py-2.5 text-sm text-[var(--gold)]">
+        <div className="mb-4 flex items-center gap-2 rounded-lg border border-[var(--gold)]/30 bg-[var(--gold)]/5 px-4 py-2.5 text-sm text-[var(--gold-text)]">
           <Wifi size={14} className={step === "connected" || step === "transferring" || step === "done" ? "text-[var(--success)]" : ""} />
           {statusText}
         </div>
@@ -178,13 +178,13 @@ export default function WebRTCTransfer() {
           ) : (
             <>
               <div className="flex items-center gap-3 rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4">
-                <FileText size={20} className="text-[var(--gold)]" />
+                <FileText size={20} className="text-[var(--gold-text)]" />
                 <div><div className="text-sm font-semibold">{file.name}</div><div className="text-xs text-[var(--ink-faint)]">{file.size}</div></div>
                 <button onClick={() => setFile(null)} className="ml-auto rounded border border-[var(--ground-line)] px-2 py-1 text-xs text-[var(--ink-faint)]">{t("Change", "ផ្លាស់")}</button>
               </div>
 
               {step === "idle" && (
-                <button onClick={createTransfer} className="w-full rounded-lg bg-[var(--gold)] px-4 py-3 text-sm font-semibold text-[#0a0c0d] hover:bg-[var(--gold-dim)]">
+                <button onClick={createTransfer} className="w-full rounded-lg bg-[var(--gold)] px-4 py-3 text-sm font-semibold text-[var(--on-gold)] hover:bg-[var(--gold-hover)]">
                   {t("Create Transfer", "បង្កើតការផ្ទេរ")}
                 </button>
               )}
@@ -210,7 +210,7 @@ export default function WebRTCTransfer() {
                 <div className="mb-1 text-xs text-[var(--ink-faint)]">{t("Paste the receiver's answer here:", "បិទភ្ជាប់ចម្លើយរបស់អ្នកទទួលនៅទីនេះ៖")}</div>
                 <textarea value={answerInput} onChange={(e) => setAnswerInput(e.target.value)}
                   placeholder={t("Paste answer…", "បិទភ្ជាប់ចម្លើយ…")}
-                  className="h-20 w-full resize-none rounded border border-[var(--ground-line)] bg-[var(--ground)] p-2 font-mono-ui text-[11px] text-[var(--ink)] outline-none focus:border-[var(--gold-dim)]" />
+                  className="h-20 w-full resize-none rounded border border-[var(--ground-line)] bg-[var(--ground)] p-2 font-mono-ui text-[11px] text-[var(--ink)] outline-none focus:border-[var(--focus)]" />
                 <button onClick={acceptAnswer} disabled={!answerInput.trim()}
                   className="mt-2 w-full rounded-lg bg-[var(--teal)]/80 px-3 py-2 text-xs font-semibold text-white hover:bg-[var(--teal)] disabled:opacity-40">
                   {t("Connect to Receiver", "តភ្ជាប់ទៅអ្នកទទួល")}
@@ -220,7 +220,7 @@ export default function WebRTCTransfer() {
           )}
 
           {step === "done" && (
-            <button onClick={reset} className="w-full rounded-lg bg-[var(--success)] px-4 py-2.5 text-sm font-semibold text-white">{t("Transfer Complete — Send Another", "បញ្ជូនរួច — ផ្ញើថ្មី")}</button>
+            <button onClick={reset} className="w-full rounded-lg bg-[var(--success)] px-4 py-2.5 text-sm font-semibold text-[var(--on-success)]">{t("Transfer Complete — Send Another", "បញ្ជូនរួច — ផ្ញើថ្មី")}</button>
           )}
         </div>
       )}
@@ -232,7 +232,7 @@ export default function WebRTCTransfer() {
             <div className="space-y-3">
               <textarea value={answerInput} onChange={(e) => setAnswerInput(e.target.value)}
                 placeholder={t("Paste the sender's connection code here…", "បិទភ្ជាប់កូដតភ្ជាប់របស់អ្នកផ្ញើនៅទីនេះ…")}
-                className="h-28 w-full resize-y rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4 font-mono-ui text-[11px] text-[var(--ink)] outline-none focus:border-[var(--gold-dim)]" />
+                className="h-28 w-full resize-y rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4 font-mono-ui text-[11px] text-[var(--ink)] outline-none focus:border-[var(--focus)]" />
               <button onClick={connectReceiver} disabled={!answerInput.trim()}
                 className="w-full rounded-lg bg-[var(--teal)]/80 px-4 py-3 text-sm font-semibold text-white hover:bg-[var(--teal)] disabled:opacity-40">
                 {t("Connect to Sender", "តភ្ជាប់ទៅអ្នកផ្ញើ")}

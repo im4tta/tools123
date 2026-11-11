@@ -167,7 +167,7 @@ export default function InstrumentTuner() {
             <div className="mt-2 text-sm text-[var(--ink-dim)]">
               {t("Frequency", "ប្រេកង់")}: {freq ? `${freq.toFixed(1)} Hz` : "—"}
             </div>
-            <div className={`mt-1 text-sm font-medium ${inTune ? "text-[var(--gold)]" : "text-[var(--danger)]"}`}>
+            <div className={`mt-1 text-sm font-medium ${inTune ? "text-[var(--gold-text)]" : "text-[var(--danger)]"}`}>
               {freq
                 ? `${cents > 0 ? "+" : ""}${cents} ${t("cents", "សេន")}`
                 : t("Playing…", "កំពុងលេង…")}

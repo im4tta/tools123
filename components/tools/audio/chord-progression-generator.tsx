@@ -200,7 +200,7 @@ export default function ChordProgressionGenerator() {
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
         {progression.chords.map((sym, i) => (
           <div key={`${sym}-${i}`} className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 text-center">
-            <div className="text-[11px] font-medium uppercase tracking-wide text-[var(--gold)]">{sym}</div>
+            <div className="text-[11px] font-medium uppercase tracking-wide text-[var(--gold-text)]">{sym}</div>
             <div className="mt-1 font-mono-ui text-sm text-[var(--ink)]">{(chords[i] ?? []).join(" · ") || "—"}</div>
           </div>
         ))}

@@ -116,7 +116,7 @@ export default function KhmerWordGrid() {
                   className={`relative flex aspect-square items-center justify-center rounded-lg border font-khmer text-3xl leading-[1.6] transition active:scale-95 ${at >= 0 ? "border-[var(--gold)] bg-[var(--gold)]/20 text-[var(--ink)]" : "border-[var(--ground-line)] bg-[var(--ground)] text-[var(--ink)]"}`}
                 >
                   <span lang="km">{cell}</span>
-                  {at >= 0 && <span className="absolute right-1 top-0.5 text-[10px] text-[var(--gold)]">{at + 1}</span>}
+                  {at >= 0 && <span className="absolute right-1 top-0.5 text-[10px] text-[var(--gold-text)]">{at + 1}</span>}
                 </button>
               );
             })}

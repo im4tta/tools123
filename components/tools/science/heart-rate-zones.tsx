@@ -108,7 +108,7 @@ export default function HeartRateZones() {
               <tbody>
                 {data.zones.map((z) => (
                   <tr key={z.id} className="border-b border-[var(--ground-line)] last:border-0">
-                    <td className="px-3 py-2 font-mono-ui font-semibold text-[var(--gold)]">{z.id}</td>
+                    <td className="px-3 py-2 font-mono-ui font-semibold text-[var(--gold-text)]">{z.id}</td>
                     <td className="px-3 py-2 text-[var(--ink)]">{t(z.label[0], z.label[1])}</td>
                     <td className="px-3 py-2 font-mono-ui text-[var(--ink-dim)]">{z.maxLo}–{z.maxHi}%</td>
                     <td className="px-3 py-2 font-mono-ui text-[var(--ink)]">{z.maxBpm[0]}–{z.maxBpm[1]}</td>

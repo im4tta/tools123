@@ -186,7 +186,7 @@ export default function FoodCalorieReference() {
 
       {filteredGroups.map((group) => (
         <section key={group.title}>
-          <h2 className="mb-2 text-sm font-semibold uppercase tracking-wide text-[var(--gold)]">
+          <h2 className="mb-2 text-sm font-semibold uppercase tracking-wide text-[var(--gold-text)]">
             {t(group.title, group.titleKm)}
           </h2>
           <div className="overflow-x-auto rounded-md border border-[var(--ground-line)]">
@@ -203,7 +203,7 @@ export default function FoodCalorieReference() {
                 {group.items.map((f) => (
                   <tr key={f.name} className="border-t border-[var(--ground-line)]">
                     <td className="px-3 py-2 text-[var(--ink)]">{t(f.name, f.km)}</td>
-                    <td className="px-3 py-2 font-mono-ui font-semibold text-[var(--gold)]">≈ {f.per100}</td>
+                    <td className="px-3 py-2 font-mono-ui font-semibold text-[var(--gold-text)]">≈ {f.per100}</td>
                     <td className="px-3 py-2 text-[var(--ink-dim)]">{f.serving}</td>
                     <td className="px-3 py-2 font-mono-ui text-[var(--ink)]">≈ {f.servingKcal}</td>
                   </tr>

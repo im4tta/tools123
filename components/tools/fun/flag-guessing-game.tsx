@@ -433,7 +433,7 @@ export default function FlagGuessingGame() {
             </button>
             <div className="flex items-center gap-3 text-sm font-semibold text-[var(--ink-dim)]">
               <span>{t("Round", "ជុំ")} {round}/{roundsTotal}</span>
-              <span className="flex items-center gap-1 text-[var(--gold)]"><Trophy size={15} /> {score}</span>
+              <span className="flex items-center gap-1 text-[var(--gold-text)]"><Trophy size={15} /> {score}</span>
             </div>
           </div>
 
@@ -449,7 +449,7 @@ export default function FlagGuessingGame() {
                 onClick={toggleHint}
                 disabled={answered}
                 title={t("Hint", "ជំនួយ")}
-                className="absolute right-0 top-0 flex h-10 w-10 items-center justify-center rounded-full border border-[var(--ground-line)] bg-[var(--ground)] text-lg text-[var(--gold)] transition hover:bg-[var(--ground-raised-hi)] disabled:opacity-40"
+                className="absolute right-0 top-0 flex h-10 w-10 items-center justify-center rounded-full border border-[var(--ground-line)] bg-[var(--ground)] text-lg text-[var(--gold-text)] transition hover:bg-[var(--ground-raised-hi)] disabled:opacity-40"
               >
                 <Lightbulb size={18} />
               </button>
@@ -487,8 +487,8 @@ export default function FlagGuessingGame() {
                 const isGuessed = code === guessed;
                 let cls = "border-[var(--ground-line)] bg-[var(--ground)] text-[var(--ink)] hover:border-[var(--gold-dim)] hover:bg-[var(--ground-raised-hi)]";
                 if (answered) {
-                  if (isCorrectChoice) cls = "border-[var(--success)] bg-[var(--success)] text-white";
-                  else if (isGuessed && !wasCorrect) cls = "border-[var(--danger)] bg-[var(--danger)] text-white";
+                  if (isCorrectChoice) cls = "border-[var(--success)] bg-[var(--success)] text-[var(--on-success)]";
+                  else if (isGuessed && !wasCorrect) cls = "border-[var(--danger)] bg-[var(--danger)] text-[var(--on-danger)]";
                   else cls = "border-[var(--ground-line)] bg-[var(--ground)] text-[var(--ink-faint)] opacity-60";
                 }
                 return (
@@ -517,7 +517,7 @@ export default function FlagGuessingGame() {
                 <button
                   type="button"
                   onClick={nextRound}
-                  className="inline-flex items-center gap-1.5 rounded-xl bg-[var(--gold)] px-6 py-2.5 text-sm font-bold text-[#0a0c0d] transition hover:brightness-110"
+                  className="inline-flex items-center gap-1.5 rounded-xl bg-[var(--gold)] px-6 py-2.5 text-sm font-bold text-[var(--on-gold)] transition hover:brightness-110"
                 >
                   {round < roundsTotal ? t("Next round", "បន្តទៅមុខទៀត") : t("See results", "មើលលទ្ធផល")} <ArrowRight size={15} />
                 </button>
@@ -540,13 +540,13 @@ export default function FlagGuessingGame() {
               </div>
               <div className="min-w-[120px] rounded-2xl border border-[var(--ground-line)] bg-[var(--ground)] p-4">
                 <span className="block text-xs font-medium text-[var(--ink-faint)]">{t("Accuracy", "ភាពត្រឹមត្រូវ")}</span>
-                <span className={`text-3xl font-bold ${accuracy >= 80 ? "text-[var(--success)]" : accuracy >= 50 ? "text-[var(--gold)]" : "text-[var(--danger)]"}`}>{accuracy}%</span>
+                <span className={`text-3xl font-bold ${accuracy >= 80 ? "text-[var(--success)]" : accuracy >= 50 ? "text-[var(--gold-text)]" : "text-[var(--danger)]"}`}>{accuracy}%</span>
               </div>
             </div>
           </div>
 
           <div className="rounded-2xl border border-[var(--ground-line)] bg-[var(--ground-raised)] p-6">
-            <h3 className="flex items-center gap-2 text-base font-bold text-[var(--ink)]"><Flag size={16} className="text-[var(--gold)]" /> {t("Match history", "ប្រវត្តិការលេង")}</h3>
+            <h3 className="flex items-center gap-2 text-base font-bold text-[var(--ink)]"><Flag size={16} className="text-[var(--gold-text)]" /> {t("Match history", "ប្រវត្តិការលេង")}</h3>
             <div className="mt-4 flex flex-col gap-3">
               {history.map((h, i) => {
                 const guessedName = COUNTRY_DB[h.guessed];
@@ -570,7 +570,7 @@ export default function FlagGuessingGame() {
             <button type="button" onClick={goMenu} className="flex-1 rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)] py-3.5 text-sm font-bold text-[var(--ink)] transition hover:bg-[var(--ground-raised-hi)]">
               {t("Main menu", "ម៉ឺនុយដើម")}
             </button>
-            <button type="button" onClick={() => startGame(currentMode)} className="flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-[var(--gold)] py-3.5 text-sm font-bold text-[#0a0c0d] transition hover:brightness-110">
+            <button type="button" onClick={() => startGame(currentMode)} className="flex flex-1 items-center justify-center gap-1.5 rounded-xl bg-[var(--gold)] py-3.5 text-sm font-bold text-[var(--on-gold)] transition hover:brightness-110">
               <RotateCcw size={15} /> {t("Play again", "លេងម្ដងទៀត")}
             </button>
           </div>

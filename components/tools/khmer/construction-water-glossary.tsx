@@ -186,7 +186,7 @@ export default function ConstructionWaterGlossary() {
           <button
             type="button"
             onClick={() => void copyText(formatAll())}
-            className="inline-flex items-center gap-1.5 rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-1.5 text-xs text-[var(--ink-faint)] transition hover:border-[var(--gold-dim)] hover:text-[var(--gold)]"
+            className="inline-flex items-center gap-1.5 rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-1.5 text-xs text-[var(--ink-faint)] transition hover:border-[var(--gold-dim)] hover:text-[var(--gold-text)]"
           >
             {localize("Copy all", "ចម្លងទាំងអស់")}
           </button>
@@ -204,7 +204,7 @@ export default function ConstructionWaterGlossary() {
               <div className="mt-1 text-[10px] uppercase tracking-wide text-[var(--ink-faint)]">{t.category}</div>
             </div>
             <div className="flex min-w-0 items-center gap-2 sm:shrink-0">
-              <div className="text-right font-medium text-[var(--gold)] sm:whitespace-nowrap">{t.km}</div>
+              <div className="text-right font-medium text-[var(--gold-text)] sm:whitespace-nowrap">{t.km}</div>
               <CopyButton text={formatEntry(t)} compact fields={buildFields(t)} />
             </div>
           </div>

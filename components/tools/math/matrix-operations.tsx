@@ -110,7 +110,7 @@ function MatrixInput({ n, values, onChange }: { n: number; values: Record<string
             inputMode="decimal"
             value={values[key] ?? ""}
             onChange={(e) => onChange(key, e.target.value)}
-            className="w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-2 py-2 text-center font-mono-ui text-sm text-[var(--ink)] outline-none focus:border-[var(--gold-dim)]"
+            className="w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-2 py-2 text-center font-mono-ui text-sm text-[var(--ink)] outline-none focus:border-[var(--focus)]"
           />
         );
       })}

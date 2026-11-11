@@ -407,7 +407,7 @@ export default function NidCardPrintFormatter() {
           {/* Filters */}
           <section className="rounded-lg border border-[var(--ground-line)] bg-[var(--ground-raised)]/40 p-4">
             <h2 className="mb-1 flex items-center gap-2 border-b border-[var(--ground-line)] pb-2 text-sm font-semibold text-[var(--ink)]">
-              <Sliders size={15} className="text-[var(--gold)]" /> {text("Document Scanner Filters", "តម្រងអ្នកស្កេនឯកសារ")}
+              <Sliders size={15} className="text-[var(--gold-text)]" /> {text("Document Scanner Filters", "តម្រងអ្នកស្កេនឯកសារ")}
             </h2>
             <p className="mb-4 mt-1 text-xs text-[var(--ink-faint)]">{text("Make text pop and clear the background before printing.", "ធ្វើឱ្យអក្សរច្បាស់ និងសម្អាតផ្ទៃខាងក្រោយមុនពេលបោះពុម្ព។")}</p>
             <div className="space-y-5 rounded-md bg-[var(--ground)] p-4">
@@ -418,21 +418,21 @@ export default function NidCardPrintFormatter() {
               <div>
                 <div className="mb-1 flex justify-between">
                   <span className="text-sm font-medium text-[var(--ink)]">{text("Contrast", "កម្រិតផ្ទុយពណ៌")}</span>
-                  <span className="rounded bg-[var(--gold)]/10 px-2 py-0.5 text-xs font-bold text-[var(--gold)]">{contrast}%</span>
+                  <span className="rounded bg-[var(--gold)]/10 px-2 py-0.5 text-xs font-bold text-[var(--gold-text)]">{contrast}%</span>
                 </div>
                 <input type="range" min="0" max="200" value={contrast} onChange={(e) => setContrast(Number(e.target.value))} className="w-full accent-[var(--gold)]" />
               </div>
               <div>
                 <div className="mb-1 flex justify-between">
                   <span className="text-sm font-medium text-[var(--ink)]">{text("Brightness", "ពន្លឺ")}</span>
-                  <span className="rounded bg-[var(--gold)]/10 px-2 py-0.5 text-xs font-bold text-[var(--gold)]">{brightness}%</span>
+                  <span className="rounded bg-[var(--gold)]/10 px-2 py-0.5 text-xs font-bold text-[var(--gold-text)]">{brightness}%</span>
                 </div>
                 <input type="range" min="0" max="200" value={brightness} onChange={(e) => setBrightness(Number(e.target.value))} className="w-full accent-[var(--gold)]" />
               </div>
               <div>
                 <div className="mb-1 flex justify-between">
                   <span className="text-sm font-medium text-[var(--ink)]">{text("Saturation", "កម្រិតឆ្អែតពណ៌")}</span>
-                  <span className="rounded bg-[var(--gold)]/10 px-2 py-0.5 text-xs font-bold text-[var(--gold)]">{saturation}%</span>
+                  <span className="rounded bg-[var(--gold)]/10 px-2 py-0.5 text-xs font-bold text-[var(--gold-text)]">{saturation}%</span>
                 </div>
                 <input type="range" min="0" max="200" value={saturation} onChange={(e) => setSaturation(Number(e.target.value))} className="w-full accent-[var(--gold)]" />
               </div>
@@ -456,7 +456,7 @@ export default function NidCardPrintFormatter() {
                   value={watermark}
                   onChange={(e) => setWatermark(e.target.value)}
                   placeholder={text("e.g. For Bank Use Only", "ឧ. សម្រាប់តែប្រើប្រាស់ក្នុងធនាគារ")}
-                  className="w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 text-sm text-[var(--ink)] outline-none placeholder:text-[var(--ink-faint)] focus:border-[var(--gold-dim)]"
+                  className="w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 text-sm text-[var(--ink)] outline-none placeholder:text-[var(--ink-faint)] focus:border-[var(--focus)]"
                 />
               </div>
               <div className="flex items-center justify-between">
@@ -692,12 +692,12 @@ function CropperSection({
           <h2 className="text-sm font-semibold text-[var(--ink)]">{label}</h2>
         </div>
         <label className="flex w-full cursor-pointer flex-col items-center gap-2 rounded-lg border-2 border-dashed border-[var(--gold-dim)]/40 bg-[var(--ground-raised)]/50 px-4 py-8 text-center transition hover:border-[var(--gold)]">
-          <Upload className="text-[var(--gold)]" size={26} />
+          <Upload className="text-[var(--gold-text)]" size={26} />
           <span className="text-xs font-medium text-[var(--ink-dim)]">{text("Tap to upload image", "ចុចដើម្បីផ្ទុករូបភាព")}</span>
           <input
             type="file"
             accept="image/*"
-            className="hidden"
+            className="sr-only"
             onChange={(e) => {
               const file = e.target.files?.[0];
               if (file) readImageFromFile(file, setSide, side);
@@ -724,7 +724,7 @@ function CropperSection({
       <div className="space-y-3">
         <div className="flex flex-wrap items-center gap-2">
           <button type="button" className="flex items-center gap-1 rounded-md border border-[var(--ground-line)] bg-[var(--ground)] px-2.5 py-1.5 text-xs font-medium text-[var(--ink-dim)] transition hover:bg-[var(--ground-raised-hi)] hover:text-[var(--ink)]" onClick={handleAutoCrop}>
-            <Wand size={14} className="text-[var(--gold)]" /> {text("Auto Detect", "រកដោយស្វ័យប្រវត្តិ")}
+            <Wand size={14} className="text-[var(--gold-text)]" /> {text("Auto Detect", "រកដោយស្វ័យប្រវត្តិ")}
           </button>
           <button type="button" className="flex items-center gap-1 rounded-md border border-[var(--ground-line)] bg-[var(--ground)] px-2.5 py-1.5 text-xs font-medium text-[var(--ink-dim)] transition hover:bg-[var(--ground-raised-hi)] hover:text-[var(--ink)]" onClick={handleRotate}>
             <RotateCw size={14} /> {text("Rotate", "បង្វិល")}

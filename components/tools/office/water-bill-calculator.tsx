@@ -83,7 +83,7 @@ export default function WaterBillCalculator() {
             ))}
             <div className="flex items-center justify-between border-t border-[var(--ground-line)] pt-2 text-sm">
               <span className="font-semibold text-[var(--ink)]">{t("Estimated monthly bill", "ការចំណាយប្រចាំខែប៉ាន់ស្មាន")}</span>
-              <span className="font-bold text-[var(--gold)]">{khr(result.total)} · ${result.usd.toFixed(2)}</span>
+              <span className="font-bold text-[var(--gold-text)]">{khr(result.total)} · ${result.usd.toFixed(2)}</span>
             </div>
           </div>
         )}
@@ -107,7 +107,7 @@ export default function WaterBillCalculator() {
       )}
 
       <div className="flex items-start gap-2 rounded-md border border-amber-500/40 bg-amber-500/10 p-3 text-xs leading-relaxed text-[var(--ink-dim)]">
-        <Info size={14} className="mt-0.5 shrink-0 text-[var(--gold)]" />
+        <Info size={14} className="mt-0.5 shrink-0 text-[var(--gold-text)]" />
         <span>
           {t("The default tier bands and rates are sample placeholders only — they are not official PPWSA values. Use your actual bill or the official schedule to replace them before drawing any conclusion.", "អត្រាកម្រិតលំនាំដើមគឺជាគំរូតែប៉ុណ្ណោះ — មិនមែនជាតម្លៃផ្លូវការរបស់ PPWSA ទេ។ សូមប្រើវិក្កយបត្រពិត ឬកាលវិភាគផ្លូវការដើម្បីជំនួសវា មុនពេលសន្និដ្ឋាន។")}
         </span>

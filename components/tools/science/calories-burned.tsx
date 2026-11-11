@@ -87,7 +87,7 @@ export default function CaloriesBurned() {
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
             <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4">
               <div className="text-xs font-medium uppercase tracking-wide text-[var(--ink-dim)]">{t("Estimated calories burned", "កាឡូរីដុតប៉ាន់ស្មាន")}</div>
-              <div className="mt-1 text-2xl font-semibold text-[var(--gold)]">
+              <div className="mt-1 text-2xl font-semibold text-[var(--gold-text)]">
                 {Math.round(calc.kcal)} <span className="text-xs font-normal text-[var(--ink-dim)]">kcal</span>
               </div>
             </div>

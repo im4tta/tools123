@@ -456,7 +456,7 @@ export default function GifSplitter() {
                 <button
                   type="button"
                   onClick={() => setPlaying((p) => !p)}
-                  className="flex items-center gap-1.5 rounded-md bg-[var(--gold)] px-4 py-2 text-sm font-medium text-[#0a0c0d] transition hover:opacity-90"
+                  className="flex items-center gap-1.5 rounded-md bg-[var(--gold)] px-4 py-2 text-sm font-medium text-[var(--on-gold)] transition hover:opacity-90"
                 >
                   {playing ? <Pause size={15} /> : <Play size={15} />}
                   {playing ? t("Pause", "ផ្អាក") : t("Play", "ចាក់")}
@@ -507,7 +507,7 @@ export default function GifSplitter() {
               <a
                 href={exportUrl}
                 download="edited.gif"
-                className="flex w-full items-center justify-center gap-2 rounded-md bg-[var(--gold)] px-4 py-2 text-sm font-medium text-[#0a0c0d] transition hover:opacity-90"
+                className="flex w-full items-center justify-center gap-2 rounded-md bg-[var(--gold)] px-4 py-2 text-sm font-medium text-[var(--on-gold)] transition hover:opacity-90"
               >
                 <Download size={15} />
                 {t("Download edited GIF", "ទាញយក GIF ដែលបានកែ")}

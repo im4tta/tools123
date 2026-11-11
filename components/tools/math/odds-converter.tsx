@@ -121,7 +121,7 @@ export default function OddsConverter() {
           <Output label={t("Profit", "ប្រាក់ចំណេញ")} value={calc.stakeValid ? trimNum(calc.profit as number) : t("Enter a valid stake", "បញ្ចូលចំនួនភ្នាល់ឱ្យបានត្រឹមត្រូវ")} />
         </div>
       ) : (
-        <p className="text-sm font-medium text-[var(--gold)]">
+        <p className="text-sm font-medium text-[var(--gold-text)]">
           {t(
             "Enter valid odds: decimal ≥ 1, fractional like 5/2, American like +250 or -150, or probability between 0 and 100.",
             "សូមបញ្ចូលសមាមាត្រឱ្យបានត្រឹមត្រូវ៖ ទសភាគ ≥ 1, ប្រភាគដូចជា 5/2, អាមេរិកដូចជា +250 ឬ -150, ឬប្រូបាប៊ីលីតេចន្លោះ 0 និង 100។"

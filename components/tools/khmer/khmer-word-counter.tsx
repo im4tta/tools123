@@ -22,7 +22,7 @@ export default function KhmerWordCounter() {
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
         {Object.entries(stats).map(([k, v]) => (
           <div key={k} className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3 text-center">
-            <div className="font-mono-ui text-xl text-[var(--gold)]">{v}</div>
+            <div className="font-mono-ui text-xl text-[var(--gold-text)]">{v}</div>
             <div className="text-xs text-[var(--ink-dim)]">{k}</div>
           </div>
         ))}

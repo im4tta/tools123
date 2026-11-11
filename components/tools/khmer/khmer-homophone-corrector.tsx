@@ -286,15 +286,15 @@ export default function KhmerHomophoneCorrector() {
           {analyzing && (
             <div className="flex min-h-[16rem] flex-1 flex-col items-center justify-center rounded-xl bg-[var(--ground-raised)]/40 p-8 text-center">
               <div className="mb-4 h-12 w-12 animate-spin rounded-full border-4 border-[var(--ground-line)] border-t-[var(--gold)]" />
-              <p className="font-medium text-[var(--gold)]">{t("Analyzing text…", "កំពុងវិភាគអត្ថបទ…")}</p>
+              <p className="font-medium text-[var(--gold-text)]">{t("Analyzing text…", "កំពុងវិភាគអត្ថបទ…")}</p>
             </div>
           )}
           {analyzed && !analyzing && (
             <>
               <div className="flex flex-col rounded-xl border border-[var(--gold-dim)]/30 bg-[var(--ground-raised)]/40">
                 <div className="flex items-center justify-between border-b border-[var(--ground-line)] px-4 py-2.5">
-                  <span className="text-xs font-semibold text-[var(--gold)]">{t("Interactive Analysis", "ការវិភាគអន្តរកម្ម")}</span>
-                  <span className="rounded-full bg-[var(--gold)]/15 px-2.5 py-0.5 text-xs font-bold text-[var(--gold)]">{t(`${matchCount} item(s)`, `${matchCount} ធាតុ`)}</span>
+                  <span className="text-xs font-semibold text-[var(--gold-text)]">{t("Interactive Analysis", "ការវិភាគអន្តរកម្ម")}</span>
+                  <span className="rounded-full bg-[var(--gold)]/15 px-2.5 py-0.5 text-xs font-bold text-[var(--gold-text)]">{t(`${matchCount} item(s)`, `${matchCount} ធាតុ`)}</span>
                 </div>
                 <div className="max-h-72 overflow-y-auto p-4 font-khmer text-lg leading-loose text-[var(--ink)]">
                   {pieces.map((piece, i) =>
@@ -309,7 +309,7 @@ export default function KhmerHomophoneCorrector() {
                             ? "mx-0.5 cursor-pointer rounded border-b-2 border-[var(--slate-accent)] bg-[var(--slate-accent)]/15 px-1 font-semibold text-[var(--slate-accent)] hover:bg-[var(--slate-accent)]/25"
                             : piece.token.current !== piece.token.original
                               ? "mx-0.5 cursor-pointer rounded border-b-2 border-[var(--success)] bg-[var(--success)]/10 px-1 font-semibold text-[var(--success)] hover:bg-[var(--success)]/20"
-                              : "mx-0.5 cursor-pointer rounded border-b-2 border-dashed border-[var(--gold)] bg-[var(--gold)]/10 px-1 font-semibold text-[var(--gold)] hover:bg-[var(--gold)]/20"
+                              : "mx-0.5 cursor-pointer rounded border-b-2 border-dashed border-[var(--gold)] bg-[var(--gold)]/10 px-1 font-semibold text-[var(--gold-text)] hover:bg-[var(--gold)]/20"
                         }
                       >
                         {piece.token.current}
@@ -369,7 +369,7 @@ export default function KhmerHomophoneCorrector() {
                       <button key={i} type="button" onClick={() => chooseWord(openToken.id, choice.word)} className={`flex w-full flex-col gap-1 rounded-lg border p-3 text-left transition ${selected ? "border-[var(--gold)] bg-[var(--gold)]/10" : "border-[var(--ground-line)] bg-[var(--ground)] hover:bg-[var(--ground-raised-hi)]"}`}>
                         <span className="flex items-center justify-between font-khmer text-lg font-bold text-[var(--ink)]">
                           {choice.word}
-                          {selected && <Check size={16} className="text-[var(--gold)]" />}
+                          {selected && <Check size={16} className="text-[var(--gold-text)]" />}
                         </span>
                         <span className="text-xs leading-relaxed text-[var(--ink-dim)]">{choice.definition}</span>
                       </button>

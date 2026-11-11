@@ -55,7 +55,7 @@ export default function HabitTracker() {
       <div className="space-y-2">
         {habits.map((h, i) => (
           <div key={i} className="flex items-center gap-3 rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-4 py-3">
-            <button type="button" onClick={() => toggle(i)} className="shrink-0 text-[var(--gold)] transition hover:scale-110">
+            <button type="button" onClick={() => toggle(i)} className="shrink-0 text-[var(--gold-text)] transition hover:scale-110">
               {h.done ? <CheckCircle2 size={22} /> : <Circle size={22} className="text-[var(--ink-faint)]" />}
             </button>
             <span className={`flex-1 text-sm ${h.done ? "text-[var(--ink-faint)] line-through" : "text-[var(--ink)]"}`}>{h.name}</span>

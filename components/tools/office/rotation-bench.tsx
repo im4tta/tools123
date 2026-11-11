@@ -203,7 +203,7 @@ const PageCard = ({
           </span>
           {skew !== 0 && (
             <span
-              className="inline-flex items-center gap-0.5 rounded-full border border-[var(--gold-dim)] px-1.5 font-mono-ui text-[10px] font-semibold text-[var(--gold)]"
+              className="inline-flex items-center gap-0.5 rounded-full border border-[var(--gold-dim)] px-1.5 font-mono-ui text-[10px] font-semibold text-[var(--gold-text)]"
               title={t("Straighten", "តម្រង់")}
             >
               <Wand2 size={9} />{skew > 0 ? "+" : ""}{skew.toFixed(1)}°
@@ -625,13 +625,13 @@ export default function RotationBench() {
             onDrop={onDrop}
             className={`relative overflow-hidden rounded-xl border-2 border-dashed p-10 text-center transition ${dragging ? "border-[var(--gold)] bg-[var(--ground-raised-hi)]" : "border-[var(--ground-line)] bg-[var(--ground-raised)]"}`}
           >
-            {dragging && <ScanLine className="mx-auto mb-3 text-[var(--gold)]" />}
+            {dragging && <ScanLine className="mx-auto mb-3 text-[var(--gold-text)]" />}
             <FileUp size={34} className="mx-auto mb-4 text-[var(--ink-faint)]" />
             <h3 className="font-display text-lg font-semibold text-[var(--ink)]">{t("Drop a scanned PDF here", "ទម្លាក់ឯកសារ PDF ស្កេននៅទីនេះ")}</h3>
             <p className="mt-1 text-sm text-[var(--ink-dim)]">{t("or", "ឬ")}</p>
-            <label className="mt-3 inline-flex cursor-pointer items-center gap-2 rounded-md bg-[var(--gold)] px-4 py-2 text-sm font-medium text-[#0a0c0d] transition hover:bg-[var(--gold-dim)]">
+            <label className="mt-3 inline-flex cursor-pointer items-center gap-2 rounded-md bg-[var(--gold)] px-4 py-2 text-sm font-medium text-[var(--on-gold)] transition hover:bg-[var(--gold-hover)]">
               <FileUp size={15} /> {t("Choose a file", "ជ្រើសឯកសារ")}
-              <input type="file" accept="application/pdf" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) void handleFile(f); e.target.value = ""; }} />
+              <input type="file" accept="application/pdf" className="sr-only" onChange={(e) => { const f = e.target.files?.[0]; if (f) void handleFile(f); e.target.value = ""; }} />
             </label>
             <p className="mt-5 text-xs text-[var(--ink-faint)]">{t("Works with multi-hundred-page files. Nothing is uploaded anywhere.", "ដំណើរការជាមួយឯកសាររាប់រយទំព័រ។ គ្មានអ្វីត្រូវផ្ទុកឡើងកន្លែងណាទេ។")}</p>
           </div>
@@ -723,7 +723,7 @@ export default function RotationBench() {
               <span className="text-[var(--ink-dim)]"><b className="font-mono-ui text-[var(--success)]">{stats.ok}</b> {t("auto-corrected", "កែស្វ័យប្រវត្តិ")}</span>
               <span className="text-[var(--ink-dim)]"><b className="font-mono-ui text-[var(--danger)]">{stats.flagged}</b> {t("need a look", "ត្រូវពិនិត្យ")}</span>
               <span className="text-[var(--ink-dim)]"><b className="font-mono-ui text-[var(--ink)]">{stats.manual}</b> {t("by hand", "ដោយដៃ")}</span>
-              {rasterCount > 0 && <span className="text-[var(--ink-dim)]"><b className="font-mono-ui text-[var(--gold)]">{rasterCount}</b> {t("straightened", "តម្រង់")}</span>}
+              {rasterCount > 0 && <span className="text-[var(--ink-dim)]"><b className="font-mono-ui text-[var(--gold-text)]">{rasterCount}</b> {t("straightened", "តម្រង់")}</span>}
               <Button className="inline-flex items-center gap-2" onClick={exportPdf} disabled={stats.total === 0 || exporting}>
                 {exporting ? <Loader2 size={15} className="animate-spin" /> : <Download size={15} />}
                 {exporting ? t("Building PDF…", "កំពុងបង្កើត PDF…") : t("Export corrected PDF", "នាំចេញ PDF កែតម្រូវ")}
@@ -753,7 +753,7 @@ export default function RotationBench() {
             <span className="mx-1 h-4 w-px bg-[var(--ground-line)]" />
             <span className="text-xs text-[var(--ink-dim)]">{t("Straighten", "តម្រង់")}</span>
             <button onClick={() => nudgeSkew(previewPage.index, -0.2)} className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised-hi)] px-2.5 py-1.5 text-xs text-[var(--ink)] hover:border-[var(--gold-dim)]" aria-label={t("Tilt left", "ផ្អៀងឆ្វេង")}><RotateCcw size={12} /></button>
-            <span className="w-14 text-center font-mono-ui text-xs font-semibold text-[var(--gold)]">{previewPage.deskew > 0 ? "+" : ""}{previewPage.deskew.toFixed(1)}°</span>
+            <span className="w-14 text-center font-mono-ui text-xs font-semibold text-[var(--gold-text)]">{previewPage.deskew > 0 ? "+" : ""}{previewPage.deskew.toFixed(1)}°</span>
             <button onClick={() => nudgeSkew(previewPage.index, 0.2)} className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised-hi)] px-2.5 py-1.5 text-xs text-[var(--ink)] hover:border-[var(--gold-dim)]" aria-label={t("Tilt right", "ផ្អៀងស្តាំ")}><RotateCw size={12} /></button>
             <button onClick={() => nudgeSkew(previewPage.index, 0)} className="rounded-md px-2.5 py-1.5 text-xs text-[var(--ink-faint)] hover:text-[var(--ink)]">{t("Reset", "កំណត់ឡើងវិញ")}</button>
           </div>

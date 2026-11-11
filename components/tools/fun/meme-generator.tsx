@@ -120,7 +120,7 @@ export default function MemeGenerator() {
           <input type="range" min={6} max={20} step={1} value={sizePct} onChange={(e) => setSizePct(Number(e.target.value))} className="h-1 w-full cursor-pointer accent-[var(--gold)]" />
         </div>
 
-        <button type="button" onClick={download} disabled={!img} className="flex w-full items-center justify-center gap-2 rounded-xl bg-[var(--gold)] px-5 py-3 text-sm font-semibold text-[#0a0c0d] transition hover:bg-[var(--gold-dim)] disabled:opacity-40">
+        <button type="button" onClick={download} disabled={!img} className="flex w-full items-center justify-center gap-2 rounded-xl bg-[var(--gold)] px-5 py-3 text-sm font-semibold text-[var(--on-gold)] transition hover:bg-[var(--gold-hover)] disabled:opacity-40">
           <Download size={16} />{t("Download PNG", "ទាញយក PNG")}
         </button>
       </div>

@@ -95,7 +95,7 @@ export default function RielUsd() {
               `${rates.length} currencies available for ${validDate ?? "the latest date"}. ${selectedRate.code} average: ${formatRate(selectedRate.average)} KHR per unit. This request goes directly from your browser to MEF, so its rate limit uses your IP—not the Toolbox123 host.`,
               `មានរូបិយប័ណ្ណ ${rates.length} សម្រាប់ថ្ងៃទី ${validDate ?? "ថ្មីបំផុត"}។ អត្រាមធ្យម ${selectedRate.code}៖ ${formatRate(selectedRate.average)} រៀលក្នុងមួយឯកតា។ សំណើនេះផ្ញើដោយផ្ទាល់ពីកម្មវិធីរុករករបស់អ្នកទៅ កសហវ ដូច្នេះការកំណត់អត្រាប្រើ IP របស់អ្នក មិនមែនម៉ាស៊ីនមេ Toolbox123 ទេ។`
             )}{" "}
-            <a href={MEF_EXCHANGE_SOURCE} target="_blank" rel="noreferrer" className="text-[var(--gold)] underline underline-offset-2">
+            <a href={MEF_EXCHANGE_SOURCE} target="_blank" rel="noreferrer" className="text-[var(--gold-text)] underline underline-offset-2">
               {t("View official source", "មើលប្រភពផ្លូវការ")}
             </a>
           </>
@@ -167,7 +167,7 @@ export default function RielUsd() {
                     <td className="px-3 py-2 text-[var(--ink-dim)]">{currency.name}</td>
                     <td className="px-3 py-2 text-right font-mono-ui">{formatRate(currency.bid)}</td>
                     <td className="px-3 py-2 text-right font-mono-ui">{formatRate(currency.ask)}</td>
-                    <td className="px-3 py-2 text-right font-mono-ui text-[var(--gold)]">{formatRate(currency.average)}</td>
+                    <td className="px-3 py-2 text-right font-mono-ui text-[var(--gold-text)]">{formatRate(currency.average)}</td>
                   </tr>
                 ))}
               </tbody>

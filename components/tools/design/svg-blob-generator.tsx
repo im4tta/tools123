@@ -75,10 +75,10 @@ export default function SvgBlobGenerator() {
         <button type="button" onClick={() => setSeed((s) => s + 1)} className="flex items-center gap-1.5 rounded-md border border-[var(--ground-line)] px-3 py-1.5 text-xs font-medium text-[var(--ink-dim)] transition hover:border-[var(--ink-faint)]">
           <RefreshCw size={13} />{t("Randomize", "ចាក់ឆ្នោត")}
         </button>
-        <button type="button" onClick={() => setGradient((v) => !v)} className={`rounded-md border px-3 py-1.5 text-xs font-medium transition ${gradient ? "border-[var(--gold)] bg-[var(--gold)]/10 text-[var(--gold)]" : "border-[var(--ground-line)] text-[var(--ink-dim)] hover:border-[var(--ink-faint)]"}`}>
+        <button type="button" onClick={() => setGradient((v) => !v)} className={`rounded-md border px-3 py-1.5 text-xs font-medium transition ${gradient ? "border-[var(--gold)] bg-[var(--gold)]/10 text-[var(--gold-text)]" : "border-[var(--ground-line)] text-[var(--ink-dim)] hover:border-[var(--ink-faint)]"}`}>
           {t("Gradient fill", "ពណ៌ជម្រាល")}
         </button>
-        <button type="button" onClick={downloadPng} disabled={busy} className="flex items-center gap-1.5 rounded-md bg-[var(--gold)] px-3 py-1.5 text-xs font-medium text-[#0a0c0d] transition hover:bg-[var(--gold-dim)] disabled:opacity-50">
+        <button type="button" onClick={downloadPng} disabled={busy} className="flex items-center gap-1.5 rounded-md bg-[var(--gold)] px-3 py-1.5 text-xs font-medium text-[var(--on-gold)] transition hover:bg-[var(--gold-hover)] disabled:opacity-50">
           <Download size={13} />{busy ? t("Rendering…", "កំពុងបង្កើត…") : t("Download PNG", "ទាញយក PNG")}
         </button>
         <button type="button" onClick={() => downloadBlob(new Blob([svg], { type: "image/svg+xml" }), "blob.svg")} className="rounded-md border border-[var(--ground-line)] px-3 py-1.5 text-xs font-medium text-[var(--ink-dim)] transition hover:border-[var(--ink-faint)]">

@@ -83,10 +83,10 @@ export default function TypingTest() {
         {!finished && (
           <div className="flex gap-4 text-sm text-[var(--ink-dim)]">
             <span>
-              {t("Accuracy", "ភាពត្រឹមត្រូវ")}: <b className="text-[var(--gold)]">{accuracy.acc.toFixed(0)}%</b>
+              {t("Accuracy", "ភាពត្រឹមត្រូវ")}: <b className="text-[var(--gold-text)]">{accuracy.acc.toFixed(0)}%</b>
             </span>
             <span>
-              {t("Progress", "វឌ្ឍនភាព")}: <b className="text-[var(--gold)]">{accuracy.correct}/{sample.length}</b>
+              {t("Progress", "វឌ្ឍនភាព")}: <b className="text-[var(--gold-text)]">{accuracy.correct}/{sample.length}</b>
             </span>
           </div>
         )}
@@ -108,14 +108,14 @@ export default function TypingTest() {
             setInput(v);
             if (v.length >= sample.length) finish(v);
           }}
-          className="h-24 w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3 text-lg text-[var(--ink)] outline-none focus:border-[var(--gold-dim)]"
+          className="h-24 w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3 text-lg text-[var(--ink)] outline-none focus:border-[var(--focus)]"
         />
       ) : (
         <div className="rounded-md border border-[var(--gold)]/40 bg-[var(--gold)]/10 p-6 text-center">
           <div className="text-xs font-medium uppercase tracking-wide text-[var(--ink-dim)]">{t("Final result", "លទ្ធផលចុងក្រោយ")}</div>
           <div className="font-display text-4xl font-semibold text-[var(--ink)]">{results?.wpm ?? 0} <span className="text-lg text-[var(--ink-dim)]">WPM</span></div>
           <div className="mt-1 text-sm text-[var(--ink-dim)]">
-            {t("Accuracy", "ភាពត្រឹមត្រូវ")}: <b className="text-[var(--gold)]">{results?.acc ?? 0}%</b>
+            {t("Accuracy", "ភាពត្រឹមត្រូវ")}: <b className="text-[var(--gold-text)]">{results?.acc ?? 0}%</b>
           </div>
           <button
             type="button"

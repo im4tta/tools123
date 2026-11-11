@@ -226,7 +226,7 @@ export default function CambodiaGeographyQuiz() {
         </div>
       ) : done || !q ? (
         <div className="mx-auto max-w-md rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)] p-8 text-center">
-          <div className="text-4xl font-semibold text-[var(--gold)]">{score}/{questions.length}</div>
+          <div className="text-4xl font-semibold text-[var(--gold-text)]">{score}/{questions.length}</div>
           <div className="mt-1 text-sm text-[var(--ink-dim)]">
             {t("questions correct", "ចម្លើយត្រឹមត្រូវ")} ({questions.length > 0 ? Math.round((score / questions.length) * 100) : 0}%)
           </div>
@@ -236,7 +236,7 @@ export default function CambodiaGeographyQuiz() {
         <div className="mx-auto max-w-xl space-y-4">
           <div className="flex items-center justify-between text-sm">
             <span className="font-mono-ui text-[var(--ink)]">{current + 1}/{questions.length}</span>
-            <span className="font-medium text-[var(--gold)]">{t("Score", "ពិន្ទុ")}: {score}</span>
+            <span className="font-medium text-[var(--gold-text)]">{t("Score", "ពិន្ទុ")}: {score}</span>
           </div>
           <div className="h-2 w-full overflow-hidden rounded-full bg-[var(--ground-line)]">
             <div className="h-full rounded-full bg-[var(--gold)] transition-all" style={{ width: `${pct}%` }} />

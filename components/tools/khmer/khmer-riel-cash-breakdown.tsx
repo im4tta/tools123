@@ -68,7 +68,7 @@ export default function KhmerRielCashBreakdown() {
                 {result.rows.map((r) => (
                   <tr key={r.denom} className="border-b border-[var(--ground-line)]">
                     <td className="p-2.5">{riel(r.denom)}</td>
-                    <td className="p-2.5 text-right font-semibold text-[var(--gold)]">× {r.count}</td>
+                    <td className="p-2.5 text-right font-semibold text-[var(--gold-text)]">× {r.count}</td>
                     <td className="p-2.5 text-right">{riel(r.subtotal)}</td>
                   </tr>
                 ))}

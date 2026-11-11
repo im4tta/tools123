@@ -71,7 +71,7 @@ export default function KhmerAnagramFinder() {
             type="button"
             onClick={() => setMode(id)}
             className={`rounded-md border px-3 py-1.5 text-xs font-medium transition ${
-              mode === id ? "border-[var(--gold)] bg-[var(--gold)]/10 text-[var(--gold)]" : "border-[var(--ground-line)] text-[var(--ink-dim)] hover:border-[var(--ink-faint)]"
+              mode === id ? "border-[var(--gold)] bg-[var(--gold)]/10 text-[var(--gold-text)]" : "border-[var(--ground-line)] text-[var(--ink-dim)] hover:border-[var(--ink-faint)]"
             }`}
           >
             {t(en, km)}
@@ -83,7 +83,7 @@ export default function KhmerAnagramFinder() {
         <>
           <div className="flex items-center justify-between gap-3">
             <span className="flex items-center gap-2 text-xs text-[var(--ink-faint)]">
-              <Shuffle size={13} className="text-[var(--gold)]" />
+              <Shuffle size={13} className="text-[var(--gold-text)]" />
               {t(`${results.length}${results.length === 300 ? "+" : ""} word${results.length === 1 ? "" : "s"} found`, `រកឃើញ ${results.length}${results.length === 300 ? "+" : ""} ពាក្យ`)}
             </span>
             {results.length > 0 && <CopyButton text={results.join("\n")} compact />}

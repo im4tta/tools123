@@ -167,7 +167,7 @@ export default function CodeToImage() {
             "PNG export is powered by html2canvas (v1.4), which renders DOM content to a canvas, licensed under the MIT License.",
             "ការទាញយក PNG ប្រើ html2canvas (v1.4) ដែលបំប្លែង DOM ទៅជា canvas ក្រោមអាជ្ញាបណ្ណ MIT។"
           )}{" "}
-          <a href="https://html2canvas.hertzen.com" target="_blank" rel="noreferrer" className="text-[var(--gold)] underline underline-offset-2">
+          <a href="https://html2canvas.hertzen.com" target="_blank" rel="noreferrer" className="text-[var(--gold-text)] underline underline-offset-2">
             html2canvas.hertzen.com
           </a>
         </p>

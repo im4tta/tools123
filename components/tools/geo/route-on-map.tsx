@@ -146,7 +146,7 @@ export default function RouteOnMap() {
             <div className="mt-1 overflow-hidden rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] text-sm">
               {originHits.map((row, i) => (
                 <button key={i} type="button" onClick={() => { setOriginQ(row[0]); setShowSearch(null); }} className="flex w-full items-center gap-2 px-3 py-2 text-left hover:bg-[var(--ground-line)]">
-                  <span className="font-mono-ui text-[var(--gold)]">{row[0]}</span>
+                  <span className="font-mono-ui text-[var(--gold-text)]">{row[0]}</span>
                   <span className="truncate text-[var(--ink)]">{row[2]}</span>
                   <span className="ml-auto text-xs text-[var(--ink-faint)]">{row[3]}, {row[4]}</span>
                 </button>
@@ -160,7 +160,7 @@ export default function RouteOnMap() {
             <div className="mt-1 overflow-hidden rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] text-sm">
               {destHits.map((row, i) => (
                 <button key={i} type="button" onClick={() => { setDestQ(row[0]); setShowSearch(null); }} className="flex w-full items-center gap-2 px-3 py-2 text-left hover:bg-[var(--ground-line)]">
-                  <span className="font-mono-ui text-[var(--gold)]">{row[0]}</span>
+                  <span className="font-mono-ui text-[var(--gold-text)]">{row[0]}</span>
                   <span className="truncate text-[var(--ink)]">{row[2]}</span>
                   <span className="ml-auto text-xs text-[var(--ink-faint)]">{row[3]}, {row[4]}</span>
                 </button>

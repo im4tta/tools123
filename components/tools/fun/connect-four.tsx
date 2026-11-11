@@ -171,7 +171,7 @@ export default function ConnectFour() {
           <option value="pvp">{t("Two players", "អ្នកលេងពីរនាក់")}</option>
         </Select>
         <div className="text-sm text-[var(--ink-dim)]">
-          {t("Moves", "ចលនា")}: <b className="text-[var(--gold)]">{moves}</b>
+          {t("Moves", "ចលនា")}: <b className="text-[var(--gold-text)]">{moves}</b>
         </div>
         <Button type="button" onClick={reset}>
           {t("Reset", "កំណត់ឡើងវិញ")}
@@ -181,7 +181,7 @@ export default function ConnectFour() {
       <div
         className={`rounded-md border p-3 text-center text-sm ${
           status === "won"
-            ? "border-[var(--gold)]/40 bg-[var(--gold)]/10 text-[var(--gold)]"
+            ? "border-[var(--gold)]/40 bg-[var(--gold)]/10 text-[var(--gold-text)]"
             : "border-[var(--ground-line)] bg-[var(--ground-raised)] text-[var(--ink-dim)]"
         }`}
       >

@@ -64,7 +64,7 @@ export default function KhmerSentenceComplexity() {
           </div>
 
           <div className="space-y-2">
-            <div className="flex items-center gap-2 text-xs font-medium uppercase tracking-wide text-[var(--ink-dim)]"><ListChecks size={14} className="text-[var(--gold)]" />{t("Sentence by sentence", "ប្រយោគម្តងមួយៗ")}</div>
+            <div className="flex items-center gap-2 text-xs font-medium uppercase tracking-wide text-[var(--ink-dim)]"><ListChecks size={14} className="text-[var(--gold-text)]" />{t("Sentence by sentence", "ប្រយោគម្តងមួយៗ")}</div>
             {rows.map((r, i) => (
               <div key={i} className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3" style={{ borderLeftColor: r.band.color, borderLeftWidth: 3 }}>
                 <div className="flex items-start justify-between gap-3">

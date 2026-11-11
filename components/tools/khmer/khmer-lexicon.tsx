@@ -51,7 +51,7 @@ export default function KhmerLexicon() {
           value={query}
           onChange={(e) => { setQuery(e.target.value); setDetail(null); }}
           placeholder={t("ស្វែងរកពាក្យខ្មែរ…", "Search Khmer word…")}
-          className="w-full rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)] py-3 pl-10 pr-10 text-sm text-[var(--ink)] outline-none placeholder:text-[var(--ink-faint)] focus:border-[var(--gold-dim)]"
+          className="w-full rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)] py-3 pl-10 pr-10 text-sm text-[var(--ink)] outline-none placeholder:text-[var(--ink-faint)] focus:border-[var(--focus)]"
         />
         {query && (
           <button onClick={() => { setQuery(""); setDetail(null); }} className="absolute right-3 top-1/2 -translate-y-1/2 rounded-md p-1 text-[var(--ink-faint)] hover:text-[var(--ink)]"><X size={15} /></button>
@@ -61,7 +61,7 @@ export default function KhmerLexicon() {
       {/* Empty state */}
       {!query.trim() && (
         <div className="rounded-2xl border border-dashed border-[var(--ground-line)] p-10 text-center">
-          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-[var(--gold)]/10 text-[var(--gold)]"><BookOpen size={28} /></div>
+          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-[var(--gold)]/10 text-[var(--gold-text)]"><BookOpen size={28} /></div>
           <h3 className="mb-1 font-semibold text-[var(--ink)]">{t("សទិសសូរ", "Khmer Homophones")}</h3>
           <p className="text-sm text-[var(--ink-dim)]">{t(`វាយពាក្យខ្មែរដើម្បីរកពាក្យសទិសសូរ និយមន័យ និងឧទាហរណ៍។ ${KEYS.length}+ ពាក្យក្នុងប្រព័ន្ធ។`, `Type a Khmer word to find homophones, definitions, and examples. ${KEYS.length}+ words indexed.`)}</p>
           </div>
@@ -81,7 +81,7 @@ export default function KhmerLexicon() {
               <span className="font-khmer text-lg font-bold text-[var(--ink)]">{entry.word}</span>
               {entry.pronunciation && <span className="font-mono-ui text-[10px] text-[var(--ink-faint)]">({entry.pronunciation})</span>}
               <span className="ml-auto flex items-center gap-1 text-[11px] text-[var(--ink-faint)]">
-                {entry.homophones.length > 0 && <span className="rounded bg-[var(--gold)]/10 px-1.5 py-0.5 text-[10px] font-bold text-[var(--gold)]">{entry.homophones.length} homophones</span>}
+                {entry.homophones.length > 0 && <span className="rounded bg-[var(--gold)]/10 px-1.5 py-0.5 text-[10px] font-bold text-[var(--gold-text)]">{entry.homophones.length} homophones</span>}
                 <ChevronRight size={14} />
               </span>
             </button>
@@ -106,7 +106,7 @@ export default function KhmerLexicon() {
           {/* Word header */}
           <div className="rounded-2xl border border-[var(--gold)]/30 bg-[var(--ground-raised)] p-6">
             <div className="flex items-center gap-3">
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[var(--gold)]/15 text-[var(--gold)] font-khmer text-xl font-bold">{detail.word.charAt(0)}</div>
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[var(--gold)]/15 text-[var(--gold-text)] font-khmer text-xl font-bold">{detail.word.charAt(0)}</div>
               <div>
                 <h2 className="font-khmer text-3xl font-bold text-[var(--ink)]">{detail.word}</h2>
                 <p className="mt-0.5 font-mono-ui text-xs text-[var(--ink-faint)]">{detail.pronunciation || ""}</p>
@@ -119,9 +119,9 @@ export default function KhmerLexicon() {
           {detail.homophones.length > 0 && (
             <div className="rounded-2xl border border-[var(--gold)]/20 bg-[var(--gold)]/5 p-5">
               <div className="mb-4 flex items-center gap-2">
-                <Volume2 size={16} className="text-[var(--gold)]" />
-                <h3 className="font-khmer text-sm font-bold text-[var(--gold)]">{t("សទិសសូរ", "Homophones")}</h3>
-                <span className="rounded-full bg-[var(--gold)]/15 px-2 py-0.5 font-mono-ui text-[10px] font-bold text-[var(--gold)]">{detail.homophones.length}</span>
+                <Volume2 size={16} className="text-[var(--gold-text)]" />
+                <h3 className="font-khmer text-sm font-bold text-[var(--gold-text)]">{t("សទិសសូរ", "Homophones")}</h3>
+                <span className="rounded-full bg-[var(--gold)]/15 px-2 py-0.5 font-mono-ui text-[10px] font-bold text-[var(--gold-text)]">{detail.homophones.length}</span>
               </div>
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 {detail.homophones.map((h, i) => (
@@ -133,7 +133,7 @@ export default function KhmerLexicon() {
                       h.word === detail.word ? "border-[var(--gold)]/40 bg-[var(--gold)]/10" : "border-[var(--ground-line)] bg-[var(--ground)] hover:border-[var(--gold-dim)]"
                     }`}
                   >
-                    <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg font-khmer text-base font-bold ${h.word === detail.word ? "bg-[var(--gold)] text-[#0a0c0d]" : "bg-[var(--ground-raised)] text-[var(--ink)]"}`}>{h.word.charAt(0)}</span>
+                    <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg font-khmer text-base font-bold ${h.word === detail.word ? "bg-[var(--gold)] text-[var(--on-gold)]" : "bg-[var(--ground-raised)] text-[var(--ink)]"}`}>{h.word.charAt(0)}</span>
                     <div className="min-w-0">
                       <div className="flex items-center gap-1.5">
                         <span className="font-khmer text-sm font-bold text-[var(--ink)]">{h.word}</span>

@@ -60,7 +60,7 @@ export default function KeyboardEventViewer() {
   }, []);
 
   const badge = (label: string, active: boolean) => (
-    <span className={`rounded border px-1.5 py-0.5 text-xs ${active ? "border-[var(--gold)] bg-[var(--gold)]/15 text-[var(--gold)]" : "border-[var(--ground-line)] text-[var(--ink-faint)]"}`}>
+    <span className={`rounded border px-1.5 py-0.5 text-xs ${active ? "border-[var(--gold)] bg-[var(--gold)]/15 text-[var(--gold-text)]" : "border-[var(--ground-line)] text-[var(--ink-faint)]"}`}>
       {label}
     </span>
   );

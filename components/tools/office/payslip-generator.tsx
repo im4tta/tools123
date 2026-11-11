@@ -149,7 +149,7 @@ function LineEditor({ items, ops, title }: { items: Line[]; ops: LineOps; title:
             <button onClick={() => ops.remove(i)} className="rounded-md border border-[var(--ground-line)] px-2 text-[var(--ink-faint)] hover:text-[var(--danger)]"><Trash2 size={14} /></button>
           </div>
         ))}
-        <button onClick={ops.add} className="inline-flex items-center gap-1 text-xs text-[var(--gold)] hover:underline"><Plus size={13} />{t("Add row", "បន្ថែមជួរ")}</button>
+        <button onClick={ops.add} className="inline-flex items-center gap-1 text-xs text-[var(--gold-text)] hover:underline"><Plus size={13} />{t("Add row", "បន្ថែមជួរ")}</button>
       </div>
     </div>
   );
@@ -244,7 +244,7 @@ export default function PayslipGenerator() {
           <div className="flex flex-wrap gap-x-6 gap-y-1 rounded-lg border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3 text-sm">
             <span className="text-[var(--ink-dim)]">{t("Gross", "សរុប")}: <b className="font-mono-ui text-[var(--ink)]">{money(totals.gross, currency)}</b></span>
             <span className="text-[var(--ink-dim)]">{t("Deductions", "ការកាត់")}: <b className="font-mono-ui text-[var(--ink)]">{money(totals.ded, currency)}</b></span>
-            <span className="text-[var(--ink-dim)]">{t("Net pay", "ប្រាក់សុទ្ធ")}: <b className="font-mono-ui text-[var(--gold)]">{money(totals.net, currency)}</b></span>
+            <span className="text-[var(--ink-dim)]">{t("Net pay", "ប្រាក់សុទ្ធ")}: <b className="font-mono-ui text-[var(--gold-text)]">{money(totals.net, currency)}</b></span>
           </div>
         </div>
 
@@ -261,7 +261,7 @@ export default function PayslipGenerator() {
             type="button"
             onClick={() => { if (!pdfUrl) return; const a = document.createElement("a"); a.href = pdfUrl; a.download = `payslip-${empName.trim().replace(/\s+/g, "-").toLowerCase() || "employee"}.pdf`; a.click(); recordExport(); }}
             disabled={!pdfUrl}
-            className="flex w-full items-center justify-center gap-2 rounded-xl bg-[var(--gold)] px-5 py-3 text-sm font-semibold text-[#0a0c0d] transition hover:bg-[var(--gold-dim)] disabled:opacity-40"
+            className="flex w-full items-center justify-center gap-2 rounded-xl bg-[var(--gold)] px-5 py-3 text-sm font-semibold text-[var(--on-gold)] transition hover:bg-[var(--gold-hover)] disabled:opacity-40"
           >
             <Download size={15} />{t("Download payslip PDF", "ទាញយកប័ណ្ណបើកប្រាក់ខែ")}
           </button>

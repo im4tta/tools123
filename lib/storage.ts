@@ -115,6 +115,15 @@ export const storage = {
       if (key.startsWith(PREFIX)) window.localStorage.removeItem(key);
     }
   },
+  /** Everything the app saved in this browser, as { key: rawStoredString }, for a backup download. */
+  exportAll(): Record<string, string> {
+    if (typeof window === "undefined") return {};
+    const out: Record<string, string> = {};
+    for (const key of Object.keys(window.localStorage).sort()) {
+      if (key.startsWith(PREFIX)) out[key] = window.localStorage.getItem(key) ?? "";
+    }
+    return out;
+  },
 };
 
 export const STORAGE_KEYS = {

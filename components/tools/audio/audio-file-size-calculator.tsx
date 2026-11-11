@@ -117,7 +117,7 @@ export default function AudioFileSizeCalculator() {
               className={`flex items-center justify-between gap-3 px-3 py-2 text-sm ${i > 0 ? "border-t border-[var(--ground-line)]/60" : ""}`}
             >
               <span className="text-[var(--ink-dim)]">{row.label}</span>
-              <span className="font-mono-ui font-medium text-[var(--gold)]">{row.value}</span>
+              <span className="font-mono-ui font-medium text-[var(--gold-text)]">{row.value}</span>
             </div>
           ))}
         </div>

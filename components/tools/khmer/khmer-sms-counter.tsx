@@ -86,7 +86,7 @@ export default function KhmerSmsCounter() {
         {cards.map((c) => (
           <div key={c.label} className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3">
             <div className="text-[10px] font-medium uppercase tracking-wide text-[var(--ink-faint)]">{t(c.label, c.km)}</div>
-            <div className={`mt-1 font-mono-ui text-lg font-semibold ${c.accent ? "text-[var(--gold)]" : "text-[var(--ink)]"}`}>{c.value}</div>
+            <div className={`mt-1 font-mono-ui text-lg font-semibold ${c.accent ? "text-[var(--gold-text)]" : "text-[var(--ink)]"}`}>{c.value}</div>
           </div>
         ))}
       </div>

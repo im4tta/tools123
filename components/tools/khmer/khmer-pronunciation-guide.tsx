@@ -120,7 +120,7 @@ export default function KhmerPronunciationGuide() {
                 aria-pressed={selected}
                 className={`rounded-md border p-3 text-center font-khmer text-2xl transition ${
                   selected
-                    ? "border-[var(--gold)] bg-[var(--gold)]/15 text-[var(--gold)]"
+                    ? "border-[var(--gold)] bg-[var(--gold)]/15 text-[var(--gold-text)]"
                     : c.series === 1
                       ? "border-[var(--slate-accent-dim)] bg-[var(--slate-accent-dim)]/15 text-[var(--slate-accent)]"
                       : "border-[var(--teal-dim)] bg-[var(--teal-dim)]/15 text-[var(--teal)]"
@@ -148,7 +148,7 @@ export default function KhmerPronunciationGuide() {
                 aria-pressed={selected}
                 className={`rounded-md border p-3 text-center font-khmer text-2xl transition ${
                   selected
-                    ? "border-[var(--gold)] bg-[var(--gold)]/15 text-[var(--gold)]"
+                    ? "border-[var(--gold)] bg-[var(--gold)]/15 text-[var(--gold-text)]"
                     : "border-[var(--ground-line)] bg-[var(--ground-raised)] text-[var(--ink)]"
                 }`}
               >
@@ -161,7 +161,7 @@ export default function KhmerPronunciationGuide() {
 
       <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4">
         <div className="flex flex-wrap items-start justify-between gap-3">
-          <span className="font-khmer text-5xl leading-none text-[var(--gold)]">{letter}</span>
+          <span className="font-khmer text-5xl leading-none text-[var(--gold-text)]">{letter}</span>
           <div className="min-w-0 flex-1">
             <div className="font-mono-ui text-lg text-[var(--ink)]">{roman}</div>
             <div className="mt-1 text-sm text-[var(--ink-dim)]">

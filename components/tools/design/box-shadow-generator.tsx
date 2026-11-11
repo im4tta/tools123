@@ -102,7 +102,7 @@ export default function BoxShadowGenerator() {
       <div className="relative overflow-hidden rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-6 py-16">
         <div className="pointer-events-none absolute inset-0 opacity-40 [background-image:linear-gradient(var(--ground-line)_1px,transparent_1px),linear-gradient(90deg,var(--ground-line)_1px,transparent_1px)] [background-size:24px_24px]" />
         <div
-          className="relative mx-auto flex h-28 w-44 items-center justify-center rounded-md border border-[var(--gold-dim)] bg-[var(--gold)]/15 text-sm font-medium text-[var(--gold)]"
+          className="relative mx-auto flex h-28 w-44 items-center justify-center rounded-md border border-[var(--gold-dim)] bg-[var(--gold)]/15 text-sm font-medium text-[var(--gold-text)]"
           style={{ boxShadow: shadow }}
         >
           {t("Sample", "គំរូ")}

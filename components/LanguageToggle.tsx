@@ -30,7 +30,7 @@ export function LanguageToggle() {
               type="button"
               role="menuitem"
               onClick={() => { setMode("bi"); setOpen(false); }}
-              className={`flex w-full px-3 py-1.5 text-left text-xs hover:bg-[var(--ground-line)] ${mode === "bi" ? "text-[var(--gold)]" : "text-[var(--ink)]"}`}
+              className={`flex w-full px-3 py-1.5 text-left text-xs hover:bg-[var(--ground-line)] ${mode === "bi" ? "text-[var(--gold-text)]" : "text-[var(--ink)]"}`}
             >
               Bilingual
             </button>
@@ -40,7 +40,7 @@ export function LanguageToggle() {
                 type="button"
                 role="menuitem"
                 onClick={() => { setMode(lang.id as LanguageMode); setOpen(false); }}
-                className={`flex w-full px-3 py-1.5 text-left text-xs hover:bg-[var(--ground-line)] ${mode === lang.id ? "text-[var(--gold)]" : "text-[var(--ink)]"}`}
+                className={`flex w-full px-3 py-1.5 text-left text-xs hover:bg-[var(--ground-line)] ${mode === lang.id ? "text-[var(--gold-text)]" : "text-[var(--ink)]"}`}
               >
                 {lang.native}
               </button>

@@ -66,7 +66,7 @@ export default function KhmerSummarizer() {
           <div className="rounded-md border border-[var(--gold-dim)] bg-[var(--ground-raised)] p-4">
             <div className="mb-2 flex items-center justify-between gap-3">
               <span className="flex items-center gap-2 text-xs font-medium uppercase tracking-wide text-[var(--ink-dim)]">
-                <ScrollText size={14} className="text-[var(--gold)]" />
+                <ScrollText size={14} className="text-[var(--gold-text)]" />
                 {t(`Summary — ${result.kept} of ${result.total} sentences`, `សង្ខេប — ${result.kept} ក្នុងចំណោម ${result.total} ប្រយោគ`)}
               </span>
               <CopyButton text={result.summary} compact />

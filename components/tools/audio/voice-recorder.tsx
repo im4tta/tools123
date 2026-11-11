@@ -91,7 +91,7 @@ export default function VoiceRecorder() {
         <>
           <audio controls src={audioUrl} className="w-full" />
           <div className="flex gap-2">
-            <a href={audioUrl} download="recording.webm" className="flex-1 rounded-md bg-[var(--gold)] px-4 py-2 text-center text-sm font-medium text-[#0a0c0d] transition hover:bg-[var(--gold-dim)]">
+            <a href={audioUrl} download="recording.webm" className="flex-1 rounded-md bg-[var(--gold)] px-4 py-2 text-center text-sm font-medium text-[var(--on-gold)] transition hover:bg-[var(--gold-hover)]">
               <Play size={14} className="mr-1 inline" />
               {t("Download", "ទាញយក")}
             </a>

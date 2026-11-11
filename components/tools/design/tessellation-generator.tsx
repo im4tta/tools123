@@ -77,7 +77,7 @@ export default function TessellationGenerator() {
 
       <div className="flex flex-wrap items-center gap-2">
         {SHAPES.map((s) => (
-          <button key={s.id} type="button" onClick={() => setShape(s.id)} className={`rounded-md border px-3 py-1.5 text-xs font-medium transition ${shape === s.id ? "border-[var(--gold)] bg-[var(--gold)]/10 text-[var(--gold)]" : "border-[var(--ground-line)] text-[var(--ink-dim)] hover:border-[var(--ink-faint)]"}`}>
+          <button key={s.id} type="button" onClick={() => setShape(s.id)} className={`rounded-md border px-3 py-1.5 text-xs font-medium transition ${shape === s.id ? "border-[var(--gold)] bg-[var(--gold)]/10 text-[var(--gold-text)]" : "border-[var(--ground-line)] text-[var(--ink-dim)] hover:border-[var(--ink-faint)]"}`}>
             {t(s.en, s.km)}
           </button>
         ))}
@@ -90,7 +90,7 @@ export default function TessellationGenerator() {
         <Field label="Shape colour" labelKm="ពណ៌រូបរាង"><input type="color" value={fg} onChange={(e) => setFg(e.target.value)} className="h-9 w-full rounded-md border border-[var(--ground-line)] bg-transparent" /></Field>
         <Field label="Background" labelKm="ផ្ទៃខាងក្រោយ"><input type="color" value={bg} onChange={(e) => setBg(e.target.value)} className="h-9 w-full rounded-md border border-[var(--ground-line)] bg-transparent" /></Field>
         <div className="flex items-end gap-2">
-          <button type="button" onClick={downloadPng} disabled={busy} className="flex items-center gap-1.5 rounded-md bg-[var(--gold)] px-3 py-2 text-xs font-medium text-[#0a0c0d] transition hover:bg-[var(--gold-dim)] disabled:opacity-50">
+          <button type="button" onClick={downloadPng} disabled={busy} className="flex items-center gap-1.5 rounded-md bg-[var(--gold)] px-3 py-2 text-xs font-medium text-[var(--on-gold)] transition hover:bg-[var(--gold-hover)] disabled:opacity-50">
             <Download size={13} />{busy ? t("…", "…") : "PNG"}
           </button>
           <button type="button" onClick={() => downloadBlob(new Blob([svg], { type: "image/svg+xml" }), `tessellation-${shape}.svg`)} className="rounded-md border border-[var(--ground-line)] px-3 py-2 text-xs font-medium text-[var(--ink-dim)] transition hover:border-[var(--ink-faint)]">SVG</button>

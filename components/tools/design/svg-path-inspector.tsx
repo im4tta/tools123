@@ -236,7 +236,7 @@ export default function SvgPathInspector() {
                 {segments.map((s, i) => (
                   <tr key={i} className="border-b border-[var(--ground-line)] last:border-b-0">
                     <td className="py-1.5 pl-3 pr-2 text-[var(--ink-dim)]">{i + 1}</td>
-                    <td className="px-2 py-1.5 font-mono-ui text-[var(--gold)]">{s.cmd}</td>
+                    <td className="px-2 py-1.5 font-mono-ui text-[var(--gold-text)]">{s.cmd}</td>
                     <td className="px-2 py-1.5 font-mono-ui">{s.params.length}</td>
                     <td className="break-all px-2 py-1.5 font-mono-ui text-[var(--ink-dim)]">{s.params.join(", ") || "–"}</td>
                     <td className="py-1.5 pl-2 pr-3 text-right font-mono-ui text-[var(--ink-dim)]">{stats.counts[s.cmd.toUpperCase()]}</td>

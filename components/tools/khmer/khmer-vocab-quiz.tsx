@@ -103,7 +103,7 @@ export default function KhmerVocabQuiz() {
                   onClick={() => choose(o)}
                   className={`flex items-start gap-2 rounded-md border p-3 text-left font-khmer transition ${state === "right" ? "border-[var(--gold)] bg-[var(--gold)]/15 text-[var(--ink)]" : state === "wrong" ? "border-[var(--danger)]/60 bg-[var(--danger)]/10 text-[var(--ink)]" : "border-[var(--ground-line)] text-[var(--ink)] hover:border-[var(--ink-faint)]"}`}
                 >
-                  {state === "right" && <Check size={16} className="mt-1 shrink-0 text-[var(--gold)]" />}
+                  {state === "right" && <Check size={16} className="mt-1 shrink-0 text-[var(--gold-text)]" />}
                   {state === "wrong" && <X size={16} className="mt-1 shrink-0 text-[var(--danger)]" />}
                   <span className={direction === "meaning-to-word" ? "text-xl" : "text-sm leading-relaxed"}>{direction === "word-to-meaning" ? o.definition : o.word}</span>
                 </button>

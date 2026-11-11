@@ -50,14 +50,14 @@ function applyAccent(accent: Accent) {
 }
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>("dark");
+  const [theme, setThemeState] = useState<Theme>("light");
   const [accent, setAccentState] = useState<Accent>("classic");
   const [homeDesign, setHomeDesignState] = useState<HomeDesign>("aurora");
 
   useEffect(() => {
     const stored = window.localStorage.getItem(THEME_KEY) as Theme | null;
-    const preferred: Theme =
-      stored ?? (window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark");
+    // First visit: light (the Sandstone default); the toggle remembers any later choice.
+    const preferred: Theme = stored ?? "light";
     // Intentional one-time hydration read after mount (SSR-safe).
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setThemeState(preferred);
@@ -129,7 +129,7 @@ export const themeInitScript = `
 (function() {
   try {
     var stored = localStorage.getItem('${THEME_KEY}');
-    var theme = stored || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+    var theme = stored || 'light';
     document.documentElement.setAttribute('data-theme', theme);
     document.documentElement.style.colorScheme = theme;
     var accent = localStorage.getItem('${ACCENT_KEY}');

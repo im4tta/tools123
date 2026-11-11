@@ -98,7 +98,7 @@ export default function TextToSpeech() {
 
         <div className="flex gap-2">
           {!speaking ? (
-            <button type="button" onClick={speak} disabled={!supported || !text.trim()} className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-[var(--gold)] px-5 py-3 text-sm font-semibold text-[#0a0c0d] transition hover:bg-[var(--gold-dim)] disabled:opacity-40">
+            <button type="button" onClick={speak} disabled={!supported || !text.trim()} className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-[var(--gold)] px-5 py-3 text-sm font-semibold text-[var(--on-gold)] transition hover:bg-[var(--gold-hover)] disabled:opacity-40">
               <Volume2 size={16} />{t("Speak", "អានជាសំឡេង")}
             </button>
           ) : (
@@ -109,7 +109,7 @@ export default function TextToSpeech() {
               <button type="button" onClick={() => window.speechSynthesis.resume()} className="flex flex-1 items-center justify-center gap-2 rounded-xl border border-[var(--ground-line)] px-5 py-3 text-sm font-semibold text-[var(--ink-dim)] hover:text-[var(--ink)]">
                 <Play size={16} />{t("Resume", "បន្ត")}
               </button>
-              <button type="button" onClick={stop} className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-[var(--danger)] px-5 py-3 text-sm font-semibold text-white transition hover:opacity-90">
+              <button type="button" onClick={stop} className="flex flex-1 items-center justify-center gap-2 rounded-xl bg-[var(--danger)] px-5 py-3 text-sm font-semibold text-[var(--on-danger)] transition hover:opacity-90">
                 <Square size={16} />{t("Stop", "បញ្ឈប់")}
               </button>
             </>

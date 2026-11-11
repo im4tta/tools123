@@ -122,7 +122,7 @@ export default function PdfMetadataCleaner() {
           <label className="flex cursor-pointer flex-col items-center gap-3 rounded-xl border-2 border-dashed border-[var(--ground-line)] bg-[var(--ground-raised)] p-10 text-center transition hover:border-[var(--gold-dim)]">
             <FileUp size={30} className="text-[var(--ink-faint)]" />
             <span className="text-sm font-medium text-[var(--ink)]">{t("Choose a PDF", "ជ្រើសឯកសារ PDF")}</span>
-            <input type="file" accept="application/pdf" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) void load(f); e.target.value = ""; }} />
+            <input type="file" accept="application/pdf" className="sr-only" onChange={(e) => { const f = e.target.files?.[0]; if (f) void load(f); e.target.value = ""; }} />
           </label>
           {status && <p className="mt-3 text-center text-sm text-[var(--danger)]">{status}</p>}
         </div>
@@ -137,7 +137,7 @@ export default function PdfMetadataCleaner() {
             {fields.map((f) => (
               <Field key={f.key} label={t(f.en, f.km)}>
                 {f.date ? (
-                  <input type="datetime-local" value={meta[f.key]} onChange={(e) => set(f.key, e.target.value)} className="w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 text-sm text-[var(--ink)] outline-none focus:border-[var(--gold-dim)]" />
+                  <input type="datetime-local" value={meta[f.key]} onChange={(e) => set(f.key, e.target.value)} className="w-full rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 text-sm text-[var(--ink)] outline-none focus:border-[var(--focus)]" />
                 ) : (
                   <TextInput value={meta[f.key]} onChange={(e) => set(f.key, e.target.value)} />
                 )}

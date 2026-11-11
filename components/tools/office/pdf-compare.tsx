@@ -125,7 +125,7 @@ function Slot({
       <input
         type="file"
         accept="application/pdf"
-        className="hidden"
+        className="sr-only"
         onChange={(e) => {
           const f = e.target.files?.[0];
           if (f) onPick(f);

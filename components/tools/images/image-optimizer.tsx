@@ -77,7 +77,7 @@ export default function ImageOptimizerTool() {
         <input
           type="file"
           accept="image/*"
-          className="hidden"
+          className="sr-only"
           onChange={(e) => {
             const f = e.target.files?.[0];
             if (f) pickFile(f);

@@ -111,7 +111,7 @@ export default function KhmerClozeGenerator() {
                 <span key={i} className="mx-0.5 inline-flex items-baseline gap-1">
                   <sup className="text-xs text-[var(--ink-faint)]">{toKh(n)}</sup>
                   {showAnswers
-                    ? <span className="border-b border-[var(--gold)] px-1 font-semibold text-[var(--gold)]">{tok.text}</span>
+                    ? <span className="border-b border-[var(--gold)] px-1 font-semibold text-[var(--gold-text)]">{tok.text}</span>
                     : <span className="inline-block min-w-[4.5rem] border-b border-[var(--ink-faint)]">&nbsp;</span>}
                 </span>
               );

@@ -46,7 +46,7 @@ export default function PunctuationReferenceTool() {
           <tbody>
             {filtered.map((e) => (
               <tr key={e.name} className="border-b border-[var(--ground-line)] last:border-0">
-                <td className="px-3 py-2 font-khmer text-lg text-[var(--gold)]">{e.mark}</td>
+                <td className="px-3 py-2 font-khmer text-lg text-[var(--gold-text)]">{e.mark}</td>
                 <td className="px-3 py-2 text-[var(--ink)]">{e.name}</td>
                 <td className="px-3 py-2 text-[var(--ink-dim)]">{e.usage}</td>
                 <td className="px-3 py-2">

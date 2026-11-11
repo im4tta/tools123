@@ -162,7 +162,7 @@ export default function TrueLoanCost() {
         <>
           {/* Headline: the true rate */}
           <div className="rounded-xl border border-[var(--gold)]/40 bg-[var(--gold)]/10 p-4">
-            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wide text-[var(--gold)]">
+            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wide text-[var(--gold-text)]">
               <TrendingUp size={14} /> {t("True effective interest rate", "អត្រាការប្រាក់ពិតប្រចាំឆ្នាំ")}
             </div>
             <div className="mt-1 flex flex-wrap items-baseline gap-x-3 gap-y-1">
@@ -197,7 +197,7 @@ export default function TrueLoanCost() {
             ].map((cell) => (
               <div key={cell.label} className="rounded-lg border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3">
                 <div className="text-[11px] text-[var(--ink-faint)]">{cell.label}</div>
-                <div className={`mt-0.5 text-lg font-semibold ${cell.warn ? "text-[var(--danger)]" : cell.strong ? "text-[var(--gold)]" : "text-[var(--ink)]"}`}>
+                <div className={`mt-0.5 text-lg font-semibold ${cell.warn ? "text-[var(--danger)]" : cell.strong ? "text-[var(--gold-text)]" : "text-[var(--ink)]"}`}>
                   {cell.value}
                 </div>
               </div>

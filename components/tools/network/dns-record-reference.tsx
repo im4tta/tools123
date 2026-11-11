@@ -30,7 +30,7 @@ export default function DnsRecordReference() {
       <div className="divide-y divide-[var(--ground-line)] rounded-md border border-[var(--ground-line)]">
         {filtered.map(([name, desc]) => (
           <div key={name} className="flex gap-4 px-3 py-2.5 text-sm">
-            <span className="w-16 shrink-0 font-mono-ui text-[var(--gold)]">{name}</span>
+            <span className="w-16 shrink-0 font-mono-ui text-[var(--gold-text)]">{name}</span>
             <span className="text-[var(--ink-dim)]">{desc}</span>
           </div>
         ))}

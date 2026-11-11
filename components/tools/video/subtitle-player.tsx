@@ -74,7 +74,7 @@ export default function SubtitlePlayer() {
     >
       <label className="flex cursor-pointer flex-col items-center justify-center gap-2 rounded-md border border-dashed border-[var(--ground-line)] bg-[var(--ground-raised)] px-4 py-7 text-center text-sm text-[var(--ink-dim)] transition hover:border-[var(--gold-dim)]">
         <span>{video ? video.name : t("Choose a video file", "ជ្រើសរើសឯកសារវីដេអូ")}</span>
-        <input type="file" accept="video/*" className="hidden" onChange={(e) => onVideo(e.target.files?.[0] ?? null)} />
+        <input type="file" accept="video/*" className="sr-only" onChange={(e) => onVideo(e.target.files?.[0] ?? null)} />
       </label>
 
       {videoUrl && video && (
@@ -103,7 +103,7 @@ export default function SubtitlePlayer() {
           <button
             type="button"
             onClick={() => { if (playing && videoUrl) { const v = document.querySelector(`video[src="${videoUrl}"]`) as HTMLVideoElement | null; v?.pause(); } }}
-            className="flex items-center gap-1 rounded-md bg-[var(--gold)] px-3 py-1.5 text-xs font-medium text-[#0a0c0d]"
+            className="flex items-center gap-1 rounded-md bg-[var(--gold)] px-3 py-1.5 text-xs font-medium text-[var(--on-gold)]"
           >
             {playing ? <Pause size={13} /> : <Play size={13} />} {playing ? t("Playing", "កំពុងចាក់") : t("Use controls", "ប្រើប៊ូតុងគ្រប់គ្រង")}
           </button>
@@ -119,15 +119,15 @@ export default function SubtitlePlayer() {
 
       <Field label={t("Subtitle source", "ប្រភពអក្សររត់")}>
         <div className="flex gap-2 pt-1">
-          <button type="button" onClick={() => setCustomFile(false)} className={`flex-1 rounded-md px-3 py-2 text-sm font-medium transition ${!customFile ? "bg-[var(--gold)] text-[#0a0c0d]" : "bg-[var(--ground-raised)] text-[var(--ink-dim)]"}`}>{t("Paste SRT text", "បិទភ្ជាប់អត្ថបទ SRT")}</button>
-          <button type="button" onClick={() => setCustomFile(true)} className={`flex-1 rounded-md px-3 py-2 text-sm font-medium transition ${customFile ? "bg-[var(--gold)] text-[#0a0c0d]" : "bg-[var(--ground-raised)] text-[var(--ink-dim)]"}`}>{t("Load .srt file", "ផ្ទុកឯកសារ .srt")}</button>
+          <button type="button" onClick={() => setCustomFile(false)} className={`flex-1 rounded-md px-3 py-2 text-sm font-medium transition ${!customFile ? "bg-[var(--gold)] text-[var(--on-gold)]" : "bg-[var(--ground-raised)] text-[var(--ink-dim)]"}`}>{t("Paste SRT text", "បិទភ្ជាប់អត្ថបទ SRT")}</button>
+          <button type="button" onClick={() => setCustomFile(true)} className={`flex-1 rounded-md px-3 py-2 text-sm font-medium transition ${customFile ? "bg-[var(--gold)] text-[var(--on-gold)]" : "bg-[var(--ground-raised)] text-[var(--ink-dim)]"}`}>{t("Load .srt file", "ផ្ទុកឯកសារ .srt")}</button>
         </div>
       </Field>
 
       {customFile ? (
         <label className="flex cursor-pointer items-center justify-center gap-2 rounded-md border border-dashed border-[var(--ground-line)] bg-[var(--ground-raised)] px-4 py-6 text-center text-sm text-[var(--ink-dim)] transition hover:border-[var(--gold-dim)]">
           <Upload size={15} /> {t("Choose a .srt file", "ជ្រើសរើសឯកសារ .srt")}
-          <input type="file" accept=".srt,text/plain" className="hidden" onChange={(e) => loadSrtFile(e.target.files?.[0] ?? null)} />
+          <input type="file" accept=".srt,text/plain" className="sr-only" onChange={(e) => loadSrtFile(e.target.files?.[0] ?? null)} />
         </label>
       ) : (
         <Field label={t("SRT content", "ខ្លឹមសារ SRT")}>

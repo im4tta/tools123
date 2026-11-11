@@ -152,7 +152,7 @@ export default function DataResidencyMap() {
               key={option.value}
               onClick={() => setFilter(option.value)}
               className={`rounded-md px-3 py-1.5 text-xs font-medium transition ${
-                filter === option.value ? "bg-[var(--gold)] text-[#0a0c0d]" : "text-[var(--ink-dim)] hover:text-[var(--ink)]"
+                filter === option.value ? "bg-[var(--gold)] text-[var(--on-gold)]" : "text-[var(--ink-dim)] hover:text-[var(--ink)]"
               }`}
             >
               {t(option.label, option.labelKm)}
@@ -163,7 +163,7 @@ export default function DataResidencyMap() {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder={t("Search a tool…", "ស្វែងរកឧបករណ៍…")}
-          className="w-full rounded-lg border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 text-sm text-[var(--ink)] outline-none placeholder:text-[var(--ink-faint)] focus:border-[var(--gold-dim)] sm:max-w-xs"
+          className="w-full rounded-lg border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 text-sm text-[var(--ink)] outline-none placeholder:text-[var(--ink-faint)] focus:border-[var(--focus)] sm:max-w-xs"
         />
       </div>
 

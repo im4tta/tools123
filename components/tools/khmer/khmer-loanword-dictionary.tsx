@@ -145,7 +145,7 @@ export default function KhmerLoanwordDictionary() {
       </Row>
 
       <div>
-        <h2 className="mb-2 text-xs font-semibold uppercase tracking-wide text-[var(--gold)]">
+        <h2 className="mb-2 text-xs font-semibold uppercase tracking-wide text-[var(--gold-text)]">
           {t(`${filtered.length} words`, `ពាក្យចំនួន ${filtered.length}`)}
         </h2>
         {filtered.length === 0 ? (
@@ -162,7 +162,7 @@ export default function KhmerLoanwordDictionary() {
                     <h3 lang="km" className="font-khmer text-lg font-semibold leading-relaxed text-[var(--ink)]">
                       {w.word}
                     </h3>
-                    <span className="text-[10px] uppercase tracking-wide text-[var(--gold)]">
+                    <span className="text-[10px] uppercase tracking-wide text-[var(--gold-text)]">
                       {t(originLabel?.en ?? w.origin, originLabel?.km ?? "")}
                     </span>
                   </div>

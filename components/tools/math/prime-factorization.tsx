@@ -72,10 +72,10 @@ export default function PrimeFactorization() {
               ))}
             </div>
             <div className="mt-3 flex flex-wrap gap-2 text-xs">
-              <span className="rounded bg-[var(--gold)]/10 px-2 py-1 font-mono-ui text-[var(--gold)]">
+              <span className="rounded bg-[var(--gold)]/10 px-2 py-1 font-mono-ui text-[var(--gold-text)]">
                 {t("Distinct prime factors", "កត្តាបឋមផ្សេងគ្នា")}: {result.factors.length}
               </span>
-              <span className="rounded bg-[var(--gold)]/10 px-2 py-1 font-mono-ui text-[var(--gold)]">
+              <span className="rounded bg-[var(--gold)]/10 px-2 py-1 font-mono-ui text-[var(--gold-text)]">
                 {t("Total divisors", "ចំនួនចែកសរុប")}: {result.divisorCount}
               </span>
             </div>

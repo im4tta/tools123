@@ -77,7 +77,7 @@ export default function KhmerSpeechTime() {
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
         <div className="rounded-md border border-[var(--gold)]/30 bg-[var(--ground-raised)] p-4 sm:col-span-1">
           <div className="text-[10px] font-medium uppercase tracking-wide text-[var(--ink-faint)]">{t("Estimated read-aloud time", "ពេលអានឮៗប៉ាន់ស្មាន")}</div>
-          <div className="mt-1 font-mono-ui text-2xl font-semibold text-[var(--gold)]">{fmtDuration(stats.seconds)}</div>
+          <div className="mt-1 font-mono-ui text-2xl font-semibold text-[var(--gold-text)]">{fmtDuration(stats.seconds)}</div>
           <div className="mt-1 text-[10px] text-[var(--ink-faint)]">{t("at", "នៅ")} {stats.spm} {t("syll/min", "ព្យាង្គ/នាទី")}</div>
         </div>
         <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4">

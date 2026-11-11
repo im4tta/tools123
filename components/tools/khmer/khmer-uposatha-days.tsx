@@ -31,7 +31,7 @@ const TYPE_META: Record<UpType, { en: string; km: string; enDesc: string; kmDesc
     km: "សីល ៨កើត",
     enDesc: "8th day of the waxing fortnight",
     kmDesc: "ថ្ងៃទី ៨ នៃខែឡើង (កើត)",
-    cls: "border-[var(--gold)]/50 bg-[var(--gold)]/10 text-[var(--gold)]",
+    cls: "border-[var(--gold)]/50 bg-[var(--gold)]/10 text-[var(--gold-text)]",
   },
   full: {
     en: "Full moon",
@@ -204,7 +204,7 @@ export default function KhmerUposathaDays() {
           onClick={() => setView("month")}
           className={`rounded-md border px-3 py-1.5 text-xs font-semibold transition ${
             view === "month"
-              ? "border-[var(--gold)] bg-[var(--gold)]/10 text-[var(--gold)]"
+              ? "border-[var(--gold)] bg-[var(--gold)]/10 text-[var(--gold-text)]"
               : "border-[var(--ground-line)] text-[var(--ink-dim)] hover:border-[var(--ink-faint)]"
           }`}
         >
@@ -215,7 +215,7 @@ export default function KhmerUposathaDays() {
           onClick={() => setView("range")}
           className={`rounded-md border px-3 py-1.5 text-xs font-semibold transition ${
             view === "range"
-              ? "border-[var(--gold)] bg-[var(--gold)]/10 text-[var(--gold)]"
+              ? "border-[var(--gold)] bg-[var(--gold)]/10 text-[var(--gold-text)]"
               : "border-[var(--ground-line)] text-[var(--ink-dim)] hover:border-[var(--ink-faint)]"
           }`}
         >
@@ -247,7 +247,7 @@ export default function KhmerUposathaDays() {
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
             {(Object.keys(TYPE_META) as UpType[]).map((key) => (
               <div key={key} className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2.5">
-                <div className="text-2xl font-semibold text-[var(--gold)]">{toKh(counts[key])}</div>
+                <div className="text-2xl font-semibold text-[var(--gold-text)]">{toKh(counts[key])}</div>
                 <div className={`mt-1 inline-block rounded border px-1.5 py-0.5 text-[10px] font-semibold ${TYPE_META[key].cls}`}>
                   {t(TYPE_META[key].en, TYPE_META[key].km)}
                 </div>

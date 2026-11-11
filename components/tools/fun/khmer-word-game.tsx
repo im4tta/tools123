@@ -480,7 +480,7 @@ export default function KhmerWordGame() {
     >
       {/* Header bar */}
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-2 rounded-full border border-[var(--gold)]/30 bg-[var(--gold)]/10 px-4 py-1.5 font-bold text-[var(--gold)]">
+        <div className="flex items-center gap-2 rounded-full border border-[var(--gold)]/30 bg-[var(--gold)]/10 px-4 py-1.5 font-bold text-[var(--gold-text)]">
           <Star size={16} /> {score}
         </div>
         <button type="button" className={actionBtn} onClick={() => setSoundOn((v) => !v)} title={t("Toggle sound", "បើក/បិទសំឡេង")}>
@@ -593,14 +593,14 @@ export default function KhmerWordGame() {
                     setSelected((prev) => (prev === piece ? null : piece));
                     playSound("click");
                   }}
-                  className={`min-w-14 cursor-grab rounded-xl border-2 bg-[var(--ground)] px-4 py-3 text-lg font-bold font-khmer transition hover:-translate-y-0.5 active:cursor-grabbing ${dragging === piece ? "opacity-40" : ""} ${selected === piece ? "border-[var(--gold)] bg-[var(--gold)]/15 text-[var(--gold)]" : "border-[var(--ground-line)] text-[var(--ink)]"}`}
+                  className={`min-w-14 cursor-grab rounded-xl border-2 bg-[var(--ground)] px-4 py-3 text-lg font-bold font-khmer transition hover:-translate-y-0.5 active:cursor-grabbing ${dragging === piece ? "opacity-40" : ""} ${selected === piece ? "border-[var(--gold)] bg-[var(--gold)]/15 text-[var(--gold-text)]" : "border-[var(--ground-line)] text-[var(--ink)]"}`}
                 >
                   {piece}
                 </button>
               ))}
             </div>
             {selected && (
-              <p className="mt-2 text-center text-xs text-[var(--gold)]">
+              <p className="mt-2 text-center text-xs text-[var(--gold-text)]">
                 {t(`Selected "${selected}" — tap a slot to place it.`, `បានជ្រើស "${selected}" — ចុចចន្លោះដើម្បីដាក់។`)}
               </p>
             )}
@@ -609,7 +609,7 @@ export default function KhmerWordGame() {
           {/* Controls */}
           <div className="flex flex-wrap justify-center gap-3">
             <button type="button" className={`${actionBtn} !border-[var(--danger)]/40 !text-[var(--danger)]`} onClick={resetLevel}><RotateCcw size={15} />{t("Rearrange", "រៀបឡើងវិញ")}</button>
-            <button type="button" onClick={checkAnswer} className="inline-flex items-center gap-2 rounded-xl bg-[var(--success)] px-6 py-2.5 text-sm font-bold text-[#0a0c0d] transition hover:brightness-110">
+            <button type="button" onClick={checkAnswer} className="inline-flex items-center gap-2 rounded-xl bg-[var(--success)] px-6 py-2.5 text-sm font-bold text-[var(--on-success)] transition hover:brightness-110">
               <Check size={16} /> {t("Check Answer", "ពិនិត្យចម្លើយ")}
             </button>
           </div>
@@ -623,7 +623,7 @@ export default function KhmerWordGame() {
           <p className="text-lg text-[var(--ink-dim)]">{t(`You finished the level! Total score: ${score} points.`, `អ្នកបានបញ្ចប់កម្រិត! ពិន្ទុសរុប៖ ${score} ពិន្ទុ។`)}</p>
           <div className="flex flex-wrap justify-center gap-3">
             <button type="button" className={actionBtn} onClick={goMenu}>{t("Back to menu", "ត្រឡប់ទៅម៉ឺនុយ")}</button>
-            <button type="button" onClick={continuePlaying} className="inline-flex items-center gap-2 rounded-xl bg-[var(--gold)] px-6 py-2.5 text-sm font-bold text-[#0a0c0d] transition hover:brightness-110">
+            <button type="button" onClick={continuePlaying} className="inline-flex items-center gap-2 rounded-xl bg-[var(--gold)] px-6 py-2.5 text-sm font-bold text-[var(--on-gold)] transition hover:brightness-110">
               <Sparkles size={16} /> {t("Continue Playing", "លេងបន្តទៀត")}
             </button>
           </div>

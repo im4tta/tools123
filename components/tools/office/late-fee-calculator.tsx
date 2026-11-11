@@ -65,7 +65,7 @@ export default function LateFeeCalculator() {
               <div className="text-xs font-medium uppercase tracking-wide text-[var(--ink-dim)]">
                 {t("Late fee / interest due", "ការបង់យឺត / ការប្រាក់ត្រូវសង")}
               </div>
-              <div className="mt-1 text-2xl font-semibold text-[var(--gold)]">{calc.fee.toFixed(2)}</div>
+              <div className="mt-1 text-2xl font-semibold text-[var(--gold-text)]">{calc.fee.toFixed(2)}</div>
               <div className="mt-0.5 text-[10px] text-[var(--ink-dim)]">
                 {t("per day", "ក្នុងមួយថ្ងៃ")}: {calc.perDay.toFixed(2)}
               </div>
