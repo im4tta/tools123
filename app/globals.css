@@ -23,6 +23,8 @@
   --gold-hover: #d1b066;
   /* Keyboard focus ring. */
   --focus: #7fb0ff;
+  /* Text on a solid --danger fill. */
+  --on-danger: #0a0c0d;
   --teal: #3ea08c;
   --teal-dim: #2a6d5f;
   --slate-accent: #7089c9;
@@ -49,6 +51,7 @@
   --on-gold: #0a0c0d;
   --gold-hover: #c18e31;
   --focus: #1d5fae;
+  --on-danger: #ffffff;
   --teal: #2a7d69;
   --teal-dim: #3ea08c;
   --slate-accent: #4c5c8a;
@@ -283,6 +286,47 @@ select,
 label:has(input[type="file"].sr-only:focus-visible) {
   outline: 2px solid var(--focus);
   outline-offset: 2px;
+}
+
+/* Settings sheet (components/SettingsSheet.tsx): a native <dialog>, docked right on wide screens
+   and to the bottom on phones. */
+.settings-sheet {
+  margin: 0 0 0 auto;
+  width: min(28rem, 100vw);
+  max-width: 100vw;
+  height: 100dvh;
+  max-height: 100dvh;
+  padding: 0;
+  border: 0;
+  border-left: 1px solid var(--ground-line);
+  box-shadow: var(--shadow-elev);
+}
+.settings-sheet[open] {
+  animation: settings-sheet-in 180ms ease-out;
+}
+.settings-sheet::backdrop {
+  background: rgb(0 0 0 / 0.45);
+}
+@keyframes settings-sheet-in {
+  from {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+}
+@media (max-width: 639.98px) {
+  .settings-sheet {
+    margin: auto 0 0;
+    width: 100vw;
+    height: auto;
+    max-height: 88dvh;
+    border-left: 0;
+    border-top: 1px solid var(--ground-line);
+    border-radius: 16px 16px 0 0;
+  }
+  .settings-sheet > div {
+    max-height: 88dvh;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
 }
 
 .ui-toast {
@@ -555,6 +599,10 @@ a.tool-card:focus-visible {
     transform: translate3d(-50%, 0, 0);
   }
 }
+/* The visible pause button (WCAG 2.2.2) works for touch users too, who can't hover to pause. */
+.category-ticker[data-paused] .category-ticker-track {
+  animation-play-state: paused;
+}
 /* The ticker clips its overflow, so a chip's focus ring is drawn inside the chip. */
 .category-ticker .chip:focus-visible {
   outline-offset: -2px;
@@ -577,9 +625,12 @@ a.tool-card:focus-visible {
   .category-ticker-track > [aria-hidden="true"] {
     display: none;
   }
+  /* Nothing moves, so there is nothing to pause. */
+  .ticker-pause {
+    display: none;
+  }
 }
-/* Touch/no-hover users can't pause the ticker with a hover, but it keeps
-   auto-flowing for them too — they can still tap a chip while it moves. */
+/* Touch/no-hover users can't pause the ticker with a hover; they use the pause button. */
 
 .sticky-nav {
   position: sticky;

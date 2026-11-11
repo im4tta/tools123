@@ -4,10 +4,9 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Clock, Globe, Home, Search, Star, X } from "lucide-react";
+import { Clock, Home, Search, Star, X } from "lucide-react";
 import { useLanguage } from "@/components/LanguageProvider";
 import { OPEN_SEARCH_EVENT } from "@/lib/app-events";
-import { LANGUAGES, type LanguageMode } from "@/lib/i18n";
 import { STORAGE_KEYS, storage } from "@/lib/storage";
 import { toolHref } from "@/lib/toolRoutes";
 import type { ToolDef } from "@/lib/tools";
@@ -15,7 +14,7 @@ import type { ToolDef } from "@/lib/tools";
 // Only pages without their own palette (about, changelog, …) fall back to this one, so it loads on demand.
 const FallbackPalette = dynamic(() => import("@/components/CommandPalette").then((m) => m.CommandPalette), { ssr: false });
 
-type Sheet = "favorites" | "recents" | "language" | null;
+type Sheet = "favorites" | "recents" | null;
 type ToolSummary = Pick<ToolDef, "id" | "title" | "khmerTitle">;
 
 function isEditable(target: EventTarget | null) {
@@ -28,7 +27,7 @@ function isEditable(target: EventTarget | null) {
  * what the user is typing. The tool registry is imported only when a list sheet opens.
  */
 export function MobileBottomNav() {
-  const { mode, setMode, text: t } = useLanguage();
+  const { mode, text: t } = useLanguage();
   const pathname = usePathname();
   const router = useRouter();
   const [sheet, setSheet] = useState<Sheet>(null);
@@ -36,7 +35,7 @@ export function MobileBottomNav() {
   const [ids, setIds] = useState<string[]>([]);
   const [typing, setTyping] = useState(false);
   const [paletteOpen, setPaletteOpen] = useState(false);
-  // Short tab labels: a bilingual "Home / ទំព័រដើម" does not fit five tabs on a phone.
+  // Short tab labels: a bilingual "Home / ទំព័រដើម" does not fit four tabs on a phone.
   const short = (en: string, km: string) => (mode === "km" || mode === "bi" ? km : en);
 
   useEffect(() => {
@@ -85,32 +84,18 @@ export function MobileBottomNav() {
           <div
             role="dialog"
             aria-modal="true"
-            aria-label={sheet === "favorites" ? t("Favorites", "ចំណូលចិត្ត") : sheet === "recents" ? t("Recently used", "បានប្រើថ្មីៗ") : t("Display language", "ភាសាបង្ហាញ")}
+            aria-label={sheet === "favorites" ? t("Favorites", "ចំណូលចិត្ត") : t("Recently used", "បានប្រើថ្មីៗ")}
             className="mobile-sheet absolute inset-x-0 bottom-0 max-h-[70dvh] overflow-y-auto rounded-t-2xl border-t border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 pt-2 shadow-2xl"
           >
             <div className="flex items-center justify-between px-1 py-2">
               <h2 className="text-sm font-semibold text-[var(--ink)]">
-                {sheet === "favorites" ? t("Favorites", "ចំណូលចិត្ត") : sheet === "recents" ? t("Recently used", "បានប្រើថ្មីៗ") : t("Display language", "ភាសាបង្ហាញ")}
+                {sheet === "favorites" ? t("Favorites", "ចំណូលចិត្ត") : t("Recently used", "បានប្រើថ្មីៗ")}
               </h2>
               <button type="button" onClick={() => setSheet(null)} aria-label={t("Close", "បិទ")} className="flex h-11 w-11 items-center justify-center rounded-full text-[var(--ink-dim)]">
                 <X size={18} />
               </button>
             </div>
-            {sheet === "language" ? (
-              <ul className="grid grid-cols-2 gap-2 pb-3">
-                {[{ id: "bi", native: "English + ខ្មែរ" }, ...LANGUAGES].map((lang) => (
-                  <li key={lang.id}>
-                    <button
-                      type="button"
-                      onClick={() => { setMode(lang.id as LanguageMode); setSheet(null); }}
-                      className={`flex min-h-11 w-full items-center rounded-lg border px-3 text-left text-sm ${mode === lang.id ? "border-[var(--gold-dim)] text-[var(--gold-text)]" : "border-[var(--ground-line)] text-[var(--ink)]"}`}
-                    >
-                      {lang.native}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            ) : !tools ? (
+            {!tools ? (
               <p role="status" className="px-1 py-6 text-center text-sm text-[var(--ink-faint)]">{t("Loading…", "កំពុងផ្ទុក…")}</p>
             ) : listed.length === 0 ? (
               <p className="px-1 py-6 text-center text-sm text-[var(--ink-faint)]">
@@ -152,9 +137,6 @@ export function MobileBottomNav() {
           </button>
           <button type="button" aria-label={t("Recently used", "បានប្រើថ្មីៗ")} aria-expanded={sheet === "recents"} onClick={() => (sheet === "recents" ? setSheet(null) : openList("recents"))} className={tabClass(sheet === "recents")}>
             <Clock size={20} aria-hidden="true" />{short("Recent", "ថ្មីៗ")}
-          </button>
-          <button type="button" aria-label={t("Display language", "ភាសាបង្ហាញ")} aria-expanded={sheet === "language"} onClick={() => setSheet(sheet === "language" ? null : "language")} className={tabClass(sheet === "language")}>
-            <Globe size={20} aria-hidden="true" />{short("Language", "ភាសា")}
           </button>
         </div>
       </nav>

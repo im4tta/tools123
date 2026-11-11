@@ -4,11 +4,10 @@ import dynamic from "next/dynamic";
 import { startTransition, Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Search, ArrowLeft, Star, Waypoints, LayoutGrid, ArrowUpDown, Layers, ShieldCheck, CircleDollarSign, WifiOff, Languages, BadgeCheck, FolderGit2 } from "lucide-react";
+import { Search, ArrowLeft, Star, Waypoints, LayoutGrid, ArrowUpDown, Layers, ShieldCheck, CircleDollarSign, WifiOff, Languages, BadgeCheck, FolderGit2, Pause, Play } from "lucide-react";
 import { CollectionsPicker } from "@/components/CollectionsPicker";
 import { CollectionsSection } from "@/components/CollectionsSection";
 import { CommandPalette } from "@/components/CommandPalette";
-import { HeaderInfo } from "@/components/HeaderInfo";
 import { UniversalInput } from "@/components/UniversalInput";
 import { HomeSpotlightCarousel } from "@/components/HomeSpotlightCarousel";
 import { WorkspaceSwitcher } from "@/components/WorkspaceSwitcher";
@@ -17,7 +16,7 @@ import { DEFAULT_WORKSPACE_PROFILES, WORKSPACES, type WorkspaceProfile } from "@
 import { LanguageToggle } from "@/components/LanguageToggle";
 import { useLanguage } from "@/components/LanguageProvider";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import { AccentThemePicker } from "@/components/AccentThemePicker";
+import { SettingsSheet } from "@/components/SettingsSheet";
 import { useTheme } from "@/components/ThemeProvider";
 // The graph view is ~1,200 lines of canvas code that only runs after switching to graph
 // mode, so load it on demand instead of with every homepage visit.
@@ -216,6 +215,7 @@ export default function Home() {
   const popularTools = useMemo(() => POPULAR_IDS.map((id) => TOOLS.find((tool) => tool.id === id)).filter(Boolean) as typeof TOOLS, []);
   const router = useRouter();
   const [paletteOpen, setPaletteOpen] = useState(false);
+  const [tickerPaused, setTickerPaused] = useState(false);
   const [activeId, setActiveIdRaw] = useState<string | null>(null);
   const [filter, setFilter] = useState("");
   // Apply ?q= after hydration: reading it during the first render made the client markup differ
@@ -635,9 +635,9 @@ export default function Home() {
               <Search size={13} /> {t("Find a tool…", "ស្វែងរកឧបករណ៍…")}
               <kbd className="ml-1 rounded border border-[var(--ground-line)] px-1 text-[10px]">⌘K</kbd>
             </button>
-            <AccentThemePicker />
             <LanguageToggle />
             <ThemeToggle />
+            <SettingsSheet />
           </div>
         </div>
         <div key={active.id} className="fade-rise">
@@ -656,7 +656,7 @@ export default function Home() {
          <div className="home-nav-inner mx-auto flex max-w-[77rem] items-center gap-3 px-5 py-2 sm:px-10">
            <Link href="/" aria-label="123 Toolbox home" className="home-brand shrink-0 font-display text-sm font-bold text-[var(--gold-text)] hover:text-[var(--gold-dim)]">១២៣</Link>
 
-          <div className="category-ticker min-w-0 flex-1">
+          <div className="category-ticker min-w-0 flex-1" data-paused={tickerPaused || undefined}>
             <div className="category-ticker-track">
               {[...CATEGORY_ORDER, ...CATEGORY_ORDER].map((cat, i) => {
                 const active = viewMode === "graph" && graphFocusCategory === cat;
@@ -682,6 +682,17 @@ export default function Home() {
             </div>
           </div>
 
+          <button
+            type="button"
+            onClick={() => setTickerPaused((paused) => !paused)}
+            aria-pressed={tickerPaused}
+            aria-label={tickerPaused ? t("Play the category ticker", "ចាក់ផ្ទាំងប្រភេទរំកិល") : t("Pause the category ticker", "ផ្អាកផ្ទាំងប្រភេទរំកិល")}
+            title={tickerPaused ? t("Play the category ticker", "ចាក់ផ្ទាំងប្រភេទរំកិល") : t("Pause the category ticker", "ផ្អាកផ្ទាំងប្រភេទរំកិល")}
+            className="ticker-pause flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] text-[var(--ink-dim)] hover:text-[var(--ink)]"
+          >
+            {tickerPaused ? <Play size={13} aria-hidden /> : <Pause size={13} aria-hidden />}
+          </button>
+
           <div className="home-nav-actions flex shrink-0 items-center gap-2">
             <button
               onClick={() => {
@@ -696,10 +707,9 @@ export default function Home() {
                 {viewMode === "grid" ? t("Graph", "ក្រាហ្វ") : t("Grid", "ក្រឡា")}
               </span>
             </button>
-            <HeaderInfo />
-            <AccentThemePicker />
             <LanguageToggle />
             <ThemeToggle />
+            <SettingsSheet />
           </div>
         </div>
       </div>

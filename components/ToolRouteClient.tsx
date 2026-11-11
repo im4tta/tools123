@@ -3,18 +3,17 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState, useSyncExternalStore } from "react";
-import { ArrowLeft, MoreHorizontal, ShieldCheck, Star, Trash2 } from "lucide-react";
+import { ArrowLeft, MoreHorizontal, ShieldCheck, Star } from "lucide-react";
 import { CollectionsPicker } from "@/components/CollectionsPicker";
 import { CommandPalette } from "@/components/CommandPalette";
 import { ToolHeaderSearch } from "@/components/ToolHeaderSearch";
-import { HeaderInfo } from "@/components/HeaderInfo";
 import { ToolFaq, type ToolFaqText } from "@/components/ToolFaq";
 import { ToolShellPlaceholder } from "@/components/ui/Shell";
 import { LanguageToggle } from "@/components/LanguageToggle";
 import { useLanguage } from "@/components/LanguageProvider";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import { AccentThemePicker } from "@/components/AccentThemePicker";
-import { STORAGE_KEYS, storage, useLocalStorage, type ToolCollection } from "@/lib/storage";
+import { SettingsSheet } from "@/components/SettingsSheet";
+import { STORAGE_KEYS, useLocalStorage, type ToolCollection } from "@/lib/storage";
 import { LazyTool, preloadTool } from "@/lib/tool-components";
 import { modeNeedsKhmerDescriptions, useDescriptionsKm } from "@/lib/i18n-descriptions-loader";
 import { ToolErrorBoundary } from "@/components/ToolErrorBoundary";
@@ -75,11 +74,6 @@ export function ToolRouteClient({ tool, related, toolCount, faq }: { tool: ToolR
 
   const openTool = useCallback((id: string) => router.push(toolHref(id)), [router]);
   const currentToolId = tool.id;
-  function clearSavedToolData() {
-    if (!window.confirm(t("Clear all saved app data? This removes favorites, workspaces, collections, and tool inputs.", "លុបទិន្នន័យកម្មវិធីដែលបានរក្សាទុកទាំងអស់? វានឹងលុបចំណូលចិត្ត កន្លែងធ្វើការ បណ្តុំ និងទិន្នន័យបញ្ចូលរបស់ឧបករណ៍។"))) return;
-    storage.clearAll();
-    window.location.reload();
-  }
   const isFavorite = favorites.includes(tool.id);
   function toggleFavorite() {
     const nextFavorite = !isFavorite;
@@ -125,17 +119,6 @@ export function ToolRouteClient({ tool, related, toolCount, faq }: { tool: ToolR
                 collections={collections}
                 setCollections={setCollections}
               />
-              <button
-                type="button"
-                onClick={clearSavedToolData}
-                aria-label={t("Clear all app data", "លុបទិន្នន័យកម្មវិធីទាំងអស់")}
-                title={t("Clear all app data", "លុបទិន្នន័យកម្មវិធីទាំងអស់")}
-                className="flex h-8 w-8 items-center justify-center rounded-md border border-[var(--ground-line)] text-[var(--ink-faint)] transition hover:border-[var(--danger)]/50 hover:text-[var(--danger)]"
-              >
-                <Trash2 size={14} />
-              </button>
-              <HeaderInfo />
-              <AccentThemePicker />
               <LanguageToggle />
               <ThemeToggle />
             </div>
@@ -149,6 +132,7 @@ export function ToolRouteClient({ tool, related, toolCount, faq }: { tool: ToolR
             >
               <MoreHorizontal size={16} />
             </button>
+            <SettingsSheet />
           </div>
         </div>
       </header>
