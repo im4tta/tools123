@@ -17,6 +17,7 @@ import {
 import { useLanguage } from "@/components/LanguageProvider";
 import { ToolShell } from "@/components/ui/Shell";
 import { useToolState } from "@/lib/storage";
+import { clickOnKey } from "@/lib/a11y";
 
 const ORIGIN_CONFIG: Record<string, { km: string; en: string; color: string; icon: string; era: string }> = {
   "sanskrit-pali": {
@@ -350,6 +351,9 @@ export default function LoanwordExplorer() {
                 return (
                   <div
                     key={word.id}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={clickOnKey}
                     onClick={() => setSelectedWord(word)}
                     className="cursor-pointer rounded-xl border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4 transition hover:border-[var(--gold-dim)] hover:shadow-sm"
                   >

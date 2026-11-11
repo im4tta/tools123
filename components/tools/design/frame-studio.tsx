@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { useTheme } from "@/components/ThemeProvider";
 import { recordExport, watermarkImageDataUrl } from "@/lib/export";
+import { clickOnKey } from "@/lib/a11y";
 
 /* ---------------------------------------------------------
    Stock Wallpaper Presets
@@ -1597,6 +1598,9 @@ export default function FrameStudio() {
                   </div>
 
                   <div
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={clickOnKey}
                     onClick={() => fileInputRef.current?.click()}
                     onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
                     onDragLeave={() => setDragOver(false)}

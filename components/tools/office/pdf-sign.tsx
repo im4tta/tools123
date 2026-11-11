@@ -202,6 +202,23 @@ export default function PdfSign() {
     [t],
   );
 
+  // Keyboard placement: Enter/Space puts the signature in the page centre, arrows nudge it.
+  const placeByKey = (e: React.KeyboardEvent<HTMLDivElement>, pageIndex: number) => {
+    if (!sig) return;
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      setPlacement({ page: pageIndex, u: 0.5, v: 0.5 });
+      setStatus("");
+      return;
+    }
+    const step = e.shiftKey ? 0.1 : 0.02;
+    const delta: Record<string, [number, number]> = { ArrowLeft: [-step, 0], ArrowRight: [step, 0], ArrowUp: [0, -step], ArrowDown: [0, step] };
+    if (!(e.key in delta) || placement?.page !== pageIndex) return;
+    e.preventDefault();
+    const [du, dv] = delta[e.key];
+    setPlacement({ page: pageIndex, u: Math.min(1, Math.max(0, placement.u + du)), v: Math.min(1, Math.max(0, placement.v + dv)) });
+  };
+
   const place = (e: React.MouseEvent<HTMLImageElement>, pageIndex: number) => {
     if (!sig) return;
     const rect = e.currentTarget.getBoundingClientRect();
@@ -389,14 +406,20 @@ export default function PdfSign() {
             {!sig
               ? t("Draw or type your signature above first, then click where it should go.", "សូមគូរ ឬវាយហត្ថលេខាខាងលើសិន រួចចុចលើទីតាំងដែលត្រូវដាក់។")
               : placement
-                ? t(`Placed on page ${placement.page + 1} — click again to move it.`, `ដាក់នៅទំព័រ ${placement.page + 1} — ចុចម្តងទៀតដើម្បីផ្លាស់ទី។`)
-                : t("Click the spot on a page where the signature should go.", "ចុចលើទីតាំងក្នុងទំព័រដែលហត្ថលេខាត្រូវដាក់។")}
+                ? t(`Placed on page ${placement.page + 1} — click again to move it, or use the arrow keys (Shift for bigger steps).`, `ដាក់នៅទំព័រ ${placement.page + 1} — ចុចម្តងទៀតដើម្បីផ្លាស់ទី ឬប្រើគ្រាប់ចុចព្រួញ (Shift សម្រាប់ជំហានធំ)។`)
+                : t("Click the spot on a page where the signature should go — or Tab to a page and press Enter to place it in the centre.", "ចុចលើទីតាំងក្នុងទំព័រដែលហត្ថលេខាត្រូវដាក់ — ឬចុច Tab ទៅទំព័រ ហើយចុច Enter ដើម្បីដាក់នៅកណ្ដាល។")}
           </p>
 
           <div className="space-y-4">
             {pages.map((p) => (
               <div key={p.index} id={`sign-page-${p.index}`} className="flex flex-col items-center gap-1">
-                <div className="relative inline-block max-w-full">
+                <div
+                  className="relative inline-block max-w-full rounded-md"
+                  tabIndex={sig ? 0 : undefined}
+                  role={sig ? "group" : undefined}
+                  aria-label={sig ? t(`Page ${p.index + 1}: press Enter to place the signature in the centre, then the arrow keys to move it`, `ទំព័រ ${p.index + 1}៖ ចុច Enter ដើម្បីដាក់ហត្ថលេខានៅកណ្ដាល រួចប្រើគ្រាប់ចុចព្រួញដើម្បីផ្លាស់ទី`) : undefined}
+                  onKeyDown={(e) => placeByKey(e, p.index)}
+                >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={p.url}

@@ -6,6 +6,7 @@ import { useLanguage } from "@/components/LanguageProvider";
 import { ToolShell } from "@/components/ui/Shell";
 import { useToolState } from "@/lib/storage";
 import { recordExport } from "@/lib/export";
+import { clickOnKey } from "@/lib/a11y";
 
 type HttpMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
 
@@ -300,7 +301,7 @@ export default function ApiBenchmark() {
               </thead>
               <tbody className="divide-y divide-[var(--ground-line)]">
                 {results.map((r) => (
-                  <tr key={r.endpointId} onClick={() => setDetailId(r.endpointId === detailId ? null : r.endpointId)} className={`cursor-pointer transition hover:bg-[var(--ground)] ${detailId === r.endpointId ? "bg-[var(--gold)]/5" : ""}`}>
+                  <tr key={r.endpointId} tabIndex={0} aria-expanded={detailId === r.endpointId} onKeyDown={clickOnKey} onClick={() => setDetailId(r.endpointId === detailId ? null : r.endpointId)} className={`cursor-pointer transition hover:bg-[var(--ground)] ${detailId === r.endpointId ? "bg-[var(--gold)]/5" : ""}`}>
                     <td className="px-3 py-2 font-bold text-[var(--ink)] flex items-center gap-1.5"><span className="h-2 w-2 rounded-full" style={{ background: r.color }} />{r.name}</td>
                     <td className="px-3 py-2 font-mono-ui font-bold text-[var(--ink)]">{r.metrics.avgLatency}ms</td>
                     <td className="px-3 py-2 font-mono-ui text-[var(--ink-dim)]">{r.metrics.minLatency}/{r.metrics.maxLatency}ms</td>

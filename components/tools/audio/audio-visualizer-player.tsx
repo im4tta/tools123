@@ -262,6 +262,15 @@ export default function AudioVisualizerPlayer() {
     const frac = Math.min(1, Math.max(0, (e.clientX - rect.left) / rect.width));
     audio.currentTime = frac * duration;
   }
+  function seekBy(event: React.KeyboardEvent<HTMLDivElement>) {
+    const audio = audioRef.current;
+    if (!audio || !duration) return;
+    const step = event.shiftKey ? 15 : 5;
+    const to: Record<string, number> = { ArrowRight: audio.currentTime + step, ArrowUp: audio.currentTime + step, ArrowLeft: audio.currentTime - step, ArrowDown: audio.currentTime - step, Home: 0, End: duration };
+    if (!(event.key in to)) return;
+    event.preventDefault();
+    audio.currentTime = Math.min(duration, Math.max(0, to[event.key]));
+  }
   function onFile(f: File | null) {
     if (!f) return;
     if (fileUrl) URL.revokeObjectURL(fileUrl);
@@ -297,7 +306,7 @@ export default function AudioVisualizerPlayer() {
         <canvas ref={canvasRef} width={WAVE_W} height={WAVE_H} className="w-full rounded-md border border-[var(--ground-line)] bg-black/25" style={{ height: "auto", minHeight: 160 }} />
 
         {/* Seek bar */}
-        <div className="group mt-3 cursor-pointer" onClick={seek} role="slider" aria-valuenow={Math.round(pct)} aria-valuemin={0} aria-valuemax={100} tabIndex={0}>
+        <div className="group mt-3 cursor-pointer" onClick={seek} onKeyDown={seekBy} role="slider" aria-label={t("Playback position", "ទីតាំងចាក់")} aria-valuenow={Math.round(pct)} aria-valuemin={0} aria-valuemax={100} aria-valuetext={`${Math.floor(current / 60)}:${String(Math.floor(current % 60)).padStart(2, "0")}`} tabIndex={0}>
           <div className="h-2 overflow-hidden rounded-full bg-[var(--ground)]">
             <div className="h-full rounded-full" style={{ width: `${pct}%`, background: `linear-gradient(90deg, ${theme.a}, ${theme.b})` }} />
           </div>
