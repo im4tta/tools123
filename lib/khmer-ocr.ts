@@ -1,4 +1,6 @@
 // Browser port of Khmer OCR engines, each = detection + recognition.
+// - Chakkhu (huggingface.co/muyleanging/Chakkhu-OCR-Khmer, Apache-2.0, Ing Muyleang): CNN +
+//   Transformer encoder, CTC head and a Khmer-cluster decoder; see lib/chakkhu-ocr.ts.
 // - KhmerOCR (github.com/seanghay/KhmerOCR, MIT): det.onnx + rec.onnx CRNN.
 // - Kiri OCR (github.com/mrrtmob/kiri-ocr, Apache-2.0): DB detection + a
 //   Transformer encoder/CTC recognizer (exported from PyTorch to ONNX).
@@ -8,27 +10,33 @@
 import { InferenceSession, Tensor } from "onnxruntime-web";
 import { KIRI_VOCAB } from "@/lib/kiri-vocab";
 import { assetUrl } from "@/lib/assets";
+import { rgbaToGrey } from "@/lib/chakkhu-core";
+import { ChakkhuReader, type ChakkhuMode } from "@/lib/chakkhu-ocr";
 
-export type EngineId = "khmerocr" | "kiri";
+export type EngineId = "chakkhu" | "khmerocr" | "kiri";
 
 export interface EngineInfo {
   id: EngineId;
   label: string;
   description: string;
+  descriptionKm: string;
   license: string;
   author: string;
   source: string;
 }
 
 export const ENGINES: EngineInfo[] = [
-  { id: "khmerocr", label: "KhmerOCR", description: "CRNN detection + recognition (800+ fonts)", license: "MIT", author: "Seanghay Yath", source: "github.com/seanghay/KhmerOCR" },
-  { id: "kiri", label: "Kiri OCR", description: "Transformer encoder + CTC, 12M lines, mixed EN/KM", license: "Apache-2.0", author: "mrrtmob", source: "github.com/mrrtmob/kiri-ocr" },
+  { id: "chakkhu", label: "Chakkhu", description: "Transformer + Khmer-cluster decoder, Khmer & English, line confidence", descriptionKm: "Transformer + កម្មវិធីឌិកូដតាមចង្កោមអក្សរខ្មែរ ខ្មែរ និងអង់គ្លេស មានភាពជឿជាក់តាមបន្ទាត់", license: "Apache-2.0", author: "Ing Muyleang", source: "huggingface.co/muyleanging/Chakkhu-OCR-Khmer" },
+  { id: "khmerocr", label: "KhmerOCR", description: "CRNN detection + recognition (800+ fonts)", descriptionKm: "ការរកឃើញ + ការស្គាល់អក្សរ CRNN (ពុម្ពអក្សរជាង ៨០០)", license: "MIT", author: "Seanghay Yath", source: "github.com/seanghay/KhmerOCR" },
+  { id: "kiri", label: "Kiri OCR", description: "Transformer encoder + CTC, 12M lines, mixed EN/KM", descriptionKm: "Transformer encoder + CTC បណ្តុះបណ្តាលលើ ១២ លានបន្ទាត់ ខ្មែរ/អង់គ្លេស", license: "Apache-2.0", author: "mrrtmob", source: "github.com/mrrtmob/kiri-ocr" },
 ];
 
 // These models used to live in public/ (~55 MB) but are now fetched from the
 // shared assets CDN — see lib/assets.ts — to keep them out of every Vercel
 // deployment. assetUrl() resolves to absolute, CORS-enabled URLs.
-export const MODEL_FILES: Record<EngineId, { det: string; rec: string }> = {
+// Chakkhu's recognizer is loaded from Hugging Face by ChakkhuReader (lib/chakkhu-ocr.ts).
+export const MODEL_FILES: Record<EngineId, { det: string; rec?: string }> = {
+  chakkhu: { det: assetUrl("/models/khmerocr/det.onnx") },
   khmerocr: { det: assetUrl("/models/khmerocr/det.onnx"), rec: assetUrl("/models/khmerocr/rec.onnx") },
   kiri: { det: assetUrl("/models/khmerocr/det.onnx"), rec: assetUrl("/models/kiri/rec.onnx") },
 };
@@ -40,8 +48,15 @@ export const TOKENS: string[] = [
 
 export interface Box { x1: number; y1: number; x2: number; y2: number; classId: number; score: number }
 export interface Line { boxes: Box[] }
-export interface OcrResult { text: string; confidence: number; box: Box }
+/** `line` is the index of the detected text line the region belongs to. */
+export interface OcrResult { text: string; confidence: number; box: Box; line: number }
 export interface OcrOutput { lines: Line[]; results: OcrResult[] }
+export interface OcrOptions {
+  /** Chakkhu only: "best" (beam search + CTC check) or "fast" (CTC head only). */
+  mode?: ChakkhuMode;
+  /** Called after each text region is read. */
+  onProgress?: (done: number, total: number) => void;
+}
 
 async function loadSession(url: string, opts: InferenceSession.SessionOptions): Promise<InferenceSession> {
   const u = new URL(url, window.location.origin);
@@ -54,6 +69,11 @@ const SESSION_OPTS: InferenceSession.SessionOptions = { executionProviders: ["wa
 /** Builds an OCR engine (detector + recognizer) for the given engine id. */
 export async function createOcrEngine(engineId: EngineId): Promise<KhmerOcr> {
   const files = MODEL_FILES[engineId];
+  if (engineId === "chakkhu") {
+    const [det, reader] = await Promise.all([loadSession(files.det, SESSION_OPTS), ChakkhuReader.load()]);
+    return new KhmerOcr(det, null, engineId, reader);
+  }
+  if (!files.rec) throw new Error(`No recognizer for ${engineId}`);
   const det = await loadSession(files.det, SESSION_OPTS);
   const rec = await loadSession(files.rec, SESSION_OPTS);
   return new KhmerOcr(det, rec, engineId);
@@ -113,14 +133,16 @@ function bilinearResizeCh(src: Float32Array, srcW: number, srcH: number, dstW: n
 
 export class KhmerOcr {
   private det: InferenceSession;
-  private rec: InferenceSession;
+  private rec: InferenceSession | null;
+  private chakkhu: ChakkhuReader | null;
   private engineId: EngineId;
   private threshold = 0.25;
   private nmsThreshold = 0.45;
 
-  constructor(det: InferenceSession, rec: InferenceSession, engineId: EngineId) {
+  constructor(det: InferenceSession, rec: InferenceSession | null, engineId: EngineId, chakkhu: ChakkhuReader | null = null) {
     this.det = det;
     this.rec = rec;
+    this.chakkhu = chakkhu;
     this.engineId = engineId;
   }
 
@@ -185,7 +207,7 @@ export class KhmerOcr {
     return getSortedLines(kept, 0.5);
   }
 
-  async recognize(box: Box, imageData: ImageData): Promise<{ text: string; confidence: number }> {
+  async recognize(box: Box, imageData: ImageData, mode: ChakkhuMode = "best"): Promise<{ text: string; confidence: number }> {
     const w = imageData.width;
     const h = imageData.height;
     const x1 = Math.max(0, Math.min(Math.round(box.x1), w));
@@ -195,6 +217,13 @@ export class KhmerOcr {
     const cw = x2 - x1;
     const ch = y2 - y1;
     if (cw <= 0 || ch <= 0) return { text: "", confidence: 0 };
+
+    if (this.chakkhu) {
+      // Chakkhu prepares its own line picture (Pillow-compatible grey + resize).
+      return this.chakkhu.readLine(rgbaToGrey(imageData.data, w, x1, y1, x2, y2), cw, ch, mode);
+    }
+    if (!this.rec) return { text: "", confidence: 0 };
+    const rec = this.rec;
 
     // Grayscale crop.
     const raw = imageData.data;
@@ -218,11 +247,11 @@ export class KhmerOcr {
       tensor = new Tensor("float32", resized, [1, 1, 32, newWidth]);
     }
 
-    const names = this.rec.inputNames;
+    const names = rec.inputNames;
     const feeds: Record<string, Tensor> = {};
     if (names.length) feeds[names[0]] = tensor;
-    const outputNames = this.rec.outputNames;
-    const out = await this.rec.run(feeds, outputNames);
+    const outputNames = rec.outputNames;
+    const out = await rec.run(feeds, outputNames);
 
     const logitsName = outputNames.find((n) => /logits/i.test(n)) ?? outputNames[0];
     const logits = out[logitsName];
@@ -241,18 +270,68 @@ export class KhmerOcr {
     return decodeCtc(data, seqLen, vocabSize);
   }
 
-  async ocr(imageData: ImageData): Promise<OcrOutput> {
+  async ocr(imageData: ImageData, options: OcrOptions = {}): Promise<OcrOutput> {
     const lines = await this.detect(imageData);
     const results: OcrResult[] = [];
-    for (const line of lines) {
-      for (const box of line.boxes) {
-        if (box.classId === 0) continue;
-        const { text, confidence } = await this.recognize(box, imageData);
-        if (text) results.push({ text, confidence, box });
-      }
+    // Chakkhu is a text-line reader (its decoder uses the whole line as context), so the detector's
+    // word boxes are joined into line segments for it; the other engines read box by box.
+    const regions = lines.flatMap((line, index) => {
+      const boxes = line.boxes.filter((box) => box.classId !== 0);
+      return (this.chakkhu ? lineSegments(boxes) : boxes).map((box) => ({ box, line: index }));
+    });
+    let done = 0;
+    options.onProgress?.(done, regions.length);
+    for (const { box, line } of regions) {
+      const { text, confidence } = await this.recognize(box, imageData, options.mode);
+      if (text) results.push({ text, confidence, box, line });
+      options.onProgress?.(++done, regions.length);
+      // Inference never yields to the event loop on its own; give the page a turn to show progress.
+      await new Promise((resolve) => setTimeout(resolve, 0));
     }
     return { lines, results };
   }
+}
+
+/**
+ * Joins the left-to-right word boxes of one detected line into segments: neighbours merge unless the
+ * gap between them is wider than 1.5 × the taller box (a column or table gap), so separate columns on
+ * one row stay separate.
+ */
+export function lineSegments(boxes: Box[]): Box[] {
+  const sorted = [...boxes].sort((a, b) => a.x1 - b.x1);
+  const segments: Box[] = [];
+  for (const box of sorted) {
+    const last = segments[segments.length - 1];
+    const gapLimit = 1.5 * Math.max(box.y2 - box.y1, last ? last.y2 - last.y1 : 0);
+    if (last && box.x1 - last.x2 <= gapLimit) {
+      segments[segments.length - 1] = {
+        x1: Math.min(last.x1, box.x1),
+        y1: Math.min(last.y1, box.y1),
+        x2: Math.max(last.x2, box.x2),
+        y2: Math.max(last.y2, box.y2),
+        classId: last.classId,
+        score: Math.max(last.score, box.score),
+      };
+    } else {
+      segments.push({ ...box });
+    }
+  }
+  return segments;
+}
+
+/** Recognized text with regions on the same detected line joined by a space, one line per row. */
+export function resultsToText(results: OcrResult[]): string {
+  const rows: string[] = [];
+  let current = -1;
+  for (const r of results) {
+    if (r.line !== current) {
+      rows.push(r.text);
+      current = r.line;
+    } else {
+      rows[rows.length - 1] += ` ${r.text}`;
+    }
+  }
+  return rows.join("\n");
 }
 
 function nms(boxes: Box[], iouThreshold: number): number[] {

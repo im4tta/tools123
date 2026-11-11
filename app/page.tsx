@@ -1099,6 +1099,14 @@ const INITIAL_FULL_CARDS = 12;
 
 // Card blurbs never change for a tool; compute each once instead of on every grid re-render.
 const blurbCache = new Map<string, { en: string; km: string }>();
+/** Link text for a credited project: its host's name, or a generic "Source". */
+function creditHost(url: string): string | null {
+  const host = (() => { try { return new URL(url).hostname; } catch { return ""; } })();
+  if (host === "github.com") return "GitHub";
+  if (host === "huggingface.co") return "Hugging Face";
+  return null;
+}
+
 function cachedBlurb(tool: (typeof TOOLS)[number]) {
   let blurb = blurbCache.get(tool.id);
   if (!blurb) {
@@ -1165,7 +1173,7 @@ function ToolGrid({
               {blurb && <span className="tool-card-blurb">{t(blurb.en, blurb.km)}</span>}
               {showCredits && tool.localProject && <span className="mt-0.5 block truncate text-[10px] text-[var(--ink-faint)]">{tool.localProject.author} · {tool.localProject.license}{tool.localProject.relationship === "inspired" ? " · Inspired / independent" : tool.localProject.relationship === "adapted" ? " · Adapted" : tool.localProject.relationship === "integrated" ? " · Integrated" : ""}</span>}
             </a>
-            {showCredits && tool.localProject && <a href={tool.localProject.repository} target="_blank" rel="noopener noreferrer" onClick={(event) => event.stopPropagation()} className="shrink-0 rounded px-1.5 py-1 text-[10px] text-[var(--ink-faint)] underline hover:text-[var(--gold)]">GitHub</a>}
+            {showCredits && tool.localProject && <a href={tool.localProject.repository} target="_blank" rel="noopener noreferrer" onClick={(event) => event.stopPropagation()} className="shrink-0 rounded px-1.5 py-1 text-[10px] text-[var(--ink-faint)] underline hover:text-[var(--gold)]">{creditHost(tool.localProject.repository) ?? t("Source", "ប្រភព")}</a>}
             <button
               type="button"
               onClick={() => onToggleFavorite(tool.id)}
