@@ -646,27 +646,14 @@ a.tool-card:focus-visible {
 .category-ticker .chip:focus-visible {
   outline-offset: -2px;
 }
-/* Reduced motion: the chips stop and become a row you can scroll sideways (touch, trackpad,
-   or Tab through them); the duplicate set that made the loop seamless is hidden. */
+/* Reduced motion: the ticker keeps flowing (many systems turn this setting on by default, which
+   left the header frozen), but at half speed, a slow sideways drift with no flashing. The
+   pause button stays, and hover or keyboard focus still stops it. These rules beat the global
+   reduced-motion reset above, which would otherwise end the animation at once. */
 @media (prefers-reduced-motion: reduce) {
-  .category-ticker {
-    overflow-x: auto;
-    scrollbar-width: none;
-  }
-  .category-ticker::-webkit-scrollbar {
-    display: none;
-  }
   .category-ticker-track {
-    animation: none !important;
-    transform: none;
-    will-change: auto;
-  }
-  .category-ticker-track > [aria-hidden="true"] {
-    display: none;
-  }
-  /* Nothing moves, so there is nothing to pause. */
-  .ticker-pause {
-    display: none;
+    animation-duration: 76s !important;
+    animation-iteration-count: infinite !important;
   }
 }
 /* Touch/no-hover users can't pause the ticker with a hover; they use the pause button. */
