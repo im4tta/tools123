@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import Link from "next/link";
 import { JetBrains_Mono, Kantumruy_Pro, Manrope, Moul, Siemreap, Space_Grotesk } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
+import { DatabuddyProvider } from "@databuddy/sdk/react";
 import "./globals.css";
 import "./mobile.css";
 import "./mobile-carousel.css";
@@ -20,6 +21,11 @@ import { BASE_URL } from "@/lib/site";
 import { siteJsonLd } from "@/lib/seo";
 
 const SITE_JSON_LD = JSON.stringify(siteJsonLd()).replace(/</g, "\\u003c");
+
+// Databuddy analytics: on only where the client ID is configured (production), so forks and local
+// builds send nothing. Replays mask all page text and typed input; tool workspaces are also left
+// out of replays entirely (data-replay-block in ToolRouteClient). See /privacy.
+const DATABUDDY_CLIENT_ID = process.env.NEXT_PUBLIC_DATABUDDY_CLIENT_ID;
 
 const kantumruyPro = Kantumruy_Pro({
   subsets: ["khmer", "latin"],
@@ -129,6 +135,13 @@ export default function RootLayout({
           <Toaster />
         </AppProviders>
         <Analytics />
+        {DATABUDDY_CLIENT_ID && (
+          <DatabuddyProvider
+            clientId={DATABUDDY_CLIENT_ID}
+            autocapture={{ webVitals: true, errors: true }}
+            replay
+          />
+        )}
       </body>
     </html>
   );

@@ -16,10 +16,12 @@ const ENFORCED_CSP = ["frame-ancestors 'none'", "base-uri 'self'", "form-action 
  * scripts may load from. Violations show in the browser console; enforce once they are clean.
  * srcdoc preview iframes inherit this policy, hence the CDNs they load from. Vercel Analytics
  * loads from /_vercel/insights (same origin) in production and from va.vercel-scripts.com in dev.
+ * Databuddy loads its tracker and replay recorder from cdn.databuddy.cc and sends to
+ * basket.databuddy.cc (covered by connect-src https:).
  */
 const REPORT_ONLY_CSP = [
   "default-src 'self'",
-  `script-src 'self' 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://cdn.tailwindcss.com${isDev ? " https://va.vercel-scripts.com" : ""}`,
+  `script-src 'self' 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://cdn.tailwindcss.com https://cdn.databuddy.cc${isDev ? " https://va.vercel-scripts.com" : ""}`,
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net",
   "font-src 'self' data: https://fonts.gstatic.com https://cdn.jsdelivr.net",
   "img-src 'self' data: blob: https:",

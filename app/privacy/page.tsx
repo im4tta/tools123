@@ -6,7 +6,7 @@ import { BASE_URL } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Privacy & Cookies — 123 Toolbox",
   description:
-    "How 123 Toolbox handles your data: tools run in your browser, one functional language cookie, cookieless analytics, and local storage for your settings. No accounts, no tracking, no selling of data.",
+    "How 123 Toolbox handles your data: tools run in your browser, one functional language cookie, cookieless analytics, and local storage for your settings. No accounts, no advertising trackers, no selling of data.",
   alternates: { canonical: `${BASE_URL}/privacy` },
 };
 
@@ -68,14 +68,24 @@ export default function PrivacyPage() {
           <strong className="text-[var(--ink)]">cookieless</strong> and does not store persistent
           personal identifiers about you.
         </p>
+        <p className="mt-4 text-sm leading-relaxed text-[var(--ink-dim)]">
+          We also use <strong className="text-[var(--ink)]">Databuddy</strong> to measure visits,
+          page speed (Core Web Vitals), and errors, and to record{" "}
+          <strong className="text-[var(--ink)]">session replays</strong> that help us find pages
+          that are confusing or broken. It does not use cookies; it keeps a random visitor ID in your
+          browser&apos;s storage. Replays hide all page text and everything you type, and the work
+          area of every tool is left out of replays completely, so the files, images, and text you
+          use in a tool are not recorded.
+        </p>
       </section>
 
       <section className="mt-10">
         <h2 className="font-display text-lg font-medium text-[var(--ink)]">Local storage on your device</h2>
         <p className="mt-4 text-sm leading-relaxed text-[var(--ink-dim)]">
           To make the tools convenient, the site keeps some settings in your browser&apos;s local
-          storage. This stays on your device, is never sent to a server, and you can clear it any
-          time from your browser settings. It includes things like:
+          storage. Apart from the analytics visitor ID described above, this stays on your device, is
+          never sent to a server, and you can clear it any time from your browser settings. It
+          includes things like:
         </p>
         <ul className="mt-4 list-disc space-y-2 pl-5 text-sm leading-relaxed text-[var(--ink-dim)]">
           <li>your language / bilingual mode preference;</li>
