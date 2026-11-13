@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@babel/standalone": "^7.29.10",
+    "@databuddy/sdk": "^3.5.1",
     "@huggingface/transformers": "^4.2.0",
     "@imgly/background-removal": "^1.7.0",
     "@thyrith/momentkh": "^3.0.3",

@@ -150,7 +150,10 @@ export function ToolRouteClient({ tool, related, toolCount, faq }: { tool: ToolR
         </ol>
       </nav>
       <ToolPageContext.Provider value={toolPage}>
-      <div className="fade-rise">
+      {/* data-replay-block: session replays show this area as an empty box, so the files, images
+          and text people work with never reach a recording (image previews are often data: URLs,
+          which a recording would otherwise carry in full). */}
+      <div className="fade-rise" data-replay-block="">
         {toolReady
           ? <ToolErrorBoundary><LazyTool tool={tool} fallback={placeholder} /></ToolErrorBoundary>
           : placeholder}

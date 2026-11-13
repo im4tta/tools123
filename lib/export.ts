@@ -7,6 +7,7 @@
 // only draw the `123tool.app` mark when the user has not hidden it.
 
 import { SITE_DOMAIN } from "@/lib/site";
+import { trackEvent } from "@/lib/analytics";
 
 export const EXPORT_MILESTONES = [1, 5, 10, 20] as const;
 
@@ -62,6 +63,7 @@ export function getExportCount(): number {
 /** Increments the export counter and returns the milestone hit (or null). */
 export function recordExport(): number | null {
   if (typeof window === "undefined") return null;
+  trackEvent("file_exported");
   const next = getExportCount() + 1;
   try {
     window.localStorage.setItem(EXPORT_COUNT_KEY, String(next));
