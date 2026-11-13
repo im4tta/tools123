@@ -9,10 +9,10 @@ export type AnalyticsEvent =
   | "file_exported"; // a tool produced a file for download
 
 /**
- * Sends an event when Databuddy is running. A no-op where it is not configured (local builds,
- * forks) or the tracker is blocked, so it never queues calls or logs warnings there.
+ * Sends an event when the Databuddy tracker has loaded. A no-op while it is loading or when it is
+ * blocked (an ad blocker), so it never queues calls or logs warnings.
  */
 export function trackEvent(name: AnalyticsEvent): void {
-  if (!process.env.NEXT_PUBLIC_DATABUDDY_CLIENT_ID || !isTrackerAvailable()) return;
+  if (!isTrackerAvailable()) return;
   track(name);
 }

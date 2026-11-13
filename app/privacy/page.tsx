@@ -70,7 +70,8 @@ export default function PrivacyPage() {
         </p>
         <p className="mt-4 text-sm leading-relaxed text-[var(--ink-dim)]">
           We also use <strong className="text-[var(--ink)]">Databuddy</strong> to measure visits,
-          page speed (Core Web Vitals), and errors, and to record{" "}
+          page speed (Core Web Vitals), errors, and clicks on links to other websites (the
+          address without its query string, and the link&apos;s text), and to record{" "}
           <strong className="text-[var(--ink)]">session replays</strong> that help us find pages
           that are confusing or broken. It does not use cookies; it keeps a random visitor ID in your
           browser&apos;s storage. Replays hide all page text and everything you type, and the work

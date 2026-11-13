@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextFetchEvent, NextRequest } from "next/server";
 import { trackAgents } from "@databuddy/sdk/agents";
+import { DATABUDDY_CLIENT_ID } from "@/lib/databuddy";
 
 const LOCALE_COOKIE = "tb-locale";
 
@@ -16,12 +17,11 @@ function localeCookieOptions(request: NextRequest) {
  *
  * Also reports visits from AI crawlers and agents (GPTBot, ClaudeBot, …), which never run the
  * browser tracker, to Databuddy. Only requests whose headers identify an agent are sent; the
- * response does not wait for it. Off when NEXT_PUBLIC_DATABUDDY_CLIENT_ID is unset.
+ * response does not wait for it.
  */
 export function proxy(request: NextRequest, event: NextFetchEvent) {
   const { pathname } = request.nextUrl;
-  const databuddyId = process.env.NEXT_PUBLIC_DATABUDDY_CLIENT_ID;
-  if (databuddyId) event.waitUntil(trackAgents(request, { websiteId: databuddyId }));
+  event.waitUntil(trackAgents(request, { websiteId: DATABUDDY_CLIENT_ID }));
 
   // Rewrite /en and /km to the underlying path, recording the locale cookie.
   const localeMatch = pathname.match(/^\/(en|km)(?:\/|$)/);
