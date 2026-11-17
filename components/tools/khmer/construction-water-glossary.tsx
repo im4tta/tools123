@@ -5,15 +5,17 @@ import { CopyButton, type CopyField } from "@/components/CopyButton";
 import { useClipboard } from "@/components/ClipboardProvider";
 import { useToolState } from "@/lib/storage";
 import { useLanguage } from "@/components/LanguageProvider";
+import { PUBLIC_WORKS_AB_PROVENANCE, PUBLIC_WORKS_AB_TERMS } from "@/lib/data/public-works-glossary-ab";
 
 interface Term {
   en: string;
   km: string;
-  category: "Correspondence & Contract" | "Procurement & BOQ" | "Irrigation & Hydraulic" | "Road Construction" | "QA/QC & Testing" | "Environmental & Social Safeguards";
+  category: "Correspondence & Contract" | "Procurement & BOQ" | "Irrigation & Hydraulic" | "Road Construction" | "QA/QC & Testing" | "Environmental & Social Safeguards" | "Public Works";
   note?: string;
+  noteKm?: string;
 }
 
-const TERMS: Term[] = [
+const CORE_TERMS: Term[] = [
   { en: "Letter / Correspondence", km: "លិខិត / លិខិតឆ្លើយឆ្លង", category: "Correspondence & Contract", note: "Official written communication between project parties" },
   { en: "Notice to Proceed (NTP)", km: "លិខិតជូនដំណឹងឱ្យចាប់ផ្តើមការងារ", category: "Correspondence & Contract", note: "Official instruction to commence work" },
   { en: "Contract", km: "កិច្ចសន្យា", category: "Correspondence & Contract", note: "Legally binding agreement between parties" },
@@ -129,7 +131,11 @@ const TERMS: Term[] = [
   { en: "Dust Suppression", km: "ការកាត់បន្ថយ / គ្រប់គ្រងធូលី", category: "Environmental & Social Safeguards", note: "Water spraying or methods to limit airborne dust" },
 ];
 
-const CATEGORIES = ["All", "Correspondence & Contract", "Procurement & BOQ", "Irrigation & Hydraulic", "Road Construction", "QA/QC & Testing", "Environmental & Social Safeguards"] as const;
+const PUBLIC_WORKS_TERMS: Term[] = PUBLIC_WORKS_AB_TERMS.map((p) => ({ en: p.en, km: p.km, category: "Public Works", note: p.defEn, noteKm: p.defKm }));
+
+const TERMS: Term[] = [...CORE_TERMS, ...PUBLIC_WORKS_TERMS];
+
+const CATEGORIES = ["All", "Correspondence & Contract", "Procurement & BOQ", "Irrigation & Hydraulic", "Road Construction", "QA/QC & Testing", "Environmental & Social Safeguards", "Public Works"] as const;
 
 export default function ConstructionWaterGlossary() {
   const { text: localize } = useLanguage();
@@ -153,27 +159,29 @@ export default function ConstructionWaterGlossary() {
       { id: "category", label: localize("Category", "ចំណាត់ថ្នាក់"), getValue: t.category },
     ];
     if (t.note) f.push({ id: "note", label: localize("Description", "ការពិពណ៌នា"), getValue: t.note });
+    if (t.noteKm) f.push({ id: "noteKm", label: localize("Description (Khmer)", "ការពិពណ៌នា (ខ្មែរ)"), getValue: t.noteKm });
     return f;
   }
 
   function formatEntry(t: Term) {
-    return `${t.en}\n${t.km}${t.note ? `\n${t.note}` : ""}\n${t.category}`;
+    return `${t.en}\n${t.km}${t.note ? `\n${t.note}` : ""}${t.noteKm ? `\n${t.noteKm}` : ""}\n${t.category}`;
   }
 
   function formatAll() {
-    return results.map((t) => `${t.en}\n${t.km}${t.note ? `\n${t.note}` : ""}\n${t.category}`).join("\n\n---\n\n");
+    return results.map(formatEntry).join("\n\n---\n\n");
   }
 
   return (
     <ToolShell
       title="Construction & Water Resources Glossary"
       khmerTitle="វចនានុក្រមសំណង់ និងធនធានទឹក"
-      description="Khmer-English terminology for construction contracts, procurement/BOQ documents, irrigation infrastructure, and environmental & social safeguards — the everyday vocabulary of correspondence registers, contract admin, and canal works. Aimed at practical project documents, not a legal translation authority."
+      description="Khmer-English terminology for construction contracts, procurement/BOQ documents, irrigation infrastructure, environmental & social safeguards, and public works (roads, traffic, bridges, pavement) — the everyday vocabulary of correspondence registers, contract admin, and canal works. Aimed at practical project documents, not a legal translation authority."
+      descriptionKm="វាក្យស័ព្ទខ្មែរ-អង់គ្លេសសម្រាប់កិច្ចសន្យាសំណង់ ឯកសារលទ្ធកម្ម/BOQ ហេដ្ឋារចនាសម្ព័ន្ធប្រព័ន្ធទឹក ការការពារបរិស្ថាន និងសង្គម និងសាធារណការ (ផ្លូវ ចរាចរណ៍ ស្ពាន ស្រទាប់ផ្លូវ) — ពាក្យប្រើប្រាស់ប្រចាំថ្ងៃក្នុងការចុះបញ្ជីលិខិតឆ្លើយឆ្លង ការគ្រប់គ្រងកិច្ចសន្យា និងការងារប្រឡាយ។ សម្រាប់ឯកសារគម្រោងជាក់ស្តែង មិនមែនជាអាជ្ញាធរបកប្រែផ្លូវច្បាប់ទេ។"
     >
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         <Field label="Category">
           <Select value={cat} onChange={(e) => setCat(e.target.value as (typeof CATEGORIES)[number])}>
-            {CATEGORIES.map((c) => <option key={c} value={c}>{c}</option>)}
+            {CATEGORIES.map((c) => <option key={c} value={c}>{c === "Public Works" ? localize(c, "សាធារណការ") : c}</option>)}
           </Select>
         </Field>
         <Field label="Search">
@@ -196,19 +204,35 @@ export default function ConstructionWaterGlossary() {
         {results.length === 0 && (
           <div className="py-8 text-center text-sm text-[var(--ink-faint)]">No terms match that filter.</div>
         )}
-        {results.map((t) => (
-          <div key={t.en} className="flex items-start justify-between gap-3 rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 text-sm">
-            <div className="min-w-0">
-              <div className="font-medium text-[var(--ink)]">{t.en}</div>
-              {t.note && <div className="mt-0.5 text-xs text-[var(--ink-dim)]">{t.note}</div>}
-              <div className="mt-1 text-[10px] uppercase tracking-wide text-[var(--ink-faint)]">{t.category}</div>
+        {results.map((t) => {
+          // Entries with a long Khmer definition keep the term/copy column at a stable share of the row on
+          // narrow screens; the original short-note cards keep their original classes unchanged.
+          const hasKmNote = Boolean(t.noteKm);
+          return (
+            <div key={`${t.category}:${t.en}`} className="flex items-start justify-between gap-3 rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2 text-sm">
+              <div className="min-w-0">
+                <div className="font-medium text-[var(--ink)]">{t.en}</div>
+                {t.note && <div className="mt-0.5 whitespace-pre-line text-xs text-[var(--ink-dim)]">{t.note}</div>}
+                {t.noteKm && <div lang="km" className="mt-0.5 whitespace-pre-line break-words font-khmer text-xs leading-relaxed text-[var(--ink-dim)]">{t.noteKm}</div>}
+                <div className="mt-1 text-[10px] uppercase tracking-wide text-[var(--ink-faint)]">{t.category}</div>
+              </div>
+              <div className={`flex min-w-0 items-center gap-2 ${hasKmNote ? "max-w-[55%] shrink-0 sm:max-w-none" : "sm:shrink-0"}`}>
+                <div className={`text-right font-medium text-[var(--gold-text)] sm:whitespace-nowrap ${hasKmNote ? "min-w-0 break-words" : ""}`}>{t.km}</div>
+                <CopyButton text={formatEntry(t)} compact fields={buildFields(t)} />
+              </div>
             </div>
-            <div className="flex min-w-0 items-center gap-2 sm:shrink-0">
-              <div className="text-right font-medium text-[var(--gold-text)] sm:whitespace-nowrap">{t.km}</div>
-              <CopyButton text={formatEntry(t)} compact fields={buildFields(t)} />
-            </div>
-          </div>
-        ))}
+          );
+        })}
+      </div>
+      <div className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] p-3 text-xs leading-relaxed text-[var(--ink-dim)]">
+        <div className="mb-1 font-medium text-[var(--ink)]">{localize("Source & Credits", "ប្រភព និងការអរគុណ")}</div>
+        <ul className="list-inside list-disc space-y-0.5">
+          <li>
+            {localize("“Public Works” category (terms A–B only): supplied by the Tools123 maintainer as a bilingual table.", "ក្រុម «សាធារណការ» (តែពាក្យអក្សរ A–B)៖ ផ្តល់ដោយអ្នកថែទាំ Tools123 ជាតារាងពីរភាសា។")}{" "}
+            {PUBLIC_WORKS_AB_PROVENANCE.status === "unknown" && localize("Original publisher, author and licence: Provenance Pending.", "អ្នកបោះពុម្ព អ្នកនិពន្ធដើម និងអាជ្ញាប័ណ្ណ៖ កំពុងរង់ចាំការផ្ទៀងផ្ទាត់ (Provenance Pending)។")}
+          </li>
+          <li>{localize("Not verified as an official ministry or government glossary. Terms and definitions are for practical reference only — check them against the governing contract or standard.", "មិនទាន់បានផ្ទៀងផ្ទាត់ថាជាវចនានុក្រមផ្លូវការរបស់ក្រសួង ឬរដ្ឋាភិបាលទេ។ ពាក្យ និងនិយមន័យសម្រាប់យោងជាក់ស្តែងប៉ុណ្ណោះ — សូមផ្ទៀងផ្ទាត់ជាមួយកិច្ចសន្យា ឬស្តង់ដារដែលមានសុពលភាព។")}</li>
+        </ul>
       </div>
     </ToolShell>
   );
