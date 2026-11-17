@@ -1,10 +1,9 @@
 // Public works glossary, terms beginning with A-B (Khmer/English, with definitions in both languages).
-// Imported verbatim from a table supplied by the Tools123 maintainer (public_works_glossary_a_b.md):
+// Source named by the Tools123 maintainer: the MPWT Glossary (see lib/data/public-works-provenance.ts for the
+// shared provenance record, source link and unresolved licence note).
+// Imported verbatim from a table supplied by the maintainer (public_works_glossary_a_b.md):
 // <br> list breaks became newlines, one headword typo was corrected, and the 6 entries
 // that had no definition in the supplied table are kept term-only. Nothing was added or reworded.
-// The original author/publisher and licence of the table are NOT yet known, so provenance is "unknown"
-// and the tool shows "Provenance Pending". Do not describe this list as official or government-issued
-// until a source is confirmed.
 
 export interface PublicWorksTerm {
   en: string;
@@ -12,13 +11,6 @@ export interface PublicWorksTerm {
   defEn?: string;
   defKm?: string;
 }
-
-/** Machine-readable provenance (shape from READFIRST.md "Required Metadata Shape"). */
-export const PUBLIC_WORKS_AB_PROVENANCE = {
-  status: "unknown" as const,
-  origin: "Supplied by the Tools123 maintainer as a Markdown table (public_works_glossary_a_b.md); original publisher not yet identified.",
-  notes: "Covers terms beginning with A-B only. Source, author and licence unverified; not confirmed as an official MPWT or government terminology list.",
-};
 
 export const PUBLIC_WORKS_AB_TERMS: PublicWorksTerm[] = [
   { en: "AADT (Annual Average Daily Traffic)", km: "ចរាចរណ៍មធ្យមប្រចាំឆ្នាំក្នុង១ថ្ងៃ", defEn: "The total volume of traffic passing a roadside observation point over the period of a calendar year, divided by the number of days in that year (365 or 366 days).", defKm: "បរិមាណចរាចរណ៍សរុប ឆ្លងកាត់ចំណុចសង្កេតមួយតាមដងផ្លូវ ក្នុងរយៈពេលនៃឆ្នាំប្រតិទិន ចែកនឹងចំនួនថ្ងៃក្នុងឆ្នាំនោះ (៣៦៥ ឬ ៣៦៦ថ្ងៃ)។" },

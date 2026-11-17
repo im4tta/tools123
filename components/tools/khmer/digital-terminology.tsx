@@ -1,102 +1,33 @@
 "use client";
-import { Fragment, useMemo, useState } from "react";
-import { CopyButton } from "@/components/CopyButton";
-import { ToolShell, Field, TextInput } from "@/components/ui/Shell";
-import { useToolState } from "@/lib/storage";
+import { ToolShell } from "@/components/ui/Shell";
+import { Lexicon, type LexiconItem } from "@/components/ui/Lexicon";
 import { MPTC_TERMS } from "@/lib/data/mptc-lexicon";
-import { clickOnKey } from "@/lib/a11y";
+
+const ITEMS: LexiconItem[] = MPTC_TERMS.map((term, i) => ({
+  id: `${term.km}::${term.en}::${i}`,
+  term: term.en,
+  termKm: term.km,
+  defKm: term.def || undefined,
+  extras: term.fr ? [{ label: "French", labelKm: "បារាំង", value: term.fr }] : undefined,
+  search: [term.fr, term.def],
+}));
 
 export default function DigitalTerminology() {
-  const [q, setQ] = useToolState("digital-terminology:q", "");
-  const [openKey, setOpenKey] = useState<string | null>(null);
-
-  const results = useMemo(() => {
-    const query = q.trim().toLowerCase();
-    if (!query) return MPTC_TERMS;
-    return MPTC_TERMS.filter(
-      (t) =>
-        t.en.toLowerCase().includes(query) ||
-        t.km.includes(q) ||
-        t.fr.toLowerCase().includes(query) ||
-        t.def.includes(q)
-    );
-  }, [q]);
-
   return (
     <ToolShell
       title="Khmer Digital Terminology"
       khmerTitle="វាក្យស័ព្ទឌីជីថល"
-      description={`The full official MPTC (Ministry of Posts and Telecommunications of Cambodia) Digital Terminology Lexicon — ${MPTC_TERMS.length} standardized terms with English, French, and Khmer definitions, from the ministry's 2025/2026 published update. Search by English, French, or Khmer; tap a row to expand its definition.`}
+      description={`The full official MPTC (Ministry of Posts and Telecommunications of Cambodia) Digital Terminology Lexicon — ${MPTC_TERMS.length} standardized terms with English, French, and Khmer definitions, from the ministry's 2025/2026 published update. Search by English, French, or Khmer; tap a term to open its definition.`}
     >
-      <Field label="Filter" hint={`${results.length} of ${MPTC_TERMS.length}`}>
-        <TextInput
-          value={q}
-          onChange={(e) => setQ(e.target.value)}
-          placeholder="Search English, French, or Khmer..."
-        />
-      </Field>
-      <div className="rounded-md border border-[var(--ground-line)]">
-        <table className="w-full text-sm">
-          <thead className="bg-[var(--ground-raised)] text-xs uppercase tracking-wide text-[var(--ink-dim)]">
-            <tr>
-              <th className="px-3 py-2 text-left">English</th>
-              <th className="px-3 py-2 text-left">Khmer</th>
-              <th className="hidden px-3 py-2 text-left sm:table-cell">French</th>
-              <th className="w-10 px-3 py-2" />
-            </tr>
-          </thead>
-          <tbody>
-            {results.map((t, i) => {
-              const key = `${t.km}::${t.en}::${i}`;
-              const isOpen = openKey === key;
-              return (
-                <Fragment key={key}>
-                  <tr
-                    className="cursor-pointer border-t border-[var(--ground-line)] hover:bg-[var(--ground-raised)]"
-                    tabIndex={0}
-                    aria-expanded={isOpen}
-                    onKeyDown={clickOnKey}
-                    onClick={() => setOpenKey(isOpen ? null : key)}
-                  >
-                    <td className="px-3 py-2">{t.en}</td>
-                    <td className="px-3 py-2 font-khmer">{t.km}</td>
-                    <td className="hidden px-3 py-2 text-[var(--ink-dim)] sm:table-cell">{t.fr}</td>
-                    <td className="px-3 py-2" onClick={(e) => e.stopPropagation()}>
-                      <CopyButton compact text={`${t.en}\n${t.km}\n${t.fr}`}
-                        fields={[
-                          { id: "en", label: "English", getValue: t.en },
-                          { id: "km", label: "Khmer", getValue: t.km },
-                          { id: "fr", label: "French", getValue: t.fr },
-                          ...(t.def ? [{ id: "def", label: "Definition", getValue: t.def }] : []),
-                        ]}
-                      />
-                    </td>
-                  </tr>
-                  {isOpen && t.def && (
-                    <tr className="border-t border-[var(--ground-line)] bg-[var(--ground-raised)]">
-                      <td colSpan={4} className="px-3 py-3">
-                        <div className="font-khmer text-sm leading-relaxed text-[var(--ink)]">{t.def}</div>
-                        {t.fr && (
-                          <div className="mt-1 text-xs text-[var(--ink-faint)] sm:hidden">
-                            French: {t.fr}
-                          </div>
-                        )}
-                      </td>
-                    </tr>
-                  )}
-                </Fragment>
-              );
-            })}
-            {results.length === 0 && (
-              <tr>
-                <td colSpan={4} className="px-3 py-4 text-center text-[var(--ink-faint)]">
-                  No matches
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
+      <Lexicon
+        items={ITEMS}
+        storagePrefix="digital-terminology"
+        queryKey="digital-terminology:q"
+        name="Digital terminology"
+        nameKm="វាក្យស័ព្ទឌីជីថល"
+        searchPlaceholder="Search English, French, or Khmer..."
+        searchPlaceholderKm="ស្វែងរកជាអង់គ្លេស បារាំង ឬខ្មែរ..."
+      />
       <p className="text-xs text-[var(--ink-faint)]">
         Source: Ministry of Posts and Telecommunications of Cambodia, Digital Terminology Lexicon.
       </p>

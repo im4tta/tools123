@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+import { PUBLIC_WORKS_PROVENANCE } from "@/lib/data/public-works-provenance";
 
 const LIBRARIES = [
   { name: "Next.js", url: "https://nextjs.org/", by: "Vercel Inc.", use: "React framework for server-rendered applications" },
@@ -38,6 +39,7 @@ const FONTS = [
   { name: "Siemreap", url: "https://fonts.google.com/specimen/Siemreap", by: "Danh Hong" },
   { name: "Space Grotesk", url: "https://fonts.google.com/specimen/Space+Grotesk", by: "Florian Karsten" },
   { name: "JetBrains Mono", url: "https://www.jetbrains.com/lp/mono/", by: "JetBrains s.r.o." },
+  { name: "Playfair Display", url: "https://fonts.google.com/specimen/Playfair+Display", by: "Claus Eggers Sørensen" },
 ];
 
 const INFRA = [
@@ -136,6 +138,17 @@ export default function AcknowledgementPage() {
             The punctuation-restoration tool references <a href="https://github.com/seanghay/khmerpunctuate" target="_blank" rel="noopener noreferrer" className="text-[var(--gold-text)] hover:text-[var(--gold-dim)]">khmerpunctuate</a> by Seanghay Yath and its Khmer punctuation model on <a href="https://huggingface.co/seanghay/khmer-punctuation-restore" target="_blank" rel="noopener noreferrer" className="text-[var(--gold-text)] hover:text-[var(--gold-dim)]">Hugging Face</a>.
           </p>
           <p className="mt-2">The current browser fallback is independently implemented and does not bundle the original ONNX model. The original project is credited for the reference workflow and model approach under the MIT License.</p>
+        </div>
+      </section>
+
+      <section className="mt-10">
+        <h2 className="font-display text-lg font-medium text-[var(--ink)]">Construction &amp; Water Resources Glossary</h2>
+        <div className="mt-4 rounded-lg border border-[var(--gold)]/30 bg-[var(--gold)]/5 px-4 py-4 text-sm leading-relaxed text-[var(--ink-dim)]">
+          <p>
+            The Public Works terms in the glossary come from the
+            <a href={PUBLIC_WORKS_PROVENANCE.sources[0]} target="_blank" rel="noopener noreferrer" className="mx-1 text-[var(--gold-text)] hover:text-[var(--gold-dim)]">{PUBLIC_WORKS_PROVENANCE.originalProject}</a>.
+          </p>
+          <p className="mt-2 text-xs text-[var(--ink-faint)]">Reuse terms not yet confirmed (Provenance Pending).</p>
         </div>
       </section>
 
