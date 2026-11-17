@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import Link from "next/link";
-import { JetBrains_Mono, Kantumruy_Pro, Manrope, Moul, Siemreap, Space_Grotesk } from "next/font/google";
+import { JetBrains_Mono, Kantumruy_Pro, Manrope, Moul, Playfair_Display, Siemreap, Space_Grotesk } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { DatabuddyProvider } from "@databuddy/sdk/react";
 import "./globals.css";
@@ -34,6 +34,9 @@ const kantumruyPro = Kantumruy_Pro({
 // them, but no longer compete with the page's own resources on every visit (important on mobile).
 const moul = Moul({ weight: "400", subsets: ["khmer", "latin"], variable: "--font-moul", display: "swap", preload: false });
 const siemreap = Siemreap({ weight: "400", subsets: ["khmer"], variable: "--font-siemreap", display: "swap", preload: false });
+// Playfair Display — high-contrast serif for the dictionary-style glossary tools (components/ui/Lexicon.tsx).
+// Not preloaded: it is fetched only on pages that actually render .font-lexicon text.
+const playfair = Playfair_Display({ subsets: ["latin"], style: ["normal", "italic"], variable: "--font-playfair", display: "swap", preload: false });
 const spaceGrotesk = Space_Grotesk({ subsets: ["latin"], variable: "--font-space-grotesk", display: "swap", preload: false });
 // Manrope — Latin display/UI face for the "aurora" homepage skin (Khmer falls through to Kantumruy Pro).
 const manrope = Manrope({ subsets: ["latin"], variable: "--font-manrope", display: "swap" });
@@ -79,7 +82,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${kantumruyPro.variable} ${moul.variable} ${siemreap.variable} ${spaceGrotesk.variable} ${manrope.variable} ${jetBrainsMono.variable}`}
+      className={`${kantumruyPro.variable} ${moul.variable} ${siemreap.variable} ${playfair.variable} ${spaceGrotesk.variable} ${manrope.variable} ${jetBrainsMono.variable}`}
     >
       <head>
         <script suppressHydrationWarning dangerouslySetInnerHTML={{ __html: themeInitScript }} />

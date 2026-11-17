@@ -232,6 +232,72 @@ body {
   font-family: var(--font-siemreap), var(--font-kantumruy-pro), "Khmer OS Siemreap", sans-serif;
 }
 
+/* Lexicon (components/ui/Lexicon.tsx): dictionary-style "paper" skin shared by the glossary tools.
+   Latin text uses a high-contrast serif; Khmer falls through to Siemreap. Tokens are scoped to
+   .lexicon so the rest of the app keeps its own palette in both themes. */
+.lexicon {
+  --lx-paper: #f4eee0;
+  --lx-ink: #221c13;
+  --lx-ink-dim: #564d3f;
+  --lx-ink-faint: #675e4d;
+  --lx-line: #d9d0ba;
+  --lx-accent: #a4302a;
+  --lx-hover: rgb(34 28 19 / 0.05);
+  background: var(--lx-paper);
+  color: var(--lx-ink);
+}
+:root[data-theme="dark"] .lexicon {
+  --lx-paper: #14171a;
+  --lx-ink: #ece6d6;
+  --lx-ink-dim: #bab3a3;
+  --lx-ink-faint: #a29b8a;
+  --lx-line: #2d3134;
+  --lx-accent: #e68f7c;
+  --lx-hover: rgb(236 230 214 / 0.07);
+}
+.font-lexicon {
+  font-family: var(--font-playfair), ui-serif, "Iowan Old Style", Georgia, "Times New Roman", var(--font-siemreap), var(--font-kantumruy-pro), serif;
+}
+/* Khmer text inside the lexicon: Latin letters stay in the serif, Khmer uses Siemreap (no system fonts in between). */
+.font-lexicon-km {
+  font-family: var(--font-playfair), var(--font-siemreap), var(--font-kantumruy-pro), "Khmer OS Siemreap", serif;
+}
+/* Small tracked caps for section labels, tabs and buttons. Like .ui-label, tracking and upper-casing apply
+   in English only: Khmer has no case and letter-spacing hurts its legibility. */
+.lx-caps {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  line-height: 1.5;
+}
+:root[data-language="en"] .lx-caps {
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
+:root:not([data-language="en"]) .lx-caps {
+  font-size: 0.75rem;
+  line-height: 1.75;
+}
+/* mobile.css forces every <input> to 16px; the search field keeps its large serif size (still >= 16px, so no iOS zoom). */
+.lexicon .lx-input {
+  font-size: 1.375rem !important;
+  line-height: 1.35;
+}
+.lexicon :focus-visible {
+  outline: 2px solid var(--lx-accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+/* The search field shows focus through its accent underline; the entry heading is only focused programmatically. */
+.lexicon .lx-input:focus-visible,
+.lexicon [tabindex="-1"]:focus-visible {
+  outline: none;
+}
+/* Long term lists: let the browser skip layout/paint for off-screen rows. */
+.lx-row {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 3.25rem;
+}
+
 /* subtle cadastral grid backdrop */
 .grid-veil {
   background-image:

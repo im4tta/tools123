@@ -1,7 +1,6 @@
 "use client";
-import { useMemo } from "react";
-import { ToolShell, Field, TextInput } from "@/components/ui/Shell";
-import { useToolState } from "@/lib/storage";
+import { ToolShell } from "@/components/ui/Shell";
+import { Lexicon, type LexiconItem } from "@/components/ui/Lexicon";
 import { useLanguage } from "@/components/LanguageProvider";
 
 interface Dish {
@@ -53,14 +52,10 @@ const DISHES: Dish[] = [
   { en: "Tuk Trey (fish sauce)", km: "ទឹកត្រី", descEn: "Khmer fish sauce, the everyday seasoning of Khmer kitchens." },
 ];
 
+const ITEMS: LexiconItem[] = DISHES.map((d) => ({ id: d.en, term: d.en, termKm: d.km, defEn: d.descEn }));
+
 export default function KhmerDishGlossary() {
   const { text: t } = useLanguage();
-  const [query, setQuery] = useToolState("khmer-dishes:query", "");
-
-  const results = useMemo(() => {
-    const q = query.trim().toLowerCase();
-    return DISHES.filter((d) => !q || d.en.toLowerCase().includes(q) || d.km.includes(q));
-  }, [query]);
 
   return (
     <ToolShell
@@ -69,30 +64,21 @@ export default function KhmerDishGlossary() {
       description="Bilingual English–Khmer glossary of well-known Khmer dishes, snacks, and drinks. Search in either script — English or Khmer. Curated glossary — descriptions are brief."
       descriptionKm="វចនានុក្រមពីរភាសា អង់គ្លេស–ខ្មែរ នៃម្ហូប អាហារសម្រន់ និងភេសជ្ជៈខ្មែរដ៏ល្បី។ អាចស្វែងរកជាអក្សរអង់គ្លេស ឬអក្សរខ្មែរ។ វចនានុក្រមដែលរើសរួច — ការពិពណ៌នាខ្លីៗប៉ុណ្ណោះ។"
     >
-      <Field label="Search" labelKm="ស្វែងរក">
-        <TextInput value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search English or Khmer..." />
-      </Field>
-
-      <p className="text-xs text-[var(--ink-dim)]">
-        {results.length} {t("dishes and drinks", "មុខម្ហូប និងភេសជ្ជៈ")}
-      </p>
-
-      <div className="space-y-1.5">
-        {results.length === 0 && (
-          <div className="py-8 text-center text-sm text-[var(--ink-dim)]">{t("No dishes match that search.", "គ្មានម្ហូបត្រូវនឹងការស្វែងរកនេះទេ។")}</div>
-        )}
-        {results.map((d) => (
-          <div key={d.en} className="rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-3 py-2.5">
-            <div className="flex flex-wrap items-baseline justify-between gap-x-3">
-              <div>
-                <span className="font-khmer text-base font-semibold text-[var(--ink)]">{d.km}</span>
-                <span className="ml-2 text-sm text-[var(--ink-dim)]">{d.en}</span>
-              </div>
-            </div>
-            <p className="mt-1 text-xs leading-relaxed text-[var(--ink-dim)]">{d.descEn}</p>
-          </div>
-        ))}
-      </div>
+      <Lexicon
+        items={ITEMS}
+        storagePrefix="khmer-dishes"
+        name="Dish glossary"
+        nameKm="វចនានុក្រមម្ហូប"
+        searchPlaceholder="Search English or Khmer..."
+        searchPlaceholderKm="ស្វែងរកជាអង់គ្លេស ឬខ្មែរ..."
+        noun="dishes and drinks"
+        nounOne="dish or drink"
+        nounKm="មុខម្ហូប និងភេសជ្ជៈ"
+        featuredLabel="Dish of the day"
+        featuredLabelKm="ម្ហូបប្រចាំថ្ងៃ"
+        emptyText="No dishes match that search."
+        emptyTextKm="គ្មានម្ហូបត្រូវនឹងការស្វែងរកនេះទេ។"
+      />
 
       <p className="text-xs text-[var(--ink-dim)]">
         {t("Curated glossary — descriptions are brief; recipes and spellings vary by region and family.", "វចនានុក្រមដែលរើសរួច — ការពិពណ៌នាខ្លីៗ រូបមន្ត និងការសរសេរអាចខុសគ្នាតាមតំបន់ និងគ្រួសារ។")}
