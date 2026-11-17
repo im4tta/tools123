@@ -1319,6 +1319,10 @@ const TOOL_BLURBS: Record<string, ToolBlurb> = {
     en: "Look up well-known Khmer dishes by Khmer or English name with short descriptions.",
     km: "ស្វែងរកម្ហូបខ្មែរល្បីៗ តាមឈ្មោះខ្មែរ ឬអង់គ្លេស ជាមួយការពណ៌នាខ្លីៗ។",
   },
+  "construction-water-glossary": {
+    en: "Look up Khmer-English terms for construction contracts, procurement and BOQ, irrigation works, road building, safeguards, and public works (roads, traffic, bridges, pavement), with English and Khmer definitions for the public works set. For practical reference, not an official or legal translation.",
+    km: "ស្វែងរកពាក្យខ្មែរ-អង់គ្លេសសម្រាប់កិច្ចសន្យាសំណង់ លទ្ធកម្ម និង BOQ ការងារប្រព័ន្ធទឹក ការសាងសង់ផ្លូវ ការការពារបរិស្ថាន និងសង្គម និងសាធារណការ (ផ្លូវ ចរាចរណ៍ ស្ពាន ស្រទាប់ផ្លូវ) ជាមួយនិយមន័យជាភាសាខ្មែរ និងអង់គ្លេសសម្រាប់ក្រុមសាធារណការ។ សម្រាប់យោងជាក់ស្តែង មិនមែនជាការបកប្រែផ្លូវការ ឬផ្លូវច្បាប់ទេ។",
+  },
   "khmer-birthday-personality": {
     en: "Find the traditional Khmer personality traits and color for the weekday you were born on (for fun, not scientific).",
     km: "ស្វែងរកលក្ខណៈបុគ្គលតាមប្រពៃណីខ្មែរ និងពណ៌សម្រាប់ថ្ងៃសប្តាហ៍ដែលអ្នកកើត (សម្រាប់កំសាន្ត មិនមែនវិទ្យាសាស្ត្រ)។",
@@ -1913,6 +1917,7 @@ const HOWTO_TOOLS: Record<string, string[]> = {
   "khmer-musical-instruments": ["Browse or search the instruments", "Filter by strings, percussion, or wind", "Read the Khmer and English names and descriptions"],
   "khmer-dances-festivals": ["Browse or search the dances and festivals", "Filter by type", "Read the timing and description"],
   "khmer-dish-glossary": ["Search by Khmer or English name", "Read the short description", "Use it when ordering or translating a menu"],
+  "construction-water-glossary": ["Pick a category or leave it on All", "Search by English or Khmer term", "Read the Khmer term and definitions, then copy an entry or the whole list"],
   "khmer-birthday-personality": ["Enter your birth date", "Read your Khmer weekday", "Review the traditional personality traits and color"],
   "khmer-lunar-calendar": ["Pick a month with the picker or arrows", "Read the lunar day under each date", "Check the lunar month and zodiac year"],
   "khmer-new-year-countdown": ["Open the tool", "Read the live countdown to the next Khmer New Year", "See the current zodiac animal and the mid-April note"],
