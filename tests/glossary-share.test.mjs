@@ -1,7 +1,7 @@
 // Verification suite for lib/glossary-share.ts. Run with: node tests/glossary-share.test.mjs
 // Covers slug rules, duplicate headwords, stability, query-string helpers and absolute links.
 import assert from "node:assert";
-import { assignSlugs, readTermParam, slugify, termUrl, withTermParam } from "../lib/glossary-share.ts";
+import { assignSlugs, readTermParam, slugify, splitTermAcronym, splitTermExpansion, termUrl, withTermParam } from "../lib/glossary-share.ts";
 
 let passed = 0;
 function check(name, fn) {
@@ -56,6 +56,24 @@ check("withTermParam sets, replaces and removes the parameter, keeping the rest"
 check("termUrl builds an absolute link", () => {
   assert.equal(termUrl("https://www.123tool.app", "/construction-water-glossary", "weir"), "https://www.123tool.app/construction-water-glossary?term=weir");
   assert.equal(termUrl("https://www.123tool.app/", "/g", "a-b"), "https://www.123tool.app/g?term=a-b");
+});
+
+check("splitTermAcronym splits a trailing acronym", () => {
+  assert.deepEqual(splitTermAcronym("Bill of Quantities (BOQ)"), { main: "Bill of Quantities", abbr: "BOQ" });
+  assert.deepEqual(splitTermAcronym("Quality Assurance / Quality Control (QA/QC)"), { main: "Quality Assurance / Quality Control", abbr: "QA/QC" });
+  assert.deepEqual(splitTermAcronym("Double Bituminous Surface Treatment (DBST)"), { main: "Double Bituminous Surface Treatment", abbr: "DBST" });
+  assert.deepEqual(splitTermAcronym("  Notice to Proceed(NTP)  "), { main: "Notice to Proceed", abbr: "NTP" });
+});
+check("splitTermAcronym leaves ordinary parentheticals and plain terms alone", () => {
+  for (const t of ["Abrasion (river)", "Culvert", "Grade (as gradient)", "(Friction) side", "Form (FM) extra", "X (A)", "Item (Q)", "AADT (Annual Average Daily Traffic)", "", "Slip(form)"]) assert.equal(splitTermAcronym(t), null, t);
+});
+
+check("splitTermExpansion makes the acronym the headline", () => {
+  assert.deepEqual(splitTermExpansion("AADT (Annual Average Daily Traffic)"), { abbr: "AADT", expansion: "Annual Average Daily Traffic" });
+  assert.deepEqual(splitTermExpansion("QA/QC (Quality Assurance and Quality Control)"), { abbr: "QA/QC", expansion: "Quality Assurance and Quality Control" });
+});
+check("splitTermExpansion ignores everything else", () => {
+  for (const t of ["Bill of Quantities (BOQ)", "Abrasion (river)", "(Friction) side", "AADT", "ADT (x)", "Form (a longer note) extra", "Culvert (box culvert)"]) assert.equal(splitTermExpansion(t), null, t);
 });
 
 console.log(`glossary-share: ${passed} checks passed`);

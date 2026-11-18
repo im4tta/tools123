@@ -15,6 +15,25 @@ export function slugify(text: string): string {
   return slug || "term";
 }
 
+/**
+ * Splits a trailing acronym off a headword so it can be shown as a small badge:
+ * "Bill of Quantities (BOQ)" -> { main: "Bill of Quantities", abbr: "BOQ" }. Returns null when the term has no
+ * trailing acronym (a parenthetical word such as "Abrasion (river)" is not one).
+ */
+export function splitTermAcronym(term: string): { main: string; abbr: string } | null {
+  const match = /^(.*\S)\s*\(([A-Z][A-Z0-9/&.-]{1,9})\)\s*$/.exec(term.trim());
+  return match && match[1].length >= 3 ? { main: match[1], abbr: match[2] } : null;
+}
+
+/**
+ * Splits a headword written as an acronym followed by its expansion so the acronym can be the headline and the
+ * expansion a subtitle: "AADT (Annual Average Daily Traffic)" -> { abbr: "AADT", expansion: "Annual Average Daily Traffic" }.
+ */
+export function splitTermExpansion(term: string): { abbr: string; expansion: string } | null {
+  const match = /^([A-Z][A-Z0-9/&.-]{1,9})\s*\(([^()]{6,})\)\s*$/.exec(term.trim());
+  return match ? { abbr: match[1], expansion: match[2].trim() } : null;
+}
+
 export interface SlugInput {
   id: string;
   term: string;

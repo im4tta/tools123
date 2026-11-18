@@ -22,7 +22,7 @@ import { useClipboard } from "@/components/ClipboardProvider";
 import { useLanguage } from "@/components/LanguageProvider";
 import { ScrollTabs } from "@/components/ui/ScrollTabs";
 import type { CardBlock } from "@/lib/glossary-card";
-import { assignSlugs, readTermParam, termUrl, withTermParam } from "@/lib/glossary-share";
+import { assignSlugs, readTermParam, splitTermAcronym, splitTermExpansion, termUrl, withTermParam } from "@/lib/glossary-share";
 import { downloadBlob } from "@/lib/download";
 import { useToolState } from "@/lib/storage";
 import { toast } from "@/lib/toast";
@@ -376,6 +376,8 @@ function LexiconEntry({
   const km = senses(item.defKm);
   const paired = en.length > 0 && en.length === km.length;
   const noDef = en.length === 0 && km.length === 0;
+  const expansion = splitTermExpansion(item.term);
+  const acronym = expansion ? null : splitTermAcronym(item.term);
 
   const fields: CopyField[] = [
     { id: "en", label: t("English", "អង់គ្លេស"), getValue: item.term },
@@ -406,10 +408,18 @@ function LexiconEntry({
         </div>
       </div>
 
-      <h2 ref={headingRef} tabIndex={-1} className="mt-4 break-words text-[2.1rem] font-medium leading-[1.15] text-[var(--lx-ink)] lg:text-[2.6rem]">
-        {item.term}
+      <h2 ref={headingRef} tabIndex={-1} className="mt-4 text-balance break-words text-[2.1rem] font-medium leading-[1.15] text-[var(--lx-ink)] lg:text-[2.6rem]">
+        {expansion ? expansion.abbr : acronym ? acronym.main : item.term}
+        {acronym && (
+          <span className="ml-3 inline-block -translate-y-[0.3em] whitespace-nowrap rounded-full border border-[var(--lx-accent)] bg-[color-mix(in_srgb,var(--lx-accent)_8%,transparent)] px-3 py-0.5 align-middle font-sans text-[0.72rem] font-semibold tracking-[0.12em] text-[var(--lx-accent)]">
+            <span className="sr-only">(</span>
+            {acronym.abbr}
+            <span className="sr-only">)</span>
+          </span>
+        )}
       </h2>
-      <p lang="km" className="mt-1 break-words font-lexicon-km text-[1.5rem] leading-snug text-[var(--lx-accent)] lg:text-[1.75rem]">
+      {expansion && <p className="mt-1.5 text-balance break-words text-[1.2rem] italic leading-snug text-[var(--lx-ink-dim)] lg:text-[1.35rem]">{expansion.expansion}</p>}
+      <p lang="km" className="mt-2 text-balance break-words font-lexicon-km text-[1.5rem] leading-snug text-[var(--lx-accent)] lg:text-[1.75rem]">
         {item.termKm}
       </p>
       {tabLabel && (
