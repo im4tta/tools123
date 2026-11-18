@@ -142,7 +142,7 @@ const TABS: LexiconTab[] = [
 
 const ITEMS: LexiconItem[] = [
   ...CORE_TERMS.map((c) => ({ id: `${c.category}:${c.en}`, term: c.en, termKm: c.km, tag: c.category, defEn: c.note })),
-  ...PUBLIC_WORKS_TERMS.map((p) => ({ id: `Public Works:${p.en}`, term: p.en, termKm: p.km, tag: "Public Works", defEn: p.defEn, defKm: p.defKm })),
+  ...PUBLIC_WORKS_TERMS.map((p) => ({ id: `Public Works:${p.en}`, term: p.en, termKm: p.km, tag: "Public Works", defEn: p.defEn, defKm: p.defKm, enDefWithheld: p.enDefWithheld })),
 ];
 
 export default function ConstructionWaterGlossary() {
@@ -164,10 +164,14 @@ export default function ConstructionWaterGlossary() {
         searchPlaceholder="English or Khmer…"
         searchPlaceholderKm="អង់គ្លេស ឬខ្មែរ…"
         tabs={TABS}
+        toolId="construction-water-glossary"
+        cardTitle="Construction & Water Resources Glossary"
+        cardTitleKm="វចនានុក្រមសំណង់ និងធនធានទឹក"
+        credit={(item) => (item.tag === "Public Works" ? "Source: MPWT Glossary (mpwt.gov.kh)" : undefined)}
       />
       <SourceCredits>
         <p>
-          {localize(`Public Works terms (${PUBLIC_WORKS_COVERAGE}): `, `ពាក្យសាធារណការ (${PUBLIC_WORKS_COVERAGE})៖ `)}
+          {localize(`Public Works terms (${PUBLIC_WORKS_COVERAGE}; a few damaged entries omitted): `, `ពាក្យសាធារណការ (${PUBLIC_WORKS_COVERAGE} បានលុបធាតុខូចខ្លះ)៖ `)}
           <a href={mpwtGlossaryUrl} target="_blank" rel="noopener noreferrer" className="text-[var(--gold-text)] underline-offset-2 hover:underline">
             {PUBLIC_WORKS_PROVENANCE.originalProject}
           </a>

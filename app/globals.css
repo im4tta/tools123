@@ -237,6 +237,7 @@ body {
    .lexicon so the rest of the app keeps its own palette in both themes. */
 .lexicon {
   --lx-paper: #f4eee0;
+  --lx-page: #faf6ec;
   --lx-ink: #221c13;
   --lx-ink-dim: #564d3f;
   --lx-ink-faint: #675e4d;
@@ -248,6 +249,7 @@ body {
 }
 :root[data-theme="dark"] .lexicon {
   --lx-paper: #14171a;
+  --lx-page: #191d20;
   --lx-ink: #ece6d6;
   --lx-ink-dim: #bab3a3;
   --lx-ink-faint: #a29b8a;
@@ -292,10 +294,18 @@ body {
 .lexicon [tabindex="-1"]:focus-visible {
   outline: none;
 }
-/* Long term lists: let the browser skip layout/paint for off-screen rows. */
-.lx-row {
-  content-visibility: auto;
-  contain-intrinsic-size: auto 3.25rem;
+/* Search-match highlight in term rows. */
+.lx-mark {
+  background: color-mix(in srgb, var(--lx-accent) 24%, transparent);
+  color: inherit;
+  border-radius: 2px;
+  padding: 0 1px;
+}
+/* The list and entry panes scroll on their own: keep their scrollbars slim and in palette. */
+.lx-scroll,
+.lexicon .overflow-y-auto {
+  scrollbar-width: thin;
+  scrollbar-color: var(--lx-line) transparent;
 }
 
 /* subtle cadastral grid backdrop */
