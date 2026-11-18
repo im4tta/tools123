@@ -5,6 +5,8 @@
 // (Intl.Segmenter), which also handles Khmer, whose words are not separated by spaces.
 // qrcode-generator is loaded only when a card is made, so the glossary pages do not pay for it.
 
+import { splitTermAcronym, splitTermExpansion } from "@/lib/glossary-share";
+
 export interface CardBlock {
   text: string;
   lang: "en" | "km";
@@ -42,43 +44,89 @@ const C = { paper: "#f4eee0", ink: "#221c13", dim: "#564d3f", faint: "#675e4d", 
 
 type Ctx = CanvasRenderingContext2D;
 
+/** A bracket opens a unit that must stay with the word after it; closing marks and hyphens stay with the word before. */
+const OPENING = /[(\[{“‘«]$/;
+const CLOSING = /^[)\]}”’»"'.,;:!?%/\-–—។៕៖ៗ]+$/u;
+const DASHES = /^[/–—-]$/;
+
+/** Break units for line wrapping: words keep their trailing space, and punctuation never gets a line to itself. */
+function breakUnits(text: string, locale: string): string[] {
+  const out: string[] = [];
+  for (const { segment } of new Intl.Segmenter(locale, { granularity: "word" }).segment(text)) {
+    const prev = out[out.length - 1];
+    if (prev === undefined) {
+      out.push(segment);
+    } else if (/^\s+$/.test(segment)) {
+      out[out.length - 1] = prev + segment;
+    } else if (CLOSING.test(segment) && !/\s$/.test(prev)) {
+      out[out.length - 1] = prev + segment;
+    } else if (DASHES.test(segment) && /\s$/.test(prev)) {
+      out[out.length - 1] = `${prev.trimEnd()} ${segment}`; // "Assurance / Quality": the slash stays on the earlier line
+    } else if (OPENING.test(prev) && !/\s$/.test(prev)) {
+      out[out.length - 1] = prev + segment;
+    } else {
+      out.push(segment);
+    }
+  }
+  return out;
+}
+
 function wrap(ctx: Ctx, text: string, maxWidth: number, locale: string): string[] {
   const lines: string[] = [];
   const graphemes = new Intl.Segmenter(locale, { granularity: "grapheme" });
-  const words = new Intl.Segmenter(locale, { granularity: "word" });
+  const width = (value: string) => ctx.measureText(value).width;
   for (const paragraph of text.split("\n")) {
     let line = "";
-    const push = () => {
+    const flush = () => {
       if (line.trim()) lines.push(line.trimEnd());
       line = "";
     };
-    for (const { segment } of words.segment(paragraph)) {
-      if (ctx.measureText(segment).width > maxWidth) {
+    for (const unit of breakUnits(paragraph, locale)) {
+      if (width(unit.trimEnd()) > maxWidth) {
         // an unbreakable run wider than the line: split it by letter clusters
-        push();
-        for (const { segment: g } of graphemes.segment(segment)) {
-          if (line && ctx.measureText(line + g).width > maxWidth) push();
+        flush();
+        for (const { segment: g } of graphemes.segment(unit.trimEnd())) {
+          if (line && width(line + g) > maxWidth) flush();
           line += g;
         }
         continue;
       }
-      if (line && ctx.measureText(line + segment).width > maxWidth) {
-        push();
-        line = segment.trimStart();
-      } else line += segment;
+      if (line && width((line + unit).trimEnd()) > maxWidth) {
+        flush();
+        line = unit.trimStart();
+      } else line += unit;
     }
-    push();
+    flush();
   }
   return lines.length ? lines : [""];
 }
 
-/** Largest font size (from `start` down to `min`) at which the text fits in `maxLines` lines. */
-function fit(ctx: Ctx, text: string, family: string, weight: number, start: number, min: number, maxWidth: number, maxLines: number, locale: string): number {
-  for (let size = start; size > min; size -= 4) {
-    ctx.font = `${weight} ${size}px ${family}`;
-    if (wrap(ctx, text, maxWidth, locale).length <= maxLines) return size;
+/** Same number of lines as `wrap`, but with the lines as even as possible (no lone last word). */
+function balance(ctx: Ctx, text: string, maxWidth: number, locale: string): string[] {
+  const greedy = wrap(ctx, text, maxWidth, locale);
+  if (greedy.length < 2) return greedy;
+  let lo = maxWidth * 0.5;
+  let hi = maxWidth;
+  for (let i = 0; i < 12; i++) {
+    const mid = (lo + hi) / 2;
+    if (wrap(ctx, text, mid, locale).length <= greedy.length) hi = mid;
+    else lo = mid;
   }
-  return min;
+  return wrap(ctx, text, hi, locale);
+}
+
+/**
+ * Largest font size at which the text fits: first in at most two lines (down to `minTwo`), otherwise in
+ * three (down to `minThree`).
+ */
+function fitSize(ctx: Ctx, text: string, family: string, weight: number, start: number, minTwo: number, minThree: number, maxWidth: number, locale: string, maxLinesFirst = 2): number {
+  for (const [maxLines, min] of [[maxLinesFirst, minTwo], [3, minThree]] as const) {
+    for (let size = start; size >= min; size -= 4) {
+      ctx.font = `${weight} ${size}px ${family}`;
+      if (wrap(ctx, text, maxWidth, locale).length <= maxLines) return size;
+    }
+  }
+  return minThree;
 }
 
 function lay(ctx: Ctx, input: GlossaryCardInput, qrModules: boolean[][], draw: boolean): number {
@@ -103,29 +151,89 @@ function lay(ctx: Ctx, input: GlossaryCardInput, qrModules: boolean[][], draw: b
   }
   y += 70;
 
-  // English term
-  const termSize = fit(ctx, input.term, latin, 500, 88, 48, innerW, 3, "en");
+  // English headword. A trailing acronym "(BOQ)" becomes a badge instead of part of the heading text.
+  const expansion = splitTermExpansion(input.term);
+  const split = expansion ? null : splitTermAcronym(input.term);
+  const main = expansion ? expansion.abbr : (split?.main ?? input.term);
+  const badgeFont = `600 26px ${latin}`;
+  let badgeW = 0;
+  if (split) {
+    ctx.font = badgeFont;
+    if ("letterSpacing" in ctx) (ctx as Ctx & { letterSpacing: string }).letterSpacing = "2px";
+    badgeW = ctx.measureText(split.abbr).width + 40;
+    if ("letterSpacing" in ctx) (ctx as Ctx & { letterSpacing: string }).letterSpacing = "0px";
+  }
+  // prefer one line with the badge beside it (down to 64px); otherwise two balanced lines, three at most
+  let termSize = 0;
+  if (split) {
+    for (let size = 88; size >= 64; size -= 4) {
+      ctx.font = `500 ${size}px ${latin}`;
+      if (wrap(ctx, main, innerW - badgeW - 28, "en").length === 1) {
+        termSize = size;
+        break;
+      }
+    }
+  }
+  if (!termSize) termSize = fitSize(ctx, main, latin, 500, 88, 56, 44, innerW, "en");
   ctx.font = `500 ${termSize}px ${latin}`;
-  for (const line of wrap(ctx, input.term, innerW, "en")) {
-    y += termSize * 0.95;
+  const termLines = balance(ctx, main, innerW, "en");
+  let lastWidth = 0;
+  for (const line of termLines) {
+    y += termSize * 1.0;
+    lastWidth = ctx.measureText(line).width;
     if (draw) {
       ctx.fillStyle = C.ink;
       ctx.fillText(line, PAD, y);
     }
-    y += termSize * 0.2;
+    y += termSize * 0.12;
+  }
+  if (split) {
+    const beside = lastWidth + 28 + badgeW <= innerW;
+    const badgeH = 46;
+    const bx = beside ? PAD + lastWidth + 28 : PAD;
+    const by = beside ? y - termSize * 0.12 - badgeH + 4 : y + 14;
+    if (!beside) y += badgeH + 22;
+    if (draw) {
+      ctx.fillStyle = "rgba(164, 48, 42, 0.08)";
+      ctx.strokeStyle = C.accent;
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      if (ctx.roundRect) ctx.roundRect(bx, by, badgeW, badgeH, badgeH / 2);
+      else ctx.rect(bx, by, badgeW, badgeH);
+      ctx.fill();
+      ctx.stroke();
+      ctx.font = badgeFont;
+      if ("letterSpacing" in ctx) (ctx as Ctx & { letterSpacing: string }).letterSpacing = "2px";
+      ctx.fillStyle = C.accent;
+      ctx.fillText(split.abbr, bx + 22, by + badgeH - 13);
+      if ("letterSpacing" in ctx) (ctx as Ctx & { letterSpacing: string }).letterSpacing = "0px";
+    }
+  }
+
+  // "AADT (Annual Average Daily Traffic)": the acronym is the headline, the expansion a lighter subtitle
+  if (expansion) {
+    y += 8;
+    ctx.font = `italic 400 38px ${latin}`;
+    for (const line of balance(ctx, expansion.expansion, innerW, "en")) {
+      y += 38 * 1.35;
+      if (draw) {
+        ctx.fillStyle = C.dim;
+        ctx.fillText(line, PAD, y);
+      }
+    }
   }
 
   // Khmer term
-  y += 14;
-  const kmSize = fit(ctx, input.termKm, khmer, 400, 60, 36, innerW, 3, "km");
+  y += expansion ? 20 : 30;
+  const kmSize = fitSize(ctx, input.termKm, khmer, 400, 60, 44, 34, innerW, "km");
   ctx.font = `400 ${kmSize}px ${khmer}`;
-  for (const line of wrap(ctx, input.termKm, innerW, "km")) {
+  for (const line of balance(ctx, input.termKm, innerW, "km")) {
     y += kmSize * 1.18;
     if (draw) {
       ctx.fillStyle = C.accent;
       ctx.fillText(line, PAD, y);
     }
-    y += kmSize * 0.32;
+    y += kmSize * 0.3;
   }
 
   // category
