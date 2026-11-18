@@ -27,6 +27,10 @@ export default function DigitalTerminology() {
         nameKm="វាក្យស័ព្ទឌីជីថល"
         searchPlaceholder="Search English, French, or Khmer..."
         searchPlaceholderKm="ស្វែងរកជាអង់គ្លេស បារាំង ឬខ្មែរ..."
+        toolId="digital-terminology"
+        cardTitle="Khmer Digital Terminology"
+        cardTitleKm="វាក្យស័ព្ទឌីជីថល"
+        credit={() => "Source: MPTC Digital Terminology Lexicon"}
       />
       <p className="text-xs text-[var(--ink-faint)]">
         Source: Ministry of Posts and Telecommunications of Cambodia, Digital Terminology Lexicon.

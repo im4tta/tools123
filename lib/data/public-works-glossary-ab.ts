@@ -4,12 +4,16 @@
 // Imported verbatim from a table supplied by the maintainer (public_works_glossary_a_b.md):
 // <br> list breaks became newlines, one headword typo was corrected, and the 6 entries
 // that had no definition in the supplied table are kept term-only. Nothing was added or reworded.
+// Typography: a space before the Khmer full stop (" ។") was removed wherever it occurred.
+// Spelling review: one doubled "ារ" in a Khmer definition was removed (ការពារារមិនឱ្យ -> ការពារមិនឱ្យ).
 
 export interface PublicWorksTerm {
   en: string;
   km: string;
   defEn?: string;
   defKm?: string;
+  /** The source's English definition was damaged (OCR) and is not shown. */
+  enDefWithheld?: boolean;
 }
 
 export const PUBLIC_WORKS_AB_TERMS: PublicWorksTerm[] = [
@@ -59,7 +63,7 @@ export const PUBLIC_WORKS_AB_TERMS: PublicWorksTerm[] = [
   { en: "Anisotropic (material)", km: "អានីសូត្រូប", defEn: "A material which has properties that vary in different directions.", defKm: "សម្ភារៈដែលមានលក្ខណៈរូបធាតុខុសគ្នាក្នុងទិសដៅផ្សេងគ្នា។" },
   { en: "Approach(road)", km: "ផ្លូវខិតជិត ផ្លូវភ្ជាប់ចូល", defEn: "That section of road, consisting of one or more lanes, used by vehicles approaching an intersection or mid-block site.", defKm: "ផ្នែកឬកំណាត់នៃផ្លូវដែលមានគន្លងមួយ ឬច្រើន ដែលយានយន្ត ចរចូលទៅកាន់ផ្លូវប្រសព្វ ឬកំណាត់ផ្លូវត្រង់មុនឆ្លងកាត់។" },
   { en: "Approach(bridge)", km: "ផ្លូវក្បាលស្ពាន", defEn: "A relatively short length of carriageway leading up to a bridge, including embankment, pavement and safety barriers.", defKm: "ផ្នែកឬកំណាត់នៃផ្លូវ ដែលទ្រូងផ្លូវនាំទៅដល់ស្ពានរួមទាំងតួផ្លូវ កម្រាលផ្លូវនិងរបាំងសុវត្ថិភាព។" },
-  { en: "Approach curve", km: "ផ្លូវកំណោងចូល", defEn: "A road curve used on the approach to a roundabout, upstream of the entry curve.", defKm: "ផ្លូវកោង ដែលប្រើសម្រាប់ជាផ្លូវភ្ជាប់ចូលទៅកាន់រង្វង់មូល នៅដើមទី ផ្លូវចូលរង្វង់មូលនោះ ។" },
+  { en: "Approach curve", km: "ផ្លូវកំណោងចូល", defEn: "A road curve used on the approach to a roundabout, upstream of the entry curve.", defKm: "ផ្លូវកោង ដែលប្រើសម្រាប់ជាផ្លូវភ្ជាប់ចូលទៅកាន់រង្វង់មូល នៅដើមទី ផ្លូវចូលរង្វង់មូលនោះ។" },
   { en: "Approach slab", km: "កម្រាលក្បាលស្ពាន", defEn: "A reinforced concrete slab supported on the abutment curtain wall and the approach fill", defKm: "កម្រាលខណ្ឌបេតុងពង្រឹងសរសៃដែកគងនៅលើជញ្ជាំង ក្បាំងក្បាលស្ពាន ដែលទទួលទ្រដីចាក់បំពេញចូលស្ពាន។" },
   { en: "Approach speed", km: "ល្បឿនខិតជិត ឬតម្រង់ឆ្ពោះ", defEn: "The representative speed (usually taken as the 85th percentile) of traffic approaching a site.", defKm: "ល្បឿនតំណាង (ជាធម្មតាត្រូវបានគេយកជាភាគរយទី ៨៥) នៃចរាចរណ៍ចូលទៅជិតទីតាំង។" },
   { en: "Apron (culvert)", km: "ធ្លាបាត(លូ)", defEn: "A smooth (generally concrete) surface that is placed between culvert and channel to improve capacity and reduce erosion.", defKm: "ផ្ទៃស្មើរ (ជាទូទៅធ្វើពីបេតុង) ដែលត្រូវបានសង់នៅចន្លោះលូ និងគន្លងប្រឡាយ ដើម្បីបង្កើនសមត្ថភាព និងកាត់បន្ថយសំណឹក។" },
@@ -104,7 +108,7 @@ export const PUBLIC_WORKS_AB_TERMS: PublicWorksTerm[] = [
   { en: "Tie (bars)", km: "ដែកតំណបណ្តោយ ឬដែកចំណងបណ្តោយ", defEn: "Tie bars are deformed rebars or connectors used for holding faces of rigid slabs in contact to maintain aggregate interlock.", defKm: "ដែកតំណបណ្តោយ គឺជាដែកថ្នាំងអំពៅបន្ថែម ឬបន្តភ្ជាប់ ដែលប្រើសម្រាប់ទប់មុខនៃកម្រាលរឹង (បេតុង)ដើម្បីរក្សាភាព ប្រទាក់ភ្ជាប់នៃគ្រាប់ថ្ម។" },
   { en: "Bar(river)", km: "ដីសណ្ត ដីដុះ ឬសណ្ដូកកំណក", defEn: "Elongated deposit of alluvium within a channel, not permanently vegetated.", defKm: "កំណកដីល្បាប់ខ្សាច់ដែលបានកកជាឆ្នូតពន្លូត នៅក្នុងដងទន្លេ ឬផ្លូវទឹក ដែលមិនមានរុក្ខជាតិដុះជាអចិន្ត្រៃយ៍។" },
   { en: "Barricade", km: "របាំង ឬរនាំងសញ្ញា", defEn: "Device which provides a visual indicator of a hazardous location or the desired path a motorist should take.", defKm: "ឧបករណ៍ដែលផ្តល់នូវការចង្អុលបង្ហាញដែលមើលឃើញ ទីតាំងគ្រោះថ្នាក់ ឬផ្លូវដែលអ្នកបើកបរគួរចរ។" },
-  { en: "Barrier", km: "របាំងរារាំង", defEn: "An obstruction placed to prevent vehicle access to a particular area.", defKm: "របាំងដែលត្រូវបានដាក់ដើម្បីការពារារមិនឱ្យយានយន្ត ចូលទៅកាន់តំបន់ជាក់លាក់មួយ។" },
+  { en: "Barrier", km: "របាំងរារាំង", defEn: "An obstruction placed to prevent vehicle access to a particular area.", defKm: "របាំងដែលត្រូវបានដាក់ដើម្បីការពារមិនឱ្យយានយន្ត ចូលទៅកាន់តំបន់ជាក់លាក់មួយ។" },
   { en: "Barrier kerb", km: "ខឿនទប់", defEn: "A kerb with a profile and height sufficient to prevent or discourage vehicles moving off the carriageway", defKm: "ខឿនទប់ដែលមានទម្រង់ និងកម្ពស់គ្រប់គ្រាន់ដើម្បីការពារ ឬរារាំងយានយន្តចាកពីទ្រូងផ្លូវ។" },
   { en: "Base/basecourse (pavement)", km: "គ្រឹះ ឬស្រទាប់គ្រឹះ (កម្រាលផ្លូវ)", defEn: "element of a pavement and on which the surfacing may be placed. It may be composed of fine crushed rock, natural gravel, broken stone, stabilised material, asphalt or Portland cement concrete", defKm: "សមាសធាតុនៃកម្រាលផ្លូវ ដែលអាចក្រាលស្រទាប់ដទៃទៀត ពីលើបាន។ ស្រទាប់នេះអាចផ្សំឡើងពីថ្មបំបែកគ្រាប់ល្អិត ក្រួសធម្មជាតិ ថ្មបាក់បំណែកសម្ភារៈស្ថិរកម្ម បេតុងកៅស៊ូ ឬបេតុងស៊ីម៉ងត៍។" },
   { en: "Base dimension", km: "វិមាត្រគ្រឹះ ឬវិមាត្រមូលដ្ឋាន", defEn: "The value of a particular design dimension before any operating clearances has been added.", defKm: "តម្លៃនៃវិមាត្រនៃការឌីហ្សាញជាក់លាក់មួយ មុនពេលលំហ ប្រតិបត្តិការណាមួយត្រូវបានបន្ថែម។" },
@@ -131,7 +135,7 @@ export const PUBLIC_WORKS_AB_TERMS: PublicWorksTerm[] = [
   { en: "Benchmark", km: "បង្គោលតម្រុយ", defEn: "A defined mark of a permanent nature, the level of which, relative to some datum, has been determined or assumed, and to which the level of other points may be related.", defKm: "សញ្ញាកំណត់នៃលក្ខណៈអចិន្ត្រៃយ៍; កម្រិតកម្ពស់ទាក់ទងទៅនឹង ទិន្នន័យមួយចំនួនដែលត្រូវបានកំណត់ ឬសន្មតសម្រាប់ឱ្យកម្រិត កម្ពស់នៃចំណុចផ្សេងទៀតអាចយោងតាមបាន។" },
   { en: "Benkelman beam", km: "ផ្ទឹមរង្វាស់ Benkelman", defEn: "An instrument for measuring the deflection of the surface of a pavement caused by the passage of a dual-tyred single axle carrying a standard axle load.", defKm: "ឧបករណ៍សម្រាប់វាស់សម្រុតនៃផ្ទៃកម្រាលផ្លូវដែលបណ្តាលមកពី ការឆ្លងកាត់ភ្លៅទោលដែលមានកង់ពីរនៅចុងម្ខាងៗ ដែលផ្ទុកបន្ទុក ភ្លៅស្តង់ដា។" },
   { en: "Bendway", km: "ផ្លូវបត់ ឬគន្លងបត់", defEn: "A point of distinct curvature in a stream, river, or channel where the bank full flow changes direction. Reach of sharpest curvature in a sinuous channel", defKm: "ចំណុចនៃគន្លងកោងខុសគ្នានៅក្នុងអូរ ទន្លេ ឬប្រឡាយ ដែលកន្លែង ច្រាំងទន្លេផ្លាស់ប្តូរទិសដៅលំហូរ។" },
-  { en: "Berm", km: "ទួលទប់ ឬទំនប់", defEn: "Typically used in reference to slope barrier measures designed to break the continuity of slopes to reduce runoff velocities.", defKm: "ជាធម្មតាត្រូវបានប្រើប្រាស់ដោយយោងទៅលើវិធានការទួលទប់ ជម្រាល ដែលបានឌីហ្សាញឡើងដើម្បីបំបែកភាពបន្តគ្នានៃជម្រាល និងដើម្បីកាត់បន្ថយល្បឿនទឹកហូរពីលើផ្ទៃ ។" },
+  { en: "Berm", km: "ទួលទប់ ឬទំនប់", defEn: "Typically used in reference to slope barrier measures designed to break the continuity of slopes to reduce runoff velocities.", defKm: "ជាធម្មតាត្រូវបានប្រើប្រាស់ដោយយោងទៅលើវិធានការទួលទប់ ជម្រាល ដែលបានឌីហ្សាញឡើងដើម្បីបំបែកភាពបន្តគ្នានៃជម្រាល និងដើម្បីកាត់បន្ថយល្បឿនទឹកហូរពីលើផ្ទៃ។" },
   { en: "Bicycle parking facility", km: "កន្លែងចតកង់", defEn: "An area or a structure used for the parking, storage or securing of bicycles, which provides a defined level of security for the bicycle", defKm: "តំបន់ ឬរចនាសម្ព័ន្ធដែលប្រើសម្រាប់ការចត កន្លែងស្តុកទុក ឬរក្សាសុវត្ថិភាពកង់ ដែលផ្តល់កម្រិតសុវត្ថិភាពដែលបានកំណត់ សម្រាប់កង់។" },
   { en: "Bicycle route", km: "ផ្លូវកង់", defEn: "Recommended course for bicycles, which may include both on and off-road sections.", defKm: "ទិសដៅដែលបានណែនាំសម្រាប់កង់ ដែលអាចរួមបញ្ចូល ទាំងផ្នែកនៅលើផ្លូវ និងក្រៅផ្លូវ។" },
   { en: "Bike-and-ride", km: "ពីចតកង់ទៅជិះរថ", defEn: "System in which people ride to a specified location, park there, and board public transport for a defined destination.", defKm: "ប្រព័ន្ធដែលមនុស្សជិះកង់ទៅកាន់ទីតាំងជាក់លាក់ ចតនៅទីនោះ និងឡើងជិះរថយន្តដឹកជញ្ជូនសាធារណៈទៅគោលដៅដែលបាន កំណត់។" },

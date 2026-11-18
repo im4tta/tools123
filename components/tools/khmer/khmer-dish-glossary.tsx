@@ -78,6 +78,9 @@ export default function KhmerDishGlossary() {
         featuredLabelKm="ម្ហូបប្រចាំថ្ងៃ"
         emptyText="No dishes match that search."
         emptyTextKm="គ្មានម្ហូបត្រូវនឹងការស្វែងរកនេះទេ។"
+        toolId="khmer-dish-glossary"
+        cardTitle="Khmer Dish Glossary"
+        cardTitleKm="វចនានុក្រមម្ហូបខ្មែរ"
       />
 
       <p className="text-xs text-[var(--ink-dim)]">
