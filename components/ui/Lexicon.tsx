@@ -26,6 +26,7 @@ import { assignSlugs, readTermParam, splitTermAcronym, splitTermExpansion, termU
 import { downloadBlob } from "@/lib/download";
 import { useToolState } from "@/lib/storage";
 import { toast } from "@/lib/toast";
+import { SITE_DOMAIN } from "@/lib/site";
 import { toolHref } from "@/lib/toolRoutes";
 
 /**
@@ -381,10 +382,11 @@ function LexiconEntry({
   headingRef: RefObject<HTMLHeadingElement | null>;
   onCopyLink: () => void;
   onShare?: () => void;
-  onSaveImage: () => void;
+  onSaveImage: (withCompare: boolean) => void;
   saving: boolean;
 }) {
   const { text: t } = useLanguage();
+  const [withCompare, setWithCompare] = useState(true);
   const en = senses(item.defEn);
   const km = senses(item.defKm);
   const paired = en.length > 0 && en.length === km.length;
@@ -530,9 +532,15 @@ function LexiconEntry({
             {t("Share", "ចែករំលែក")}
           </ShareButton>
         )}
-        <ShareButton icon={<ImageDown size={15} aria-hidden />} onClick={onSaveImage} disabled={saving}>
+        <ShareButton icon={<ImageDown size={15} aria-hidden />} onClick={() => onSaveImage(withCompare)} disabled={saving}>
           {saving ? t("Making image…", "កំពុងបង្កើតរូបភាព…") : t("Save image with QR code", "រក្សាទុករូបភាពជាមួយកូដ QR")}
         </ShareButton>
+        {item.compare && item.compare.length > 0 && (
+          <label className="inline-flex cursor-pointer items-center gap-2 px-1 text-sm text-[var(--lx-ink-dim)]">
+            <input type="checkbox" checked={withCompare} onChange={(e) => setWithCompare(e.target.checked)} className="h-4 w-4 accent-[var(--lx-accent)]" />
+            {t("Include other sources in the image", "បញ្ចូលប្រភពផ្សេងទៀតក្នុងរូបភាព")}
+          </label>
+        )}
       </div>
     </article>
   );
@@ -880,7 +888,7 @@ export function Lexicon({
     }
   }
 
-  async function saveImage(item: Prepared) {
+  async function saveImage(item: Prepared, withCompare: boolean) {
     const root = rootRef.current;
     if (!root || saving) return;
     setSaving(true);
@@ -897,6 +905,19 @@ export function Lexicon({
         url,
         urlLabel: new URL(url).host + toolPath(),
         credit: credit?.(item),
+        compare:
+          withCompare && item.compare?.length
+            ? item.compare.map((c) => ({
+                source: c.source,
+                term: c.term,
+                termKm: c.termKm,
+                def: c.defEn?.split("\n")[0] ?? c.defKm?.split("\n")[0],
+                defLang: c.defEn ? ("en" as const) : ("km" as const),
+              }))
+            : undefined,
+        compareLabel: "Other sources · ប្រភពផ្សេងទៀត",
+        compareNote: "Matched by English spelling only; the sources may use the word in a different sense.",
+        watermark: SITE_DOMAIN,
         scanLabel: "Scan to open this term · ស្កេនដើម្បីបើកពាក្យនេះ",
         moreLabel: "continued at the link · បន្តនៅតំណ",
         fonts: readFonts(root),
@@ -1107,7 +1128,7 @@ export function Lexicon({
             headingRef={headingRef}
             onCopyLink={() => void copyText(linkFor(entry))}
             onShare={canShare ? () => void shareEntry(entry) : undefined}
-            onSaveImage={() => void saveImage(entry)}
+            onSaveImage={(withCompare) => void saveImage(entry, withCompare)}
             saving={saving}
           />
         ) : (

@@ -16,6 +16,17 @@ export interface CardBlock {
   italic?: boolean;
 }
 
+export interface CardComparison {
+  /** Source name, e.g. "MPWT Glossary". */
+  source: string;
+  /** The other source's English spelling, when it differs from the headword. */
+  term?: string;
+  termKm: string;
+  /** First line of the other source's definition, if any. */
+  def?: string;
+  defLang?: "en" | "km";
+}
+
 export interface GlossaryCardInput {
   term: string;
   termKm: string;
@@ -29,6 +40,12 @@ export interface GlossaryCardInput {
   /** Short readable form of the link, e.g. "123tool.app/construction-water-glossary". */
   urlLabel: string;
   credit?: string;
+  /** How other sources render the term; drawn under the definition when given. */
+  compare?: CardComparison[];
+  compareLabel?: string;
+  compareNote?: string;
+  /** Small text centred at the very bottom (site watermark). */
+  watermark?: string;
   scanLabel: string;
   /** Shown when the definition had to be cut to fit. */
   moreLabel: string;
@@ -303,6 +320,63 @@ function lay(ctx: Ctx, input: GlossaryCardInput, qrModules: boolean[][], draw: b
     }
   }
 
+  // other sources: each source's Khmer term and first definition line, quoted as given
+  if (input.compare && input.compare.length > 0) {
+    y += 48;
+    if (draw) {
+      ctx.fillStyle = C.line;
+      ctx.fillRect(PAD, y, innerW, 2);
+    }
+    y += 46;
+    ctx.font = `600 22px ${latin}`;
+    if (draw) {
+      ctx.fillStyle = C.faint;
+      ctx.fillText((input.compareLabel ?? "Other sources").toUpperCase().replace(/[A-Z](?=[A-Z])/g, "$&\u200A"), PAD, y);
+    }
+    for (const c of input.compare.slice(0, 3)) {
+      y += 46;
+      ctx.font = `400 24px ${latin}`;
+      for (const line of wrap(ctx, c.term ? `${c.source} · ${c.term}` : c.source, innerW, "en")) {
+        if (draw) {
+          ctx.fillStyle = C.dim;
+          ctx.fillText(line, PAD, y);
+        }
+        y += 34;
+      }
+      ctx.font = `400 34px ${khmer}`;
+      for (const line of wrap(ctx, c.termKm, innerW, "km")) {
+        y += 50;
+        if (draw) {
+          ctx.fillStyle = C.ink;
+          ctx.fillText(line, PAD, y - 10);
+        }
+      }
+      if (c.def) {
+        const km = c.defLang === "km";
+        ctx.font = `400 ${km ? 26 : 26}px ${km ? khmer : latin}`;
+        const lines = wrap(ctx, c.def, innerW, km ? "km" : "en");
+        for (const line of lines.slice(0, 3)) {
+          y += km ? 46 : 38;
+          if (draw) {
+            ctx.fillStyle = C.dim;
+            ctx.fillText(lines.length > 3 && line === lines[2] ? `${line} …` : line, PAD, y - (km ? 8 : 4));
+          }
+        }
+      }
+    }
+    if (input.compareNote) {
+      y += 24;
+      ctx.font = `italic 400 22px ${latin}`;
+      for (const line of wrap(ctx, input.compareNote, innerW, "en")) {
+        y += 30;
+        if (draw) {
+          ctx.fillStyle = C.faint;
+          ctx.fillText(line, PAD, y);
+        }
+      }
+    }
+  }
+
   // footer: link + credit on the left, QR on the right
   y += 56;
   if (draw) {
@@ -357,7 +431,20 @@ function lay(ctx: Ctx, input: GlossaryCardInput, qrModules: boolean[][], draw: b
       ly += 30;
     }
   }
-  return Math.max(qrTop + qrBox, ly) + PAD - 10;
+  const bottom = Math.max(qrTop + qrBox, ly);
+  if (!input.watermark) return bottom + PAD - 10;
+  // small site watermark, centred at the foot of the card
+  const markY = bottom + 64;
+  if (draw) {
+    ctx.font = `500 20px ${latin}`;
+    ctx.fillStyle = C.faint;
+    ctx.globalAlpha = 0.7;
+    ctx.textAlign = "center";
+    ctx.fillText(input.watermark, W / 2, markY);
+    ctx.textAlign = "left";
+    ctx.globalAlpha = 1;
+  }
+  return markY + 34;
 }
 
 export async function renderGlossaryCard(input: GlossaryCardInput): Promise<Blob> {
@@ -370,7 +457,7 @@ export async function renderGlossaryCard(input: GlossaryCardInput): Promise<Blob
 
   // make sure the page's fonts (including the Khmer subset) are ready before text is measured
   if (document.fonts) {
-    const wanted = [input.term, input.termKm, input.title, ...input.blocks.map((b) => b.text)].join(" ");
+    const wanted = [input.term, input.termKm, input.title, ...input.blocks.map((b) => b.text), ...(input.compare ?? []).flatMap((c) => [c.termKm, c.def ?? ""])].join(" ");
     await Promise.allSettled([
       document.fonts.load(`500 40px ${input.fonts.latin}`, wanted),
       document.fonts.load(`italic 400 28px ${input.fonts.latin}`, input.title),
