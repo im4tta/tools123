@@ -1,6 +1,6 @@
 "use client";
 import { ToolShell } from "@/components/ui/Shell";
-import { Lexicon, type LexiconItem, type LexiconTab } from "@/components/ui/Lexicon";
+import { Lexicon, type LexiconComparison, type LexiconItem, type LexiconTab } from "@/components/ui/Lexicon";
 import { SourceCredits } from "@/components/ui/SourceCredits";
 import { useLanguage } from "@/components/LanguageProvider";
 import { PUBLIC_WORKS_COVERAGE, PUBLIC_WORKS_TERMS } from "@/lib/data/public-works-glossary";
@@ -143,9 +143,51 @@ const TABS: LexiconTab[] = [
   { id: "Water Resources & Meteorology", label: "Water Resources & Meteorology", labelKm: "ធនធានទឹក និងឧតុនិយម" },
 ];
 
+// Cross-source comparison: entries whose English headword (or one of its "/" alternatives, ignoring
+// parenthetical qualifiers, case and punctuation) matches between the MPWT glossary and the MOWRAM lexicon.
+// Matching is by spelling only, so the UI says the senses may differ; nothing is merged or rewritten.
+const matchKeys = (en: string) =>
+  en
+    .split("/")
+    .map((part) => part.toLowerCase().replace(/\(.*?\)/g, " ").replace(/[^a-z0-9]+/g, " ").trim())
+    .filter(Boolean);
+
+function indexBy<T>(rows: T[], en: (row: T) => string) {
+  const map = new Map<string, T[]>();
+  for (const row of rows) for (const key of matchKeys(en(row))) map.set(key, [...(map.get(key) ?? []), row]);
+  return map;
+}
+
+function matches<T>(en: string, index: Map<string, T[]>) {
+  const found = new Set<T>();
+  for (const key of matchKeys(en)) for (const row of index.get(key) ?? []) found.add(row);
+  return [...found];
+}
+
+const MPWT_BY_KEY = indexBy(PUBLIC_WORKS_TERMS, (p) => p.en);
+const MOWRAM_BY_KEY = indexBy(MOWRAM_TERMS, (m) => m.en);
+const sameHeadword = (a: string, b: string) => a.trim().toLowerCase() === b.trim().toLowerCase();
+
 const ITEMS: LexiconItem[] = [
   ...CORE_TERMS.map((c) => ({ id: `${c.category}:${c.en}`, term: c.en, termKm: c.km, tag: c.category, defEn: c.note })),
-  ...PUBLIC_WORKS_TERMS.map((p) => ({ id: `Public Works:${p.en}`, term: p.en, termKm: p.km, tag: "Public Works", defEn: p.defEn, defKm: p.defKm, enDefWithheld: p.enDefWithheld })),
+  ...PUBLIC_WORKS_TERMS.map((p) => ({
+    id: `Public Works:${p.en}`,
+    term: p.en,
+    termKm: p.km,
+    tag: "Public Works",
+    defEn: p.defEn,
+    defKm: p.defKm,
+    enDefWithheld: p.enDefWithheld,
+    compare: matches(p.en, MOWRAM_BY_KEY).map(
+      (m): LexiconComparison => ({
+        source: `MOWRAM Technical Lexicon (2026), No. ${m.no}`,
+        sourceKm: `វចនានុក្រមបច្ចេកទេស ក្រសួងធនធានទឹក និងឧតុនិយម (២០២៦) លេខ ${m.no}`,
+        term: sameHeadword(m.en, p.en) ? undefined : m.en,
+        termKm: m.km,
+        defKm: m.defKm,
+      }),
+    ),
+  })),
   ...MOWRAM_TERMS.map((m) => ({
     id: `Water Resources & Meteorology:${m.no}`,
     term: m.en,
@@ -153,6 +195,16 @@ const ITEMS: LexiconItem[] = [
     tag: "Water Resources & Meteorology",
     defKm: m.defKm,
     extras: [{ label: "Lexicon No.", labelKm: "លេខរៀង", value: String(m.no) }],
+    compare: matches(m.en, MPWT_BY_KEY).map(
+      (p): LexiconComparison => ({
+        source: "MPWT Glossary",
+        sourceKm: "វចនានុក្រមក្រសួងសាធារណការ និងដឹកជញ្ជូន",
+        term: sameHeadword(p.en, m.en) ? undefined : p.en,
+        termKm: p.km,
+        defEn: p.enDefWithheld ? undefined : p.defEn,
+        defKm: p.defKm,
+      }),
+    ),
   })),
 ];
 
