@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { PUBLIC_WORKS_PROVENANCE } from "@/lib/data/public-works-provenance";
+import { MOWRAM_LEXICON_PROVENANCE } from "@/lib/data/mowram-lexicon-provenance";
 
 const LIBRARIES = [
   { name: "Next.js", url: "https://nextjs.org/", by: "Vercel Inc.", use: "React framework for server-rendered applications" },
@@ -147,6 +148,11 @@ export default function AcknowledgementPage() {
           <p>
             The Public Works terms in the glossary come from the
             <a href={PUBLIC_WORKS_PROVENANCE.sources[0]} target="_blank" rel="noopener noreferrer" className="mx-1 text-[var(--gold-text)] hover:text-[var(--gold-dim)]">{PUBLIC_WORKS_PROVENANCE.originalProject}</a>.
+          </p>
+          <p className="mt-2">
+            The Water Resources &amp; Meteorology terms come from the
+            <a href={MOWRAM_LEXICON_PROVENANCE.sources[0]} target="_blank" rel="noopener noreferrer" className="mx-1 text-[var(--gold-text)] hover:text-[var(--gold-dim)]">{MOWRAM_LEXICON_PROVENANCE.originalProject}</a>
+            by the Ministry of Water Resources and Meteorology (MOWRAM).
           </p>
           <p className="mt-2 text-xs text-[var(--ink-faint)]">Reuse terms not yet confirmed (Provenance Pending).</p>
         </div>
