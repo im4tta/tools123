@@ -5,6 +5,8 @@ import { SourceCredits } from "@/components/ui/SourceCredits";
 import { useLanguage } from "@/components/LanguageProvider";
 import { PUBLIC_WORKS_COVERAGE, PUBLIC_WORKS_TERMS } from "@/lib/data/public-works-glossary";
 import { PUBLIC_WORKS_PROVENANCE } from "@/lib/data/public-works-provenance";
+import { MOWRAM_TERMS } from "@/lib/data/mowram-lexicon";
+import { MOWRAM_LEXICON_PROVENANCE } from "@/lib/data/mowram-lexicon-provenance";
 
 interface Term {
   en: string;
@@ -138,16 +140,32 @@ const TABS: LexiconTab[] = [
   { id: "QA/QC & Testing", label: "QA/QC & Testing", labelKm: "ការធានាគុណភាព និងតេស្ត" },
   { id: "Environmental & Social Safeguards", label: "Environmental & Social Safeguards", labelKm: "ការការពារបរិស្ថាន និងសង្គម" },
   { id: "Public Works", label: "Public Works", labelKm: "សាធារណការ" },
+  { id: "Water Resources & Meteorology", label: "Water Resources & Meteorology", labelKm: "ធនធានទឹក និងឧតុនិយម" },
 ];
 
 const ITEMS: LexiconItem[] = [
   ...CORE_TERMS.map((c) => ({ id: `${c.category}:${c.en}`, term: c.en, termKm: c.km, tag: c.category, defEn: c.note })),
   ...PUBLIC_WORKS_TERMS.map((p) => ({ id: `Public Works:${p.en}`, term: p.en, termKm: p.km, tag: "Public Works", defEn: p.defEn, defKm: p.defKm, enDefWithheld: p.enDefWithheld })),
+  ...MOWRAM_TERMS.map((m) => ({
+    id: `Water Resources & Meteorology:${m.no}`,
+    term: m.en,
+    termKm: m.km,
+    tag: "Water Resources & Meteorology",
+    defKm: m.defKm,
+    extras: [{ label: "Lexicon No.", labelKm: "លេខរៀង", value: String(m.no) }],
+  })),
 ];
+
+
+const credit = (item: LexiconItem) =>
+  item.tag === "Public Works" ? "Source: MPWT Glossary (mpwt.gov.kh)"
+  : item.tag === "Water Resources & Meteorology" ? "Source: MOWRAM Technical Lexicon, 1st ed. 2026 (mowram.gov.kh)"
+  : undefined;
 
 export default function ConstructionWaterGlossary() {
   const { text: localize } = useLanguage();
   const [mpwtGlossaryUrl] = PUBLIC_WORKS_PROVENANCE.sources;
+  const [mowramUrl] = MOWRAM_LEXICON_PROVENANCE.sources;
 
   return (
     <ToolShell
@@ -167,7 +185,7 @@ export default function ConstructionWaterGlossary() {
         toolId="construction-water-glossary"
         cardTitle="Construction & Water Resources Glossary"
         cardTitleKm="វចនានុក្រមសំណង់ និងធនធានទឹក"
-        credit={(item) => (item.tag === "Public Works" ? "Source: MPWT Glossary (mpwt.gov.kh)" : undefined)}
+        credit={credit}
       />
       <SourceCredits>
         <p>
@@ -179,6 +197,13 @@ export default function ConstructionWaterGlossary() {
         {PUBLIC_WORKS_PROVENANCE.license === undefined && (
           <p>{localize("Reuse terms not yet confirmed (Provenance Pending).", "លក្ខខណ្ឌប្រើប្រាស់ឡើងវិញមិនទាន់បានបញ្ជាក់ (Provenance Pending)។")}</p>
         )}
+        <p>
+          {localize(`Water Resources & Meteorology terms (all ${MOWRAM_TERMS.length.toLocaleString("en-US")} entries): `, `ពាក្យធនធានទឹក និងឧតុនិយម (ទាំង ${MOWRAM_TERMS.length} ពាក្យ)៖ `)}
+          <a href={mowramUrl} target="_blank" rel="noopener noreferrer" className="text-[var(--gold-text)] underline-offset-2 hover:underline">
+            {localize("Technical Lexicon on Water Resources, Irrigation, Hydrology and Meteorology (English – Khmer), First Edition, April 2026", "វចនានុក្រមបច្ចេកទេសស្តីពីធនធានទឹក ធារាសាស្ត្រ ជលសាស្ត្រ និងឧតុនិយម (អង់គ្លេស – ខ្មែរ) បោះពុម្ពលើកទី១ ខែមេសា ២០២៦")}
+          </a>
+          {localize(" — Ministry of Water Resources and Meteorology (MOWRAM). Not endorsed by MOWRAM; reuse terms not yet confirmed (Provenance Pending).", " — ក្រសួងធនធានទឹក និងឧតុនិយម។ មិនមែនជាការគាំទ្រពីក្រសួង; លក្ខខណ្ឌប្រើប្រាស់ឡើងវិញមិនទាន់បានបញ្ជាក់ (Provenance Pending)។")}
+        </p>
       </SourceCredits>
     </ToolShell>
   );

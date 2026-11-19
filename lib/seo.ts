@@ -1320,8 +1320,8 @@ const TOOL_BLURBS: Record<string, ToolBlurb> = {
     km: "ស្វែងរកម្ហូបខ្មែរល្បីៗ តាមឈ្មោះខ្មែរ ឬអង់គ្លេស ជាមួយការពណ៌នាខ្លីៗ។",
   },
   "construction-water-glossary": {
-    en: "Look up Khmer-English terms for construction contracts, procurement and BOQ, irrigation works, road building, safeguards, and public works (roads, traffic, bridges, pavement), with English and Khmer definitions for the public works set. For practical reference, not an official or legal translation.",
-    km: "ស្វែងរកពាក្យខ្មែរ-អង់គ្លេសសម្រាប់កិច្ចសន្យាសំណង់ លទ្ធកម្ម និង BOQ ការងារប្រព័ន្ធទឹក ការសាងសង់ផ្លូវ ការការពារបរិស្ថាន និងសង្គម និងសាធារណការ (ផ្លូវ ចរាចរណ៍ ស្ពាន ស្រទាប់ផ្លូវ) ជាមួយនិយមន័យជាភាសាខ្មែរ និងអង់គ្លេសសម្រាប់ក្រុមសាធារណការ។ សម្រាប់យោងជាក់ស្តែង មិនមែនជាការបកប្រែផ្លូវការ ឬផ្លូវច្បាប់ទេ។",
+    en: "Look up Khmer-English terms for construction contracts, procurement and BOQ, irrigation works, road building, safeguards, and public works (roads, traffic, bridges, pavement), plus water resources, hydrology and meteorology terms from the MOWRAM Technical Lexicon (2026), with English and Khmer definitions for the public works set. For practical reference, not an official or legal translation.",
+    km: "ស្វែងរកពាក្យខ្មែរ-អង់គ្លេសសម្រាប់កិច្ចសន្យាសំណង់ លទ្ធកម្ម និង BOQ ការងារប្រព័ន្ធទឹក ការសាងសង់ផ្លូវ ការការពារបរិស្ថាន និងសង្គម និងសាធារណការ ព្រមទាំងពាក្យធនធានទឹក ជលសាស្ត្រ និងឧតុនិយមពីវចនានុក្រមបច្ចេកទេសរបស់ក្រសួងធនធានទឹក និងឧតុនិយម (២០២៦) (ផ្លូវ ចរាចរណ៍ ស្ពាន ស្រទាប់ផ្លូវ) ជាមួយនិយមន័យជាភាសាខ្មែរ និងអង់គ្លេសសម្រាប់ក្រុមសាធារណការ។ សម្រាប់យោងជាក់ស្តែង មិនមែនជាការបកប្រែផ្លូវការ ឬផ្លូវច្បាប់ទេ។",
   },
   "khmer-birthday-personality": {
     en: "Find the traditional Khmer personality traits and color for the weekday you were born on (for fun, not scientific).",
