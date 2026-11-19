@@ -55,6 +55,17 @@ export interface LexiconExtra {
   value: string;
 }
 
+/** The same English term as another source gives it, for side-by-side comparison. */
+export interface LexiconComparison {
+  source: string;
+  sourceKm: string;
+  /** The other source's English spelling, when it differs from the entry's headword. */
+  term?: string;
+  termKm: string;
+  defEn?: string;
+  defKm?: string;
+}
+
 export interface LexiconItem {
   /** Stable identifier (duplicates are made unique internally, in order). */
   id: string;
@@ -69,6 +80,8 @@ export interface LexiconItem {
   enDefWithheld?: boolean;
   /** Extra labelled values shown on the entry screen (e.g. the French equivalent). */
   extras?: LexiconExtra[];
+  /** How other sources render the same English term (shown under "Other sources"). */
+  compare?: LexiconComparison[];
   /** Extra strings the search box also matches (the term and Khmer term are always matched). */
   search?: string[];
 }
@@ -476,6 +489,37 @@ function LexiconEntry({
           <p className="mt-1 break-words text-[1.05rem] leading-relaxed text-[var(--lx-ink)]">{x.value}</p>
         </div>
       ))}
+
+      {item.compare && item.compare.length > 0 && (
+        <section className="mt-4 border-t border-[var(--lx-line)] pt-3">
+          <h3 className="lx-caps text-[var(--lx-ink-faint)]">{t("Other sources", "ប្រភពផ្សេងទៀត")}</h3>
+          <dl className="mt-2 space-y-3">
+            {item.compare.map((c) => (
+              <div key={c.source + c.termKm}>
+                <dt className="text-sm text-[var(--lx-ink-dim)]">
+                  {t(c.source, c.sourceKm)}
+                  {c.term && <span className="text-[var(--lx-ink-faint)]"> · {c.term}</span>}
+                </dt>
+                <dd className="break-words text-[1.05rem] leading-relaxed text-[var(--lx-ink)]">
+                  <span lang="km" className="font-lexicon-km">{c.termKm}</span>
+                  {c.termKm.trim() === item.termKm.trim() && (
+                    <span className="ml-2 text-xs text-[var(--lx-ink-faint)]">{t("(same wording)", "(ពាក្យដូចគ្នា)")}</span>
+                  )}
+                </dd>
+                {(c.defEn || c.defKm) && (
+                  <dd className="mt-1 text-sm leading-relaxed text-[var(--lx-ink-dim)]">
+                    {c.defEn && <p>{c.defEn.split("\n")[0]}</p>}
+                    {c.defKm && <p lang="km" className="font-lexicon-km">{c.defKm.split("\n")[0]}</p>}
+                  </dd>
+                )}
+              </div>
+            ))}
+          </dl>
+          <p className="mt-3 text-xs italic text-[var(--lx-ink-faint)]">
+            {t("Matched by English spelling only. The sources may use the word in a different sense, so check the definition before you pick a term.", "ផ្គូផ្គងតាមអក្ខរាវិរុទ្ធអង់គ្លេសប៉ុណ្ណោះ។ ប្រភពនីមួយៗអាចប្រើពាក្យនេះក្នុងន័យខុសគ្នា ដូច្នេះសូមពិនិត្យនិយមន័យមុនជ្រើសរើសពាក្យ។")}
+          </p>
+        </section>
+      )}
 
       <div role="group" aria-label={t("Share this term", "ចែករំលែកពាក្យនេះ")} className="mt-8 flex flex-wrap items-center gap-2 border-t border-[var(--lx-line)] pt-4">
         <ShareButton icon={<Link2 size={15} aria-hidden />} onClick={onCopyLink}>
