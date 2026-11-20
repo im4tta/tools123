@@ -1319,6 +1319,10 @@ const TOOL_BLURBS: Record<string, ToolBlurb> = {
     en: "Look up Khmer-English environment and natural resources terms (impact assessment, biodiversity, waste, pollution, forests, climate change) with Khmer definitions from the Ministry of Environment's Lexicon of the Code of Environment and Natural Resources. For practical reference, not a legal text.",
     km: "ស្វែងរកពាក្យខ្មែរ-អង់គ្លេសផ្នែកបរិស្ថាន និងធនធានធម្មជាតិ (ការវាយតម្លៃហេតុប៉ះពាល់ ជីវៈចម្រុះ សំណល់ ការបំពុល ព្រៃឈើ ការប្រែប្រួលអាកាសធាតុ) ជាមួយនិយមន័យខ្មែរពីវចនានុក្រមនៃក្រមបរិស្ថាន និងធនធានធម្មជាតិរបស់ក្រសួងបរិស្ថាន។ សម្រាប់ជាឯកសារយោង មិនមែនជាអត្ថបទច្បាប់ទេ។",
   },
+  "french-loanwords-glossary": {
+    en: "Browse over 1,600 Khmer words borrowed from French, from កាហ្វេ (café) to ប៉ូលិស (police), with the French original, romanized pronunciation, English meaning and example sentences, in 24 themes. Each word shows the source tag the list gives it; the tags have not been checked against the cited dictionaries.",
+    km: "រកមើលពាក្យខ្មែរជាង ១៦០០ ដែលខ្ចីពីភាសាបារាំង ចាប់ពី កាហ្វេ (café) ដល់ ប៉ូលិស (police) ជាមួយពាក្យបារាំងដើម ការបញ្ចេញសំឡេងជាអក្សរឡាតាំង អត្ថន័យជាភាសាអង់គ្លេស និងប្រយោគឧទាហរណ៍ ចែកជា ២៤ ប្រធានបទ។ ពាក្យនីមួយៗបង្ហាញស្លាកប្រភពតាមបញ្ជី ដែលមិនទាន់បានផ្ទៀងផ្ទាត់ជាមួយវចនានុក្រមដែលបានយោងទេ។",
+  },
   "khmer-dish-glossary": {
     en: "Look up well-known Khmer dishes by Khmer or English name with short descriptions.",
     km: "ស្វែងរកម្ហូបខ្មែរល្បីៗ តាមឈ្មោះខ្មែរ ឬអង់គ្លេស ជាមួយការពណ៌នាខ្លីៗ។",
@@ -1921,6 +1925,7 @@ const HOWTO_TOOLS: Record<string, string[]> = {
   "khmer-musical-instruments": ["Browse or search the instruments", "Filter by strings, percussion, or wind", "Read the Khmer and English names and descriptions"],
   "khmer-dances-festivals": ["Browse or search the dances and festivals", "Filter by type", "Read the timing and description"],
   "environment-glossary": ["Search by English or Khmer term, or scroll the A–Z list", "Open a term to read its Khmer definition and lexicon number", "Copy it, copy its link, or save it as an image with a QR code"],
+  "french-loanwords-glossary": ["Pick a theme tab or leave it on All", "Search in French, Khmer, English or the romanized pronunciation", "Open a word to see its French original, meaning, example sentence and source tag, then copy it, copy its link, or save it as an image with a QR code"],
   "khmer-dish-glossary": ["Search by Khmer or English name", "Open a dish to read its short description", "Copy its link or save it as an image with a QR code to share it"],
   "construction-water-glossary": ["Pick a category tab or leave it on All", "Search by English or Khmer term, or scroll the list", "Open a term to read the Khmer term and numbered definitions, then copy it, copy its link, or save it as an image with a QR code"],
   "khmer-birthday-personality": ["Enter your birth date", "Read your Khmer weekday", "Review the traditional personality traits and color"],

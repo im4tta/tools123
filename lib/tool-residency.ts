@@ -204,6 +204,7 @@ export const TOOL_RESIDENCY: Record<string, ToolResidency> = {
   "fraction-arithmetic": { kind: "local", reasons: [], file: "math/fraction-arithmetic" },
   "frame-rate-converter": { kind: "local", reasons: [], file: "video/frame-rate-converter" },
   "frame-studio": { kind: "external", reasons: ["Google Fonts reference"], file: "design/frame-studio" },
+  "french-loanwords-glossary": { kind: "local", reasons: [], file: "khmer/french-loanwords-glossary" },
   "fuel-cost-calculator": { kind: "local", reasons: [], file: "math/fuel-cost-calculator" },
   "full-lunar-date": { kind: "local", reasons: [], file: "khmer/full-lunar-date" },
   "game-2048": { kind: "local", reasons: [], file: "fun/game-2048" },
