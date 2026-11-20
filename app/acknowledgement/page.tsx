@@ -4,6 +4,7 @@ import { PUBLIC_WORKS_PROVENANCE } from "@/lib/data/public-works-provenance";
 import { MOWRAM_LEXICON_PROVENANCE } from "@/lib/data/mowram-lexicon-provenance";
 import { MOE_ENV_LEXICON_PROVENANCE } from "@/lib/data/moe-env-lexicon-provenance";
 import { FRENCH_LOANWORDS_PROVENANCE } from "@/lib/data/french-loanwords-provenance";
+import { CLIMATE_LEXICON_PROVENANCE } from "@/lib/data/climate-lexicon-provenance";
 
 const LIBRARIES = [
   { name: "Next.js", url: "https://nextjs.org/", by: "Vercel Inc.", use: "React framework for server-rendered applications" },
@@ -169,6 +170,17 @@ export default function AcknowledgementPage() {
             by the Ministry of Environment, Cambodia, as listed in the Open Development Cambodia library.
           </p>
           <p className="mt-2 text-xs text-[var(--ink-faint)]">Reuse terms not yet confirmed (Provenance Pending).</p>
+        </div>
+      </section>
+
+      <section className="mt-10">
+        <h2 className="font-display text-lg font-medium text-[var(--ink)]">Climate Change Lexicon</h2>
+        <div className="mt-4 rounded-lg border border-[var(--gold)]/30 bg-[var(--gold)]/5 px-4 py-4 text-sm leading-relaxed text-[var(--ink-dim)]">
+          <p>
+            Terms and Khmer definitions come from the {CLIMATE_LEXICON_PROVENANCE.originalProject}, by the {CLIMATE_LEXICON_PROVENANCE.creator}.
+            Its foreword says it was compiled from the IPCC glossary.
+          </p>
+          <p className="mt-2 text-xs text-[var(--ink-faint)]">The book is marked “all rights reserved”; permission to reproduce it is not yet confirmed (Provenance Pending).</p>
         </div>
       </section>
 
