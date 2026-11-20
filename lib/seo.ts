@@ -1327,6 +1327,10 @@ const TOOL_BLURBS: Record<string, ToolBlurb> = {
     en: "Look up Khmer-English climate change terms (adaptation, mitigation, carbon markets, Kyoto Protocol, IPCC and more) with Khmer definitions from the Lexicon of Climate Change published by Cambodia's Ministry of Environment, NCSD and the National Council of Khmer Language (2017). Part of the book has been added so far.",
     km: "ស្វែងរកបច្ចេកសព្ទការប្រែប្រួលអាកាសធាតុខ្មែរ-អង់គ្លេស (បន្ស៊ាំ ការកាត់បន្ថយ ទីផ្សារកាបូន ពិធីសារក្យូតូ IPCC និងច្រើនទៀត) ជាមួយនិយមន័យខ្មែរ ពីសទ្ទានុក្រមការប្រែប្រួលអាកាសធាតុរបស់ក្រសួងបរិស្ថាន ក្រុមប្រឹក្សាជាតិអភិវឌ្ឍន៍ដោយចីរភាព និងក្រុមប្រឹក្សាជាតិភាសាខ្មែរ (២០១៧)។ ទើបបញ្ចូលផ្នែកខ្លះនៃសៀវភៅប៉ុណ្ណោះ។",
   },
+  "glossaries": {
+    en: "Search all of 123 Toolbox's technical glossaries at once — MOWRAM water resources, MPWT public works, Ministry of Environment, the Lexicon of Climate Change and French loanwords — and see side by side how each source renders the same term in Khmer, with definitions, a citation and a printable term page.",
+    km: "ស្វែងរកវចនានុក្រមបច្ចេកទេសទាំងអស់របស់ 123 Toolbox ក្នុងពេលតែមួយ — ធនធានទឹក (MOWRAM) សាធារណការ (MPWT) ក្រសួងបរិស្ថាន សទ្ទានុក្រមការប្រែប្រួលអាកាសធាតុ និងពាក្យកម្ចីបារាំង — ហើយមើលពីរបៀបដែលប្រភពនីមួយៗប្រើពាក្យខ្មែរសម្រាប់ពាក្យតែមួយ ជាមួយនិយមន័យ ការដកស្រង់ និងទំព័រពាក្យដែលអាចបោះពុម្ពបាន។",
+  },
   "khmer-dish-glossary": {
     en: "Look up well-known Khmer dishes by Khmer or English name with short descriptions.",
     km: "ស្វែងរកម្ហូបខ្មែរល្បីៗ តាមឈ្មោះខ្មែរ ឬអង់គ្លេស ជាមួយការពណ៌នាខ្លីៗ។",
@@ -1931,6 +1935,7 @@ const HOWTO_TOOLS: Record<string, string[]> = {
   "environment-glossary": ["Search by English or Khmer term, or scroll the A–Z list", "Open a term to read its Khmer definition and lexicon number", "Copy it, copy its link, or save it as an image with a QR code"],
   "french-loanwords-glossary": ["Pick a theme tab or leave it on All", "Search in French, Khmer, English or the romanized pronunciation", "Open a word to see its French original, meaning, example sentence and source tag, then copy it, copy its link, or save it as an image with a QR code"],
   "climate-change-lexicon": ["Leave the tab on All, or pick With definition or Index only", "Search by English or Khmer term, or scroll the A–Z list", "Open a term to read its Khmer definition, then copy it, copy its link, or save it as an image with a QR code"],
+  "glossaries": ["Type a term in English, Khmer or French, or pick a source to narrow the results", "Open a result to see every source's Khmer term and definition side by side", "Copy the Khmer term or a citation, copy the link, save a card with a QR code, or print the page"],
   "khmer-dish-glossary": ["Search by Khmer or English name", "Open a dish to read its short description", "Copy its link or save it as an image with a QR code to share it"],
   "construction-water-glossary": ["Pick a category tab or leave it on All", "Search by English or Khmer term, or scroll the list", "Open a term to read the Khmer term and numbered definitions, then copy it, copy its link, or save it as an image with a QR code"],
   "khmer-birthday-personality": ["Enter your birth date", "Read your Khmer weekday", "Review the traditional personality traits and color"],

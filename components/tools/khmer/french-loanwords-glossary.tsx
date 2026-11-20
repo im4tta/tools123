@@ -8,6 +8,7 @@ import { createPortal } from "react-dom";
 import { ArrowRight, ChevronLeft, ChevronRight, Copy, ImageDown, Link2, Search, X } from "lucide-react";
 import { ToolShell } from "@/components/ui/Shell";
 import { SourceCredits } from "@/components/ui/SourceCredits";
+import { SpeakButton } from "@/components/ui/SpeakButton";
 import { useLanguage } from "@/components/LanguageProvider";
 import { useClipboard } from "@/components/ClipboardProvider";
 import { FRENCH_LOAN_THEMES, FRENCH_LOANWORDS, type FrenchLoanSourceTag, type FrenchLoanword } from "@/lib/data/french-loanwords";
@@ -203,7 +204,7 @@ export default function FrenchLoanwordsGlossary() {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder={t("Search in French, Khmer or English — try “cafe” or “ម៉ូតូ”", "ស្វែងរកជាភាសាបារាំង ខ្មែរ ឬអង់គ្លេស — ឧ. “cafe” ឬ “ម៉ូតូ”")}
-              className="h-14 w-full rounded-2xl border border-[var(--ground-line-strong)] bg-[var(--ground-raised)] pl-14 pr-12 text-base text-[var(--ink)] placeholder:text-[var(--ink-faint)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)]"
+              className="h-14 w-full rounded-2xl [&::-webkit-search-cancel-button]:appearance-none border border-[var(--ground-line-strong)] bg-[var(--ground-raised)] pl-14 pr-12 text-base text-[var(--ink)] placeholder:text-[var(--ink-faint)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)]"
             />
             {query && (
               <button type="button" onClick={() => setQuery("")} aria-label={t("Clear search", "សម្អាតការស្វែងរក")} className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full p-2 text-[var(--ink-faint)] hover:text-[var(--ink)]">
@@ -426,9 +427,13 @@ function WordSheet({
         </h2>
         <p className="mt-3 flex flex-wrap items-baseline gap-x-3">
           <span lang="fr" className="font-display text-2xl italic text-[var(--gold-text)]">{word.fr}</span>
+          <SpeakButton text={word.fr} lang="fr-FR" className="text-[var(--ink-dim)]" size={18} />
           <span className="font-mono text-sm text-[var(--ink-faint)]">/{word.roman}/</span>
         </p>
-        <p className="mt-5 text-lg leading-relaxed text-[var(--ink)]">{word.en}</p>
+        <p className="mt-5 text-lg leading-relaxed text-[var(--ink)]">
+          {word.en}
+          <SpeakButton text={word.en} lang="en-US" className="ml-1 -my-2 text-[var(--ink-dim)]" size={18} />
+        </p>
 
         {ex && (
           <figure className="mt-6 rounded-2xl bg-[var(--ground)] p-5">

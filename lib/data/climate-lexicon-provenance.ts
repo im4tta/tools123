@@ -7,7 +7,7 @@ export const CLIMATE_LEXICON_PROVENANCE = {
   creator:
     "Climate Change Department, General Secretariat of the National Council for Sustainable Development (NCSD) and Ministry of Environment, Cambodia, with the National Council of Khmer Language",
   origin:
-    "សទ្ទានុក្រមការប្រែប្រួលអាកាសធាតុ (Lexicon of Climate Change), 1st edition, 2017; supplied by the Tools123 maintainer as Markdown pages (front matter, pages 11–20 and 31–80 of Part 1, pages 161–170 of the Part 2 index).",
+    "សទ្ទានុក្រមការប្រែប្រួលអាកាសធាតុ (Lexicon of Climate Change), 1st edition, 2017; supplied by the Tools123 maintainer as Markdown pages (front matter, pages 11–110 and 121–140 of Part 1, pages 141–170 of the Part 2 index).",
   originalProject: "Lexicon of Climate Change (សទ្ទានុក្រមការប្រែប្រួលអាកាសធាតុ), 1st edition, 2017",
   sources: [] as string[],
   license: undefined as string | undefined,

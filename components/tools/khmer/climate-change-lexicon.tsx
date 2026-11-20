@@ -12,7 +12,7 @@ const TABS: LexiconTab[] = [
 ];
 
 const ITEMS: LexiconItem[] = CLIMATE_LEXICON_TERMS.map((term, i) => {
-  const indexOnly = term.page === "idx161";
+  const indexOnly = term.page.startsWith("idx");
   return {
     id: String(i + 1),
     term: term.en,
@@ -31,7 +31,7 @@ const ITEMS: LexiconItem[] = CLIMATE_LEXICON_TERMS.map((term, i) => {
   };
 });
 
-const DEFINED = CLIMATE_LEXICON_TERMS.filter((term) => term.page !== "idx161").length;
+const DEFINED = CLIMATE_LEXICON_TERMS.filter((term) => !term.page.startsWith("idx")).length;
 
 export default function ClimateChangeLexicon() {
   const { text: t } = useLanguage();
