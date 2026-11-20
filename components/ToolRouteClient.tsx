@@ -22,6 +22,7 @@ import { recordToolUse } from "@/lib/export";
 import { DEFAULT_WORKSPACE_PROFILES, type WorkspaceProfile } from "@/lib/workspaces";
 import type { RelatedTool, ToolRouteTool } from "@/lib/tool-route-data";
 import { ToolPageContext } from "@/components/ui/ToolPageContext";
+import { ShareToolButton } from "@/components/ShareToolButton";
 
 /**
  * Client half of a tool page. The server passes the tool's registry entry, its related tools and
@@ -107,6 +108,7 @@ export function ToolRouteClient({ tool, related, toolCount, faq }: { tool: ToolR
             >
               <Star size={14} fill={isFavorite ? "currentColor" : "none"} />
             </button>
+            <ShareToolButton tool={{ id: tool.id, title: tool.title, khmerTitle: tool.khmerTitle, categoryLabel: tool.categoryLabel, categoryKhmer: tool.categoryKhmer, what: faq.what }} />
             <div id="tool-route-more" className={`tool-route-more items-center gap-2 sm:flex ${moreOpen ? "flex" : "hidden"}`}>
               <CollectionsPicker
                 toolId={tool.id}

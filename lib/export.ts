@@ -8,6 +8,7 @@
 
 import { SITE_DOMAIN } from "@/lib/site";
 import { trackEvent } from "@/lib/analytics";
+import { isSponsorAskCount, readSponsorAsk, SPONSOR_ASK_EVENT, sponsorAskAllowed } from "@/lib/sponsor-ask";
 
 export const EXPORT_MILESTONES = [1, 5, 10, 20] as const;
 
@@ -74,6 +75,7 @@ export function recordExport(): number | null {
     window.dispatchEvent(new CustomEvent("tools123:export-milestone", { detail: { count: next } }));
     return next;
   }
+  if (isSponsorAskCount(next, EXPORT_MILESTONES) && sponsorAskAllowed(readSponsorAsk())) window.dispatchEvent(new CustomEvent(SPONSOR_ASK_EVENT, { detail: { count: next } }));
   return null;
 }
 

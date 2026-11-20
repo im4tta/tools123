@@ -24,6 +24,7 @@ import { ScrollTabs } from "@/components/ui/ScrollTabs";
 import type { CardBlock } from "@/lib/glossary-card";
 import { assignSlugs, readTermParam, splitTermAcronym, splitTermExpansion, termUrl, withTermParam } from "@/lib/glossary-share";
 import { downloadBlob } from "@/lib/download";
+import { recordExport } from "@/lib/export";
 import { useToolState } from "@/lib/storage";
 import { toast } from "@/lib/toast";
 import { SITE_DOMAIN } from "@/lib/site";
@@ -923,6 +924,7 @@ export function Lexicon({
         fonts: readFonts(root),
       });
       downloadBlob(blob, `${item.slug}-glossary.png`);
+      recordExport();
       toast(t("Image saved.", "បានរក្សាទុករូបភាព។"));
     } catch {
       toast(t("Could not create the image.", "មិនអាចបង្កើតរូបភាពបានទេ។"), "error");
