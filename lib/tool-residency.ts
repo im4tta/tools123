@@ -94,6 +94,7 @@ export const TOOL_RESIDENCY: Record<string, ToolResidency> = {
   "chmod-calculator": { kind: "local", reasons: [], file: "dev/chmod-calculator" },
   "chord-progression-generator": { kind: "local", reasons: [], file: "audio/chord-progression-generator" },
   "cidr-calculator": { kind: "local", reasons: [], file: "network/cidr-calculator" },
+  "climate-change-lexicon": { kind: "local", reasons: [], file: "khmer/climate-change-lexicon" },
   "clipboard-manager": { kind: "local", reasons: [], file: "office/clipboard-manager" },
   "code-to-image": { kind: "external", reasons: ["<a href=url>","external <a> target=_blank"], file: "dev/code-to-image" },
   "coeng-tada-corrector": { kind: "external", reasons: ["<a href=url>","external <a> target=_blank"], file: "khmer/coeng-tada-corrector" },
