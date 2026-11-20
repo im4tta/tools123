@@ -14,6 +14,7 @@ import { FRENCH_LOAN_THEMES, FRENCH_LOANWORDS, type FrenchLoanSourceTag, type Fr
 import { FRENCH_LOANWORDS_PROVENANCE } from "@/lib/data/french-loanwords-provenance";
 import { assignSlugs, readTermParam, termUrl, withTermParam } from "@/lib/glossary-share";
 import { downloadBlob } from "@/lib/download";
+import { recordExport } from "@/lib/export";
 import { SITE_DOMAIN } from "@/lib/site";
 import { useToolState } from "@/lib/storage";
 import { toast } from "@/lib/toast";
@@ -135,6 +136,7 @@ export default function FrenchLoanwordsGlossary() {
         fonts,
       });
       downloadBlob(blob, `${SLUGS.get(String(w.no))}-french-loanword.png`);
+      recordExport();
       toast(t("Image saved.", "បានរក្សាទុករូបភាព។"));
     } catch {
       toast(t("Could not create the image.", "មិនអាចបង្កើតរូបភាពបានទេ។"), "error");
