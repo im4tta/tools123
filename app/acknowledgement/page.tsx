@@ -3,6 +3,7 @@ import { ArrowLeft } from "lucide-react";
 import { PUBLIC_WORKS_PROVENANCE } from "@/lib/data/public-works-provenance";
 import { MOWRAM_LEXICON_PROVENANCE } from "@/lib/data/mowram-lexicon-provenance";
 import { MOE_ENV_LEXICON_PROVENANCE } from "@/lib/data/moe-env-lexicon-provenance";
+import { FRENCH_LOANWORDS_PROVENANCE } from "@/lib/data/french-loanwords-provenance";
 
 const LIBRARIES = [
   { name: "Next.js", url: "https://nextjs.org/", by: "Vercel Inc.", use: "React framework for server-rendered applications" },
@@ -168,6 +169,21 @@ export default function AcknowledgementPage() {
             by the Ministry of Environment, Cambodia, as listed in the Open Development Cambodia library.
           </p>
           <p className="mt-2 text-xs text-[var(--ink-faint)]">Reuse terms not yet confirmed (Provenance Pending).</p>
+        </div>
+      </section>
+
+      <section className="mt-10">
+        <h2 className="font-display text-lg font-medium text-[var(--ink)]">French Loanwords in Khmer</h2>
+        <div className="mt-4 rounded-lg border border-[var(--gold)]/30 bg-[var(--gold)]/5 px-4 py-4 text-sm leading-relaxed text-[var(--ink-dim)]">
+          <p>
+            The words, meanings and examples come from a supplied list, the {FRENCH_LOANWORDS_PROVENANCE.originalProject}. Its compiler is not named. Its source tags cite:
+          </p>
+          <ul className="mt-2 list-disc pl-5">
+            {FRENCH_LOANWORDS_PROVENANCE.citedWorks.map((w) => (
+              <li key={w.tag}>{w.en}</li>
+            ))}
+          </ul>
+          <p className="mt-2 text-xs text-[var(--ink-faint)]">Tags not yet checked against these works; origin of the list not confirmed (Provenance Pending).</p>
         </div>
       </section>
 
