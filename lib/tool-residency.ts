@@ -219,6 +219,7 @@ export const TOOL_RESIDENCY: Record<string, ToolResidency> = {
   "github-file-browser": { kind: "network", reasons: ["Calls the GitHub public API to list repo contents from the browser."], file: "dev/github-file-browser" },
   "gitignore-generator": { kind: "local", reasons: [], file: "dev/gitignore-generator" },
   "glassmorphism-generator": { kind: "external", reasons: ["<a href=url>","external <a> target=_blank"], file: "design/glassmorphism-generator" },
+  "glossaries": { kind: "local", reasons: [], file: "khmer/glossaries" },
   "gold-price-calculator": { kind: "local", reasons: [], file: "office/gold-price-calculator" },
   "golden-ratio-calculator": { kind: "local", reasons: [], file: "design/golden-ratio-calculator" },
   "government-plate-lookup": { kind: "local", reasons: [], file: "khmer/government-plate-lookup" },

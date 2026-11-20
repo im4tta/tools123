@@ -79,6 +79,7 @@ export default function KhmerDishGlossary() {
         emptyText="No dishes match that search."
         emptyTextKm="គ្មានម្ហូបត្រូវនឹងការស្វែងរកនេះទេ។"
         toolId="khmer-dish-glossary"
+        speakLang={false}
         cardTitle="Khmer Dish Glossary"
         cardTitleKm="វចនានុក្រមម្ហូបខ្មែរ"
       />

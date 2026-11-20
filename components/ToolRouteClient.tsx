@@ -92,7 +92,7 @@ export function ToolRouteClient({ tool, related, toolCount, faq }: { tool: ToolR
   const localizedTitle = mode === "en" ? tool.title : mode === "km" ? khmerTitle : `${tool.title} — ${khmerTitle}`;
 
   return (
-    <main className="min-h-screen px-5 pb-16 pt-24 sm:px-10">
+    <main className="min-h-screen px-4 pb-16 pt-[4.75rem] sm:px-10 sm:pt-24">
       <header className="fixed inset-x-0 top-0 z-40 border-b border-[var(--ground-line)] bg-[color:color-mix(in_srgb,var(--ground)_90%,transparent)] backdrop-blur-xl">
         <div className="tool-route-header-inner mx-auto flex h-14 max-w-[77rem] items-center gap-3 px-5 sm:px-10">
           <Link href="/" aria-label={t("All tools", "ឧបករណ៍ទាំងអស់")} className="tool-route-back flex shrink-0 items-center gap-1.5 text-sm text-[var(--ink-dim)] hover:text-[var(--ink)]">
@@ -108,7 +108,6 @@ export function ToolRouteClient({ tool, related, toolCount, faq }: { tool: ToolR
             >
               <Star size={14} fill={isFavorite ? "currentColor" : "none"} />
             </button>
-            <ShareToolButton tool={{ id: tool.id, title: tool.title, khmerTitle: tool.khmerTitle, categoryLabel: tool.categoryLabel, categoryKhmer: tool.categoryKhmer, what: faq.what }} />
             <div id="tool-route-more" className={`tool-route-more items-center gap-2 sm:flex ${moreOpen ? "flex" : "hidden"}`}>
               <CollectionsPicker
                 toolId={tool.id}
@@ -125,6 +124,9 @@ export function ToolRouteClient({ tool, related, toolCount, faq }: { tool: ToolR
               />
               <LanguageToggle />
               <ThemeToggle />
+              {/* On phones Share and Settings live in this ⋯ tray, so the top bar keeps only back, search, favourite and ⋯. */}
+              <ShareToolButton tool={{ id: tool.id, title: tool.title, khmerTitle: tool.khmerTitle, categoryLabel: tool.categoryLabel, categoryKhmer: tool.categoryKhmer, what: faq.what }} />
+              <SettingsSheet />
             </div>
             <button
               type="button"
@@ -136,13 +138,12 @@ export function ToolRouteClient({ tool, related, toolCount, faq }: { tool: ToolR
             >
               <MoreHorizontal size={16} />
             </button>
-            <SettingsSheet />
           </div>
         </div>
       </header>
       {/* The placeholder is server-rendered (title + summary visible in the first HTML) and stays
           until the tool's own chunk has loaded, so the page neither flashes nor jumps. */}
-      <nav aria-label={t("Breadcrumb", "ផ្លូវរុករក")} className="mx-auto mb-5 w-full max-w-6xl text-sm">
+      <nav aria-label={t("Breadcrumb", "ផ្លូវរុករក")} className="mx-auto mb-5 hidden w-full max-w-6xl text-sm sm:block">
         <ol className="flex flex-wrap items-center gap-1.5 text-[var(--ink-dim)]">
           <li><Link href="/" className="hover:text-[var(--ink)] hover:underline">{t("All tools", "ឧបករណ៍ទាំងអស់")}</Link></li>
           <li aria-hidden><ChevronRight size={14} /></li>

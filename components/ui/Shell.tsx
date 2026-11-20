@@ -1,6 +1,6 @@
 "use client";
 
-import { Children, cloneElement, isValidElement, ReactNode } from "react";
+import { Children, cloneElement, isValidElement, ReactNode, useState } from "react";
 import { useLanguage } from "@/components/LanguageProvider";
 import { modeNeedsKhmerDescriptions, useDescriptionsKm } from "@/lib/i18n-descriptions-loader";
 import { toKhmerToolTitle } from "@/lib/tool-title-km";
@@ -46,7 +46,7 @@ function ResidencyBadge() {
   const residency = useToolPage()?.residency;
   if (!residency) return null;
   return (
-    <div className="mt-3">
+    <div className="sm:mt-3">
       {residency === "network" ? (
         <StatusPill kind="info">{text("Connects to the internet", "ភ្ជាប់អ៊ីនធឺណិត")}</StatusPill>
       ) : (
@@ -72,17 +72,36 @@ function ShellHeader({ title, khmerTitle, description, descriptionKm }: { title:
           ? description
           : ui(description);
   return (
-    <header className="mb-8">
+    <header className="mb-4 sm:mb-8">
       <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-        <h1 className="font-display text-2xl font-semibold text-[var(--ink)]">{localizedTitle}</h1>
+        <h1 className="font-display text-xl font-semibold text-[var(--ink)] sm:text-2xl">{localizedTitle}</h1>
         {mode === "bi" && resolvedKhmerTitle !== title && (
-          <span lang="km" className="font-khmer text-lg text-[var(--gold-text)]">{resolvedKhmerTitle}</span>
+          <span lang="km" className="font-khmer text-base text-[var(--gold-text)] sm:text-lg">{resolvedKhmerTitle}</span>
         )}
       </div>
-      <div aria-hidden className="mt-3 h-[3px] w-10 rounded-full bg-gradient-to-r from-[var(--gold)] to-transparent" />
-      <p className="mt-3 text-sm leading-relaxed text-[var(--ink-dim)]">{localizedDescription}</p>
-      <ResidencyBadge />
+      <div aria-hidden className="mt-3 hidden h-[3px] w-10 rounded-full bg-gradient-to-r from-[var(--gold)] to-transparent sm:block" />
+      <ShellDescription text={localizedDescription} />
     </header>
+  );
+}
+
+/**
+ * The tool description: in full on wider screens. On phones it is cut to two lines, with "More" sharing a row with
+ * the residency badge, so the tool itself starts higher on the screen.
+ */
+function ShellDescription({ text: description }: { text: string }) {
+  const { text } = useLanguage();
+  const [expanded, setExpanded] = useState(false);
+  return (
+    <>
+      <p className={`mt-1.5 text-sm leading-relaxed text-[var(--ink-dim)] sm:mt-3 ${expanded ? "" : "max-sm:line-clamp-2"}`}>{description}</p>
+      <div className="flex flex-wrap items-center gap-x-3 max-sm:mt-1.5 sm:block">
+        <button type="button" onClick={() => setExpanded((v) => !v)} aria-expanded={expanded} className="text-xs font-medium text-[var(--gold-text)] sm:hidden">
+          {expanded ? text("Less", "បង្រួម") : text("More", "បន្ថែម")}
+        </button>
+        <ResidencyBadge />
+      </div>
+    </>
   );
 }
 

@@ -21,6 +21,7 @@ import { CopyButton, type CopyField } from "@/components/CopyButton";
 import { useClipboard } from "@/components/ClipboardProvider";
 import { useLanguage } from "@/components/LanguageProvider";
 import { ScrollTabs } from "@/components/ui/ScrollTabs";
+import { SpeakButton } from "@/components/ui/SpeakButton";
 import type { CardBlock } from "@/lib/glossary-card";
 import { assignSlugs, readTermParam, splitTermAcronym, splitTermExpansion, termUrl, withTermParam } from "@/lib/glossary-share";
 import { downloadBlob } from "@/lib/download";
@@ -112,6 +113,8 @@ export interface LexiconProps {
   alphabetical?: boolean;
   /** Tool id (see lib/tools.tsx); builds the shareable link `<tool page>?term=<slug>` through toolHref(). */
   toolId?: string;
+  /** Language of the headword for the "Listen" button (browser speech), or false to hide it. Default "en-US". */
+  speakLang?: string | false;
   /** Tool name printed on exported images. */
   cardTitle?: string;
   cardTitleKm?: string;
@@ -370,6 +373,7 @@ function LexiconEntry({
   onPrev,
   onNext,
   headingRef,
+  speakLang,
   onCopyLink,
   onShare,
   onSaveImage,
@@ -381,6 +385,7 @@ function LexiconEntry({
   onPrev?: () => void;
   onNext?: () => void;
   headingRef: RefObject<HTMLHeadingElement | null>;
+  speakLang: string | false;
   onCopyLink: () => void;
   onShare?: () => void;
   onSaveImage: (withCompare: boolean) => void;
@@ -424,7 +429,8 @@ function LexiconEntry({
         </div>
       </div>
 
-      <h2 ref={headingRef} tabIndex={-1} className="mt-4 text-balance break-words text-[2.1rem] font-medium leading-[1.15] text-[var(--lx-ink)] lg:text-[2.6rem]">
+      <div className="mt-4 flex items-start gap-1">
+      <h2 ref={headingRef} tabIndex={-1} className="min-w-0 flex-1 text-balance break-words text-[2.1rem] font-medium leading-[1.15] text-[var(--lx-ink)] lg:text-[2.6rem]">
         {expansion ? expansion.abbr : acronym ? acronym.main : item.term}
         {acronym && (
           <span className="ml-3 inline-block -translate-y-[0.3em] whitespace-nowrap rounded-full border border-[var(--lx-accent)] bg-[color-mix(in_srgb,var(--lx-accent)_8%,transparent)] px-3 py-0.5 align-middle font-sans text-[0.72rem] font-semibold tracking-[0.12em] text-[var(--lx-accent)]">
@@ -434,6 +440,8 @@ function LexiconEntry({
           </span>
         )}
       </h2>
+      {speakLang && <SpeakButton text={expansion ? expansion.expansion : item.term} lang={speakLang} className="mt-1 text-[var(--lx-ink-dim)]" size={20} />}
+      </div>
       {expansion && <p className="mt-1.5 text-balance break-words text-[1.2rem] italic leading-snug text-[var(--lx-ink-dim)] lg:text-[1.35rem]">{expansion.expansion}</p>}
       <p lang="km" className="mt-2 text-balance break-words font-lexicon-km text-[1.5rem] leading-snug text-[var(--lx-accent)] lg:text-[1.75rem]">
         {item.termKm}
@@ -568,6 +576,7 @@ export function Lexicon({
   cardTitle,
   cardTitleKm,
   credit,
+  speakLang = "en-US",
 }: LexiconProps) {
   const { text: t } = useLanguage();
   const { copyText } = useClipboard();
@@ -1128,6 +1137,7 @@ export function Lexicon({
             onPrev={prevItem ? () => open(prevItem.id) : undefined}
             onNext={nextItem ? () => open(nextItem.id) : undefined}
             headingRef={headingRef}
+            speakLang={speakLang}
             onCopyLink={() => void copyText(linkFor(entry))}
             onShare={canShare ? () => void shareEntry(entry) : undefined}
             onSaveImage={(withCompare) => void saveImage(entry, withCompare)}
