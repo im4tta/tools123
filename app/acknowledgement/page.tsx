@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { PUBLIC_WORKS_PROVENANCE } from "@/lib/data/public-works-provenance";
 import { MOWRAM_LEXICON_PROVENANCE } from "@/lib/data/mowram-lexicon-provenance";
+import { MOE_ENV_LEXICON_PROVENANCE } from "@/lib/data/moe-env-lexicon-provenance";
 
 const LIBRARIES = [
   { name: "Next.js", url: "https://nextjs.org/", by: "Vercel Inc.", use: "React framework for server-rendered applications" },
@@ -153,6 +154,18 @@ export default function AcknowledgementPage() {
             The Water Resources &amp; Meteorology terms come from the
             <a href={MOWRAM_LEXICON_PROVENANCE.sources[0]} target="_blank" rel="noopener noreferrer" className="mx-1 text-[var(--gold-text)] hover:text-[var(--gold-dim)]">{MOWRAM_LEXICON_PROVENANCE.originalProject}</a>
             by the Ministry of Water Resources and Meteorology (MOWRAM).
+          </p>
+          <p className="mt-2 text-xs text-[var(--ink-faint)]">Reuse terms not yet confirmed (Provenance Pending).</p>
+        </div>
+      </section>
+
+      <section className="mt-10">
+        <h2 className="font-display text-lg font-medium text-[var(--ink)]">Environment &amp; Natural Resources Glossary</h2>
+        <div className="mt-4 rounded-lg border border-[var(--gold)]/30 bg-[var(--gold)]/5 px-4 py-4 text-sm leading-relaxed text-[var(--ink-dim)]">
+          <p>
+            Terms and Khmer definitions come from the
+            <a href={MOE_ENV_LEXICON_PROVENANCE.sources[0]} target="_blank" rel="noopener noreferrer" className="mx-1 text-[var(--gold-text)] hover:text-[var(--gold-dim)]">{MOE_ENV_LEXICON_PROVENANCE.originalProject}</a>
+            by the Ministry of Environment, Cambodia, as listed in the Open Development Cambodia library.
           </p>
           <p className="mt-2 text-xs text-[var(--ink-faint)]">Reuse terms not yet confirmed (Provenance Pending).</p>
         </div>

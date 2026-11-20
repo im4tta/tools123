@@ -1315,6 +1315,10 @@ const TOOL_BLURBS: Record<string, ToolBlurb> = {
     en: "Discover well-known Khmer classical and folk dances and festivals with timings and descriptions.",
     km: "ស្វែងយល់អំពីរបាំបុរាណ និងប្រពៃណី និងពិធីបុណ្យខ្មែរល្បីៗ ជាមួយពេលវេលា និងការពណ៌នា។",
   },
+  "environment-glossary": {
+    en: "Look up Khmer-English environment and natural resources terms (impact assessment, biodiversity, waste, pollution, forests, climate change) with Khmer definitions from the Ministry of Environment's Lexicon of the Code of Environment and Natural Resources. For practical reference, not a legal text.",
+    km: "ស្វែងរកពាក្យខ្មែរ-អង់គ្លេសផ្នែកបរិស្ថាន និងធនធានធម្មជាតិ (ការវាយតម្លៃហេតុប៉ះពាល់ ជីវៈចម្រុះ សំណល់ ការបំពុល ព្រៃឈើ ការប្រែប្រួលអាកាសធាតុ) ជាមួយនិយមន័យខ្មែរពីវចនានុក្រមនៃក្រមបរិស្ថាន និងធនធានធម្មជាតិរបស់ក្រសួងបរិស្ថាន។ សម្រាប់ជាឯកសារយោង មិនមែនជាអត្ថបទច្បាប់ទេ។",
+  },
   "khmer-dish-glossary": {
     en: "Look up well-known Khmer dishes by Khmer or English name with short descriptions.",
     km: "ស្វែងរកម្ហូបខ្មែរល្បីៗ តាមឈ្មោះខ្មែរ ឬអង់គ្លេស ជាមួយការពណ៌នាខ្លីៗ។",
@@ -1916,6 +1920,7 @@ const HOWTO_TOOLS: Record<string, string[]> = {
   "half-life-calculator": ["Enter the initial amount and half-life", "Enter the elapsed time", "Read the remaining amount, λ, and mean lifetime"],
   "khmer-musical-instruments": ["Browse or search the instruments", "Filter by strings, percussion, or wind", "Read the Khmer and English names and descriptions"],
   "khmer-dances-festivals": ["Browse or search the dances and festivals", "Filter by type", "Read the timing and description"],
+  "environment-glossary": ["Search by English or Khmer term, or scroll the A–Z list", "Open a term to read its Khmer definition and lexicon number", "Copy it, copy its link, or save it as an image with a QR code"],
   "khmer-dish-glossary": ["Search by Khmer or English name", "Open a dish to read its short description", "Copy its link or save it as an image with a QR code to share it"],
   "construction-water-glossary": ["Pick a category tab or leave it on All", "Search by English or Khmer term, or scroll the list", "Open a term to read the Khmer term and numbered definitions, then copy it, copy its link, or save it as an image with a QR code"],
   "khmer-birthday-personality": ["Enter your birth date", "Read your Khmer weekday", "Review the traditional personality traits and color"],
