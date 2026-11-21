@@ -6,9 +6,10 @@ import { useLanguage } from "@/components/LanguageProvider";
 import { CLIMATE_LEXICON_TERMS } from "@/lib/data/climate-lexicon";
 import { CLIMATE_LEXICON_PROVENANCE } from "@/lib/data/climate-lexicon-provenance";
 
-const TABS: LexiconTab[] = [
+const ALL_TABS: LexiconTab[] = [
   { id: "defined", label: "With definition", labelKm: "មាននិយមន័យ" },
   { id: "index", label: "Index only", labelKm: "តែក្នុងបញ្ជីពាក្យ" },
+  { id: "abbr", label: "Abbreviations", labelKm: "អក្សរកាត់" },
 ];
 
 const ITEMS: LexiconItem[] = CLIMATE_LEXICON_TERMS.map((term, i) => {
@@ -17,7 +18,7 @@ const ITEMS: LexiconItem[] = CLIMATE_LEXICON_TERMS.map((term, i) => {
     id: String(i + 1),
     term: term.en,
     termKm: term.km,
-    tag: indexOnly ? "index" : "defined",
+    tag: term.page === "abbr" ? "abbr" : indexOnly ? "index" : "defined",
     defKm: term.def || undefined,
     extras: indexOnly
       ? [
@@ -31,8 +32,12 @@ const ITEMS: LexiconItem[] = CLIMATE_LEXICON_TERMS.map((term, i) => {
   };
 });
 
-const DEFINED = CLIMATE_LEXICON_TERMS.filter((term) => !term.page.startsWith("idx")).length;
-const INDEX_ONLY = CLIMATE_LEXICON_TERMS.length - DEFINED;
+const COUNT = (tag: string) => ITEMS.filter((item) => item.tag === tag).length;
+const DEFINED = COUNT("defined");
+const INDEX_ONLY = COUNT("index");
+const ABBR = COUNT("abbr");
+/** Tabs with no terms yet are hidden. */
+const TABS = ALL_TABS.filter((tab) => COUNT(tab.id) > 0);
 
 export default function ClimateChangeLexicon() {
   const { text: t } = useLanguage();
@@ -51,7 +56,7 @@ export default function ClimateChangeLexicon() {
         nameKm="ការប្រែប្រួលអាកាសធាតុ"
         searchPlaceholder="English or Khmer…"
         searchPlaceholderKm="អង់គ្លេស ឬខ្មែរ…"
-        tabs={INDEX_ONLY > 0 ? TABS : undefined}
+        tabs={TABS}
         toolId="climate-change-lexicon"
         cardTitle="Climate Change Lexicon"
         cardTitleKm="សទ្ទានុក្រមការប្រែប្រួលអាកាសធាតុ"
@@ -66,8 +71,8 @@ export default function ClimateChangeLexicon() {
         </p>
         <p>
           {t(
-            `Added so far: ${DEFINED} defined terms from the Khmer–English section (pages 11–140)${INDEX_ONLY > 0 ? ` and ${INDEX_ONLY} more terms from the English–Khmer index` : ""}. The abbreviations section is not added yet. Reproduced as supplied. Not endorsed by the Ministry, NCSD or the National Council of Khmer Language.`,
-            `បានបញ្ចូលរួច៖ ពាក្យមាននិយមន័យចំនួន ${DEFINED} ពីផ្នែកខ្មែរ-អង់គ្លេស (ទំព័រ ១១–១៤០)${INDEX_ONLY > 0 ? ` និងពាក្យចំនួន ${INDEX_ONLY} ទៀតពីបញ្ជីពាក្យអង់គ្លេស-ខ្មែរ` : ""}។ ផ្នែកអក្សរកាត់មិនទាន់បានបញ្ចូលទេ។ ចម្លងតាមដែលបានផ្តល់។ មិនមែនជាការគាំទ្រពីក្រសួង ក្រុមប្រឹក្សាជាតិអភិវឌ្ឍន៍ដោយចីរភាព ឬក្រុមប្រឹក្សាជាតិភាសាខ្មែរទេ។`,
+            `Added so far: ${DEFINED} defined terms from the Khmer–English section (pages 11–140)${INDEX_ONLY > 0 ? ` and ${INDEX_ONLY} more terms from the English–Khmer index` : ""}, and ${ABBR} abbreviations. Reproduced as supplied. Not endorsed by the Ministry, NCSD or the National Council of Khmer Language.`,
+            `បានបញ្ចូលរួច៖ ពាក្យមាននិយមន័យចំនួន ${DEFINED} ពីផ្នែកខ្មែរ-អង់គ្លេស (ទំព័រ ១១–១៤០)${INDEX_ONLY > 0 ? ` និងពាក្យចំនួន ${INDEX_ONLY} ទៀតពីបញ្ជីពាក្យអង់គ្លេស-ខ្មែរ` : ""} និងអក្សរកាត់ចំនួន ${ABBR}។ ចម្លងតាមដែលបានផ្តល់។ មិនមែនជាការគាំទ្រពីក្រសួង ក្រុមប្រឹក្សាជាតិអភិវឌ្ឍន៍ដោយចីរភាព ឬក្រុមប្រឹក្សាជាតិភាសាខ្មែរទេ។`,
           )}
         </p>
         {CLIMATE_LEXICON_PROVENANCE.license === undefined && (

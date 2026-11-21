@@ -97,7 +97,14 @@ export const HUB_ENTRIES: HubEntry[] = [
     defKm: t.defKm,
   })),
   ...MOE_ENV_TERMS.map((t) => ({ source: "moe", id: String(t.no), term: t.en, km: t.km, defKm: t.defKm, no: t.no })),
-  ...CLIMATE_LEXICON_TERMS.map((t, i) => ({ source: "climate", id: String(i + 1), term: t.en, km: t.km, defKm: t.def || undefined })),
+  ...CLIMATE_LEXICON_TERMS.map((t, i) => ({
+    source: "climate",
+    id: String(i + 1),
+    // Abbreviation rows are stored as "AAU — Assigned Amount Unit"; list them under the full name so they group with other sources.
+    term: t.page === "abbr" ? t.en.replace(/^(.+?) — (.+)$/, "$2 ($1)") : t.en,
+    km: t.km,
+    defKm: t.def || undefined,
+  })),
   ...FRENCH_LOANWORDS.map((t) => ({
     source: "french",
     id: String(t.no),
