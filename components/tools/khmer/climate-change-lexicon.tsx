@@ -32,6 +32,7 @@ const ITEMS: LexiconItem[] = CLIMATE_LEXICON_TERMS.map((term, i) => {
 });
 
 const DEFINED = CLIMATE_LEXICON_TERMS.filter((term) => !term.page.startsWith("idx")).length;
+const INDEX_ONLY = CLIMATE_LEXICON_TERMS.length - DEFINED;
 
 export default function ClimateChangeLexicon() {
   const { text: t } = useLanguage();
@@ -50,7 +51,7 @@ export default function ClimateChangeLexicon() {
         nameKm="ការប្រែប្រួលអាកាសធាតុ"
         searchPlaceholder="English or Khmer…"
         searchPlaceholderKm="អង់គ្លេស ឬខ្មែរ…"
-        tabs={TABS}
+        tabs={INDEX_ONLY > 0 ? TABS : undefined}
         toolId="climate-change-lexicon"
         cardTitle="Climate Change Lexicon"
         cardTitleKm="សទ្ទានុក្រមការប្រែប្រួលអាកាសធាតុ"
@@ -65,8 +66,8 @@ export default function ClimateChangeLexicon() {
         </p>
         <p>
           {t(
-            `Only part of the book has been added so far: ${DEFINED} defined terms from the Khmer–English section (letters ក to ប, with gaps) and ${CLIMATE_LEXICON_TERMS.length - DEFINED} more terms from the English–Khmer index. Reproduced as supplied. Not endorsed by the Ministry, NCSD or the National Council of Khmer Language.`,
-            `ទើបតែបញ្ចូលផ្នែកខ្លះនៃសៀវភៅប៉ុណ្ណោះ៖ ពាក្យមាននិយមន័យចំនួន ${DEFINED} ពីផ្នែកខ្មែរ-អង់គ្លេស (អក្សរ ក ដល់ ប មានចន្លោះខ្វះ) និងពាក្យចំនួន ${CLIMATE_LEXICON_TERMS.length - DEFINED} ទៀតពីបញ្ជីពាក្យអង់គ្លេស-ខ្មែរ។ ចម្លងតាមដែលបានផ្តល់។ មិនមែនជាការគាំទ្រពីក្រសួង ក្រុមប្រឹក្សាជាតិអភិវឌ្ឍន៍ដោយចីរភាព ឬក្រុមប្រឹក្សាជាតិភាសាខ្មែរទេ។`,
+            `Added so far: ${DEFINED} defined terms from the Khmer–English section (pages 11–140)${INDEX_ONLY > 0 ? ` and ${INDEX_ONLY} more terms from the English–Khmer index` : ""}. The abbreviations section is not added yet. Reproduced as supplied. Not endorsed by the Ministry, NCSD or the National Council of Khmer Language.`,
+            `បានបញ្ចូលរួច៖ ពាក្យមាននិយមន័យចំនួន ${DEFINED} ពីផ្នែកខ្មែរ-អង់គ្លេស (ទំព័រ ១១–១៤០)${INDEX_ONLY > 0 ? ` និងពាក្យចំនួន ${INDEX_ONLY} ទៀតពីបញ្ជីពាក្យអង់គ្លេស-ខ្មែរ` : ""}។ ផ្នែកអក្សរកាត់មិនទាន់បានបញ្ចូលទេ។ ចម្លងតាមដែលបានផ្តល់។ មិនមែនជាការគាំទ្រពីក្រសួង ក្រុមប្រឹក្សាជាតិអភិវឌ្ឍន៍ដោយចីរភាព ឬក្រុមប្រឹក្សាជាតិភាសាខ្មែរទេ។`,
           )}
         </p>
         {CLIMATE_LEXICON_PROVENANCE.license === undefined && (

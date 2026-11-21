@@ -25,11 +25,6 @@ const nf = new Intl.NumberFormat("en-US");
 const GROUPS = buildGroups(HUB_ENTRIES);
 const SLUGS = assignSlugs(GROUPS.map((g, i) => ({ id: g.key, term: g.key.replace(/^fr:/, "fr "), order: i })));
 const BY_SLUG = new Map(GROUPS.map((g) => [SLUGS.get(g.key) ?? "", g]));
-/** Terms found in more than one source where the Khmer differs: the hub's reason to exist, shown before any search. */
-const DIFFERING = GROUPS.filter((g) => g.sources.length > 1 && g.distinctKm > 1);
-const SHARED = GROUPS.filter((g) => g.sources.length > 1).length;
-/** A stable, spread-out sample of differing terms for the start screen. */
-const FEATURED = DIFFERING.filter((_, i) => i % Math.max(1, Math.floor(DIFFERING.length / 9)) === 0).slice(0, 9);
 
 function sourceOf(entry: HubEntry): HubSource {
   return HUB_SOURCE_BY_ID.get(entry.source) as HubSource;
@@ -46,7 +41,12 @@ export default function Glossaries() {
   const [open, setOpen] = useState<HubGroup | null>(null);
   const topRef = useRef<HTMLDivElement>(null);
 
-  const results = useMemo(() => searchGroups(GROUPS, query, filter || undefined), [query, filter]);
+  // Every term (A–Z) until something is typed; the source chip or "Khmer differs" narrows either list.
+  const results = useMemo(() => {
+    const source = filter && filter !== DIFFER ? filter : undefined;
+    const base = query.trim() ? searchGroups(GROUPS, query, source, Infinity) : source ? GROUPS.filter((g) => g.sources.includes(source)) : GROUPS;
+    return filter === DIFFER ? base.filter((g) => g.sources.length > 1 && g.distinctKm > 1) : base;
+  }, [query, filter]);
 
   // ?term=<slug> opens that term; the URL follows the open term so it can be shared or printed.
   useEffect(() => {
@@ -104,6 +104,9 @@ export default function Glossaries() {
 
 /* ------------------------------------------------------------------ Proposal 1: the hub */
 
+const DIFFER = "differ";
+const PAGE = 120;
+
 function Hub({
   query,
   setQuery,
@@ -120,169 +123,95 @@ function Hub({
   onOpen: (g: HubGroup) => void;
 }) {
   const { text: t } = useLanguage();
-  const searching = query.trim().length > 0;
   const chip = (active: boolean) =>
-    `inline-flex shrink-0 items-center gap-2 rounded-full border px-3.5 py-2 text-sm transition-colors ${
+    `inline-flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm transition-colors ${
       active ? "border-[var(--ink)] bg-[var(--ink)] text-[var(--ground)]" : "border-[var(--ground-line)] bg-[var(--ground-raised)] text-[var(--ink-dim)] hover:border-[var(--ground-line-strong)] hover:text-[var(--ink)]"
     }`;
+  const pick = (id: string) => setFilter(filter === id ? "" : id);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-3">
       <label className="relative block">
         <span className="sr-only">{t("Search all glossaries", "ស្វែងរកក្នុងវចនានុក្រមទាំងអស់")}</span>
-        <Search size={20} aria-hidden className="pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 text-[var(--ink-faint)]" />
+        <Search size={18} aria-hidden className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-[var(--ink-faint)]" />
         <input
           type="search"
-          autoFocus
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder={t("Search in English, Khmer or French — try “watershed”", "ស្វែងរកជាអង់គ្លេស ខ្មែរ ឬបារាំង — ឧ. “watershed”")}
-          className="h-14 w-full rounded-2xl [&::-webkit-search-cancel-button]:appearance-none border border-[var(--ground-line-strong)] bg-[var(--ground-raised)] pl-14 pr-12 text-base text-[var(--ink)] placeholder:text-[var(--ink-faint)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)]"
+          placeholder={t("English, Khmer or French", "អង់គ្លេស ខ្មែរ ឬបារាំង")}
+          className="h-12 w-full rounded-2xl [&::-webkit-search-cancel-button]:appearance-none border border-[var(--ground-line-strong)] bg-[var(--ground-raised)] pl-11 pr-11 text-base text-[var(--ink)] placeholder:text-[var(--ink-faint)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--focus)]"
         />
         {query && (
-          <button type="button" onClick={() => setQuery("")} aria-label={t("Clear search", "សម្អាតការស្វែងរក")} className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full p-2 text-[var(--ink-faint)] hover:text-[var(--ink)]">
+          <button type="button" onClick={() => setQuery("")} aria-label={t("Clear search", "សម្អាតការស្វែងរក")} className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full p-2 text-[var(--ink-faint)] hover:text-[var(--ink)]">
             <X size={18} aria-hidden />
           </button>
         )}
       </label>
 
-      <div role="group" aria-label={t("Sources", "ប្រភព")} className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1 [scrollbar-width:thin]">
+      <div role="group" aria-label={t("Filter", "តម្រង")} className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1 [scrollbar-width:none]">
         <button type="button" aria-pressed={!filter} onClick={() => setFilter("")} className={chip(!filter)}>
-          {t("All sources", "ប្រភពទាំងអស់")} <span className="tabular-nums opacity-70">{nf.format(HUB_ENTRIES.length)}</span>
+          {t("All", "ទាំងអស់")}
         </button>
         {HUB_SOURCES.map((s) => (
-          <button key={s.id} type="button" aria-pressed={filter === s.id} onClick={() => setFilter(filter === s.id ? "" : s.id)} className={chip(filter === s.id)}>
+          <button key={s.id} type="button" aria-pressed={filter === s.id} onClick={() => pick(s.id)} title={t(s.name, s.nameKm)} className={chip(filter === s.id)}>
             <Dot color={s.color} />
-            {t(s.name, s.nameKm)} · {s.publisher}
-            <span className="tabular-nums opacity-70">{nf.format(HUB_SOURCE_COUNTS[s.id] ?? 0)}</span>
+            {s.publisher === "Supplied list" ? t(s.name, s.nameKm) : s.publisher}
           </button>
         ))}
+        <button type="button" aria-pressed={filter === DIFFER} onClick={() => pick(DIFFER)} className={chip(filter === DIFFER)}>
+          {t("Khmer differs", "ពាក្យខ្មែរខុសគ្នា")}
+        </button>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_300px]">
-        <section aria-live="polite" aria-label={t("Results", "លទ្ធផល")}>
-          {searching ? (
-            results.length === 0 ? (
-              <p className="py-10 text-center text-[var(--ink-dim)]">{t("No terms match that search.", "គ្មានពាក្យត្រូវនឹងការស្វែងរកនេះទេ។")}</p>
-            ) : (
-              <>
-                <p className="mb-3 text-sm text-[var(--ink-faint)]">
-                  {t(`${results.length}${results.length >= 60 ? "+" : ""} terms`, `ពាក្យចំនួន ${results.length}${results.length >= 60 ? "+" : ""}`)}
-                </p>
-                <ul className="space-y-3">
-                  {results.map((g) => (
-                    <li key={g.key}>
-                      <ResultCard group={g} onOpen={onOpen} />
-                    </li>
-                  ))}
-                </ul>
-              </>
-            )
-          ) : (
-            <div>
-              <h2 className="font-display text-lg font-medium text-[var(--ink)]">{t("Where the sources differ", "កន្លែងដែលប្រភពខុសគ្នា")}</h2>
-              <p className="mt-1 text-sm text-[var(--ink-dim)]">
-                {t(
-                  `${nf.format(SHARED)} terms appear in more than one glossary, and ${nf.format(DIFFERING.length)} of them use different Khmer. A few examples:`,
-                  `ពាក្យចំនួន ${nf.format(SHARED)} មាននៅក្នុងវចនានុក្រមច្រើនជាងមួយ ហើយ ${nf.format(DIFFERING.length)} ក្នុងចំណោមនោះប្រើពាក្យខ្មែរខុសគ្នា។ ឧទាហរណ៍ខ្លះ៖`,
-                )}
-              </p>
-              <ul className="mt-4 grid gap-3 sm:grid-cols-2">
-                {FEATURED.map((g) => (
-                  <li key={g.key}>
-                    <button type="button" onClick={() => onOpen(g)} className="flex h-full w-full flex-col rounded-2xl border border-[var(--ground-line)] bg-[var(--ground-raised)] p-4 text-left transition-colors hover:border-[var(--ground-line-strong)]">
-                      <span className="flex items-center justify-between gap-3">
-                        <span className="font-display text-lg font-medium text-[var(--ink)]">{g.title}</span>
-                        <span className="flex gap-1">{g.sources.map((s) => <Dot key={s} color={HUB_SOURCE_BY_ID.get(s)?.color ?? "#999"} />)}</span>
-                      </span>
-                      <span lang="km" className="font-khmer mt-2 line-clamp-2 text-[var(--ink-dim)]">{[...new Set(g.entries.map((e) => e.km))].join("  ·  ")}</span>
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-        </section>
+      <p aria-live="polite" className="px-1 text-xs text-[var(--ink-faint)]">
+        {t(`${nf.format(results.length)} terms`, `ពាក្យចំនួន ${nf.format(results.length)}`)}
+      </p>
 
-        <aside className="space-y-4">
-          <div className="rounded-2xl border border-[var(--ground-line)] bg-[var(--ground-raised)] p-5">
-            <h2 className="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--ink-faint)]">{t("Sources", "ប្រភព")}</h2>
-            <ul className="mt-3 divide-y divide-[var(--ground-line)]">
-              {HUB_SOURCES.map((s) => {
-                const n = searching ? results.filter((g) => g.sources.includes(s.id)).length : HUB_SOURCE_COUNTS[s.id] ?? 0;
-                return (
-                  <li key={s.id} className="flex items-center justify-between gap-3 py-2.5 text-sm">
-                    <span className="flex min-w-0 items-center gap-2 text-[var(--ink)]">
-                      <Dot color={s.color} />
-                      <span className="truncate">{s.publisher} · {t(s.name, s.nameKm)}</span>
-                    </span>
-                    <span className="shrink-0 tabular-nums text-[var(--ink-faint)]">{nf.format(n)}</span>
-                  </li>
-                );
-              })}
-            </ul>
-            {searching && <p className="mt-2 text-xs text-[var(--ink-faint)]">{t("Terms in these results, by source.", "ពាក្យក្នុងលទ្ធផលនេះ តាមប្រភព។")}</p>}
-          </div>
-          <div className="rounded-2xl border border-[var(--ground-line)] bg-[var(--ground-raised)] p-5">
-            <h2 className="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--ink-faint)]">{t("Tip", "គន្លឹះ")}</h2>
-            <p className="mt-2 text-sm leading-relaxed text-[var(--ink-dim)]">
-              {t(
-                "Ministries don't always agree on a Khmer term. Use the one from the ministry your document is for, and cite it.",
-                "ក្រសួងនានាមិនតែងតែប្រើពាក្យខ្មែរដូចគ្នាទេ។ សូមប្រើពាក្យរបស់ក្រសួងដែលឯកសាររបស់អ្នកពាក់ព័ន្ធ ហើយដកស្រង់វា។",
-              )}
-            </p>
-          </div>
-        </aside>
-      </div>
+      {results.length === 0 ? (
+        <p className="py-10 text-center text-[var(--ink-dim)]">{t("No terms match that search.", "គ្មានពាក្យត្រូវនឹងការស្វែងរកនេះទេ។")}</p>
+      ) : (
+        <TermList key={`${query}|${filter}`} results={results} onOpen={onOpen} />
+      )}
     </div>
   );
 }
 
-function SourceBadge({ group }: { group: HubGroup }) {
+/** Scrollable list of terms; renders PAGE rows at a time and adds more as the end scrolls into view. */
+function TermList({ results, onOpen }: { results: HubGroup[]; onOpen: (g: HubGroup) => void }) {
   const { text: t } = useLanguage();
-  const many = group.sources.length > 1;
-  const differ = group.distinctKm > 1;
-  const cls = differ ? "bg-[var(--danger)]/12 text-[var(--danger)]" : many ? "bg-[var(--success)]/12 text-[var(--success)]" : "bg-[var(--ground)] text-[var(--ink-faint)]";
-  const label = differ
-    ? t(`${group.sources.length} sources · ${group.distinctKm} different Khmer terms`, `ប្រភព ${group.sources.length} · ពាក្យខ្មែរខុសគ្នា ${group.distinctKm}`)
-    : many
-      ? t(`${group.sources.length} sources agree`, `ប្រភព ${group.sources.length} ដូចគ្នា`)
-      : t("1 source", "ប្រភព ១");
-  return <span className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${cls}`}>{label}</span>;
-}
+  const [count, setCount] = useState(PAGE);
+  const box = useRef<HTMLUListElement>(null);
+  const end = useRef<HTMLLIElement>(null);
+  useEffect(() => {
+    const el = end.current;
+    if (!el) return;
+    const io = new IntersectionObserver((items) => {
+      if (items.some((i) => i.isIntersecting)) setCount((c) => c + PAGE);
+    }, { root: box.current, rootMargin: "400px 0px" });
+    io.observe(el);
+    return () => io.disconnect();
+  }, [count]);
 
-function ResultCard({ group, onOpen }: { group: HubGroup; onOpen: (g: HubGroup) => void }) {
-  const { text: t } = useLanguage();
-  const shown = group.entries.slice(0, 4);
   return (
-    <button type="button" onClick={() => onOpen(group)} className="block w-full rounded-2xl border border-[var(--ground-line)] bg-[var(--ground-raised)] p-5 text-left transition-colors hover:border-[var(--ground-line-strong)]">
-      <span className="flex flex-wrap items-center gap-x-3 gap-y-1">
-        <span className="font-display text-xl font-medium text-[var(--ink)]">{group.title}</span>
-        <SourceBadge group={group} />
-      </span>
-      <span className="mt-3 block divide-y divide-[var(--ground-line)] border-t border-[var(--ground-line)]">
-        {shown.map((e) => {
-          const s = sourceOf(e);
-          const def = e.defKm ?? e.defEn;
-          return (
-            <span key={`${e.source}:${e.id}`} className="grid gap-1 py-2.5 sm:grid-cols-[200px_minmax(0,1fr)] sm:gap-4">
-              <span className="flex items-center gap-2 text-sm text-[var(--ink-dim)]">
-                <Dot color={s.color} />
-                {s.publisher}
-                {e.no ? <span className="text-[var(--ink-faint)]">· No. {e.no}</span> : null}
-              </span>
-              <span className="min-w-0">
-                <span lang="km" className="font-khmer block text-lg text-[var(--ink)]">{e.km}</span>
-                {def && <span lang={e.defKm ? "km" : "en"} className={`mt-0.5 block line-clamp-1 text-sm text-[var(--ink-dim)] ${e.defKm ? "font-khmer" : ""}`}>{def}</span>}
-              </span>
+    <ul
+      ref={box}
+      aria-label={t("Terms", "ពាក្យ")}
+      className="max-h-[calc(100dvh-15rem)] divide-y divide-[var(--ground-line)] overflow-y-auto overscroll-contain rounded-2xl border border-[var(--ground-line)] bg-[var(--ground-raised)]"
+    >
+      {results.slice(0, count).map((g) => (
+        <li key={g.key}>
+          <button type="button" onClick={() => onOpen(g)} className="flex w-full items-center gap-3 px-4 py-3 text-left transition-colors hover:bg-[var(--ground)]">
+            <span className="min-w-0 flex-1">
+              <span className="block truncate font-medium text-[var(--ink)]">{g.title}</span>
+              <span lang="km" className="font-khmer block truncate text-sm text-[var(--ink-dim)]">{[...new Set(g.entries.map((e) => e.km))].join(" · ")}</span>
             </span>
-          );
-        })}
-      </span>
-      {group.entries.length > shown.length && (
-        <span className="mt-2 block text-xs text-[var(--ink-faint)]">{t(`+${group.entries.length - shown.length} more entries`, `+${group.entries.length - shown.length} ទៀត`)}</span>
-      )}
-    </button>
+            {g.distinctKm > 1 && <span className="sr-only">{t("Khmer differs between sources", "ពាក្យខ្មែរខុសគ្នារវាងប្រភព")}</span>}
+            <span className="flex shrink-0 gap-1">{g.sources.map((s) => <Dot key={s} color={HUB_SOURCE_BY_ID.get(s)?.color ?? "#999"} />)}</span>
+          </button>
+        </li>
+      ))}
+      {count < results.length && <li ref={end} aria-hidden className="h-8" />}
+    </ul>
   );
 }
 
