@@ -7,6 +7,7 @@ import { useLanguage } from "@/components/LanguageProvider";
 import { ACCENTS, useTheme, type HomeDesign } from "@/components/ThemeProvider";
 import { LANGUAGES, type LanguageMode } from "@/lib/i18n";
 import { storage } from "@/lib/storage";
+import { setIconSound, useIconSound } from "@/lib/icon-sound";
 
 function Choice({ name, checked, onChange, children }: { name: string; checked: boolean; onChange: () => void; children: ReactNode }) {
   return (
@@ -47,6 +48,7 @@ export function SettingsSheet() {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const confirmRef = useRef<HTMLDivElement>(null);
   const [open, setOpen] = useState(false);
+  const iconSound = useIconSound();
   const [confirming, setConfirming] = useState(false);
   const id = useId();
 
@@ -140,6 +142,18 @@ export function SettingsSheet() {
                     <Choice key={lang.id} name={`${id}-lang`} checked={mode === lang.id} onChange={() => setMode(lang.id as LanguageMode)}>{lang.native}</Choice>
                   ))}
                 </div>
+              </Section>
+
+              <Section title={t("Icon sounds", "សំឡេងរូបតំណាង")}>
+                <label className="flex cursor-pointer items-start gap-2.5 rounded-md border border-[var(--ground-line)] px-3 py-2 text-sm text-[var(--ink)] has-[:checked]:border-[var(--gold-text)] has-[:checked]:bg-[var(--gold)]/10">
+                  <input type="checkbox" checked={iconSound} onChange={(e) => setIconSound(e.target.checked)} className="mt-0.5 h-4 w-4 accent-[var(--gold-text)]" />
+                  <span>
+                    {t("Play a short sound when you press an animated icon", "បន្លឺសំឡេងខ្លីនៅពេលអ្នកចុចរូបតំណាងដែលមានចលនា")}
+                    <span className="mt-0.5 block text-xs text-[var(--ink-dim)]">
+                      {t("Favourite, share, save, download and sponsor buttons. Animated icons by Jiggicons.", "ប៊ូតុងចំណូលចិត្ត ចែករំលែក រក្សាទុក ទាញយក និងឧបត្ថម្ភ។ រូបតំណាងមានចលនាដោយ Jiggicons។")}
+                    </span>
+                  </span>
+                </label>
               </Section>
 
               <Section title={t("Your saved data", "ទិន្នន័យដែលបានរក្សាទុក")}>

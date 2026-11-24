@@ -4,7 +4,9 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Clock, Home, Search, Star, X } from "lucide-react";
+import { Clock, Home, Search, X } from "lucide-react";
+import { Star } from "jiggicons-react";
+import { MotionIcon } from "@/components/ui/MotionIcon";
 import { useLanguage } from "@/components/LanguageProvider";
 import { OPEN_SEARCH_EVENT } from "@/lib/app-events";
 import { STORAGE_KEYS, storage } from "@/lib/storage";
@@ -133,7 +135,7 @@ export function MobileBottomNav() {
             <Search size={20} aria-hidden="true" />{short("Search", "ស្វែងរក")}
           </button>
           <button type="button" aria-label={t("Favorites", "ចំណូលចិត្ត")} aria-expanded={sheet === "favorites"} onClick={() => (sheet === "favorites" ? setSheet(null) : openList("favorites"))} className={tabClass(sheet === "favorites")}>
-            <Star size={20} aria-hidden="true" />{short("Favorites", "ចំណូលចិត្ត")}
+            <MotionIcon icon={Star} size={20} />{short("Favorites", "ចំណូលចិត្ត")}
           </button>
           <button type="button" aria-label={t("Recently used", "បានប្រើថ្មីៗ")} aria-expanded={sheet === "recents"} onClick={() => (sheet === "recents" ? setSheet(null) : openList("recents"))} className={tabClass(sheet === "recents")}>
             <Clock size={20} aria-hidden="true" />{short("Recent", "ថ្មីៗ")}

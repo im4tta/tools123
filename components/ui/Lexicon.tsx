@@ -16,7 +16,9 @@ import {
   type RefObject,
 } from "react";
 import { flushSync } from "react-dom";
-import { Bookmark, BookmarkCheck, ChevronLeft, ChevronRight, GraduationCap, ImageDown, Link2, Share2, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, GraduationCap, Link2, Share2, X } from "lucide-react";
+import { Bookmark, Download } from "jiggicons-react";
+import { MotionIcon } from "@/components/ui/MotionIcon";
 import { CopyButton, type CopyField } from "@/components/CopyButton";
 import { useClipboard } from "@/components/ClipboardProvider";
 import { useLanguage } from "@/components/LanguageProvider";
@@ -458,7 +460,7 @@ function LexiconEntry({
             <ChevronRight size={18} aria-hidden />
           </button>
           <button type="button" className={nav} onClick={onToggleSave} aria-pressed={isSaved} aria-label={isSaved ? t("Remove from saved terms", "ដកចេញពីពាក្យដែលបានរក្សាទុក") : t("Save term", "រក្សាទុកពាក្យ")}>
-            {isSaved ? <BookmarkCheck size={18} aria-hidden className="text-[var(--lx-accent)]" /> : <Bookmark size={18} aria-hidden />}
+            <MotionIcon icon={Bookmark} size={18} filled={isSaved} className={isSaved ? "text-[var(--lx-accent)]" : undefined} />
           </button>
           <CopyButton text={copyBlock(item)} compact fields={fields} />
         </div>
@@ -576,7 +578,7 @@ function LexiconEntry({
             {t("Share", "ចែករំលែក")}
           </ShareButton>
         )}
-        <ShareButton icon={<ImageDown size={15} aria-hidden />} onClick={() => onSaveImage(withCompare)} disabled={saving}>
+        <ShareButton icon={<MotionIcon icon={Download} size={15} />} onClick={() => onSaveImage(withCompare)} disabled={saving}>
           {saving ? t("Making image…", "កំពុងបង្កើតរូបភាព…") : t("Save image with QR code", "រក្សាទុករូបភាពជាមួយកូដ QR")}
         </ShareButton>
         {item.compare && item.compare.length > 0 && (

@@ -3,7 +3,9 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState, useSyncExternalStore } from "react";
-import { ArrowLeft, ChevronRight, MoreHorizontal, ShieldCheck, Star } from "lucide-react";
+import { ArrowLeft, ChevronRight, MoreHorizontal, ShieldCheck } from "lucide-react";
+import { Star } from "jiggicons-react";
+import { MotionIcon } from "@/components/ui/MotionIcon";
 import { CollectionsPicker } from "@/components/CollectionsPicker";
 import { CommandPalette } from "@/components/CommandPalette";
 import { ToolHeaderSearch } from "@/components/ToolHeaderSearch";
@@ -106,7 +108,7 @@ export function ToolRouteClient({ tool, related, toolCount, faq }: { tool: ToolR
               aria-label={isFavorite ? t("Remove from favorites", "ដកចេញពីចំណូលចិត្ត") : t("Add to favorites", "បន្ថែមទៅចំណូលចិត្ត")}
               className={`tool-route-icon flex h-8 w-8 items-center justify-center rounded-md border ${isFavorite ? "border-[var(--gold)] text-[var(--gold-text)]" : "border-[var(--ground-line)] text-[var(--ink-faint)]"}`}
             >
-              <Star size={14} fill={isFavorite ? "currentColor" : "none"} />
+              <MotionIcon icon={Star} size={15} filled={isFavorite} />
             </button>
             <div id="tool-route-more" className={`tool-route-more items-center gap-2 sm:flex ${moreOpen ? "flex" : "hidden"}`}>
               <CollectionsPicker

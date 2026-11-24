@@ -1,6 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
-import { HeartHandshake, Coffee, X } from "lucide-react";
+import { Coffee, X } from "lucide-react";
+import { Heart } from "jiggicons-react";
+import { MotionIcon } from "@/components/ui/MotionIcon";
 import { useLanguage } from "@/components/LanguageProvider";
 import { CopyButton } from "@/components/CopyButton";
 
@@ -18,7 +20,7 @@ export function SponsorButton({ className = "" }: { className?: string }) {
         onClick={() => setOpen(true)}
         className={`inline-flex items-center gap-1.5 rounded-md border border-[var(--gold-dim)]/50 bg-[var(--gold)]/10 px-3 py-1.5 text-xs font-medium text-[var(--gold-text)] transition hover:bg-[var(--gold)]/20 ${className}`}
       >
-        <HeartHandshake size={13} />
+        <MotionIcon icon={Heart} size={14} />
         {text("Sponsor", "ឧបត្ថម្ភ")}
       </button>
 
@@ -48,7 +50,7 @@ export function SponsorDialog({ onClose }: { onClose: () => void }) {
         </button>
 
         <div className="mb-4 flex items-center gap-2">
-          <HeartHandshake size={17} className="text-[var(--gold-text)]" />
+          <MotionIcon icon={Heart} size={18} filled className="text-[var(--gold-text)]" />
           <span className="text-sm font-medium text-[var(--ink)]">
             {text("Support 123 Toolbox", "គាំទ្រ 123 Toolbox")}
           </span>

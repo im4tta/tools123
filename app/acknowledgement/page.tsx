@@ -18,6 +18,7 @@ const LIBRARIES = [
   { name: "Tesseract.js", url: "https://github.com/naptha/tesseract.js", by: "Jerome Wu & contributors", use: "In-browser OCR / orientation detection (OSD) for scanned pages" },
   { name: "KaTeX", url: "https://katex.org/", by: "Khan Academy", use: "Fast math typesetting" },
   { name: "lucide-react", url: "https://lucide.dev/", by: "Lucide Contributors", use: "Open-source icon library" },
+  { name: "Jiggicons (free icons)", url: "https://jiggicons.com/", by: "Adrian Abelarde", use: "Animated icons with sound on the favourite, share, save, download and sponsor buttons — the 80 free icons, used under the Jiggicons licence (runtime code MIT)" },
   { name: "cmdk", url: "https://cmdk.paco.me/", by: "Paco Coursey", use: "Command palette UI" },
   { name: "clsx", url: "https://github.com/lukeed/clsx", by: "Luke Edwards", use: "Conditional class name utility" },
   { name: "JSZip", url: "https://stuk.github.io/jszip/", by: "Stuart Knightley", use: "ZIP file creation and reading" },
