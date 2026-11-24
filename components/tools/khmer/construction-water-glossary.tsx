@@ -229,6 +229,7 @@ export default function ConstructionWaterGlossary() {
       <Lexicon
         items={ITEMS}
         storagePrefix="construction-water-glossary"
+        crossLinks
         name="Glossary"
         nameKm="វចនានុក្រម"
         searchPlaceholder="English or Khmer…"
