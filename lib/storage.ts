@@ -135,6 +135,7 @@ export const STORAGE_KEYS = {
   language: "language",
   collections: "collections",
   workspace: "workspace",
+  iconSound: "iconSound",
   toolState: (id: string) => `tool:${id}`,
 } as const;
 

@@ -4,7 +4,9 @@
 // The card is drawn by lib/glossary-card, the same renderer the glossaries use, so all shared cards look alike.
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
-import { ImageDown, Link2, Share2, X } from "lucide-react";
+import { Link2, Share2, X } from "lucide-react";
+import { Download, Send } from "jiggicons-react";
+import { MotionIcon } from "@/components/ui/MotionIcon";
 import { useLanguage } from "@/components/LanguageProvider";
 import { useClipboard } from "@/components/ClipboardProvider";
 import { downloadBlob } from "@/lib/download";
@@ -46,7 +48,7 @@ export function ShareToolButton({ tool }: { tool: ShareToolInfo }) {
         title={t("Share this tool", "ចែករំលែកឧបករណ៍នេះ")}
         className="tool-route-icon flex h-8 w-8 items-center justify-center rounded-md border border-[var(--ground-line)] text-[var(--ink-faint)] transition-colors hover:text-[var(--ink)]"
       >
-        <Share2 size={14} aria-hidden />
+        <MotionIcon icon={Send} size={15} />
       </button>
       {open && <ShareToolSheet tool={tool} onClose={() => setOpen(false)} />}
     </>
@@ -155,7 +157,7 @@ function ShareToolSheet({ tool, onClose }: { tool: ShareToolInfo; onClose: () =>
 
         <div className="mt-5 grid gap-2 sm:grid-cols-3">
           <button type="button" onClick={save} disabled={!card} className={action}>
-            <ImageDown size={15} aria-hidden /> {t("Save PNG", "រក្សាទុក PNG")}
+            <MotionIcon icon={Download} size={15} /> {t("Save PNG", "រក្សាទុក PNG")}
           </button>
           {canShareFile && (
             <button type="button" onClick={() => void share()} className={action}>
