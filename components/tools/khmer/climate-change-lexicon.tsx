@@ -5,6 +5,7 @@ import { SourceCredits } from "@/components/ui/SourceCredits";
 import { useLanguage } from "@/components/LanguageProvider";
 import { CLIMATE_LEXICON_TERMS } from "@/lib/data/climate-lexicon";
 import { CLIMATE_LEXICON_PROVENANCE } from "@/lib/data/climate-lexicon-provenance";
+import { CLIMATE_LEXICON_REFERENCES_EN, CLIMATE_LEXICON_REFERENCES_KM } from "@/lib/data/climate-lexicon-references";
 
 const ALL_TABS: LexiconTab[] = [
   { id: "defined", label: "With definition", labelKm: "មាននិយមន័យ" },
@@ -28,7 +29,15 @@ const ITEMS: LexiconItem[] = CLIMATE_LEXICON_TERMS.map((term, i) => {
             value: "From the book's English–Khmer index. Its definition is on a page not added yet. / មកពីបញ្ជីពាក្យអង់គ្លេស-ខ្មែររបស់សៀវភៅ។ និយមន័យរបស់វានៅលើទំព័រដែលមិនទាន់បានបញ្ចូល។",
           },
         ]
-      : undefined,
+      : term.indexKm
+        ? [
+            {
+              label: "Spelled differently in the book's index",
+              labelKm: "សរសេរខុសគ្នានៅក្នុងបញ្ជីពាក្យរបស់សៀវភៅ",
+              value: `${term.indexKm} — as printed in the English–Khmer index; the heading above is from the definition. / ដូចដែលបានបោះពុម្ពក្នុងបញ្ជីពាក្យអង់គ្លេស-ខ្មែរ។ ពាក្យខាងលើយកតាមចំណងជើងនិយមន័យ។`,
+            },
+          ]
+        : undefined,
   };
 });
 
@@ -57,6 +66,7 @@ export default function ClimateChangeLexicon() {
         searchPlaceholder="English or Khmer…"
         searchPlaceholderKm="អង់គ្លេស ឬខ្មែរ…"
         tabs={TABS}
+        crossLinks
         toolId="climate-change-lexicon"
         cardTitle="Climate Change Lexicon"
         cardTitleKm="សទ្ទានុក្រមការប្រែប្រួលអាកាសធាតុ"
@@ -78,6 +88,17 @@ export default function ClimateChangeLexicon() {
         {CLIMATE_LEXICON_PROVENANCE.license === undefined && (
           <p>{t("The book is marked “all rights reserved”; permission to reproduce it here is not yet confirmed (Provenance Pending).", "សៀវភៅនេះមានសម្គាល់ «រក្សាសិទ្ធិ» ការអនុញ្ញាតឱ្យចម្លងនៅទីនេះមិនទាន់បានបញ្ជាក់ (Provenance Pending)។")}</p>
         )}
+        <details>
+          <summary className="cursor-pointer">{t("References listed in the book", "ឯកសារពិគ្រោះក្នុងសៀវភៅ")}</summary>
+          <ul className="mt-2 list-disc space-y-1 pl-5">
+            {CLIMATE_LEXICON_REFERENCES_KM.map((r) => (
+              <li key={r} lang="km">{r}</li>
+            ))}
+            {CLIMATE_LEXICON_REFERENCES_EN.map((r) => (
+              <li key={r}>{r}</li>
+            ))}
+          </ul>
+        </details>
       </SourceCredits>
     </ToolShell>
   );

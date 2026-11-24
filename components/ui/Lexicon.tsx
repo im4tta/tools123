@@ -16,12 +16,14 @@ import {
   type RefObject,
 } from "react";
 import { flushSync } from "react-dom";
-import { ChevronLeft, ChevronRight, ImageDown, Link2, Share2, X } from "lucide-react";
+import { Bookmark, BookmarkCheck, ChevronLeft, ChevronRight, GraduationCap, ImageDown, Link2, Share2, X } from "lucide-react";
 import { CopyButton, type CopyField } from "@/components/CopyButton";
 import { useClipboard } from "@/components/ClipboardProvider";
 import { useLanguage } from "@/components/LanguageProvider";
 import { ScrollTabs } from "@/components/ui/ScrollTabs";
 import { SpeakButton } from "@/components/ui/SpeakButton";
+import { LexiconFlashcards } from "@/components/ui/LexiconFlashcards";
+import { buildLinker, type LinkPiece } from "@/lib/term-links";
 import type { CardBlock } from "@/lib/glossary-card";
 import { assignSlugs, readTermParam, splitTermAcronym, splitTermExpansion, termUrl, withTermParam } from "@/lib/glossary-share";
 import { downloadBlob } from "@/lib/download";
@@ -120,9 +122,13 @@ export interface LexiconProps {
   cardTitleKm?: string;
   /** Source line printed on an exported image for this entry (English). */
   credit?: (item: LexiconItem) => string | undefined;
+  /** Turn other entries' Khmer headwords inside Khmer definitions into links to those entries. */
+  crossLinks?: boolean;
 }
 
 const ALL = "All";
+/** Pseudo-tab listing the terms the reader saved on this device. */
+const SAVED = "__saved";
 const MAX_RECENT = 8;
 /** Long lists paint the first screenful at once and fill in the rest in small background chunks. */
 const FIRST_CHUNK = 120;
@@ -378,6 +384,10 @@ function LexiconEntry({
   onShare,
   onSaveImage,
   saving,
+  isSaved,
+  onToggleSave,
+  linkify,
+  onLink,
 }: {
   item: LexiconItem;
   tabLabel?: string;
@@ -390,6 +400,10 @@ function LexiconEntry({
   onShare?: () => void;
   onSaveImage: (withCompare: boolean) => void;
   saving: boolean;
+  isSaved: boolean;
+  onToggleSave: () => void;
+  linkify?: (text: string, selfId: string) => LinkPiece[];
+  onLink: (id: string) => void;
 }) {
   const { text: t } = useLanguage();
   const [withCompare, setWithCompare] = useState(true);
@@ -409,6 +423,24 @@ function LexiconEntry({
     ...(item.defKm ? [{ id: "noteKm", label: t("Description (Khmer)", "ការពិពណ៌នា (ខ្មែរ)"), getValue: item.defKm }] : []),
   ];
 
+  const kmText = (text: string) =>
+    linkify
+      ? linkify(text, item.id).map((piece, i) =>
+          typeof piece === "string" ? (
+            piece
+          ) : (
+            <button
+              key={i}
+              type="button"
+              onClick={() => onLink(piece.id)}
+              className="text-[var(--lx-accent)] underline decoration-dotted underline-offset-4 hover:decoration-solid"
+            >
+              {piece.text}
+            </button>
+          ),
+        )
+      : text;
+
   const nav = "inline-flex h-8 w-8 items-center justify-center rounded-md text-[var(--lx-ink-dim)] transition-colors hover:bg-[var(--lx-hover)] hover:text-[var(--lx-ink)] disabled:pointer-events-none disabled:opacity-30";
 
   return (
@@ -424,6 +456,9 @@ function LexiconEntry({
           </button>
           <button type="button" className={nav} onClick={onNext} disabled={!onNext} aria-label={t("Next term", "ពាក្យបន្ទាប់")}>
             <ChevronRight size={18} aria-hidden />
+          </button>
+          <button type="button" className={nav} onClick={onToggleSave} aria-pressed={isSaved} aria-label={isSaved ? t("Remove from saved terms", "ដកចេញពីពាក្យដែលបានរក្សាទុក") : t("Save term", "រក្សាទុកពាក្យ")}>
+            {isSaved ? <BookmarkCheck size={18} aria-hidden className="text-[var(--lx-accent)]" /> : <Bookmark size={18} aria-hidden />}
           </button>
           <CopyButton text={copyBlock(item)} compact fields={fields} />
         </div>
@@ -463,7 +498,7 @@ function LexiconEntry({
             {en.map((text, i) => (
               <Sense key={i} n={i + 1}>
                 <EntryText>{text}</EntryText>
-                <EntryTextKm>{km[i]}</EntryTextKm>
+                <EntryTextKm>{kmText(km[i])}</EntryTextKm>
               </Sense>
             ))}
           </ol>
@@ -482,7 +517,7 @@ function LexiconEntry({
               <ol className={en.length > 0 ? "mt-2 border-t border-[var(--lx-line)] pt-1" : undefined}>
                 {km.map((text, i) => (
                   <Sense key={i} n={i + 1}>
-                    <EntryTextKm>{text}</EntryTextKm>
+                    <EntryTextKm>{kmText(text)}</EntryTextKm>
                   </Sense>
                 ))}
               </ol>
@@ -577,6 +612,7 @@ export function Lexicon({
   cardTitleKm,
   credit,
   speakLang = "en-US",
+  crossLinks = false,
 }: LexiconProps) {
   const { text: t } = useLanguage();
   const { copyText } = useClipboard();
@@ -584,6 +620,8 @@ export function Lexicon({
   const [query, setQuery] = useToolState<string>(queryKey ?? `${storagePrefix}:query`, "");
   const [tab, setTab] = useToolState<string>(`${storagePrefix}:cat`, ALL);
   const [recentIds, setRecentIds] = useToolState<string[]>(`${storagePrefix}:recent`, []);
+  const [savedIds, setSavedIds] = useToolState<string[]>(`${storagePrefix}:saved`, []);
+  const [practising, setPractising] = useState(false);
   const [openId, setOpenId] = useState<string | null>(null);
   const [rovingId, setRovingId] = useState<string | null>(null);
   const [activeLetter, setActiveLetter] = useState<string>("A");
@@ -608,18 +646,27 @@ export function Lexicon({
   const byId = useMemo(() => new Map(list.map((item, index) => [item.id, { item, index }])), [list]);
   const idBySlug = useMemo(() => new Map(list.map((item) => [item.slug, item.id])), [list]);
 
-  const activeTab = tab !== ALL && tabs?.some((x) => x.id === tab) ? tab : ALL;
+  const saved = useMemo(() => new Set(Array.isArray(savedIds) ? savedIds.filter((id) => byId.has(id)) : []), [savedIds, byId]);
+  const toggleSaved = useCallback(
+    (id: string) => setSavedIds((prev) => {
+      const list = Array.isArray(prev) ? prev : [];
+      return list.includes(id) ? list.filter((x) => x !== id) : [id, ...list];
+    }),
+    [setSavedIds],
+  );
+  const linkify = useMemo(() => (crossLinks ? buildLinker(list.map((item) => ({ id: item.id, km: item.termKm }))) : undefined), [crossLinks, list]);
+  const activeTab = tab === SAVED ? (saved.size > 0 ? SAVED : ALL) : tab !== ALL && tabs?.some((x) => x.id === tab) ? tab : ALL;
   const q = query.trim().toLowerCase();
   const dq = useDeferredValue(q);
   const results = useMemo(() => {
-    const pool = list.filter((item) => activeTab === ALL || item.tag === activeTab);
+    const pool = list.filter((item) => activeTab === ALL || (activeTab === SAVED ? saved.has(item.id) : item.tag === activeTab));
     if (!dq) return pool;
     return pool
       .filter((item) => item.haystack.includes(dq))
       .map((item) => ({ item, score: rank(item, dq) }))
       .sort((a, b) => a.score - b.score || a.item.order - b.item.order)
       .map((x) => x.item);
-  }, [list, activeTab, dq]);
+  }, [list, activeTab, dq, saved]);
 
   // Progressive rendering: `limit` rows are in the DOM; it resets whenever the result set changes.
   const [progress, setProgress] = useState<{ key: unknown; n: number }>({ key: null, n: 0 });
@@ -992,10 +1039,14 @@ export function Lexicon({
           </div>
         </div>
 
-        {tabs && tabs.length > 0 && (
+        {((tabs && tabs.length > 0) || saved.size > 0) && (
           <div className="mt-3">
             <ScrollTabs
-              tabs={[{ id: ALL, label: t("All", "ទាំងអស់") }, ...tabs.map((x) => ({ id: x.id, label: t(x.label, x.labelKm) }))]}
+              tabs={[
+                { id: ALL, label: t("All", "ទាំងអស់") },
+                ...(tabs ?? []).map((x) => ({ id: x.id, label: t(x.label, x.labelKm) })),
+                ...(saved.size > 0 ? [{ id: SAVED, label: t(`Saved (${saved.size})`, `បានរក្សាទុក (${saved.size})`) }] : []),
+              ]}
               active={activeTab}
               onChange={setTab}
               ariaLabel={t("Category", "ប្រភេទ")}
@@ -1008,6 +1059,17 @@ export function Lexicon({
           <p aria-live="polite" className="lx-caps text-[var(--lx-ink-faint)]">
             {countLabel}
           </p>
+          <span className="flex items-center gap-4">
+          {results.length > 0 && (
+            <button
+              type="button"
+              onClick={() => setPractising(true)}
+              className="lx-caps inline-flex items-center gap-1.5 text-[var(--lx-ink-faint)] underline-offset-4 transition-colors hover:text-[var(--lx-accent)] hover:underline"
+            >
+              <GraduationCap size={14} aria-hidden />
+              {t("Practise", "ហាត់")}
+            </button>
+          )}
           {results.length > 1 && (
             <button
               type="button"
@@ -1017,6 +1079,7 @@ export function Lexicon({
               {t("Copy all", "ចម្លងទាំងអស់")}
             </button>
           )}
+          </span>
         </div>
       </header>
 
@@ -1142,6 +1205,10 @@ export function Lexicon({
             onShare={canShare ? () => void shareEntry(entry) : undefined}
             onSaveImage={(withCompare) => void saveImage(entry, withCompare)}
             saving={saving}
+            isSaved={saved.has(entry.id)}
+            onToggleSave={() => toggleSaved(entry.id)}
+            linkify={linkify}
+            onLink={(id) => open(id)}
           />
         ) : (
           <div className="mx-auto hidden h-full max-w-md flex-col justify-center px-9 py-10 lg:flex">
@@ -1161,6 +1228,7 @@ export function Lexicon({
     <div ref={rootRef} className="lexicon font-lexicon mx-auto grid h-[clamp(32rem,84dvh,60rem)] w-full max-w-5xl grid-cols-1 grid-rows-[minmax(0,1fr)] overflow-hidden rounded-2xl border border-[var(--lx-line)] shadow-[0_1px_2px_rgb(0_0_0/0.04),0_16px_36px_-18px_rgb(70_50_20/0.28)] lg:grid-cols-[minmax(20rem,26rem)_minmax(0,1fr)]">
       {listPane}
       {entryPane}
+      {practising && <LexiconFlashcards items={results} onClose={() => setPractising(false)} speakLang={speakLang} />}
     </div>
   );
 }

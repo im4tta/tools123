@@ -34,6 +34,7 @@ export default function EnvironmentGlossary() {
       <Lexicon
         items={ITEMS}
         storagePrefix="environment-glossary"
+        crossLinks
         name="Glossary"
         nameKm="វចនានុក្រម"
         searchPlaceholder="English or Khmer…"
