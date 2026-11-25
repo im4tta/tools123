@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Globe } from "lucide-react";
+import { Globe } from "jiggicons-react";
+import { MotionIcon } from "@/components/ui/MotionIcon";
 import { LANGUAGES, type LanguageMode } from "@/lib/i18n";
 import { useLanguage } from "@/components/LanguageProvider";
 
@@ -20,7 +21,7 @@ export function LanguageToggle() {
         aria-expanded={open}
         className="flex h-8 items-center justify-center rounded-md border border-[var(--ground-line)] bg-[var(--ground-raised)] px-2 text-[var(--ink-dim)] transition hover:border-[var(--gold-dim)] hover:text-[var(--ink)]"
       >
-        <Globe size={14} />
+        <MotionIcon icon={Globe} size={15} />
       </button>
       {open && (
         <>

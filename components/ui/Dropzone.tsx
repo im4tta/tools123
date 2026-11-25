@@ -1,7 +1,8 @@
 "use client";
 
 import { useId, useState, type ReactNode } from "react";
-import { Upload } from "lucide-react";
+import { Upload } from "jiggicons-react";
+import { MotionIcon } from "@/components/ui/MotionIcon";
 import { useLanguage } from "@/components/LanguageProvider";
 
 /**
@@ -65,7 +66,7 @@ export function Dropzone({
       }}
       className="ui-dropzone flex cursor-pointer flex-col items-center justify-center gap-1.5 rounded-lg border border-dashed border-[var(--ground-line-strong)] bg-[var(--ground-raised)] px-4 py-8 text-center transition-colors hover:border-[var(--gold-text)] data-[dragging]:border-[var(--gold-text)] data-[dragging]:bg-[var(--gold)]/10 aria-disabled:cursor-not-allowed aria-disabled:opacity-60"
     >
-      <Upload size={20} className="text-[var(--gold-text)]" aria-hidden />
+      <MotionIcon icon={Upload} size={22} className="text-[var(--gold-text)]" />
       <span className="text-sm font-medium text-[var(--ink)]">{title}</span>
       {hint && <span className="text-xs text-[var(--ink-faint)]">{t(hint, hintKm ?? hint)}</span>}
       {children}

@@ -1,12 +1,16 @@
 "use client";
-// Flashcard practice for any glossary built on <Lexicon>: shows a term, reveals the other language and the first line of
-// the definition (rounds of up to 20 random cards), and repeats the cards marked "Again" until every card is known. Nothing is stored; it is a study aid.
+// Flashcard practice for any glossary built on <Lexicon> and for the Glossaries hub: shows a term, reveals the other
+// language and the first line of the definition, and repeats cards marked "Again" until the round is done. Rounds are up
+// to 20 cards: those due today first, then new ones (lib/flashcards.ts). Progress is kept by the caller on this device.
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import { RotateCcw, X } from "lucide-react";
 import { useLanguage } from "@/components/LanguageProvider";
 import { SpeakButton } from "@/components/ui/SpeakButton";
+import { MotionIcon } from "@/components/ui/MotionIcon";
 import type { LexiconItem } from "@/components/ui/Lexicon";
+import { dayNumber, pickRound, type ProgressMap } from "@/lib/flashcards";
+import { Confetti } from "jiggicons-react";
 
 type Direction = "en" | "km";
 /** Cards per round, picked at random from the list being practised. */
@@ -25,29 +29,52 @@ function firstLine(text?: string): string | undefined {
   return text?.split("\n").find((line) => line.trim())?.trim();
 }
 
-export function LexiconFlashcards({ items, onClose, speakLang }: { items: LexiconItem[]; onClose: () => void; speakLang: string | false }) {
+/** Due and new cards first; when nothing is due or new, a random round for extra practice. */
+function buildRound(items: LexiconItem[], progress: ProgressMap): LexiconItem[] {
+  const byId = new Map(items.map((item) => [item.id, item]));
+  const ids = pickRound([...byId.keys()], progress, dayNumber(), ROUND, shuffle);
+  return ids.length > 0 ? ids.map((id) => byId.get(id) as LexiconItem) : shuffle(items).slice(0, ROUND);
+}
+
+export function LexiconFlashcards({
+  items,
+  progress = {},
+  onReview,
+  onClose,
+  speakLang,
+}: {
+  items: LexiconItem[];
+  progress?: ProgressMap;
+  onReview?: (id: string, knewIt: boolean) => void;
+  onClose: () => void;
+  speakLang: string | false;
+}) {
   const { text: t } = useLanguage();
   const [direction, setDirection] = useState<Direction>("en");
-  const [deck, setDeck] = useState<LexiconItem[]>(() => shuffle(items).slice(0, ROUND));
+  const [deck, setDeck] = useState<LexiconItem[]>(() => buildRound(items, progress));
+  const [total, setTotal] = useState(deck.length);
   const [known, setKnown] = useState(0);
   const [shown, setShown] = useState(false);
   const card = deck[0];
-  const total = Math.min(items.length, ROUND);
 
   const restart = useCallback(() => {
-    setDeck(shuffle(items).slice(0, ROUND));
+    const next = buildRound(items, progress);
+    setDeck(next);
+    setTotal(next.length);
     setKnown(0);
     setShown(false);
-  }, [items]);
+  }, [items, progress]);
   const again = useCallback(() => {
+    if (card) onReview?.(card.id, false);
     setDeck((d) => [...d.slice(1), d[0]]);
     setShown(false);
-  }, []);
+  }, [card, onReview]);
   const gotIt = useCallback(() => {
+    if (card) onReview?.(card.id, true);
     setDeck((d) => d.slice(1));
     setKnown((n) => n + 1);
     setShown(false);
-  }, []);
+  }, [card, onReview]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -128,7 +155,13 @@ export function LexiconFlashcards({ items, onClose, speakLang }: { items: Lexico
           </>
         ) : (
           <div className="text-center">
+            <MotionIcon icon={Confetti} size={64} autoplay className="mx-auto mb-4 text-[var(--lx-accent)]" />
             <p className="text-xl text-[var(--lx-ink)]">{t(`All ${total} cards done.`, `រួចរាល់ទាំង ${total} សន្លឹក។`)}</p>
+            {onReview && (
+              <p className="mt-2 text-sm text-[var(--lx-ink-dim)]">
+                {t("Cards you knew come back in a few days; the ones you missed come back sooner.", "សន្លឹកដែលអ្នកចាំនឹងត្រឡប់មកវិញក្នុងរយៈពេលពីរបីថ្ងៃ ហើយសន្លឹកដែលអ្នកភ្លេចនឹងត្រឡប់មកវិញឆាប់ជាងនេះ។")}
+              </p>
+            )}
             <div className="mt-6 flex justify-center gap-3">
               <button type="button" onClick={restart} className={`${btn} inline-flex items-center gap-2`}>
                 <RotateCcw size={15} aria-hidden />

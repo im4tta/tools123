@@ -62,9 +62,13 @@ export function getExportCount(): number {
 }
 
 /** Increments the export counter and returns the milestone hit (or null). */
+/** Fired on every export so the interface can show a small celebration (components/Celebration.tsx). */
+export const CELEBRATE_EVENT = "tools123:celebrate";
+
 export function recordExport(): number | null {
   if (typeof window === "undefined") return null;
   trackEvent("file_exported");
+  window.dispatchEvent(new Event(CELEBRATE_EVENT));
   const next = getExportCount() + 1;
   try {
     window.localStorage.setItem(EXPORT_COUNT_KEY, String(next));
