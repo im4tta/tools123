@@ -3,13 +3,19 @@
 // Search and grouping live in lib/glossary-hub.ts; source data and citations in lib/data/glossary-hub-data.ts.
 // The open term is kept in the URL (?term=<slug>) so a term page can be shared, bookmarked or printed.
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { ArrowLeft, Copy, ExternalLink, Flag, ImageDown, Link2, Printer, Search, X } from "lucide-react";
+import { ArrowLeft, Copy, ExternalLink, Flag, GraduationCap, ImageDown, Link2, Printer, Search, X } from "lucide-react";
+import { Bookmark } from "jiggicons-react";
+import { MotionIcon } from "@/components/ui/MotionIcon";
+import { LexiconFlashcards } from "@/components/ui/LexiconFlashcards";
+import type { LexiconItem } from "@/components/ui/Lexicon";
+import { countDue, dayNumber, review, type ProgressMap } from "@/lib/flashcards";
+import { toggleSavedTerm, useSavedTerms, type SavedTerm } from "@/lib/saved-terms";
 import { ToolShell } from "@/components/ui/Shell";
 import { SourceCredits } from "@/components/ui/SourceCredits";
 import { SpeakButton } from "@/components/ui/SpeakButton";
 import { useLanguage } from "@/components/LanguageProvider";
 import { useClipboard } from "@/components/ClipboardProvider";
-import { buildGroups, neighbours, relatedGroups, searchGroups, type HubEntry, type HubGroup } from "@/lib/glossary-hub";
+import { buildGroups, neighbours, normalizeTerm, relatedGroups, searchGroups, type HubEntry, type HubGroup } from "@/lib/glossary-hub";
 import { HUB_ENTRIES, HUB_SOURCE_BY_ID, HUB_SOURCE_COUNTS, HUB_SOURCES, type HubSource } from "@/lib/data/glossary-hub-data";
 import { assignSlugs, readTermParam, termUrl, withTermParam } from "@/lib/glossary-share";
 import { downloadBlob } from "@/lib/download";
@@ -42,11 +48,22 @@ export default function Glossaries() {
   const topRef = useRef<HTMLDivElement>(null);
 
   // Every term (A–Z) until something is typed; the source chip or "Khmer differs" narrows either list.
+  const savedTerms = useSavedTerms();
+  const savedKeys = useMemo(() => new Set(savedTerms.map(savedGroupKey)), [savedTerms]);
+  const savedCount = useMemo(() => GROUPS.filter((g) => savedKeys.has(g.key)).length, [savedKeys]);
+  const [cardProgress, setCardProgress] = useToolState<ProgressMap>(`${TOOL_ID}:cards`, {});
+  const [practising, setPractising] = useState(false);
+
   const results = useMemo(() => {
-    const source = filter && filter !== DIFFER ? filter : undefined;
+    const source = filter && filter !== DIFFER && filter !== SAVED ? filter : undefined;
     const base = query.trim() ? searchGroups(GROUPS, query, source, Infinity) : source ? GROUPS.filter((g) => g.sources.includes(source)) : GROUPS;
-    return filter === DIFFER ? base.filter((g) => g.sources.length > 1 && g.distinctKm > 1) : base;
-  }, [query, filter]);
+    if (filter === DIFFER) return base.filter((g) => g.sources.length > 1 && g.distinctKm > 1);
+    if (filter === SAVED) return base.filter((g) => savedKeys.has(g.key));
+    return base;
+  }, [query, filter, savedKeys]);
+  const cards = useMemo(() => results.map(toCard), [results]);
+  const progress = useMemo<ProgressMap>(() => (cardProgress && typeof cardProgress === "object" ? cardProgress : {}), [cardProgress]);
+  const dueCount = useMemo(() => countDue(cards.map((c) => c.id), progress, dayNumber()), [cards, progress]);
 
   // ?term=<slug> opens that term; the URL follows the open term so it can be shared or printed.
   useEffect(() => {
@@ -77,9 +94,29 @@ export default function Glossaries() {
         {open ? (
           <TermSheet group={open} onOpen={show} onBack={() => show(null)} />
         ) : (
-          <Hub query={query} setQuery={setQuery} filter={filter} setFilter={setFilter} results={results} onOpen={show} />
+          <Hub
+            query={query}
+            setQuery={setQuery}
+            filter={filter}
+            setFilter={setFilter}
+            results={results}
+            onOpen={show}
+            savedCount={savedCount}
+            dueCount={dueCount}
+            onPractise={() => setPractising(true)}
+          />
         )}
       </div>
+
+      {practising && (
+        <LexiconFlashcards
+          items={cards}
+          progress={progress}
+          onReview={(id, knewIt) => setCardProgress((prev) => ({ ...(prev ?? {}), [id]: review(prev?.[id], knewIt, dayNumber()) }))}
+          onClose={() => setPractising(false)}
+          speakLang="en-US"
+        />
+      )}
 
       <SourceCredits>
         <p>{t("Every term comes from one of these sources, credited on each card:", "ពាក្យនីមួយៗមកពីប្រភពមួយក្នុងចំណោមប្រភពទាំងនេះ ដែលបានបញ្ជាក់នៅលើកាតនីមួយៗ៖")}</p>
@@ -105,6 +142,20 @@ export default function Glossaries() {
 /* ------------------------------------------------------------------ Proposal 1: the hub */
 
 const DIFFER = "differ";
+const SAVED = "saved";
+
+/** The hub group a saved term belongs to: terms saved here store the group key; others are matched by English. */
+function savedGroupKey(entry: SavedTerm): string {
+  if (entry.tool === TOOL_ID) return entry.id;
+  const english = entry.term.replace(/^(.+?) — (.+)$/, "$2 ($1)");
+  return normalizeTerm(english.split("/")[0]);
+}
+
+/** A hub group as a flashcard: its headword, the Khmer terms the sources use, and the first definition found. */
+function toCard(g: HubGroup): LexiconItem {
+  const withDef = g.entries.find((e) => e.defKm) ?? g.entries.find((e) => e.defEn);
+  return { id: g.key, term: g.title, termKm: [...new Set(g.entries.map((e) => e.km))].join(" · "), defKm: withDef?.defKm, defEn: withDef?.defKm ? undefined : withDef?.defEn };
+}
 const PAGE = 120;
 
 function Hub({
@@ -114,6 +165,9 @@ function Hub({
   setFilter,
   results,
   onOpen,
+  savedCount,
+  dueCount,
+  onPractise,
 }: {
   query: string;
   setQuery: (q: string) => void;
@@ -121,6 +175,9 @@ function Hub({
   setFilter: (s: string) => void;
   results: HubGroup[];
   onOpen: (g: HubGroup) => void;
+  savedCount: number;
+  dueCount: number;
+  onPractise: () => void;
 }) {
   const { text: t } = useLanguage();
   const chip = (active: boolean) =>
@@ -161,11 +218,25 @@ function Hub({
         <button type="button" aria-pressed={filter === DIFFER} onClick={() => pick(DIFFER)} className={chip(filter === DIFFER)}>
           {t("Khmer differs", "ពាក្យខ្មែរខុសគ្នា")}
         </button>
+        {savedCount > 0 && (
+          <button type="button" aria-pressed={filter === SAVED} onClick={() => pick(SAVED)} className={chip(filter === SAVED)}>
+            {t(`Saved (${savedCount})`, `បានរក្សាទុក (${savedCount})`)}
+          </button>
+        )}
       </div>
 
-      <p aria-live="polite" className="px-1 text-xs text-[var(--ink-faint)]">
-        {t(`${nf.format(results.length)} terms`, `ពាក្យចំនួន ${nf.format(results.length)}`)}
-      </p>
+      <div className="flex items-center justify-between gap-3 px-1">
+        <p aria-live="polite" className="text-xs text-[var(--ink-faint)]">
+          {t(`${nf.format(results.length)} terms`, `ពាក្យចំនួន ${nf.format(results.length)}`)}
+        </p>
+        {results.length > 0 && (
+          <button type="button" onClick={onPractise} className="inline-flex items-center gap-1.5 text-xs font-medium text-[var(--ink-dim)] hover:text-[var(--ink)]">
+            <GraduationCap size={14} aria-hidden />
+            {t("Practise", "ហាត់")}
+            {dueCount > 0 && <span className="rounded-full bg-[var(--gold)] px-1.5 text-[0.65rem] leading-4 text-[var(--ground)]">{t(`${dueCount} due`, `${dueCount} ត្រូវរំលឹក`)}</span>}
+          </button>
+        )}
+      </div>
 
       {results.length === 0 ? (
         <p className="py-10 text-center text-[var(--ink-dim)]">{t("No terms match that search.", "គ្មានពាក្យត្រូវនឹងការស្វែងរកនេះទេ។")}</p>
@@ -267,11 +338,19 @@ function TermSheet({ group, onOpen, onBack }: { group: HubGroup; onOpen: (g: Hub
     }
   }
 
+  // Print only the term sheet: globals.css hides the rest of the page while body has "print-term-sheet".
+  const printSheet = () => {
+    document.body.classList.add("print-term-sheet");
+    window.addEventListener("afterprint", () => document.body.classList.remove("print-term-sheet"), { once: true });
+    window.print();
+  };
+  const savedTerms = useSavedTerms();
+  const isSaved = savedTerms.some((x) => savedGroupKey(x) === group.key);
   const action = "flex w-full items-center gap-2.5 rounded-xl border border-[var(--ground-line-strong)] bg-[var(--ground-raised)] px-4 py-2.5 text-sm font-medium text-[var(--ink)] transition-colors hover:bg-[var(--ground)] disabled:opacity-50";
   const label = "text-xs font-semibold uppercase tracking-[0.12em] text-[var(--ink-faint)]";
 
   return (
-    <div className="overflow-hidden rounded-[24px] border border-[var(--ground-line)] bg-[var(--ground)] print:border-0">
+    <div id="term-sheet" className="overflow-hidden rounded-[24px] border border-[var(--ground-line)] bg-[var(--ground)] print:rounded-none print:border-0">
       <div className="grid lg:grid-cols-[230px_minmax(0,1fr)_280px]">
         {/* Nearby terms */}
         <nav aria-label={t("Nearby terms", "ពាក្យជិតខាង")} className="hidden border-r border-[var(--ground-line)] bg-[var(--ground-raised)] p-4 lg:block print:hidden">
@@ -363,6 +442,11 @@ function TermSheet({ group, onOpen, onBack }: { group: HubGroup; onOpen: (g: Hub
               );
             })}
           </ul>
+          {/* Printed reference card only: the chosen citation and where the sheet came from. */}
+          <footer className="hidden border-t border-[var(--ground-line)] pt-3 text-xs leading-relaxed text-[var(--ink-dim)] print:block">
+            <p>{citation}</p>
+            <p className="mt-1">{t(`Printed from ${SITE_DOMAIN}${toolHref(TOOL_ID)}. Not an official document.`, `បោះពុម្ពពី ${SITE_DOMAIN}${toolHref(TOOL_ID)}។ មិនមែនជាឯកសារផ្លូវការទេ។`)}</p>
+          </footer>
         </article>
 
         {/* Actions, citation, related */}
@@ -377,8 +461,16 @@ function TermSheet({ group, onOpen, onBack }: { group: HubGroup; onOpen: (g: Hub
             <button type="button" onClick={() => void saveCard()} disabled={saving} className={action}>
               <ImageDown size={15} aria-hidden /> {saving ? t("Making image…", "កំពុងបង្កើតរូបភាព…") : t("Save card with QR", "រក្សាទុកកាតជាមួយ QR")}
             </button>
-            <button type="button" onClick={() => window.print()} className={action}>
-              <Printer size={15} aria-hidden /> {t("Print this page", "បោះពុម្ពទំព័រនេះ")}
+            <button
+              type="button"
+              aria-pressed={isSaved}
+              onClick={() => toggleSavedTerm({ tool: TOOL_ID, id: group.key, term: group.title, km: group.entries[0]?.km ?? "" })}
+              className={action}
+            >
+              <MotionIcon icon={Bookmark} size={15} filled={isSaved} /> {isSaved ? t("Saved", "បានរក្សាទុក") : t("Save term", "រក្សាទុកពាក្យ")}
+            </button>
+            <button type="button" onClick={printSheet} className={action}>
+              <Printer size={15} aria-hidden /> {t("Print reference card", "បោះពុម្ពកាតឯកសារយោង")}
             </button>
           </div>
 

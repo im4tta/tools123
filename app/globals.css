@@ -1018,3 +1018,20 @@ a.tool-card:focus-visible {
 :root[data-language="km"] .lang-only-km { display: inline; }
 :root[data-language="en"] .lang-only-bi,
 :root[data-language="km"] .lang-only-bi { display: none; }
+
+/* Glossaries term sheet: "Print reference card" prints only the sheet (components/tools/khmer/glossaries.tsx). */
+@media print {
+  body.print-term-sheet * {
+    visibility: hidden;
+  }
+  body.print-term-sheet #term-sheet,
+  body.print-term-sheet #term-sheet * {
+    visibility: visible;
+  }
+  body.print-term-sheet #term-sheet {
+    position: absolute;
+    inset: 0 0 auto 0;
+    background: #fff;
+    color: #000;
+  }
+}

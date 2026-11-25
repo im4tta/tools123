@@ -4,8 +4,8 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Clock, Home, Search, X } from "lucide-react";
-import { Star } from "jiggicons-react";
+import { Search, X } from "lucide-react";
+import { Clock, Home, Star } from "jiggicons-react";
 import { MotionIcon } from "@/components/ui/MotionIcon";
 import { useLanguage } from "@/components/LanguageProvider";
 import { OPEN_SEARCH_EVENT } from "@/lib/app-events";
@@ -129,7 +129,7 @@ export function MobileBottomNav() {
       >
         <div className="flex items-stretch">
           <Link href="/" aria-label={t("Home", "ទំព័រដើម")} aria-current={pathname === "/" ? "page" : undefined} onClick={() => setSheet(null)} className={tabClass(pathname === "/" && !sheet)}>
-            <Home size={20} aria-hidden="true" />{short("Home", "ដើម")}
+            <MotionIcon icon={Home} size={20} />{short("Home", "ដើម")}
           </Link>
           <button type="button" aria-label={t("Search tools", "ស្វែងរកឧបករណ៍")} onClick={openSearch} className={tabClass(false)}>
             <Search size={20} aria-hidden="true" />{short("Search", "ស្វែងរក")}
@@ -138,7 +138,7 @@ export function MobileBottomNav() {
             <MotionIcon icon={Star} size={20} />{short("Favorites", "ចំណូលចិត្ត")}
           </button>
           <button type="button" aria-label={t("Recently used", "បានប្រើថ្មីៗ")} aria-expanded={sheet === "recents"} onClick={() => (sheet === "recents" ? setSheet(null) : openList("recents"))} className={tabClass(sheet === "recents")}>
-            <Clock size={20} aria-hidden="true" />{short("Recent", "ថ្មីៗ")}
+            <MotionIcon icon={Clock} size={20} />{short("Recent", "ថ្មីៗ")}
           </button>
         </div>
       </nav>

@@ -18,6 +18,7 @@ import { WatermarkToggle } from "@/components/WatermarkToggle";
 import { ShareToast } from "@/components/ShareToast";
 import { SponsorAsk } from "@/components/SponsorAsk";
 import { Toaster } from "@/components/ui/Toast";
+import { Celebration } from "@/components/Celebration";
 import { BASE_URL } from "@/lib/site";
 import { siteJsonLd } from "@/lib/seo";
 import { DATABUDDY_CLIENT_ID } from "@/lib/databuddy";
@@ -133,6 +134,7 @@ export default function RootLayout({
           <AppRuntime />
           <ShareToast />
           <SponsorAsk />
+          <Celebration />
           <Toaster />
         </AppProviders>
         <Analytics />

@@ -30,7 +30,9 @@ import type { CardBlock } from "@/lib/glossary-card";
 import { assignSlugs, readTermParam, splitTermAcronym, splitTermExpansion, termUrl, withTermParam } from "@/lib/glossary-share";
 import { downloadBlob } from "@/lib/download";
 import { recordExport } from "@/lib/export";
-import { useToolState } from "@/lib/storage";
+import { STORAGE_KEYS, storage, useToolState } from "@/lib/storage";
+import { addSavedTerms, toggleSavedTerm, useSavedTerms } from "@/lib/saved-terms";
+import { countDue, dayNumber, review, type ProgressMap } from "@/lib/flashcards";
 import { toast } from "@/lib/toast";
 import { SITE_DOMAIN } from "@/lib/site";
 import { toolHref } from "@/lib/toolRoutes";
@@ -622,7 +624,8 @@ export function Lexicon({
   const [query, setQuery] = useToolState<string>(queryKey ?? `${storagePrefix}:query`, "");
   const [tab, setTab] = useToolState<string>(`${storagePrefix}:cat`, ALL);
   const [recentIds, setRecentIds] = useToolState<string[]>(`${storagePrefix}:recent`, []);
-  const [savedIds, setSavedIds] = useToolState<string[]>(`${storagePrefix}:saved`, []);
+  const savedTerms = useSavedTerms();
+  const [cardProgress, setCardProgress] = useToolState<ProgressMap>(`${storagePrefix}:cards`, {});
   const [practising, setPractising] = useState(false);
   const [openId, setOpenId] = useState<string | null>(null);
   const [rovingId, setRovingId] = useState<string | null>(null);
@@ -648,13 +651,33 @@ export function Lexicon({
   const byId = useMemo(() => new Map(list.map((item, index) => [item.id, { item, index }])), [list]);
   const idBySlug = useMemo(() => new Map(list.map((item) => [item.slug, item.id])), [list]);
 
-  const saved = useMemo(() => new Set(Array.isArray(savedIds) ? savedIds.filter((id) => byId.has(id)) : []), [savedIds, byId]);
+  // Saved terms are shared with every glossary and the Glossaries hub (lib/saved-terms.ts); this glossary's are those
+  // whose tool is its storage prefix.
+  const saved = useMemo(() => new Set(savedTerms.filter((x) => x.tool === storagePrefix && byId.has(x.id)).map((x) => x.id)), [savedTerms, storagePrefix, byId]);
   const toggleSaved = useCallback(
-    (id: string) => setSavedIds((prev) => {
-      const list = Array.isArray(prev) ? prev : [];
-      return list.includes(id) ? list.filter((x) => x !== id) : [id, ...list];
-    }),
-    [setSavedIds],
+    (id: string) => {
+      const item = byId.get(id)?.item;
+      if (item) toggleSavedTerm({ tool: storagePrefix, id, term: item.term, km: item.termKm });
+    },
+    [byId, storagePrefix],
+  );
+  // One-time move of terms saved before the shared list existed (they were kept per glossary).
+  useEffect(() => {
+    const legacyKey = STORAGE_KEYS.toolState(`${storagePrefix}:saved`);
+    const legacy = storage.get<unknown>(legacyKey, null);
+    if (!Array.isArray(legacy)) return;
+    addSavedTerms(
+      legacy.flatMap((id) => {
+        const item = typeof id === "string" ? byId.get(id)?.item : undefined;
+        return item ? [{ tool: storagePrefix, id: item.id, term: item.term, km: item.termKm }] : [];
+      }),
+    );
+    storage.remove(legacyKey);
+  }, [storagePrefix, byId]);
+  const cardMap = useMemo<ProgressMap>(() => (cardProgress && typeof cardProgress === "object" ? cardProgress : {}), [cardProgress]);
+  const recordReview = useCallback(
+    (id: string, knewIt: boolean) => setCardProgress((prev) => ({ ...(prev ?? {}), [id]: review(prev?.[id], knewIt, dayNumber()) })),
+    [setCardProgress],
   );
   const linkify = useMemo(() => (crossLinks ? buildLinker(list.map((item) => ({ id: item.id, km: item.termKm }))) : undefined), [crossLinks, list]);
   const activeTab = tab === SAVED ? (saved.size > 0 ? SAVED : ALL) : tab !== ALL && tabs?.some((x) => x.id === tab) ? tab : ALL;
@@ -669,6 +692,8 @@ export function Lexicon({
       .sort((a, b) => a.score - b.score || a.item.order - b.item.order)
       .map((x) => x.item);
   }, [list, activeTab, dq, saved]);
+
+  const dueCount = useMemo(() => countDue(results.map((item) => item.id), cardMap, dayNumber()), [results, cardMap]);
 
   // Progressive rendering: `limit` rows are in the DOM; it resets whenever the result set changes.
   const [progress, setProgress] = useState<{ key: unknown; n: number }>({ key: null, n: 0 });
@@ -1070,6 +1095,7 @@ export function Lexicon({
             >
               <GraduationCap size={14} aria-hidden />
               {t("Practise", "ហាត់")}
+              {dueCount > 0 && <span className="rounded-full bg-[var(--lx-accent)] px-1.5 text-[0.65rem] leading-4 text-[var(--lx-paper)]">{t(`${dueCount} due`, `${dueCount} ត្រូវរំលឹក`)}</span>}
             </button>
           )}
           {results.length > 1 && (
@@ -1230,7 +1256,7 @@ export function Lexicon({
     <div ref={rootRef} className="lexicon font-lexicon mx-auto grid h-[clamp(32rem,84dvh,60rem)] w-full max-w-5xl grid-cols-1 grid-rows-[minmax(0,1fr)] overflow-hidden rounded-2xl border border-[var(--lx-line)] shadow-[0_1px_2px_rgb(0_0_0/0.04),0_16px_36px_-18px_rgb(70_50_20/0.28)] lg:grid-cols-[minmax(20rem,26rem)_minmax(0,1fr)]">
       {listPane}
       {entryPane}
-      {practising && <LexiconFlashcards items={results} onClose={() => setPractising(false)} speakLang={speakLang} />}
+      {practising && <LexiconFlashcards items={results} progress={cardMap} onReview={recordReview} onClose={() => setPractising(false)} speakLang={speakLang} />}
     </div>
   );
 }
