@@ -3,10 +3,15 @@ import type { NextConfig } from "next";
 const isDev = process.env.NODE_ENV === "development";
 
 /**
- * Enforced now: directives no tool depends on. Clickjacking protection (frame-ancestors, plus
- * X-Frame-Options for older browsers), no <base> hijacking, no form posts to other origins.
+ * Enforced now: directives no tool depends on. Clickjacking protection (frame-ancestors, which allows only
+ * Telegram's web client for the bot's Mini App), no <base> hijacking, no form posts to other origins.
  */
-const ENFORCED_CSP = ["frame-ancestors 'none'", "base-uri 'self'", "form-action 'self'"].join("; ");
+/**
+ * Framing: only Telegram's web client may frame the site, so it can open as the bot's Mini App (on phones and the
+ * desktop app Telegram uses a native web view, which is not framing). Everyone else is still refused.
+ */
+const FRAME_ANCESTORS = "frame-ancestors 'self' https://web.telegram.org";
+const ENFORCED_CSP = [FRAME_ANCESTORS, "base-uri 'self'", "form-action 'self'"].join("; ");
 
 /**
  * Full policy, report-only for now: pages are statically generated (no per-request nonces, see
@@ -32,7 +37,7 @@ const REPORT_ONLY_CSP = [
   "object-src 'none'",
   "base-uri 'self'",
   "form-action 'self'",
-  "frame-ancestors 'none'",
+  FRAME_ANCESTORS,
 ].join("; ");
 
 /**
@@ -61,7 +66,7 @@ const PERMISSIONS_POLICY = [
 const SECURITY_HEADERS = [
   { key: "Content-Security-Policy", value: ENFORCED_CSP },
   { key: "Content-Security-Policy-Report-Only", value: REPORT_ONLY_CSP },
-  { key: "X-Frame-Options", value: "DENY" },
+  // X-Frame-Options cannot allow one outside origin, so framing is governed by CSP frame-ancestors above.
   { key: "X-Content-Type-Options", value: "nosniff" },
   { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
   { key: "Permissions-Policy", value: PERMISSIONS_POLICY },

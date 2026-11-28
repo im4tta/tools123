@@ -13,12 +13,16 @@ import { BASE_URL, toolUrl } from "@/lib/site";
 import { toolHref } from "@/lib/toolRoutes";
 import { RULE, cambodiaDay, escapeHtml as h, findTools, parseCommand, parseWholeNumber, quote, recentTools, table } from "@/lib/telegram/core";
 import { gridToPng } from "@/lib/telegram/png";
-import type { InlineButton, Keyboard, OutMessage } from "@/lib/telegram/api";
+import { asUrlButtons, type InlineButton, type Keyboard, type OutMessage } from "@/lib/telegram/api";
 
 const PAGE = 8;
 const GROUP_INDEX = new Map(HUB_GROUPS.map((g, i) => [g, i]));
 const MENU_ROW: InlineButton[] = [{ text: "🏠 Menu / ម៉ឺនុយ", callback_data: "m" }];
-const SITE_BUTTON: InlineButton = { text: "🌐 123tool.app", url: BASE_URL };
+/** Opens a site page inside Telegram as a Mini App (turned into a plain link where Mini Apps are not allowed). */
+const app = (text: string, url: string): InlineButton => ({ text, web_app: { url } });
+const SITE_BUTTON: InlineButton = app("📱 Open app", BASE_URL);
+/** Shown under results that are a quick version of a fuller tool on the site. */
+const MORE_IN_APP = "<i>📱 The bot does the quick version. For every option, open the full tool in the app, right here in Telegram.</i>";
 /** t.me link to the bot, from TELEGRAM_BOT_USERNAME (without @); falls back to the site. */
 const BOT_LINK = process.env.TELEGRAM_BOT_USERNAME ? `https://t.me/${process.env.TELEGRAM_BOT_USERNAME.replace(/^@/, "")}` : BASE_URL;
 const glossaryUrl = (g: HubGroup) => termUrl(BASE_URL, toolHref("glossaries"), HUB_SLUGS.get(g.key) ?? "");
@@ -61,6 +65,9 @@ export function menuView(): OutMessage {
       quote(`<b>${TOOLS.length}</b> free tools and Khmer glossaries.\nឧបករណ៍ឥតគិតថ្លៃ <b>${TOOLS.length}</b> និងវចនានុក្រមខ្មែរ។`),
       "<i>Tap a button, or just type what you need.</i>",
       "<i>ចុចប៊ូតុង ឬវាយអ្វីដែលអ្នកត្រូវការ។</i>",
+      "",
+      "📱 <b>Quick answers here; every tool in full in the app.</b>",
+      "<i>ចម្លើយរហ័សនៅទីនេះ ឧបករណ៍ពេញលេញក្នុងកម្មវិធី។</i>",
     ].join("\n"),
     keyboard: [
       [{ text: "🔎 Find a tool", callback_data: "a:find" }, { text: "🗂 Browse", callback_data: "cats" }],
@@ -85,6 +92,7 @@ export function helpView(): OutMessage {
       "<b>Share anywhere</b> · <b>ចែករំលែក</b>",
       quote("In any chat, type <code>@</code>bot name + a word.\nវាយ <code>@</code>ឈ្មោះបូត ហើយពាក្យ ក្នុងការជជែកណាមួយ។"),
       "<b>Commands</b>: /menu /find /term /num /date /qr /new /today",
+      MORE_IN_APP,
       "",
       "<i>Glossary answers come from ministry glossaries and are not official translations. Nothing you send is stored.</i>",
     ].join("\n"),
@@ -105,10 +113,10 @@ function toolListView(title: string, tools: ToolDef[], shareQuery?: string, extr
       "",
       ...tools.map((t, i) => `<b>${i + 1}.</b> <b>${h(t.title)}</b>${t.khmerTitle ? `\n     <i>${h(t.khmerTitle)}</i>` : ""}  <code>#${t.category}</code>`),
       "",
-      "<i>Tap a button below to open a tool. · ចុចប៊ូតុងខាងក្រោម។</i>",
+      "<i>📱 Tap a tool to open it right here in Telegram. · ចុចដើម្បីបើកក្នុង Telegram។</i>",
     ].join("\n"),
     keyboard: [
-      ...tools.map((t, i) => [{ text: clip(`${i + 1}. ${t.title}`, 60), url: toolUrl(t.id) }]),
+      ...tools.map((t, i) => [app(clip(`${i + 1}. ${t.title}`, 60), toolUrl(t.id))]),
       ...extraRows,
       [...(shareQuery ? [{ text: "↗ Share", switch_inline_query: shareQuery }] : []), ...MENU_ROW],
     ],
@@ -174,7 +182,7 @@ export function toolOfTheDayView(now = new Date()): OutMessage {
       quote(`<b>${h(t.title)}</b>${t.khmerTitle ? `\n<i>${h(t.khmerTitle)}</i>` : ""}`),
       `<code>#${t.category}</code>  ${h(CATEGORY_META[t.category].label)} · ${h(CATEGORY_META[t.category].khmer)}`,
     ].join("\n"),
-    keyboard: [[{ text: `Open ${clip(t.title, 40)}`, url: toolUrl(t.id) }], [{ text: "↗ Share", switch_inline_query: t.title }, ...MENU_ROW]],
+    keyboard: [[app(`📱 Open ${clip(t.title, 40)}`, toolUrl(t.id))], [{ text: "↗ Share", switch_inline_query: t.title }, ...MENU_ROW]],
   };
 }
 
@@ -198,8 +206,8 @@ export function termText(g: HubGroup): string {
 
 export function termView(g: HubGroup): OutMessage {
   return {
-    text: termText(g),
-    keyboard: [[{ text: "📄 Full term page", url: glossaryUrl(g) }], [{ text: "↗ Share", switch_inline_query: `term ${g.title}` }, { text: "📖 Another term", callback_data: "a:term" }], MENU_ROW],
+    text: `${termText(g)}\n<i>📱 Search every glossary, compare sources, save and practise terms in the app.</i>`,
+    keyboard: [[app("📱 Full term page", glossaryUrl(g)), app("🔎 All glossaries", toolUrl("glossaries"))], [{ text: "↗ Share", switch_inline_query: `term ${g.title}` }, { text: "📖 Another term", callback_data: "a:term" }], MENU_ROW],
   };
 }
 
@@ -232,10 +240,12 @@ export function numberView(digits: string, style: "b" | "t" = "b"): OutMessage {
       ]),
       quote(`<b>${h(words)}</b>`),
       `<i>${style === "t" ? "Traditional style (សែន, ម៉ឺន) · របៀបប្រពៃណី" : "Banking style (រយ, ពាន់) · របៀបធនាគារ"}</i>`,
+      "",
+      "<i>📱 Decimals, riel/dollar amounts and copy options are in the full tool.</i>",
     ].join("\n"),
     keyboard: [
       [{ text: style === "t" ? "Banking style" : "Traditional style", callback_data: `num:${style === "t" ? "b" : "t"}:${digits}` }],
-      [{ text: "🔢 Another number", callback_data: "a:num" }, { text: "Open tool", url: toolUrl("number-to-words") }],
+      [{ text: "🔢 Another number", callback_data: "a:num" }, app("📱 Full tool", toolUrl("number-to-words"))],
       MENU_ROW,
     ],
   };
@@ -265,6 +275,7 @@ export function dateView(iso: string): OutMessage {
         ["Day of year", String(Math.round((Date.parse(`${valid}T00:00:00Z`) - Date.parse(`${valid.slice(0, 4)}-01-01T00:00:00Z`)) / 86_400_000) + 1)],
       ]),
       quote([`<b>${h(solar)}</b>`, ...(lunar ? [`<i>${h(lunar)}</i>`] : [])].join("\n")),
+      "<i>📱 Month calendars, holidays and other formats are in the app.</i>",
     ].join("\n"),
     keyboard: [
       [
@@ -272,7 +283,7 @@ export function dateView(iso: string): OutMessage {
         { text: "Today", callback_data: "date:today" },
         { text: "Day after ▶", callback_data: `date:${shiftIso(valid, 1)}` },
       ],
-      [{ text: "📆 Lunar calendar", url: toolUrl("khmer-lunar-calendar") }],
+      [app("📆 Lunar calendar", toolUrl("khmer-lunar-calendar")), app("📅 Date formatter", toolUrl("date-formatter"))],
       MENU_ROW,
     ],
   };
@@ -394,7 +405,7 @@ function article(id: string, title: string, description: string, message: OutMes
     description,
     input_message_content: { message_text: message.text, parse_mode: "HTML", link_preview_options: { is_disabled: true } },
     // Only link buttons work in messages sent through inline mode by other people, so drop the rest.
-    reply_markup: { inline_keyboard: (message.keyboard ?? []).map((row) => row.filter((btn) => "url" in btn)).filter((row) => row.length > 0) },
+    reply_markup: { inline_keyboard: asUrlButtons(message.keyboard ?? []).map((row) => row.filter((btn) => "url" in btn)).filter((row) => row.length > 0) },
   };
 }
 
