@@ -44,6 +44,8 @@ export async function GET(request: Request) {
       "Free tools and Khmer glossaries from 123tool.app. Find tools, look up ministry terms, write numbers in Khmer words, get today's Khmer date and make QR codes. Nothing you send is stored.\n\nឧបករណ៍ឥតគិតថ្លៃ និងវចនានុក្រមខ្មែរពី 123tool.app។",
   });
   results.shortDescription = await callTelegram("setMyShortDescription", { short_description: "Free tools and Khmer glossaries · ឧបករណ៍ និងវចនានុក្រមខ្មែរ" });
+  // The button beside the message box opens the whole site as a Mini App.
+  results.menuButton = await callTelegram("setChatMenuButton", { menu_button: { type: "web_app", text: "Open app", web_app: { url: origin } } });
   // Telegram's own view of the webhook, to confirm it is reachable (no secrets in it).
   const info = await callTelegram<{ url: string; pending_update_count: number; last_error_message?: string; last_error_date?: number }>("getWebhookInfo", {});
   results.webhookInfo = { url: info.url, pending: info.pending_update_count, lastError: info.last_error_message ?? null };

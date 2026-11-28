@@ -4,10 +4,17 @@
 export type InlineButton =
   | { text: string; callback_data: string }
   | { text: string; url: string }
+  /** Opens the page inside Telegram as a Mini App. Private chats only; elsewhere use asUrlButtons(). */
+  | { text: string; web_app: { url: string } }
   | { text: string; switch_inline_query: string }
   | { text: string; switch_inline_query_current_chat: string };
 
 export type Keyboard = InlineButton[][];
+
+/** Mini App buttons only work in private chats: turn them into ordinary links for groups, channels and inline mode. */
+export function asUrlButtons(keyboard: Keyboard): Keyboard {
+  return keyboard.map((row) => row.map((btn) => ("web_app" in btn ? { text: btn.text, url: btn.web_app.url } : btn)));
+}
 
 export interface OutMessage {
   text: string;
