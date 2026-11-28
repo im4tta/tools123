@@ -3,7 +3,6 @@
 // /api/telegram/setup?key=<TELEGRAM_WEBHOOK_SECRET>.
 import { timingSafeEqual } from "node:crypto";
 import { callTelegram } from "@/lib/telegram/api";
-import { BASE_URL } from "@/lib/site";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -30,8 +29,11 @@ export async function GET(request: Request) {
   const given = request.headers.get("authorization")?.replace(/^Bearer\s+/i, "") ?? url.searchParams.get("key") ?? "";
   if (!keyMatches(given)) return new Response("Forbidden", { status: 403 });
   const results: Record<string, unknown> = {};
+  // Register the exact host that served this request: if the bare domain redirects to www (or the reverse), Telegram
+  // would not follow the redirect, so the webhook must point at the host that answers directly.
+  const origin = `https://${request.headers.get("x-forwarded-host") ?? url.host}`;
   results.webhook = await callTelegram("setWebhook", {
-    url: `${BASE_URL}/api/telegram`,
+    url: `${origin}/api/telegram`,
     secret_token: process.env.TELEGRAM_WEBHOOK_SECRET,
     allowed_updates: ["message", "callback_query", "inline_query"],
     drop_pending_updates: true,
@@ -42,5 +44,8 @@ export async function GET(request: Request) {
       "Free tools and Khmer glossaries from 123tool.app. Find tools, look up ministry terms, write numbers in Khmer words, get today's Khmer date and make QR codes. Nothing you send is stored.\n\nឧបករណ៍ឥតគិតថ្លៃ និងវចនានុក្រមខ្មែរពី 123tool.app។",
   });
   results.shortDescription = await callTelegram("setMyShortDescription", { short_description: "Free tools and Khmer glossaries · ឧបករណ៍ និងវចនានុក្រមខ្មែរ" });
+  // Telegram's own view of the webhook, to confirm it is reachable (no secrets in it).
+  const info = await callTelegram<{ url: string; pending_update_count: number; last_error_message?: string; last_error_date?: number }>("getWebhookInfo", {});
+  results.webhookInfo = { url: info.url, pending: info.pending_update_count, lastError: info.last_error_message ?? null };
   return Response.json({ ok: true, results });
 }
