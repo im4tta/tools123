@@ -2,10 +2,11 @@
 // Glossaries hub: one search across every glossary (Proposal 1) and a reference-sheet page per term (Proposal 2).
 // Search and grouping live in lib/glossary-hub.ts; source data and citations in lib/data/glossary-hub-data.ts.
 // The open term is kept in the URL (?term=<slug>) so a term page can be shared, bookmarked or printed.
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { ArrowLeft, Copy, ExternalLink, Flag, GraduationCap, ImageDown, Link2, Printer, Search, X } from "lucide-react";
 import { Bookmark } from "jiggicons-react";
 import { MotionIcon } from "@/components/ui/MotionIcon";
+import { CorrectionForm } from "@/components/ui/CorrectionForm";
 import { LexiconFlashcards } from "@/components/ui/LexiconFlashcards";
 import type { LexiconItem } from "@/components/ui/Lexicon";
 import { countDue, dayNumber, review, type ProgressMap } from "@/lib/flashcards";
@@ -15,9 +16,10 @@ import { SourceCredits } from "@/components/ui/SourceCredits";
 import { SpeakButton } from "@/components/ui/SpeakButton";
 import { useLanguage } from "@/components/LanguageProvider";
 import { useClipboard } from "@/components/ClipboardProvider";
-import { buildGroups, neighbours, normalizeTerm, relatedGroups, searchGroups, type HubEntry, type HubGroup } from "@/lib/glossary-hub";
-import { HUB_ENTRIES, HUB_SOURCE_BY_ID, HUB_SOURCE_COUNTS, HUB_SOURCES, type HubSource } from "@/lib/data/glossary-hub-data";
-import { assignSlugs, readTermParam, termUrl, withTermParam } from "@/lib/glossary-share";
+import { HUB_DIFFERING, HUB_GROUPS, HUB_SLUGS } from "@/lib/data/glossary-hub-index";
+import { neighbours, normalizeTerm, relatedGroups, searchGroups, type HubEntry, type HubGroup } from "@/lib/glossary-hub";
+import { HUB_SOURCE_BY_ID, HUB_SOURCE_COUNTS, HUB_SOURCES, type HubSource } from "@/lib/data/glossary-hub-data";
+import { readTermParam, termUrl, withTermParam } from "@/lib/glossary-share";
 import { downloadBlob } from "@/lib/download";
 import { recordExport } from "@/lib/export";
 import { SITE_DOMAIN } from "@/lib/site";
@@ -28,8 +30,8 @@ import { toolHref } from "@/lib/toolRoutes";
 const TOOL_ID = "glossaries";
 const nf = new Intl.NumberFormat("en-US");
 
-const GROUPS = buildGroups(HUB_ENTRIES);
-const SLUGS = assignSlugs(GROUPS.map((g, i) => ({ id: g.key, term: g.key.replace(/^fr:/, "fr "), order: i })));
+const GROUPS = HUB_GROUPS;
+const SLUGS = HUB_SLUGS;
 const BY_SLUG = new Map(GROUPS.map((g) => [SLUGS.get(g.key) ?? "", g]));
 
 function sourceOf(entry: HubEntry): HubSource {
@@ -151,6 +153,14 @@ function savedGroupKey(entry: SavedTerm): string {
   return normalizeTerm(english.split("/")[0]);
 }
 
+/** Terms the ministries render differently: the pool for the hub's word of the day. */
+const DIFFERING = HUB_DIFFERING;
+
+/** One differing term per local day, the same for every visitor on that day. */
+function wordOfTheDay(): HubGroup | undefined {
+  return DIFFERING.length ? DIFFERING[dayNumber() % DIFFERING.length] : undefined;
+}
+
 /** A hub group as a flashcard: its headword, the Khmer terms the sources use, and the first definition found. */
 function toCard(g: HubGroup): LexiconItem {
   const withDef = g.entries.find((e) => e.defKm) ?? g.entries.find((e) => e.defEn);
@@ -225,6 +235,8 @@ function Hub({
         )}
       </div>
 
+      {!query.trim() && !filter && <WordOfTheDay onOpen={onOpen} />}
+
       <div className="flex items-center justify-between gap-3 px-1">
         <p aria-live="polite" className="text-xs text-[var(--ink-faint)]">
           {t(`${nf.format(results.length)} terms`, `ពាក្យចំនួន ${nf.format(results.length)}`)}
@@ -244,6 +256,34 @@ function Hub({
         <TermList key={`${query}|${filter}`} results={results} onOpen={onOpen} />
       )}
     </div>
+  );
+}
+
+const subscribeNever = () => () => {};
+
+function WordOfTheDay({ onOpen }: { onOpen: (g: HubGroup) => void }) {
+  const { text: t } = useLanguage();
+  // Chosen after mount so the server render and the visitor's local day cannot disagree.
+  const group = useSyncExternalStore(subscribeNever, wordOfTheDay, () => undefined);
+  if (!group) return null;
+  return (
+    <button
+      type="button"
+      onClick={() => onOpen(group)}
+      className="block w-full rounded-2xl border border-[var(--ground-line)] bg-[var(--ground-raised)] px-4 py-3 text-left transition-colors hover:border-[var(--ground-line-strong)]"
+    >
+      <span className="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--ink-faint)]">{t("Word of the day · sources differ", "ពាក្យប្រចាំថ្ងៃ · ប្រភពខុសគ្នា")}</span>
+      <span className="mt-1 block font-medium text-[var(--ink)]">{group.title}</span>
+      <span className="mt-1 flex flex-col gap-0.5">
+        {group.entries.slice(0, 4).map((e) => (
+          <span key={`${e.source}:${e.id}`} className="flex items-center gap-2 text-sm text-[var(--ink-dim)]">
+            <Dot color={HUB_SOURCE_BY_ID.get(e.source)?.color ?? "#999"} />
+            <span className="shrink-0 text-xs text-[var(--ink-faint)]">{HUB_SOURCE_BY_ID.get(e.source)?.publisher}</span>
+            <span lang="km" className="font-khmer truncate">{e.km}</span>
+          </span>
+        ))}
+      </span>
+    </button>
   );
 }
 
@@ -495,6 +535,19 @@ function TermSheet({ group, onOpen, onBack }: { group: HubGroup; onOpen: (g: Hub
               </div>
             </div>
           )}
+
+          <CorrectionForm
+            key={`${group.key}:${citeFor}`}
+            variant="hub"
+            report={{
+              glossary: `${sourceOf(entry).publisher} — ${sourceOf(entry).name}`,
+              term: entry.term,
+              km: entry.km,
+              definition: entry.defKm ?? entry.defEn,
+              link: link(),
+            }}
+          />
+          <p className="-mt-4 text-xs text-[var(--ink-faint)]">{t("Reports the source chosen under “Cite this source”.", "រាយការណ៍ប្រភពដែលបានជ្រើសនៅក្រោម “ដកស្រង់ប្រភពនេះ”។")}</p>
         </aside>
       </div>
     </div>

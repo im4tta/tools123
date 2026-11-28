@@ -25,6 +25,7 @@ import { useLanguage } from "@/components/LanguageProvider";
 import { ScrollTabs } from "@/components/ui/ScrollTabs";
 import { SpeakButton } from "@/components/ui/SpeakButton";
 import { LexiconFlashcards } from "@/components/ui/LexiconFlashcards";
+import { CorrectionForm } from "@/components/ui/CorrectionForm";
 import { buildLinker, type LinkPiece } from "@/lib/term-links";
 import type { CardBlock } from "@/lib/glossary-card";
 import { assignSlugs, readTermParam, splitTermAcronym, splitTermExpansion, termUrl, withTermParam } from "@/lib/glossary-share";
@@ -392,6 +393,8 @@ function LexiconEntry({
   onToggleSave,
   linkify,
   onLink,
+  glossaryName,
+  entryLink,
 }: {
   item: LexiconItem;
   tabLabel?: string;
@@ -408,6 +411,8 @@ function LexiconEntry({
   onToggleSave: () => void;
   linkify?: (text: string, selfId: string) => LinkPiece[];
   onLink: (id: string) => void;
+  glossaryName: string;
+  entryLink: string;
 }) {
   const { text: t } = useLanguage();
   const [withCompare, setWithCompare] = useState(true);
@@ -589,6 +594,14 @@ function LexiconEntry({
             {t("Include other sources in the image", "បញ្ចូលប្រភពផ្សេងទៀតក្នុងរូបភាព")}
           </label>
         )}
+      </div>
+
+      <div className="mt-6">
+        <CorrectionForm
+          key={item.id}
+          variant="lexicon"
+          report={{ glossary: glossaryName, term: item.term, km: item.termKm, definition: item.defKm ?? item.defEn, link: entryLink }}
+        />
       </div>
     </article>
   );
@@ -1237,6 +1250,8 @@ export function Lexicon({
             onToggleSave={() => toggleSaved(entry.id)}
             linkify={linkify}
             onLink={(id) => open(id)}
+            glossaryName={cardTitle ?? name}
+            entryLink={linkFor(entry)}
           />
         ) : (
           <div className="mx-auto hidden h-full max-w-md flex-col justify-center px-9 py-10 lg:flex">
